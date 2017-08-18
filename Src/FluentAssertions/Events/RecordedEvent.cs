@@ -16,10 +16,16 @@ namespace FluentAssertions.Events
         /// <summary>
         /// Default constructor stores the parameters the event was raised with
         /// </summary>
-        public RecordedEvent(object monitoredObject, params object[] parameters)
+        public RecordedEvent(DateTime utcNow, object monitoredObject, params object[] parameters)
         {
             Parameters = parameters.Select(p => (p == monitoredObject) ? new WeakReference(p) : p);
+            TimestampUtc = utcNow;
         }
+
+        /// <summary>
+        /// The exact data and time in UTC format at which the event occurred.
+        /// </summary>
+        public DateTime TimestampUtc { get; set; }
 
         /// <summary>
         /// Parameters for the event

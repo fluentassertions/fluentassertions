@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace FluentAssertions.Events
 {
@@ -12,16 +14,20 @@ namespace FluentAssertions.Events
     [DebuggerNonUserCode]
     public class EventRecorder : IEventRecorder
     {
-        private readonly IList<RecordedEvent> raisedEvents = new List<RecordedEvent>();
+        private readonly Func<DateTime> utcNow;
+        private readonly BlockingCollection<RecordedEvent> raisedEvents = new BlockingCollection<RecordedEvent>();
         private readonly object lockable = new object();
         private WeakReference eventObject;
+        private Action cleanup;
 
         /// <summary>
         /// </summary>
         /// <param name = "eventRaiser">The object events are recorded from</param>
         /// <param name = "eventName">The name of the event that's recorded</param>
-        public EventRecorder(object eventRaiser, string eventName)
+        /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
+        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow)
         {
+            this.utcNow = utcNow;
             EventObject = eventRaiser;
             EventName = eventName;
         }
@@ -31,14 +37,40 @@ namespace FluentAssertions.Events
         /// </summary>
         public object EventObject
         {
-            get { return (eventObject == null) ? null : eventObject.Target; }
-            private set { eventObject = new WeakReference(value); }
+            get => eventObject?.Target;
+            private set => eventObject = new WeakReference(value);
         }
 
-        /// <summary>
-        ///   The name of the event that's recorded
-        /// </summary>
-        public string EventName { get; private set; }
+        /// <inheritdoc />
+        public string EventName { get; }
+
+        public Type EventHandlerType { get; private set; }
+
+        public void Attach(WeakReference subject, EventInfo eventInfo)
+        {
+            EventHandlerType = eventInfo.EventHandlerType;
+            
+            Delegate handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, this);
+            eventInfo.AddEventHandler(subject.Target, handler);
+
+            cleanup = () =>
+            {
+                if (!ReferenceEquals(subject.Target, null))
+                {
+                    eventInfo.RemoveEventHandler(subject.Target, handler);
+                }
+            };
+        }
+
+        public void Dispose()
+        {
+            if (cleanup != null)
+            {
+                cleanup?.Invoke();
+                cleanup = null;
+                eventObject = null;
+            }
+        }
 
         /// <summary>
         ///   Enumerate raised events
@@ -66,11 +98,11 @@ namespace FluentAssertions.Events
         /// <summary>
         ///   Called by the auto-generated IL, to record information about a raised event.
         /// </summary>
-        public void RecordEvent(params object [] parameters)
+        public void RecordEvent(params object[] parameters)
         {
             lock (lockable)
             {
-                raisedEvents.Add(new RecordedEvent(EventObject, parameters));
+                raisedEvents.Add(new RecordedEvent(utcNow(), EventObject, parameters));
             }
         }
 
@@ -79,9 +111,12 @@ namespace FluentAssertions.Events
         /// </summary>
         public void Reset()
         {
-            lock ( lockable )
+            lock (lockable)
             {
-                raisedEvents.Clear();
+                while (raisedEvents.Count > 0)
+                {
+                    raisedEvents.TryTake(out _);
+                }
             }
         }
     }

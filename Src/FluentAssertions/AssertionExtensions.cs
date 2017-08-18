@@ -139,7 +139,7 @@ namespace FluentAssertions
                 // Do nothing
             }
         }
-
+        
         /// <summary>
         /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
         /// current <see cref="object"/>.
@@ -523,36 +523,18 @@ namespace FluentAssertions
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
 
-
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
         /// <param name="eventSource">The object for which to monitor the events.</param>
+        /// <param name="utcNow">
+        /// An optional delegate that returns the current date and time in UTC format. 
+        /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
+        /// </param>
         /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
-        public static IEventMonitor MonitorEvents(this object eventSource)
+        public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
         {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            return EventMonitor.Attach(eventSource, eventSource.GetType());
-        }
-
-        /// <summary>
-        ///   Starts monitoring <paramref name="eventSource"/> for events defined in the type parameter <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="eventSource">The object for which to monitor the events.</param>
-        /// <typeparam name="T">The type defining the events it should monitor.</typeparam>
-        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
-        public static IEventMonitor MonitorEvents<T>(this object eventSource)
-        {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            return EventMonitor.Attach( eventSource, typeof(T));
+            return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
         }
 
         /// <summary>
@@ -565,7 +547,7 @@ namespace FluentAssertions
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo) subject : default(TTo);
+            return subject is TTo ? (TTo)subject : default(TTo);
         }
     }
 }

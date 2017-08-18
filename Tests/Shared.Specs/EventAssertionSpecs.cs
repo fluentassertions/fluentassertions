@@ -1,66 +1,24 @@
-﻿using System.IO;
-using System.Reflection.Emit;
-using System.Reflection;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
-using FluentAssertions.Execution;
+using FluentAssertions.Events;
+using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
-using Formatter = FluentAssertions.Formatting.Formatter;
 
+// ReSharper disable AccessToDisposedClosure
 #if NET45
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
+using System.Reflection.Emit;
+
 #endif
 
 namespace FluentAssertions.Specs
 {
     [Collection("EventMonitoring")]
-
     public class EventAssertionSpecs
     {
-        [Fact]
-        public void When_asserting_an_event_raise_and_the_object_is_not_monitored_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <FluentAssertions.Specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
-                "Use the MonitorEvents() extension method to start monitoring events.");
-        }
-
-        [Fact]
-        public void When_asserting_that_an_event_was_not_raised_and_the_object_is_not_monitored_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaise("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <FluentAssertions.Specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
-                "Use the MonitorEvents() extension method to start monitoring events.");
-        }
+        #region ShouldRaise
 
         [Fact]
         public void When_asserting_an_event_that_doesnt_exist_it_should_throw()
@@ -69,18 +27,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitoredSubject = subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                // ReSharper disable once AccessToDisposedClosure
+                Action act = () => monitoredSubject.Should().Raise("NonExistingEvent");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("NonExistingEvent");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Not monitoring any events named \"NonExistingEvent\".");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<InvalidOperationException>().WithMessage(
+                    "Not monitoring any events named \"NonExistingEvent\".");
+            }
         }
 
         [Fact]
@@ -90,18 +50,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitor = subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().NotRaise("NonExistingEvent");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaise("NonExistingEvent");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Not monitoring any events named \"NonExistingEvent\".");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<InvalidOperationException>().WithMessage(
+                    "Not monitoring any events named \"NonExistingEvent\".");
+            }
         }
 
         [Fact]
@@ -111,19 +72,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitor = subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().Raise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) +
-                " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
+            }
         }
 
         [Fact]
@@ -133,18 +95,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithoutSender();
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithoutSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("PropertyChanged");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().Raise("PropertyChanged");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -154,20 +118,23 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithoutSender();
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithoutSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () =>
+                    monitor.Should().NotRaise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
-                .WithMessage("Expected object " + Formatter.ToString(subject) +
-                             " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>()
+                    .WithMessage("Expected object " + Formatter.ToString(subject) +
+                                 " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+            }
         }
 
         [Fact]
@@ -177,17 +144,18 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitor = subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().NotRaise("PropertyChanged");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaise("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -197,19 +165,21 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithoutSender();
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithoutSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("PropertyChanged").WithSender(subject);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().Raise("PropertyChanged").WithSender(subject);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected sender " + Formatter.ToString(subject) +
-                                                          ", but found <null>.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>()
+                    .WithMessage($"Expected sender {Formatter.ToString(subject)}, but found <null>.");
+            }
         }
 
         [Fact]
@@ -219,18 +189,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSender();
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaise("PropertyChanged").WithSender(subject);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().Raise("PropertyChanged").WithSender(subject);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -240,52 +212,54 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithoutSender();
+            using (var monitor = subject.Monitor())
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("PropertyChanged")
-                .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+            {
+                subject.RaiseEventWithoutSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act
-                .ShouldThrow<XunitException>()
-                .WithMessage(
-                    "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("PropertyChanged")
+                    .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act
+                    .ShouldThrow<XunitException>()
+                    .WithMessage(
+                        "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
+            }
         }
 
-#if NET45
         [Fact]
-        public void When_the_event_parameter_is_of_a_different_type_it_should_throw()
+        public void When_the_event_args_are_of_a_different_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("PropertyChanged")
-                .WithArgs<UnhandledExceptionEventArgs>(args => args.IsTerminating);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("PropertyChanged")
+                    .WithArgs<CancelEventArgs>(args => args.Cancel);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act
-                .ShouldThrow<ArgumentException>()
-                .WithMessage("No argument of event PropertyChanged is of type <System.UnhandledExceptionEventArgs>.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act
+                    .ShouldThrow<ArgumentException>()
+                    .WithMessage("No argument of event PropertyChanged is of type *CancelEventArgs>*");
+            }
         }
-
-#endif
 
         [Fact]
         public void When_the_event_parameters_do_match_it_should_not_throw()
@@ -294,20 +268,22 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("PropertyChanged")
-                .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("PropertyChanged")
+                    .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -316,20 +292,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //----------------------------------------------------------------------------------------------------------
-            Action<int> action = _ =>
+            void Action(int _)
             {
                 EventRaisingClass subject = new EventRaisingClass();
-                subject.MonitorEvents();
-                subject.RaiseEventWithSender();
-                subject.ShouldRaise("PropertyChanged");
-            };
+                using (var monitor = subject.Monitor())
+                {
+                    subject.RaiseEventWithSender();
+                    monitor.Should().Raise("PropertyChanged");
+                }
+            }
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => Enumerable.Range(0, 1000)
                 .AsParallel()
-                .ForAll(action);
+                .ForAll(Action);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -344,18 +322,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            var eventMonitor = subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            using (var eventMonitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            eventMonitor.Reset();
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                eventMonitor.Clear();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldNotRaise("PropertyChanged");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                eventMonitor.Should().NotRaise("PropertyChanged");
+            }
         }
 
         [Fact]
@@ -365,20 +345,22 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("NonConventionalEvent")
-                .WithArgs<string>(args => args == "third argument");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("NonConventionalEvent")
+                    .WithArgs<string>(args => args == "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -388,20 +370,22 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("NonConventionalEvent")
-                .WithArgs<string>(null, args => args == "third argument");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("NonConventionalEvent")
+                    .WithArgs<string>(null, args => args == "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -412,21 +396,23 @@ namespace FluentAssertions.Specs
             //----------------------------------------------------------------------------------------------------------
             const int wrongArgument = 3;
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("NonConventionalEvent")
-                .WithArgs<int>(args => args == wrongArgument);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("NonConventionalEvent")
+                    .WithArgs<int>(args => args == wrongArgument);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
+            }
         }
 
         [Fact]
@@ -437,46 +423,29 @@ namespace FluentAssertions.Specs
             //----------------------------------------------------------------------------------------------------------
             const string wrongArgument = "not a third argument";
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject
-                .ShouldRaise("NonConventionalEvent")
-                .WithArgs<string>(null, args => args == wrongArgument);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor
+                    .Should().Raise("NonConventionalEvent")
+                    .WithArgs<string>(null, args => args == wrongArgument);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument +
+                    "\\\")\", but found none.");
+            }
         }
 
+        #endregion
 
-
-        [Fact]
-        public void When_trying_to_attach_to_notify_property_changed_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-            var eventMonitor = subject.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => eventMonitor.Attach(typeof(INotifyPropertyChanged));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-#region Should(Not)RaisePropertyChanged events
+        #region Should(Not)RaisePropertyChanged events
 
         [Fact]
         public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
@@ -485,19 +454,21 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
-            subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+                subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -507,18 +478,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName(null);
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName(null);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaisePropertyChangeFor(null);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().RaisePropertyChangeFor(null);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
         [Fact]
@@ -528,18 +501,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            var eventMonitor = subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            using (var eventMonitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            eventMonitor.Reset();
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                eventMonitor.Clear();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldNotRaisePropertyChangeFor(e => e.SomeProperty);
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                eventMonitor.Should().NotRaisePropertyChangeFor(e => e.SomeProperty);
+            }
         }
 
         [Fact]
@@ -549,20 +524,22 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaisePropertyChangeFor(x => x.SomeProperty, "nothing happened");
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().NotRaisePropertyChangeFor(x => x.SomeProperty, "nothing happened");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Did not expect object " + Formatter.ToString(subject) +
-                " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Did not expect object " + Formatter.ToString(subject) +
+                    " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
+            }
         }
 
         [Fact]
@@ -572,19 +549,20 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitor = subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) +
-                " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
+            }
         }
 
         [Fact]
@@ -594,19 +572,21 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+            using (var monitor = subject.Monitor())
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaisePropertyChangeFor(null);
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().RaisePropertyChangeFor(null);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) +
-                " to raise event \"PropertyChanged\" for property <null>, but it did not.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<XunitException>().WithMessage(
+                    "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" for property <null>, but it did not.");
+            }
         }
 
         [Fact]
@@ -616,23 +596,48 @@ namespace FluentAssertions.Specs
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
-            subject.MonitorEvents();
-            subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldNotRaisePropertyChangeFor(x => x.SomeProperty);
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should().NotRaisePropertyChangeFor(x => x.SomeProperty);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
         }
 
-#endregion
+        [Fact]
+        public void When_monitoring_a_class_it_should_be_possible_to_attach_to_additional_interfaces_on_the_same_object()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new TestEventRaising();
+            using (var outerMonitor = subject.Monitor<IEventRaisingInterface>())
+            using (var innerMonitor = subject.Monitor<IEventRaisingInterface2>())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subject.RaiseBothEvents();
 
-#region General Checks
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                outerMonitor.Should().Raise("InterfaceEvent");
+                innerMonitor.Should().Raise("Interface2Event");
+            }
+        }
+
+        #endregion
+
+        #region Precondition Checks
 
         [Fact]
         public void When_monitoring_a_null_object_it_should_throw()
@@ -645,80 +650,38 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.MonitorEvents();
+            Action act = () => subject.Monitor();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage("Cannot monitor the events of a <null> object.");
+            act.ShouldThrow<ArgumentNullException>().WithMessage("Cannot monitor the events of a <null> object*");
         }
 
         [Fact]
-        public void When_monitoring_class_it_should_be_possible_to_obtain_a_recorder()
+        public void When_nesting_monitoring_requests_scopes_should_be_isolated()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = new EventRaisingClass();
-            var eventMonitor = eventSource.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            var recorder = eventMonitor.GetEventRecorder("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            recorder.Should().NotBeNull();
-            recorder.EventObject.Should().BeSameAs(eventSource);
-            recorder.EventName.Should().Be("PropertyChanged");
+            using (var outerScope = eventSource.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                using (var innerScope = eventSource.Monitor())
+                {
+                    //-----------------------------------------------------------------------------------------------------------
+                    // Assert
+                    //-----------------------------------------------------------------------------------------------------------
+                    ((object)innerScope).Should().NotBeSameAs(outerScope);
+                }
+            }
         }
 
-        [Fact]
-        public void When_monitoring_class_requesting_to_monitor_again_should_return_same_monitor()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = new EventRaisingClass();
-            var eventMonitor = eventSource.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            var newMonitor = eventSource.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            newMonitor.Should().BeSameAs(eventMonitor);
-        }
-
-        [Fact]
-        public void When_no_recorder_exists_for_an_event_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = new EventRaisingClass();
-            var eventMonitor = eventSource.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("Not monitoring any events named \"SomeEvent\".");
-        }
-
-
-#if NETCOREAPP2_0 && DEBUG
-#    warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
+#if NETCOREAPP1_1 && DEBUG
+# warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
 #else
         [Fact]
         public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
@@ -728,12 +691,13 @@ namespace FluentAssertions.Specs
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
             var referenceToSubject = new WeakReference(subject);
-            subject.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            subject = null;
+            using (subject.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subject = null;
+            }
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -745,21 +709,24 @@ namespace FluentAssertions.Specs
 
         [Fact]
         public void
-            When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised
-            ()
+            When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
             var referenceToSubject = new WeakReference(subject);
-            subject.MonitorEvents();
-            subject.RaiseEventWithSender();
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            subject = null;
+            using (subject.Monitor())
+            {
+                subject.RaiseEventWithSender();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subject = null;
+            }
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -770,7 +737,113 @@ namespace FluentAssertions.Specs
         }
 #endif
 
+        #endregion
+
+        #region Metadata
+
+        [Fact]
+        public void When_monitoring_an_object_it_should_monitor_all_the_events_it_exposes()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = new ClassThatRaisesEventsItself();
+            using (var eventMonitor = eventSource.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                EventMetadata[] metadata = eventMonitor.MonitoredEvents;
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                metadata.Should().BeEquivalentTo(new[]
+                {
+                    new
+                    {
+                        EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent),
+                        HandlerType = typeof(EventHandler)
+                    },
+                    new
+                    {
+                        EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
+                        HandlerType = typeof(PropertyChangedEventHandler)
+                    }
+                });
+            }
+        }
+
+        [Fact]
+        public void When_monitoring_an_object_through_an_interface_it_should_monitor_only_the_events_it_exposes()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = new ClassThatRaisesEventsItself();
+            using (var monitor = eventSource.Monitor<IEventRaisingInterface>())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                EventMetadata[] metadata = monitor.MonitoredEvents;
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                metadata.Should().BeEquivalentTo(new[]
+                {
+                    new
+                    {
+                        EventName = nameof(IEventRaisingInterface.InterfaceEvent),
+                        HandlerType = typeof(EventHandler)
+                    }
+                });
+            }
+        }
+
 #if NET45
+
+        [Fact]
+        public void When_an_object_doesnt_expose_any_events_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object eventSource = CreateProxyObject();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => eventSource.Monitor();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>().WithMessage("*not expose any events*");
+        }
+
+        [Fact]
+        public void When_monitoring_interface_of_a_class_and_no_recorder_exists_for_an_event_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = (IEventRaisingInterface)CreateProxyObject();
+            using (var eventMonitor = eventSource.Monitor())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<InvalidOperationException>()
+                    .WithMessage("Not monitoring any events named \"SomeEvent\".");
+            }
+        }
 
         private object CreateProxyObject()
         {
@@ -787,7 +860,8 @@ namespace FluentAssertions.Specs
             {
                 MethodBuilder method =
                     typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
-                        MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig |
+                        MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
+                        MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);
                 method.SetReturnType(typeof(void));
                 method.SetParameters(typeof(EventHandler));
@@ -804,204 +878,88 @@ namespace FluentAssertions.Specs
             return Activator.CreateInstance(generatedType);
         }
 
-        [Fact]
-        public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_serializable()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            new AssertionFailedException("").Should().BeBinarySerializable();
-        }
-
-        [Fact]
-        public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_deserializable()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            Exception exception = new AssertionFailedException("Message");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-
-            // Save the full ToString() value, including the exception message and stack trace.
-            string exceptionToString = exception.ToString();
-
-            // Round-trip the exception: Serialize and de-serialize with a BinaryFormatter
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Binder = new SimpleBinder(exception.GetType());
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                // "Save" object state
-                formatter.Serialize(memoryStream, exception);
-
-                // Re-use the same stream for de-serialization
-                memoryStream.Seek(0, 0);
-
-                // Replace the original exception with de-serialized one
-                exception = (AssertionFailedException)formatter.Deserialize(memoryStream);
-            }
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-
-            // Double-check that the exception message and stack trace (owned by the base Exception) are preserved
-            exceptionToString.Should().Be(exception.ToString(), "exception.ToString()");
-        }
-
-        private class SimpleBinder : SerializationBinder
-        {
-            private Type type;
-
-            public SimpleBinder(Type type)
-            {
-                this.type = type;
-            }
-
-            public override Type BindToType(string assemblyName, string typeName)
-            {
-                if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
-                {
-                    return type;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        [Fact]
-        public void When_monitoring_interface_of_a_class_it_should_be_possible_to_obtain_a_recorder()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = CreateProxyObject();
-            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            var recorder = eventMonitor.GetEventRecorder("InterfaceEvent");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            recorder.Should().NotBeNull();
-            recorder.EventObject.Should().BeSameAs(eventSource);
-            recorder.EventName.Should().Be("InterfaceEvent");
-        }
-
-        [Fact]
-        public void When_monitoring_interface_of_a_class_and_no_recorder_exists_for_an_event_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = CreateProxyObject();
-            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("Not monitoring any events named \"SomeEvent\".");
-        }
-
-        [Fact]
-        public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw
-            ()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = CreateProxyObject();
-            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventMonitor.GetEventRecorder("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("Not monitoring any events named \"PropertyChanged\".");
-        }
-
-        [Fact]
-        public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = CreateProxyObject();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventSource.MonitorEvents<IEventRaisingInterface2>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<TargetException>()
-                .WithMessage("*not match target type*");
-        }
 #endif
 
         [Fact]
-        public void When_monitoring_more_than_one_event_on_a_class_it_should_be_possible_to_reset_just_one()
+        public void When_event_exists_on_class_but_not_on_monitored_interface_it_should_not_allow_monitoring_it()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new TestEventRaising();
-            var eventRecorder = subject.MonitorEvents<IEventRaisingInterface>().GetEventRecorder("InterfaceEvent");
-            subject.MonitorEvents<IEventRaisingInterface2>();
-            subject.RaiseBothEvents();
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = new ClassThatRaisesEventsItself();
+            using (var eventMonitor = eventSource.Monitor<IEventRaisingInterface>())
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action = () => eventMonitor.GetEventRecorder("PropertyChanged");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            eventRecorder.Reset();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldNotRaise("InterfaceEvent");
-            subject.ShouldRaise("Interface2Event");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<InvalidOperationException>()
+                    .WithMessage("Not monitoring any events named \"PropertyChanged\".");
+            }
         }
 
         [Fact]
-        public void When_monitoring_a_class_it_should_be_possible_to_attach_to_additional_interfaces_on_the_same_object()
+        public void When_an_object_raises_two_events_it_should_provide_the_data_about_those_occurrences()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new TestEventRaising();
-            subject.MonitorEvents<IEventRaisingInterface>();
-            subject.MonitorEvents<IEventRaisingInterface2>();
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime utcNow = 17.September(2017).At(21, 00);
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            subject.RaiseBothEvents();
+            var eventSource = new EventRaisingClass();
+            using (var monitor = eventSource.Monitor(() => utcNow))
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                eventSource.RaiseEventWithSenderAndPropertyName("theProperty");
+                
+                utcNow = utcNow.AddHours(1);
+                
+                eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldRaise("InterfaceEvent");
-            subject.ShouldRaise("Interface2Event");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                monitor.OccurredEvents.Should().BeEquivalentTo(new[]
+                {
+                    new
+                    {
+                        EventName = "PropertyChanged",
+                        TimestampUtc = utcNow.Subtract(1.Hours()),
+                        Parameters = new object[] {eventSource, new PropertyChangedEventArgs("theProperty")}
+                    },
+                    new
+                    {
+                        EventName = "NonConventionalEvent",
+                        TimestampUtc = utcNow,
+                        Parameters = new object[] {"first", 123, "third"}
+                    }
+                }, o => o.WithStrictOrdering());
+            }
+        }
+
+        #endregion
+
+        public class ClassThatRaisesEventsItself : IEventRaisingInterface
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public event EventHandler InterfaceEvent;
+
+            protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+            {
+                PropertyChanged?.Invoke(this, e);
+            }
+
+            protected virtual void OnInterfaceEvent()
+            {
+                InterfaceEvent?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public class TestEventRaising : IEventRaisingInterface, IEventRaisingInterface2
@@ -1015,9 +973,6 @@ namespace FluentAssertions.Specs
                 Interface2Event?.Invoke(this, new EventArgs());
             }
         }
-
-
-#endregion
 
         public interface IEventRaisingInterface
         {
