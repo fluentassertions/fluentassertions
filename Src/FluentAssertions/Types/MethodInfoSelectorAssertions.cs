@@ -70,7 +70,7 @@ namespace FluentAssertions.Types
             IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
 
             string failureMessage =
-                "Expected all selected methods to not be virtual{reason}, but the following methods are virtual:\r\n" +
+                "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:\r\n" +
                 GetDescriptionsFor(virtualMethods);
 
             Execute.Assertion

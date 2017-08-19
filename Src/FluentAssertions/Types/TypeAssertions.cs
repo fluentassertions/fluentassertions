@@ -408,7 +408,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.GetTypeInfo().IsSubclassOf(baseType))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} to not be derived from {1}{reason}, but it is.", Subject, baseType);
+                .FailWith("Expected type {0} not to be derived from {1}{reason}, but it is.", Subject, baseType);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -794,7 +794,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(constructorInfo == null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(String.Format("Expected constructor {0}({1}) to not exist{{reason}}, but it does.",
+                .FailWith(String.Format("Expected constructor {0}({1}) not to exist{{reason}}, but it does.",
                     Subject.FullName,
                     GetParameterString(parameterTypes)));
 
@@ -860,7 +860,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type " + Subject.Name + " to not be {0}{reason}, but it is.",
+                .FailWith("Expected type " + Subject.Name + " not to be {0}{reason}, but it is.",
                     accessModifier);
 
             return new AndConstraint<Type>(Subject);

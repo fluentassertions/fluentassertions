@@ -55,7 +55,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " + SubjectDescription + " to not be virtual{reason}, but it is.";
+            string failureMessage = "Expected method " + SubjectDescription + " not to be virtual{reason}, but it is.";
 
             Execute.Assertion
                 .ForCondition(Subject.IsNonVirtual())
@@ -93,7 +93,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<MethodInfoAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " + SubjectDescription + " to not be async{reason}, but it is.";
+            string failureMessage = "Expected method " + SubjectDescription + " not to be async{reason}, but it is.";
 
             Execute.Assertion
                 .ForCondition(!Subject.IsAsync())
@@ -175,7 +175,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(typeof(void) != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " to not be void{reason}, but it is.");
+                .FailWith("Expected the return type of method " + Subject.Name + " not to be void{reason}, but it is.");
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
@@ -196,7 +196,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(returnType != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " to not be {0}{reason}, but it is.", returnType);
+                .FailWith("Expected the return type of method " + Subject.Name + " not to be {0}{reason}, but it is.", returnType);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }

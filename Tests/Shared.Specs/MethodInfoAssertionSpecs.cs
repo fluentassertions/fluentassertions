@@ -98,7 +98,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected method *ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
-                    " to not be virtual because we want to test the error message," +
+                    " not to be virtual because we want to test the error message," +
                     " but it is.");
         }
 
@@ -372,7 +372,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected subject Task FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
+                .WithMessage("Expected method Task FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
                     " to be async because we want to test the error message," +
                     " but it is not.");
         }
@@ -420,7 +420,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage("*ClassWithAllMethodsAsync.PublicAsyncDoNothing*" +
-                    "not be async*because we want to test the error message*");
+                    "not to be async*because we want to test the error message*");
         }
 
         #endregion

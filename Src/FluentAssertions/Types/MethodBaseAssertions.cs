@@ -53,7 +53,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " to not be {0}{reason}, but it is.", accessModifier);
+                .FailWith("Expected method " + Subject.Name + " not to be {0}{reason}, but it is.", accessModifier);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

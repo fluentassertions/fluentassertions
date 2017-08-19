@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected all selected methods" +
-                             " to not be virtual because we want to test the error message," +
+                             " not to be virtual because we want to test the error message," +
                              " but the following methods are virtual" +
                              "*ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
                              "*ClassWithAllMethodsVirtual.InternalVirtualDoNothing" +

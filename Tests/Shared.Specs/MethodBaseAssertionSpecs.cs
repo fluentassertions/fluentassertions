@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of*IntMethod*to not be System.Int32*because we want to test the " +
+                .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
                              "error message, but it is.");
         }
 
@@ -210,7 +210,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of*IntMethod*to not be System.Int32*because we want to test the " +
+                .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
                              "error message, but it is.");
         }
 
@@ -302,7 +302,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of*VoidMethod*to not be void*because we want to test the error message*");
+                .WithMessage("Expected the return type of*VoidMethod*not to be void*because we want to test the error message*");
         }
 
         #endregion
@@ -589,7 +589,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method PrivateMethod to not be Private*because we want to test the error message*");
+                .WithMessage("Expected method PrivateMethod not to be Private*because we want to test the error message*");
         }
 
         [Fact]
@@ -634,7 +634,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method set_ProtectedSetProperty to not be Protected*because we want to test the error message*");
+                .WithMessage("Expected method set_ProtectedSetProperty not to be Protected*because we want to test the error message*");
         }
 
         [Fact]
@@ -679,7 +679,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method get_PublicGetProperty to not be Public*because we want to test the error message*");
+                .WithMessage("Expected method get_PublicGetProperty not to be Public*because we want to test the error message*");
         }
 
         [Fact]
@@ -721,7 +721,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method InternalMethod to not be Internal*because we want to test the error message*");
+                .WithMessage("Expected method InternalMethod not to be Internal*because we want to test the error message*");
         }
 
         [Fact]
@@ -762,7 +762,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method ProtectedInternalMethod to not be ProtectedInternal*because we want to test the error message*");
+                .WithMessage("Expected method ProtectedInternalMethod not to be ProtectedInternal*because we want to test the error message*");
         }
 
         #endregion

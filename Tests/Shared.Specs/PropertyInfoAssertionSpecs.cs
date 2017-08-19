@@ -106,7 +106,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                .WithMessage(
                    "Expected property *ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
-                       " to not be virtual because we want to test the error message," +
+                       " not to be virtual because we want to test the error message," +
                        " but it is.");
         }
 
@@ -758,7 +758,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<XunitException>()
-                .WithMessage("Expected Type of property StringProperty to not be*String*because we want to test the error " +
+                .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
                              "message, but it is.");
         }
 
@@ -803,7 +803,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<XunitException>()
-                .WithMessage("Expected Type of property StringProperty to not be*String*because we want to test the error " +
+                .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
                              "message, but it is.");
         }
 

@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                .WithMessage("Expected all selected properties" +
-                   " to not be virtual because we want to test the error message," +
+                   " not to be virtual because we want to test the error message," +
                    " but the following properties are virtual*" +
                    "*ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
                    "*ClassWithAllPropertiesVirtual.InternalVirtualProperty" +
@@ -273,7 +273,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected all selected properties to not be decorated*" +
+                .WithMessage("Expected all selected properties not to be decorated*" +
                    "DummyPropertyAttribute*" +
                    "because we want to test the error message*" +
                    "ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty*" +

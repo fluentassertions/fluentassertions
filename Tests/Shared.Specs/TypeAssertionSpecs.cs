@@ -691,7 +691,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type*DummyImplementingClass*to not be derived from*" +
+                .WithMessage("Expected type*DummyImplementingClass*not to be derived from*" +
                              "DummyBaseClass*because we want to test the error message*but it is.");
         }
 
@@ -2393,7 +2393,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage(
-                    "Expected constructor*ClassWithMembers(System.String) to not exist because " +
+                    "Expected constructor*ClassWithMembers(System.String) not to exist because " +
                     "we want to test the error message, but it does.");
         }
 
@@ -2442,7 +2442,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage(
-                    "Expected constructor*ClassWithMembers() to not exist because " +
+                    "Expected constructor*ClassWithMembers() not to exist because " +
                     "we want to test the error message, but it does.");
         }
 
@@ -2465,7 +2465,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage(
-                    "Expected constructor*ClassWithCctor*() to not exist because we " +
+                    "Expected constructor*ClassWithCctor*() not to exist because we " +
                     "want to test the error message, but it does.");
         }
 
@@ -2984,7 +2984,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type IPublicInterface to not be Public because we want to test the error message, but it " +
+                .WithMessage("Expected type IPublicInterface not to be Public because we want to test the error message, but it " +
                              "is.");
         }
 
@@ -3069,7 +3069,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type PrivateClass to not be Private because we want to test the error message, but it " +
+                .WithMessage("Expected type PrivateClass not to be Private because we want to test the error message, but it " +
                              "is.");
         }
 
@@ -3112,7 +3112,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type ProtectedEnum to not be Protected, but it is.");
+                .WithMessage("Expected type ProtectedEnum not to be Protected, but it is.");
         }
 
         [Fact]
@@ -3155,7 +3155,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type IPublicInterface to not be Public because we want to test the error message, " +
+                .WithMessage("Expected type IPublicInterface not to be Public because we want to test the error message, " +
                              "but it is.");
         }
 
@@ -3198,7 +3198,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type InternalClass to not be Internal because we want to test the error message, " +
+                .WithMessage("Expected type InternalClass not to be Internal because we want to test the error message, " +
                              "but it is.");
         }
 
@@ -3240,7 +3240,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type IProtectedInternalInterface to not be ProtectedInternal because we want to test the error " +
+                .WithMessage("Expected type IProtectedInternalInterface not to be ProtectedInternal because we want to test the error " +
                              "message, but it is.");
         }
 
