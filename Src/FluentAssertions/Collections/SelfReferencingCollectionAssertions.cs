@@ -95,6 +95,156 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the number of items in the collection does not match the supplied <paramref name="unexpected" /> amount.
+        /// </summary>
+        /// <param name="unexpected">The unexpected number of items in the collection.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to not contain {0} item(s){reason}, but found <null>.", unexpected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount != unexpected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to not contain {0} item(s){reason}, but found {1}.", unexpected, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the collection is greater than the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain more than {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount > expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain more than {0} item(s){reason}, but found {1}.", expected, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the collection is greater or equal to the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain at least {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount >= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain at least {0} item(s){reason}, but found {1}.", expected, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the collection is less than the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain fewer than {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount < expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain fewer than {0} item(s){reason}, but found {1}.", expected, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the collection is less or equal to the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain at most {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount <= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain at most {0} item(s){reason}, but found {1}.", expected, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
         /// <paramref name="elements" />. Elements are compared using their <see cref="T.Equals(T)" /> method.
         /// </summary>

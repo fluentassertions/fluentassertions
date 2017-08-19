@@ -314,6 +314,302 @@ namespace FluentAssertions.Specs
         #region Not Have Count
 
         [Fact]
+        public void Should_succeed_when_asserting_collection_ofT_has_a_count_different_from_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            collection.Should().NotHaveCount(2);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_collection_ofT_has_a_count_that_equals_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            Action act = () => collection.Should().NotHaveCount(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_collection_ofT_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*not contain*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_collection_ofT_count_is_same_than_and_collection_ofT_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Greater Than
+
+        [Fact]
+        public void Should_succeed_when_asserting_collection_ofT_has_a_count_greater_than_less_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            collection.Should().HaveCountGreaterThan(2);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_collection_ofT_has_a_count_greater_than_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            Action act = () => collection.Should().HaveCountGreaterThan(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_collection_ofT_has_a_count_greater_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*more than*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_collection_ofT_count_is_greater_than_and_collection_ofT_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Greater Or Equal To
+
+        [Fact]
+        public void Should_succeed_when_asserting_collection_ofT_has_a_count_greater_or_equal_to_less_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            collection.Should().HaveCountGreaterOrEqualTo(3);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_collection_ofT_has_a_count_greater_or_equal_to_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            Action act = () => collection.Should().HaveCountGreaterOrEqualTo(4);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_collection_ofT_has_a_count_greater_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().HaveCountGreaterOrEqualTo(4, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*at least*4*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_collection_ofT_count_is_greater_or_equal_to_and_collection_ofT_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Less Than
+
+        [Fact]
+        public void Should_succeed_when_asserting_collection_ofT_has_a_count_less_than_less_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            collection.Should().HaveCountLessThan(4);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_collection_ofT_has_a_count_less_than_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            Action act = () => collection.Should().HaveCountLessThan(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_collection_ofT_has_a_count_less_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*fewer than*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_collection_ofT_count_is_less_than_and_collection_ofT_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Less Or Equal To
+
+        [Fact]
+        public void Should_succeed_when_asserting_collection_ofT_has_a_count_less_or_equal_to_less_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            collection.Should().HaveCountLessOrEqualTo(3);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_collection_ofT_has_a_count_less_or_equal_to_the_number_of_items()
+        {
+            var collection = new[] { 1, 2, 3 };
+            Action act = () => collection.Should().HaveCountLessOrEqualTo(2);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_collection_ofT_has_a_count_less_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().HaveCountLessOrEqualTo(2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*at most*2*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_collection_ofT_count_is_less_or_equal_to_and_collection_ofT_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+
+        #region Not Have Count
+
+        [Fact]
         public void Should_succeed_when_asserting_collection_has_a_count_different_from_the_number_of_items()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
