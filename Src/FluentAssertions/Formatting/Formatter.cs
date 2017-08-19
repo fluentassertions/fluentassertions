@@ -14,7 +14,7 @@ namespace FluentAssertions.Formatting
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
-#if NET45
+#if NET45 || NETSTANDARD2_0
             new Xml.XmlNodeFormatter(),
 #endif
             new AttributeBasedFormatter(),

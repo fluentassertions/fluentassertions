@@ -66,7 +66,7 @@ namespace FluentAssertions.Common
 
         public static void ResetToDefaults()
         {
-#if NET45
+#if NET45 || NETSTANDARD2_0
             reflector = new FullFrameworkReflector();
             configurationStore = new AppSettingsConfigurationStore();
 #elif NETSTANDARD1_6

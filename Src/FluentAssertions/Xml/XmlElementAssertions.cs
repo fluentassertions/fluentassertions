@@ -1,15 +1,9 @@
-﻿#if NET45
+﻿#if NET45 || NETSTANDARD2_0
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Xml;
-
-
 
 namespace FluentAssertions.Xml
 {

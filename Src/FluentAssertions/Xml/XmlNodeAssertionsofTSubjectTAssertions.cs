@@ -1,14 +1,8 @@
-﻿#if NET45
+﻿#if NET45 || NETSTANDARD2_0
 
-using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Xml;
-
-
 
 namespace FluentAssertions.Xml
 {
@@ -17,7 +11,7 @@ namespace FluentAssertions.Xml
     /// </summary>
     [DebuggerNonUserCode]
     public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
-        where TAssertions: XmlNodeAssertions<TSubject, TAssertions>
+        where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
         where TSubject : XmlNode
     {
         public XmlNodeAssertions(TSubject xmlNode)
