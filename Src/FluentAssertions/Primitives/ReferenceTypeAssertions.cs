@@ -209,7 +209,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject is T)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} is not",
+                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} is not.",
                     typeof(T),
                     Subject.GetType());
 
@@ -233,7 +233,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(type.IsAssignableFrom(Subject.GetType()))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} is not",
+                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} is not.",
                     type,
                     Subject.GetType());
 
@@ -269,7 +269,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!type.IsAssignableFrom(Subject.GetType()))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:" + Context + "} to not be assignable to {0}{reason}, but {1} is",
+                .FailWith("Expected {context:" + Context + "} to not be assignable to {0}{reason}, but {1} is.",
                     type,
                     Subject.GetType());
 
