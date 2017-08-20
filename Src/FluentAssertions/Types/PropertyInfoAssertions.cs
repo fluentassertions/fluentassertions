@@ -44,6 +44,28 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected property is not virtual.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+        {
+            string failureMessage = "Expected property " + GetDescriptionFor(Subject) + " not to be virtual{reason}, but it is.";
+
+            Execute.Assertion
+                .ForCondition(!Subject.IsVirtual())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the selected property has a setter.
         /// </summary>
         /// <param name="because">
@@ -207,6 +229,43 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] becauseArgs)
         {
             return Return(typeof(TReturn), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the selected property does not return a specified type.
+        /// </summary>
+        /// <param name="propertyType">The unexpected type of the property.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject.PropertyType != propertyType)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected PropertyInfo does not return <typeparamref name="TReturn"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The unexpected return type.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotReturn<TReturn>(string because = "", params object[] becauseArgs)
+        {
+            return NotReturn(typeof(TReturn), because, becauseArgs);
         }
 
         internal static string GetDescriptionFor(PropertyInfo property)

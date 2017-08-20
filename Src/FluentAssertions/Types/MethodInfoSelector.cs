@@ -58,11 +58,32 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only select the methods with a return value
+        /// </summary>
+        public MethodInfoSelector ThatDoNotReturnVoid
+        {
+            get
+            {
+                selectedMethods = selectedMethods.Where(method => method.ReturnType != typeof(void));
+                return this;
+            }
+        }
+
+        /// <summary>
         /// Only select the methods that return the specified type 
         /// </summary>
         public MethodInfoSelector ThatReturn<TReturn>()
         {
             selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof(TReturn));
+            return this;
+        }
+
+        /// <summary>
+        /// Only select the methods that do not return the specified type 
+        /// </summary>
+        public MethodInfoSelector ThatDoNotReturn<TReturn>()
+        {
+            selectedMethods = selectedMethods.Where(method => method.ReturnType != typeof(TReturn));
             return this;
         }
 

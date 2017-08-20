@@ -77,6 +77,73 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_properties_are_not_virtual_and_they_are_not_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void
+            When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+               .WithMessage("Expected all selected properties" +
+                   " not to be virtual because we want to test the error message," +
+                   " but the following properties are virtual*" +
+                   "*ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
+                   "*ClassWithAllPropertiesVirtual.InternalVirtualProperty" +
+                   "*ClassWithAllPropertiesVirtual.ProtectedVirtualProperty");
+        }
+
+        [Fact]
         public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -143,6 +210,75 @@ namespace FluentAssertions.Specs
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty\r\n" +
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+        }
+
+        [Fact]
+        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute))
+                .ThatArePublicOrInternal;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void
+            When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should()
+                                    .NotBeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected all selected properties not to be decorated*" +
+                   "DummyPropertyAttribute*" +
+                   "because we want to test the error message*" +
+                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty*" +
+                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.InternalProperty*" +
+                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty*");
         }
 
         [Fact]
