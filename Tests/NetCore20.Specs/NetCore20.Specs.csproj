@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>FluentAssertions.NetCore.Specs</AssemblyName>
-    <RootNamespace>FluentAssertions.NetCore.Specs</RootNamespace>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>FluentAssertions.NetCore20.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.NetCore20.Specs</RootNamespace>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="FakeItEasy" Version="3.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta3-build3705" />
@@ -13,6 +15,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
+    <ProjectReference Include="..\AssemblyA\AssemblyA.csproj" />
+    <ProjectReference Include="..\AssemblyB\AssemblyB.csproj" />
   </ItemGroup>
   <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" />
 </Project>
