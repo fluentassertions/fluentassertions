@@ -67,4 +67,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)XElementAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XElementFormatterSpecs.cs" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp1.1' ">
+    <Compile Include="$(MSBuildThisFileDirectory)XmlElementAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlNodeAssertionSpecs.cs" />
+  </ItemGroup>
 </Project>

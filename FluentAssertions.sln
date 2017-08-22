@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net45.Specs", "Tests\Net45.Specs\Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net45.Specs", "Tests\Net45.Specs\Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.Specs", "Tests\Shared.Specs\Shared.Specs.shproj", "{0C23C12C-899F-4AD1-B737-B967A9910C08}"
 EndProject
@@ -35,6 +35,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions", "Src\FluentAssertions\FluentAssertions.csproj", "{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Specs", "Tests\NetCore.Specs\NetCore.Specs.csproj", "{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore20.Specs", "Tests\NetCore20.Specs\NetCore20.Specs.csproj", "{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -170,6 +172,26 @@ Global
 		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x64.Build.0 = Release|Any CPU
 		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x86.ActiveCfg = Release|Any CPU
 		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x86.Build.0 = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|ARM.Build.0 = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|x64.Build.0 = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +205,10 @@ Global
 		{A4E37052-5581-4E70-A9C3-FF8364B2F332} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D} = {31891850-3EDC-480A-9B6C-F60540E9C90F}
 		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

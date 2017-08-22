@@ -7,12 +7,12 @@
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen</authors>
     <summary>
-      Fluent API for asserting the results of unit tests for .NET 4.5 (Desktop), .NET Standard 1.4 (.NET 4.6.1, Mono, Xamarin, UWP) and 1.6 (.NET Core). 
+      Fluent API for asserting the results of unit tests for .NET Framework 4.5.1+ and .NET Standard 1.4+.
       Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests. Runs on .NET 4.5.1 (Desktop), .NET Standard 1.4 (.NET 4.6.1, Mono, Xamarin, UWP) and 1.6 (.NET Core). 
+      BDD-style unit tests. Runs on .NET Framework 4.5.1+ and .NET Standard 1.4+.
       Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
     </description>
     <language>en-US</language>
@@ -29,12 +29,19 @@
     </frameworkAssemblies>
     <dependencies>
       <group targetFramework="netstandard1.4">
-        <dependency id="NETStandard.Library" version="1.6.0" />
-        <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
+        <dependency id="NETStandard.Library" version="1.6.1" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
+        <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
       </group>
       <group targetFramework="netstandard1.6">
-        <dependency id="NETStandard.Library" version="1.6.0" />
-        <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
+        <dependency id="NETStandard.Library" version="1.6.1" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
+        <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="System.Configuration.ConfigurationManager" version="4.4.0" />
+        <dependency id="System.Reflection.Emit" version="4.3.0" />
+        <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
       </group>
     </dependencies>
   </metadata>
@@ -42,5 +49,6 @@
     <file src=".\FluentAssertions\bin\Release\net451\*.*"  target="lib\net451" />
     <file src=".\FluentAssertions\bin\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
     <file src=".\FluentAssertions\bin\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
+    <file src=".\FluentAssertions\bin\Release\netstandard2.0\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard2.0" />
   </files>
 </package>

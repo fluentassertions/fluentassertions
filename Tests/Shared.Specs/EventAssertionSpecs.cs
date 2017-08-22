@@ -716,6 +716,10 @@ namespace FluentAssertions.Specs
                 .WithMessage("Not monitoring any events named \"SomeEvent\".");
         }
 
+
+#if NETCOREAPP2_0 && DEBUG
+#    warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
+#else
         [Fact]
         public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
         {
@@ -764,6 +768,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             referenceToSubject.IsAlive.Should().BeFalse();
         }
+#endif
 
 #if NET45
 

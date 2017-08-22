@@ -1,4 +1,4 @@
-#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta3-build3705"
+﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta3-build3705"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
@@ -74,9 +74,11 @@ Task("Run-Unit-Tests")
 {
     XUnit2("./Tests/Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
 
-	DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration " + configuration);
-	    
-	XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
+    DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration " + configuration);
+
+    DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration " + configuration);
+
+    XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
 });
 
 Task("Pack")
