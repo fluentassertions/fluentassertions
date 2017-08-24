@@ -205,6 +205,14 @@ namespace FluentAssertions.Execution
             }
         }
 
+        /// <summary>
+        /// Adds a pre-formatted failure message to the current scope. 
+        /// </summary>
+        public void AddFailure(string formattedFailureMessage)
+        {
+            assertionStrategy.HandleFailure(formattedFailureMessage);
+        }
+
         public void AddNonReportable(string key, object value)
         {
             contextData.Add(key, value, Reportability.Hidden);

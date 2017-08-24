@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -454,6 +455,36 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("*foo*null*");
+        }
+
+
+        [TestMethod]
+        public void When_the_graph_contains_guids_it_should_properly_format_them()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual =
+                new[]
+                {
+                    new { Id = Guid.NewGuid(), Name = "Name" }
+                };
+
+            var expected =
+                new[]
+                {
+                    new { Id = Guid.NewGuid(), Name = "Name" }
+                };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected item[0].Id to be *-*, but found *-*");
         }
 
         #endregion
