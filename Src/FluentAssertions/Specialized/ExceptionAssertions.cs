@@ -268,7 +268,7 @@ namespace FluentAssertions.Specialized
 
                     foreach (string failure in results.SelectClosestMatchFor())
                     {
-                        AssertionScope.Current.FailWith(failure);
+                        AssertionScope.Current.FailWith(failure.Replace("{", "{{").Replace("}", "}}"));
                     }
                 }
             }

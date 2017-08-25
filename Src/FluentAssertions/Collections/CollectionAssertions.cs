@@ -244,14 +244,14 @@ namespace FluentAssertions.Collections
             {
                 throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
             }
+            
+            TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
 
             AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
             {
-                assertion.FailWith("Expected {context:collection} to be equal{reason}, but found <null>.");
+                assertion.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expectedItems);
             }
-
-            TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)

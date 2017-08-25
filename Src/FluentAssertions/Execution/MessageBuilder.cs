@@ -53,16 +53,15 @@ namespace FluentAssertions.Execution
             return regex.Replace(message, match =>
             {
                 string key = match.Groups["key"].Value;
-                return contextData.AsStringOrDefault(key) ?? match.Groups["default"].Value;
+                return contextData.AsStringOrDefault(key)?.Replace("{", "{{").Replace("}", "}}") ?? match.Groups["default"].Value;
             });
         }
 
         private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
-            var values = new List<string>();
-            values.AddRange(failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)));
-
-            string formattedMessage = values.Any() ? String.Format(failureMessage, values.ToArray()) : failureMessage;
+            string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
+            string formattedMessage = string.Format(failureMessage, values);
+            
             return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
 

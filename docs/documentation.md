@@ -285,8 +285,8 @@ theDatetime.Should().BeExactly(24.Hours()).Before(appointement);     // Equivale
 To assert that a date/time is within a specified number of milliseconds from another date/time value you can use this method.
 
 ```csharp
-theDatetime.Should().BeCloseTo(March(2010).At(22,15), 2000); // 2000 milliseconds
-theDatetime.Should().BeCloseTo(March(2010).At(22,15));       // default is 20 milliseconds
+theDatetime.Should().BeCloseTo(1.March(2010).At(22,15), 2000); // 2000 milliseconds
+theDatetime.Should().BeCloseTo(1.March(2010).At(22,15));       // default is 20 milliseconds
 ```
 
 This can be particularly useful if your database truncates date/time values. 
@@ -643,7 +643,7 @@ You can also take a different approach and explicitly tell Fluent Assertions whi
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
-	.Including(pi => pi.PropertyPath.EndsWidth("Date")); 
+	.Including(pi => pi.PropertyPath.EndsWith("Date")); 
 ```
 
 ### Including properties and/or fields ###

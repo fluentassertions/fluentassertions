@@ -466,7 +466,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection to be equal because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to be equal to {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
