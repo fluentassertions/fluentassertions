@@ -1,4 +1,4 @@
-﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta3-build3705"
+﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta5-build3769"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
