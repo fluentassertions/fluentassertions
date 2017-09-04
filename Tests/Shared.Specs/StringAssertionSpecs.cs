@@ -1995,6 +1995,164 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotContainAny
+        [Fact]
+        public void When_exclusion_of_any_string_in_null_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().NotContainAny(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_nullCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_string_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().NotContainAny();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_all_of_the_strings_are_present_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            var testString = $"{red} {green} {yellow}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().NotContainAny(red, green, yellow);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*not*{testString}*contain any*{red}*{green}*{yellow}*");
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            const string purple = "purple";
+            var testString = $"{red} {green} {yellow}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().NotContainAny(red, purple, green);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*not*{testString}*contain any*{red}*{green}*");
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_strings_is_asserted_with_reason_and_assertion_fails_then_error_message_contains_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            var testString = $"{red} {green} {yellow}";
+
+            const string because = "some {0} reason";
+            var becauseArgs = new[] { "special" };
+            var expectedErrorReason = string.Format(because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().NotContainAny(new[] { red }, because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*not*{testString}*contain any*{red}*because*{expectedErrorReason}*");
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exact_matches_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string redLowerCase = "red";
+            const string redUpperCase = "RED";
+            const string greenWithoutWhitespace = "green";
+            const string greenWithWhitespace = " green  ";
+            var testString = $"{redLowerCase} {greenWithoutWhitespace}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().NotContainAny(redUpperCase, greenWithWhitespace);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            const string purple = "purple";
+            var testString = $"{red} {green}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().NotContainAny(yellow, purple);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion 
+
         #region Not Contain Equivalent Of
 
         [Fact]

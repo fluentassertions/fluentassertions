@@ -162,6 +162,7 @@ theString.Should().BeEquivalentTo("THIS IS A STRING");
 theString.Should().Contain("is a");
 theString.Should().NotContain("is a");
 theString.Should().NotContainAll("can", "contain", "some", "but", "not", "all");
+theString.Should().NotContainAny("can't", "contain", "any", "of", "these");
 theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING");
 theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
 

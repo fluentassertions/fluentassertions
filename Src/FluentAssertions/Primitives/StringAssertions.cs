@@ -751,6 +751,52 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string does not contain any of the strings provided in <paramref name="values"/>.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should not be present in the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotContainAny(IEnumerable<string> values, string because = "",
+            params object[] becauseArgs)
+        {
+            ThrowIfValuesNullOrEmpty(values);
+
+            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+
+            Execute.Assertion
+                .ForCondition(!matches.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect the {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not contain any of the strings provided in <paramref name="values"/>.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should not be present in the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotContainAny(params string[] values)
+        {
+            return NotContainAny(values, because: string.Empty);
+        }
+
+        /// <summary>
         /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string,
         /// including any leading or trailing whitespace, with the exception of the casing.
         /// </summary>
