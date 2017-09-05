@@ -669,6 +669,93 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string contains all values present in <paramref name="values"/>.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should all be present in the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainAll(IEnumerable<string> values, string because = "", params object[] becauseArgs)
+        {
+            ThrowIfValuesNullOrEmpty(values);
+
+            var missing = values.Where(v => !Contains(Subject, v, StringComparison.Ordinal)).ToArray();
+            Execute.Assertion
+                .ForCondition(values.All(v => Contains(Subject, v, StringComparison.Ordinal)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} {0} to contain the strings: {1}{reason}.", Subject, missing);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains all values present in <paramref name="values"/>.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should not be present in the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainAll(params string[] values)
+        {
+            return ContainAll(values, because: string.Empty);
+        }
+		
+		/// <summary>
+        /// Asserts that a string contains at least one value present in <paramref name="values"/>,.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should will be tested against the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainAny(IEnumerable<string> values, string because = "", params object[] becauseArgs)
+        {
+            ThrowIfValuesNullOrEmpty(values);
+
+            Execute.Assertion
+                .ForCondition(values.Any(v => Contains(Subject, v, StringComparison.Ordinal)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values.ToArray());
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains at least one value present in <paramref name="values"/>,.
+        /// </summary>
+        /// <param name="values">
+        /// The values that should will be tested against the string
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainAny(params string[] values)
+        {
+            return ContainAny(values, because: string.Empty);
+        }
+
+        /// <summary>
         /// Asserts that a string does not contain another (fragment of a) string.
         /// </summary>
         /// <param name="expected">

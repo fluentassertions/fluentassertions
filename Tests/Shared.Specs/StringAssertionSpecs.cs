@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1769,6 +1770,327 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
+        }
+
+        #endregion
+
+        #region ContainAll
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_null_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().ContainAll(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_nullCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().ContainAll();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_all_strings_are_present_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            var testString = $"{red} {green} {yellow}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAll(red, green, yellow);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_matches_exist_for_all_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string redLowerCase = "red";
+            const string redUpperCase = "RED";
+            const string greenWithoutWhitespace = "green";
+            const string greenWithWhitespace = "  green ";
+            var testString = $"{redLowerCase} {greenWithoutWhitespace}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAll(redUpperCase, greenWithWhitespace);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain*{redUpperCase}*{greenWithWhitespace}*");
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            const string blue = "yellow";
+            var testString = $"{red} {green}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAll(yellow, blue);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain*{yellow}*{blue}*");
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_failes_then_failure_message_should_contain_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            const string blue = "yellow";
+            var testString = $"{red} {green}";
+
+            const string because = "some {0} reason";
+            var becauseArgs = new[] { "special" };
+            var expectedErrorReason = string.Format(because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain*{yellow}*{blue}*because {expectedErrorReason}*");
+        }
+
+        [Fact]
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            const string blue = "blue";
+            var testString = $"{red} {green} {yellow}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAll(red, blue, green);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain*{blue}*");
+        }
+
+        #endregion
+
+        #region ContainAny
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_null_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().ContainAny(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_nullCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "a".Should().ContainAny();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_all_of_the_strings_are_present_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string yellow = "yellow";
+            var testString = $"{red} {green} {yellow}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAny(red, green, yellow);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string blue = "blue";
+            var testString = $"{red} {green}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAny(red, blue, green);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string blue = "blue";
+            const string purple = "purple";
+            var testString = $"{red} {green}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAny(blue, purple);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*");
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exatch_matches_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string redLowerCase = "red";
+            const string redUpperCase = "RED";
+            const string greenWithoutWhitespace = "green";
+            const string greenWithWhitespace = "   green";
+            var testString = $"{redLowerCase} {greenWithoutWhitespace}";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAny(redUpperCase, greenWithWhitespace);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain at least one of*{redUpperCase}*{greenWithWhitespace}*");
+        }
+
+        [Fact]
+        public void When_containment_of_any_string_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_contains_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string red = "red";
+            const string green = "green";
+            const string blue = "blue";
+            const string purple = "purple";
+            var testString = $"{red} {green}";
+
+            const string because = "some {0} reason";
+            var becauseArgs = new[] { "special" };
+            var expectedErrorReason = string.Format(because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testString.Should().ContainAny(new[] { blue, purple }, because, becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<XunitException>()
+                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because {expectedErrorReason}*");
         }
 
         #endregion
