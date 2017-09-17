@@ -1,9 +1,13 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
 using System.Reflection;
+using FluentAssertions.Common;
+using FluentAssertions.Events;
 
 namespace FluentAssertions.Primitives
 {
