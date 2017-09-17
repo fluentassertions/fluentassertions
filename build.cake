@@ -72,7 +72,7 @@ Task("Build")
 Task("Run-Unit-Tests")
     .Does(() =>
 {
-    XUnit2("./Tests/Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
+    XUnit2("./Tests/Net45.Specs/**/bin/" + configuration + "/**/*.Specs.dll", new XUnit2Settings { });
 
     DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration " + configuration);
 
