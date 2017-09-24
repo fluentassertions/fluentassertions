@@ -22,7 +22,8 @@ namespace FluentAssertions.Formatting
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="useLineBreaks"> </param>
+        /// <param name="context"> </param>
+        /// <param name="formatChild"></param>
         /// <param name="processedObjects">
         /// A collection of objects that 
         /// </param>
@@ -33,12 +34,12 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             var exception = (AggregateException)value;
             if (exception.InnerExceptions.Count == 1)
             {
-                return "(aggregated) " + Formatter.ToString(exception.InnerException);
+                return "(aggregated) " + formatChild("inner", exception.InnerException);
             }
             else
             {
@@ -49,7 +50,7 @@ namespace FluentAssertions.Formatting
                 foreach (Exception innerException in exception.InnerExceptions)
                 {
                     builder.AppendLine();
-                    builder.AppendLine(Formatter.ToString(innerException));
+                    builder.AppendLine(formatChild("InnerException", innerException));
                 }
 
                 return builder.ToString();

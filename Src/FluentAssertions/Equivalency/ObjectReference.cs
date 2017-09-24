@@ -5,7 +5,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Represents  an object tracked by the <see cref="ObjectTracker"/> including it's location within an object graph.
+    /// Represents  an object tracked by the <see cref="CyclicReferenceDetector"/> including it's location within an object graph.
     /// </summary>
     internal class ObjectReference
     {

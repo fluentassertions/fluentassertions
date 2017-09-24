@@ -18,22 +18,8 @@ namespace FluentAssertions.Formatting
             return value is IEnumerable;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="useLineBreaks"> </param>
-        /// <param name="processedObjects">
-        /// A collection of objects that 
-        /// </param>
-        /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        /// <inheritdoc />
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             var enumerable = ((IEnumerable)value).Cast<object>().ToArray();
             if (enumerable.Any())
@@ -47,7 +33,7 @@ namespace FluentAssertions.Formatting
                     enumerable = enumerable.Take(maxItems).ToArray();
                 }
 
-                return "{" + string.Join(", ", enumerable.Select(obj => Formatter.ToString(obj, useLineBreaks, processedObjects, nestedPropertyLevel)).ToArray()) + postfix + "}";
+                return "{" + string.Join(", ", enumerable.Select((item, index) => formatChild(index.ToString(), item)).ToArray()) + postfix + "}";
             }
             else
             {

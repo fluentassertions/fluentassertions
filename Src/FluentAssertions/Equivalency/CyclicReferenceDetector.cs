@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency
     /// Keeps track of objects and their location within an object graph so that cyclic references can be detected
     /// and handled upon.
     /// </summary>
-    internal class ObjectTracker : ICloneable2
+    internal class CyclicReferenceDetector : ICloneable2
     {
         #region Private Definitions
 
@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency
 
         #endregion
 
-        public ObjectTracker(CyclicReferenceHandling handling)
+        public CyclicReferenceDetector(CyclicReferenceHandling handling)
         {
             this.handling = handling;
         }
@@ -63,7 +63,7 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public object Clone()
         {
-            return new ObjectTracker(handling)
+            return new CyclicReferenceDetector(handling)
             {
                 orderedReferences = new List<ObjectReference>(orderedReferences)
             };

@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var element = XElement.Parse(@"<person name=""Martin"" age=""36"" />");
             XAttribute attribute = element.Attribute("name");
-            string result = formatter.ToString(attribute, false);
+            string result = formatter.Format(attribute, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

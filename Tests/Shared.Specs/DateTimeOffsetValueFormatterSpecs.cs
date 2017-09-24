@@ -1,11 +1,9 @@
 ﻿using System;
-
 using FluentAssertions.Formatting;
 using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class DateTimeOffsetValueFormatterSpecs
     {
         [Fact]
@@ -19,7 +17,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTime(1973, 9, 20), false);
+            string result = formatter.Format(new DateTime(1973, 9, 20), new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -38,7 +36,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, 0.Hours()), false);
+            string result = formatter.Format(new DateTimeOffset(1973, 9, 20, 12, 59, 59, 0.Hours()), new FormattingContext(),
+                null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -52,12 +51,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, -3.Hours()), false);
+            string result = Formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, -3.Hours()));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -76,7 +74,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, 3.Hours()), false);
+            string result = Formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, 3.Hours()));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -97,7 +95,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             DateTime emptyDate = 1.January(0001);
             var dateTime = emptyDate.At(08, 20, 01);
-            string result = formatter.ToString(dateTime, false);
+            string result = formatter.Format(dateTime, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -117,7 +115,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var dateTime = 1.May(2012).At(20, 15, 30, 318);
-            string result = formatter.ToString(dateTime, false);
+            string result = formatter.Format(dateTime, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -137,7 +135,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var dateTime = 1.May(2012).At(20, 15, 30);
-            string result = formatter.ToString(dateTime, false);
+            string result = formatter.Format(dateTime, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -162,10 +160,17 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            formatter.ToString(dateOnly, false).Should().Be(formatter.ToString((DateTimeOffset) dateOnly, false));
-            formatter.ToString(timeOnly, false).Should().Be(formatter.ToString((DateTimeOffset) timeOnly, false));
-            formatter.ToString(witoutMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) witoutMilliseconds, false));
-            formatter.ToString(withMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) withMilliseconds, false));
+            formatter.Format(dateOnly, new FormattingContext(), null)
+                .Should().Be(formatter.Format((DateTimeOffset)dateOnly, new FormattingContext(), null));
+
+            formatter.Format(timeOnly, new FormattingContext(), null).Should()
+                .Be(formatter.Format((DateTimeOffset)timeOnly, new FormattingContext(), null));
+
+            formatter.Format(witoutMilliseconds, new FormattingContext(), null).Should()
+                .Be(formatter.Format((DateTimeOffset)witoutMilliseconds, new FormattingContext(), null));
+
+            formatter.Format(withMilliseconds, new FormattingContext(), null).Should()
+                .Be(formatter.Format((DateTimeOffset)withMilliseconds, new FormattingContext(), null));
         }
 
         private static DateTime ToUtcWithoutChangingTime(DateTime date)

@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
             using (var scope = new AssertionScope())
             {
                 scope.AddReportable("configuration", config.ToString());
-                scope.AddNonReportable("objects", new ObjectTracker(config.CyclicReferenceHandling));
+                scope.AddNonReportable("objects", new CyclicReferenceDetector(config.CyclicReferenceHandling));
 
                 scope.BecauseOf(context.Because, context.BecauseArgs);
 
@@ -50,7 +50,7 @@ namespace FluentAssertions.Equivalency
                 scope.AddNonReportable("subject", context.Subject);
                 scope.AddNonReportable("expectation", context.Expectation);
 
-                var objectTracker = scope.Get<ObjectTracker>("objects");
+                var objectTracker = scope.Get<CyclicReferenceDetector>("objects");
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Expectation, context.SelectedMemberPath)))
                 {

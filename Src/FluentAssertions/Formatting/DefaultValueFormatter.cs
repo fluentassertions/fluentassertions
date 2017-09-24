@@ -29,41 +29,21 @@ namespace FluentAssertions.Formatting
             return true;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="useLineBreaks"> </param>
-        /// <param name="processedObjects">
-        /// A collection of objects that 
-        /// </param>
-        /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null,
-            int nestedPropertyLevel = 0)
+        /// <inheritdoc />
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             if (value.GetType() == typeof (object))
             {
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
 
-            string prefix = (useLineBreaks ? Environment.NewLine : "");
+            string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
 
             if (HasDefaultToStringImplementation(value))
             {
-                if (!processedObjects.Contains(value))
+                if (true)
                 {
-                    processedObjects.Add(value);
-                    return prefix + GetTypeAndPublicPropertyValues(value, nestedPropertyLevel, processedObjects);
-                }
-                else
-                {
-                    return string.Format("{{Cyclic reference to type {0} detected}}", value.GetType());
+                    return prefix + GetTypeAndPublicPropertyValues(value, context, formatChild);
                 }
             }
 
@@ -75,11 +55,11 @@ namespace FluentAssertions.Formatting
             return ReferenceEquals(value.ToString(), null) || value.ToString().Equals(value.GetType().ToString());
         }
 
-        private static string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, IList<object> processedObjects)
+        private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)
         {
             var builder = new StringBuilder();
 
-            if (nestedPropertyLevel == RootLevel)
+            if (context.Depth == RootLevel)
             {
                 builder.AppendLine();
                 builder.AppendLine();
@@ -87,21 +67,20 @@ namespace FluentAssertions.Formatting
 
             var type = obj.GetType();
             builder.AppendLine(type.FullName);
-            builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
+            builder.AppendLine(CreateWhitespaceForLevel(context.Depth) + "{");
 
             IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
-                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, processedObjects));
+                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, context, formatChild));
             }
 
-            builder.AppendFormat("{0}}}", CreateWhitespaceForLevel(nestedPropertyLevel));
+            builder.AppendFormat("{0}}}", CreateWhitespaceForLevel(context.Depth));
 
             return builder.ToString();
         }
 
-        private static string GetPropertyValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, int nextMemberNestingLevel,
-            IList<object> processedObjects)
+        private static string GetPropertyValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, FormattingContext context, FormatChild formatChild)
         {
             object propertyValue;
 
@@ -115,9 +94,9 @@ namespace FluentAssertions.Formatting
             }
 
             return string.Format("{0}{1} = {2}",
-                CreateWhitespaceForLevel(nextMemberNestingLevel),
+                CreateWhitespaceForLevel(context.Depth + 1),
                 selectedMemberInfo.Name,
-                Formatter.ToString(propertyValue, false, processedObjects, nextMemberNestingLevel));
+                formatChild(selectedMemberInfo.Name, propertyValue));
         }
 
         private static string CreateWhitespaceForLevel(int level)

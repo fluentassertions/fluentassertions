@@ -32,7 +32,7 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             return "0x" + ((byte)value).ToString("X2");
         }
