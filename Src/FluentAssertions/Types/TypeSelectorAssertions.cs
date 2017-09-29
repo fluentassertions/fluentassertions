@@ -19,7 +19,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public TypeSelectorAssertions(IEnumerable<Type> types)
+        public TypeSelectorAssertions(params Type[] types)
         {
             Subject = types;
         }

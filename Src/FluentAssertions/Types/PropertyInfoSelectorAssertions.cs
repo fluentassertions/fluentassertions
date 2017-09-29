@@ -23,7 +23,7 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
         /// </summary>
         /// <param name="properties">The properties to assert.</param>
-        public PropertyInfoSelectorAssertions(IEnumerable<PropertyInfo> properties)
+        public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
         {
             SubjectProperties = properties;
         }
