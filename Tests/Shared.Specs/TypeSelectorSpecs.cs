@@ -283,10 +283,6 @@ namespace FluentAssertions.Specs
                 .ThatAreUnderNamespace("Internal.Other")
                 .ThatAreNotUnderNamespace("Internal.Other.Test");
 
-            var lol = AllTypes.From(assembly)
-                .ThatAreUnderNamespace("Internal.Other")
-                .ThatAreNotUnderNamespace("Internal.Other.Test")
-                .ToArray();
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
