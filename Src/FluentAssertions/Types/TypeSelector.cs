@@ -72,6 +72,7 @@ namespace FluentAssertions.Types
         /// Determines whether a type is decorated with a particular attribute.
         /// </summary>
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
+            where TAttribute : Attribute
         {
             types = types
 
@@ -85,6 +86,7 @@ namespace FluentAssertions.Types
         /// Determines whether a type is not decorated with a particular attribute.
         /// </summary>
         public TypeSelector ThatAreNotDecoratedWith<TAttribute>()
+            where TAttribute : Attribute
         {
             types = types
 

@@ -91,6 +91,7 @@ namespace FluentAssertions.Types
         /// Only select the methods that are decorated with an attribute of the specified type.
         /// </summary>
         public MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
+            where TAttribute : Attribute
         {
             selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(false).OfType<TAttribute>().Any());
             return this;
@@ -100,6 +101,7 @@ namespace FluentAssertions.Types
         /// Only select the methods that are not decorated with an attribute of the specified type.
         /// </summary>
         public MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
+            where TAttribute : Attribute
         {
             selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(false).OfType<TAttribute>().Any());
             return this;
