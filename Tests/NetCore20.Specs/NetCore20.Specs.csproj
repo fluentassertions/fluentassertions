@@ -3,7 +3,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>FluentAssertions.NetCore20.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore20.Specs</RootNamespace>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
