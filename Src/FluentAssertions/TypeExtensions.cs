@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using FluentAssertions.Types;
+using System.Collections.Generic;
 
 namespace FluentAssertions
 {
@@ -19,6 +20,22 @@ namespace FluentAssertions
         public static TypeSelector Types(this Assembly assembly)
         {
             return new TypeSelector(assembly.GetTypes());
+        }
+
+        /// <summary>
+        /// Returns a type selector for the current <see cref="System.Type"/>.
+        /// </summary>
+        public static TypeSelector Types(this Type type)
+        {
+            return new TypeSelector(type);
+        }
+
+        /// <summary>
+        /// Returns a type selector for the current <see cref="System.Type"/>.
+        /// </summary>
+        public static TypeSelector Types(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types);
         }
 
         /// <summary>

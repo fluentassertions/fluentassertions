@@ -13,6 +13,11 @@ namespace FluentAssertions.Types
     {
         private List<Type> types;
 
+        public TypeSelector(Type type)
+            : this(new[] { type })
+        {
+        }
+
         public TypeSelector(IEnumerable<Type> types)
         {
             this.types = types.ToList();

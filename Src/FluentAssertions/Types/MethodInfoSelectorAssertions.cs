@@ -19,7 +19,7 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
         /// </summary>
         /// <param name="methodInfo">The methods to assert.</param>
-        public MethodInfoSelectorAssertions(IEnumerable<MethodInfo> methods)
+        public MethodInfoSelectorAssertions(params MethodInfo[] methods)
         {
             SubjectMethods = methods;
         }
