@@ -37,7 +37,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
 
         }
         #endregion
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element \"user\" to have value \"stamac\"" +
                     " because we want to test the failure message" +
                         ", but found \"grega\".");
@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -158,7 +158,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -180,7 +180,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -224,7 +224,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
                     " because we want to test the failure message" +
                         ", but found no such attribute in <user name=\\\"martin\\\"*");
@@ -249,7 +249,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
                     " because we want to test the failure message" +
                         ", but found no such attribute in <user xmlns:a=\\\"http:...");
@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -296,7 +296,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -318,7 +318,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML attribute \"name\" to have value \"dennis\"" +
                     " because we want to test the failure message" +
                         ", but found \"martin\".");
@@ -343,7 +343,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML attribute \"{http://www.example.com/2012/test}name\" to have value \"dennis\"" +
                     " because we want to test the failure message" +
                         ", but found \"martin\".");
@@ -376,7 +376,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
 
@@ -402,7 +402,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -427,7 +427,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -452,7 +452,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -481,7 +481,7 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(element));
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -510,7 +510,7 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(element));
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
 

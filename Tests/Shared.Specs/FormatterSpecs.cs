@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*near*index 37*");
+            act.Should().Throw<XunitException>().WithMessage("*near*index 37*");
         }
 
         [Fact]
@@ -176,7 +176,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*Childs =*")
                 .WithMessage("*Description =*")
                 .WithMessage("*StuffId =*");

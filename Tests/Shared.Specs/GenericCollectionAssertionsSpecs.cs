@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #region (Not) Contain
@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
 
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*greater*4*2*");
         }
 
@@ -115,7 +115,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
         }
 
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
         }
 
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain \"string4\" because we're checking how it reacts to a null subject, but found <null>.");
         }
 
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
@@ -217,7 +217,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
@@ -237,7 +237,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
         }
 
@@ -261,7 +261,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
         }
 
@@ -281,7 +281,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to contain only items matching (e.Length > 0), but the collection is empty.");
         }
 
@@ -301,7 +301,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -325,7 +325,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -349,7 +349,7 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but the collection is empty.", expression.Body);
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -373,7 +373,7 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but found <null>.", expression.Body);
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -397,7 +397,7 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but no such item was found.", expression.Body);
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -421,7 +421,7 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but 3 such items were found.", expression.Body);
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -440,7 +440,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*greater*4*2*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");
         }
 
         #endregion
@@ -463,7 +463,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -482,7 +482,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to contain a single item because more is not allowed, but the collection is empty.");
         }
 
@@ -503,7 +503,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
 
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to contain a single item because more is not allowed, but found <null>.");
         }
 
@@ -525,7 +525,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected collection to contain a single item, but found {1, 3}.";
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -546,7 +546,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected collection to contain a single item, but found {1, 2}.";
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -567,7 +567,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected a value greater than 4, but found 3.";
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         #endregion
@@ -595,7 +595,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
@@ -615,7 +615,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*2*3*1*ordered*should be sorted*1*2*3*");
         }
 
@@ -640,7 +640,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
@@ -665,7 +665,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -684,7 +684,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -708,7 +708,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -732,7 +732,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
         }
 
@@ -752,7 +752,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*1*2*3*ordered*should be sorted*3*2*1*");
         }
 
@@ -777,7 +777,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
         }
 
@@ -802,7 +802,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -821,7 +821,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -845,7 +845,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -864,7 +864,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -883,7 +883,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -902,7 +902,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -921,7 +921,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a property*propertyExpression*");
         }
 
@@ -941,7 +941,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a comparer*comparer*");
         }
 
@@ -961,7 +961,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*Text*found*null*");
         }
 
@@ -981,7 +981,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*found*null*");
         }
 
@@ -1001,7 +1001,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*Text*found*null*");
         }
 
@@ -1021,7 +1021,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithMessage("Expression*o.GetHashCode()*cannot be used to select a member*");
         }
 
@@ -1072,7 +1072,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*");
         }
 
@@ -1097,7 +1097,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*Text = <null>*");
         }
 
@@ -1117,7 +1117,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
         }
 
@@ -1159,7 +1159,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but item*three*is not unique.");
         }
 
@@ -1185,7 +1185,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but items*two*two*three*three*are not unique.");
         }
 
@@ -1206,7 +1206,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
 

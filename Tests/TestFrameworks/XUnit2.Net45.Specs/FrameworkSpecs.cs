@@ -17,7 +17,7 @@ namespace XUnit2.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Exception exception = act.ShouldThrow<Exception>().Which;
+            Exception exception = act.Should().Throw<Exception>().Which;
             exception.GetType().FullName.Should().ContainEquivalentOf("xunit");
         }
     }

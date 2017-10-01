@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                .WithMessage(
                    "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                        " to be virtual because we want to test the error message," +
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                .WithMessage(
                    "Expected property *ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
                        " not to be virtual because we want to test the error message," +
@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }        
         
         [Fact]
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*OtherValue*Value*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*OtherValue*Value*");
         }
         
         [Fact]
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -199,7 +199,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                .WithMessage("Expected property String " +
                    "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                    "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
@@ -223,7 +223,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected property String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                         "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
@@ -250,7 +250,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -275,7 +275,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
         }
         
@@ -297,7 +297,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -318,7 +318,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         #endregion
@@ -343,7 +343,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -364,7 +364,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
         }
 
@@ -412,7 +412,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -434,7 +434,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property ReadWriteProperty not to have a setter because we want to test the error message.");
         }
 
@@ -456,7 +456,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property WriteOnlyProperty not to have a setter because we want to test the error message.");
         }
 
@@ -483,7 +483,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property ReadOnlyProperty not to have a getter because we want to test the error message.");
         }
 
@@ -506,7 +506,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected property ReadWriteProperty not to have a getter because we want to test the error message.");
         }
 
@@ -528,7 +528,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         #endregion
@@ -553,7 +553,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -573,7 +573,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected method get_WritePrivateReadProperty to be Public because we want to test the error message, but it is Private.");
         }
 
@@ -599,7 +599,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -620,7 +620,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
         }
 
@@ -646,7 +646,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
                              "message, but it is System.String.");
         }
@@ -693,7 +693,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -713,7 +713,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
                              "message, but it is System.String.");
         }
@@ -738,7 +738,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -757,7 +757,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
                              "message, but it is.");
         }
@@ -782,7 +782,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -802,7 +802,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
                              "message, but it is.");
         }

@@ -21,12 +21,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
-                .ShouldThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
@@ -43,7 +43,7 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
-                .ShouldThrowExactly<ArgumentNullException>();
+                .Should().ThrowExactly<ArgumentNullException>();
         }
 
         [Fact]
@@ -59,12 +59,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldThrow<ArgumentException>();
+                .Should().Throw<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -80,12 +80,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.SucceedAsync())
-                .ShouldThrow<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but no exception was thrown*");
         }
 
@@ -102,12 +102,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldThrow<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
         }
 
@@ -124,12 +124,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.SucceedAsync())
-                .ShouldNotThrow();
+                .Should().NotThrow();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -145,12 +145,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldNotThrow();
+                .Should().NotThrow();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
         }
 
@@ -167,12 +167,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldNotThrow<InvalidOperationException>();
+                .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -188,12 +188,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await asyncObject.SucceedAsync())
-                .ShouldNotThrow<InvalidOperationException>();
+                .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -209,12 +209,12 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldNotThrow<ArgumentException>();
+                .Should().NotThrow<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found one*");
         }
 
@@ -233,13 +233,13 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => task
-                .ShouldThrow<AggregateException>()
+                .Should().Throw<AggregateException>()
                 .WithInnerException<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -257,12 +257,12 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => task
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -280,13 +280,13 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => task
-                .ShouldThrow<AggregateException>()
+                .Should().Throw<AggregateException>()
                 .WithInnerException<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage("*InvalidOperation*Argument*");
+            action.Should().Throw<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
 
         [Fact]
@@ -304,12 +304,12 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => task
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage("*InvalidOperation*Argument*");
+            action.Should().Throw<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
     }
 

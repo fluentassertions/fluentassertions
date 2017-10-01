@@ -22,7 +22,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_negative_value_to_be_positive_it_should_fail()
         {
             Action act = () => 1.Seconds().Negate().Should().BePositive();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 1.Seconds().Negate().Should();
             assertions.Invoking(x => x.BePositive("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected positive value because we want to test the failure message, but found -1s");
         }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_positive_value_to_be_negative_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeNegative();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -54,7 +54,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeNegative("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected negative value because we want to test the failure message, but found 1s");
         }
 
@@ -68,7 +68,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_value_to_be_equal_to_different_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().Be(2.Seconds());
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -77,7 +77,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.Be(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Expected 2s because we want to test the failure message, but found 1s.");
         }
 
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs
         {
             var oneSecond = 1.Seconds();
             Action act = () => oneSecond.Should().NotBe(oneSecond);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -102,7 +102,7 @@ namespace FluentAssertions.Specs
             var oneSecond = 1.Seconds();
             var assertions = oneSecond.Should();
             assertions.Invoking(x => x.NotBe(oneSecond, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Did not expect 1s because we want to test the failure message.");
         }
 
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_value_to_be_greater_than_greater_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeGreaterThan(2.Seconds());
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specs
         {
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeGreaterThan(twoSeconds);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Expected a value greater than 2s because we want to test the failure message, but found 1s.");
         }
 
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_value_to_be_greater_or_equal_to_greater_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeGreaterOrEqualTo(2.Seconds());
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -164,7 +164,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Expected a value greater or equal to 2s because we want to test the failure message, but found 1s.");
         }
 
@@ -178,7 +178,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_value_to_be_less_than_smaller_value_it_should_fail()
         {
             Action act = () => 2.Seconds().Should().BeLessThan(1.Seconds());
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -187,7 +187,7 @@ namespace FluentAssertions.Specs
         {
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeLessThan(twoSeconds);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -196,7 +196,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Expected a value less than 1s because we want to test the failure message, but found 2s.");
         }
 
@@ -217,7 +217,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_value_to_be_less_or_equal_to_smaller_value_it_should_fail()
         {
             Action act = () => 2.Seconds().Should().BeLessOrEqualTo(1.Seconds());
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -226,7 +226,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(@"Expected a value less or equal to 1s because we want to test the failure message, but found 2s.");
         }
 
@@ -249,7 +249,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -269,7 +269,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -289,7 +289,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 30.979s.");
         }
@@ -311,7 +311,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 31.021s.");
         }
@@ -333,7 +333,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -353,7 +353,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 
@@ -374,7 +374,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 30.979s.");
         }
@@ -400,7 +400,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 30.980s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 30.980s.");
         }
 
         [Fact]
@@ -420,7 +420,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
         }
 
         [Fact]
@@ -440,7 +440,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
         }
 
         [Fact]
@@ -460,7 +460,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -480,7 +480,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected time to not be within 0.035s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.035s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.035s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.035s.");
         }
 
         [Fact]
@@ -520,7 +520,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 

@@ -32,7 +32,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string because = "", params object[] becauseArgs)
+        public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Exception actualException = InvokeSubjectWithInterception();
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
+        public void NotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
         {
             Exception actualException = InvokeSubjectWithInterception();
             IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
@@ -89,7 +89,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow(string because = "", params object[] becauseArgs)
+        public void NotThrow(string because = "", params object[] becauseArgs)
         {
             try
             {

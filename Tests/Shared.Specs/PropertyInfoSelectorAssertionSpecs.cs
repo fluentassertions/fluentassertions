@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                .WithMessage("Expected all selected properties" +
                    " to be virtual because we want to test the error message," +
                    " but the following properties are not virtual:\r\n" +
@@ -93,7 +93,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                .WithMessage("Expected all selected properties" +
                    " not to be virtual because we want to test the error message," +
                    " but the following properties are virtual*" +
@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -203,7 +203,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
                    " but the following properties are not:\r\n" +
@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -250,7 +250,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -272,7 +272,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties not to be decorated*" +
                    "DummyPropertyAttribute*" +
                    "because we want to test the error message*" +
@@ -298,7 +298,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all selected properties to have a setter because we want to test the error message, " +
                     "but the following properties do not:\r\n" +
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
     }
 

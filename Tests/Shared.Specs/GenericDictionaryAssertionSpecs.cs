@@ -57,7 +57,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be <null> because null is valid, but found {empty}.");
         }
 
@@ -91,7 +91,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to be <null> because someDictionary should not.");
         }
 
@@ -122,7 +122,7 @@ namespace FluentAssertions.Specs
             };
 
             Action act = () => dictionary.Should().HaveCount(4);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -148,7 +148,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to have 4 item(s) because we want to test the failure message, but found 3.");
         }
 
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two], [3, Three]} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
         }
 
@@ -217,7 +217,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
+            act.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare dictionary count against a <null> predicate.");
         }
 
@@ -237,7 +237,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -257,7 +257,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to have (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs
             };
             Action act = () => dictionary.Should().NotHaveCount(3);
 
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("*not have*3*because we want to test the failure message*3*");
         }
 
@@ -332,7 +332,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*not have*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*not have*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -362,7 +362,7 @@ namespace FluentAssertions.Specs
             };
             Action act = () => dictionary.Should().HaveCountGreaterThan(3);
 
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("*more than*3*because we want to test the failure message*3*");
         }
 
@@ -406,7 +406,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -436,7 +436,7 @@ namespace FluentAssertions.Specs
             };
             Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(4);
 
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -460,7 +460,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("*at least*4*because we want to test the failure message*3*");
         }
 
@@ -480,7 +480,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -510,7 +510,7 @@ namespace FluentAssertions.Specs
             };
             Action act = () => dictionary.Should().HaveCountLessThan(3);
 
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -534,7 +534,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("*fewer than*3*because we want to test the failure message*3*");
         }
 
@@ -554,7 +554,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -584,7 +584,7 @@ namespace FluentAssertions.Specs
             };
             Action act = () => dictionary.Should().HaveCountLessOrEqualTo(2);
 
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -608,7 +608,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("*at most*2*because we want to test the failure message*3*");
         }
 
@@ -628,7 +628,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -651,7 +651,7 @@ namespace FluentAssertions.Specs
             };
 
             Action act = () => dictionary.Should().BeEmpty();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -664,7 +664,7 @@ namespace FluentAssertions.Specs
             };
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected dictionary to not have any items because we want to test the failure message, but found 1.");
         }
 
@@ -693,7 +693,7 @@ namespace FluentAssertions.Specs
             var dictionary = new Dictionary<int, string>();
 
             Action act = () => dictionary.Should().NotBeEmpty();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -703,7 +703,7 @@ namespace FluentAssertions.Specs
             var dictionary = new Dictionary<int, string>();
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected one or more items because we want to test the failure message, but found none.");
         }
 
@@ -723,7 +723,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -743,7 +743,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -808,7 +808,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [22, Two]} because we want to test the failure message, but could not find keys {22}.");
         }
 
@@ -838,7 +838,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the failure message, but found additional keys {3}.");
         }
 
@@ -867,7 +867,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Three]} because we want to test the failure message, but {[1, One], [2, Two]} differs at key 2.");
         }
 
@@ -892,7 +892,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -917,7 +917,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare dictionary with <null>.\r\nParameter name: expected");
         }
 
@@ -942,7 +942,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
         }
 
@@ -1005,7 +1005,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal.");
         }
 
@@ -1034,7 +1034,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal because we want to test the failure message.");
         }
 
@@ -1061,7 +1061,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionaries not to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1087,7 +1087,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare dictionary with <null>.\r\nParameter name: unexpected");
         }
 
@@ -1113,7 +1113,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionaries not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
         }
 
@@ -1188,7 +1188,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
         }
 
@@ -1211,7 +1211,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*4*3*.");
+            act.Should().Throw<XunitException>().WithMessage("Expected*4*3*.");
         }
 
         public class MyClass
@@ -1269,7 +1269,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key {2, 3} because we do, but could not find {3}.");
         }
 
@@ -1293,7 +1293,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty sequence");
         }
 
@@ -1317,7 +1317,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<XunitException>();
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
@@ -1340,7 +1340,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<XunitException>();
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
@@ -1363,7 +1363,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Dictionary {[1, One], [2, Two]} should not contain key 1 because we don't like it, but found it anyhow.");
         }
 
@@ -1384,7 +1384,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain key 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1408,7 +1408,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to not contain key {2, 3} because we do, but found {2}.");
         }
 
@@ -1432,7 +1432,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty sequence");
         }
 
@@ -1460,7 +1460,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1482,7 +1482,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1509,7 +1509,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*greater*0*0*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*greater*0*0*");
         }
 
         [Fact]
@@ -1539,7 +1539,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1562,7 +1562,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<XunitException>();
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
@@ -1585,7 +1585,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain value \"Three\" because we do.");
         }
 
@@ -1609,7 +1609,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
         }
 
@@ -1633,7 +1633,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify value containment with an empty sequence");
         }
 
@@ -1657,7 +1657,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<XunitException>();
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
@@ -1680,7 +1680,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Dictionary {[1, One], [2, Two]} should not contain value \"One\" because we don't like it, but found it anyhow.");
         }
 
@@ -1701,7 +1701,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
         }
         
@@ -1725,7 +1725,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<XunitException>();
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
@@ -1748,7 +1748,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
         }
 
@@ -1772,7 +1772,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify value containment with an empty sequence");
         }
 
@@ -1911,7 +1911,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
         }
 
@@ -1941,7 +1941,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
         }
 
@@ -1970,7 +1970,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
         }
 
@@ -2001,7 +2001,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
         }
 
@@ -2030,7 +2030,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
         }
 
@@ -2060,7 +2060,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
         }
 
@@ -2086,7 +2086,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -2111,7 +2111,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty collection of key/value pairs");
         }
 
@@ -2136,7 +2136,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare dictionary with <null>.\r\nParameter name: expected");
         }
 
@@ -2162,7 +2162,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -2187,7 +2187,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty collection of key/value pairs");
         }
 
@@ -2212,7 +2212,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare dictionary with <null>.\r\nParameter name: items");
         }
 
@@ -2314,7 +2314,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
@@ -2344,7 +2344,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
         }
 
@@ -2368,7 +2368,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
@@ -2392,7 +2392,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
         }
 
@@ -2413,7 +2413,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -2472,7 +2472,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -2538,7 +2538,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
         }
 
@@ -2567,7 +2567,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
         }
 
@@ -2591,7 +2591,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
         }
 
@@ -2612,7 +2612,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 

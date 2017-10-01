@@ -27,7 +27,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         #endregion
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -168,7 +168,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         #endregion
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -212,7 +212,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date and time to be <2012-03-11 +1h>*failure message, but found <2012-03-10 +1h>.");
         }
@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -295,7 +295,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected date and time not to be <2012-03-10 +1h> because we want to test the failure message, but it is.");
         }
 
@@ -317,7 +317,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -338,7 +338,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -380,7 +380,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected <2016-03-27 +1h> because we want to test the failure message, but found <null>.");
         }
 
@@ -443,7 +443,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -463,7 +463,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
         }
 
         [Fact]
@@ -483,7 +483,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
         }
 
         [Fact]
@@ -503,7 +503,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -523,7 +523,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
         }
 
         [Fact]
@@ -543,7 +543,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date and time to be within 0.020s from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:30.979 +1H>.");
         }
@@ -565,7 +565,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date and time to be within 0.020s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.021 +1h>.");
         }
@@ -607,7 +607,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date and time to be within 0.035s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.036 +1h>.");
         }
@@ -629,7 +629,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -649,7 +649,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -669,7 +669,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.035s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.035 +1h>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.035s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.035 +1h>.");
         }
 
         [Fact]
@@ -689,7 +689,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 
@@ -710,7 +710,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 
@@ -731,7 +731,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -751,7 +751,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected date and time to not be within 0.100s from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
         }
 
@@ -772,7 +772,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -792,7 +792,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected date and time to not be within 0.100s from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
         }
         #endregion
@@ -815,7 +815,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -835,7 +835,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -856,7 +856,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -877,7 +877,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -898,7 +898,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -919,7 +919,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
         #endregion
 
@@ -941,7 +941,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -961,7 +961,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -981,7 +981,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1001,7 +1001,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1021,7 +1021,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
 
         }
 
@@ -1042,7 +1042,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
 
         }
         #endregion
@@ -1065,7 +1065,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1085,7 +1085,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1105,7 +1105,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1125,7 +1125,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1145,7 +1145,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1165,7 +1165,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
         #endregion
 
@@ -1187,7 +1187,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1207,7 +1207,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1227,7 +1227,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1247,7 +1247,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1267,7 +1267,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time on or after <2016-06-05>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or after <2016-06-05>, but found <2016-06-04>.");
         }
 
         [Fact]
@@ -1287,7 +1287,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
         #endregion
 
@@ -1309,7 +1309,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1329,7 +1329,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected year not to be 2009, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected year not to be 2009, but found it is.");
         }
 
         [Fact]
@@ -1349,7 +1349,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected year to be 2008, but found 2009.");
+            act.Should().Throw<XunitException>().WithMessage("Expected year to be 2008, but found 2009.");
         }
 
         [Fact]
@@ -1369,7 +1369,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1389,7 +1389,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected year to be 2008, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected year to be 2008, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -1409,7 +1409,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected year not to be 2008, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected year not to be 2008, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -1431,7 +1431,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1451,7 +1451,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected month not to be 12, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected month not to be 12, but found it is.");
         }
 
         [Fact]
@@ -1471,7 +1471,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected month to be 11, but found 12.");
+            act.Should().Throw<XunitException>().WithMessage("Expected month to be 11, but found 12.");
         }
 
         [Fact]
@@ -1491,7 +1491,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1511,7 +1511,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected month to be 12, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected month to be 12, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -1531,7 +1531,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected month not to be 12, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected month not to be 12, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -1553,7 +1553,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1573,7 +1573,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected day not to be 31, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected day not to be 31, but found it is.");
         }
 
         [Fact]
@@ -1593,7 +1593,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected day to be 30, but found 31.");
+            act.Should().Throw<XunitException>().WithMessage("Expected day to be 30, but found 31.");
         }
 
         [Fact]
@@ -1613,7 +1613,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1633,7 +1633,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected day to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected day to be 22, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -1653,7 +1653,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected day not to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected day not to be 22, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -1675,7 +1675,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1695,7 +1695,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected hour not to be 23, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected hour not to be 23, but found it is.");
         }
 
         [Fact]
@@ -1715,7 +1715,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected hour to be 22, but found 23.");
+            act.Should().Throw<XunitException>().WithMessage("Expected hour to be 22, but found 23.");
         }
 
         [Fact]
@@ -1735,7 +1735,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1755,7 +1755,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected hour to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected hour to be 22, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -1775,7 +1775,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected hour not to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected hour not to be 22, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -1797,7 +1797,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1817,7 +1817,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected minute not to be 59, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected minute not to be 59, but found it is.");
         }
 
         [Fact]
@@ -1837,7 +1837,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected minute to be 58, but found 59.");
+            act.Should().Throw<XunitException>().WithMessage("Expected minute to be 58, but found 59.");
         }
 
         [Fact]
@@ -1857,7 +1857,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1877,7 +1877,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected minute to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected minute to be 22, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -1897,7 +1897,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected minute not to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected minute not to be 22, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -1919,7 +1919,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1939,7 +1939,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected second not to be 0, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected second not to be 0, but found it is.");
         }
 
         [Fact]
@@ -1959,7 +1959,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected second to be 1, but found 0.");
+            act.Should().Throw<XunitException>().WithMessage("Expected second to be 1, but found 0.");
         }
 
         [Fact]
@@ -1979,7 +1979,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1999,7 +1999,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected second to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected second to be 22, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -2019,7 +2019,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected second not to be 22, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected second not to be 22, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -2041,7 +2041,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2061,7 +2061,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected offset not to be 7h, but found it is.");
+            act.Should().Throw<XunitException>().WithMessage("Expected offset not to be 7h, but found it is.");
         }
 
         [Fact]
@@ -2081,7 +2081,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected offset to be 3h, but found 0.");
+            act.Should().Throw<XunitException>().WithMessage("Expected offset to be 3h, but found 0.");
         }
 
         [Fact]
@@ -2101,7 +2101,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2121,7 +2121,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected offset to be 3h, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected offset to be 3h, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -2141,7 +2141,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected offset not to be 3h, but found a <null> DateTimeOffset.");
+            act.Should().Throw<XunitException>().WithMessage("Expected offset not to be 3h, but found a <null> DateTimeOffset.");
         }
         #endregion
 
@@ -2163,7 +2163,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2183,7 +2183,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
         }
 
         [Fact]
@@ -2203,7 +2203,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2223,7 +2223,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+            act.Should().Throw<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
         }
 
         [Fact]
@@ -2243,7 +2243,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected a date and time with date <2009-12-31>, but found a <null> DateTimeOffset.");
         }
 
@@ -2264,7 +2264,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected a date and time that does not have date <2009-12-31>, but found a <null> DateTimeOffset.");
         }
 
@@ -2285,7 +2285,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected a date and time with date <2009-12-30>, but found <2009-12-31>.");
         }
 
@@ -2306,7 +2306,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
         #endregion
 
@@ -2328,7 +2328,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected date and/or time <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it differs 1d.");
         }
 
@@ -2364,7 +2364,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected date and/or time <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it differs 23h.");
         }
 
@@ -2401,7 +2401,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected date and/or time <12:36:00> to be exactly 20m before <12:55:00> because 20 minutes is enough, but it differs 19m.");
         }
 
@@ -2438,7 +2438,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected date and/or time <2010-04-08 09:59:59> to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but it differs 2d, 2h and 1s.");
         }
 
@@ -2518,7 +2518,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected date and/or time <12:01:00 +1h> to be less than 30s after <12:00:30 +1h> because 30s is the max, but it differs 30s.");
         }
 
@@ -2560,7 +2560,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         #region Be One Of
@@ -2580,7 +2580,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {<2017-01-01 +1h>, <2016-12-31 04:00:00 +1h>}, but found <2016-12-31 +1h>.");
         }
 
@@ -2600,7 +2600,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {<2017-01-01 +1h>, <2017-01-31 +1h>} because it's true, but found <2016-12-31 +1h>.");
         }
 
@@ -2620,7 +2620,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -2639,7 +2639,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {<2216-01-30 00:05:07 +1h>, <2016-02-10 02:45:07 +2h>}, but found <null>.");
         }
 
@@ -2659,7 +2659,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         #endregion

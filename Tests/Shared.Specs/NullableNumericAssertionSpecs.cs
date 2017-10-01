@@ -27,7 +27,7 @@ namespace FluentAssertions.Specs
         {
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().HaveValue();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
         {
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().NotBeNull();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
             int? nullableInteger = 1;
             
             Action act = () => nullableInteger.Should().NotHaveValue();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace FluentAssertions.Specs
             int? nullableInteger = 1;
 
             Action act = () => nullableInteger.Should().BeNull();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because it was not expected, but found 1.");
         }
 
@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
             int? nullableInteger = 1;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
         }
 
@@ -146,7 +146,7 @@ namespace FluentAssertions.Specs
             int? nullableIntegerB = 2;
 
             Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
             int? nullableIntegerB = 2;
             var assertions = nullableIntegerA.Should();
             assertions.Invoking(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 
@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(string.Format(
+            act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
 
@@ -219,7 +219,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to approximate 1.0 +/- {0}, but it differed by*", 0.1));
         }
@@ -240,7 +240,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -260,7 +260,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                 "Expected value*to approximate *{0}* +/- *{1}* but it differed by*", 1, 0.1));
         }
@@ -281,7 +281,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -300,7 +300,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(string.Format(
+            act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected value to approximate*{0}* +/-*{1}*, but it was <null>.", 3.14m, 0.001m));
         }
 
@@ -321,7 +321,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to approximate*{0}* +/-*{1}*, but it differed by*", 1.0m, 0.1m));
         }
@@ -346,7 +346,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -365,7 +365,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(string.Format(
+            act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected value to not approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
 
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to not approximate {0} +/- {1}, but it only differed by*", 3.14, 0.1));
         }
@@ -407,7 +407,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -426,7 +426,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(string.Format(
+            act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected value to not approximate {0}* +/- {1}*, but it was <null>.", 3.14F, 0.001F));
         }
 
@@ -447,7 +447,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                 "Expected value*to not approximate *{0}* +/- *{1}* but it only differed by*", 3.14, 0.1));
         }
@@ -468,7 +468,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -487,7 +487,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(string.Format(
+            act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected value to not approximate*{0}* +/-*{1}*, but it was <null>.", 3.14m, 0.001m));
         }
 
@@ -508,7 +508,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to not approximate*{0}* +/-*{1}*, but it only differed by*", 3.14m, 0.1m));
         }

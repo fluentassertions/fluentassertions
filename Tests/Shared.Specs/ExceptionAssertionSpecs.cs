@@ -14,7 +14,7 @@ namespace FluentAssertions.Specs
     public class ExceptionAssertionSpecs
     {
         [Fact]
-        public void ShouldThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_throw()
+        public void ThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.ShouldThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                a.Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached.");
             }
@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void ShouldThrowExactly_when_subject_throws_expected_exception_it_should_not_do_anything()
+        public void ThrowExactly_when_subject_throws_expected_exception_it_should_not_do_anything()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.ShouldThrowExactly<ArgumentNullException>();
+            a.Should().ThrowExactly<ArgumentNullException>();
         }
 
         #region Outer Exceptions
@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some message"));
 
-            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>().WithMessage("some message");
+            testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>().WithMessage("some message");
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
-                    .ShouldThrow<InvalidOperationException>()
+                    .Should().Throw<InvalidOperationException>()
                     .WithMessage("some message");
 
                 throw new XunitException("This point should not be reached");
@@ -112,7 +112,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
+            action.Should().Throw<InvalidOperationException>()
                 .WithMessage("expected mes*");
         }
 
@@ -130,13 +130,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                 .Invoking(s => s.Do())
-                .ShouldThrow<InvalidOperationException>()
+                .Should().Throw<InvalidOperationException>()
                 .WithMessage("Expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithMessage("Expected exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
+            action.Should().Throw<InvalidOperationException>()
                 .WithMessage("expected mes*");
         }
 
@@ -175,13 +175,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                     .Invoking(s => s.Do())
-                    .ShouldThrow<InvalidOperationException>()
+                    .Should().Throw<InvalidOperationException>()
                     .WithMessage("expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithMessage("Expected exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
@@ -201,7 +201,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do())
-                    .ShouldThrow<InvalidOperationException>()
+                    .Should().Throw<InvalidOperationException>()
                     .WithMessage("message2", "because we want to test the failure {0}", "message");
 
                 throw new XunitException("This point should not be reached");
@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do())
-                    .ShouldThrow<InvalidOperationException>()
+                    .Should().Throw<InvalidOperationException>()
                     .WithMessage("message2");
 
                 throw new XunitException("This point should not be reached");
@@ -264,7 +264,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do("something"))
-                    .ShouldThrow<ArgumentNullException>()
+                    .Should().Throw<ArgumentNullException>()
                     .WithMessage("message2");
 
                 throw new XunitException("This point should not be reached");
@@ -292,7 +292,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>("because {0} should do that", "IFoo.Do");
+                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>("because {0} should do that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached");
             }
@@ -324,7 +324,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
-                    .ShouldThrow<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
+                    .Should().Throw<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached");
             }
@@ -358,7 +358,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do("something"))
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithMessage("message without");
 
                 throw new XunitException("this point should not be reached");
@@ -392,7 +392,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<AggregateException>()
+            act.Should().Throw<AggregateException>()
                 .WithMessage("Outer Message*")
                 .WithInnerException<Exception>()
                 .WithInnerMessage("Inner Message");
@@ -416,7 +416,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             testSubject
                 .Invoking(x => x.Do())
-                .ShouldThrow<Exception>()
+                .Should().Throw<Exception>()
                 .WithInnerException<ArgumentException>();
         }
 
@@ -435,7 +435,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.ShouldThrow<BadImageFormatException>()
+                a.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>();
 
                 throw new XunitException("This point should not be reached.");
@@ -462,7 +462,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.ShouldThrow<BadImageFormatException>()
+            a.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>();
         }
 
@@ -481,7 +481,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.ShouldThrow<BadImageFormatException>()
+                a.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
 
                 throw new XunitException("This point should not be reached.");
@@ -508,7 +508,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.ShouldThrow<BadImageFormatException>()
+            a.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
         }
 
@@ -537,7 +537,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached");
@@ -562,7 +562,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = A.Fake<IFoo>();
                 A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
 
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
+                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
                     .WithInnerException<InvalidOperationException>();
 
                 throw new XunitException("This point should not be reached");
@@ -584,7 +584,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = A.Fake<IFoo>();
                 A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
 
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
+                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
                     .WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached");
@@ -613,7 +613,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithInnerMessage("*xpected messag*");
         }
         
@@ -634,7 +634,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithInnerMessage("expected mes*");
         }
         
@@ -652,13 +652,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                     .Invoking(s => s.Do())
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithInnerMessage("Expected mes*");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
@@ -679,7 +679,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithInnerMessage("expected mes*");
         }
 
@@ -697,13 +697,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                     .Invoking(s => s.Do())
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithInnerMessage("expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action.Should().Throw<Exception>()
                 .WithMessage("Expected inner exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
@@ -721,14 +721,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                     .Invoking(s => s.Do())
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithInnerMessage("Expected message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected message\", but \r\n\"OxpectOd message\" does not*");
         }
 
@@ -750,7 +750,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<Exception>()
+                .Should().Throw<Exception>()
                 .WithInnerMessage("EXPECTED*");
         }
 
@@ -772,7 +772,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<Exception>()
+                .Should().Throw<Exception>()
                 .WithInnerMessage("*ted*mes*");
         }
 
@@ -792,7 +792,7 @@ namespace FluentAssertions.Specs
             {
                 testSubject
                     .Invoking(x => x.Do())
-                    .ShouldThrow<Exception>()
+                    .Should().Throw<Exception>()
                     .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached");
@@ -829,7 +829,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
+            act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
         }
 
         [Fact]
@@ -841,7 +841,7 @@ namespace FluentAssertions.Specs
 
             testSubject
                 .Invoking(x => x.Do())
-                .ShouldThrow<InvalidOperationException>()
+                .Should().Throw<InvalidOperationException>()
                 .WithInnerMessage("inner message")
                 .WithInnerException<ArgumentException>()
                 .WithInnerMessage("inner message");
@@ -858,7 +858,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Enumerating().ShouldThrow<Exception>();
+            act.Enumerating().Should().Throw<Exception>();
         }
 
         private static IEnumerable<char> MethodThatUsesYield(string bar)
@@ -888,7 +888,7 @@ namespace FluentAssertions.Specs
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
                 act
-                    .ShouldThrow<ArgumentException>("")
+                    .Should().Throw<ArgumentException>("")
                     .Where(e => e.Message.Length > 0, "an exception must have a message");
 
                 throw new XunitException("This point should not be reached");
@@ -917,7 +917,7 @@ namespace FluentAssertions.Specs
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
                 act
-                    .ShouldThrow<ArgumentException>("")
+                    .Should().Throw<ArgumentException>("")
                     .Where(e => e.Message.Length > 0)
                     .Where(e => e.Message == "Error");
 
@@ -951,7 +951,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .Where(e => e.Message.Length == 0);
         }
 
@@ -971,12 +971,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => throwingMethod.ShouldThrow<Exception>().And.Message.Should();
+            Action action = () => throwingMethod.Should().Throw<Exception>().And.Message.Should();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>();
+            action.Should().Throw<Exception>();
         }
 
         [Fact]
@@ -991,12 +991,12 @@ namespace FluentAssertions.Specs
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => throwException.ShouldThrow<NullReferenceException>();
+                () => throwException.Should().Throw<NullReferenceException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     string.Format("*System.NullReferenceException*{0}*",
                         typeof (ExceptionWithEmptyToString)));
@@ -1019,13 +1019,13 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => foo.Invoking(f => f.Do()).ShouldNotThrow<ArgumentException>("we passed valid arguments");
+                () => foo.Invoking(f => f.Do()).Should().NotThrow<ArgumentException>("we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>().WithMessage(
+                .Should().Throw<XunitException>().WithMessage(
                     "Did not expect System.ArgumentException because we passed valid arguments, " +
                         "but found*with message \"An exception was forced\"*");
         }
@@ -1042,7 +1042,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            foo.Invoking(f => f.Do()).ShouldNotThrow<InvalidOperationException>();
+            foo.Invoking(f => f.Do()).Should().NotThrow<InvalidOperationException>();
         }
 
         [Fact]
@@ -1057,13 +1057,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => foo.Invoking(f => f.Do()).ShouldNotThrow("we passed valid arguments");
+            Action action = () => foo.Invoking(f => f.Do()).Should().NotThrow("we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<XunitException>().WithMessage(
+                .Should().Throw<XunitException>().WithMessage(
                     "Did not expect any exception because we passed valid arguments, " +
                         "but found System.ArgumentException with message \"An exception was forced\"*");
         }
@@ -1079,7 +1079,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            foo.Invoking(f => f.Do()).ShouldNotThrow();
+            foo.Invoking(f => f.Do()).Should().NotThrow();
         }
     }
 

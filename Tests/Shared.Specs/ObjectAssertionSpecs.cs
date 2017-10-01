@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected object to be ClassWithCustomEqualMethod(2), but found ClassWithCustomEqualMethod(1).");
         }
 
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected object to be ClassWithCustomEqualMethod(2), but found <null>.");
         }
 
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected object to be ClassWithCustomEqualMethod(2) because it should use the reason, but found ClassWithCustomEqualMethod(1).");
         }
@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect object to be equal to ClassWithCustomEqualMethod(1).");
         }
 
@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect object to be equal to ClassWithCustomEqualMethod(1) " +
                 "because we want to test the failure message.");
         }
@@ -184,7 +184,7 @@ namespace FluentAssertions.Specs
         {
             var someObject = new object();
             Action act = () => someObject.Should().BeNull();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -204,7 +204,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(e => e.Message.StartsWith(
                     "Expected object to be <null> because we want to test the failure message, but found System.Object"));
         }
@@ -221,7 +221,7 @@ namespace FluentAssertions.Specs
         {
             object someObject = null;
             Action act = () => someObject.Should().NotBeNull();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -230,7 +230,7 @@ namespace FluentAssertions.Specs
             object someObject = null;
             var assertions = someObject.Should();
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected object not to be <null> because we want to test the failure message.");
         }
 
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -273,7 +273,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -292,7 +292,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is."); 
+            act.Should().Throw<XunitException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is."); 
         }
 
         [Fact]
@@ -332,7 +332,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
+            act.Should().Throw<XunitException>().WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
         }
 
         [Fact]
@@ -351,7 +351,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
         }
 
         [Fact]
@@ -370,7 +370,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be System.Int32 because they are of different type, but found System.Object.");
         }
 
@@ -390,7 +390,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be System.Int32, but found <null>.");
         }
 
@@ -420,7 +420,7 @@ namespace FluentAssertions.Specs
                 "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
                 ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
-            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -439,7 +439,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.DummyBaseClass, but found FluentAssertions.Specs.DummyImplementingClass.");
         }
 
@@ -501,7 +501,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
@@ -521,7 +521,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
         }
 
         [Fact]
@@ -578,7 +578,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
@@ -598,7 +598,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -614,7 +614,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -630,7 +630,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IDisposable)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
         }
 
         [Fact]
@@ -681,7 +681,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -697,7 +697,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -713,7 +713,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IDisposable)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -765,7 +765,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*type*TestEnum*Object*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*type*TestEnum*Object*");
         }
 
         [Fact]
@@ -784,7 +784,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("The enum was expected to have flag Three but found One, Two.");
+            act.Should().Throw<XunitException>().WithMessage("The enum was expected to have flag Three but found One, Two.");
         }
 
         [Fact]
@@ -803,7 +803,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*type*OtherEnum*TestEnum*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*type*OtherEnum*TestEnum*");
         }
 
         [Fact]
@@ -836,7 +836,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Did not expect the enum to have flag Two.");
+            act.Should().Throw<XunitException>().WithMessage("Did not expect the enum to have flag Two.");
         }
 
         [Flags]
@@ -896,7 +896,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -920,7 +920,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -943,7 +943,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
                     ex.Message.Contains("marked as serializable"));
@@ -970,7 +970,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
                     ex.Message.Contains("constructor to deserialize"));
@@ -997,7 +997,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
                     ex.Message.Contains("member Name to be"));
@@ -1019,7 +1019,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         internal class UnserializableClass
@@ -1106,7 +1106,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1129,7 +1129,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
                     ex.Message.Contains("Only public types can be processed"));
@@ -1156,7 +1156,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
                     ex.Message.Contains("member Name to be"));
@@ -1219,7 +1219,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1239,7 +1239,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("Ensure that the necessary enum values are present and are marked with EnumMemberAttribute attribute if the type has DataContractAttribute attribute"));
         }
@@ -1265,7 +1265,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
                     ex.Message.Contains("member Name to be"));

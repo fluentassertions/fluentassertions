@@ -522,6 +522,18 @@ namespace FluentAssertions
         {
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
+        
+        [Pure]
+        public static ActionAssertions Should(this Action action)
+        {
+            return new ActionAssertions(action, extractor);
+        }
+        
+        [Pure]
+        public static AsyncFunctionAssertions Should(this Func<Task> action)
+        {
+            return new AsyncFunctionAssertions(action, extractor);
+        }
 
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.

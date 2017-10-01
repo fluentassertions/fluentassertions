@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
             Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace FluentAssertions.Specs
             Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
     }

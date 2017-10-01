@@ -17,7 +17,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException());
 
-            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>();
+            testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>();
         }
 
 
@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs
         {
             var act = new Action(() => { throw new InvalidOperationException("Some exception"); });
 
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
 
@@ -37,9 +37,9 @@ namespace FluentAssertions.Specs
             {
                 IFoo testSubject = A.Fake<IFoo>();
 
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>();
+                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>();
 
-                throw new XunitException("ShouldThrow() dit not throw");
+                throw new XunitException("Should().Throw() dit not throw");
             }
             catch (XunitException ex)
             {
@@ -56,9 +56,9 @@ namespace FluentAssertions.Specs
             {
                 var act = new Action(() => { });
 
-                act.ShouldThrow<Exception>();
+                act.Should().Throw<Exception>();
 
-                throw new XunitException("ShouldThrow() dit not throw");
+                throw new XunitException("Should().Throw() dit not throw");
             }
             catch (XunitException ex)
             {

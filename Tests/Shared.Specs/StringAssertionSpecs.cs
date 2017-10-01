@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because we do, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3.");
         }
 
@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2.");
         }
 
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be <null>, but found \"AB\".");
         }
 
@@ -110,7 +110,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be <null> because we like null, but found \"AB\".");
         }
 
@@ -126,7 +126,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"ABC\", but found <null>.");
         }
 
@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"ABC \" because I say so, but it misses some extra whitespace at the end.");
         }
 
@@ -156,7 +156,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because I say so, but it has unexpected whitespace at the end.");
         }
 
@@ -171,7 +171,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \r\n\"0987654321\", but \r\n\"1234567890\" differs near \"123\" (index 0).");
         }
 
@@ -186,7 +186,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \r\n\"A\\r\\nC\", but \r\n\"A\\r\\nB\" differs near \"B\" (index 3).");
         }
 
@@ -211,7 +211,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be \"ABC\" because we don't like ABC.");
         }
 
@@ -235,7 +235,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be \"\".");
         }
 
@@ -260,7 +260,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be <null>.");
         }
 
@@ -276,7 +276,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be <null> because we don't like null.");
         }
 
@@ -300,7 +300,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"}, but found \"abc\".");
         }
 
@@ -320,7 +320,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
         }
 
@@ -340,7 +340,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         #endregion
@@ -363,7 +363,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
 
@@ -383,7 +383,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -402,7 +402,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not.");
         }
 
@@ -422,7 +422,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not.");
         }
 
@@ -446,7 +446,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -466,7 +466,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to match \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello world\" matches.");
         }
@@ -491,7 +491,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to match the equivalent of \r\n\"h*earth!\" " +
                 "because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
@@ -512,7 +512,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -535,7 +535,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -555,7 +555,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello WORLD\" matches.");
         }
@@ -580,7 +580,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldNotThrow();
+          act.Should().NotThrow();
         }
 
         [Fact]
@@ -599,7 +599,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<XunitException>()
+          act.Should().Throw<XunitException>()
               .WithMessage("Expected string to match regex \r\n\"h.*\\sworld?$\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
         }
 
@@ -619,7 +619,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<XunitException>()
+          act.Should().Throw<XunitException>()
              .WithMessage("Expected string to match regex \r\n\".*\" because it should be a string, but it was <null>.");
         }
 
@@ -639,7 +639,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<NullReferenceException>()
+          act.Should().Throw<NullReferenceException>()
              .WithMessage("Cannot match string against <null>.");
         }
 
@@ -660,7 +660,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<ArgumentException>()
+          act.Should().Throw<ArgumentException>()
              .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.");
         }
 
@@ -684,7 +684,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldNotThrow();
+          act.Should().NotThrow();
         }
 
         [Fact]
@@ -703,7 +703,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<XunitException>()
+          act.Should().Throw<XunitException>()
               .WithMessage("Did not expect string to match regex \r\n\".*world.*\" because that's illegal, but \r\n\"hello world!\" matches.");
         }
 
@@ -723,7 +723,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<XunitException>()
+          act.Should().Throw<XunitException>()
              .WithMessage("Expected string to not match regex \r\n\".*\" because it should not be a string, but it was <null>.");
         }
 
@@ -743,7 +743,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<NullReferenceException>()
+          act.Should().Throw<NullReferenceException>()
              .WithMessage("Cannot match string against <null>.");
         }
 
@@ -764,7 +764,7 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<ArgumentException>()
+          act.Should().Throw<ArgumentException>()
              .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.");
         }
 
@@ -789,7 +789,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -803,7 +803,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with \"ABB\" because it should start," +
                     " but \"ABC\" differs near \"C\" (index 2).");
         }
@@ -819,7 +819,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with " +
                     "\r\n\"ABCDDFGHI\" because it should start, but " +
                         "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
@@ -836,7 +836,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
+            act.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare start of string with <null>.");
         }
 
@@ -851,7 +851,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.");
         }
 
@@ -866,7 +866,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with \"ABCDEF\", but \"ABC\" is too short.");
         }
 
@@ -882,7 +882,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with \"ABC\", but found <null>.");
         }
 
@@ -907,7 +907,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -927,7 +927,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage(
+            action.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not start with \"AB\" because of some reason, but found \"ABC\".");
         }
 
@@ -948,7 +948,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<NullReferenceException>().WithMessage(
+            action.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare start of string with <null>.");
         }
 
@@ -969,7 +969,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<ArgumentException>().WithMessage(
+            action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.");
         }
 
@@ -985,7 +985,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not start with \"ABC\", but found <null>.");
         }
 
@@ -1010,7 +1010,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string \"ABC\" to end with \"AB\" because it should.");
         }
 
@@ -1025,7 +1025,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
+            act.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare string end with <null>.");
         }
 
@@ -1040,7 +1040,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare string end with empty string.");
         }
 
@@ -1055,7 +1055,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to end with " +
                     "\"00ABC\", but " +
                         "\"ABC\" is too short.");
@@ -1073,7 +1073,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string <null> to end with \"ABC\".");
         }
 
@@ -1098,7 +1098,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -1118,7 +1118,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage(
+            action.Should().Throw<XunitException>().WithMessage(
                 "Expected string \"ABC\" not to end with \"BC\" because of some reason.");
         }
 
@@ -1139,7 +1139,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<NullReferenceException>().WithMessage(
+            action.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare end of string with <null>.");
         }
 
@@ -1160,7 +1160,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<ArgumentException>().WithMessage(
+            action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare end of string with empty string.");
         }
 
@@ -1176,7 +1176,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not end with \"ABC\", but found <null>.");
         }
 
@@ -1201,7 +1201,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of \"bc\" because it should start, but \"ABC\" differs near \"ABC\" (index 0).");
         }
 
@@ -1216,7 +1216,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                     "\r\n\"abcddfghi\" because it should start, but " +
                         "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
@@ -1233,7 +1233,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
+            act.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare string start equivalence with <null>.");
         }
 
@@ -1248,7 +1248,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare string start equivalence with empty string.");
         }
 
@@ -1263,7 +1263,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                     "\"abcdef\", but " +
                         "\"ABC\" is too short.");
@@ -1281,7 +1281,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of \"AbC\", but found <null>.");
         }
 
@@ -1306,7 +1306,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -1326,7 +1326,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage(
+            action.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
         }
 
@@ -1347,7 +1347,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<NullReferenceException>().WithMessage(
+            action.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare start of string with <null>.");
         }
 
@@ -1368,7 +1368,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<ArgumentException>().WithMessage(
+            action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.");
         }
 
@@ -1388,7 +1388,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not start with equivalent of \"ABC\", but found <null>.");
         }
 
@@ -1413,7 +1413,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that ends with equivalent of \"ab\" because it should end, but found \"ABC\".");
         }
 
@@ -1428,7 +1428,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
+            act.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare string end equivalence with <null>.");
         }
 
@@ -1443,7 +1443,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare string end equivalence with empty string.");
         }
 
@@ -1458,7 +1458,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to end with equivalent of " +
                     "\"00abc\", but " +
                         "\"ABC\" is too short.");
@@ -1476,7 +1476,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that ends with equivalent of \"abC\", but found <null>.");
         }
 
@@ -1501,7 +1501,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -1521,7 +1521,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>().WithMessage(
+            action.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
         }
 
@@ -1542,7 +1542,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<NullReferenceException>().WithMessage(
+            action.Should().Throw<NullReferenceException>().WithMessage(
                 "Cannot compare end of string with <null>.");
         }
 
@@ -1563,7 +1563,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<ArgumentException>().WithMessage(
+            action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare end of string with empty string.");
         }
 
@@ -1579,7 +1579,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string that does not end with equivalent of \"Abc\", but found <null>.");
         }
 
@@ -1604,7 +1604,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
 
@@ -1620,7 +1620,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
@@ -1636,7 +1636,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.");
         }
 
@@ -1652,7 +1652,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                  "Expected string <null> to contain \"XYZ\" because that is required.");
         }
 
@@ -1677,7 +1677,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
@@ -1692,7 +1692,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
         }
 
@@ -1707,7 +1707,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3.");
         }
 
@@ -1722,7 +1722,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
         }
 
@@ -1738,7 +1738,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                   "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
@@ -1753,7 +1753,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
         }
 
@@ -1768,7 +1768,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
 
@@ -1788,7 +1788,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -1804,7 +1804,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_emptyCollectionMessagePattern);
         }
 
@@ -1827,7 +1827,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1851,7 +1851,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{redUpperCase}*{greenWithWhitespace}*");
         }
 
@@ -1876,7 +1876,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{yellow}*{blue}*");
         }
 
@@ -1905,7 +1905,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{yellow}*{blue}*because {expectedErrorReason}*");
         }
 
@@ -1930,7 +1930,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{blue}*");
         }
 
@@ -1950,7 +1950,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -1966,7 +1966,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_emptyCollectionMessagePattern);
         }
 
@@ -1989,7 +1989,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2011,7 +2011,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2035,7 +2035,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*");
         }
 
@@ -2060,7 +2060,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{redUpperCase}*{greenWithWhitespace}*");
         }
 
@@ -2089,7 +2089,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because {expectedErrorReason}*");
         }
 
@@ -2108,7 +2108,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2122,7 +2122,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string \"abcd\" to contain \"bc\" because it was not expected today.");
         }
 
@@ -2138,7 +2138,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
@@ -2154,7 +2154,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.");
         }
 
@@ -2174,7 +2174,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -2190,7 +2190,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_emptyCollectionMessagePattern);
         }
 
@@ -2214,7 +2214,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*");
         }
 
@@ -2242,7 +2242,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*{expectedErrorReason}*");
         }
 
@@ -2266,7 +2266,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2289,7 +2289,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2312,7 +2312,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -2330,7 +2330,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -2346,7 +2346,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage(_emptyCollectionMessagePattern);
         }
 
@@ -2370,7 +2370,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*{green}*{yellow}*");
         }
 
@@ -2395,7 +2395,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*{green}*");
         }
 
@@ -2423,7 +2423,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*because*{expectedErrorReason}*");
         }
 
@@ -2447,7 +2447,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2470,7 +2470,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion 
@@ -2489,7 +2489,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
         }
 
@@ -2505,7 +2505,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\"");
         }
 
@@ -2521,7 +2521,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\"");
         }
 
@@ -2537,7 +2537,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -2563,7 +2563,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
         }
 
@@ -2579,7 +2579,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
@@ -2595,7 +2595,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.");
         }
 
@@ -2613,7 +2613,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_non_empty_string_to_be_empty()
         {
             Action act = () => "ABC".Should().BeEmpty();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -2622,7 +2622,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = "ABC".Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected empty string because we want to test the failure message, but found \"ABC\".");
         }
 
@@ -2642,7 +2642,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected empty string because strings should never be null, but found <null>.");
         }
 
@@ -2656,7 +2656,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
             Action act = () => "".Should().NotBeEmpty();
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -2665,7 +2665,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = "".Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
@@ -2683,7 +2683,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_string_length_to_be_equal_to_different_value()
         {
             Action act = () => "ABC".Should().HaveLength(1);
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -2692,7 +2692,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = "ABC".Should();
             assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage(
                 "Expected string with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
         }
@@ -2741,7 +2741,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be <null> or empty because a valid string is expected for str, but found \"\".");
         }
 
@@ -2761,7 +2761,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string not to be <null> or empty because a valid string is expected for str, but found <null>.");
         }
 
@@ -2809,7 +2809,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be <null> or empty because it was not initialized yet, but found \"hello\".");
         }
 
@@ -2841,7 +2841,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to be <null> or whitespace, but found \" abc  \".");
         }
 
@@ -2862,7 +2862,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found <null>.");
         }
 
@@ -2878,7 +2878,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"\".");
         }
 
@@ -2894,7 +2894,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"   \".");
         }
 
