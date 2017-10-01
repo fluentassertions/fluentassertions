@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,164 +18,143 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection is ordered in ascending order according to the value of the specified
+        /// Asserts that a collection is ordered in ascending order according to the value of the the specified 
         /// <paramref name="propertyExpression"/>.
         /// </summary>
         /// <param name="propertyExpression">
         /// A lambda expression that references the property that should be used to determine the expected ordering.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
-        {
-            return BeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
-        }
-
-        /// <summary>
-        /// Asserts that a collection is ordered in ascending order according to the value of the specified
-        /// <see cref="IComparer{T}"/> implementation.
-        /// </summary>
-        /// <param name="comparer">
-        /// The object that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
         {
-            return BeInAscendingOrder(item => item, comparer, because, args);
+            return BeOrderedBy(propertyExpression, SortDirection.Ascending, because, args);
         }
 
         /// <summary>
-        /// Asserts that a collection is ordered in ascending order according to the value of the specified
-        /// <paramref name="propertyExpression"/> and <see cref="IComparer{T}"/> implementation.
-        /// </summary>
-        /// <param name="propertyExpression">
-        /// A lambda expression that references the property that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="comparer">
-        /// The object that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
-        {
-            return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, args);
-        }
-
-        /// <summary>
-        /// Asserts that a collection is ordered in descending order according to the value of the specified
+        /// Asserts that a collection is ordered in descending order according to the value of the the specified 
         /// <paramref name="propertyExpression"/>.
         /// </summary>
         /// <param name="propertyExpression">
         /// A lambda expression that references the property that should be used to determine the expected ordering.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
-        {
-            return BeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
-        }
-
-        /// <summary>
-        /// Asserts that a collection is ordered in descending order according to the value of the specified
-        /// <see cref="IComparer{T}"/> implementation.
-        /// </summary>
-        /// <param name="comparer">
-        /// The object that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
         {
-            return BeInDescendingOrder(item => item, comparer, because, args);
+            return BeOrderedBy(propertyExpression, SortDirection.Descending, because, args);
         }
 
-        /// <summary>
-        /// Asserts that a collection is ordered in descending order according to the value of the specified
-        /// <paramref name="propertyExpression"/> and <see cref="IComparer{T}"/> implementation.
-        /// </summary>
-        /// <param name="propertyExpression">
-        /// A lambda expression that references the property that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="comparer">
-        /// The object that should be used to determine the expected ordering.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
+        public AndConstraint<GenericCollectionAssertions<T>> BeEquivalentTo<TSecond>(IEnumerable<TSecond> expected, Action<T, TSecond> byAssertion, string because = "", params object[] becauseArgs)
         {
-            return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, args);
-        }
-
-        private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction, string because, object[] args)
-        {
-            if (comparer == null)
+            if (expected == null)
             {
-                throw new ArgumentNullException("comparer",
-                    "Cannot assert collection ordering without specifying a comparer.");
+                throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
             }
 
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
+
+            List<TSecond> expectedItems = expected.ToList();
+            List<T> actualItems = Subject.ToList();
+
+            bool subjectDoesntHaveMoreItems = Execute.Assertion
+                .ForCondition(actualItems.Count <= expectedItems.Count)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but subject contains too many items.",
+                    actualItems, expectedItems);
+            if (subjectDoesntHaveMoreItems)
+            {
+                bool expectedDoesntHaveMoreItems = Execute.Assertion
+                    .ForCondition(expectedItems.Count <= actualItems.Count)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:collection} {0} to be equivalent to {1}{reason}, but expected collection contains too many items.",
+                        actualItems, expectedItems);
+
+                if (expectedDoesntHaveMoreItems)
+                    AssertSubjectEquality(actualItems, expectedItems, byAssertion, because, becauseArgs);
+            }
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        private void AssertSubjectEquality<TSecond>(List<T> first, List<TSecond> second, Action<T, TSecond> assertEqualityComparison, string because = "", params object[] becauseArgs)
+        {
+            using (var outerScope = new AssertionScope())
+            {
+                List<T> missingItems = new List<T>();
+                foreach (T itemFirst in first)
+                {
+                    using (var innerScope = new AssertionScope())
+                    {
+                        bool found = false;
+                        int index = 0;
+                        foreach (TSecond itemSecond in second)
+                        {
+                            assertEqualityComparison(itemFirst, itemSecond);
+
+                            if (innerScope.Discard().Length == 0) //succeeded
+                            {
+                                found = true;
+                                break;
+                            }
+                            index++;
+                        }
+                        if (found)
+                        {
+                            second.RemoveAt(index);
+                        }
+                        else
+                        {
+                            missingItems.Add(itemFirst);
+                        }
+                    }
+                }
+                outerScope
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(missingItems.Count == 0)
+                    .FailWith("expected items {0} to have equivalent items in expected collection, but found none,{reason}", missingItems);
+            }
+        }
+
+        private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy(
+        Expression<Func<T, object>> propertyExpression, SortDirection direction, string because, object[] args)
+        {
             if (IsValidProperty(propertyExpression, because, args))
             {
                 IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
 
-                Func<T, TSelector> keySelector = propertyExpression.Compile();
+                Func<T, object> keySelector = propertyExpression.Compile();
 
-                IOrderedEnumerable<T> expectation = (direction == SortOrder.Ascending)
-                    ? unordered.OrderBy(keySelector, comparer)
-                    : unordered.OrderByDescending(keySelector, comparer);
-
-                var orderString = propertyExpression.GetMemberPath();
-                orderString = orderString == "\"\"" ? string.Empty : " by " + orderString;
+                IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
+                    ? unordered.OrderBy(keySelector)
+                    : unordered.OrderByDescending(keySelector);
 
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith("Expected collection {0} to be ordered{1}{reason} and result in {2}.",
-                        Subject, orderString, expectation);
+                    .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
+                        Subject, propertyExpression.GetMemberPath(), expectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }
 
-        private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because, object[] args)
+        private bool IsValidProperty(Expression<Func<T, object>> propertyExpression, string because, object[] args)
         {
             if (propertyExpression == null)
             {
@@ -188,6 +167,12 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, args)
                 .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
+        }
+
+        private enum SortDirection
+        {
+            Ascending,
+            Descending
         }
     }
 }
