@@ -1,5 +1,10 @@
 ## AssertionScope
 
+The usual best practice is to, only test a single condition per test case. When you don't, and the first assertion fails, the test engine will not even try to test the other assertions. If any of the assertions after the first fail, you'll be on your own to figure out which one. I often run into this problem when developers combine multiple related tests that test a member using different parameters into one test. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.
+
+When you really need multiple assertions in a single test and you want all of the assertions to be executed even if some fail, there is `AssertionScope`.
+
+
 Take the following example:
 ```csharp
 var scores = new int[0];

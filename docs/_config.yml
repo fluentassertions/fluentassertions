@@ -1,6 +1,6 @@
 title: Fluent Assertions
 repository: fluentassertions/fluentassertions
-description: "\"With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable.\""
+description: The best assertion framework in the .NET realm. "With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable."
 email:
 twitter_username: ddoomen
 github_username:  fluentassertions
