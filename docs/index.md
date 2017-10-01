@@ -3,6 +3,8 @@ layout: default
 ---
 <img src="./images/logo.png" width="250" style="float:right">
 
+The best assertion framework in the .NET realm.  Go to the [examples](examples.md) to see for yourself.
+
 ## Installation
 
 Install with [NuGet](https://www.nuget.org/packages/FluentAssertions/) [![NuGet](https://img.shields.io/nuget/vpre/FluentAssertions.svg)](https://www.nuget.org/packages/FluentAssertions)

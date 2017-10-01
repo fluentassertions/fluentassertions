@@ -3,6 +3,9 @@ title: Examples
 layout: page
 ---
 
+Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test.  This enables, simple intuitive syntax like in the examples below.
+
+
 To verify that a string begins, ends and contains a particular phrase.
 
 ```c#
@@ -42,5 +45,5 @@ someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Messa
 xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
 ```
 
-I've run into quite a few of these scenarios in which this chaining would make the unit test a lot easier to read.
+This chaining can make your unit tests a lot easier to read.
 
