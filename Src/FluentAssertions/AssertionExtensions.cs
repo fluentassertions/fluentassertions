@@ -523,12 +523,20 @@ namespace FluentAssertions
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
         
+        /// <summary>
+        /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
+        /// current <see cref="System.Action"/> .
+        /// </summary>
         [Pure]
         public static ActionAssertions Should(this Action action)
         {
             return new ActionAssertions(action, extractor);
         }
         
+        /// <summary>
+        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
+        /// current <see cref="System.Func{T}"/> .
+        /// </summary>
         [Pure]
         public static AsyncFunctionAssertions Should(this Func<Task> action)
         {
