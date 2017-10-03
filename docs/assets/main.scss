@@ -45,3 +45,10 @@ $fluent-assertions-blue: #00a9ee;
 
 h1 { color: $fluent-assertions-red }
 h2, h3, h4, h5, h6 { color: $fluent-assertions-blue }
+
+.code-table {
+  width: 100%;
+  table-layout: fixed;
+  td { padding-right: 30px; width: 50%}
+  pre.highlight code { white-space: pre-wrap; }
+}
