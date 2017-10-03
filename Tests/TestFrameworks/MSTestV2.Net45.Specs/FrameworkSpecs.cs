@@ -18,7 +18,7 @@ namespace MSTestV2.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Exception exception = act.ShouldThrow<Exception>().Which;
+            Exception exception = act.Should().Throw<Exception>().Which;
             exception.GetType()
                 .FullName.Should()
                 .ContainEquivalentOf("Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException");

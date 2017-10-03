@@ -25,7 +25,7 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Background");
+            act.Should().Throw<XunitException>().WithMessage("Background");
         }
 
         [Fact]
@@ -45,13 +45,13 @@ namespace FluentAssertions.Net40.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => throwingOperation
-                .ShouldThrow<ArgumentException>()
+                .Should().Throw<ArgumentException>()
                 .WithMessage("Something I expected");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*InvalidOperation*You can't do this*")
                 .WithMessage("*NullReferenceException*Found a null*");
         }
@@ -72,12 +72,12 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => throwingOperation.ShouldNotThrow();
+            Action act = () => throwingOperation.Should().NotThrow();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*InvalidOperation*You can't do this*")
                 .WithMessage("*NullReferenceException*Found a null*");
         }

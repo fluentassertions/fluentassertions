@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
 
                 Action act = () => actual.Should().BeEquivalentTo(expected);
 
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
                     .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                     .WhenTypeIs<double>());
 
-                act.ShouldThrow<XunitException>().WithMessage("Expected*");
+                act.Should().Throw<XunitException>().WithMessage("Expected*");
             }
 
             [Fact]
@@ -113,7 +113,7 @@ namespace FluentAssertions.Specs
 
                 Action act = () => actual.Should().BeEquivalentTo(expected);
 
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -149,7 +149,7 @@ namespace FluentAssertions.Specs
                 Action act = () => subject.Should().BeEquivalentTo(expected,
                     options => options.ComparingByValue<IPAddress>());
 
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -292,7 +292,7 @@ namespace FluentAssertions.Specs
             [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
-                WhenAction.ShouldNotThrow();
+                WhenAction.Should().NotThrow();
             }
         }
 

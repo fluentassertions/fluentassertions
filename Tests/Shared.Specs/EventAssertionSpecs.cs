@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<InvalidOperationException>().WithMessage(
+                act.Should().Throw<InvalidOperationException>().WithMessage(
                     "Not monitoring any events named \"NonExistingEvent\".");
             }
         }
@@ -60,7 +60,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<InvalidOperationException>().WithMessage(
+                act.Should().Throw<InvalidOperationException>().WithMessage(
                     "Not monitoring any events named \"NonExistingEvent\".");
             }
         }
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Expected object " + Formatter.ToString(subject) +
                     " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
             }
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -131,7 +131,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>()
+                act.Should().Throw<XunitException>()
                     .WithMessage("Expected object " + Formatter.ToString(subject) +
                                  " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
             }
@@ -154,7 +154,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>()
+                act.Should().Throw<XunitException>()
                     .WithMessage($"Expected sender {Formatter.ToString(subject)}, but found <null>.");
             }
         }
@@ -201,7 +201,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 act
-                    .ShouldThrow<XunitException>()
+                    .Should().Throw<XunitException>()
                     .WithMessage(
                         "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
             }
@@ -256,7 +256,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 act
-                    .ShouldThrow<ArgumentException>()
+                    .Should().Throw<ArgumentException>()
                     .WithMessage("No argument of event PropertyChanged is of type *CancelEventArgs>*");
             }
         }
@@ -282,7 +282,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -384,7 +384,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -410,7 +410,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
             }
         }
@@ -437,7 +437,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument +
                     "\\\")\", but found none.");
             }
@@ -467,7 +467,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -490,7 +490,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -536,7 +536,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Did not expect object " + Formatter.ToString(subject) +
                     " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
             }
@@ -559,7 +559,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Expected object " + Formatter.ToString(subject) +
                     " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
             }
@@ -583,7 +583,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<XunitException>().WithMessage(
+                act.Should().Throw<XunitException>().WithMessage(
                     "Expected object " + Formatter.ToString(subject) +
                     " to raise event \"PropertyChanged\" for property <null>, but it did not.");
             }
@@ -608,7 +608,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.Should().NotThrow();
             }
         }
 
@@ -655,7 +655,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentNullException>().WithMessage("Cannot monitor the events of a <null> object*");
+            act.Should().Throw<ArgumentNullException>().WithMessage("Cannot monitor the events of a <null> object*");
         }
 
         [Fact]
@@ -820,7 +820,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>().WithMessage("*not expose any events*");
+            act.Should().Throw<InvalidOperationException>().WithMessage("*not expose any events*");
         }
 
         [Fact]
@@ -840,7 +840,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                action.ShouldThrow<InvalidOperationException>()
+                action.Should().Throw<InvalidOperationException>()
                     .WithMessage("Not monitoring any events named \"SomeEvent\".");
             }
         }
@@ -897,7 +897,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                action.ShouldThrow<InvalidOperationException>()
+                action.Should().Throw<InvalidOperationException>()
                     .WithMessage("Not monitoring any events named \"PropertyChanged\".");
             }
         }

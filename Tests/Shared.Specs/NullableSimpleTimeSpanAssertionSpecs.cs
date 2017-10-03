@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
 
         }
 
@@ -73,7 +73,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -90,7 +90,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -138,7 +138,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
@@ -190,7 +190,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<XunitException>()
+                .Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
@@ -211,7 +211,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
+            action.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -234,7 +234,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected 1s because we want to test the failure message, but found <null>.");
         }
@@ -256,7 +256,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -276,7 +276,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
