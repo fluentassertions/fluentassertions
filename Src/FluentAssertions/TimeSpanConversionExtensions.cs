@@ -29,7 +29,15 @@ namespace FluentAssertions
         {
             return TimeSpan.FromTicks(ticks);
         }
-        
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of ticks.
+        /// </summary>
+        public static TimeSpan Ticks(this long ticks)
+        {
+            return TimeSpan.FromTicks(ticks);
+        }
+
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds.
         /// </summary>
@@ -39,9 +47,25 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds.
+        /// </summary>
+        public static TimeSpan Milliseconds(this double milliseconds)
+        {
+            return TimeSpan.FromMilliseconds(milliseconds);
+        }
+
+        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of seconds.
         /// </summary>
         public static TimeSpan Seconds(this int seconds)
+        {
+            return TimeSpan.FromSeconds(seconds);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of seconds.
+        /// </summary>
+        public static TimeSpan Seconds(this double seconds)
         {
             return TimeSpan.FromSeconds(seconds);
         }
@@ -64,6 +88,14 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of minutes.
+        /// </summary>
+        public static TimeSpan Minutes(this double minutes)
+        {
+            return TimeSpan.FromMinutes(minutes);
+        }
+
+        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of minutes, and add the specified
         /// <paramref name="offset"/>.
         /// </summary>
@@ -81,6 +113,14 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of hours.
+        /// </summary>
+        public static TimeSpan Hours(this double hours)
+        {
+            return TimeSpan.FromHours(hours);
+        }
+
+        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of hours, and add the specified
         /// <paramref name="offset"/>.
         /// </summary>
@@ -93,6 +133,14 @@ namespace FluentAssertions
         /// Returns a <see cref="TimeSpan" /> based on a number of days.
         /// </summary>
         public static TimeSpan Days(this int days)
+        {
+            return TimeSpan.FromDays(days);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of days.
+        /// </summary>
+        public static TimeSpan Days(this double days)
         {
             return TimeSpan.FromDays(days);
         }
