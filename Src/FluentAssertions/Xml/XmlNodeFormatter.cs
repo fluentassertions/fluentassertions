@@ -14,7 +14,8 @@ namespace FluentAssertions.Xml
             return value is XmlNode;
         }
 
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        /// <inheritdoc />
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             string outerXml = ((XmlNode)value).OuterXml;
 

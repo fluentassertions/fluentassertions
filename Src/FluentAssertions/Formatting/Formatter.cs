@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Equivalency;
+using FluentAssertions.Xml;
 
 namespace FluentAssertions.Formatting
 {
@@ -10,12 +13,14 @@ namespace FluentAssertions.Formatting
     {
         #region Private Definitions
 
+        private const int MaxDepth = 15;
+
         private static readonly List<IValueFormatter> customFormatters = new List<IValueFormatter>();
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
 #if NET45 || NETSTANDARD2_0
-            new Xml.XmlNodeFormatter(),
+            new XmlNodeFormatter(),
 #endif
             new AttributeBasedFormatter(),
             new AggregateExceptionValueFormatter(),
@@ -42,48 +47,95 @@ namespace FluentAssertions.Formatting
             new ExpressionValueFormatter(),
             new ExceptionValueFormatter(),
             new EnumerableValueFormatter(),
-            new DefaultValueFormatter(),
+            new DefaultValueFormatter()
         };
 
-#endregion
+        /// <summary>
+        /// Is used to detect recursive calls by <see cref="IValueFormatter"/> implementations.
+        /// </summary>
+        [ThreadStatic]
+        private static bool isRentry;
+
+        #endregion
 
         /// <summary>
         /// A list of objects responsible for formatting the objects represented by placeholders.
         /// </summary>
-        public static IEnumerable<IValueFormatter> Formatters
-        {
-            get { return customFormatters.Concat(defaultFormatters); }
-        }
+        public static IEnumerable<IValueFormatter> Formatters => customFormatters.Concat(defaultFormatters);
 
         /// <summary>
         /// Returns a human-readable representation of a particular object.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="nestedPropertyLevel">
-        ///     The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        ///     no <see cref="object.ToString()"/> override.
-        /// </param>
         /// <param name="useLineBreaks">
         /// Indicates whether the formatter should use line breaks when the specific <see cref="IValueFormatter"/> supports it.
         /// </param>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, bool useLineBreaks = false, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public static string ToString(object value, bool useLineBreaks = false)
         {
-            if (processedObjects == null)
+            try
             {
-                processedObjects = new List<object>();
-            }
+                if (isRentry)
+                {
+                    throw new InvalidOperationException(
+                        $"Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children");
+                }
+                
+                isRentry = true;
+                
+                var graph = new ObjectGraph(value);
 
-            const int MaxDepth = 15;
-            if (nestedPropertyLevel > MaxDepth)
+                return Format(value, new FormattingContext
+                {
+                    Depth = graph.Depth,
+                    UseLineBreaks = useLineBreaks
+                }, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
+
+            }
+            finally
             {
-                return "{Maximum recursion depth was reached...}";
+                isRentry = false;
             }
+        }
 
+        private static string FormatChild(string path, object childValue, bool useLineBreaks, ObjectGraph graph)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(path))
+                {
+                    throw new ArgumentNullException(nameof(path), "Formatting a child value requires a path");
+                }
+
+                if (!graph.TryPush(path, childValue))
+                {
+                    return $"{{Cyclic reference to type {childValue.GetType()} detected}}";
+                }
+                else if (graph.Depth > MaxDepth)
+                {
+                    return "{Maximum recursion depth was reached...}";
+                }
+                else
+                {
+                    return Format(childValue, new FormattingContext
+                    {
+                        Depth = graph.Depth,
+                        UseLineBreaks = useLineBreaks
+                    }, (x, y) => FormatChild(x, y, useLineBreaks, graph));
+                }
+            }
+            finally
+            {
+                graph.Pop();
+            }
+        }
+
+        private static string Format(object value, FormattingContext context, FormatChild formatChild)
+        {
             IValueFormatter firstFormatterThatCanHandleValue = Formatters.First(f => f.CanHandle(value));
-            return firstFormatterThatCanHandleValue.ToString(value, useLineBreaks, processedObjects, nestedPropertyLevel);
+            return firstFormatterThatCanHandleValue.Format(value, context, formatChild);
         }
 
         /// <summary>
@@ -96,7 +148,7 @@ namespace FluentAssertions.Formatting
                 customFormatters.Remove(formatter);
             }
         }
-        
+
         /// <summary>
         /// Ensures a custom formatter is included in the chain, just before the default formatter is executed.
         /// </summary>
@@ -107,5 +159,42 @@ namespace FluentAssertions.Formatting
                 customFormatters.Insert(0, formatter);
             }
         }
+
+        /// <summary>
+        /// Tracks the objects that were formatted as well as the path in the object graph of 
+        /// that object.
+        /// </summary>
+        /// <remarks>
+        /// Is used to detect the maximum recursion depth as well as cyclic references in the graph.
+        /// </remarks>
+        private class ObjectGraph
+        {
+            private readonly CyclicReferenceDetector tracker;
+            private readonly Stack<string> pathStack;
+
+            public ObjectGraph(object rootObject)
+            {
+                tracker = new CyclicReferenceDetector(CyclicReferenceHandling.Ignore);
+                pathStack = new Stack<string>();
+                TryPush("root", rootObject);
+            }
+
+            public bool TryPush(string path, object value)
+            {
+                pathStack.Push(path);
+
+                return !tracker.IsCyclicReference(new ObjectReference(value, FullPath));
+            }
+
+            private string FullPath => string.Join(".", pathStack.Reverse());
+
+            public void Pop()
+            {
+                pathStack.Pop();
+            }
+
+            public int Depth => (pathStack.Count - 1);
+        }
     }
 }
+

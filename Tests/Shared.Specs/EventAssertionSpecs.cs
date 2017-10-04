@@ -680,7 +680,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NETCOREAPP1_1 && DEBUG
+#if NETCOREAPP2_0 && DEBUG
 # warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
 #else
         [Fact]

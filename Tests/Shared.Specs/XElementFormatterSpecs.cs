@@ -20,7 +20,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var element = XElement.Parse(@"<person name=""Martin"" age=""36"" />");
-            string result = formatter.ToString(element, false);
+            string result = formatter.Format(element, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs
                       <child name=""Laura"" />
                   </person>");
 
-            string result = formatter.ToString(element, false);
+            string result = formatter.Format(element, new FormattingContext(), null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
