@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -665,6 +666,44 @@ namespace FluentAssertions.Specs
             result.Should().Be("12M");
         }
 
+        [Fact]
+        public void When_formatting_a_pending_task_it_should_return_the_task_status()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Task<int> bar = Task.Delay(100000).ContinueWith(_ => 42);
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(bar);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Be("System.Threading.Tasks.ContinuationResultTaskFromTask`1[System.Int32] {Status=WaitingForActivation}"); 
+        }
+
+        [Fact]
+        public void When_formatting_a_completion_source_it_should_include_the_underlying_task()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var completionSource = new TaskCompletionSource<int>();
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(completionSource);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Match("*TaskCompletionSource*Task*System.Int32*Status=WaitingForActivation*"); 
+        }
+        
         public class BaseStuff
         {
             public int StuffId { get; set; }

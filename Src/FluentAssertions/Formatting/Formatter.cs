@@ -44,6 +44,7 @@ namespace FluentAssertions.Formatting
             new UInt16ValueFormatter(),
             new SByteValueFormatter(),
             new StringValueFormatter(),
+            new TaskFormatter(),
             new ExpressionValueFormatter(),
             new ExceptionValueFormatter(),
             new EnumerableValueFormatter(),
