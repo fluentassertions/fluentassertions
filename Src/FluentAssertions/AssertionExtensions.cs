@@ -53,9 +53,9 @@ namespace FluentAssertions
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
-        public static MemberExecutionTimeAssertions<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
+        public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
         {
-            return new MemberExecutionTimeAssertions<T>(subject, action);
+            return new MemberExecutionTime<T>(subject, action);
         }
 
         /// <summary>
@@ -66,11 +66,20 @@ namespace FluentAssertions
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
-        public static ExecutionTimeAssertions ExecutionTime(this Action action)
+        public static ExecutionTime ExecutionTime(this Action action)
         {
-            return new ExecutionTimeAssertions(action);
+            return new ExecutionTime(action);
         }
 
+        /// <summary>
+        /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
+        /// current <see cref="ExecutionTime"/>.
+        /// </summary>
+        [Pure]
+        public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
+        {
+            return new ExecutionTimeAssertions(executionTime);
+        }
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the

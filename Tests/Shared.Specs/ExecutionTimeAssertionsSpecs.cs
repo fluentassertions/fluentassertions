@@ -3,15 +3,13 @@ using System.Threading;
 using Xunit;
 using Xunit.Sdk;
 
-
-
 namespace FluentAssertions.Specs
 {
-    
     public class ExecutionTimeAssertionsSpecs
     {
+        #region BeLessOrEqualTo
         [Fact]
-        public void When_the_execution_time_of_a_member_exceeds_the_maximum_it_should_throw()
+        public void When_the_execution_time_of_a_member_is_not_less_or_equal_to_a_limit_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -21,7 +19,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(610)).ShouldNotExceed(500.Milliseconds(), "we like speed");
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(610)).Should().BeLessOrEqualTo(500.Milliseconds(),
+                "we like speed");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -29,11 +28,11 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().Match(
-                    "Execution of (s.Sleep(610)) should not exceed 0.500s because we like speed, but it required*");
+                    "Execution of (s.Sleep(610)) should be less or equal to 0.500s because we like speed, but it required*");
         }
 
         [Fact]
-        public void When_the_execution_time_of_a_meber_stays_within_the_maximum_it_should_not_throw()
+        public void When_the_execution_time_of_a_member_is_less_or_equal_to_a_limit_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -43,7 +42,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(0)).ShouldNotExceed(500.Milliseconds());
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(0)).Should().BeLessOrEqualTo(500.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -52,7 +51,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_exceeds_the_maximum_it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_less_or_equal_to_a_limit_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -63,7 +62,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().ShouldNotExceed(100.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeLessOrEqualTo(100.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -71,11 +70,11 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().StartWith(
-                    "Execution of the action should not exceed 0.100s, but it required");
+                    "Execution of the action should be less or equal to 0.100s, but it required");
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_stays_within_the_limits_it_should_not_throw()
+        public void When_the_execution_time_of_an_action_is_less_or_equal_to_a_limit_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -83,11 +82,54 @@ namespace FluentAssertions.Specs
 
             Action someAction = () => Thread.Sleep(100);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeLessOrEqualTo(1.Seconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        #endregion
+
+        #region BeLessThan
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_not_less_than_a_limit_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().ShouldNotExceed(1.Seconds());
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(610)).Should().BeLessThan(500.Milliseconds(),
+                "we like speed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().Match(
+                    "Execution of (s.Sleep(610)) should be less than 0.500s because we like speed, but it required*");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_less_than_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(0)).Should().BeLessThan(500.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -95,13 +137,318 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_not_less_than_a_limit__it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(510);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(100.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be less than 0.100s, but it required");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_less_than_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(1.Seconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        #endregion
+
+        #region BeGreaterOrEqualTo
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_not_greater_or_equal_to_a_limit_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeGreaterOrEqualTo(500.Milliseconds(),
+                "we like speed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().Match(
+                    "Execution of (s.Sleep(200)) should be greater or equal to 0.500s because we like speed, but it required*");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_greater_or_equal_to_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(100)).Should().BeGreaterOrEqualTo(50.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_not_greater_or_equal_to_a_limit_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(200);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterOrEqualTo(300.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be greater or equal to 0.300s, but it required");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_greater_or_equal_to_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterOrEqualTo(50.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        #endregion
+
+        #region BeGreaterThan
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_not_greater_than_a_limit_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeGreaterThan(500.Milliseconds(),
+                "we like speed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().Match(
+                    "Execution of (s.Sleep(200)) should be greater than 0.500s because we like speed, but it required*");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_greater_than_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeGreaterThan(100.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_not_greater_than_a_limit__it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterThan(300.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be greater than 0.300s, but it required");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_greater_than_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(200);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        #endregion
+
+        #region BeCloseTo
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_not_close_to_a_limit_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(560)).Should().BeCloseTo(500.Milliseconds(),
+                50.Milliseconds(),
+                "we like speed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().Match(
+                    "Execution of (s.Sleep(560)) should be within 0.050s from 0.500s because we like speed, but it required*");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_a_member_is_close_to_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SleepingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(510)).Should().BeCloseTo(500.Milliseconds(),
+                50.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_not_close_to_a_limit__it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(560);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(500.Milliseconds(), 50.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be within 0.050s from 0.500s, but it required");
+        }
+
+        [Fact]
+        public void When_the_execution_time_of_an_action_is_close_to_a_limit_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action someAction = () => Thread.Sleep(510);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(500.Milliseconds(), 50.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        #endregion
+
         internal class SleepingClass
         {
             public void Sleep(int milliseconds)
             {
-
                 Thread.Sleep(milliseconds);
-
             }
         }
     }
