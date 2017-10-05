@@ -394,7 +394,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is not derived from <see cref="System.Type"/> <paramref name="baseType"/>.
         /// </summary>
-        /// <param name="baseType">The Type that should notbe derived from.</param>
+        /// <param name="baseType">The Type that should not be derived from.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>

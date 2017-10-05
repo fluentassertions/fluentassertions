@@ -1560,7 +1560,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             try { actual.Should().NotEqual(expected); }
-            catch { /* we don't care about the exception, we just need to check the enumeratiin count */ }
+            catch { /* we don't care about the exception, we just need to check the enumeration count */ }
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1581,7 +1581,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             try { actual.Should().Equal(expected); }
-            catch { /* we don't care about the exception, we just need to check the enumeratiin count */ }
+            catch { /* we don't care about the exception, we just need to check the enumeration count */ }
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

@@ -88,7 +88,7 @@ namespace FluentAssertions.Equivalency
             AssertionScope.Current.FailWith(
                 "The maximum recursion depth was reached.  " +
                 "The maximum recursion depth limitation prevents stack overflow from " +
-                "occuring when certain types of cycles exist in the object graph " +
+                "occurring when certain types of cycles exist in the object graph " +
                 "or the object graph's depth is very high or infinite.  " +
                 "This limitation may be disabled using the config parameter." +
                 Environment.NewLine + Environment.NewLine +

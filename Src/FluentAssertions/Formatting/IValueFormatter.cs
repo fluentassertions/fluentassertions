@@ -1,7 +1,7 @@
 ﻿namespace FluentAssertions.Formatting
 {
     /// <summary>
-    /// Represents a strategy for formatting an arbitrary value into a human-readable string respresentation.
+    /// Represents a strategy for formatting an arbitrary value into a human-readable string representation.
     /// </summary>
     /// <remarks>
     /// Add custom formatters using <see cref="Formatter.AddFormatter"/>.

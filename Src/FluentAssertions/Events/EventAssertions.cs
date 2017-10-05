@@ -33,7 +33,7 @@ namespace FluentAssertions.Events
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="becauseArgs">refere
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>

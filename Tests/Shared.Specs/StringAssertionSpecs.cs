@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs
         public void When_two_strings_differ_and_one_of_them_is_multiline_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Actt
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => "A\r\nB".Should().Be("A\r\nC");
 
