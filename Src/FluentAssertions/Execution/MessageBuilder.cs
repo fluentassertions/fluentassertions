@@ -78,7 +78,7 @@ namespace FluentAssertions.Execution
             return "";
         }
 
-        // SMELL: looks way too complex just to retain the leading whitepsace
+        // SMELL: looks way too complex just to retain the leading whitespace
         private string EnsurePrefix(string prefix, string text)
         {
             string leadingBlanks = ExtractLeadingBlanksFrom(text);

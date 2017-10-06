@@ -45,8 +45,8 @@ namespace FluentAssertions.Equivalency
         ITraceWriter Tracer { get; set; }
 
         /// <summary>
-        /// Starts a block that scopes an operation that will be writted to the currently configured <see cref="Tracer"/>
-        /// after the returned disposable is dispoed..
+        /// Starts a block that scopes an operation that will be written to the currently configured <see cref="Tracer"/>
+        /// after the returned disposable is disposed..
         /// </summary>
         /// <remarks>
         /// If no tracer has been configured, the call will be ignored.

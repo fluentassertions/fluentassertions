@@ -419,7 +419,7 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().Be(other);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Assertt
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(string.Format(
                 "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",

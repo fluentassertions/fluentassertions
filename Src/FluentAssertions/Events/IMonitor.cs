@@ -41,7 +41,7 @@ namespace FluentAssertions.Events
     }
 
     /// <summary>
-    /// Represents an occurence of a particular event. 
+    /// Represents an occurrence of a particular event. 
     /// </summary>
     public class OccurredEvent
     {

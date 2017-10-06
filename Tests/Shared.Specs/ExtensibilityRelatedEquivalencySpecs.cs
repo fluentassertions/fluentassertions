@@ -388,7 +388,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow(
-                "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
+                "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
         internal class AlwaysFailAssertionRule : IAssertionRule
@@ -437,7 +437,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow(
-                "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
+                "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
         #endregion

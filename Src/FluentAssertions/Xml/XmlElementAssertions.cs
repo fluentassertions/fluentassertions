@@ -8,7 +8,7 @@ using System.Xml;
 namespace FluentAssertions.Xml
 {
     /// <summary>
-    /// Cointains a number of methods to assert that an <see cref="XmlElement"/>
+    /// Contains a number of methods to assert that an <see cref="XmlElement"/>
     /// is in the expected state./>
     /// </summary>
     [DebuggerNonUserCode]
@@ -24,7 +24,7 @@ namespace FluentAssertions.Xml
         { }
 
         /// <summary>
-        /// Asserts taht the current <see cref="XmlElement"/> has the specified
+        /// Asserts that the current <see cref="XmlElement"/> has the specified
         /// <paramref name="expected"/> inner text.
         /// </summary>
         /// <param name="expected">The expected value.</param>

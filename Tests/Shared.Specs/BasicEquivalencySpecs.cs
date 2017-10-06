@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            // DateTime is used as an example because the current implemention
+            // DateTime is used as an example because the current implementation
             // would hit the recursion-depth limit if structural equivalence were attempted.
             var date1 = new
             {
