@@ -938,14 +938,14 @@ public class SomePotentiallyVerySlowClass
       }
     }
 var subject = new SomePotentiallyVerySlowClass();
-subject.ExecutionTimeOf(s => s.ExpensiveMethod()).ShouldNotExceed(500.Milliseconds());
+subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessOrEqualTo(500.Milliseconds());
 ```
 
 Alternatively, to verify the execution time of an arbitrary action, use this syntax:
 
 ```csharp
 Action someAction = () => Thread.Sleep(510);
-someAction.ExecutionTime().ShouldNotExceed(100.Milliseconds());
+someAction.ExecutionTime().Should().BeLessOrEqualTo(100.Milliseconds());
 ```
 
 Since it doesn’t make sense to do something like that in Silverlight, it is only available in the .NET 3.5 and .NET 4.0 versions of Fluent Assertions.
