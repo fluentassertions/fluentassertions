@@ -806,6 +806,24 @@ namespace FluentAssertions.Specs
                     "Expected inner*\r\n\"expected message\"*because IFoo.Do should do just that, but*");
             }
         }
+        
+        [Fact]
+        public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => 
+                throw new ArgumentException("OuterMessage", new InvalidOperationException("InnerMessage"));
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().ThrowExactly<ArgumentException>()
+                .WithInnerExceptionExactly<InvalidOperationException>()
+                .Where(i => i.Message == "InnerMessage");
+        }
 
         #endregion
 
