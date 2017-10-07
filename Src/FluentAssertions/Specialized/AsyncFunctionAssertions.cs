@@ -97,7 +97,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotThrow<TException>(string because = "", params object[] becauseArgs)
+        public void NotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
         {
             try
             {

@@ -92,7 +92,7 @@ namespace FluentAssertions.Specialized
         ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        public ExceptionAssertions<TException> WithInnerException<TInnerException>()
+        public ExceptionAssertions<TException> WithInnerException<TInnerException>() where TInnerException : Exception
         {
             return WithInnerException<TInnerException>(null, null);
         }
@@ -113,7 +113,7 @@ namespace FluentAssertions.Specialized
         /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
         /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string because,
-            params object[] becauseArgs)
+            params object[] becauseArgs) where TInnerException : Exception
         {
             Execute.Assertion
                 .ForCondition(Subject != null)
