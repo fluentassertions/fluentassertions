@@ -168,7 +168,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             MethodInfoSelector methodSelector =
                 new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute))
-                    .ThatArePublicOrInternal;
+                    .ThatArePublicOrInternal();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             MethodInfoSelector methodSelector =
                 new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute))
-                    .ThatArePublicOrInternal;
+                    .ThatArePublicOrInternal();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

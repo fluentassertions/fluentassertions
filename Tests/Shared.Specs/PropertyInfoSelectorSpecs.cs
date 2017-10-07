@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal().ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -148,7 +148,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             IEnumerable<PropertyInfo> properties = type.Properties()
-                .ThatArePublicOrInternal
+                .ThatArePublicOrInternal()
                 .OfType<string>()
                 .ThatAreDecoratedWith<DummyPropertyAttribute>()
                 .ToArray();

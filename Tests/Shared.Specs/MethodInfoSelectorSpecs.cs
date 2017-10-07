@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatArePublicOrInternal;
+            IEnumerable<MethodInfo> methods = type.Methods().ThatArePublicOrInternal();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -147,7 +147,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatReturnVoid.ToArray();
+            IEnumerable<MethodInfo> methods = type.Methods().ThatReturnVoid().ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -166,7 +166,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatDoNotReturnVoid.ToArray();
+            IEnumerable<MethodInfo> methods = type.Methods().ThatDoNotReturnVoid().ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -186,8 +186,8 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             IEnumerable<MethodInfo> methods = type.Methods()
-                .ThatArePublicOrInternal
-                .ThatReturnVoid
+                .ThatArePublicOrInternal()
+                .ThatReturnVoid()
                 .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
