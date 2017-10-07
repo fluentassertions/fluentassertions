@@ -1864,7 +1864,7 @@ namespace FluentAssertions.Specs
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
-            const string blue = "yellow";
+            const string blue = "blue";
             var testString = $"{red} {green}";
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1889,7 +1889,7 @@ namespace FluentAssertions.Specs
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
-            const string blue = "yellow";
+            const string blue = "blue";
             var testString = $"{red} {green}";
 
             const string because = "some {0} reason";
