@@ -193,7 +193,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeGreaterOrEqualTo(500.Milliseconds(),
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(100)).Should().BeGreaterOrEqualTo(1.Seconds(),
                 "we like speed");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -202,7 +202,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().Match(
-                    "Execution of (s.Sleep(200)) should be greater or equal to 0.500s because we like speed, but it required*");
+                    "Execution of (s.Sleep(100)) should be greater or equal to 1s because we like speed, but it required*");
         }
 
         [Fact]
@@ -231,12 +231,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            Action someAction = () => Thread.Sleep(200);
+            Action someAction = () => Thread.Sleep(100);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().Should().BeGreaterOrEqualTo(300.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterOrEqualTo(1.Seconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -244,7 +244,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().StartWith(
-                    "Execution of the action should be greater or equal to 0.300s, but it required");
+                    "Execution of the action should be greater or equal to 1s, but it required");
         }
 
         [Fact]
@@ -280,7 +280,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeGreaterThan(500.Milliseconds(),
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(100)).Should().BeGreaterThan(1.Seconds(),
                 "we like speed");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -289,7 +289,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().Match(
-                    "Execution of (s.Sleep(200)) should be greater than 0.500s because we like speed, but it required*");
+                    "Execution of (s.Sleep(100)) should be greater than 1s because we like speed, but it required*");
         }
 
         [Fact]
@@ -323,7 +323,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().Should().BeGreaterThan(300.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeGreaterThan(1.Seconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -331,7 +331,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().StartWith(
-                    "Execution of the action should be greater than 0.300s, but it required");
+                    "Execution of the action should be greater than 1s, but it required");
         }
 
         [Fact]
@@ -367,7 +367,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(560)).Should().BeCloseTo(500.Milliseconds(),
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeCloseTo(100.Milliseconds(),
                 50.Milliseconds(),
                 "we like speed");
 
@@ -377,7 +377,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().Match(
-                    "Execution of (s.Sleep(560)) should be within 0.050s from 0.500s because we like speed, but it required*");
+                    "Execution of (s.Sleep(200)) should be within 0.050s from 0.100s because we like speed, but it required*");
         }
 
         [Fact]
@@ -391,8 +391,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(510)).Should().BeCloseTo(500.Milliseconds(),
-                50.Milliseconds());
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(210)).Should().BeCloseTo(200.Milliseconds(),
+                150.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -407,12 +407,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            Action someAction = () => Thread.Sleep(560);
+            Action someAction = () => Thread.Sleep(200);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(500.Milliseconds(), 50.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(100.Milliseconds(), 50.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -420,7 +420,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .And.Message.Should().StartWith(
-                    "Execution of the action should be within 0.050s from 0.500s, but it required");
+                    "Execution of the action should be within 0.050s from 0.100s, but it required");
         }
 
         [Fact]
@@ -430,12 +430,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            Action someAction = () => Thread.Sleep(510);
+            Action someAction = () => Thread.Sleep(210);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(500.Milliseconds(), 50.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(200.Milliseconds(), 150.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
