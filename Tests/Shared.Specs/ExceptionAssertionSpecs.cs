@@ -395,7 +395,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<AggregateException>()
                 .WithMessage("Outer Message*")
                 .WithInnerException<Exception>()
-                .WithInnerMessage("Inner Message");
+                .WithMessage("Inner Message");
         }
 
         #endregion
@@ -595,218 +595,7 @@ namespace FluentAssertions.Specs
                     "Expected inner System.InvalidOperationException because IFoo.Do should do that, but the thrown exception has no inner exception.");
             }
         }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_expected_message_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = testSubject.Do;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<Exception>()
-                .WithInnerMessage("*xpected messag*");
-        }
-        
-        [Fact]
-        public void When_subject_throws_inner_exception_with_message_starting_with_expected_message_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = testSubject.Do;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<Exception>()
-                .WithInnerMessage("expected mes*");
-        }
-        
-        [Fact]
-        public void When_subject_throws_inner_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => testSubject
-                    .Invoking(s => s.Do())
-                    .Should().Throw<Exception>()
-                    .WithInnerMessage("Expected mes*");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<Exception>()
-                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("Expected Message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = testSubject.Do;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<Exception>()
-                .WithInnerMessage("expected mes*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => testSubject
-                    .Invoking(s => s.Do())
-                    .Should().Throw<Exception>()
-                    .WithInnerMessage("expected mes");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<Exception>()
-                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_without_an_equivalent_message_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => testSubject
-                    .Invoking(s => s.Do())
-                    .Should().Throw<Exception>()
-                    .WithInnerMessage("Expected message");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected message\", but \r\n\"OxpectOd message\" does not*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_a_matching_message_with_different_casing_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("Expected Message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = testSubject.Do;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action
-                .Should().Throw<Exception>()
-                .WithInnerMessage("EXPECTED*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_a_matching_message_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = testSubject.Do;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action
-                .Should().Throw<Exception>()
-                .WithInnerMessage("*ted*mes*");
-        }
-
-        [Fact]
-        public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            try
-            {
-                testSubject
-                    .Invoking(x => x.Do())
-                    .Should().Throw<Exception>()
-                    .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
-
-                throw new XunitException("This point should not be reached");
-            }
-            catch (XunitException ex)
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Match(
-                    "Expected inner*\r\n\"expected message\"*because IFoo.Do should do just that, but*");
-            }
-        }
-        
+                
         [Fact]
         public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type()
         {
@@ -860,9 +649,8 @@ namespace FluentAssertions.Specs
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<InvalidOperationException>()
-                .WithInnerMessage("inner message")
                 .WithInnerException<ArgumentException>()
-                .WithInnerMessage("inner message");
+                .WithMessage("inner message");
         }
 
         [Fact]
