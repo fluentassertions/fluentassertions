@@ -80,7 +80,7 @@ namespace FluentAssertions
         public static AndConstraint<ObjectAssertions> BeDataContractSerializable(this ObjectAssertions assertions,
             string because = "", params object[] becauseArgs)
         {
-            return BeDataContractSerializable<object>(assertions, because, becauseArgs);
+            return BeDataContractSerializable<object>(assertions, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -95,14 +95,16 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-            string because = "", params object[] becauseArgs)
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
         {
             try
             {
                 var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
 
-                deserializedObject.Should().BeEquivalentTo(assertions.Subject,
-                        options => options.RespectingRuntimeTypes().IncludingFields().IncludingProperties());
+                EquivalencyAssertionOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
+                    .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
+
+                ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
             }
             catch (Exception exc)
             {
