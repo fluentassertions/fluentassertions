@@ -10,7 +10,7 @@
     {
         Action act = () => func();
     
-        act.ShouldThrowExactly<InvalidOperationException>();
+        act.Should().ThrowExactly<InvalidOperationException>();
     }
 
   old-message: |
@@ -33,7 +33,7 @@
   new: |
     Action act = () => func();
     
-    act.ShouldThrowExactly<InvalidOperationException>();
+    act.Should().ThrowExactly<InvalidOperationException>();
 
   old-message: |
     Assert.ThrowsException failed. Threw exception InvalidCastException, but exception ArgumentNullException was expected. 
@@ -64,7 +64,7 @@
     {
         Action act = () => func();
     
-        act.ShouldThrow<InvalidOperationException>();
+        act.Should().Throw<InvalidOperationException>();
     }
 
   old-message: |
@@ -97,7 +97,7 @@
     {
         Action act = () => func();
     
-        act.ShouldThrowExactly<InvalidOperationException>()
+        act.Should().ThrowExactly<InvalidOperationException>()
             .WithMessage(errorMessage);
     }
 

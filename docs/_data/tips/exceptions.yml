@@ -1,14 +1,14 @@
 - old: |
     Action act = () => func();
     
-    act.ShouldThrowExactly<InvalidOperationException>()
+    act.Should().ThrowExactly<InvalidOperationException>()
         .Which.Message.Should().Contain("expectedMessage");
 
   new: |
     Action act = () => func();
     
     // using wildcards
-    act.ShouldThrowExactly<InvalidOperationException>()
+    act.Should().ThrowExactly<InvalidOperationException>()
         .WithMessage("*expectedMessage*");
 
   old-message: |
