@@ -30,25 +30,27 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public string[] SelectClosestMatchFor(object key = null)
         {
-            if (!ContainsSuccessfulSet)
+            if (ContainsSuccessfulSet)
             {
-                KeyValuePair<object, string[]> bestMatch = BestResultSets.Any(r => r.Key.Equals(key))
-                    ? BestResultSets.Single(r => r.Key.Equals(key))
-                    : BestResultSets.First();
-
-                return bestMatch.Value;
+                return new string[0];
             }
 
-            return new string[0];
+            KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();
+
+            KeyValuePair<object, string[]> bestMatch = bestResultSets.FirstOrDefault(r => r.Key.Equals(key));
+
+            if(bestMatch.Equals(default(KeyValuePair<object, string[]>)))
+            {
+                return bestResultSets[0].Value;
+            }
+
+            return bestMatch.Value;
         }
 
-        private KeyValuePair<object, string[]>[] BestResultSets
+        private KeyValuePair<object, string[]>[] GetBestResultSets()
         {
-            get
-            {
-                int fewestFailures = set.Values.Min(r => r.Count());
-                return set.Where(r => r.Value.Count() == fewestFailures).ToArray();
-            }
+            int fewestFailures = set.Values.Min(r => r.Length);
+            return set.Where(r => r.Value.Length == fewestFailures).ToArray();
         }
 
         /// <summary>
