@@ -170,7 +170,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute))
-                .ThatArePublicOrInternal;
+                .ThatArePublicOrInternal();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -239,7 +239,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute))
-                .ThatArePublicOrInternal;
+                .ThatArePublicOrInternal();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

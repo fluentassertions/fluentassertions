@@ -35,18 +35,15 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Only select the properties that have a public or internal getter.
         /// </summary>
-        public PropertyInfoSelector ThatArePublicOrInternal
+        public PropertyInfoSelector ThatArePublicOrInternal()
         {
-            get
+            selectedProperties = selectedProperties.Where(property =>
             {
-                selectedProperties = selectedProperties.Where(property =>
-                {
-                    MethodInfo getter = property.GetGetMethod(true);
-                    return ((getter != null) && (getter.IsPublic || getter.IsAssembly));
-                });
+                MethodInfo getter = property.GetGetMethod(true);
+                return ((getter != null) && (getter.IsPublic || getter.IsAssembly));
+            });
 
-                return this;
-            }
+            return this;
         }
 
         /// <summary>

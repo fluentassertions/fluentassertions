@@ -36,37 +36,28 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Only select the methods that are public or internal.
         /// </summary>
-        public MethodInfoSelector ThatArePublicOrInternal
+        public MethodInfoSelector ThatArePublicOrInternal()
         {
-            get
-            {
-                selectedMethods = selectedMethods.Where(method => method.IsPublic || method.IsAssembly);
-                return this;
-            }
+            selectedMethods = selectedMethods.Where(method => method.IsPublic || method.IsAssembly);
+            return this;
         }
 
         /// <summary>
         /// Only select the methods without a return value
         /// </summary>
-        public MethodInfoSelector ThatReturnVoid
+        public MethodInfoSelector ThatReturnVoid()
         {
-            get
-            {
-                selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof (void));
-                return this;
-            }
+            selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof(void));
+            return this;
         }
 
         /// <summary>
         /// Only select the methods with a return value
         /// </summary>
-        public MethodInfoSelector ThatDoNotReturnVoid
+        public MethodInfoSelector ThatDoNotReturnVoid()
         {
-            get
-            {
-                selectedMethods = selectedMethods.Where(method => method.ReturnType != typeof(void));
-                return this;
-            }
+            selectedMethods = selectedMethods.Where(method => method.ReturnType != typeof(void));
+            return this;
         }
 
         /// <summary>
