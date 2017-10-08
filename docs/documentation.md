@@ -508,7 +508,7 @@ Notice that the example also verifies that the exception has a particular inner 
 Action act = () => subject.Foo(null);
 
 act.ShouldThrow<ArgumentNullException>()
- .And.ParamName.Should().Equal("message");
+ .And.ParamName.Should().Be("message");
 ```
 
 An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method:
