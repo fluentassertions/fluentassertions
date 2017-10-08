@@ -1271,6 +1271,30 @@ namespace FluentAssertions.Specs
                     ex.Message.Contains("member Name to be"));
         }
 
+        [Fact]
+        public void When_a_data_contract_serializable_object_doesnt_restore_an_ignored_property_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DataContractSerializableClassNotRestoringAllProperties
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
+                options => options.Excluding(x => x.Name));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
         public enum Color
         {
             Red = 1,
