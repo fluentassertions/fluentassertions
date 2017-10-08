@@ -17,6 +17,7 @@
     </description>
     <language>en-US</language>
     <licenseUrl>https://github.com/fluentassertions/fluentassertions/blob/master/LICENSE</licenseUrl>
+	<iconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/release-5.0/Src/FluentAssertions.png</iconUrl>
     <projectUrl>http://www.fluentassertions.com</projectUrl>
     <tags>MSTest MSTest2 xUnit xUnit2 NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent netcore netstandard uwp</tags>
     <copyright>Copyright Dennis Doomen 2010-2017</copyright>
