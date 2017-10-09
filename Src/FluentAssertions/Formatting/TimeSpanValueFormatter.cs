@@ -69,10 +69,11 @@ namespace FluentAssertions.Formatting
 
         private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
         {
-            if (timeSpan.Ticks > 0 && timeSpan.Ticks < TimeSpan.TicksPerMillisecond)
+            var ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
+            if (ticks > 0)
             {
-                var microSeconds = timeSpan.Ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
-                fragments.Add(microSeconds.ToString("0.0") + "us");
+                var microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
+                fragments.Add(microSeconds.ToString("0.0") + "µs");
             }
         }
 

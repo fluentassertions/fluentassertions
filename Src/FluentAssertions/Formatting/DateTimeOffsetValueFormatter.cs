@@ -43,8 +43,22 @@ namespace FluentAssertions.Formatting
 
             if (HasTime(dateTime))
             {
-                string format = HasMilliSeconds(dateTime) ? "HH:mm:ss.fff" : "HH:mm:ss";
-                fragments.Add(dateTime.ToString(format));
+                if (HasNanoSeconds(dateTime))
+                {
+                    fragments.Add(dateTime.ToString("HH:mm:ss.fffffff"));
+                }
+                else if (HasMicroSeconds(dateTime))
+                {
+                    fragments.Add(dateTime.ToString("HH:mm:ss.ffffff"));
+                }
+                else if(HasMilliSeconds(dateTime))
+                {
+                    fragments.Add(dateTime.ToString("HH:mm:ss.fff"));
+                }
+                else
+                {
+                    fragments.Add(dateTime.ToString("HH:mm:ss"));
+                }
             }
 
             if (dateTime.Offset > TimeSpan.Zero)
@@ -85,6 +99,16 @@ namespace FluentAssertions.Formatting
         private static bool HasMilliSeconds(DateTimeOffset dateTime)
         {
             return (dateTime.Millisecond > 0);
+        }
+
+        private static bool HasMicroSeconds(DateTimeOffset dateTime)
+        {
+            return (dateTime.Ticks % TimeSpan.FromMilliseconds(1).Ticks) > 0;
+        }
+
+        private static bool HasNanoSeconds(DateTimeOffset dateTime)
+        {
+            return (dateTime.Ticks % (TimeSpan.FromMilliseconds(1).Ticks / 1000)) > 0;
         }
     }
 }

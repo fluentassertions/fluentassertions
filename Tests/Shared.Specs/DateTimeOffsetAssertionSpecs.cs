@@ -793,7 +793,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected date and time to not be within 0.100s from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
+                .WithMessage("Expected date and time to not be within 0.100s from <9999-12-31 23:59:59.9999999>, but found <9999-12-31 23:59:59.9499999>.");
         }
         #endregion
 
