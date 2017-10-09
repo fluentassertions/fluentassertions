@@ -1,5 +1,4 @@
 ﻿using System;
-using FluentAssertions.Common;
 
 namespace FluentAssertions
 {
@@ -23,6 +22,16 @@ namespace FluentAssertions
     public static class TimeSpanConversionExtensions
     {
         /// <summary>
+        /// Represents the number of ticks that are in 1 microsecond.
+        /// </summary>	
+        public const Int64 TicksPerMicrosecond = TimeSpan.TicksPerMillisecond / 1000;
+
+        /// <summary>
+        /// Represents the number of ticks that are in 1 nanosecond.
+        /// </summary>	
+        public const Double TicksPerNanosecond = TicksPerMicrosecond / 1000d;
+
+        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of ticks.
         /// </summary>
         public static TimeSpan Ticks(this int ticks)
@@ -36,6 +45,82 @@ namespace FluentAssertions
         public static TimeSpan Ticks(this long ticks)
         {
             return TimeSpan.FromTicks(ticks);
+        }
+
+        /// <summary>
+        /// Gets the nanoseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
+        /// </summary>
+        /// <returns>the number of microsecond.</returns>
+        public static int Nanosecond(this TimeSpan self)
+        {
+            return (int)((self.Ticks % TicksPerMicrosecond) * (1d / TicksPerNanosecond));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of nanoseconds.
+        /// </summary>
+        /// <remarks>
+        /// .NET's smallest resolutions is 100 nanoseconds. Any nanoseconds passed in
+        /// lower than .NET's resolution will be rounded using the default rounding
+        /// algorithm in Math.Round().
+        /// </remarks>
+        public static TimeSpan Nanoseconds(this int nanoseconds)
+        {
+            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of nanoseconds.
+        /// </summary>
+        /// <remarks>
+        /// .NET's smallest resolutions is 100 nanoseconds. Any nanoseconds passed in
+        /// lower than .NET's resolution will be rounded using the default rounding
+        /// algorithm in Math.Round().
+        /// </remarks>
+        public static TimeSpan Nanoseconds(this long nanoseconds)
+        {
+            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
+        }
+
+        /// <summary>
+        /// Gets the value of the current <see cref="TimeSpan" /> structure expressed in whole and fractional nanoseconds.
+        /// </summary>
+        public static double TotalNanoseconds(this TimeSpan self)
+        {
+            return self.Ticks * (1d / TicksPerNanosecond);
+        }
+        
+        /// <summary>
+        /// Gets the microseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
+        /// </summary>
+        /// <returns>the number of microsecond.</returns>
+        public static int Microsecond(this TimeSpan self)
+        {
+            return (int)((self.Ticks % TimeSpan.TicksPerMillisecond) * (1d / TicksPerMicrosecond));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of microseconds.
+        /// </summary>
+        public static TimeSpan Microseconds(this int microseconds)
+        {
+            return (microseconds * TicksPerMicrosecond).Ticks();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of microseconds.
+        /// </summary>
+        public static TimeSpan Microseconds(this long microseconds)
+        {
+            return (microseconds * TicksPerMicrosecond).Ticks();
+        }
+
+        /// <summary>
+        /// Gets the value of the current <see cref="TimeSpan" /> structure expressed in whole and fractional microseconds.
+        /// </summary>
+        public static double TotalMicroseconds(this TimeSpan self)
+        {
+            return self.Ticks * (1d / TicksPerMicrosecond);
         }
 
         /// <summary>
