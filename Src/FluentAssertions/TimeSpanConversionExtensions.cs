@@ -50,7 +50,6 @@ namespace FluentAssertions
         /// <summary>
         /// Gets the nanoseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
         /// </summary>
-        /// <returns>the number of microsecond.</returns>
         public static int Nanosecond(this TimeSpan self)
         {
             return (int)((self.Ticks % TicksPerMicrosecond) * (1d / TicksPerNanosecond));
@@ -93,7 +92,6 @@ namespace FluentAssertions
         /// <summary>
         /// Gets the microseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
         /// </summary>
-        /// <returns>the number of microsecond.</returns>
         public static int Microsecond(this TimeSpan self)
         {
             return (int)((self.Ticks % TimeSpan.TicksPerMillisecond) * (1d / TicksPerMicrosecond));

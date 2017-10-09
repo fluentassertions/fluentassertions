@@ -141,18 +141,62 @@ namespace FluentAssertions
         /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="date"/> and time with the specified
         /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
         /// </summary>
-        public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0)
+        public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
         {
-            return new DateTime(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds);
+            if (microseconds < 0 || microseconds > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
+            }
+
+            if (nanoseconds < 0 || nanoseconds > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
+            }
+
+            var value = new DateTime(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds);
+            
+            if (microseconds != 0)
+            {
+                value += microseconds.Microseconds();
+            }
+
+            if (nanoseconds != 0)
+            {
+                value += nanoseconds.Nanoseconds();
+            }
+
+            return value;
         }
 
         /// <summary>
         /// Returns a new <see cref="DateTimeOffset"/> value for the specified <paramref name="date"/> and time with the specified
         /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
         /// </summary>
-        public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0)
+        public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
         {
-            return new DateTimeOffset(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds, date.Offset);
+            if (microseconds < 0 || microseconds > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
+            }
+
+            if (nanoseconds < 0 || nanoseconds > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
+            }
+
+            var value = new DateTimeOffset(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds, date.Offset);
+
+            if (microseconds != 0)
+            {
+                value += microseconds.Microseconds();
+            }
+
+            if (nanoseconds != 0)
+            {
+                value += nanoseconds.Nanoseconds();
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -189,6 +233,48 @@ namespace FluentAssertions
         public static DateTime After(this TimeSpan timeDifference, DateTime sourceDateTime)
         {
             return sourceDateTime.Add(timeDifference);
+        }
+
+        /// <summary>
+        /// Gets the nanoseconds component of the date represented by the current <see cref="DateTime" /> structure.
+        /// </summary>
+        public static int Nanosecond(this DateTime self)
+        {
+            return self.Ticks.Ticks().Nanosecond();
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime" /> that adds the specified number of nanoseconds to the value of this instance.
+        /// </summary>
+        public static DateTime AddNanoseconds(this DateTime self, long nanoseconds)
+        {
+            if (nanoseconds == 0)
+            {
+                return self;
+            }
+
+            return self + nanoseconds.Nanoseconds();
+        }
+
+        /// <summary>
+        /// Gets the microseconds component of the date represented by the current <see cref="DateTime" /> structure.
+        /// </summary>
+        public static int Microsecond(this DateTime self)
+        {
+            return self.Ticks.Ticks().Microsecond();
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime" /> that adds the specified number of microseconds to the value of this instance.
+        /// </summary>
+        public static DateTime AddMicroseconds(this DateTime self, long microseconds)
+        {
+            if (microseconds == 0)
+            {
+                return self;
+            }
+
+            return self + microseconds.Microseconds();
         }
     }
 }
