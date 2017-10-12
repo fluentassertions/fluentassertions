@@ -53,12 +53,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeAssertions> Be(Type expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", expected);
-
-            Execute.Assertion
-                .ForCondition(Subject == expected)
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
 
@@ -184,10 +179,12 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> NotBe(Type unexpected, string because = "", params object[] becauseArgs)
         {
+            string nameOfUnexpectedType = (unexpected != null) ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
+
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}, but it is.");
+                .FailWith("Expected type not to be " + nameOfUnexpectedType + "{reason}, but it is.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
