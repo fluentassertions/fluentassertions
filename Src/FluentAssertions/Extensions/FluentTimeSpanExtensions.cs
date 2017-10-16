@@ -19,7 +19,7 @@ namespace FluentAssertions.Extensions
     /// 12.Hours().And(30.Minutes()).
     /// </example>
     /// <seealso cref="FluentDateTimeExtensions"/>
-    public static class TimeSpanConversionExtensions
+    public static class FluentTimeSpanExtensions
     {
         /// <summary>
         /// Represents the number of ticks that are in 1 microsecond.

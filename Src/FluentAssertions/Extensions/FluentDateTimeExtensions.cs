@@ -17,7 +17,7 @@ namespace FluentAssertions.Extensions
     /// <br />
     /// 3.March(2011).At(09, 30)
     /// </example>
-    /// <seealso cref="TimeSpanConversionExtensions"/>
+    /// <seealso cref="FluentTimeSpanExtensions"/>
     [DebuggerNonUserCode]
     public static class FluentDateTimeExtensions
     {
