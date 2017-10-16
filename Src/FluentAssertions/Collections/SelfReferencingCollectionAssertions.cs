@@ -647,7 +647,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but " + count + " such items were found.");
+                    .FailWith(expectationPrefix + "but " + count.ToString() + " such items were found.");
             }
             else
             {

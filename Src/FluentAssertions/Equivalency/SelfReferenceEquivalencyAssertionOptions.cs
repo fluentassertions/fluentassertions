@@ -577,7 +577,10 @@ namespace FluentAssertions.Equivalency
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine($"- Use {(useRuntimeTyping ? "runtime" : "declared")} types and members");
+            builder.Append("- Use ")
+                   .Append((useRuntimeTyping ? "runtime" : "declared"))
+                   .AppendLine(" types and members");
+
             if (isRecursive)
             {
                 if (allowInfiniteRecursion)
@@ -596,22 +599,22 @@ namespace FluentAssertions.Equivalency
 
             foreach (IMemberSelectionRule rule in selectionRules)
             {
-                builder.AppendLine("- " + rule);
+                builder.Append("- ").AppendLine(rule.ToString());
             }
 
             foreach (IMemberMatchingRule rule in matchingRules)
             {
-                builder.AppendLine("- " + rule);
+                builder.Append("- ").AppendLine(rule.ToString());
             }
 
             foreach (IEquivalencyStep step in userEquivalencySteps)
             {
-                builder.AppendLine("- " + step);
+                builder.Append("- ").AppendLine(step.ToString());
             }
 
             foreach (IOrderingRule rule in orderingRules)
             {
-                builder.AppendLine("- " + rule);
+                builder.Append("- ").AppendLine(rule.ToString());
             }
 
             return builder.ToString();

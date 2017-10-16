@@ -96,7 +96,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Minutes > 0)
             {
-                fragments.Add(timeSpan.Minutes + "m");
+                fragments.Add(timeSpan.Minutes.ToString() + "m");
             }
         }
 
@@ -104,7 +104,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Hours > 0)
             {
-                fragments.Add(timeSpan.Hours + "h");
+                fragments.Add(timeSpan.Hours.ToString() + "h");
             }
         }
 
@@ -112,7 +112,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Days > 0)
             {
-                fragments.Add(timeSpan.Days + "d");
+                fragments.Add(timeSpan.Days.ToString() + "d");
             }
         }
 
