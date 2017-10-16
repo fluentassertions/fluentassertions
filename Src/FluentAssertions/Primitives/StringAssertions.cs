@@ -924,7 +924,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject != null) && (Subject.Length == 0))
+                .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected empty string{reason}, but found {0}.", Subject);
 

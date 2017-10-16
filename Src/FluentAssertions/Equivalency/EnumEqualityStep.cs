@@ -16,8 +16,8 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetExpectationType(context);
 
-            return ((subjectType != null) && subjectType.GetTypeInfo().IsEnum) ||
-                   ((context.Expectation != null) && context.Expectation.GetType().GetTypeInfo().IsEnum);
+            return (subjectType?.GetTypeInfo().IsEnum == true) ||
+                   (context.Expectation?.GetType().GetTypeInfo().IsEnum == true);
         }
 
         /// <summary>

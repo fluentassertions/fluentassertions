@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Array array = context.Expectation as Array;
-            return (array != null) && (array.Rank > 1);
+            return array?.Rank > 1;
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
@@ -128,7 +128,7 @@ namespace FluentAssertions.Equivalency
 
         public bool Increment()
         {
-            bool success = (nextDigit != null) && nextDigit.Increment();
+            bool success = nextDigit?.Increment() == true;
             if (!success)
             {
                 if (index < (length - 1))

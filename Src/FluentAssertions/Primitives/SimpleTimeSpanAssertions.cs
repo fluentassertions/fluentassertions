@@ -256,7 +256,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    nearbyTime, Subject.HasValue ? Subject.Value : default(TimeSpan?));
+                    nearbyTime, Subject ?? default(TimeSpan?));
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -320,7 +320,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to not be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    distantTime, Subject.HasValue ? Subject.Value : default(TimeSpan?));
+                    distantTime, Subject ?? default(TimeSpan?));
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
