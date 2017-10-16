@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions
+namespace FluentAssertions.Extensions
 {
     /// <summary>
     /// Extension methods on <see cref="int"/> to allow for a more fluent way of specifying a <see cref="TimeSpan"/>.
@@ -65,7 +65,7 @@ namespace FluentAssertions
         /// </remarks>
         public static TimeSpan Nanoseconds(this int nanoseconds)
         {
-            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
+            return ((long)Math.Round((double)(nanoseconds * TicksPerNanosecond))).Ticks();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FluentAssertions
         /// </remarks>
         public static TimeSpan Nanoseconds(this long nanoseconds)
         {
-            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
+            return ((long)Math.Round((double)(nanoseconds * TicksPerNanosecond))).Ticks();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace FluentAssertions.Specs

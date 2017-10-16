@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+using FluentAssertions.Extensions;
 using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;

@@ -1,4 +1,6 @@
 ﻿using System;
+
+using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 
