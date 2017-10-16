@@ -65,7 +65,7 @@ namespace FluentAssertions.Extensions
         /// </remarks>
         public static TimeSpan Nanoseconds(this int nanoseconds)
         {
-            return ((long)Math.Round((double)(nanoseconds * TicksPerNanosecond))).Ticks();
+            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FluentAssertions.Extensions
         /// </remarks>
         public static TimeSpan Nanoseconds(this long nanoseconds)
         {
-            return ((long)Math.Round((double)(nanoseconds * TicksPerNanosecond))).Ticks();
+            return ((long)Math.Round(nanoseconds * TicksPerNanosecond)).Ticks();
         }
 
         /// <summary>
