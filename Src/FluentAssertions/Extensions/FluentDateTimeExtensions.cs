@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FluentAssertions
+namespace FluentAssertions.Extensions
 {
     /// <summary>
     /// Extension methods on <see cref="int"/> to allow for a more fluent way of specifying a <see cref="DateTime"/>.
@@ -17,7 +17,7 @@ namespace FluentAssertions
     /// <br />
     /// 3.March(2011).At(09, 30)
     /// </example>
-    /// <seealso cref="TimeSpanConversionExtensions"/>
+    /// <seealso cref="FluentTimeSpanExtensions"/>
     [DebuggerNonUserCode]
     public static class FluentDateTimeExtensions
     {

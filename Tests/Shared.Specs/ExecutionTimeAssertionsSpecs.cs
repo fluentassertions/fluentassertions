@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
