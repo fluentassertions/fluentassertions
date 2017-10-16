@@ -242,7 +242,7 @@ namespace FluentAssertions.Collections
 
             if (expectation == null)
             {
-                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
             
             TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
@@ -284,7 +284,7 @@ namespace FluentAssertions.Collections
 
             if (unexpected == null)
             {
-                throw new ArgumentNullException("unexpected", "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare collection with <null>.");
             }
 
             if(ReferenceEquals(Subject, unexpected))
@@ -528,7 +528,8 @@ namespace FluentAssertions.Collections
             IEnumerable<object> expectedObjects = expected.Cast<object>().ToArray();
             if (!expectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify containment against an empty collection");
+                throw new ArgumentException("Cannot verify containment against an empty collection",
+                    nameof(expected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -1093,7 +1094,8 @@ namespace FluentAssertions.Collections
             IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
             if (!unexpectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify non-containment against an empty collection");
+                throw new ArgumentException("Cannot verify non-containment against an empty collection",
+                    nameof(unexpected));
             }
 
             if (ReferenceEquals(Subject, null))

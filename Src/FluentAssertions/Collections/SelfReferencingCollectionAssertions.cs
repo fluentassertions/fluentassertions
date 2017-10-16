@@ -326,7 +326,7 @@ namespace FluentAssertions.Collections
         {
             if (expectation == null)
             {
-                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
 
             AssertCollectionStartsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);
@@ -380,7 +380,7 @@ namespace FluentAssertions.Collections
         {
             if (expectation == null)
             {
-                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
 
             AssertCollectionEndsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);

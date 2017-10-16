@@ -256,7 +256,8 @@ namespace FluentAssertions.Primitives
             throw new ArgumentException(
               string.Format(
                 "Cannot match string against \"{0}\" because it is not a valid regular expression.",
-                regularExpression));
+                regularExpression),
+              nameof(regularExpression));
           }
 
           Execute.Assertion
@@ -304,7 +305,8 @@ namespace FluentAssertions.Primitives
             throw new ArgumentException(
               string.Format(
                 "Cannot match string against \"{0}\" because it is not a valid regular expression.",
-                regularExpression));
+                regularExpression),
+              nameof(regularExpression));
           }
 
           Execute.Assertion
@@ -337,7 +339,7 @@ namespace FluentAssertions.Primitives
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.");
+                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
             }
 
             new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs).Validate();
@@ -366,7 +368,7 @@ namespace FluentAssertions.Primitives
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.");
+                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
             new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs).Validate();
@@ -396,7 +398,7 @@ namespace FluentAssertions.Primitives
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string start equivalence with empty string.");
+                throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
             }
 
             new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs).Validate();
@@ -425,7 +427,7 @@ namespace FluentAssertions.Primitives
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.");
+                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
             new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs).Validate();
@@ -454,7 +456,7 @@ namespace FluentAssertions.Primitives
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string end with empty string.");
+                throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
             }
 
             if (Subject == null)
@@ -500,7 +502,7 @@ namespace FluentAssertions.Primitives
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare end of string with empty string.");
+                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
             if (Subject == null)
@@ -539,7 +541,7 @@ namespace FluentAssertions.Primitives
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string end equivalence with empty string.");
+                throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
             }
 
             if (Subject == null)
@@ -585,7 +587,7 @@ namespace FluentAssertions.Primitives
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare end of string with empty string.");
+                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
             if (Subject == null)
@@ -620,12 +622,12 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new ArgumentException("Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.");
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
             Execute.Assertion
@@ -652,12 +654,12 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new ArgumentException("Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.");
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
             Execute.Assertion
@@ -773,12 +775,12 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new ArgumentException("Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.");
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
             Execute.Assertion
@@ -1062,12 +1064,12 @@ namespace FluentAssertions.Primitives
         {
             if (values == null)
             {
-                throw new ArgumentException("Cannot assert string containment of values in null collection");
+                throw new ArgumentNullException(nameof(values), "Cannot assert string containment of values in null collection");
             }
 
             if (!values.Any())
             {
-                throw new ArgumentException("Cannot assert string containment of values in empty collection");
+                throw new ArgumentException("Cannot assert string containment of values in empty collection", nameof(values));
             }
         }
 

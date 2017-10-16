@@ -2317,7 +2317,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify containment against an empty collection");
+                "Cannot verify containment against an empty collection*");
         }
 
         #endregion

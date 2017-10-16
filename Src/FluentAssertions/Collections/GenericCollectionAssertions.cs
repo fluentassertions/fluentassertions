@@ -239,7 +239,7 @@ namespace FluentAssertions.Collections
         {
             if (comparer == null)
             {
-                throw new ArgumentNullException("comparer",
+                throw new ArgumentNullException(nameof(comparer),
                     "Cannot assert collection ordering without specifying a comparer.");
             }
 
@@ -270,7 +270,7 @@ namespace FluentAssertions.Collections
         {
             if (propertyExpression == null)
             {
-                throw new ArgumentNullException("propertyExpression",
+                throw new ArgumentNullException(nameof(propertyExpression),
                     "Cannot assert collection ordering without specifying a property.");
             }
 

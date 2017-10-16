@@ -186,7 +186,7 @@ namespace FluentAssertions.Xml
         {
             if (expected == null)
             {
-                throw new ArgumentNullException("expected",
+                throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has a root element if the element name is <null>*");
             }
 
@@ -209,13 +209,13 @@ namespace FluentAssertions.Xml
         {
             if (Subject == null)
             {
-                throw new ArgumentNullException("subject",
+                throw new ArgumentNullException(nameof(Subject),
                     "Cannot assert the document has a root element if the document itself is <null>.");
             }
 
             if (expected == null)
             {
-                throw new ArgumentNullException("expected", 
+                throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has a root element if the element name is <null>*");
             }
 
@@ -273,7 +273,7 @@ namespace FluentAssertions.Xml
         {
             if (expected == null)
             {
-                throw new ArgumentNullException("expected",
+                throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");
             }
 
@@ -299,13 +299,13 @@ namespace FluentAssertions.Xml
         {
             if (Subject == null)
             {
-                throw new ArgumentNullException("subject",
+                throw new ArgumentNullException(nameof(Subject),
                     "Cannot assert the document has an element if the document itself is <null>.");
             }
 
             if (expected == null)
             {
-                throw new ArgumentNullException("expected",
+                throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");
             }
 
