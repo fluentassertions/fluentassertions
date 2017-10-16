@@ -906,7 +906,7 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        static bool Contains(string actual, string expected, StringComparison comparison)
+        private static bool Contains(string actual, string expected, StringComparison comparison)
         {
             return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
         }
