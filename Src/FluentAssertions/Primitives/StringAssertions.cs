@@ -808,10 +808,10 @@ namespace FluentAssertions.Primitives
         {
             ThrowIfValuesNullOrEmpty(values);
 
-            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+            var matches = values.Count(v => Contains(Subject, v, StringComparison.Ordinal));
 
             Execute.Assertion
-                .ForCondition(matches.Count() != values.Count())
+                .ForCondition(matches != values.Count())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect the {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
 

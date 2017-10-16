@@ -335,7 +335,7 @@ namespace FluentAssertions.Common
         {
             var hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
             var hasSetter = type.GetMethods(AllMembersFlag)
-                .SingleOrDefault(m => m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) && m.GetParameters().Count() == 1) != null;
+                .SingleOrDefault(m => m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) && m.GetParameters().Length == 1) != null;
 
             return hasGetter || hasSetter;
         }

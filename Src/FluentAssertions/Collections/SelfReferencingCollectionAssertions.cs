@@ -636,7 +636,7 @@ namespace FluentAssertions.Collections
                 .FailWith(expectationPrefix + "but the collection is empty.");
 
             T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
-            int count = matchingElements.Count();
+            int count = matchingElements.Length;
             if (count == 0)
             {
                 Execute.Assertion

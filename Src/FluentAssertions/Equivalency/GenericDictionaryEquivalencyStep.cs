@@ -58,7 +58,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertImplementsOnlyOneDictionaryInterface(object expectation)
         {
             Type[] interfaces = GetIDictionaryInterfaces(expectation.GetType());
-            bool multipleInterfaces = (interfaces.Count() > 1);
+            bool multipleInterfaces = (interfaces.Length > 1);
             if (!multipleInterfaces)
             {
                 return true;
@@ -92,7 +92,7 @@ namespace FluentAssertions.Equivalency
             Type[] suitableDictionaryInterfaces = subjectDictionaryInterfaces.Where(
                 @interface => GetDictionaryKeyType(@interface).IsAssignableFrom(expectedKeyType)).ToArray();
 
-            if (suitableDictionaryInterfaces.Count() > 1)
+            if (suitableDictionaryInterfaces.Length > 1)
             {
                 // SMELL: Code could be written to handle this better, but is it really worth the effort?
                 AssertionScope.Current.FailWith(

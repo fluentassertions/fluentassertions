@@ -565,7 +565,7 @@ namespace FluentAssertions.Collections
 
             if (missingKeys.Any())
             {
-                if (expectedKeys.Count() > 1)
+                if (expectedKeys.Length > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -668,7 +668,7 @@ namespace FluentAssertions.Collections
 
             if (foundKeys.Any())
             {
-                if (unexpectedKeys.Count() > 1)
+                if (unexpectedKeys.Length > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -947,7 +947,7 @@ namespace FluentAssertions.Collections
 
             if (missingKeys.Any())
             {
-                if (expectedKeyValuePairs.Count() > 1)
+                if (expectedKeyValuePairs.Length > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -967,7 +967,7 @@ namespace FluentAssertions.Collections
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
-                if (keyValuePairsNotSameOrEqualInSubject.Count() > 1)
+                if (keyValuePairsNotSameOrEqualInSubject.Length > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -1030,10 +1030,9 @@ namespace FluentAssertions.Collections
                         Subject);
             }
 
-            if (Subject.ContainsKey(key))
-            {
-                TValue actual = Subject[key];
 
+            if (Subject.TryGetValue(key, out TValue actual))
+            {
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(value))
                     .BecauseOf(because, becauseArgs)
@@ -1096,7 +1095,7 @@ namespace FluentAssertions.Collections
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
-                    if (keyValuePairsSameOrEqualInSubject.Count() > 1)
+                    if (keyValuePairsSameOrEqualInSubject.Length > 1)
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
@@ -1158,10 +1157,8 @@ namespace FluentAssertions.Collections
                         key, Subject);
             }
 
-            if (Subject.ContainsKey(key))
+            if (Subject.TryGetValue(key, out TValue actual))
             {
-                TValue actual = Subject[key];
-
                 Execute.Assertion
                     .ForCondition(!actual.IsSameOrEqualTo(value))
                     .BecauseOf(because, becauseArgs)
