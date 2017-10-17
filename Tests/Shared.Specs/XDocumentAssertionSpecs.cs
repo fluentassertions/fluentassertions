@@ -881,8 +881,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot assert the document has a root element if the document itself is <null>*");
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the document has a root element if the document itself is <null>.");
         }
         
         [Fact]
@@ -1169,8 +1169,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot assert the document has an element if the document itself is <null>*");
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the document has an element if the document itself is <null>.");
         }
 
         [Fact]

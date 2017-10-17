@@ -797,14 +797,14 @@ namespace FluentAssertions.Specs
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => throwException.Should().Throw<NullReferenceException>();
+                () => throwException.Should().Throw<ArgumentNullException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    string.Format("*System.NullReferenceException*{0}*",
+                    string.Format("*System.ArgumentNullException*{0}*",
                         typeof (ExceptionWithEmptyToString)));
         }
 

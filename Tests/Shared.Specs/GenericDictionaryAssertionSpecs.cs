@@ -217,8 +217,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare dictionary count against a <null> predicate.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare dictionary count against a <null> predicate.*");
         }
 
         [Fact]

@@ -225,7 +225,7 @@ namespace FluentAssertions.Collections
         {
             if (countPredicate == null)
             {
-                throw new NullReferenceException("Cannot compare dictionary count against a <null> predicate.");
+                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -544,7 +544,7 @@ namespace FluentAssertions.Collections
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot verify key containment against a <null> collection of keys");
+                throw new ArgumentNullException(nameof(expected), "Cannot verify key containment against a <null> collection of keys");
             }
 
             TKey [] expectedKeys = expected.ToArray();
@@ -647,7 +647,7 @@ namespace FluentAssertions.Collections
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot verify key containment against a <null> collection of keys");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
             }
 
             TKey[] unexpectedKeys = unexpected.ToArray();
@@ -748,7 +748,7 @@ namespace FluentAssertions.Collections
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot verify value containment against a <null> collection of values");
+                throw new ArgumentNullException(nameof(expected), "Cannot verify value containment against a <null> collection of values");
             }
 
             TValue [] expectedValues = expected.ToArray();
@@ -865,7 +865,7 @@ namespace FluentAssertions.Collections
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot verify value containment against a <null> collection of values");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
             }
 
             var unexpectedValues = unexpected.ToArray();

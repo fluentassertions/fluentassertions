@@ -344,8 +344,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot match an object against a <null> predicate.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot match an object against a <null> predicate.*");
         }
 
         #region Structure Reporting

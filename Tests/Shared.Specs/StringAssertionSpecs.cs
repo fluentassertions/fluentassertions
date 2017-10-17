@@ -639,8 +639,8 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.Should().Throw<NullReferenceException>()
-             .WithMessage("Cannot match string against <null>.");
+          act.Should().Throw<ArgumentNullException>()
+             .WithMessage("Cannot match string against <null>.*");
         }
 
         [Fact]
@@ -743,8 +743,8 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.Should().Throw<NullReferenceException>()
-             .WithMessage("Cannot match string against <null>.");
+          act.Should().Throw<ArgumentNullException>()
+             .WithMessage("Cannot match string against <null>.*");
         }
 
         [Fact]
@@ -836,8 +836,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare start of string with <null>.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare start of string with <null>.*");
         }
 
         [Fact]
@@ -948,8 +948,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare start of string with <null>.");
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare start of string with <null>.*");
         }
 
         [Fact]
@@ -1025,8 +1025,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare string end with <null>.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare string end with <null>.*");
         }
 
         [Fact]
@@ -1139,8 +1139,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare end of string with <null>.");
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare end of string with <null>.*");
         }
 
         [Fact]
@@ -1233,8 +1233,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare string start equivalence with <null>.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare string start equivalence with <null>.*");
         }
 
         [Fact]
@@ -1347,8 +1347,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare start of string with <null>.");
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare start of string with <null>.*");
         }
 
         [Fact]
@@ -1428,8 +1428,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare string end equivalence with <null>.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare string end equivalence with <null>.*");
         }
 
         [Fact]
@@ -1542,8 +1542,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare end of string with <null>.");
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare end of string with <null>.*");
         }
 
         [Fact]

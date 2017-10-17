@@ -395,7 +395,7 @@ namespace FluentAssertions.Collections
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot verify inequivalence against a <null> collection.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -522,7 +522,7 @@ namespace FluentAssertions.Collections
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot verify containment against a <null> collection");
+                throw new ArgumentNullException(nameof(expected), "Cannot verify containment against a <null> collection");
             }
 
             IEnumerable<object> expectedObjects = expected.Cast<object>().ToArray();
@@ -602,7 +602,7 @@ namespace FluentAssertions.Collections
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot verify ordered containment against a <null> collection.");
+                throw new ArgumentNullException(nameof(expected), "Cannot verify ordered containment against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -867,7 +867,7 @@ namespace FluentAssertions.Collections
         {
             if (expectedSuperset == null)
             {
-                throw new NullReferenceException("Cannot verify a subset against a <null> collection.");
+                throw new ArgumentNullException(nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -952,7 +952,7 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection == null)
             {
-                throw new NullReferenceException("Cannot verify count against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -993,7 +993,7 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection == null)
             {
-                throw new NullReferenceException("Cannot verify count against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -1088,7 +1088,7 @@ namespace FluentAssertions.Collections
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot verify non-containment against a <null> collection");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot verify non-containment against a <null> collection");
             }
 
             IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
@@ -1155,7 +1155,7 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection == null)
             {
-                throw new NullReferenceException("Cannot verify intersection against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -1197,7 +1197,7 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection == null)
             {
-                throw new NullReferenceException("Cannot verify intersection against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
             }
 
             if (ReferenceEquals(Subject, null))

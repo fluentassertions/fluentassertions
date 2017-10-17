@@ -209,8 +209,7 @@ namespace FluentAssertions.Xml
         {
             if (Subject == null)
             {
-                throw new ArgumentNullException(nameof(Subject),
-                    "Cannot assert the document has a root element if the document itself is <null>.");
+                throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
             }
 
             if (expected == null)
@@ -299,8 +298,7 @@ namespace FluentAssertions.Xml
         {
             if (Subject == null)
             {
-                throw new ArgumentNullException(nameof(Subject),
-                    "Cannot assert the document has an element if the document itself is <null>.");
+                throw new InvalidOperationException("Cannot assert the document has an element if the document itself is <null>.");
             }
 
             if (expected == null)

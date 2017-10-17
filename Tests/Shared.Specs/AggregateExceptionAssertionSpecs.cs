@@ -45,7 +45,7 @@ namespace FluentAssertions.Net40.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => throwingOperation
-                .Should().Throw<ArgumentException>()
+                .Should().Throw<ArgumentNullException>()
                 .WithMessage("Something I expected");
 
             //-----------------------------------------------------------------------------------------------------------
