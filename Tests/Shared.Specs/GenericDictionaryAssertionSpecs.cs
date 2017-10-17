@@ -1294,7 +1294,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty sequence");
+                "Cannot verify key containment against an empty sequence*");
         }
 
         [Fact]
@@ -1433,7 +1433,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty sequence");
+                "Cannot verify key containment against an empty sequence*");
         }
 
         #endregion
@@ -1634,7 +1634,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence");
+                "Cannot verify value containment with an empty sequence*");
         }
 
         [Fact]
@@ -1773,7 +1773,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence");
+                "Cannot verify value containment with an empty sequence*");
         }
 
         #endregion
@@ -2112,7 +2112,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty collection of key/value pairs");
+                "Cannot verify key containment against an empty collection of key/value pairs*");
         }
 
         [Fact]
@@ -2188,7 +2188,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty collection of key/value pairs");
+                "Cannot verify key containment against an empty collection of key/value pairs*");
         }
 
         [Fact]

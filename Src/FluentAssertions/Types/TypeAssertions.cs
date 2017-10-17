@@ -300,7 +300,7 @@ namespace FluentAssertions.Types
         {
             if (!interfaceType.GetTypeInfo().IsInterface)
             {
-                throw new ArgumentException("Must be an interface Type.", "interfaceType");
+                throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
             }
 
             Execute.Assertion.ForCondition(Subject.GetInterfaces().Contains(interfaceType))
@@ -333,7 +333,7 @@ namespace FluentAssertions.Types
         {
             if (!interfaceType.GetTypeInfo().IsInterface)
             {
-                throw new ArgumentException("Must be an interface Type.", "interfaceType");
+                throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
             }
 
             Execute.Assertion.ForCondition(!Subject.GetInterfaces().Contains(interfaceType))
@@ -366,7 +366,7 @@ namespace FluentAssertions.Types
         {
             if (baseType.GetTypeInfo().IsInterface)
             {
-                throw new ArgumentException("Must not be an interface Type.", "baseType");
+                throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
             Execute.Assertion.ForCondition(Subject.GetTypeInfo().IsSubclassOf(baseType))
@@ -399,7 +399,7 @@ namespace FluentAssertions.Types
         {
             if (baseType.GetTypeInfo().IsInterface)
             {
-                throw new ArgumentException("Must not be an interface Type.", "baseType");
+                throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
             Execute.Assertion

@@ -661,7 +661,7 @@ namespace FluentAssertions.Specs
           // Assert
           //-----------------------------------------------------------------------------------------------------------
           act.Should().Throw<ArgumentException>()
-             .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.");
+             .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.*");
         }
 
         #endregion
@@ -765,7 +765,7 @@ namespace FluentAssertions.Specs
           // Assert
           //-----------------------------------------------------------------------------------------------------------
           act.Should().Throw<ArgumentException>()
-             .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.");
+             .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.*");
         }
 
         #endregion
@@ -852,7 +852,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.");
+                "Cannot compare start of string with empty string.*");
         }
 
         [Fact]
@@ -970,7 +970,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.");
+                "Cannot compare start of string with empty string.*");
         }
 
         [Fact]
@@ -1041,7 +1041,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string end with empty string.");
+                "Cannot compare string end with empty string.*");
         }
 
         [Fact]
@@ -1161,7 +1161,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare end of string with empty string.");
+                "Cannot compare end of string with empty string.*");
         }
 
         [Fact]
@@ -1249,7 +1249,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string start equivalence with empty string.");
+                "Cannot compare string start equivalence with empty string.*");
         }
 
         [Fact]
@@ -1369,7 +1369,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.");
+                "Cannot compare start of string with empty string.*");
         }
 
         [Fact]
@@ -1444,7 +1444,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string end equivalence with empty string.");
+                "Cannot compare string end equivalence with empty string.*");
         }
 
         [Fact]
@@ -1564,7 +1564,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare end of string with empty string.");
+                "Cannot compare end of string with empty string.*");
         }
 
         [Fact]
@@ -1620,8 +1620,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against <null>.");
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
         }
 
         [Fact]
@@ -1637,7 +1637,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.");
+                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         [Fact]
@@ -1788,7 +1788,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
+                .Should().Throw<ArgumentNullException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -1950,7 +1950,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
+                .Should().Throw<ArgumentNullException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -2138,8 +2138,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against <null>.");
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
         }
 
         [Fact]
@@ -2155,7 +2155,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.");
+                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         #endregion
@@ -2174,7 +2174,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
+                .Should().Throw<ArgumentNullException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -2330,7 +2330,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .Should().Throw<ArgumentException>()
+                .Should().Throw<ArgumentNullException>()
                 .WithMessage(_nullCollectionMessagePattern);
         }
 
@@ -2579,8 +2579,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against <null>.");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
         }
 
         [Fact]
@@ -2596,7 +2596,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.");
+                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         #endregion

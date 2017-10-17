@@ -36,7 +36,8 @@ namespace FluentAssertions.Common
             }
 
             throw new ArgumentException(
-                string.Format("Expression <{0}> cannot be used to select a member.", expression.Body));
+                string.Format("Expression <{0}> cannot be used to select a member.", expression.Body),
+                nameof(expression));
         }
 
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
@@ -53,7 +54,8 @@ namespace FluentAssertions.Common
 
             if (propertyInfo == null)
             {
-                throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.");
+                throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
+                    nameof(expression));
             }
 
             return propertyInfo;
@@ -135,7 +137,7 @@ namespace FluentAssertions.Common
                         var methodCallExpression = (MethodCallExpression)node;
                         if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || !(methodCallExpression.Arguments[0] is ConstantExpression))
                         {
-                            throw new ArgumentException(unsupportedExpressionMessage);
+                            throw new ArgumentException(unsupportedExpressionMessage, nameof(expression));
                         }
                         constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
                         node = methodCallExpression.Object;
@@ -143,7 +145,7 @@ namespace FluentAssertions.Common
                         break;
 
                     default:
-                        throw new ArgumentException(unsupportedExpressionMessage);
+                        throw new ArgumentException(unsupportedExpressionMessage, nameof(expression));
                 }
             }
 

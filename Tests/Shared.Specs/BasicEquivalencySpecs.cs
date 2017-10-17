@@ -576,7 +576,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Expression <d.GetType()> cannot be used to select a member.");
+                "Expression <d.GetType()> cannot be used to select a member.*");
         }
 
         [Fact]

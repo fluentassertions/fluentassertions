@@ -143,7 +143,7 @@ namespace FluentAssertions.Events
         {
             if (!TypeIsDelegate(d))
             {
-                throw new ArgumentException("Type is not a Delegate!");
+                throw new ArgumentException("Type is not a Delegate!", nameof(d));
             }
 
             var invoke = d.GetMethod("Invoke");

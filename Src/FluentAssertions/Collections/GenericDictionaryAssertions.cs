@@ -338,7 +338,7 @@ namespace FluentAssertions.Collections
 
             if (expected == null)
             {
-                throw new ArgumentNullException("expected", "Cannot compare dictionary with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
             }
 
             IEnumerable<TKey> missingKeys = expected.Keys.Except(Subject.Keys);
@@ -397,7 +397,7 @@ namespace FluentAssertions.Collections
 
             if (unexpected == null)
             {
-                throw new ArgumentNullException("unexpected", "Cannot compare dictionary with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare dictionary with <null>.");
             }
 
             if (ReferenceEquals(Subject, unexpected))
@@ -551,7 +551,7 @@ namespace FluentAssertions.Collections
 
             if (!expectedKeys.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty sequence");
+                throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(expected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -654,7 +654,7 @@ namespace FluentAssertions.Collections
 
             if (!unexpectedKeys.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty sequence");
+                throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(unexpected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -755,7 +755,7 @@ namespace FluentAssertions.Collections
 
             if (!expectedValues.Any())
             {
-                throw new ArgumentException("Cannot verify value containment with an empty sequence");
+                throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(expected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -872,7 +872,7 @@ namespace FluentAssertions.Collections
 
             if (!unexpectedValues.Any())
             {
-                throw new ArgumentException("Cannot verify value containment with an empty sequence");
+                throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(unexpected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -925,14 +925,15 @@ namespace FluentAssertions.Collections
         {
             if (expected == null)
             {
-                throw new ArgumentNullException("expected", "Cannot compare dictionary with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
             }
 
             KeyValuePair<TKey, TValue>[] expectedKeyValuePairs = expected.ToArray();
 
             if (!expectedKeyValuePairs.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs");
+                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
+                    nameof(expected));
             }
 
             if (ReferenceEquals(Subject, null))
@@ -1071,14 +1072,15 @@ namespace FluentAssertions.Collections
         {
             if (items == null)
             {
-                throw new ArgumentNullException("items", "Cannot compare dictionary with <null>.");
+                throw new ArgumentNullException(nameof(items), "Cannot compare dictionary with <null>.");
             }
 
             KeyValuePair<TKey, TValue>[] keyValuePairs = items.ToArray();
 
             if (!keyValuePairs.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs");
+                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
+                    nameof(items));
             }
 
             if (ReferenceEquals(Subject, null))
