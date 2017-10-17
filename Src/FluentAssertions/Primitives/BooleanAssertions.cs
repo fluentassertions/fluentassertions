@@ -33,7 +33,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<BooleanAssertions> BeFalse(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && !Subject.Value)
+                .ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", false, Subject);
 
@@ -53,7 +53,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<BooleanAssertions> BeTrue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value)
+                .ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", true, Subject);
 

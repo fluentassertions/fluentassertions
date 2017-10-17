@@ -10,15 +10,16 @@ namespace FluentAssertions.Xml
 {
     internal class XmlReaderValidator
     {
-        AssertionScope assertion;
-        XmlReader subjectReader, otherReader;
+        private AssertionScope assertion;
+        private XmlReader subjectReader;
+        private XmlReader otherReader;
 
-        string CurrentLocation
+        private string CurrentLocation
         {
             get { return "/" + string.Join("/", locationStack.Reverse()); }
         }
 
-        Stack<string> locationStack = new Stack<string>();
+        private Stack<string> locationStack = new Stack<string>();
 
         public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
         {
@@ -27,8 +28,8 @@ namespace FluentAssertions.Xml
             this.subjectReader = subjectReader;
             this.otherReader = otherReader;
         }
-                
-        class ValidationResult
+
+        private class ValidationResult
         {
             public ValidationResult(string formatString, params object[] formatParams)
             {
@@ -125,7 +126,7 @@ namespace FluentAssertions.Xml
         }
 
 
-        class AttributeData
+        private class AttributeData
         {
             public AttributeData(string namespaceUri, string localName, string value, string prefix)
             {

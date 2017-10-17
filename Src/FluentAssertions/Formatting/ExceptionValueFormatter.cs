@@ -30,7 +30,7 @@ namespace FluentAssertions.Formatting
             {
                 foreach (string line in exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
                 {
-                    builder.AppendLine("  " + line);
+                    builder.Append("  ").AppendLine(line);
                 }
             }
 

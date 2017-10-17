@@ -18,19 +18,19 @@ namespace FluentAssertions.Equivalency
         public void IncludeAll()
         {
             inclusions.Add(_ => true);
-            description.Append("Try conversion of all members. ");;
+            description.Append("Try conversion of all members. ");
         }
 
         public void Include(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             inclusions.Add(predicate.Compile());
-            description.Append($"Try conversion of member {predicate.Body}. ");;
+            description.Append("Try conversion of member ").Append(predicate.Body).Append(". ");
         }
 
         public void Exclude(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             exclusions.Add(predicate.Compile());
-            description.Append($"Don't convert member {predicate.Body}. ");;
+            description.Append("Don't convert member ").Append(predicate.Body).Append(". ");
         }
         
         public bool RequiresConversion(ISubjectInfo info)

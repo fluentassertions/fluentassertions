@@ -926,7 +926,7 @@ namespace FluentAssertions.Collections
             IEnumerable<object> expectedItems = unexpectedSuperset.Cast<object>();
             object[] actualItems = Subject.Cast<object>().ToArray();
 
-            if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
+            if (actualItems.Intersect(expectedItems).Count() == actualItems.Length)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

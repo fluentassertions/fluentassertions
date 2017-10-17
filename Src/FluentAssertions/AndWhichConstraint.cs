@@ -37,7 +37,7 @@ namespace FluentAssertions
         {
             TMatchedElement[] matchedElements = matchedConstraint.ToArray();
 
-            if (matchedElements.Count() > 1)
+            if (matchedElements.Length > 1)
             {
                 string foundObjects = string.Join(Environment.NewLine,
                     matchedElements.Select(

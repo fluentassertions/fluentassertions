@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
 
         public override object GetValue(object obj, object[] index)
         {
-            if ((index != null) && index.Any())
+            if (index?.Any() == true)
             {
                 throw new TargetParameterCountException("Parameter count mismatch.");
             }

@@ -40,13 +40,8 @@ namespace FluentAssertions.Execution
 
         private static ITestFramework DetectFramework()
         {
-            ITestFramework detectedFramework = null;
-
-            detectedFramework = AttemptToDetectUsingAppSetting();
-            if (detectedFramework == null)
-            {
-                detectedFramework = AttemptToDetectUsingDynamicScanning();
-            }
+            ITestFramework detectedFramework = AttemptToDetectUsingAppSetting()
+                ?? AttemptToDetectUsingDynamicScanning();
 
             return detectedFramework;
         }

@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
         {
             foreach (string traceLine in trace.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
             {
-                builder.AppendLine(new string(' ', depth * 2) + traceLine);
+                builder.Append(new string(' ', depth * 2)).AppendLine(traceLine);
             }
         }
 

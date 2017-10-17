@@ -76,7 +76,7 @@ namespace FluentAssertions.Formatting
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
                 where method.HasAttribute<ValueFormatterAttribute>()
-                where method.GetParameters().Count() == 1
+                where method.GetParameters().Length == 1
                 select method;
 
             return query.ToArray();

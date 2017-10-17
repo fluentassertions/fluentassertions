@@ -68,10 +68,11 @@ namespace FluentAssertions.Specialized
         public void NotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
         {
             Exception actualException = InvokeSubjectWithInterception();
-            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
 
             if (actualException != null)
             {
+                IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
+
                 Execute.Assertion
                     .ForCondition(!expectedExceptions.Any())
                     .BecauseOf(because, becauseArgs)

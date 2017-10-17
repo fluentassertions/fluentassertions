@@ -810,10 +810,10 @@ namespace FluentAssertions.Primitives
         {
             ThrowIfValuesNullOrEmpty(values);
 
-            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+            var matches = values.Count(v => Contains(Subject, v, StringComparison.Ordinal));
 
             Execute.Assertion
-                .ForCondition(matches.Count() != values.Count())
+                .ForCondition(matches != values.Count())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect the {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
 
@@ -908,7 +908,7 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        static bool Contains(string actual, string expected, StringComparison comparison)
+        private static bool Contains(string actual, string expected, StringComparison comparison)
         {
             return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
         }
@@ -926,7 +926,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject != null) && (Subject.Length == 0))
+                .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected empty string{reason}, but found {0}.", Subject);
 

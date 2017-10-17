@@ -73,7 +73,9 @@ namespace FluentAssertions.Common
         /// </summary>
         public static string Capitalize(this string @this)
         {
-            return @this.Substring(0, 1).ToUpper() + @this.Substring(1);
+            char[] charArray = @this.ToCharArray();
+            charArray[0] = char.ToUpper(charArray[0]);
+            return new string(charArray);
         }
 
         public static string RemoveNewLines(this string @this)
