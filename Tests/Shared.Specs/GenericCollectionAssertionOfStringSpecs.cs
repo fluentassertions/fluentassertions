@@ -172,8 +172,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot compare collection count against a <null> predicate.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot compare collection count against a <null> predicate.*");
         }
 
         [Fact]
@@ -892,8 +892,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot verify inequivalence against a <null> collection.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify inequivalence against a <null> collection.*");
         }
 
         [Fact]
@@ -996,8 +996,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot verify a subset against a <null> collection.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify a subset against a <null> collection.*");
         }
 
         [Fact]
@@ -1442,8 +1442,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot verify ordered containment against a <null> collection.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify ordered containment against a <null> collection.*");
         }
 
         [Fact]
@@ -1911,8 +1911,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot verify count against a <null> collection.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
         }
 
         #endregion
@@ -2015,8 +2015,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Cannot verify count against a <null> collection.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
         }
 
         [Fact]

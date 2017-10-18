@@ -237,7 +237,7 @@ namespace FluentAssertions.Primitives
         {
           if (regularExpression == null)
           {
-            throw new NullReferenceException("Cannot match string against <null>.");
+            throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
           }
 
           Execute.Assertion
@@ -286,7 +286,7 @@ namespace FluentAssertions.Primitives
         {
           if (regularExpression == null)
           {
-            throw new NullReferenceException("Cannot match string against <null>.");
+            throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
           }
 
           Execute.Assertion
@@ -334,7 +334,7 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare start of string with <null>.");
             }
 
             if (expected.Length == 0)
@@ -363,7 +363,7 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
             }
 
             if (unexpected.Length == 0)
@@ -393,7 +393,7 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot compare string start equivalence with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare string start equivalence with <null>.");
             }
 
             if (expected.Length == 0)
@@ -422,7 +422,7 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
             }
 
             if (unexpected.Length == 0)
@@ -451,7 +451,7 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot compare string end with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare string end with <null>.");
             }
 
             if (expected.Length == 0)
@@ -497,7 +497,7 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot compare end of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
             }
 
             if (unexpected.Length == 0)
@@ -536,7 +536,7 @@ namespace FluentAssertions.Primitives
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Cannot compare string end equivalence with <null>.");
+                throw new ArgumentNullException(nameof(expected), "Cannot compare string end equivalence with <null>.");
             }
 
             if (expected.Length == 0)
@@ -582,7 +582,7 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected == null)
             {
-                throw new NullReferenceException("Cannot compare end of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
             }
 
             if (unexpected.Length == 0)

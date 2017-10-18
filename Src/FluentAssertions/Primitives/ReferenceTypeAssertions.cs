@@ -308,7 +308,7 @@ namespace FluentAssertions.Primitives
         {
             if (predicate == null)
             {
-                throw new NullReferenceException("Cannot match an object against a <null> predicate.");
+                throw new ArgumentNullException(nameof(predicate), "Cannot match an object against a <null> predicate.");
             }
 
             Execute.Assertion

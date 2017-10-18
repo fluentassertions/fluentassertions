@@ -668,8 +668,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<NullReferenceException>().WithMessage(
-                "Expected an expression, but found <null>.");
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Expected an expression, but found <null>.*");
         }
 
         [Fact]

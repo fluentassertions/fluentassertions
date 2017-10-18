@@ -14,7 +14,7 @@ namespace FluentAssertions.Common
         {
             if (ReferenceEquals(expression, null))
             {
-                throw new NullReferenceException("Expected an expression, but found <null>.");
+                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
             }
 
             MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
@@ -44,7 +44,7 @@ namespace FluentAssertions.Common
         {
             if (ReferenceEquals(expression, null))
             {
-                throw new NullReferenceException("Expected a property expression, but found <null>.");
+                throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
             }
 
             var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
@@ -90,13 +90,13 @@ namespace FluentAssertions.Common
         public static string GetMemberPath<TDeclaringType, TPropertyType>(
             this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
+            if (expression == null)
+            {
+                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
+            }
+
             var segments = new List<string>();
             Expression node = expression;
-
-            if (node == null)
-            {
-                throw new NullReferenceException("Expected an expression, but found <null>.");
-            }
 
             var unsupportedExpressionMessage = $"Expression <{expression.Body}> cannot be used to select a member.";
 

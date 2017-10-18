@@ -69,7 +69,7 @@ namespace FluentAssertions.Collections
         {
             if (countPredicate == null)
             {
-                throw new NullReferenceException("Cannot compare collection count against a <null> predicate.");
+                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
 
             if (ReferenceEquals(Subject, null))
