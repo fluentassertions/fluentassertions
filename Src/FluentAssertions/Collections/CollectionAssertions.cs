@@ -488,9 +488,8 @@ namespace FluentAssertions.Collections
             List<T> missingItems = new List<T>();
             List<T> subject = actualItems.ToList();
 
-            while (expectedItems.Any())
+            foreach(T expectation in expectedItems)
             {
-                T expectation = expectedItems.First();
                 if (subject.Contains(expectation))
                 {
                     subject.Remove(expectation);
@@ -499,8 +498,6 @@ namespace FluentAssertions.Collections
                 {
                     missingItems.Add(expectation);
                 }
-
-                expectedItems = expectedItems.Skip(1).ToArray();
             }
 
             return missingItems.ToArray();
