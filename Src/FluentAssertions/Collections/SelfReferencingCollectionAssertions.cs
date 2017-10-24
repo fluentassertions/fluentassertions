@@ -561,11 +561,15 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
-            if (Subject.Any(item => predicate.Compile()(item)))
+            Func<T, bool> compiledPredicate = predicate.Compile();
+            IEnumerable<T> unexpectedItems = Subject.Where(item => compiledPredicate(item));
+
+            if (unexpectedItems.Any())
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:Collection} {0} to not have any items matching {1}{reason}.", Subject, predicate.Body);
+                    .FailWith("Expected {context:Collection} {0} to not have any items matching {1}{reason}, but found {2}.",
+                        Subject, predicate.Body, unexpectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

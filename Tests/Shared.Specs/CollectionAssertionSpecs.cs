@@ -2395,7 +2395,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to not have any items matching (item == 2) because 2s are evil.");
+                "Expected collection {1, 2, 3} to not have any items matching (item == 2) because 2s are evil,*{2}*");
         }
 
         [Fact]
