@@ -1798,6 +1798,29 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pair()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" },
+                { 4, "Four" }
+            };
+
+            var expectedKeyValuePair1 = new KeyValuePair<int, string>(2, "Two");
+            var expectedKeyValuePair2 = new KeyValuePair<int, string>(3, "Three");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().Contain(expectedKeyValuePair1, expectedKeyValuePair2);
+        }
+
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair()
         {
             var dictionary = new Dictionary<int, string>
@@ -1812,6 +1835,27 @@ namespace FluentAssertions.Specs
             };
 
             dictionary.Should().NotContain(keyValuePairs);
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pair()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var unexpectedKeyValuePair1 = new KeyValuePair<int, string>(3, "Three");
+            var unexpectedKeyValuePair2 = new KeyValuePair<int, string>(4, "Four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().NotContain(unexpectedKeyValuePair1, unexpectedKeyValuePair2);
         }
 
         [Fact]

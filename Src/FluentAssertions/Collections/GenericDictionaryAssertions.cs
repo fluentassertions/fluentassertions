@@ -913,6 +913,16 @@ namespace FluentAssertions.Collections
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected key/value pairs.</param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(params KeyValuePair<TKey, TValue>[] expected)
+        {
+            return Contain(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current dictionary contains the specified <paramref name="expected"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="expected">The expected key/value pairs.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1053,6 +1063,16 @@ namespace FluentAssertions.Collections
         #endregion
 
         #region NotContain
+
+        /// <summary>
+        /// Asserts that the current dictionary does not contain the specified <paramref name="items"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="items">The unexpected key/value pairs</param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(params KeyValuePair<TKey, TValue>[] items)
+        {
+            return NotContain(items, string.Empty);
+        }
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="items"/>.
