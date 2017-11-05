@@ -25,8 +25,9 @@ namespace FluentAssertions.Execution
         private static AssertionScope current;
 
         private AssertionScope parent;
-        private string expectation = "";
+        private Func<string> expectation = null;
         private readonly bool evaluateCondition = true;
+        private string fallbackIdentifier = "object";
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace FluentAssertions.Execution
             if (parent != null)
             {
                 contextData.Add(parent.contextData);
+                Context = parent.Context;
             }
         }
 
@@ -56,8 +58,14 @@ namespace FluentAssertions.Execution
         /// </summary>
         public AssertionScope(string context) : this()
         {
-            AddNonReportable("context", context);
+            Context = context;
         }
+
+        /// <summary>
+        /// Gets or sets the context of the current assertion scope, e.g. the path of the object graph
+        /// that is being asserted on.
+        /// </summary>
+        public string Context { get; set; }
 
         /// <summary>
         /// Creates a nested scope used during chaining.
@@ -71,6 +79,7 @@ namespace FluentAssertions.Execution
             parent = sourceScope.parent;
             expectation = sourceScope.expectation;
             evaluateCondition = sourceSucceeded;
+            Context = sourceScope.Context;
         }
 
         /// <summary>
@@ -78,8 +87,8 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
-            get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
-            private set { current = value; }
+            get => current ?? new AssertionScope(new DefaultAssertionStrategy());
+            private set => current = value;
         }
 
         /// <summary>
@@ -138,7 +147,7 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string expectation, params object[] args)
         {
-            this.expectation = new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData);
+            this.expectation = () => new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
             return this;
         }
 
@@ -192,11 +201,11 @@ namespace FluentAssertions.Execution
             {
                 if (evaluateCondition && !Succeeded)
                 {
-                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData);
+                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
 
-                    if (!string.IsNullOrEmpty(expectation))
+                    if (expectation != null)
                     {
-                        result = expectation + result;
+                        result = expectation() + result;
                     }
 
                     assertionStrategy.HandleFailure(result.Capitalize());
@@ -209,11 +218,21 @@ namespace FluentAssertions.Execution
                 Succeeded = false;
             }
         }
-        
+
+        private string GetIdentifier()
+        {
+            if (!string.IsNullOrEmpty(Context))
+            {
+                return Context;
+            }
+
+            return CallerIdentifier.DetermineCallerIdentity();
+        }
+
         /// <summary>
         /// Adds a pre-formatted failure message to the current scope. 
         /// </summary>
-        public void AddFailure(string formattedFailureMessage)
+        public void AddPreFormattedFailure(string formattedFailureMessage)
         {
             assertionStrategy.HandleFailure(formattedFailureMessage);
         }
@@ -223,6 +242,10 @@ namespace FluentAssertions.Execution
             contextData.Add(key, value, Reportability.Hidden);
         }
 
+        /// <summary>
+        /// Adds some information to the assertion scope that will be included in the message
+        /// that is emitted if an assertion fails.
+        /// </summary>
         public void AddReportable(string key, string value)
         {
             contextData.Add(key, value, Reportability.Reportable);
@@ -264,6 +287,12 @@ namespace FluentAssertions.Execution
             {
                 assertionStrategy.ThrowIfAny(contextData.Reportable);
             }
+        }
+
+        public AssertionScope WithDefaultIdentifier(string identifier)
+        {
+            this.fallbackIdentifier = identifier;
+            return this;
         }
     }
 }

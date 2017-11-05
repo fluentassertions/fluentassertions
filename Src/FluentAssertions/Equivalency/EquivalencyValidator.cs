@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
             if (ContinueRecursion(context.SelectedMemberPath))
             {
                 AssertionScope scope = AssertionScope.Current;
-                scope.AddNonReportable("context", (context.SelectedMemberDescription.Length == 0) ? "subject" : context.SelectedMemberDescription);
+                scope.Context = (context.SelectedMemberDescription.Length == 0) ? "subject" : context.SelectedMemberDescription;
                 scope.AddNonReportable("subject", context.Subject);
                 scope.AddNonReportable("expectation", context.Expectation);
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Equivalency
             {
                 return true;
             }
-            
+
             AssertionScope.Current.FailWith(
                 "The maximum recursion depth was reached.  " +
                 "The maximum recursion depth limitation prevents stack overflow from " +
