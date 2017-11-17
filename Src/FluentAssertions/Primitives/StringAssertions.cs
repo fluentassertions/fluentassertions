@@ -102,7 +102,7 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>,
-        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// including the casing and any leading or trailing whitespace.
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
         /// <param name="because">
