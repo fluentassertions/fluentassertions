@@ -180,7 +180,191 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Assertion Rules
-        
+
+        [Fact]
+        public void When_property_of_other_is_incompatible_with_generic_type_the_message_should_include_generic_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = "foo",
+            };
+
+            var other = new
+            {
+                Id = 0.5d,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*member Id from expectation*System.String*System.Double*");
+        }
+
+        [Fact]
+        public void When_property_of_subject_is_incompatible_with_generic_type_the_message_should_include_generic_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = 0.5d,
+            };
+
+            var other = new
+            {
+                Id = "foo",
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*member Id from subject*System.String*System.Double*");
+        }
+
+        [Fact]
+        public void When_equally_named_properties_are_both_incompatible_with_generic_type_the_message_should_include_generic_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = 0.5d,
+            };
+
+            var other = new
+            {
+                Id = 0.5d,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*member Id from subject*System.String*System.Double*member Id from expectation*System.String*System.Double*");
+        }
+
+        [Fact]
+        public void When_property_of_other_is_null_the_failure_message_should_not_complain_about_its_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = "foo",
+            };
+
+            var other = new
+            {
+                Id = null as double?,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should()
+                .Contain("Expected member Id to be <null>, but found \"foo\"")
+                    .And.NotContain("from expectation");
+        }
+
+        [Fact]
+        public void When_property_of_subject_is_null_the_failure_message_should_not_complain_about_its_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = null as double?,
+            };
+
+            var other = new
+            {
+                Id = "bar",
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should()
+                .Contain("Expected member Id to be \"bar\", but found <null>")
+                    .And.NotContain("from subject");
+        }
+
+        [Fact]
+        public void When_equally_named_properties_are_both_null_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Id = null as double?,
+            };
+
+            var other = new
+            {
+                Id = null as string,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeEquivalentTo(other,
+                o => o
+                    .Using<string>(c => c.Subject.Should().Be(c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Id"));
+        }
+
         [Fact]
         public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
         {
