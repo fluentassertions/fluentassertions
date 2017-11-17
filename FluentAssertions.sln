@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore20.Specs", "Tests\Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit3.Net45.Specs", "Tests\TestFrameworks\NUnit3.Net45.Specs\NUnit3.Net45.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit2.Net45.Specs", "Tests\TestFrameworks\NUnit2.Net45.Specs\NUnit2.Net45.Specs.csproj", "{53DAC943-ED58-4746-AAD7-D3E13CDA6099}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
@@ -214,6 +216,26 @@ Global
 		{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}.Release|x64.Build.0 = Release|Any CPU
 		{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}.Release|x86.Build.0 = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|ARM.Build.0 = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|x64.Build.0 = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Debug|x86.Build.0 = Debug|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|ARM.ActiveCfg = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|ARM.Build.0 = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x64.ActiveCfg = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x64.Build.0 = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x86.ActiveCfg = Release|Any CPU
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -229,6 +251,7 @@ Global
 		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2} = {4D8FA213-8724-4C43-B68A-F018148D238C}
+		{53DAC943-ED58-4746-AAD7-D3E13CDA6099} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}
