@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Specs", "Tests\NetC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore20.Specs", "Tests\NetCore20.Specs\NetCore20.Specs.csproj", "{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit.Net45.Specs", "Tests\TestFrameworks\NUnit.Net45.Specs\NUnit.Net45.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit3.Net45.Specs", "Tests\TestFrameworks\NUnit3.Net45.Specs\NUnit3.Net45.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

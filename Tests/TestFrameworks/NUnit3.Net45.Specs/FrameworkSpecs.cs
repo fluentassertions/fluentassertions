@@ -2,13 +2,13 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace NUnit.Specs
+namespace NUnit3.Specs
 {
     [TestFixture]
     public class FrameworkSpecs
     {
         [Test]
-        public void When_nunit_is_used_it_should_throw_nunit_exceptions_for_assertion_failures()
+        public void When_nunit3_is_used_it_should_throw_nunit_exceptions_for_assertion_failures()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act

@@ -7,8 +7,8 @@
     <ProjectGuid>{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NUnit.Specs</RootNamespace>
-    <AssemblyName>NUnit.Specs</AssemblyName>
+    <RootNamespace>NUnit3.Specs</RootNamespace>
+    <AssemblyName>NUnit3.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,6 +54,9 @@
       <Project>{34e3713d-c02f-4868-bbe7-47dad2c7f03d}</Project>
       <Name>FluentAssertions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
