@@ -414,13 +414,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var specificDate = 1.May(2008).At(6, 32);
 
-            var dateWithFiveHourOffset = new DateTimeOffset(specificDate);
-            var dateWithSixHourOffset = new DateTimeOffset(specificDate, 1.Hours());
+            var dateWithZeroHourOffset = new DateTimeOffset(specificDate, TimeSpan.Zero);
+            var dateWithOneHourOffset = new DateTimeOffset(specificDate, 1.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dateWithFiveHourOffset.Should().NotBe(dateWithSixHourOffset);
+            dateWithZeroHourOffset.Should().NotBe(dateWithOneHourOffset);
         }
 
         #endregion
