@@ -45,15 +45,23 @@ namespace FluentAssertions.Equivalency
         {
             if (predicate(context))
             {
-                bool expectationisNull = ReferenceEquals(context.Expectation, null);
+                bool subjectIsNull = ReferenceEquals(context.Subject, null);
 
-                bool succeeded =
+                bool subjectIsValidType =
                     AssertionScope.Current
-                        .ForCondition(expectationisNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith("Expected " + context.SelectedMemberDescription + " to be a {0}{reason}, but found a {1}",
-                            !expectationisNull ? context.Expectation.GetType() : null, context.SelectedMemberInfo.MemberType);
+                        .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
+                        .FailWith("Expected " + context.SelectedMemberDescription + " from subject to be a {0}{reason}, but found a {1}.",
+                            typeof(TSubject), context.Subject?.GetType());
 
-                if (succeeded)
+                bool expectationIsNull = ReferenceEquals(context.Expectation, null);
+
+                bool expectationIsValidType =
+                    AssertionScope.Current
+                        .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
+                        .FailWith("Expected " + context.SelectedMemberDescription + " from expectation to be a {0}{reason}, but found a {1}.",
+                            typeof(TSubject), context.SelectedMemberInfo.MemberType);
+
+                if (subjectIsValidType && expectationIsValidType)
                 {
                     action(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
                 }
