@@ -10,7 +10,7 @@ using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class ExceptionAssertionSpecs
     {
         [Fact]
@@ -275,7 +275,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to match the equivalent of \r\n\"message2\"*, but \r\n\"message2\\r\\nParameter name: someParam\"*");
+                    "Expected exception message to match the equivalent of \r\n\"message2\", but \r\n\"message2\r\nParameter name: someParam\"*");
             }
         }
 
@@ -339,8 +339,8 @@ namespace FluentAssertions.Specs
                 ex.Message.Should().Contain(actualException.Message);
             }
         }
-        
-        
+
+
         [Fact]
         public void When_subject_throws_exception_with_message_with_braces_but_a_different_message_is_expected_it_should_report_that()
         {
@@ -391,7 +391,7 @@ namespace FluentAssertions.Specs
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------            
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<AggregateException>()
                 .WithMessage("Outer Message*")
                 .WithInnerException<Exception>()
@@ -595,16 +595,16 @@ namespace FluentAssertions.Specs
                     "Expected inner System.InvalidOperationException because IFoo.Do should do that, but the thrown exception has no inner exception.");
             }
         }
-                
+
         [Fact]
         public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 
+            Action act = () =>
                 throw new ArgumentException("OuterMessage", new InvalidOperationException("InnerMessage"));
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -623,7 +623,7 @@ namespace FluentAssertions.Specs
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------            
+            //-----------------------------------------------------------------------------------------------------------
             const string SomeParamNameValue = "param";
             var target = A.Fake<IFoo>();
             A.CallTo(() => target.Do()).Throws(new ExceptionWithProperties(SomeParamNameValue));
@@ -635,7 +635,7 @@ namespace FluentAssertions.Specs
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------            
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
         }
 

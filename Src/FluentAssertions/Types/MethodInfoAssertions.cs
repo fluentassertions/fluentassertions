@@ -230,7 +230,7 @@ namespace FluentAssertions.Types
             get { return GetDescriptionFor(Subject); }
         }
 
-        protected override string Context
+        protected override string Identifier
         {
             get { return "method"; }
         }

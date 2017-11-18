@@ -104,7 +104,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected object to be*, but found <null>*");
+#else
                 "Expected subject to be*, but found <null>*");
+#endif
         }
 
         [Fact]
@@ -422,6 +426,7 @@ namespace FluentAssertions.Specs
                 Member1 = "",
                 Member2 = new[] {"", ""}
             };
+
             var record2 = new
             {
                 Member1 = "different",
@@ -436,14 +441,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(@"Expected member Member1 to be 
-
-""different"" with a length of 9, but 
-
-"""" has a length of 0.
-
-
-With configuration:*");
+            act.Should().Throw<XunitException>().WithMessage(
+                @"Expected member Member1 to be*""different"" with a length of 9, but*"""" has a length of 0.*");
         }
 
         [Fact]
@@ -459,7 +458,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*foo*null*");
         }
-        
+
         [Fact]
         public void When_the_graph_contains_guids_it_should_properly_format_them()
         {
@@ -514,7 +513,7 @@ With configuration:*");
             };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act 
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(d => d.Age)
@@ -547,7 +546,7 @@ With configuration:*");
             };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act 
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(info => info.SelectedMemberPath.EndsWith("Age"))
@@ -1305,7 +1304,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                
+
             };
 
             var other = new
@@ -2249,7 +2248,7 @@ With configuration:*");
             {
                 Property = "32"
             };
-            
+
             var expectation = new
             {
                 Property = 32
@@ -2258,7 +2257,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo(expectation, 
+            Action act = () => actual.Should().BeEquivalentTo(expectation,
                 options => options.WithAutoConversion());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2298,7 +2297,7 @@ With configuration:*");
                 Age = 32,
                 Birthdate = "1973-09-20"
             };
-            
+
             var expectation = new
             {
                 Age = "32",
@@ -2308,7 +2307,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeEquivalentTo(expectation, 
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
                 options => options.WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2316,7 +2315,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*Age*String*Int32*");
         }
-        
+
         [Fact]
         public void When_only_a_single_property_is_converted_and_the_other_matches_it_should_succeed()
         {
@@ -2328,7 +2327,7 @@ With configuration:*");
                 Age = 32,
                 Birthdate = "1973-09-20"
             };
-            
+
             var expectation = new
             {
                 Age = 32,
@@ -2346,7 +2345,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
-        
+
         [Fact]
         public void When_a_specific_mismatching_property_is_excluded_from_conversion_it_should_throw()
         {
@@ -2358,7 +2357,7 @@ With configuration:*");
                 Age = 32,
                 Birthdate = "1973-09-20"
             };
-            
+
             var expectation = new
             {
                 Age = 32,
@@ -2377,7 +2376,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected*<1973-09-20>*\"1973-09-20\"*");
         }
-        
+
         [Fact]
         public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
         {
@@ -2633,7 +2632,7 @@ With configuration:*");
                 SubValues = new[]
                 {
                     new StringSubContainer
-                    {   
+                    {
                         SubValue = subValue
                     }
                 };
@@ -3111,7 +3110,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow<StackOverflowException>();
         }
-        
+
 #endif
         [Fact]
         public void
@@ -3271,7 +3270,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be*3*, but found*0*");
+#if NETCOREAPP1_1
+                .WithMessage("Expected value to be*3*, but found*0*");
+#else
+                .WithMessage("Expected EnumOne.One to be*3*, but found*0*");
+#endif
         }
 
         [Fact]

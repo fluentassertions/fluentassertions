@@ -58,7 +58,7 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Context
+        protected override string Identifier
         {
             get { return "methodBase"; }
         }

@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class DateTimeAssertionSpecs
     {
         #region (Not) Have Value
@@ -254,8 +254,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.");
+#if NETCOREAPP1_1
+                .WithMessage("Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.");
+#else
+                .WithMessage("Expected dateTime to be <2012-03-11>*failure message, but found <2012-03-10>.");
+#endif
         }
 
         [Fact]
@@ -297,7 +300,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected date and time not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
+#else
+                .WithMessage("Expected dateTime not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
+#endif
         }
 
         [Fact]
@@ -468,7 +475,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
+#else
+                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
+#endif
         }
 
         [Fact]
@@ -508,7 +520,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+#else
+                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+#endif
         }
 
         [Fact]
@@ -528,7 +545,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+#else
+                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+#endif
         }
 
         [Fact]
@@ -550,7 +572,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#if NETCOREAPP1_1
+                    "Expected the date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#else
+                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#endif
         }
 
         [Fact]
@@ -572,7 +598,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#if NETCOREAPP1_1
+                    "Expected the date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#else
+                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+#endif
         }
 
         [Fact]
@@ -614,7 +644,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+#if NETCOREAPP1_1
+                    "Expected the date and time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+#else
+                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+#endif
         }
 
         [Fact]
@@ -674,7 +708,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected date and time to not be within 0.035s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.035>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.035s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.035>.");
+#else
+                .WithMessage("Did not expect time to be within 0.035s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.035>.");
+#endif
         }
 
         [Fact]
@@ -716,7 +755,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*, but found <null>.");
+                .WithMessage("Did not expect*, but it was <null>.");
         }
 
         [Fact]
@@ -757,7 +796,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected date and time to not be within 0.100s from <0001-01-01 00:00:00.000>, but found <00:00:00.050>.");
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.100s from <0001-01-01 00:00:00.000>, but it was <00:00:00.050>.");
+#else
+                .WithMessage("Did not expect time to be within 0.100s from <0001-01-01 00:00:00.000>, but it was <00:00:00.050>.");
+#endif
         }
 
         [Fact]
@@ -798,7 +841,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected date and time to not be within 0.100s from <9999-12-31 23:59:59.9999999>, but found <9999-12-31 23:59:59.9499999>.");
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date and time to be within 0.100s from <9999-12-31 23:59:59.9999999>, but it was <9999-12-31 23:59:59.9499999>.");
+#else
+                .WithMessage("Did not expect time to be within 0.100s from <9999-12-31 23:59:59.9999999>, but it was <9999-12-31 23:59:59.9499999>.");
+#endif
         }
 
         #endregion
@@ -841,7 +888,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected earlierDate to be on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -862,7 +914,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be before <2016-06-03>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be before <2016-06-03>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -904,7 +961,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be before <2016-06-04>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be before <2016-06-04>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -967,7 +1029,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be after <2016-06-05>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be after <2016-06-05>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1007,7 +1074,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be after <2016-06-04>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be after <2016-06-04>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1027,7 +1099,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be on or before <2016-06-03>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
+#endif
 
         }
 
@@ -1091,7 +1168,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be on or before <2016-06-03>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1111,7 +1193,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be after <2016-06-05>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be after <2016-06-05>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1151,7 +1238,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be after <2016-06-04>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be after <2016-06-04>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1213,7 +1305,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be before <2016-06-03>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be before <2016-06-03>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1253,7 +1350,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be before <2016-06-04>, but found <2016-06-04>.");
+#else
+                .WithMessage("Expected subject to be before <2016-06-04>, but found <2016-06-04>.");
+#endif
         }
 
         [Fact]
@@ -1273,7 +1375,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage( "Expected a date and time on or after <2016-06-05>, but found <2016-06-04>." );
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be on or after <2016-06-05>, but found <2016-06-04>." );
+#else
+                .WithMessage("Expected subject to be on or after <2016-06-05>, but found <2016-06-04>." );
+#endif
         }
 
         [Fact]
@@ -1335,7 +1442,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected year not to be 2009, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the year part of the date to be 2009, but it was.");
+#else
+                .WithMessage("Did not expect the year part of subject to be 2009, but it was.");
+#endif
         }
 
         [Fact]
@@ -1355,7 +1467,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected year to be 2008, but found 2009.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the year part of the date to be 2008, but found 2009.");
+#else
+                .WithMessage("Expected the year part of subject to be 2008, but found 2009.");
+#endif
         }
 
         [Fact]
@@ -1395,7 +1512,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected year to be 2008, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the year part of the date to be 2008, but found <null>.");
+#else
+                .WithMessage("Expected the year part of subject to be 2008, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -1415,7 +1537,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected year not to be 2008, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the year part of the date to be 2008, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the year part of subject to be 2008, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -1457,7 +1584,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected month not to be 12, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the month part of the date to be 12, but it was.");
+#else
+                .WithMessage("Did not expect the month part of subject to be 12, but it was.");
+#endif
         }
 
         [Fact]
@@ -1477,7 +1609,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected month to be 11, but found 12.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the month part of the date to be 11, but found 12.");
+#else
+                .WithMessage("Expected the month part of subject to be 11, but found 12.");
+#endif
         }
 
         [Fact]
@@ -1517,7 +1654,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected month to be 12, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the month part of the date to be 12, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected the month part of subject to be 12, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -1537,7 +1679,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected month not to be 12, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the month part of the date to be 12, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the month part of subject to be 12, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -1579,7 +1726,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected day not to be 31, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the day part of the date to be 31, but it was.");
+#else
+                .WithMessage("Did not expect the day part of subject to be 31, but it was.");
+#endif
         }
 
         [Fact]
@@ -1599,7 +1751,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected day to be 30, but found 31.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the day part of the date to be 30, but found 31.");
+#else
+                .WithMessage("Expected the day part of subject to be 30, but found 31.");
+#endif
         }
 
         [Fact]
@@ -1639,7 +1796,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected day to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the day part of the date to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected the day part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -1659,7 +1821,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected day not to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the day part of the date to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the day part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -1701,7 +1868,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected hour not to be 23, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the hour part of the time to be 23, but it was.");
+#else
+                .WithMessage("Did not expect the hour part of subject to be 23, but it was.");
+#endif
         }
 
         [Fact]
@@ -1721,7 +1893,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected hour to be 22, but found 23.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the hour part of the time to be 22, but found 23.");
+#else
+                .WithMessage("Expected the hour part of subject to be 22, but found 23.");
+#endif
         }
 
         [Fact]
@@ -1761,7 +1938,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected hour to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the hour part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected the hour part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -1781,7 +1963,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected hour not to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the hour part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the hour part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -1823,7 +2010,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected minute not to be 59, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the minute part of the time to be 59, but it was.");
+#else
+                .WithMessage("Did not expect the minute part of subject to be 59, but it was.");
+#endif
         }
 
         [Fact]
@@ -1843,7 +2035,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected minute to be 58, but found 59.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the minute part of the time to be 58, but found 59.");
+#else
+                .WithMessage("Expected the minute part of subject to be 58, but found 59.");
+#endif
         }
 
         [Fact]
@@ -1883,7 +2080,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected minute to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the minute part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected the minute part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -1903,7 +2105,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected minute not to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the minute part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the minute part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -1945,7 +2152,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected second not to be 0, but found it is.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the seconds part of the time to be 0, but it was.");
+#else
+                .WithMessage("Did not expect the seconds part of subject to be 0, but it was.");
+#endif
         }
 
         [Fact]
@@ -1965,7 +2177,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected second to be 1, but found 0.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the seconds part of the time to be 1, but found 0.");
+#else
+                .WithMessage("Expected the seconds part of subject to be 1, but found 0.");
+#endif
         }
 
         [Fact]
@@ -2005,7 +2222,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected second to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the seconds part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected the seconds part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -2025,7 +2247,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected second not to be 22, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the seconds part of the time to be 22, but found a <null> DateTime.");
+#else
+                .WithMessage("Did not expect the seconds part of subject to be 22, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -2065,7 +2292,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected kind to be Utc, but found Local.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be in Utc, but found Local.");
+#else
+                .WithMessage("Expected subject to be in Utc, but found Local.");
+#endif
         }
 
         [Fact]
@@ -2084,7 +2316,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected kind to be Utc, but found a <null> DateTime.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected the date and time to be in Utc, but found a <null> DateTime.");
+#else
+                .WithMessage("Expected subject to be in Utc, but found a <null> DateTime.");
+#endif
         }
         #endregion
 
@@ -2124,7 +2361,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date part of the date and time to be <2009-12-31>, but it was.");
+#else
+                .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
+#endif
         }
 
         [Fact]
@@ -2162,7 +2404,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Did not expect the date part of the date and time to be <2009-12-31>, but it was.");
+#else
+                .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
+#endif
         }
 
         [Fact]
@@ -2182,7 +2429,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected a date and time with date <2009-12-31>, but found a <null> DateTime.");
+#if NETCOREAPP1_1
+                "Expected the date part of the date and time to be <2009-12-31>, but found a <null> DateTime.");
+#else
+                "Expected the date part of subject to be <2009-12-31>, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -2202,7 +2453,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected a date and time that does not have date <2009-12-31>, but found a <null> DateTime.");
+#if NETCOREAPP1_1
+                "Did not expect the date part of the date and time to be <2009-12-31>, but found a <null> DateTime.");
+#else
+                "Did not expect the date part of subject to be <2009-12-31>, but found a <null> DateTime.");
+#endif
         }
 
         [Fact]
@@ -2222,7 +2477,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected a date and time with date <2009-12-30>, but found <2009-12-31>.");
+#if NETCOREAPP1_1
+                "Expected the date part of the date and time to be <2009-12-30>, but found <2009-12-31>.");
+#else
+                "Expected the date part of subject to be <2009-12-30>, but found <2009-12-31>.");
+#endif
         }
 
         [Fact]
@@ -2519,7 +2778,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected date and time to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>}, but found <2016-12-30 23:58:57>.");
+#else
+                .WithMessage("Expected value to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>}, but found <2016-12-30 23:58:57>.");
+#endif
         }
 
         [Fact]
@@ -2539,7 +2802,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected date and time to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>} because it's true, but found <2016-12-30 23:58:57>.");
+#else
+                .WithMessage("Expected value to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>} because it's true, but found <2016-12-30 23:58:57>.");
+#endif
         }
 
         [Fact]
@@ -2580,7 +2847,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected date and time to be one of {<2216-01-30 00:05:07>, <1116-04-10 02:45:07>}, but found <null>.");
+#else
+                .WithMessage("Expected value to be one of {<2216-01-30 00:05:07>, <1116-04-10 02:45:07>}, but found <null>.");
+#endif
         }
 
         [Fact]

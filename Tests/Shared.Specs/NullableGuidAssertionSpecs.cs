@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class NullableGuidAssertionSpecs
     {
         [Fact]
@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 
+            Action act = () =>
                 nullGuid.Should().Be(otherNullGuid);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -224,14 +224,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 
+            Action act = () =>
                 nullableGuid.Should().Be(someGuid, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullableGuid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
+#endif
         }
 
         [Fact]

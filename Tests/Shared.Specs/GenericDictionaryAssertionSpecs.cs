@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class GenericDictionaryAssertionSpecs
     {
         #region Be Null
@@ -58,7 +58,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary to be <null> because null is valid, but found {empty}.");
+#else
+                "Expected someDictionary to be <null> because null is valid, but found {empty}.");
+#endif
         }
 
         [Fact]
@@ -92,7 +96,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary not to be <null> because someDictionary should not.");
+#else
+                "Expected someDictionary not to be <null> because someDictionary should not.");
+#endif
         }
 
         #endregion
@@ -809,7 +817,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary to be equal to {[1, One], [22, Two]} because we want to test the failure message, but could not find keys {22}.");
+#else
+                "Expected dictionary1 to be equal to {[1, One], [22, Two]} because we want to test the failure message, but could not find keys {22}.");
+#endif
         }
 
         [Fact]
@@ -839,7 +851,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the failure message, but found additional keys {3}.");
+#else
+                "Expected dictionary1 to be equal to {[1, One], [2, Two]} because we want to test the failure message, but found additional keys {3}.");
+#endif
         }
 
         [Fact]
@@ -868,7 +884,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary to be equal to {[1, One], [2, Three]} because we want to test the failure message, but {[1, One], [2, Two]} differs at key 2.");
+#else
+                "Expected dictionary1 to be equal to {[1, One], [2, Three]} because we want to test the failure message, but {[1, One], [2, Two]} differs at key 2.");
+#endif
         }
 
         [Fact]
@@ -893,7 +913,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the behaviour with a null subject, but found <null>.");
+#else
+                "Expected dictionary1 to be equal to {[1, One], [2, Two]} because we want to test the behaviour with a null subject, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -943,7 +967,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
+#if NETCOREAPP1_1
+            "Expected dictionary to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
+#else
+                "Expected dictionary1 to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
+#endif
         }
 
         [Fact]
@@ -1131,7 +1159,7 @@ namespace FluentAssertions.Specs
             };
             dictionary.Should().ContainKey(1);
         }
-        
+
         [Fact]
         public void When_a_dictionary_has_custom_equality_comparer_the_contains_key_assertion_should_work_accordingly()
         {
@@ -1495,7 +1523,7 @@ namespace FluentAssertions.Specs
             {
                 SomeProperty = 0
             };
-            
+
             var dictionary = new Dictionary<int, MyClass>
             {
                 { 1, myClass }
@@ -1704,7 +1732,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
         }
-        
+
         [Fact]
         public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
         {
@@ -2435,7 +2463,7 @@ namespace FluentAssertions.Specs
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------            
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
         }

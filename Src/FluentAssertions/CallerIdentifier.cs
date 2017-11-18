@@ -19,7 +19,7 @@ namespace FluentAssertions
 
             foreach (StackFrame frame in stack.GetFrames())
             {
-                if (!IsDotNet(frame) && !IsCurrentAssembly(frame))
+                if (!IsDynamic(frame) && !IsDotNet(frame) && !IsCurrentAssembly(frame))
                 {
                     caller = ExtractVariableNameFrom(frame) ?? caller;
                     break;
@@ -29,6 +29,11 @@ namespace FluentAssertions
             return caller;
         }
 
+        private static bool IsDynamic(StackFrame frame)
+        {
+            return frame.GetMethod().DeclaringType == null;
+        }
+
         private static bool IsCurrentAssembly(StackFrame frame)
         {
             return frame.GetMethod().DeclaringType.Assembly == typeof(CallerIdentifier).Assembly;
@@ -36,8 +41,7 @@ namespace FluentAssertions
 
         private static bool IsDotNet(StackFrame frame)
         {
-            return frame
-                .GetMethod().DeclaringType.Namespace
+            return frame.GetMethod().DeclaringType.Namespace
                 .StartsWith("system", StringComparison.InvariantCultureIgnoreCase);
         }
 

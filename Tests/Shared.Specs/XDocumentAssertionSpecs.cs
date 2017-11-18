@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class XDocumentAssertionSpecs
     {
         #region Be / NotBe
@@ -722,10 +722,12 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML document to be <null>" +
-                    " because we want to test the failure message," +
-                        " but found <configuration></configuration>.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected XML document to be <null> because we want to test the failure message, but found <configuration></configuration>.");
+#else
+                "Expected document to be <null> because we want to test the failure message, but found <configuration></configuration>.");
+#endif
         }
 
         [Fact]
@@ -785,9 +787,12 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML document not to be <null>" +
-                    " because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected XML document not to be <null> because we want to test the failure message.");
+#else
+                "Expected document not to be <null> because we want to test the failure message.");
+#endif
         }
 
         #endregion
@@ -884,7 +889,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<InvalidOperationException>().WithMessage(
                 "Cannot assert the document has a root element if the document itself is <null>.");
         }
-        
+
         [Fact]
         public void When_asserting_a_document_has_a_null_root_element_it_should_fail()
         {
