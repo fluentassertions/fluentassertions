@@ -757,7 +757,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected date and time to not be within 0.100s from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
+                .WithMessage("Expected date and time to not be within 0.100s from <0001-01-01 00:00:00.000>, but found <00:00:00.050>.");
         }
 
         [Fact]
