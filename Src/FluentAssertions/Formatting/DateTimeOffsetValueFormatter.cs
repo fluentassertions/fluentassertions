@@ -88,7 +88,12 @@ namespace FluentAssertions.Formatting
 
         private static bool HasTime(DateTimeOffset dateTime)
         {
-            return (dateTime.Hour != 0) || (dateTime.Minute != 0) || (dateTime.Second != 0);
+            return (dateTime.Hour != 0)
+                || (dateTime.Minute != 0)
+                || (dateTime.Second != 0)
+                || HasMilliSeconds(dateTime)
+                || HasMicroSeconds(dateTime)
+                || HasNanoSeconds(dateTime);
         }
 
         private static bool HasDate(DateTimeOffset dateTime)
