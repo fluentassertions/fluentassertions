@@ -50,7 +50,6 @@
     (actual is T).Should().BeFalse();
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotBeAssignableTo<T>();
 
   old-message: |
@@ -63,7 +62,6 @@
     (actual as T).Should().BeNull();
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotBeAssignableTo<T>();
 
   old-message: |

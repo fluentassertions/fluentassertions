@@ -95,3 +95,41 @@
 
   new-message: |
     Expected string with length 4, but found string "Actual" with length 6.
+
+- old: |
+    actual.Should().Contain(item)
+        .And.Contain(anotherItem);
+
+  new: |
+    actual.Should().ContainAll(item, anotherItem);
+
+  old-message: |
+    Expected string "chalk dirt mud" to contain "ruby".
+
+  new-message: |
+    Expected string "chalk dirt mud" to contain the strings: {"ruby", "diamond"}.
+    
+- old: |
+    actual.Should().NotContain(item)
+        .And.NotContain(anotherItem);
+
+  new: |
+    actual.Should().NotContainAny(item, anotherItem);
+
+  old-message: |
+    Did not expect string "chalk ruby dirt diamond mud" to contain "ruby".
+
+  new-message: |
+    Did not expect the string "chalk ruby dirt diamond mud" to contain any of the strings: {"ruby", "diamond"}.
+
+- old: |
+    actual.ToUpper().Should().Be(expected.ToUpper());
+
+  new: |
+    actual.Should().BeEquivalentTo(expected);
+
+  old-message: |
+    Expected string to be "SOME TEXT" with a length of 9, but "SOME WEIRD TEXT" has a length of 15.
+
+  new-message: |
+    Expected string to be equivalent to "some text" with a length of 9, but "sOmE WeIrD tExT" has a length of 15.

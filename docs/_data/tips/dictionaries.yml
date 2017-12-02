@@ -72,4 +72,54 @@
   new-message: |
     Expected dictionary to contain value "expected" at key 0, but found "".
 
+- old: |
+    actual.Should().ContainKey(key1)
+        .And.ContainKey(key2);
 
+  new: |
+    actual.Should().ContainKeys(key1, key2);
+
+  old-message: |
+    Expected dictionary {[0, a], [1, b]} to contain key 2.
+
+  new-message: |
+    Expected dictionary {[0, a], [1, b]} to contain key {1, 2}, but could not find {2}.
+
+- old: |
+    actual.Should().NotContainKey(key1)
+        .And.NotContainKey(key2);
+
+  new: |
+    actual.Should().NotContainKeys(key1, key2);
+
+  old-message: |
+    Dictionary {[2, c], [3, d]} should not contain key 2, but found it anyhow.
+
+  new-message: |
+    Expected dictionary {[2, c], [3, d]} to not contain key {2, 3}, but found {2, 3}.
+
+- old: |
+    actual.Should().ContainValue(value1)
+        .And.ContainValue(value2);
+
+  new: |
+    actual.Should().ContainValues(value1, value2);
+
+  old-message: |
+    Expected dictionary {[0, a], [1, b]} to contain value "c".
+
+  new-message: |
+    Expected dictionary {[0, a], [1, b]} to contain value {"c", "d"}, but could not find {"c", "d"}.
+
+- old: |
+    actual.Should().NotContainValue(value1)
+        .And.NotContainValue(value2);
+
+  new: |
+    actual.Should().NotContainValues(value1, value2);
+
+  old-message: |
+    Dictionary {[2, c], [3, d]} should not contain value "c", but found it anyhow.
+
+  new-message: |
+    Expected dictionary {[2, c], [3, d]} to not contain value {"c", "d"}, but found {"c", "d"}.
