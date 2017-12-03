@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -41,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit3.Net45.Specs", "Tests\TestFrameworks\NUnit3.Net45.Specs\NUnit3.Net45.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit2.Net45.Specs", "Tests\TestFrameworks\NUnit2.Net45.Specs\NUnit2.Net45.Specs.csproj", "{53DAC943-ED58-4746-AAD7-D3E13CDA6099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnit.Net45.Specs", "Tests\TestFrameworks\XUnit.Net45.Specs\XUnit.Net45.Specs.csproj", "{80546B87-FB19-452E-8629-0DA4A2D84BD6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -236,6 +238,26 @@ Global
 		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x64.Build.0 = Release|Any CPU
 		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x86.ActiveCfg = Release|Any CPU
 		{53DAC943-ED58-4746-AAD7-D3E13CDA6099}.Release|x86.Build.0 = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|x64.Build.0 = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Debug|x86.Build.0 = Debug|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|ARM.Build.0 = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|x64.ActiveCfg = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|x64.Build.0 = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|x86.ActiveCfg = Release|Any CPU
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,6 +274,7 @@ Global
 		{1C7CF1BF-534B-4CF7-A3B2-5910B091460A} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 		{53DAC943-ED58-4746-AAD7-D3E13CDA6099} = {4D8FA213-8724-4C43-B68A-F018148D238C}
+		{80546B87-FB19-452E-8629-0DA4A2D84BD6} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}
