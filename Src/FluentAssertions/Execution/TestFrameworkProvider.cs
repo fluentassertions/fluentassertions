@@ -11,17 +11,19 @@ namespace FluentAssertions.Execution
 
         private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
         {
-            { "nunit", new NUnitTestFramework() },
-            { "xunit", new XUnitTestFramework() },
-            { "mspec", new MSpecFramework() },
-            { "mbunit", new MbUnitTestFramework() },
-            { "gallio", new GallioTestFramework() },
-            { "mstest", new MSTestFramework() },
+            ["gallio"] = new GallioTestFramework(),
+            ["mspec"] = new MSpecFramework(),
+            ["nspec"] = new NSpec1Framework(),
+            ["nspec2"] = new NSpecFramework(),
+            ["nspec3"] = new NSpecFramework(),
+            ["mbunit"] = new MbUnitTestFramework(),
+            ["nunit"] = new NUnitTestFramework(),
+            ["mstest"] = new MSTestFramework(),
+            ["mstestv2"] = new MSTestFrameworkV2(),
+            ["xunit"] = new XUnitTestFramework(),
+            ["xunit2"] = new XUnit2TestFramework(),
 
-            { "xunit2", new XUnit2TestFramework()},
-            { "mstestv2", new MSTestFrameworkV2() },
-
-            { "fallback", new FallbackTestFramework() }
+            ["fallback"] = new FallbackTestFramework()
         };
 
         private static ITestFramework testFramework;

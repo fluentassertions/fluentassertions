@@ -1,6 +1,10 @@
 ﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta5-build3769"
 #tool "nuget:?package=nunit.runners&version=2.6.4"
 #tool "nuget:?package=nunit.consolerunner&version=3.7.0"
+#tool "nuget:?package=nspec&version=1.0.13"
+#tool "nuget:?package=nspec&version=2.0.1"
+#tool "nuget:?package=nspec&version=3.1.0"
+#tool "nuget:?package=Machine.Specifications.Runner.Console&version=0.9.3"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
@@ -18,6 +22,12 @@ var toolpath = Argument("toolpath", @"");
 // Define directories.
 var buildDir = Directory("./Artifacts") + Directory(configuration);
 GitVersion gitVersion = null; 
+
+if (!FileExists("./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll"))
+{
+    // NSpec2.0.1 does not have NSpec.dll in the test runner directory, which crashes the test runner.
+    CopyFile("./tools/nspec.2.0.1/NSpec/lib/net451/NSpec.dll", "./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll");
+}
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -80,8 +90,13 @@ Task("Run-Unit-Tests")
 
     XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
-    NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnitSettings { });
-    NUnit3("./Tests/TestFrameworks/NUnit3.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnit3Settings { });
+    NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnitSettings { NoResults = true });
+    NUnit3("./Tests/TestFrameworks/NUnit3.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnit3Settings { NoResults = true });
+
+    StartProcess(Context.Tools.Resolve("nspec.1.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec.Net45.Specs/bin/" + configuration + "/NSpec.Specs.dll");
+    StartProcess(Context.Tools.Resolve("nspec.2.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec2.Net45.Specs/bin/" + configuration + "/NSpec2.Specs.dll");
+    StartProcess(Context.Tools.Resolve("nspec.3.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec3.Net45.Specs/bin/" + configuration + "/NSpec3.Specs.dll");
+    StartProcess(Context.Tools.Resolve("mspec-clr4.exe"), "./Tests/TestFrameworks/MSpec.Net45.Specs/bin/" + configuration + "/MSpec.Specs.dll");
 });
 
 Task("Pack")
