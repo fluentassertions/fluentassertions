@@ -72,6 +72,32 @@
     Expected collection {"Actual"} to contain "Expected".
 
 - old: |
+    actual.Should().Contain(item)
+        .And.Contain(anotherItem);
+
+  new: |
+    actual.Should().Contain(new [] { item, anotherItem});
+
+  old-message: |
+    Expected collection {1, 2, 3, 4} to contain 13.
+
+  new-message: |
+    Expected collection {1, 2, 3, 4} to contain {13, 37}, but could not find {13, 37}.
+    
+- old: |
+    actual.Should().NotContain(item)
+        .And.NotContain(anotherItem);
+
+  new: |
+    actual.Should().NotContain(new [] { item, anotherItem});
+
+  old-message: |
+    Expected collection {1, 2, 3, 4} to not contain 2.
+
+  new-message: |
+    Expected collection {1, 2, 3, 4} to not contain {2, 3}, but found {2, 3}.
+
+- old: |
     actual.Contains(unexpected).Should().BeFalse();
 
   new: |
@@ -111,7 +137,6 @@
     actual.Count().Should().BeGreaterThan(k);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().HaveCountGreaterThan(k);
 
   old-message: |
@@ -124,7 +149,6 @@
     actual.Count().Should().BeGreaterOrEqualTo(k);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().HaveCountGreaterOrEqualTo(k);
 
   old-message: |
@@ -137,7 +161,6 @@
     actual.Count().Should().BeLessThan(k);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().HaveCountLessThan(k);
 
   old-message: |
@@ -150,7 +173,6 @@
     actual.Count().Should().BeLessOrEqualTo(k);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().HaveCountLessOrEqualTo(k);
 
   old-message: |
@@ -163,7 +185,6 @@
     actual.Count().Should().NotBe(k);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotHaveCount(k);
 
   old-message: |
@@ -212,7 +233,6 @@
     actual.Count().Should().NotBe(unexpected.Count());
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotHaveSameCount(unexpected);
 
   old-message: |
@@ -393,7 +413,6 @@
         .Should().NotContainNulls();
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotContainNulls(e => e.OtherProperty);
 
   old-message: |
@@ -419,7 +438,6 @@
         .Should().OnlyHaveUniqueItems();
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().OnlyHaveUniqueItems(x => x.SomeProperty);
 
   old-message: |

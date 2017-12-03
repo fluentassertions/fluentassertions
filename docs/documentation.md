@@ -2,7 +2,8 @@
 title: Documentation
 ---
 
-**This is the documentation for v3.0 and higher. You can find the v2.2 documentation [here](v2/documentation.md).**
+**This is the documentation for v5.0 and higher.
+You can find the v2.2 documentation [here](v2/documentation.md) and the v3 and v4 documentation [here](v3/documentation.md).**
 
 ## Coding by Example ##
 As you may have noticed the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
@@ -89,11 +90,12 @@ Some users requested the ability to easily downcast an object to one of its deri
 customer.Animals.First().As<Human>().Height.Should().Be(178);
 ```
 
-We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML or binary formatters.
+We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML, binary or data contract formatters.
 
 ```csharp
 theObject.Should().BeXmlSerializable();
 theObject.Should().BeBinarySerializable();
+theObject.Should().BeDataContractSerializable();
 ```
 
 Internally, `BeBinarySerializable` uses the [Object graph comparison](#object-graph-comparison) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
@@ -167,8 +169,8 @@ theString.Should().NotBe("This is another String");
 theString.Should().BeEquivalentTo("THIS IS A STRING");
 
 theString.Should().BeOneOf(
-	"That is a String",
-	"This is a String",
+    "That is a String",
+    "This is a String",
 );
 
 theString.Should().Contain("is a");
@@ -203,6 +205,7 @@ If the casing of the input string is irrelevant, use this:
 
 ```csharp
 emailAddress.Should().MatchEquivalentOf("*@*.COM");
+emailAddress.Should().NotMatchEquivalentOf("*@*.COM");
 ```
 
 And if wildcards aren't enough for you, you can always use some regular expression magic:
@@ -305,10 +308,17 @@ theDatetime.Should().NotHaveMinute(16);
 theDatetime.Should().NotHaveSecond(1);
 
 theDatetime.Should().BeOneOf(
-	1.March(2010).At(21, 15),
-	1.March(2010).At(22, 15),
-	1.March(2010).At(23, 15)
+    1.March(2010).At(21, 15),
+    1.March(2010).At(22, 15),
+    1.March(2010).At(23, 15)
 );
+```
+
+```csharp
+var theDatetimeOffset = 1.March(2010).AsUtc().ToDateTimeOffset(2.Hours());
+
+theDatetimeOffset.Should().HaveOffset(2);
+theDatetimeOffset.Should().NotHaveOffset(3);
 ```
 
 We've added a whole set of methods for asserting that the difference between two DateTime objects match a certain time frame.
@@ -327,7 +337,7 @@ To assert that a date/time is (not) within a specified number of milliseconds fr
 ```csharp
 theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2000); // 2000 milliseconds
 theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15));       // default is 20 milliseconds
-theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2000.Milliseconds());
+theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2.Seconds());
 
 theDatetime.Should().NotBeCloseTo(2.March(2010), 1.Hours());
 ```
@@ -471,6 +481,15 @@ persistedCustomers.Should().StartWith(customers, (c1, c2) => c1.Name == c2.Name)
 persistedCustomers.Should().EndWith(customers, (c1, c2) => c1.Name == c2.Name);
 ```
 
+You can also perform assertions on all elements of a collection:
+```csharp
+IEnumerable<BaseType> collection = new BaseType[] { new DerivedType() };
+
+collection.Should().AllBeAssignableTo<DerivedType>();
+collection.Should().AllBeOfType<DerivedType>();
+collection.Should().AllBeEquivalentTo(referenceObject);
+```
+
 ## Dictionaries ##
 
 You can apply Fluent Assertions to your generic dictionaries as well.
@@ -592,7 +611,7 @@ Action act = () => subject.Foo2("Hello");
 
 act.Should().Throw<InvalidOperationException>()
     .WithInnerException<ArgumentException>()
-    .WithInnerMessage("whatever");
+    .WithMessage("whatever");
 ```
 
 Notice that the example also verifies that the exception has a particular inner exception with a specific message.
@@ -1054,6 +1073,9 @@ xDocument.Should().HaveElement("settings");
 xElement.Should().HaveValue("36");
 xElement.Should().HaveAttribute("age", "36");
 xElement.Should().HaveElement("address");
+xElement.Should().HaveElementWithNamespace("address", "http://www.example.com/2012/test");
+
+xElement.Should().HaveInnerText("some textanother textmore text");
 ```
 
 Those two last assertions also support `XName` parameters:
@@ -1087,19 +1109,19 @@ To verify the execution time of a method, use the following syntax:
 
 ```csharp
 public class SomePotentiallyVerySlowClass
+{
+    public void ExpensiveMethod()
     {
-      public void ExpensiveMethod()
-      {
         for (short i = 0; i < short.MaxValue; i++)
         {
-          string tmp = " ";
-          if (!string.IsNullOrEmpty(tmp))
-          {
-            tmp += " ";
-          }
+            string tmp = " ";
+            if (!string.IsNullOrEmpty(tmp))
+            {
+                tmp += " ";
+            }
         }
-      }
     }
+}
 var subject = new SomePotentiallyVerySlowClass();
 subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessOrEqualTo(500.Milliseconds());
 ```
@@ -1107,11 +1129,18 @@ subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessOrEqualTo(500.M
 Alternatively, to verify the execution time of an arbitrary action, use this syntax:
 
 ```csharp
-Action someAction = () => Thread.Sleep(510);
-someAction.ExecutionTime().Should().BeLessOrEqualTo(100.Milliseconds());
+Action someAction = () => Thread.Sleep(100);
+someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
 ```
 
-Since it doesn’t make sense to do something like that in Silverlight, it is only available in the .NET 3.5 and .NET 4.0 versions of Fluent Assertions.
+The supported assertions on `ExecutionTime()` are a subset of those found for `TimeSpan`s, namely:
+```
+someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
+someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
+someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
+someAction.ExecutionTime().Should().BeGreaterOrEqualTo(100.Milliseconds());
+someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Milliseconds());
+```
 
 ## Extensibility ##
 
@@ -1124,13 +1153,13 @@ You have a few options though.
 * Create extension methods that extend an assertion class: 
 
 ```csharp
-    public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string because, params object[] becauseArgs)
-    { 
-        Execute.Assertion
-           .ForCondition(somecondition)
-           .BecauseOf(reason, reasonArgs)
-           .FailWith("Expected object not to be {0}{reason}", null);
-    }
+public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string because, params object[] becauseArgs)
+{
+    Execute.Assertion
+        .ForCondition(somecondition)
+        .BecauseOf(reason, reasonArgs)
+        .FailWith("Expected object not to be {0}{reason}", null);
+}
 ```
 
 * Create a custom assertions class and use the `Assertion` class to verify conditions and create comprehensive failure messages using the built-in formatters.

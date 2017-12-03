@@ -86,7 +86,6 @@
     Assert.AreNotEqual(expected, actual, delta);
 
   new: |
-    // Will be available in Fluent Assertions 5.0
     actual.Should().NotBeApproximately(expected, delta);
 
   old-message: |
