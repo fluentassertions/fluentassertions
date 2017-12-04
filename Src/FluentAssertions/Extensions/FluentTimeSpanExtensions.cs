@@ -50,7 +50,7 @@ namespace FluentAssertions.Extensions
         /// <summary>
         /// Gets the nanoseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
         /// </summary>
-        public static int Nanosecond(this TimeSpan self)
+        public static int Nanoseconds(this TimeSpan self)
         {
             return (int)((self.Ticks % TicksPerMicrosecond) * (1d / TicksPerNanosecond));
         }
@@ -88,11 +88,11 @@ namespace FluentAssertions.Extensions
         {
             return self.Ticks * (1d / TicksPerNanosecond);
         }
-        
+
         /// <summary>
         /// Gets the microseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
         /// </summary>
-        public static int Microsecond(this TimeSpan self)
+        public static int Microseconds(this TimeSpan self)
         {
             return (int)((self.Ticks % TimeSpan.TicksPerMillisecond) * (1d / TicksPerMicrosecond));
         }

@@ -240,7 +240,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Nanosecond(this DateTime self)
         {
-            return self.Ticks.Ticks().Nanosecond();
+            return self.Ticks.Ticks().Nanoseconds();
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Microsecond(this DateTime self)
         {
-            return self.Ticks.Ticks().Microsecond();
+            return self.Ticks.Ticks().Microseconds();
         }
 
         /// <summary>
