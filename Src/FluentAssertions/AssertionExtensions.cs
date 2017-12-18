@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -230,14 +231,67 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this Dictionary<TKey, TValue> actualValue)
         {
-            return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
         }
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="SortedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="SortedList{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedList<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IDictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        {
+            IReadOnlyDictionary<TKey, TValue> dictionary = null;
+            if (actualValue != null)
+            {
+                if (actualValue is IReadOnlyDictionary<TKey, TValue> pairs)
+                    dictionary = pairs;
+                else
+                {
+                    dictionary = new ReadOnlyDictionary<TKey, TValue>(actualValue);
+                }
+            }
+
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(dictionary);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IReadOnlyDictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
 
         /// <summary>
         /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the

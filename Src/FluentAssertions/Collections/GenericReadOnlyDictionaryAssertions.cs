@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,10 +14,10 @@ namespace FluentAssertions.Collections
     /// Contains a number of methods to assert that an <see cref="IDictionary{TKey,TValue}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class GenericDictionaryAssertions<TKey, TValue> : 
-        ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
+    public class GenericReadOnlyDictionaryAssertions<TKey, TValue> : 
+        ReferenceTypeAssertions<IReadOnlyDictionary<TKey, TValue>, GenericReadOnlyDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
+        public GenericReadOnlyDictionaryAssertions(IReadOnlyDictionary<TKey, TValue> dictionary)
         {
             if (dictionary != null)
             {
@@ -39,7 +38,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCount(int expected,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -56,7 +55,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to have {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -86,7 +85,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to not have {1} item(s){reason}, but found {2}.", Subject, unexpected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -116,7 +115,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to contain more than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -146,7 +145,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to contain at least {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -160,7 +159,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -176,7 +175,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to contain fewer than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -190,7 +189,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -206,7 +205,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} {0} to contain at most {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -220,7 +219,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
             string because = "", params object[] becauseArgs)
         {
             if (countPredicate == null)
@@ -247,7 +246,7 @@ namespace FluentAssertions.Collections
                         Subject, countPredicate.Body, actualCount);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -264,7 +263,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> BeEmpty(string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -278,7 +277,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:dictionary} to not have any items{reason}, but found {0}.", Subject.Count);
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -291,7 +290,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeEmpty(string because = "",
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotBeEmpty(string because = "",
             params object [] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -306,7 +305,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected one or more items{reason}, but found none.");
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -326,7 +325,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected,
             string because = "", params object [] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -369,7 +368,7 @@ namespace FluentAssertions.Collections
                     expected, Subject, key);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -385,7 +384,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -421,7 +420,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Did not expect dictionaries {0} and {1} to be equal{reason}.", unexpected, Subject);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -512,7 +511,7 @@ namespace FluentAssertions.Collections
         public WhichValueConstraint<TKey, TValue> ContainKey(TKey expected,
             string because = "", params object [] becauseArgs)
         {
-            AndConstraint<GenericDictionaryAssertions<TKey, TValue>> andConstraint = ContainKeys(new [] { expected }, because, becauseArgs);
+            AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> andConstraint = ContainKeys(new [] { expected }, because, becauseArgs);
 
             return new WhichValueConstraint<TKey, TValue>(andConstraint.And, Subject[expected]);
         }
@@ -522,7 +521,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected keys</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
         {
             return ContainKeys(expected, String.Empty);
         }
@@ -539,7 +538,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
             string because = "", params object[] becauseArgs)
         {
             if (expected == null)
@@ -581,7 +580,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -600,7 +599,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -617,7 +616,7 @@ namespace FluentAssertions.Collections
                     .FailWith("{context:Dictionary} {0} should not contain key {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -625,7 +624,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected keys</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
         {
             return NotContainKeys(unexpected, String.Empty);
         }
@@ -642,7 +641,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (unexpected == null)
@@ -684,7 +683,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -703,15 +702,15 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected,
+        public AndWhichConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected,
             string because = "", params object[] becauseArgs)
         {
-            AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> innerConstraint =
+            AndWhichConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> innerConstraint =
                     ContainValuesAndWhich(new[] {expected}, because, becauseArgs);
 
             return
                 new AndWhichConstraint
-                    <GenericDictionaryAssertions<TKey, TValue>, TValue>(
+                    <GenericReadOnlyDictionaryAssertions<TKey, TValue>, TValue>(
                     innerConstraint.And, innerConstraint.Which);
         }
 
@@ -720,7 +719,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected values</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected)
         {
             return ContainValues(expected, String.Empty);
         }
@@ -737,13 +736,13 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(IEnumerable<TValue> expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> ContainValues(IEnumerable<TValue> expected,
             string because = "", params object[] becauseArgs)
         {
             return ContainValuesAndWhich(expected, because, becauseArgs);
         }
 
-        private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
+        private AndWhichConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
             params object[] becauseArgs)
         {
             if (expected == null)
@@ -786,7 +785,7 @@ namespace FluentAssertions.Collections
 
             return
                 new AndWhichConstraint
-                    <GenericDictionaryAssertions<TKey, TValue>,
+                    <GenericReadOnlyDictionaryAssertions<TKey, TValue>,
                         IEnumerable<TValue>>(this,
                             RepetitionPreservingIntersect(Subject.Values, expectedValues));
         }
@@ -818,7 +817,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -835,7 +834,7 @@ namespace FluentAssertions.Collections
                     .FailWith("{context:Dictionary} {0} should not contain value {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -843,7 +842,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected values</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected)
         {
             return NotContainValues(unexpected, String.Empty);
         }
@@ -860,7 +859,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (unexpected == null)
@@ -901,7 +900,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -913,7 +912,7 @@ namespace FluentAssertions.Collections
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected key/value pairs.</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(params KeyValuePair<TKey, TValue>[] expected)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> Contain(params KeyValuePair<TKey, TValue>[] expected)
         {
             return Contain(expected, string.Empty);
         }
@@ -930,7 +929,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
             if (expected == null)
@@ -996,7 +995,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -1011,7 +1010,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> expected,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> expected,
             string because = "", params object[] becauseArgs)
         {
             return Contain(expected.Key, expected.Value, because, becauseArgs);
@@ -1030,7 +1029,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -1057,7 +1056,7 @@ namespace FluentAssertions.Collections
                         key);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
@@ -1069,7 +1068,7 @@ namespace FluentAssertions.Collections
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="items">The unexpected key/value pairs</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(params KeyValuePair<TKey, TValue>[] items)
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContain(params KeyValuePair<TKey, TValue>[] items)
         {
             return NotContain(items, string.Empty);
         }
@@ -1086,7 +1085,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
             if (items == null)
@@ -1134,7 +1133,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         /// <summary>
@@ -1149,7 +1148,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item,
             string because = "", params object[] becauseArgs)
         {
             return NotContain(item.Key, item.Value, because, becauseArgs);
@@ -1168,7 +1167,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value,
+        public AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value,
             string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -1187,7 +1186,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return new AndConstraint<GenericReadOnlyDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #endregion
