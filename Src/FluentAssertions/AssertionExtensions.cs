@@ -235,50 +235,15 @@ namespace FluentAssertions
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this Dictionary<TKey, TValue> actualValue)
-        {
-            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
-        /// current <see cref="SortedDictionary{TKey, TValue}"/>.
-        /// </summary>
-        [Pure]
-        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedDictionary<TKey, TValue> actualValue)
-        {
-            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
-        /// current <see cref="SortedList{TKey, TValue}"/>.
-        /// </summary>
-        [Pure]
-        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedList<TKey, TValue> actualValue)
-        {
-            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
-        }
-
-
-        /// <summary>
-        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
-        /// current <see cref="IDictionary{TKey, TValue}"/>.
-        /// </summary>
-        [Pure]
         public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
         {
             IReadOnlyDictionary<TKey, TValue> dictionary = null;
             if (actualValue != null)
             {
-                if (actualValue is IReadOnlyDictionary<TKey, TValue> pairs)
-                    dictionary = pairs;
-                else
-                {
+                dictionary = actualValue as IReadOnlyDictionary<TKey, TValue>;
+                if (dictionary == null)
                     dictionary = new ReadOnlyDictionary<TKey, TValue>(actualValue);
-                }
             }
-
             return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(dictionary);
         }
 
@@ -292,6 +257,35 @@ namespace FluentAssertions
             return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="Dictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this Dictionary<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>((IReadOnlyDictionary<TKey, TValue>)actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="SortedList{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedList<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>((IReadOnlyDictionary<TKey, TValue>)actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="SortedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this SortedDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>((IReadOnlyDictionary<TKey, TValue>)actualValue);
+        }
 
         /// <summary>
         /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
