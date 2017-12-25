@@ -1028,7 +1028,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!IsBlank(Subject))
+                .ForCondition(!string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected string not to be <null> or whitespace{reason}, but found {0}.", Subject);
 
@@ -1048,16 +1048,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(IsBlank(Subject))
+                .ForCondition(string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected string to be <null> or whitespace{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
-        }
-
-        private static bool IsBlank(string value)
-        {
-            return (value == null) || string.IsNullOrEmpty(value.Trim());
         }
 
         private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
