@@ -43,7 +43,8 @@ namespace FluentAssertions.Types
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
             string failureMessage =
-                "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:\r\n" +
+                "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
+                Environment.NewLine +
                 GetDescriptionsFor(nonVirtualProperties);
 
             Execute.Assertion
@@ -69,7 +70,8 @@ namespace FluentAssertions.Types
             IEnumerable<PropertyInfo> virtualProperties = GetAllVirtualPropertiesFromSelection();
 
             string failureMessage =
-                "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:\r\n" +
+                "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
+                Environment.NewLine +
                 GetDescriptionsFor(virtualProperties);
 
             Execute.Assertion
@@ -95,7 +97,8 @@ namespace FluentAssertions.Types
             PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
             string failureMessage =
-                "Expected all selected properties to have a setter{reason}, but the following properties do not:\r\n" +
+                "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
+                Environment.NewLine +
                 GetDescriptionsFor(readOnlyProperties);
 
             Execute.Assertion
@@ -147,7 +150,8 @@ namespace FluentAssertions.Types
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
             string failureMessage =
-                "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:\r\n" +
+                "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:" +
+                Environment.NewLine +
                 GetDescriptionsFor(propertiesWithoutAttribute);
 
             Execute.Assertion
@@ -174,7 +178,8 @@ namespace FluentAssertions.Types
             IEnumerable<PropertyInfo> propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
             string failureMessage =
-                "Expected all selected properties not to be decorated with {0}{reason}, but the following properties are:\r\n" +
+                "Expected all selected properties not to be decorated with {0}{reason}, but the following properties are:" +
+                Environment.NewLine +
                 GetDescriptionsFor(propertiesWithAttribute);
 
             Execute.Assertion

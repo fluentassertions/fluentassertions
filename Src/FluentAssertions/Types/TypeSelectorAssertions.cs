@@ -50,7 +50,9 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to be decorated with {0}{reason}," +
-                    " but the attribute was not found on the following types:\r\n" + GetDescriptionsFor(typesWithoutAttribute),
+                    " but the attribute was not found on the following types:" +
+                    Environment.NewLine +
+                    GetDescriptionsFor(typesWithoutAttribute),
                     typeof(TAttribute));
 
             return new AndConstraint<TypeSelectorAssertions>(this);
@@ -82,7 +84,9 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
-                    " but no matching attribute was found on the following types:\r\n" + GetDescriptionsFor(typesWithoutMatchingAttribute),
+                    " but no matching attribute was found on the following types:" +
+                    Environment.NewLine +
+                    GetDescriptionsFor(typesWithoutMatchingAttribute),
                     typeof(TAttribute), isMatchingAttributePredicate.Body);
 
             return new AndConstraint<TypeSelectorAssertions>(this);
@@ -109,7 +113,9 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to not be decorated with {0}{reason}," +
-                    " but the attribute was found on the following types:\r\n" + GetDescriptionsFor(typesWithAttribute),
+                    " but the attribute was found on the following types:" +
+                    Environment.NewLine +
+                    GetDescriptionsFor(typesWithAttribute),
                     typeof(TAttribute));
 
             return new AndConstraint<TypeSelectorAssertions>(this);
@@ -141,7 +147,9 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
-                    " but a matching attribute was found on the following types:\r\n" + GetDescriptionsFor(typesWithMatchingAttribute),
+                    " but a matching attribute was found on the following types:" +
+                    Environment.NewLine +
+                    GetDescriptionsFor(typesWithMatchingAttribute),
                     typeof(TAttribute), isMatchingAttributePredicate.Body);
 
             return new AndConstraint<TypeSelectorAssertions>(this);
