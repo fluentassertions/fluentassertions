@@ -168,7 +168,7 @@ namespace FluentAssertions.Xml
 
                 if (expectedAttribute == null)
                 {
-                    return new ValidationResult("Didn't expect to find attribute {0} at {1}{reason}.",
+                    return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
                         subjectAttribute.QualifiedName, CurrentLocation);
                 }
 

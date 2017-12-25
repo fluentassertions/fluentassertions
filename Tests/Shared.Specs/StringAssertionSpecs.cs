@@ -301,7 +301,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {\"def\", \"xyz\"}, but found \"abc\".");
+                .WithMessage("Expected string to be one of {\"def\", \"xyz\"}, but found \"abc\".");
         }
 
         [Fact]
@@ -321,7 +321,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
+                .WithMessage("Expected string to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
         }
 
         [Fact]
@@ -2490,7 +2490,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
+                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\".");
         }
 
         [Fact]
@@ -2506,7 +2506,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\"");
+                .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\".");
         }
 
         [Fact]
@@ -2522,7 +2522,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\"");
+                .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\".");
         }
 
         [Fact]
@@ -2564,7 +2564,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
+                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\".");
         }
 
         [Fact]
@@ -2623,7 +2623,7 @@ namespace FluentAssertions.Specs
             var assertions = "ABC".Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected empty string because we want to test the failure message, but found \"ABC\".");
+                .WithMessage("Expected string to be empty because we want to test the failure message, but found \"ABC\".");
         }
 
         [Fact]
@@ -2643,7 +2643,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected empty string because strings should never be null, but found <null>.");
+                "Expected string to be empty because strings should never be null, but found <null>.");
         }
 
         [Fact]
@@ -2666,7 +2666,7 @@ namespace FluentAssertions.Specs
             var assertions = "".Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage("Did not expect empty string because we want to test the failure message.");
+                .WithMessage("Did not expect string to be empty because we want to test the failure message.");
         }
 
         #endregion

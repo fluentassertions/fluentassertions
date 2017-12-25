@@ -90,7 +90,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect reference to object \r\nClassWithCustomEqualMethod(1) because they are the same.");
+                .WithMessage("Did not expect object to refer to \r\nClassWithCustomEqualMethod(1) because they are the same.");
         }
 
         [Fact]

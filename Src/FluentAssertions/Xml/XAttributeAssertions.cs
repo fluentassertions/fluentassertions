@@ -44,7 +44,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML attribute to be {0}{reason}, but found {1}", expected, Subject);
+                .FailWith("Expected XML attribute to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }

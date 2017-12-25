@@ -121,7 +121,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || Subject.Value)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected nullable boolean not to be {0}{reason}, but found {1}.", false, Subject);
+                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", false, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -141,7 +141,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || !Subject.Value)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected nullable boolean not to be {0}{reason}, but found {1}.", true, Subject);
+                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }

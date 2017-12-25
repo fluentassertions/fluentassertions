@@ -87,7 +87,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected positive value because we want to test the failure message, but found -1");
+                .WithMessage("Expected value to be positive because we want to test the failure message, but found -1.");
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected negative value because we want to test the failure message, but found 1");
+                .WithMessage("Expected value to be negative because we want to test the failure message, but found 1.");
         }
 
         #endregion
@@ -357,7 +357,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Did not expect 1 because we want to test the failure message.");
+                .WithMessage("Did not expect value to be 1 because we want to test the failure message.");
         }
 
         #endregion
@@ -443,7 +443,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected a value greater than 3 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2.");
         }
 
         [Fact]
@@ -526,7 +526,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected a value greater or equal to 3 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be greater or equal to 3 because we want to test the failure message, but found 2.");
         }
 
         #endregion
@@ -612,7 +612,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected a value less than 1 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be less than 1 because we want to test the failure message, but found 2.");
         }
 
         [Fact]
@@ -694,7 +694,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected a value less or equal to 1 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be less or equal to 1 because we want to test the failure message, but found 2.");
         }
 
         #endregion

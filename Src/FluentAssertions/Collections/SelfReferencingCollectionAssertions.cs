@@ -458,7 +458,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(Subject.Any(func))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
+                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Where(func));
         }
@@ -568,7 +568,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:Collection} {0} to not have any items matching {1}{reason}, but found {2}.",
+                    .FailWith("Expected {context:collection} {0} to not have any items matching {1}{reason}, but found {2}.",
                         Subject, predicate.Body, unexpectedItems);
             }
 

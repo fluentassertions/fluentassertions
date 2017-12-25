@@ -36,7 +36,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -59,7 +59,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) != Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect object to be equal to {0}{reason}.", expected);
+                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -82,7 +82,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) < Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to be less than {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} to be less than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -105,7 +105,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to be less or equal to {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} to be less or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -128,7 +128,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to be greater than {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} to be greater than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -151,7 +151,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to be greater or equal to {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} to be greater or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -181,7 +181,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object to be between {0} and {1}{reason}, but found {2}.",
+                .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.",
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -212,7 +212,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object to not be between {0} and {1}{reason}, but found {2}.",
+                .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.",
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
