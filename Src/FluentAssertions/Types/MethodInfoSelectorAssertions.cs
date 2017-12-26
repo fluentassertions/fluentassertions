@@ -44,7 +44,8 @@ namespace FluentAssertions.Types
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
             string failureMessage =
-                "Expected all selected methods to be virtual{reason}, but the following methods are not virtual:\r\n" +
+                "Expected all selected methods to be virtual{reason}, but the following methods are not virtual:" +
+                Environment.NewLine +
                 GetDescriptionsFor(nonVirtualMethods);
 
             Execute.Assertion
@@ -70,7 +71,8 @@ namespace FluentAssertions.Types
             IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
 
             string failureMessage =
-                "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:\r\n" +
+                "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:" +
+                Environment.NewLine +
                 GetDescriptionsFor(virtualMethods);
 
             Execute.Assertion
@@ -138,7 +140,8 @@ namespace FluentAssertions.Types
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
 
             string failureMessage =
-                "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:\r\n" +
+                "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
+                Environment.NewLine +
                 GetDescriptionsFor(methodsWithoutAttribute);
 
             Execute.Assertion
@@ -186,7 +189,8 @@ namespace FluentAssertions.Types
             IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith<TAttribute>(isMatchingAttributePredicate);
 
             string failureMessage =
-                "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:\r\n" +
+                "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +
+                Environment.NewLine +
                 GetDescriptionsFor(methodsWithAttribute);
 
             Execute.Assertion
