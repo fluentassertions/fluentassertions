@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(subject != null)
-                .FailWith("Expected {context:subject} to be a dictionary, but it isn't");
+                .FailWith("Expected {context:subject} to be a dictionary, but it is not.");
         }
 
         private static bool AssertSameLength(IDictionary expectation, IDictionary subject)

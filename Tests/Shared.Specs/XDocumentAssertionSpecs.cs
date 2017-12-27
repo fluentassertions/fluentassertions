@@ -97,7 +97,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML document to be <data></data>" +
                     " because we want to test the failure message," +
-                        " but found <configuration></configuration>");
+                        " but found <configuration></configuration>.");
         }
 
         [Fact]
@@ -572,7 +572,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().
-                WithMessage("Didn't expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
+                WithMessage("Did not expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
         }
 
         [Fact]
@@ -616,7 +616,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().
-                WithMessage("Didn't expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
+                WithMessage("Did not expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
         }
 
         [Fact]

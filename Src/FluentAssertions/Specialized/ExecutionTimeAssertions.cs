@@ -42,7 +42,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(executionTimeSpan.CompareTo(maxDuration) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be less or equal to {0}{reason}, but it required {1}",
+                .FailWith("Execution of " + actionDescription + " should be less or equal to {0}{reason}, but it required {1}.",
                     maxDuration, executionTimeSpan);
         }
 
@@ -64,7 +64,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(executionTimeSpan.CompareTo(maxDuration) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be less than {0}{reason}, but it required {1}",
+                .FailWith("Execution of " + actionDescription + " should be less than {0}{reason}, but it required {1}.",
                     maxDuration, executionTimeSpan);
         }
 
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(executionTimeSpan.CompareTo(minDuration) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be greater or equal to {0}{reason}, but it required {1}",
+                .FailWith("Execution of " + actionDescription + " should be greater or equal to {0}{reason}, but it required {1}.",
                     minDuration, executionTimeSpan);
         }
 
@@ -108,7 +108,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(executionTimeSpan.CompareTo(minDuration) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be greater than {0}{reason}, but it required {1}",
+                .FailWith("Execution of " + actionDescription + " should be greater than {0}{reason}, but it required {1}.",
                     minDuration, executionTimeSpan);
         }
 
@@ -137,7 +137,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition((executionTimeSpan >= minimumValue) && (executionTimeSpan <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be within {0} from {1}{reason}, but it required {2}",
+                .FailWith("Execution of " + actionDescription + " should be within {0} from {1}{reason}, but it required {2}.",
                     precision, expectedDuration, executionTimeSpan);
         }
     }

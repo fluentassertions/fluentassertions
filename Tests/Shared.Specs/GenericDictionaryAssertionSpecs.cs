@@ -1364,7 +1364,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Dictionary {[1, One], [2, Two]} should not contain key 1 because we don't like it, but found it anyhow.");
+                "Expected dictionary {[1, One], [2, Two]} not to contain key 1 because we don't like it, but found it anyhow.");
         }
 
         [Fact]
@@ -1681,7 +1681,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Dictionary {[1, One], [2, Two]} should not contain value \"One\" because we don't like it, but found it anyhow.");
+                "Expected dictionary {[1, One], [2, Two]} not to contain value \"One\" because we don't like it, but found it anyhow.");
         }
 
         [Fact]

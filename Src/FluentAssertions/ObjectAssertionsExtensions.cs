@@ -58,7 +58,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}",
+                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);
@@ -111,7 +111,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}",
+                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);
@@ -189,7 +189,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}",
+                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);

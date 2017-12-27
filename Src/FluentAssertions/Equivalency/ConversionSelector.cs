@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
         public void Exclude(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             exclusions.Add(predicate.Compile());
-            description.Append("Don't convert member ").Append(predicate.Body).Append(". ");
+            description.Append("Do not convert member ").Append(predicate.Body).Append(". ");
         }
         
         public bool RequiresConversion(ISubjectInfo info)

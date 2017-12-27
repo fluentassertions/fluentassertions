@@ -32,7 +32,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected empty Guid because we want to test the failure message, but found {12345678-1234-1234-1234-123456789012}.");
+                "Expected Guid to be empty because we want to test the failure message, but found {12345678-1234-1234-1234-123456789012}.");
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect empty Guid because we want to test the failure message.");
+                "Did not expect Guid to be empty because we want to test the failure message.");
         }
 
         #endregion

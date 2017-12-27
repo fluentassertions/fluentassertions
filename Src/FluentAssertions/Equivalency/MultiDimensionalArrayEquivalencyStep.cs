@@ -62,10 +62,10 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!ReferenceEquals(type, null))
-                .FailWith("Can't compare a multi-dimensional array to {0}.", new object[] {null})
+                .FailWith("Cannot compare a multi-dimensional array to {0}.", new object[] {null})
                 .Then
                 .ForCondition(type is Array)
-                .FailWith("Can't compare a multi-dimensional array to something else.");
+                .FailWith("Cannot compare a multi-dimensional array to something else.");
         }
 
         private static bool HaveSameDimensions(object subject, Array expectation)

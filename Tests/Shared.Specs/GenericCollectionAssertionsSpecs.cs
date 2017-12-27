@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
+                "Expected collection {1, 2, 3} to have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
 
         [Fact]
@@ -565,7 +565,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            const string expectedMessage = "Expected a value greater than 4, but found 3.";
+            const string expectedMessage = "Expected value to be greater than 4, but found 3.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

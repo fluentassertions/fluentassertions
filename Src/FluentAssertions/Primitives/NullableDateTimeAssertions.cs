@@ -33,7 +33,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected variable to have a value{reason}, but found {0}", Subject);
+                .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
@@ -68,7 +68,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect variable to have a value{reason}, but found {0}", Subject);
+                .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }

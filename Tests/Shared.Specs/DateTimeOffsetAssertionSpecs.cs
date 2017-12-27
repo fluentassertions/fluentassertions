@@ -2582,7 +2582,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {<2017-01-01 +1h>, <2016-12-31 04:00:00 +1h>}, but found <2016-12-31 +1h>.");
+                .WithMessage("Expected date and time to be one of {<2017-01-01 +1h>, <2016-12-31 04:00:00 +1h>}, but found <2016-12-31 +1h>.");
         }
 
         [Fact]
@@ -2602,7 +2602,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {<2017-01-01 +1h>, <2017-01-31 +1h>} because it's true, but found <2016-12-31 +1h>.");
+                .WithMessage("Expected date and time to be one of {<2017-01-01 +1h>, <2017-01-31 +1h>} because it's true, but found <2016-12-31 +1h>.");
         }
 
         [Fact]
@@ -2641,7 +2641,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {<2216-01-30 00:05:07 +1h>, <2016-02-10 02:45:07 +2h>}, but found <null>.");
+                .WithMessage("Expected date and time to be one of {<2216-01-30 00:05:07 +1h>, <2016-02-10 02:45:07 +2h>}, but found <null>.");
         }
 
         [Fact]

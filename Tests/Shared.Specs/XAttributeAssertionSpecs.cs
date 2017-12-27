@@ -51,7 +51,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             string expectedMessage = string.Format("Expected XML attribute to be {0}" +
                 " because we want to test the failure message," +
-                    " but found {1}", otherXAttribute, attribute);
+                    " but found {1}.", otherXAttribute, attribute);
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

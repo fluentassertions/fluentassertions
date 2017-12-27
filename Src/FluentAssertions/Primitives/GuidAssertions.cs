@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected empty Guid{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -57,7 +57,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect empty Guid{reason}.");
+                .FailWith("Did not expect {context:Guid} to be empty{reason}.");
 
             return new AndConstraint<GuidAssertions>(this);
         }

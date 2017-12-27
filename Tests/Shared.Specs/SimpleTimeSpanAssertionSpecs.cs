@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Seconds().Negate().Should();
             assertions.Invoking(x => x.BePositive("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected positive value because we want to test the failure message, but found -1s");
+                .WithMessage("Expected time to be positive because we want to test the failure message, but found -1s.");
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeNegative("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected negative value because we want to test the failure message, but found 1s");
+                .WithMessage("Expected time to be negative because we want to test the failure message, but found 1s.");
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Expected a value greater than 2s because we want to test the failure message, but found 1s.");
+                .WithMessage("Expected time to be greater than 2s because we want to test the failure message, but found 1s.");
         }
 
         [Fact]
@@ -166,7 +166,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Expected a value greater or equal to 2s because we want to test the failure message, but found 1s.");
+                .WithMessage("Expected time to be greater or equal to 2s because we want to test the failure message, but found 1s.");
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Expected a value less than 1s because we want to test the failure message, but found 2s.");
+                .WithMessage("Expected time to be less than 1s because we want to test the failure message, but found 2s.");
         }
 
         [Fact]
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Expected a value less or equal to 1s because we want to test the failure message, but found 2s.");
+                .WithMessage("Expected time to be less or equal to 1s because we want to test the failure message, but found 2s.");
         }
 
         #region Be Close To

@@ -259,7 +259,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith("Expected collection {0} to be ordered{1}{reason} and result in {2}.",
+                    .FailWith("Expected {context:collection} {0} to be ordered{1}{reason} and result in {2}.",
                         Subject, orderString, expectation);
             }
 
@@ -277,7 +277,7 @@ namespace FluentAssertions.Collections
             return Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, args)
-                .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
+                .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
         }
 

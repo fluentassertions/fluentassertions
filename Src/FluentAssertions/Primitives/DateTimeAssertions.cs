@@ -850,7 +850,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
+                .FailWith("Expected {context:date and time} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }

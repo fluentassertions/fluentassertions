@@ -49,7 +49,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document to be {0}{reason}, but found {1}", expected, Subject);
+                .FailWith("Expected XML document to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }

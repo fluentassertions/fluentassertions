@@ -102,7 +102,7 @@ namespace FluentAssertions.Primitives
                 .UsingLineBreaks
                 .ForCondition(!ReferenceEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect reference to object {0}{reason}.", unexpected);
+                .FailWith("Did not expect {context:" + Context + "} to refer to {0}{reason}.", unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

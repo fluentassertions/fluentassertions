@@ -70,7 +70,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
+                .FailWith("Expected {context:string} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -117,7 +117,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string not to be {0}{reason}.", unexpected);
+                .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -244,7 +244,7 @@ namespace FluentAssertions.Primitives
               .ForCondition(!ReferenceEquals(Subject, null))
               .UsingLineBreaks
               .BecauseOf(because, becauseArgs)
-              .FailWith("Expected string to match regex {0}{reason}, but it was <null>.", regularExpression);
+              .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
 
           bool isMatch;
           try
@@ -264,7 +264,7 @@ namespace FluentAssertions.Primitives
               .ForCondition(isMatch)
               .BecauseOf(because, becauseArgs)
               .UsingLineBreaks
-              .FailWith("Expected string to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+              .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
 
           return new AndConstraint<StringAssertions>(this);
         }
@@ -293,7 +293,7 @@ namespace FluentAssertions.Primitives
               .ForCondition(!ReferenceEquals(Subject, null))
               .UsingLineBreaks
               .BecauseOf(because, becauseArgs)
-              .FailWith("Expected string to not match regex {0}{reason}, but it was <null>.", regularExpression);
+              .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
           
           bool isMatch;
           try
@@ -313,7 +313,7 @@ namespace FluentAssertions.Primitives
               .ForCondition(!isMatch)
               .BecauseOf(because, becauseArgs)
               .UsingLineBreaks
-              .FailWith("Did not expect string to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+              .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
 
           return new AndConstraint<StringAssertions>(this);
         }
@@ -463,20 +463,20 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string {0} to end with {1}{reason}.", Subject, expected);
+                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
             }
 
             if (Subject.Length < expected.Length)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string to end with {0}{reason}, but {1} is too short.", expected, Subject);
+                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string {0} to end with {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -509,13 +509,13 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string that does not end with {1}, but found {0}.", Subject, unexpected);
+                    .FailWith("Expected {context:string} that does not end with {1}, but found {0}.", Subject, unexpected);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string {0} not to end with {1}{reason}.", Subject, unexpected);
+                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -548,20 +548,20 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (Subject.Length < expected.Length)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
+                    .FailWith("Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -594,13 +594,13 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected string that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+                    .FailWith("Expected {context:string} that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+                .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -633,7 +633,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string {0} to contain {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -665,7 +665,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string to contain equivalent of {0}{reason} but found {1}", expected, Subject);
+                .FailWith("Expected {context:string} to contain equivalent of {0}{reason} but found {1}.", expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -786,7 +786,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect string {0} to contain {1}{reason}.", Subject, expected);
+                .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -815,7 +815,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(matches != values.Count())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect the {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
+                .FailWith("Did not expect {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -862,7 +862,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!matches.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect the {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
+                .FailWith("Did not expect {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -903,7 +903,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect string to contain equivalent of {0}{reason} but found {1}", unexpected, Subject);
+                .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -928,7 +928,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected empty string{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:string} to be empty{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -948,7 +948,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Length > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect empty string{reason}.");
+                .FailWith("Did not expect {context:string} to be empty{reason}.");
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -969,7 +969,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Length == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string with length {0}{reason}, but found string {1} with length {2}.",
+                .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
                     expected, Subject, Subject.Length);
 
             return new AndConstraint<StringAssertions>(this);
@@ -990,7 +990,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string not to be <null> or empty{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:string} not to be <null> or empty{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1010,7 +1010,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string to be <null> or empty{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:string} to be <null> or empty{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1030,7 +1030,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string not to be <null> or whitespace{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:string} not to be <null> or whitespace{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1050,7 +1050,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected string to be <null> or whitespace{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:string} to be <null> or whitespace{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
