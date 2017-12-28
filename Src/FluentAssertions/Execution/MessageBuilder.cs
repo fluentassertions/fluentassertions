@@ -49,7 +49,8 @@ namespace FluentAssertions.Execution
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
-            var regex = new Regex(@"\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
+            var regex = new Regex(@"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\{)");
+
             return regex.Replace(message, match =>
             {
                 string key = match.Groups["key"].Value;
