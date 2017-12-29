@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Formatting;
-using System.Threading;
 
 namespace FluentAssertions.Common
 {
@@ -37,17 +36,16 @@ namespace FluentAssertions.Common
         {
             get
             {
-                Monitor.Enter(propertiesAccessLock);
-                if (!valueFormatterDetectionMode.HasValue)
+                lock(propertiesAccessLock)
                 {
-                    valueFormatterDetectionMode = DetermineFormatterDetectionMode();
+                    if (!valueFormatterDetectionMode.HasValue)
+                    {
+                        valueFormatterDetectionMode = DetermineFormatterDetectionMode();
+                    }
+
+                    return valueFormatterDetectionMode.Value;
                 }
-
-                var value = valueFormatterDetectionMode.Value;
-
-                Monitor.Exit(propertiesAccessLock);
-
-                return value;
+                
             }
             set { valueFormatterDetectionMode = value; }
         }
@@ -98,10 +96,11 @@ namespace FluentAssertions.Common
             }
             set
             {
-                Monitor.Enter(propertiesAccessLock);
-                valueFormatterAssembly = value;
-                valueFormatterDetectionMode = null;
-                Monitor.Exit(propertiesAccessLock);
+                lock(propertiesAccessLock)
+                {
+                    valueFormatterAssembly = value;
+                    valueFormatterDetectionMode = null;
+                }
             }
         }
 
