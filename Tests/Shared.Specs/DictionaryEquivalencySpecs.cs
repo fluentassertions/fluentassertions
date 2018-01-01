@@ -786,10 +786,35 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act1.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): \"farewell\"*");
+                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {\"farewell\"}*");
             
             act2.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s).*Additional key(s): \"farewell\"*");
+                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s).*Additional key(s): {\"farewell\"}*");
+        }
+
+        [Fact]
+        public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_with_both_missing_and_additional_items_it_should_fail_descriptively()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act1 = () => dictionary1.Should().BeEquivalentTo(dictionary2);
+            Action act2 = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act1.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {\"greeting\", \"farewell\"}*Additional key(s): {\"GREETING\"}*");
+
+            act2.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s).*Missing key(s): {\"GREETING\"}*Additional key(s): {\"greeting\", \"farewell\"}*");
         }
 
         [Fact]

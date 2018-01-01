@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Equivalency
 {
@@ -158,7 +159,6 @@ namespace FluentAssertions.Equivalency
             IDictionary<TSubjectKey, TSubjectValue> subject,
             IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
         {
-            string failMessage = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
             if(expectation.Count != subject.Count)
             {
                 List<TExpectedKey> missingKeys = new List<TExpectedKey>();
@@ -176,23 +176,58 @@ namespace FluentAssertions.Equivalency
                     }
                 }
 
-                if (missingKeys.Count > 0)
+                IEnumerable<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys);
+
+                bool thereAreSomeMissingKeys = missingKeys.Count > 0;
+                bool thereAreSomeAdditionalKeys = additionalKeys.Any();
+
+                // Just missing keys
+                if(thereAreSomeMissingKeys && !thereAreSomeAdditionalKeys)
                 {
-                    failMessage += $"Missing key(s): \"{string.Join(",", missingKeys)}\"";
+                    return AssertionScope.Current
+                        .ForCondition(subject.Count == expectation.Count)
+                        .FailWith(
+                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Missing key(s): {2}",
+                            expectation.Count,
+                            subject.Count,
+                            missingKeys);
                 }
 
-                IEnumerable<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys);
-                if(additionalKeys.Any())
+                // Just additional keys
+                else if(!thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
                 {
-                    failMessage += $"Additional key(s): \"{string.Join(",", additionalKeys)}\"";
+                    return AssertionScope.Current
+                        .ForCondition(subject.Count == expectation.Count)
+                        .FailWith(
+                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Additional key(s): {2}",
+                            expectation.Count,
+                            subject.Count,
+                            additionalKeys);
+                }
+
+                // Both missing and additional keys
+                else if(thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
+                {
+                    return AssertionScope.Current
+                        .ForCondition(subject.Count == expectation.Count)
+                        .FailWith(
+                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Missing key(s): {2}. Additional key(s): {3}",
+                            expectation.Count,
+                            subject.Count,
+                            missingKeys,
+                            additionalKeys);
                 }
             }
-            
+
+            // Should not happen, if there is mismatch in count, there must be
+            // either some missing or some additional keys. However, for security,
+            // this fallback assertion is left.
+            const string failMessageFormat = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
             return
                 AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
                     .FailWith(
-                        failMessage,
+                        failMessageFormat,
                         expectation.Count,
                         subject.Count);
         }
