@@ -159,20 +159,23 @@ namespace FluentAssertions.Equivalency
             IDictionary<TSubjectKey, TSubjectValue> subject,
             IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
         {
+            const string messageCore = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
+
             if(expectation.Count != subject.Count)
             {
+                // First, we gather missing and additional keys
                 List<TExpectedKey> missingKeys = new List<TExpectedKey>();
                 HashSet<TSubjectKey> presentKeys = new HashSet<TSubjectKey>();
                 
                 foreach (TExpectedKey expectationKey in expectation.Keys)
                 {
-                    if(!subject.ContainsKey(expectationKey))
+                    if(subject.ContainsKey(expectationKey))
                     {
-                        missingKeys.Add(expectationKey);   
+                        presentKeys.Add(expectationKey);
                     }
                     else
                     {
-                        presentKeys.Add(expectationKey);
+                        missingKeys.Add(expectationKey);
                     }
                 }
 
@@ -187,7 +190,7 @@ namespace FluentAssertions.Equivalency
                     return AssertionScope.Current
                         .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
-                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Missing key(s): {2}",
+                            $"{messageCore} Missing key(s): {{2}}",
                             expectation.Count,
                             subject.Count,
                             missingKeys);
@@ -199,7 +202,7 @@ namespace FluentAssertions.Equivalency
                     return AssertionScope.Current
                         .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
-                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Additional key(s): {2}",
+                            $"{messageCore} Additional key(s): {{2}}",
                             expectation.Count,
                             subject.Count,
                             additionalKeys);
@@ -211,7 +214,7 @@ namespace FluentAssertions.Equivalency
                     return AssertionScope.Current
                         .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
-                            "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s). Missing key(s): {2}. Additional key(s): {3}",
+                            $"{messageCore} Missing key(s): {{2}}. Additional key(s): {{3}}",
                             expectation.Count,
                             subject.Count,
                             missingKeys,
@@ -222,12 +225,11 @@ namespace FluentAssertions.Equivalency
             // Should not happen, if there is mismatch in count, there must be
             // either some missing or some additional keys. However, for security,
             // this fallback assertion is left.
-            const string failMessageFormat = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
             return
                 AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
                     .FailWith(
-                        failMessageFormat,
+                        messageCore,
                         expectation.Count,
                         subject.Count);
         }
