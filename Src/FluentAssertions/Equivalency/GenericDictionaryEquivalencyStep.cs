@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Equivalency
 {
