@@ -178,13 +178,13 @@ namespace FluentAssertions.Equivalency
 
                 if (missingKeys.Count > 0)
                 {
-                    failMessage += $"Missing keys: \"{string.Join(",", missingKeys)}\"";
+                    failMessage += $"Missing key(s): \"{string.Join(",", missingKeys)}\"";
                 }
 
                 IEnumerable<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys);
                 if(additionalKeys.Any())
                 {
-                    failMessage += $"Additional keys: \"{string.Join(",", additionalKeys)}\"";
+                    failMessage += $"Additional key(s): \"{string.Join(",", additionalKeys)}\"";
                 }
             }
             
