@@ -154,15 +154,45 @@ namespace FluentAssertions.Equivalency
             return GetIDictionaryInterfaces(expectedType).Single();
         }
 
-        private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
+        private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectKey, TExpectedValue> expectation)
+            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
         {
+            string failMessage = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
+            if(expectation.Count != subject.Count)
+            {
+                List<TExpectedKey> missingKeys = new List<TExpectedKey>();
+                HashSet<TSubjectKey> presentKeys = new HashSet<TSubjectKey>();
+                
+                foreach (TExpectedKey expectationKey in expectation.Keys)
+                {
+                    if(!subject.ContainsKey(expectationKey))
+                    {
+                        missingKeys.Add(expectationKey);   
+                    }
+                    else
+                    {
+                        presentKeys.Add(expectationKey);
+                    }
+                }
+
+                if (missingKeys.Count > 0)
+                {
+                    failMessage += $"Missing keys: \"{string.Join(",", missingKeys)}\"";
+                }
+
+                IEnumerable<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys);
+                if(additionalKeys.Any())
+                {
+                    failMessage += $"Additional keys: \"{string.Join(",", additionalKeys)}\"";
+                }
+            }
+            
             return
                 AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
                     .FailWith(
-                        "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).",
+                        failMessage,
                         expectation.Count,
                         subject.Count);
         }

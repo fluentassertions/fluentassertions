@@ -786,10 +786,10 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act1.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s)*");
+                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s).*Missing keys: \"farewell\"*");
             
             act2.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s)*");
+                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s).*Additional keys: \"farewell\"*");
         }
 
         [Fact]
