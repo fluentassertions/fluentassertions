@@ -27,13 +27,11 @@ namespace FluentAssertions.Execution
             this GivenSelector<IEnumerable<T>> givenSelector, int length)
         {
             return givenSelector
-                .ForCondition(items => !EitherIsEmpty(length, items.Count()))
-                .FailWith("but found empty collection.");
-        }
-
-        private static bool EitherIsEmpty(int length1, int length2)
-        {
-            return ((length1 == 0) && (length2 > 0)) || ((length1 > 0) && (length2 == 0));
+                .ForCondition(items => (items.Any() || (length == 0)))
+                .FailWith("but found empty collection.")
+                .Then
+                .ForCondition(items => (!items.Any() || (length > 0)))
+                .FailWith("but found {0}.", items => items);
         }
 
         public static ContinuationOfGiven<T[]> AssertCollectionHasEnoughItems<T>(this GivenSelector<IEnumerable<T>> givenSelector,
