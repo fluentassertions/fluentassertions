@@ -103,12 +103,17 @@ namespace FluentAssertions.Execution
         /// Specify the reason why you expect the condition to be <c>true</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the condition should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why 
+        /// the condition should be satisfied. If the phrase does not start with the word <i>because</i>, 
+        /// it is prepended to the message. 
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
+        /// <exception cref="System.FormatException">
+        /// Thrown if the format of <paramref name="because"/> or <paramref name="becauseArgs"/> is not 
+        /// compatible with <see cref="string.Format(string,object[])"/>.
+        /// </exception>
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
             reason = string.Format(because ?? "", becauseArgs ?? new object[0]);
