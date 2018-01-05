@@ -187,7 +187,6 @@ namespace FluentAssertions.Equivalency
                 if(thereAreSomeMissingKeys && !thereAreSomeAdditionalKeys)
                 {
                     return AssertionScope.Current
-                        .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
                             $"{messageCore} Missing key(s): {{2}}",
                             expectation.Count,
@@ -199,7 +198,6 @@ namespace FluentAssertions.Equivalency
                 else if(!thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
                 {
                     return AssertionScope.Current
-                        .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
                             $"{messageCore} Additional key(s): {{2}}",
                             expectation.Count,
@@ -211,7 +209,6 @@ namespace FluentAssertions.Equivalency
                 else if(thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
                 {
                     return AssertionScope.Current
-                        .ForCondition(subject.Count == expectation.Count)
                         .FailWith(
                             $"{messageCore} Missing key(s): {{2}}. Additional key(s): {{3}}",
                             expectation.Count,
