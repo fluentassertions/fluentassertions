@@ -30,7 +30,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -42,7 +42,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
                     expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -53,7 +53,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -65,7 +65,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} not to be {0}{reason}, but it is.", unexpected);
+                .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -85,7 +85,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of milliseconds which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -113,7 +113,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of time which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -132,7 +132,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} to be within {0} from {1}{reason}, but found {2}.",
+                .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
                     nearbyTime, Subject ?? default(DateTimeOffset?));
 
@@ -154,7 +154,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of milliseconds which the two values must differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -181,7 +181,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of time which the two values must differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -200,7 +200,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:date and time} to not be within {0} from {1}{reason}, but found {2}.",
+                    "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
                     distantTime, Subject ?? default(DateTimeOffset?));
 
@@ -212,7 +212,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTimeOffset"/> that the current value is expected to be before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -224,7 +224,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} before {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be before {0}{reason}, but it was {1}.", expected,
                     Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -235,7 +235,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTimeOffset"/>  that the current value is not expected to be before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -252,7 +252,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTimeOffset"/> that the current value is expected to be on or before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -264,7 +264,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} on or before {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but it was {1}.", expected,
                     Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -275,7 +275,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTimeOffset"/> that the current value is not expected to be on nor before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -292,7 +292,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTimeOffset"/> that the current value is expected to be after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -304,7 +304,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} after {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be after {0}{reason}, but it was {1}.", expected,
                     Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -315,7 +315,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTimeOffset"/> that the current value is not expected to be after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -332,7 +332,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTimeOffset"/> that the current value is expected to be on or after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -344,7 +344,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} on or after {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but it was {1}.", expected,
                     Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -355,7 +355,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTimeOffset"/>  that the current value is expected not to be on nor after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -372,7 +372,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected year of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -382,14 +382,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} to be {0}{reason}, but found {1}.", expected,
-                    Subject.Value.Year);
+                .FailWith("but it was {0}.", Subject.Value.Year);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -399,7 +399,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The year that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -408,14 +408,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the year part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Year != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Year);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -425,7 +425,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected month of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -435,13 +435,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Month == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} to be {0}{reason}, but found {1}.", expected, Subject.Value.Month);
+                .FailWith("but it was {0}.", Subject.Value.Month);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -451,7 +452,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The month that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -460,14 +461,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Month != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Month);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -477,7 +478,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected day of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -487,13 +488,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Day == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} to be {0}{reason}, but found {1}.", expected, Subject.Value.Day);
+                .FailWith("but it was {0}.", Subject.Value.Day);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -503,7 +505,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The day that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -512,14 +514,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Day != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Day);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -529,7 +531,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected hour of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -539,13 +541,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Hour == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} to be {0}{reason}, but found {1}.", expected, Subject.Value.Hour);
+                .FailWith("but it was {0}.", Subject.Value.Hour);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -555,7 +558,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The hour that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -564,14 +567,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Hour);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -581,7 +584,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected minutes of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -591,13 +594,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Minute == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} to be {0}{reason}, but found {1}.", expected, Subject.Value.Minute);
+                .FailWith("but it was {0}.", Subject.Value.Minute);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -607,7 +611,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The minute that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -617,14 +621,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Minute);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -634,7 +638,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected seconds of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -644,13 +648,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} to be {0}{reason}, but found a <null> DateTimeOffset.", expected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Second == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} to be {0}{reason}, but found {1}.", expected, Subject.Value.Second);
+                .FailWith("but it was {0}.", Subject.Value.Second);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -660,7 +665,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The second that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -670,14 +675,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Second != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Second);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -687,7 +692,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected offset of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -697,13 +702,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs )
         {
             Execute.Assertion
+                .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition( Subject.HasValue )
                 .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected {context:offset} to be {0}{reason}, but found a <null> DateTimeOffset.", expected )
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition( Subject.Value.Offset == expected )
+                .ForCondition( Subject.Value.Offset == expected)
                 .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected {context:offset} to be {0}{reason}, but found {1}.", expected, Subject.Value.Second );
+                .FailWith("but it was {0}.", Subject.Value.Second);
 
             return new AndConstraint<DateTimeOffsetAssertions>( this );
         }
@@ -713,7 +719,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The offset that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -723,14 +729,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs )
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition( Subject.HasValue )
                 .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected {context:offset} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected )
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition( Subject.Value.Offset != unexpected )
                 .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected {context:offset} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Second );
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>( this );
         }
@@ -785,7 +791,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>  
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -813,13 +819,14 @@ namespace FluentAssertions.Primitives
             var expectedDate = expected.Date;
 
             Execute.Assertion
+                .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found a <null> DateTimeOffset.", expectedDate)
+                .FailWith("but found a <null> DateTimeOffset.", expectedDate)
                 .Then
                 .ForCondition(Subject.Value.Date == expectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found {1}.", expectedDate, Subject.Value);
+                .FailWith("but it was {0}.", Subject.Value);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -841,13 +848,14 @@ namespace FluentAssertions.Primitives
             var unexpectedDate = unexpected.Date;
 
             Execute.Assertion
+                .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} that does not have date {0}{reason}, but found a <null> DateTimeOffset.", unexpectedDate)
+                .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Date != unexpectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} that does not have date {0}{reason}, but found it does.", unexpectedDate);
+                .FailWith("but it was.");
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -881,7 +889,7 @@ namespace FluentAssertions.Primitives
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -898,7 +906,7 @@ namespace FluentAssertions.Primitives
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -909,7 +917,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+                .FailWith("Expected {context:the date and time} to be one of {0}{reason}, but it was {1}.", validValues, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }

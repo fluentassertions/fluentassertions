@@ -4,7 +4,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         /// <summary>
         /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
@@ -57,10 +57,29 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
+        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// </summary>
+        internal static string Unescape(this string value, bool escapePlaceholders = false)
+        {
+            value = value.Replace("\\\"", "\"").Replace(@"\n", "\n").Replace(@"\r", "\r");
+            if (escapePlaceholders)
+            {
+                value = value.Replace("{{", "{").Replace("}}", "}");
+            }
+
+            return value;
+        }
+
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
+
+        /// <summary>
         /// Joins a string with one or more other strings using a specified separator.
         /// </summary>
         /// <remarks>
-        /// Any string that is empty (including the original string) is ignored. 
+        /// Any string that is empty (including the original string) is ignored.
         /// </remarks>
         public static string Combine(this string @this, string other, string separator = ".")
         {

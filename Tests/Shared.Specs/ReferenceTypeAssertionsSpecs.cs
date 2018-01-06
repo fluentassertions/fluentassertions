@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class ReferenceTypeAssertionsSpecs
     {
         [Fact]
@@ -53,8 +53,13 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
+#if NETCOREAPP1_1
                     "Expected object to refer to \r\n{ UserName = JohnDoe } because " +
                     "they are the same, but found \r\n{ Name = John Doe }.");
+#else
+                    "Expected subject to refer to \r\n{ UserName = JohnDoe } because " +
+                    "they are the same, but found \r\n{ Name = John Doe }.");
+#endif
         }
 
         [Fact]
@@ -90,7 +95,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Did not expect object to refer to \r\nClassWithCustomEqualMethod(1) because they are the same.");
+#else
+                .WithMessage("Did not expect someObject to refer to \r\nClassWithCustomEqualMethod(1) because they are the same.");
+#endif
         }
 
         [Fact]
@@ -148,7 +157,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected type to be System.String, but found <null>.");
+#else
+                .WithMessage("Expected aString to be System.String, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -247,7 +260,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected type not to be System.String, but found <null>.");
+#else
+                .WithMessage("Expected aString not to be System.String, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -299,8 +316,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().Where(e => e.Message.EndsWith(
-                "to match (o == null) because it is not initialized yet."));
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected object to match (o == null) because it is not initialized yet*");
+#else
+                .WithMessage("Expected someObject to match (o == null) because it is not initialized yet*");
+#endif
         }
 
         [Fact]
@@ -325,7 +346,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected " + Formatter.ToString(someObject) + " to match (d.Name.Length == 0) because it is not initialized yet.");
+#if NETCOREAPP1_1
+                "Expected object to match (d.Name.Length == 0) because it is not initialized yet*");
+#else
+                "Expected someObject to match (d.Name.Length == 0) because it is not initialized yet*");
+#endif
         }
 
         [Fact]
@@ -379,9 +404,15 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
+                "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
+                "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
+#else
+                "Expected subject to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
                     "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
                         "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
+#endif
         }
 
         [Fact]
@@ -402,7 +433,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected object to be 4, but found 3.");
+#else
+                "Expected subject to be 4, but found 3.");
+#endif
         }
 
         [Fact]
@@ -423,7 +458,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(string.Format(
+#if NETCOREAPP1_1
                 "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
+#else
+                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
+#endif
                 other.GetHashCode(), subject.GetHashCode()));
         }
 

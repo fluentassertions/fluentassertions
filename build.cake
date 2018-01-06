@@ -84,9 +84,9 @@ Task("Build")
 Task("Run-Unit-Tests")
     .Does(() =>
 {
-    XUnit2("./Tests/Net45.Specs/**/bin/" + configuration + "/**/*.Specs.dll", new XUnit2Settings { });
-    DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration " + configuration);
-    DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration " + configuration);
+    XUnit2("./Tests/Net45.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
+    DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration debug");
+    DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration debug");
 
     XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });

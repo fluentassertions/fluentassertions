@@ -440,8 +440,8 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 act.Should().Throw<XunitException>().WithMessage(
-                    "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument +
-                    "\\\")\", but found none.");
+                    "Expected at least one event with arguments matching \"(args == \"" + wrongArgument +
+                    "\")\", but found none.");
             }
         }
 
@@ -919,9 +919,9 @@ namespace FluentAssertions.Specs
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
                 eventSource.RaiseEventWithSenderAndPropertyName("theProperty");
-                
+
                 utcNow = utcNow.AddHours(1);
-                
+
                 eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
                 //-----------------------------------------------------------------------------------------------------------

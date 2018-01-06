@@ -28,7 +28,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected string.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -59,7 +59,7 @@ namespace FluentAssertions.Primitives
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -76,14 +76,14 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string is exactly the same as another string, including any leading or trailing whitespace, with 
+        /// Asserts that a string is exactly the same as another string, including any leading or trailing whitespace, with
         /// the exception of the casing.
         /// </summary>
         /// <param name="expected">
         /// The string that the subject is expected to be equivalent to.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -106,7 +106,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -129,7 +129,7 @@ namespace FluentAssertions.Primitives
         /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -149,7 +149,7 @@ namespace FluentAssertions.Primitives
         /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -172,7 +172,7 @@ namespace FluentAssertions.Primitives
         /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -199,7 +199,7 @@ namespace FluentAssertions.Primitives
         /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -227,7 +227,7 @@ namespace FluentAssertions.Primitives
         /// The regular expression with which the subject is matched.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -246,18 +246,15 @@ namespace FluentAssertions.Primitives
               .BecauseOf(because, becauseArgs)
               .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
 
-          bool isMatch;
+          bool isMatch = false;
           try
           {
-            isMatch = Regex.IsMatch(Subject, regularExpression);
+                isMatch = Regex.IsMatch(Subject, regularExpression);
           }
           catch (ArgumentException)
           {
-            throw new ArgumentException(
-              string.Format(
-                "Cannot match string against \"{0}\" because it is not a valid regular expression.",
-                regularExpression),
-              nameof(regularExpression));
+              Execute.Assertion
+                  .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
           }
 
           Execute.Assertion
@@ -276,7 +273,7 @@ namespace FluentAssertions.Primitives
         /// The regular expression with which the subject is matched.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -294,19 +291,16 @@ namespace FluentAssertions.Primitives
               .UsingLineBreaks
               .BecauseOf(because, becauseArgs)
               .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
-          
-          bool isMatch;
+
+          bool isMatch = false;
           try
           {
             isMatch = Regex.IsMatch(Subject, regularExpression);
           }
           catch (ArgumentException)
           {
-            throw new ArgumentException(
-              string.Format(
-                "Cannot match string against \"{0}\" because it is not a valid regular expression.",
-                regularExpression),
-              nameof(regularExpression));
+            Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                regularExpression);
           }
 
           Execute.Assertion
@@ -324,7 +318,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The string that the subject is expected to start with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -353,7 +347,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to start with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -382,7 +376,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The string that the subject is expected to start with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -412,7 +406,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to start with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -441,7 +435,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The string that the subject is expected to end with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -487,7 +481,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to end with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -526,7 +520,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The string that the subject is expected to end with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -572,7 +566,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to end with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -612,7 +606,7 @@ namespace FluentAssertions.Primitives
         /// The (fragment of a) string that the current string should contain.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -644,7 +638,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The string that the subject is expected to contain.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -677,7 +671,7 @@ namespace FluentAssertions.Primitives
         /// The values that should all be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -703,7 +697,7 @@ namespace FluentAssertions.Primitives
         /// The values that should not be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -713,7 +707,7 @@ namespace FluentAssertions.Primitives
         {
             return ContainAll(values, because: string.Empty);
         }
-		
+
 		/// <summary>
         /// Asserts that a string contains at least one value present in <paramref name="values"/>,.
         /// </summary>
@@ -721,7 +715,7 @@ namespace FluentAssertions.Primitives
         /// The values that should will be tested against the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -746,7 +740,7 @@ namespace FluentAssertions.Primitives
         /// The values that should will be tested against the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -764,7 +758,7 @@ namespace FluentAssertions.Primitives
         /// The (fragment of a) string that the current string should not contain.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -799,7 +793,7 @@ namespace FluentAssertions.Primitives
         /// The values that should not be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -828,7 +822,7 @@ namespace FluentAssertions.Primitives
         /// The values that should not be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -846,7 +840,7 @@ namespace FluentAssertions.Primitives
         /// The values that should not be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -874,7 +868,7 @@ namespace FluentAssertions.Primitives
         /// The values that should not be present in the string
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -891,7 +885,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The string that the subject is not expected to contain.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -917,7 +911,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -937,7 +931,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is not <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -958,7 +952,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected length of the string</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -979,7 +973,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -999,7 +993,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -1019,7 +1013,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -1039,7 +1033,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -1071,7 +1065,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Context
+        protected override string Identifier
         {
             get { return "string"; }
         }

@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTimeOffset"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -66,9 +66,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} before {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith("Expected {context:the date and time) to be " + predicate.DisplayText +
+                          " {0} before {1}{reason}, but found a <null> DateTime.", timeSpan, target);
 
             if (success)
             {
@@ -79,9 +78,8 @@ namespace FluentAssertions.Primitives
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
+                            "Expected {context:the date and time} to be " + predicate.DisplayText +
+                            " {1} before {2}{reason}, but {0} differs {3}.", subject, timeSpan, target, actual);
                 }
             }
 
@@ -95,7 +93,7 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTimeOffset"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -106,9 +104,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} after {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith("Expected {context:the date and time} to be " + predicate.DisplayText +
+                          " {0} after {1}{reason}, but found a <null> DateTime.", timeSpan, target);
 
             if (success)
             {
@@ -119,9 +116,9 @@ namespace FluentAssertions.Primitives
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} after {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
+                            "Expected {context:the date and time} to be " + predicate.DisplayText +
+                            " {0} after {1}{reason}, but {2} differs {3}.",
+                            timeSpan, target, subject, actual);
                 }
             }
 

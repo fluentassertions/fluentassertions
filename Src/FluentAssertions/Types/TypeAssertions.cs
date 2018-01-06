@@ -85,7 +85,7 @@ namespace FluentAssertions.Types
                 .ForCondition(type.IsAssignableFrom(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:" + Context + "} {0} to be assignable to {1}{reason}, but it is not.",
+                    "Expected {context:" + Identifier + "} {0} to be assignable to {1}{reason}, but it is not.",
                     Subject,
                     type);
 
@@ -117,7 +117,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!type.IsAssignableFrom(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:" + Context + "} {0} to not be assignable to {1}{reason}, but it is.",
+                    "Expected {context:" + Identifier + "} {0} to not be assignable to {1}{reason}, but it is.",
                     Subject,
                     type);
 
@@ -998,7 +998,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Context
+        protected override string Identifier
         {
             get { return "type"; }
         }

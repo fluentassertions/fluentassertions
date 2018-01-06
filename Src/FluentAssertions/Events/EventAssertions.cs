@@ -158,6 +158,6 @@ namespace FluentAssertions.Events
             return @event.Parameters.OfType<PropertyChangedEventArgs>().Single().PropertyName;
         }
 
-        protected override string Context => "subject";
+        protected override string Identifier => "subject";
     }
 }

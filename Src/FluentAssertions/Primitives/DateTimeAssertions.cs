@@ -129,7 +129,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} to be within {0} from {1}{reason}, but found {2}.",
+                .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but found {2}.",
                     precision,
                     nearbyTime, Subject ?? default(DateTime?));
 
@@ -197,7 +197,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:date and time} to not be within {0} from {1}{reason}, but found {2}.",
+                    "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
                     distantTime, Subject ?? default(DateTime?));
 
@@ -221,7 +221,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} before {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be before {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -261,7 +261,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} on or before {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -301,7 +301,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} after {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be after {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -341,7 +341,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} on or after {0}{reason}, but found {1}.", expected,
+                .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -378,14 +378,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found <null>.")
                 .Then
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} to be {0}{reason}, but found {1}.", expected,
-                    Subject.Value.Year);
+                .FailWith(", but found {0}.", Subject.Value.Year);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -406,11 +406,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.", unexpected)
                 .Then
                 .ForCondition(Subject.Value.Year != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:year} not to be {0}{reason}, but found it is.", unexpected,
+                .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
                     Subject.Value.Year);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -430,13 +430,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Month == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} to be {0}{reason}, but found {1}.", expected, Subject.Value.Month);
+                .FailWith(", but found {0}.", Subject.Value.Month);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -455,14 +456,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Month != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:month} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Month);
+                .FailWith(", but it was.");
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -481,13 +482,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Day == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} to be {0}{reason}, but found {1}.", expected, Subject.Value.Day);
+                .FailWith(", but found {0}.", Subject.Value.Day);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -506,14 +508,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Day != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:day} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Day);
+                .FailWith(", but it was.");
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -532,13 +534,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Hour == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} to be {0}{reason}, but found {1}.", expected, Subject.Value.Hour);
+                .FailWith(", but found {0}.", Subject.Value.Hour);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -557,13 +560,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.", unexpected)
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:hour} not to be {0}{reason}, but found it is.", unexpected,
+                .FailWith(", but it was.", unexpected,
                     Subject.Value.Hour);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -584,13 +588,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Minute == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} to be {0}{reason}, but found {1}.", expected, Subject.Value.Minute);
+                .FailWith(", but found {0}.", Subject.Value.Minute);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -610,13 +615,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.", unexpected)
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:minute} not to be {0}{reason}, but found it is.", unexpected,
+                .FailWith(", but it was.", unexpected,
                     Subject.Value.Minute);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -637,13 +643,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}", expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} to be {0}{reason}, but found a <null> DateTime.", expected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Second == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} to be {0}{reason}, but found {1}.", expected, Subject.Value.Second);
+                .FailWith(", but found {0}.", Subject.Value.Second);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -663,14 +670,14 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}", unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} not to be {0}{reason}, but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Second != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:second} not to be {0}{reason}, but found it is.", unexpected,
-                    Subject.Value.Second);
+                .FailWith(", but it was.");
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -753,13 +760,14 @@ namespace FluentAssertions.Primitives
             var expectedDate = expected.Date;
 
             Execute.Assertion
+                .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}", expectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found a <null> DateTime.", expectedDate)
+                .FailWith(", but found a <null> DateTime.", expectedDate)
                 .Then
                 .ForCondition(Subject.Value.Date == expectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found {1}.", expectedDate, Subject.Value);
+                .FailWith(", but found {1}.", expectedDate, Subject.Value);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -778,16 +786,17 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotBeSameDateAs(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
-            var unexpectedDate = unexpected.Date;
+            DateTime unexpectedDate = unexpected.Date;
 
             Execute.Assertion
+                .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}", unexpectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} that does not have date {0}{reason}, but found a <null> DateTime.", unexpectedDate)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Date != unexpectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a {context:date and time} that does not have date {0}{reason}, but found it does.", unexpectedDate);
+                .FailWith(", but it was.");
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -871,13 +880,14 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> BeIn(DateTimeKind expectedKind, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .WithExpectation("Expected {context:the date and time} to be in {0}{reason}", expectedKind)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:kind} to be {0}{reason}, but found a <null> DateTime.", expectedKind)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Kind == expectedKind)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:kind} to be {0}{reason}, but found {1}.", expectedKind, Subject.Value.Kind);
+                .FailWith(", but found {0}.", Subject.Value.Kind);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }

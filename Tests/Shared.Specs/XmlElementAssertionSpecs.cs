@@ -6,7 +6,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class XmlElementAssertionSpecs
     {
         #region BeEquivalent
@@ -227,7 +227,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
                     " because we want to test the failure message" +
-                        ", but found no such attribute in <user name=\\\"martin\\\"*");
+                        ", but found no such attribute in <user name=\"martin\"*");
         }
 
         [Fact]
@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
                     " because we want to test the failure message" +
-                        ", but found no such attribute in <user xmlns:a=\\\"http:...");
+                        ", but found no such attribute in <user xmlns:a=\"http:...");
         }
 
         [Fact]

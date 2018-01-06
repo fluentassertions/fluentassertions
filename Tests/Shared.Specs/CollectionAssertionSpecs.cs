@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class CollectionAssertionSpecs
     {
         #region Be Null
@@ -58,7 +58,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be <null> because null is valid, but found {empty}.");
+#else
+                "Expected someCollection to be <null> because null is valid, but found {empty}.");
+#endif
         }
 
         [Fact]
@@ -92,7 +96,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection not to be <null> because someCollection should not.");
+#else
+                "Expected someCollection not to be <null> because someCollection should not.");
+#endif
         }
 
         #endregion
@@ -1322,7 +1330,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
+#else
+                "Expected collection1 to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
+#endif
         }
 
         [Fact]
@@ -1343,7 +1355,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {1, 2} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) too many.");
+#else
+                "Expected collection1 to be equal to {1, 2} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) too many.");
+#endif
         }
 
         [Fact]
@@ -1364,7 +1380,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {1, 2, 3, 4} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) less.");
+#else
+                "Expected collection1 to be equal to {1, 2, 3, 4} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) less.");
+#endif
         }
 
         [Fact]
@@ -1385,7 +1405,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {{5, 6}, {7, 8}}, but {{1, 2}, {3, 4}} differs at index 0.");
+#else
+                "Expected collection1 to be equal to {{5, 6}, {7, 8}}, but {{1, 2}, {3, 4}} differs at index 0.");
+#endif
         }
 
         [Fact]
@@ -1448,7 +1472,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {1, 2, 3}, but found empty collection.");
+#else
+                "Expected collection1 to be equal to {1, 2, 3}, but found empty collection.");
+ #endif
         }
 
         [Fact]
@@ -1469,7 +1497,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to be equal to {empty}, but found {1, 2, 3}.");
+#else
+                "Expected collection1 to be equal to {empty}, but found {1, 2, 3}.");
+#endif
         }
 
         [Fact]
@@ -1920,7 +1952,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected a collection, but subject is <null>*");
+#else
+                "Expected a collection, but collection is <null>*");
+#endif
         }
 
         [Fact]
@@ -1991,7 +2027,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection {1, 2, 3} not*equivalent*{3, 1, 2}.");
+#else
+                "Expected collection1 {1, 2, 3} not*equivalent*{3, 1, 2}.");
+#endif
         }
 
         [Fact]
@@ -2116,8 +2156,15 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+
+#if NETCOREAPP1_1
                 "Expected collection to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
+                "but items {3, 6} are not part of the superset.");
+#else
+                "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
                     "but items {3, 6} are not part of the superset.");
+#endif
+
         }
 
         [Fact]
@@ -2194,7 +2241,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Did not expect collection {empty} to be a subset of {1, 2, 3}.");
+#else
+                .WithMessage("Did not expect subject {empty} to be a subset of {1, 2, 3}.");
+#endif
         }
 
         [Fact]
@@ -2214,8 +2265,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
+#if NETCOREAPP1_1
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect collection {1, 2} to be a subset of {1, 2, 3} because I'm mistaken.");
+ #else
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect subject {1, 2} to be a subset of {1, 2, 3} because I'm mistaken.");
+#endif
         }
 
         [Fact]
@@ -2619,7 +2675,12 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
+#else
+                "Expected ints to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
+#endif
+
         }
 
         #endregion

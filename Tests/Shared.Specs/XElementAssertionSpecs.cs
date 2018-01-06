@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class XElementAssertionSpecs
     {
         #region Be / NotBe
@@ -275,8 +275,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to be <null> because we want to test the failure message," +
-                    " but found <element />.");
+                .WithMessage(
+#if NETCOREAPP1_1
+                    "Expected XML element to be <null> because we want to test the failure message, but found <element />.");
+#else
+                    "Expected element to be <null> because we want to test the failure message, but found <element />.");
+#endif
         }
 
         [Fact]
@@ -337,7 +341,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected XML element not to be <null> because we want to test the failure message.");
+#else
+                .WithMessage("Expected element not to be <null> because we want to test the failure message.");
+#endif
         }
 
         #endregion
@@ -985,7 +993,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
                     " because we want to test the failure message" +
-                        ", but found no such attribute in <user name=\\\"martin\\\" />");
+                        ", but found no such attribute in <user name=\"martin\" />");
         }
 
         [Fact]
@@ -1008,7 +1016,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
                     " because we want to test the failure message" +
-                        ", but found no such attribute in <user xmlns:a=\\\"http://www.example.com/2012/test\\\" a:name=\\\"martin\\\" />");
+                        ", but found no such attribute in <user xmlns:a=\"http://www.example.com/2012/test\" a:name=\"martin\" />");
         }
 
         [Fact]

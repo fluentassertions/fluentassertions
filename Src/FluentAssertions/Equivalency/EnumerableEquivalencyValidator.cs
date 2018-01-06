@@ -122,7 +122,7 @@ namespace FluentAssertions.Equivalency
 
             foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
             {
-                AssertionScope.Current.AddFailure(failure);
+                AssertionScope.Current.AddPreFormattedFailure(failure);
             }
         }
 
