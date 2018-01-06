@@ -24,7 +24,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that the value is <c>false</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -35,7 +35,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", false, Subject);
+                .FailWith("Expected {context:boolean} to be false{reason}, but found {1}.", true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -44,7 +44,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that the value is <c>true</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -55,7 +55,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", true, Subject);
+                .FailWith("Expected {context:boolean} to be true{reason}, but found {1}.", true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -65,7 +65,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

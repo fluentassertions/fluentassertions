@@ -42,7 +42,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected True because we want to test the failure message, but found False.");
+                .WithMessage("Expected boolean to be true because we want to test the failure message, but found False.");
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected False because we want to test the failure message, but found True.");
+                .WithMessage("Expected boolean to be false because we want to test the failure message, but found True.");
         }
 
         [Fact]
