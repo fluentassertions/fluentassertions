@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExecutionTimeAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtensibilityRelatedEquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensibilitySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FindAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluentDateTimeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormatterSpecs.cs" />

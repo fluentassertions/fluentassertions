@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions
@@ -24,7 +25,7 @@ namespace FluentAssertions
             {
                 logger(frame.ToString());
 
-                if (!IsDynamic(frame) && !IsDotNet(frame) && !IsCurrentAssembly(frame))
+                if (!IsDynamic(frame) && !IsDotNet(frame) && !IsCurrentAssembly(frame) && !IsCustomAssertion(frame))
                 {
                     caller = ExtractVariableNameFrom(frame) ?? caller;
                     break;
@@ -32,6 +33,11 @@ namespace FluentAssertions
             }
 
             return caller;
+        }
+
+        private static bool IsCustomAssertion(StackFrame frame)
+        {
+            return frame.GetMethod().HasAttribute<CustomAssertionAttribute>();
         }
 
         private static bool IsDynamic(StackFrame frame)
