@@ -776,7 +776,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_it_should_fail_descriptively()
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_fails_describing_missing_keys()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -787,21 +787,37 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act1 = () => dictionary1.Should().BeEquivalentTo(dictionary2);
-            Action act2 = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act1.Should().Throw<XunitException>()
+            action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {\"farewell\"}*");
 #else
                 .WithMessage("Expected dictionary1 to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {\"farewell\"}*");
 #endif
+        }
 
+        [Fact]
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_fails_describing_additional_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
 
-            act2.Should().Throw<XunitException>()
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s).*Additional key(s): {\"farewell\"}*");
 #else
@@ -810,7 +826,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_with_both_missing_and_additional_items_it_should_fail_descriptively()
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -821,16 +837,33 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act1 = () => dictionary1.Should().BeEquivalentTo(dictionary2);
-            Action act2 = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act1.Should().Throw<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {\"greeting\", \"farewell\"}*Additional key(s): {\"GREETING\"}*");
+        }
 
-            act2.Should().Throw<XunitException>()
+        [Fact]
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be a dictionary with 1 item(s), but found 2 item(s).*Missing key(s): {\"GREETING\"}*Additional key(s): {\"greeting\", \"farewell\"}*");
         }
 
