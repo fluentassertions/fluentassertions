@@ -153,10 +153,15 @@ namespace FluentAssertions.Equivalency
         {
             return GetIDictionaryInterfaces(expectedType).Single();
         }
-
+        
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
+            IDictionary<TExpectedKey, TExpectedValue> expectation)
+            where TExpectedKey : TSubjectKey
+            // Type constraint of TExpectedKey is asymetric in regards to TSubjectKey
+            // but it is valid. This constraint is implicitly enforced by the
+            // AssertIsCompatiblyTypedDictionary method which is called before
+            // the AssertSameLength method.
         {
             const string messageCore = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
 

@@ -250,6 +250,48 @@ namespace FluentAssertions.Specs
             public Dictionary<string, string> Dictionary { get; set; }
         }
 
+        public class SomeBaseKeyClass : IEquatable<SomeBaseKeyClass>
+        {
+            public SomeBaseKeyClass(int id)
+            {
+                Id = id;
+            }
+
+            public int Id { get; }
+
+            public override int GetHashCode()
+            {
+                return Id;
+            }
+
+            public bool Equals(SomeBaseKeyClass obj)
+            {
+                if (object.ReferenceEquals(obj, null))
+                {
+                    return false;
+                }
+
+                return this.Id == obj.Id;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this.Equals(obj as SomeBaseKeyClass);
+            }
+
+            public override string ToString()
+            {
+                return $"BaseKey {Id}";
+            }
+        }
+
+        public class SomeDerivedKeyClass : SomeBaseKeyClass
+        {
+            public SomeDerivedKeyClass(int id) : base(id)
+            {
+            }
+        }
+
         [Fact]
         public void When_a_dictionary_does_not_implement_the_dictionary_interface_it_should_still_be_treated_as_a_dictionary()
         {
@@ -801,6 +843,36 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_have_less_elements_other_dictionary_derived_class_keys_fails_describing_missing_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" } 
+            };
+
+            var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" },
+                { new SomeDerivedKeyClass(2), "hello" }
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be a dictionary with 2 item(s), but found 1 item(s).*Missing key(s): {BaseKey 2}*");
+        }
+
+        [Fact]
         public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_fails_describing_additional_keys()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -823,6 +895,36 @@ namespace FluentAssertions.Specs
 #else
                 .WithMessage("Expected dictionary2 to be a dictionary with 1 item(s), but found 2 item(s).*Additional key(s): {\"farewell\"}*");
 #endif
+        }
+
+        [Fact]
+        public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_and_other_dictionary_derived_class_keys_fails_because_of_types_incompatibility()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" }
+            };
+
+            var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" },
+                { new SomeDerivedKeyClass(2), "hello" }
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*the expectation is not keyed with any compatible types*");
         }
 
         [Fact]
