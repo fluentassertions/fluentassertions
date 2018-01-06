@@ -1355,7 +1355,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected subject to be <null>*{1, 2, 3, 4, 5, 6}*");
+#else
+                .WithMessage("Expected actual to be <null>*{1, 2, 3, 4, 5, 6}*");
+#endif
         }
 
         [Fact]
@@ -1443,7 +1447,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected subject*2 item(s)*but found 6*");
+#else
+                .WithMessage("Expected actual*2 item(s)*but found 6*");
+#endif
         }
 
         [Fact]

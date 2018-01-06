@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class GenericCollectionAssertionsSpecs
     {
         [Fact]
@@ -116,7 +116,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
+#else
+                "Expected strings {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
+#endif
         }
 
         [Fact]
@@ -136,7 +140,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
+#else
+                "Expected strings {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
+#endif
         }
 
         [Fact]
@@ -156,7 +164,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to contain \"string4\" because we're checking how it reacts to a null subject, but found <null>.");
+#else
+                "Expected strings to contain \"string4\" because we're checking how it reacts to a null subject, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -197,7 +209,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
+#else
+                "Expected strings to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -218,7 +234,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
+#else
+                "Expected strings not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -238,7 +258,11 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected collection {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
+#else
+                "Expected strings {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
+#endif
         }
 
         #endregion
@@ -282,7 +306,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected collection to contain only items matching (e.Length > 0), but the collection is empty.");
+#else
+                .WithMessage("Expected strings to contain only items matching (e.Length > 0), but the collection is empty.");
+#endif
         }
 
         [Fact]
@@ -565,7 +593,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
+#if NETCOREAPP1_1
             const string expectedMessage = "Expected value to be greater than 4, but found 3.";
+#else
+            const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
+#endif
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

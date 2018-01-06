@@ -22,18 +22,18 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>      
+        /// </param>
         public AndConstraint<NullableDateTimeOffsetAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
 
             return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
         }
@@ -42,12 +42,12 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>      
+        /// </param>
         public AndConstraint<NullableDateTimeOffsetAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
             return HaveValue(because, becauseArgs);
@@ -57,19 +57,19 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>      
+        /// </param>
         public AndConstraint<NullableDateTimeOffsetAssertions> NotHaveValue(string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:date and time} to have a value{reason}, but found {0}.", Subject);
+                .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);
 
             return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
         }
@@ -78,12 +78,12 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
-        /// </param>      
+        /// </param>
         public AndConstraint<NullableDateTimeOffsetAssertions> BeNull(string because = "",
             params object[] becauseArgs)
         {
@@ -95,7 +95,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -107,7 +107,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.", expected, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }

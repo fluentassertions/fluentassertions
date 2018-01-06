@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class  AssertionScopeSpecs
     {
         [Fact]
@@ -227,6 +227,28 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to be \"{bar}\", but \"{foo}\" differs near*");
+        }
+
+        [Fact]
+        public void When_message_contains_double_braces_they_should_not_be_replaced_with_context()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+
+            AssertionScope.Current.FailWith("{{empty}}");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*empty*");
         }
     }
 }

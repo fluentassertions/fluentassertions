@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class PropertyInfoAssertionSpecs
     {
         #region BeVirtual
@@ -134,8 +134,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
-        }        
-        
+        }
+
         [Fact]
         public void When_a_property_is_decorated_with_an_attribute_it_allow_chaining_assertions()
         {
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected*OtherValue*Value*");
         }
-        
+
         [Fact]
         public void When_a_property_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_fail()
         {
@@ -276,9 +276,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
+#else
+                .WithMessage("Expected propertyInfo ReadOnlyProperty to have a setter because we want to test the error message.");
+#endif
         }
-        
+
         [Fact]
         public void When_asserting_a_readwrite_property_is_writable_it_succeeds()
         {
@@ -435,7 +439,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected property ReadWriteProperty not to have a setter because we want to test the error message.");
+#else
+                .WithMessage("Expected propertyInfo ReadWriteProperty not to have a setter because we want to test the error message.");
+#endif
         }
 
         [Fact]
@@ -457,7 +465,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected property WriteOnlyProperty not to have a setter because we want to test the error message.");
+#else
+                .WithMessage("Expected propertyInfo WriteOnlyProperty not to have a setter because we want to test the error message.");
+#endif
         }
 
         #endregion
@@ -484,7 +496,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected property ReadOnlyProperty not to have a getter because we want to test the error message.");
+#else
+                .WithMessage("Expected propertyInfo ReadOnlyProperty not to have a getter because we want to test the error message.");
+#endif
         }
 
         [Fact]
@@ -507,7 +523,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
                 .WithMessage("Expected property ReadWriteProperty not to have a getter because we want to test the error message.");
+#else
+                .WithMessage("Expected propertyInfo ReadWriteProperty not to have a getter because we want to test the error message.");
+#endif
         }
 
         [Fact]

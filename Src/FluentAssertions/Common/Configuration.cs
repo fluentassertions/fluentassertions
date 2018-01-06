@@ -11,6 +11,7 @@ namespace FluentAssertions.Common
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;
         private string testFrameworkName;
+        private object propertiesAccessLock = new object();
 
         #endregion
 
@@ -35,12 +36,16 @@ namespace FluentAssertions.Common
         {
             get
             {
-                if (!valueFormatterDetectionMode.HasValue)
+                lock(propertiesAccessLock)
                 {
-                    valueFormatterDetectionMode = DetermineFormatterDetectionMode();
-                }
+                    if (!valueFormatterDetectionMode.HasValue)
+                    {
+                        valueFormatterDetectionMode = DetermineFormatterDetectionMode();
+                    }
 
-                return valueFormatterDetectionMode.Value;
+                    return valueFormatterDetectionMode.Value;
+                }
+                
             }
             set { valueFormatterDetectionMode = value; }
         }
@@ -91,8 +96,11 @@ namespace FluentAssertions.Common
             }
             set
             {
-                valueFormatterAssembly = value;
-                valueFormatterDetectionMode = null;
+                lock(propertiesAccessLock)
+                {
+                    valueFormatterAssembly = value;
+                    valueFormatterDetectionMode = null;
+                }
             }
         }
 

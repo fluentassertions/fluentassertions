@@ -25,8 +25,9 @@ namespace FluentAssertions.Execution
         private static AssertionScope current;
 
         private AssertionScope parent;
-        private string expectation = "";
+        private Func<string> expectation = null;
         private readonly bool evaluateCondition = true;
+        private string fallbackIdentifier = "object";
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace FluentAssertions.Execution
             if (parent != null)
             {
                 contextData.Add(parent.contextData);
+                Context = parent.Context;
             }
         }
 
@@ -56,8 +58,14 @@ namespace FluentAssertions.Execution
         /// </summary>
         public AssertionScope(string context) : this()
         {
-            AddNonReportable("context", context);
+            Context = context;
         }
+
+        /// <summary>
+        /// Gets or sets the context of the current assertion scope, e.g. the path of the object graph
+        /// that is being asserted on.
+        /// </summary>
+        public string Context { get; set; }
 
         /// <summary>
         /// Creates a nested scope used during chaining.
@@ -71,15 +79,16 @@ namespace FluentAssertions.Execution
             parent = sourceScope.parent;
             expectation = sourceScope.expectation;
             evaluateCondition = sourceSucceeded;
+            Context = sourceScope.Context;
         }
 
         /// <summary>
-        /// Gets the current thread-specific assertion scope. 
+        /// Gets the current thread-specific assertion scope.
         /// </summary>
         public static AssertionScope Current
         {
-            get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
-            private set { current = value; }
+            get => current ?? new AssertionScope(new DefaultAssertionStrategy());
+            private set => current = value;
         }
 
         /// <summary>
@@ -103,37 +112,42 @@ namespace FluentAssertions.Execution
         /// Specify the reason why you expect the condition to be <c>true</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the condition should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why 
+        /// the condition should be satisfied. If the phrase does not start with the word <i>because</i>, 
+        /// it is prepended to the message. 
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
+        /// <exception cref="System.FormatException">
+        /// Thrown if the format of <paramref name="because"/> or <paramref name="becauseArgs"/> is not 
+        /// compatible with <see cref="string.Format(string,object[])"/>.
+        /// </exception>
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
             reason = string.Format(because ?? "", becauseArgs ?? new object[0]);
             return this;
-        } 
+        }
 
         /// <summary>
-        /// Sets the expectation part of the failure message when the assertion is not met. 
+        /// Sets the expectation part of the failure message when the assertion is not met.
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
-        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
-        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
-        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
-        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
-        /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
+        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
+        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
         /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
-        /// expectation. 
+        /// expectation.
         /// </remarks>
         ///  <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string expectation, params object[] args)
         {
-            this.expectation = new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData);
+            this.expectation = () => new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
             return this;
         }
 
@@ -165,19 +179,19 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Sets the failure message when the assertion is not met, or completes the failure message set to a 
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a
         /// prior call to to <see cref="WithExpectation"/>.
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
-        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
-        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
-        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
-        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
-        /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
+        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
+        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
         /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
-        /// expectation. 
+        /// expectation.
         /// </remarks>
         /// <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
@@ -187,11 +201,11 @@ namespace FluentAssertions.Execution
             {
                 if (evaluateCondition && !Succeeded)
                 {
-                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData);
+                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
 
-                    if (!string.IsNullOrEmpty(expectation))
+                    if (expectation != null)
                     {
-                        result = expectation + result;
+                        result = expectation() + result;
                     }
 
                     assertionStrategy.HandleFailure(result.Capitalize());
@@ -204,11 +218,21 @@ namespace FluentAssertions.Execution
                 Succeeded = false;
             }
         }
-        
+
+        private string GetIdentifier()
+        {
+            if (!string.IsNullOrEmpty(Context))
+            {
+                return Context;
+            }
+
+            return CallerIdentifier.DetermineCallerIdentity();
+        }
+
         /// <summary>
-        /// Adds a pre-formatted failure message to the current scope. 
+        /// Adds a pre-formatted failure message to the current scope.
         /// </summary>
-        public void AddFailure(string formattedFailureMessage)
+        public void AddPreFormattedFailure(string formattedFailureMessage)
         {
             assertionStrategy.HandleFailure(formattedFailureMessage);
         }
@@ -218,6 +242,10 @@ namespace FluentAssertions.Execution
             contextData.Add(key, value, Reportability.Hidden);
         }
 
+        /// <summary>
+        /// Adds some information to the assertion scope that will be included in the message
+        /// that is emitted if an assertion fails.
+        /// </summary>
         public void AddReportable(string key, string value)
         {
             contextData.Add(key, value, Reportability.Reportable);
@@ -259,6 +287,12 @@ namespace FluentAssertions.Execution
             {
                 assertionStrategy.ThrowIfAny(contextData.Reportable);
             }
+        }
+
+        public AssertionScope WithDefaultIdentifier(string identifier)
+        {
+            this.fallbackIdentifier = identifier;
+            return this;
         }
     }
 }

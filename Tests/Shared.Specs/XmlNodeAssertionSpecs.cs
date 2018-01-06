@@ -9,7 +9,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class XmlNodeAssertionSpecs
     {
         #region BeSameAs / NotBeSameAs
@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected Xml Node to refer to <otherDoc /> because we want to test the failure message, but found <doc />.");
+                .WithMessage("Expected doc to refer to <otherDoc /> because we want to test the failure message, but found <doc />.");
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected Xml Node to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long....");
+                .WithMessage("Expected doc to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long....");
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML Node to refer to *xml*, but found <null>.");
+                .WithMessage("Expected actual to refer to *xml*, but found <null>.");
         }
         #endregion
 
@@ -167,7 +167,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML Node to be <null> because we want to test the failure message," +
+                .WithMessage("Expected xmlDoc to be <null> because we want to test the failure message," +
                     " but found <xml />.");
         }
 
@@ -230,7 +230,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML Node not to be <null> because we want to test the failure message.");
+                .WithMessage("Expected xmlDoc not to be <null> because we want to test the failure message.");
         }
 
         #endregion

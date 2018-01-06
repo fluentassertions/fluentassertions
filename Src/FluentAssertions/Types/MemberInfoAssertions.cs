@@ -73,7 +73,7 @@ namespace FluentAssertions.Types
         {
             string failureMessage = String.Format("Expected {0} {1}" +
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
-                                                  Context, SubjectDescription, typeof (TAttribute));
+                                                  Identifier, SubjectDescription, typeof (TAttribute));
 
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
@@ -106,7 +106,7 @@ namespace FluentAssertions.Types
         {
             string failureMessage = String.Format("Expected {0} {1}" +
                                                   " to not be decorated with {2}{{reason}}, but that attribute was found.",
-                                                  Context, SubjectDescription, typeof(TAttribute));
+                                                  Identifier, SubjectDescription, typeof(TAttribute));
 
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
@@ -118,7 +118,7 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Context
+        protected override string Identifier
         {
             get { return "member"; }
         }

@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs
                     .FailWith("Expected it to fail{reason}");
             }
 
-            protected override string Context
+            protected override string Identifier
             {
                 get { return "test"; }
             }

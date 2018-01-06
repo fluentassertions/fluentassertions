@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -12,7 +11,7 @@ using FluentAssertions.Formatting;
 namespace FluentAssertions.Execution
 {
     /// <summary>
-    /// Encapsulates expanding the various placeholders supported in a failure message. 
+    /// Encapsulates expanding the various placeholders supported in a failure message.
     /// </summary>
     internal class MessageBuilder
     {
@@ -22,11 +21,6 @@ namespace FluentAssertions.Execution
 
         private readonly char[] blanks = {'\r', '\n', ' ', '\t'};
 
-        /// <summary>
-        /// Represents the phrase that can be used in <see cref="AssertionScope.FailWith"/> as a placeholder for the reason of an assertion.
-        /// </summary>
-        private const string ReasonTag = "{reason}";
-
         #endregion
 
         public MessageBuilder(bool useLineBreaks)
@@ -34,22 +28,50 @@ namespace FluentAssertions.Execution
             this.useLineBreaks = useLineBreaks;
         }
 
-        public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData)
+        // SMELL: Too many parameters.
+        public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier, string fallbackIdentifier)
         {
-            string result = SubstituteReasonTag(message, SanitizeReason(reason));
-            result = SubstituteContextualTags(result, contextData);
-            result = FormatArgumentPlaceholders(result, messageArgs);
-            return result;
+            message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
+
+            message = SubstituteIdentifier(message, identifier?.Escape(true), fallbackIdentifier);
+
+            message = SubstituteContextualTags(message, contextData);
+
+            message = FormatArgumentPlaceholders(message, messageArgs);
+
+            return message.Unescape();
         }
 
-        private string SubstituteReasonTag(string failureMessage, string reason)
+        private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
-            return Regex.Replace(failureMessage, ReasonTag, reason);
+            var regex = new Regex(@"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
+            message = regex.Replace(message, match =>
+            {
+                string defaultIdentifier = match.Groups["default"].Value;
+                string result = "object";
+
+                if (!identifier.IsNullOrEmpty())
+                {
+                    result = identifier;
+                }
+                else if (!defaultIdentifier.IsNullOrEmpty())
+                {
+                    result = defaultIdentifier;
+                }
+                else if (!fallbackIdentifier.IsNullOrEmpty())
+                {
+                    result = fallbackIdentifier;
+                }
+
+                return " " + result;
+            });
+
+            return message.TrimStart();
         }
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
-            var regex = new Regex(@"\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
+            var regex = new Regex(@"[^\{]\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
             return regex.Replace(message, match =>
             {
                 string key = match.Groups["key"].Value;
@@ -61,7 +83,7 @@ namespace FluentAssertions.Execution
         {
             string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
             string formattedMessage = string.Format(failureMessage, values);
-            
+
             return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
 
