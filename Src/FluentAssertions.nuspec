@@ -7,26 +7,26 @@
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen</authors>
     <summary>
-      Fluent API for asserting the results of unit tests for .NET Framework 4.5.1+ and .NET Standard 1.4+.
-      Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
+      Fluent API for asserting the results of unit tests that targets .NET Framework 4.5, .NET Standard 1.4, 1.6 and 2.0.
+      Supports the unit test frameworks MSTest, MSTest2, Gallio, NUnit, XUnit, MBunit, MSpec, and NSpec.
     </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests. Runs on .NET Framework 4.5.1+ and .NET Standard 1.4+.
-      Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
+      BDD-style unit tests. Targets .NET Framework 4.5, .NET Standard 1.4, 1.6 and 2.0.
+      Supports the unit test frameworks MSTest, MSTest2, Gallio, NUnit, XUnit, MBUnit, MSpec, and NSpec.
     </description>
     <language>en-US</language>
     <licenseUrl>https://github.com/fluentassertions/fluentassertions/blob/master/LICENSE</licenseUrl>
 	<iconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/release-5.0/Src/FluentAssertions.png</iconUrl>
     <projectUrl>http://www.fluentassertions.com</projectUrl>
     <tags>MSTest MSTest2 xUnit xUnit2 NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent netcore netstandard uwp</tags>
-    <copyright>Copyright Dennis Doomen 2010-2017</copyright>
+    <copyright>Copyright Dennis Doomen 2010-2018</copyright>
     <releaseNotes>
       See https://github.com/fluentassertions/fluentassertions/releases/
     </releaseNotes>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml" targetFramework="net451" />
-      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net451" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
     </frameworkAssemblies>
     <dependencies>
       <group targetFramework="netstandard1.4">
@@ -47,9 +47,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src=".\FluentAssertions\bin\Release\net451\*.*"  target="lib\net451" />
-    <file src=".\FluentAssertions\bin\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
-    <file src=".\FluentAssertions\bin\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
-    <file src=".\FluentAssertions\bin\Release\netstandard2.0\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard2.0" />
+    <file src="..\Artifacts\Release\net45\*.*"  target="lib\net45" />
+    <file src="..\Artifacts\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
+    <file src="..\Artifacts\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
+    <file src="..\Artifacts\Release\netstandard2.0\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard2.0" />
   </files>
 </package>
