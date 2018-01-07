@@ -154,17 +154,114 @@ namespace FluentAssertions.Equivalency
             return GetIDictionaryInterfaces(expectedType).Single();
         }
 
-        private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
-            IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectKey, TExpectedValue> expectation)
+        private class KeyDifference<TSubjectKey, TExpectedKey>
         {
+            public KeyDifference(List<TExpectedKey> missingKeys, List<TSubjectKey> additionalKeys)
+            {
+                MissingKeys = missingKeys;
+                AdditionalKeys = additionalKeys;
+            }
+
+            public List<TExpectedKey> MissingKeys { get; }
+
+            public List<TSubjectKey> AdditionalKeys { get; }
+        }
+        
+        private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
+            IDictionary<TSubjectKey, TSubjectValue> subject,
+            IDictionary<TExpectedKey, TExpectedValue> expectation)
+            where TExpectedKey : TSubjectKey
+            // Type constraint of TExpectedKey is asymetric in regards to TSubjectKey
+            // but it is valid. This constraint is implicitly enforced by the
+            // AssertIsCompatiblyTypedDictionary method which is called before
+            // the AssertSameLength method.
+        {
+            const string messageCore = "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).";
+
+            if(expectation.Count != subject.Count)
+            {
+                var keyDifference = CalculateKeyDifference(subject, expectation);
+
+                bool thereAreSomeMissingKeys = keyDifference.MissingKeys.Count > 0;
+                bool thereAreSomeAdditionalKeys = keyDifference.AdditionalKeys.Any();
+
+                // Just missing keys
+                if(thereAreSomeMissingKeys && !thereAreSomeAdditionalKeys)
+                {
+                    return AssertionScope.Current
+                        .FailWith(
+                            $"{messageCore} Missing key(s): {{2}}",
+                            expectation.Count,
+                            subject.Count,
+                            keyDifference.MissingKeys);
+                }
+
+                // Just additional keys
+                else if(!thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
+                {
+                    return AssertionScope.Current
+                        .FailWith(
+                            $"{messageCore} Additional key(s): {{2}}",
+                            expectation.Count,
+                            subject.Count,
+                            keyDifference.AdditionalKeys);
+                }
+
+                // Both missing and additional keys
+                else if(thereAreSomeMissingKeys && thereAreSomeAdditionalKeys)
+                {
+                    return AssertionScope.Current
+                        .FailWith(
+                            $"{messageCore} Missing key(s): {{2}}. Additional key(s): {{3}}",
+                            expectation.Count,
+                            subject.Count,
+                            keyDifference.MissingKeys,
+                            keyDifference.AdditionalKeys);
+                }
+            }
+
+            // Should not happen, if there is mismatch in count, there must be
+            // either some missing or some additional keys. However, for security,
+            // this fallback assertion is left.
             return
                 AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
                     .FailWith(
-                        "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).",
+                        messageCore,
                         expectation.Count,
                         subject.Count);
+        }
+
+        private static KeyDifference<TSubjectKey, TExpectedKey> CalculateKeyDifference<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(IDictionary<TSubjectKey, TSubjectValue> subject,
+            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
+        {
+            List<TExpectedKey> missingKeys = new List<TExpectedKey>();
+            HashSet<TSubjectKey> presentKeys = new HashSet<TSubjectKey>();
+
+            foreach (TExpectedKey expectationKey in expectation.Keys)
+            {
+                if (subject.ContainsKey(expectationKey))
+                {
+                    presentKeys.Add(expectationKey);
+                }
+                else
+                {
+                    missingKeys.Add(expectationKey);
+                }
+            }
+
+            List<TSubjectKey> additionalKeys = new List<TSubjectKey>();
+            foreach (TSubjectKey subjectKey in subject.Keys)
+            {
+                if(!presentKeys.Contains(subjectKey))
+                {
+                    additionalKeys.Add(subjectKey);
+                }
+            }
+
+            var keyDifference = new KeyDifference<TSubjectKey, TExpectedKey>(
+                missingKeys: missingKeys, additionalKeys: additionalKeys);
+            return keyDifference;
         }
 
         private static void AssertDictionaryEquivalence(IEquivalencyValidationContext context,
