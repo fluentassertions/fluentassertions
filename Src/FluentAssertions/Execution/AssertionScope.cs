@@ -18,7 +18,7 @@ namespace FluentAssertions.Execution
         private readonly IAssertionStrategy assertionStrategy;
         private readonly ContextDataItems contextData = new ContextDataItems();
 
-        private string reason;
+        private Func<string> reason;
         private bool useLineBreaks;
 
         [ThreadStatic]
@@ -125,7 +125,7 @@ namespace FluentAssertions.Execution
         /// </exception>
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
-            reason = string.Format(because ?? "", becauseArgs ?? new object[0]);
+            reason = () => string.Format(because ?? "", becauseArgs ?? new object[0]);
             return this;
         }
 
@@ -145,9 +145,10 @@ namespace FluentAssertions.Execution
         /// </remarks>
         ///  <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
-        public AssertionScope WithExpectation(string expectation, params object[] args)
+        public AssertionScope WithExpectation(string message, params object[] args)
         {
-            this.expectation = () => new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
+            var localReason = reason;
+            expectation = () => new MessageBuilder(useLineBreaks).Build(message, args, localReason != null ? localReason() : "", contextData, GetIdentifier(), fallbackIdentifier);
             return this;
         }
 
@@ -201,7 +202,7 @@ namespace FluentAssertions.Execution
             {
                 if (evaluateCondition && !Succeeded)
                 {
-                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData, GetIdentifier(), fallbackIdentifier);
+                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason != null ? reason() : "", contextData, GetIdentifier(), fallbackIdentifier);
 
                     if (expectation != null)
                     {
