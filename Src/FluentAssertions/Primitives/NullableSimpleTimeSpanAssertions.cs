@@ -9,7 +9,8 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.
     /// </summary>
     /// <remarks>
-    /// You can use the <see cref="TimeSpanConversionExtensions"/> for a more fluent way of specifying a <see cref="TimeSpan"/>.
+    /// You can use the <see cref="FluentAssertions.Extensions.FluentTimeSpanExtensions"/>
+    /// for a more fluent way of specifying a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
     public class NullableSimpleTimeSpanAssertions : SimpleTimeSpanAssertions

@@ -133,7 +133,7 @@ namespace FluentAssertions
 
         private class SimpleBinder : SerializationBinder
         {
-            private Type type;
+            private readonly Type type;
 
             public SimpleBinder(Type type)
             {

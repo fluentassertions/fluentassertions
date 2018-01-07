@@ -24,7 +24,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> equals the 
         /// <paramref name="expected"/> element, by using 
-        /// <see cref="XElement.DeepEquals(XNode, XNode)"/>
+        /// <see cref="XNode.DeepEquals(XNode, XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
         public AndConstraint<XElementAssertions> Be(XElement expected)
@@ -35,7 +35,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> equals the 
         /// <paramref name="expected"/> element, by using 
-        /// <see cref="XElement.DeepEquals(XNode, XNode)"/>
+        /// <see cref="XNode.DeepEquals(XNode, XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="because">
@@ -58,7 +58,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> does not equal the 
         /// <paramref name="unexpected"/> element, using 
-        /// <see cref="XElement.DeepEquals(XNode, XNode)" />.
+        /// <see cref="XNode.DeepEquals(XNode, XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected)
@@ -69,7 +69,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> does not equal the 
         /// <paramref name="unexpected"/> element, using 
-        /// <see cref="XElement.DeepEquals(XNode, XNode)" />.
+        /// <see cref="XNode.DeepEquals(XNode, XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         /// <param name="because">

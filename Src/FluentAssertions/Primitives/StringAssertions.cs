@@ -696,13 +696,6 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should not be present in the string
         /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
         public AndConstraint<StringAssertions> ContainAll(params string[] values)
         {
             return ContainAll(values, because: string.Empty);
@@ -738,13 +731,6 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="values">
         /// The values that should will be tested against the string
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<StringAssertions> ContainAny(params string[] values)
         {
@@ -821,13 +807,6 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should not be present in the string
         /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
         public AndConstraint<StringAssertions> NotContainAll(params string[] values)
         {
             return NotContainAll(values, because: string.Empty);
@@ -866,13 +845,6 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="values">
         /// The values that should not be present in the string
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotContainAny(params string[] values)
         {

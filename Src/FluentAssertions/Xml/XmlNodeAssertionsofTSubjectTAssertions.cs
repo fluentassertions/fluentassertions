@@ -11,8 +11,8 @@ namespace FluentAssertions.Xml
     /// </summary>
     [DebuggerNonUserCode]
     public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
-        where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
         where TSubject : XmlNode
+        where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
     {
         public XmlNodeAssertions(TSubject xmlNode)
         {

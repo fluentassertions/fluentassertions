@@ -44,8 +44,9 @@ namespace FluentAssertions.Execution
 
         private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
-            var regex = new Regex(@"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
-            message = regex.Replace(message, match =>
+            string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+
+            message = Regex.Replace(message, pattern, match =>
             {
                 string defaultIdentifier = match.Groups["default"].Value;
                 string result = "object";
@@ -71,8 +72,9 @@ namespace FluentAssertions.Execution
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
-            var regex = new Regex(@"[^\{]\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
-            return regex.Replace(message, match =>
+            string pattern = @"[^\{]\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+
+            return Regex.Replace(message, pattern, match =>
             {
                 string key = match.Groups["key"].Value;
                 return contextData.AsStringOrDefault(key)?.Replace("{", "{{").Replace("}", "}}") ?? match.Groups["default"].Value;

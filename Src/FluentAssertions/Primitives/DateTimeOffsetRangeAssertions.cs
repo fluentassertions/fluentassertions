@@ -10,8 +10,8 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
     /// </summary>
     /// <remarks>
-    /// You can use the <see cref="FluentDateTimeExtensions"/> and <see cref="TimeSpanConversionExtensions"/> for a more fluent
-    /// way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
+    /// You can use the <see cref="FluentDateTimeExtensions"/> and <see cref="TimeSpanConversionExtensions"/>
+    /// for a more fluent way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
     public class DateTimeOffsetRangeAssertions

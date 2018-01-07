@@ -325,6 +325,7 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
+        /// <summary></summary>
         /// <param name="action">
         /// The assertion to execute when the predicate is met.
         /// </param>

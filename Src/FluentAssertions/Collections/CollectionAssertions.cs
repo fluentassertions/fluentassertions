@@ -14,8 +14,8 @@ namespace FluentAssertions.Collections
     /// Contains a number of methods to assert that an <see cref="IEnumerable"/> is in the expected state.
     /// </summary>
     public abstract class CollectionAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
-        where TAssertions : CollectionAssertions<TSubject, TAssertions>
         where TSubject : IEnumerable
+        where TAssertions : CollectionAssertions<TSubject, TAssertions>
     {
         /// <summary>
         /// Asserts that the collection does not contain any items.

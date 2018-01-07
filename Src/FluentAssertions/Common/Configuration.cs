@@ -11,7 +11,7 @@ namespace FluentAssertions.Common
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;
         private string testFrameworkName;
-        private object propertiesAccessLock = new object();
+        private readonly object propertiesAccessLock = new object();
 
         #endregion
 
