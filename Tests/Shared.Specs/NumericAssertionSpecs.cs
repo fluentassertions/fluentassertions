@@ -720,8 +720,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    string.Format("Expected value to be between*{0}* and*{1}* because that's the valid range, but found*{2}*",
-                        4, 5, value));
+                    "Expected value to be between*4* and*5* because that\'s the valid range, but found*3.99*");
         }
 
         [Fact]
@@ -766,8 +765,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    string.Format("Expected value to not be between*{0}* and*{1}* because that's the invalid range, but found*{2}*",
-                        4, 5, value));
+                    "Expected value to not be between*4* and*5* because that\'s the invalid range, but found*4.99*");
         }
 
         [Fact]
@@ -921,8 +919,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be *{0}* because we want to test the error message, but found *{1}*",
-                    3.4F, value));
+                .WithMessage(
+                    "Expected value to be *3.4* because we want to test the error message, but found *3.5*");
         }
 
         [Fact]
@@ -963,7 +961,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be *{0}* but found <null>.", 3.5));
+                .WithMessage("Expected value to be *3.5* but found <null>.");
         }
 
         [Fact]
@@ -982,13 +980,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            float difference = Math.Abs(value - 3.14F);
-
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value *{0:R}* to approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it differed by *{3}*",
-                    value, 3.14F, 0.001F, difference));
+                .WithMessage("Expected value *3.1415927* to approximate *3.14* +/- *0.001* because rockets will crash otherwise, but it differed by *0.001592*");
         }
 
         [Fact]
@@ -1048,8 +1042,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to approximate*{0}* +/-*{1}*, but it was <null>.",
-                    3.14, 0.001));
+                .WithMessage("Expected value to approximate*3.14* +/-*0.001*, but it was <null>.");
         }
 
         [Fact]
@@ -1068,13 +1061,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            float difference = Math.Abs(value - 3.14F);
-
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value *{0:R}* to not approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it only differed by *{3}*",
-                    value, 3.14F, 0.1F, difference));
+                .WithMessage("Expected value *3.1415927* to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.001592*");
         }
 
         [Fact]
@@ -1134,8 +1123,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to not approximate*{0}* +/-*{1}*, but it was <null>.",
-                    3.14F, 0.001F));
+                .WithMessage("Expected value to not approximate*3.14* +/-*0.001*, but it was <null>.");
         }
 
         #endregion
@@ -1160,8 +1148,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
-                    3.4, value));
+                .WithMessage(
+                    "Expected value to be 3.4 because we want to test the error message, but found 3.5.");
         }
 
         [Fact]
@@ -1202,7 +1190,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be {0}, but found <null>.", 3.5));
+                .WithMessage("Expected value to be 3.5, but found <null>.");
         }
 
         [Fact]
@@ -1221,13 +1209,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            double difference = Math.Abs(value - 3.14);
-
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}*",
-                    value, 3.14, 0.001, difference));
+                .WithMessage("Expected value 3.1415927 to approximate 3.14 +/- 0.001 because rockets will crash otherwise, but it differed by 0.001592*");
         }
 
         [Fact]
@@ -1284,13 +1268,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            double difference = Math.Abs(value - 3.14);
-
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value *{0:R}* to not approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it only differed by *{3}*",
-                    value, 3.14, 0.1, difference));
+                .WithMessage(
+                    "Expected value *3.1415927* to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.001592*");
         }
 
         [Fact]
@@ -1350,8 +1331,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to not approximate*{0}* +/-*{1}*, but it was <null>.",
-                    3.14, 0.001));
+                .WithMessage("Expected value to not approximate*3.14* +/-*0.001*, but it was <null>.");
         }
 
         #endregion
@@ -1375,9 +1355,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value to be*{0}* because we want to test the error message, but found*{1}*",
-                    3.4m, value));
+                .WithMessage(
+                    "Expected value to be*3.4* because we want to test the error message, but found*3.5*");
         }
 
         [Fact]
@@ -1419,7 +1398,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be*{0}*, but found <null>.", 3.5));
+                .WithMessage("Expected value to be*3.5*, but found <null>.");
         }
 
         [Fact]
@@ -1438,11 +1417,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            decimal difference = Math.Abs(value - 3.5m);
 
-            act.Should().Throw<XunitException>().WithMessage(string.Format(
-                "Expected value*{0}* to approximate*{1}* +/-*{2}* because rockets will crash otherwise, but it differed by*{3}*",
-                value, 3.5m, 0.001, difference));
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected value*3.5011* to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but it differed by*0.0011*");
         }
 
         [Fact]
@@ -1480,13 +1457,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            decimal difference = Math.Abs(value - 3.5m);
-
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format(
-                    "Expected value *{0}* to not approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it only differed by *{3}*",
-                    value, 3.5m, 0.1m, difference));
+                .WithMessage(
+                    "Expected value *3.5011* to not approximate *3.5* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.0011*");
         }
 
         [Fact]
@@ -1527,8 +1501,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to not approximate*{0}* +/-*{1}*, but it was <null>.",
-                    3.5m, 0.001m));
+                .WithMessage("Expected value to not approximate*3.5* +/-*0.001*, but it was <null>.");
         }
 
         #endregion
