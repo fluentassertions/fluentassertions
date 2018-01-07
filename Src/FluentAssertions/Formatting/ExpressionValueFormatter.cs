@@ -19,7 +19,7 @@ namespace FluentAssertions.Formatting
 
 
         /// <inheritdoc />
-        public string Format(object value, FormattingContext multiline, FormatChild formatChild)
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             return value.ToString().Replace(" = ", " == ");
         }
