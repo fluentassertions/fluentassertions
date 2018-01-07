@@ -480,7 +480,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a <see cref="MethodBaseAssertions"/> object that can be used to assert the current <see cref="MethodInfo"/>.
+        /// Returns a <see cref="FluentAssertions.Types.MethodBaseAssertions{TSubject, TAssertions}"/> object
+        /// that can be used to assert the current <see cref="MethodInfo"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
         [Pure]

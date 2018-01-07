@@ -9,7 +9,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// Provides convenient assertion methods on a <see cref="IEventMonitor"/> that can be 
+    /// Provides convenient assertion methods on a <see cref="IMonitor{T}"/> that can be 
     /// used to assert that certain events have been raised. 
     /// </summary>
     public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>

@@ -92,7 +92,7 @@ namespace FluentAssertions.Primitives
         /// <remarks>
         /// Objects are equivalent when both object graphs have equally named properties with the same value, 
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
         /// items in the collection are structurally equal. 
         /// </remarks>
         /// <param name="config">

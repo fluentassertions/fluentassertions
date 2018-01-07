@@ -100,7 +100,7 @@ namespace FluentAssertions.Equivalency
             if (Tracer != null)
             {
                 string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
-                Tracer.AddSingle($"{getTraceMessage(path)}");
+                Tracer.AddSingle(getTraceMessage(path));
             }
         }
 

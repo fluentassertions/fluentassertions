@@ -1018,8 +1018,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied <paramref
-        /// name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied
+        /// <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>

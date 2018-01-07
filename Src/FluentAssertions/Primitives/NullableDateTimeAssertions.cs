@@ -5,7 +5,8 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Primitives
 {
     /// <summary>
-    /// Contains a number of methods to assert that a nullable <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is in the expected state.
+    /// Contains a number of methods to assert that a nullable <see cref="DateTime"/> or
+    /// <see cref="DateTimeOffset"/> is in the expected state.
     /// </summary>
     /// <remarks>
     /// You can use the <see cref="FluentDateTimeExtensions"/> for a more fluent way of specifying a <see cref="DateTime"/>.
