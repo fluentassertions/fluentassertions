@@ -33,9 +33,9 @@ namespace FluentAssertions
         /// Returns <c>true</c> if the object should be treated as a value type and its <see cref="object.Equals(object)"/>
         /// must be used during a structural equivalency check.
         /// </returns>
-        public static Func<Type, bool> IsValueType = type => 
-            (type.Namespace == typeof (int).Namespace) && 
-            !type.IsSameOrInherits(typeof(Exception));
+        public static Func<Type, bool> IsValueType { get; set; } = type =>
+              (type.Namespace == typeof(int).Namespace) &&
+              !type.IsSameOrInherits(typeof(Exception));
 
         /// <summary>
         /// Allows configuring the defaults used during a structural equivalency assertion.
