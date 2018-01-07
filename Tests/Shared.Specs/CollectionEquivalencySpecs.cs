@@ -1455,9 +1455,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
-            ()
+        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1488,7 +1486,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
+                "Expected*Customers*dictionary*2 item(s)*but*misses*Key2*");
         }
 
         [Fact]
