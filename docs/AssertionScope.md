@@ -8,7 +8,7 @@ scores.Should().NotBeEmpty();
 ```
 This will fail with the following message:
 
-> Expected collection not to be empty.
+> Expected scores not to be empty.
 
 
 This is nice but if this assert is in a larger context of say a browser automation test it does not provide much context of what we where expecting not to be empty. We can add a reason:
@@ -19,7 +19,7 @@ scores.Should().NotBeEmpty("scores should be assigned");
 ```
 Which improves the output 
 
-> Expected collection not to be empty because scores should be assigned.
+> Expected scores not to be empty because scores should be assigned.
 
 but really I would like to change the first part of the text “ Expected collection..” to better describe the context.
 To do this we can give our assertion it’s own named AssertionScope.
@@ -27,14 +27,14 @@ To do this we can give our assertion it’s own named AssertionScope.
 ```csharp
 var scores = new int[0];
 
-using(new FluentAssertions.Execution.AssertionScope("scores"))
+using (new FluentAssertions.Execution.AssertionScope("the high scores"))
 {
 	scores.Should().NotBeEmpty();
 }
 ```
 
 Giving the context a name changes the output to
-> Expected scores not to be empty.
+> Expected the high scores not to be empty.
 
 
 Creating a new AssertionScope also has another effect in that it delays the reporting of failures till the AssertionScope is disposed. So all the assertions in the scope will be evaluated and output at once.

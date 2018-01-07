@@ -24,15 +24,11 @@ View [Release on GitHub]( {{ release.html_url }} )
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions supports the following .NET versions:
-
-*   .NET 4.0, 4.5 and 4.6
-*   CoreCLR, .NET Native, and Universal Windows Platform
-*   Windows Store Apps for Windows 8.1
-*   Silverlight 5
-*   Windows Phone 8.1
-*   Windows Phone Silverlight 8.0 and 8.1
-*   Portable Class Libraries
+Fluent Assertions cross-compiles to .NET Framework 4.5, as well as .NET Standard 1.4, 1.6 and 2.0. Because of that it supports the following minimum platforms.
+*   .NET Core 1.0 and 2.0
+*   .NET Framework 4.5
+*   Mono, Xamarin.iOS 10.0, Xamarin.Mac 3.0 and Xamarin.Android 7.0
+*   Univeral Windows Platform
 
 Fluent Assertions supports the following unit test frameworks:
 
@@ -48,12 +44,14 @@ Fluent Assertions supports the following unit test frameworks:
 
 ## Community Extensions
 
-There are a number of community maintained extension projects. The ones we are aware of a listed below. To add yours please fork the [repository](https://github.com/dennisdoomen/fluentassertions/tree/gh-pages) and send a pull request.
+There are a number of community maintained extension projects. The ones we are aware of a listed below. To add yours please fork the [repository](https://github.com/fluentassertions/fluentassertions/) and send a pull request.
 
+* [FluentAssertions.Json](https://github.com/fluentassertions/fluentassertions.json)
 *   [FluentAssertions.Ioc.Ninject](https://github.com/kevinkuszyk/FluentAssertions.Ioc.Ninject) for testing Ninject bindings.
+*   [FluentAssertions.Ioc.Autofac](https://github.com/awesome-inc/FluentAssertions.Autofac) for testing Autofac configurations.
 *   [FluentAssertions.Mvc](https://github.com/CaseyBurns/FluentAssertions.MVC) for testing MVC applications.
-*   [Xamarin](https://github.com/onovotny/fluentassertions) version for Mono support.
-*   [FluentAssertions.Autofac](https://github.com/awesome-inc/FluentAssertions.Autofac) for testing Autofac configurations.
+* [FluentAssertions.AspnetCore.Mvc](https://github.com/fluentassertions/fluentassertions.aspnetcore.mvc)
+*   [FluentAssertions.Analyzers](https://github.com/fluentassertions/fluentassertions.analyzers) which adds Roslyn based Visual Studio integration and quick fixes.
 
 ## Support us
 As you can imagine, a lot of our private time is put into this wonderful project. Please support us:
@@ -70,6 +68,7 @@ As you can imagine, a lot of our private time is put into this wonderful project
 ## Special thanks
 
 This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them generously for providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.  
+
 ![Resharper](./images/logo_resharper.png)
 
 {% include twitter.html %}

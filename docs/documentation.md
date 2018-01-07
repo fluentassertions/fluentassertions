@@ -6,9 +6,9 @@ title: Documentation
 You can find the v2.2 documentation [here](v2/documentation.md) and the v3 and v4 documentation [here](v3/documentation.md).**
 
 ## Coding by Example ##
-As you may have noticed the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
+As you may have noticed, the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
 We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation.
-So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Shared.Specs).
+So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/Shared.Specs).
 
 ## Table of Contents ##
 * TOC
@@ -17,12 +17,9 @@ So although you are free to go through the many examples here, please consider t
 
 ## Supported Test Frameworks ##
 
-Fluent Assertions supports MSTest, MSTest2, NUnit, xUnit, xUnit2, MSpec, NSpec, MBUnit and the Gallio Framework as well as the Windows Store and Windows Phone unit testing frameworks.
-You can simply add a reference to the corresponding test framework assembly to the unit test project.
-Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
+Fluent Assertions supports a lot of different unit testing frameworks. Just add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
 
-If, for some unknown reason, Fluent Assertions fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config.
-If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
+If, for some unknown reason, Fluent Assertions fails to find the assembly, and you're runnning under .NET 4.5 or a .NET Standard 2.0 project, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
 
 ```xml
 <configuration>
@@ -246,7 +243,7 @@ theByte.Should().Be(2);
 ```
 
 Notice that `Should().Be()` and `Should().NotBe()` are not available for floats and doubles.
-As explained in this article, floating point variables are inheritably inaccurate and should never be compared for equality.
+Floating point variables are inheritably inaccurate and should never be compared for equality.
 Instead, either use the Should().BeInRange() method or the following method specifically designed for floating point or `decimal` variables.
 
 ```csharp
@@ -699,9 +696,9 @@ Suppose also that an order has one or more `Product`s and an associated `Custome
 Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`.
 You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
-You may assert the structural equality of two object graphs with `ShouldBeEquivalentTo`:
+You may assert the structural equality of two object graphs with `Should().BeEquivalentTo`:
 ```csharp
-orderDto.ShouldBeEquivalentTo(order);
+orderDto.Should().BeEquivalentTo(order);
 ```
 
 ### Recursion ###
@@ -711,7 +708,7 @@ To avoid infinite recursion, Fluent Assertions will recurse up to 10 levels deep
 On the other hand, if you want to disable recursion, just use this option:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => 
+orderDto.Should().BeEquivalentTo(order, options => 
     options.ExcludingNestedObjects());
 ```
 
@@ -722,29 +719,27 @@ That is to say if the subject is a `OrderDto` but the variable it is assigned to
 This behavior can be configured and you can choose to use run-time types if you prefer:
 
 ```csharp
-// Use runtime type information
-orderDto.ShouldBeEquivalentTo(order, options => 
+// Use runtime type information of orderDto
+orderDto.Should().BeEquivalentTo(order, options => 
     options.RespectingRuntimeTypes());
 
-// Use declared type information
-orderDto.ShouldBeEquivalentTo(order, options => 
+// Use declared type information of orderDto
+orderDto.Should().BeEquivalentTo(order, options => 
     options.RespectingDeclaredTypes());
 ```
 
 One exception to this rule is when the declared type is `object`.
 Since `object` doesn't expose any properties, it makes no sense to respect the declared type.
-So if the subject or member's type is `object`, it will use the run-time type for that node in the graph.
-This will also work better with (multidimensional) arrays.
+So if the subject or member's type is `object`, it will use the run-time type for that node in the graph. This will also work better with (multidimensional) arrays.
 
 ### Matching Members ###
 
-All public members of the `OrderDto` must be available on the `Order` having the same name.
-If any members are missing, an exception will be thrown.
+All public members of the `Order` object must be available on the `OrderDto` having the same name. If any members are missing, an exception will be thrown.
 However, you may customize this behavior.
 For instance, if you want to include only the members both object graphs have:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => 
+orderDto.Should().BeEquivalentTo(order, options => 
     options.ExcludingMissingMembers());
 ```
 
@@ -753,31 +748,30 @@ orderDto.ShouldBeEquivalentTo(order, options =>
 If you want to exclude certain (potentially deeply nested) individual members using the `Excluding()` method:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => 
+orderDto.Should().BeEquivalentTo(order, options => 
     options.Excluding(o => o.Customer.Name));
 ```
 
 The `Excluding()` method on the options object also takes a lambda expression that offers a bit more flexibility for deciding what member to exclude:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options 
+orderDto.Should().BeEquivalentTo(order, options => options 
     .Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
 ```
 
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index.
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => 
+orderDto.Should().BeEquivalentTo(order, options => 
     options.Excluding(o => o.Products[1].Status));
 ```
 
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
-You can also take a different approach and explicitly tell Fluent Assertions which members to include.
-You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.
+You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
     .Including(pi => pi.SelectedMemberPath.EndsWith("Date"));
 ```
@@ -790,19 +784,19 @@ This behavior can be changed:
 
 ```csharp
 // Include Fields
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .IncludingFields();
 
 // Include Properties
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .IncludingProperties();
 
 // Exclude Fields
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .ExcludingFields();
 
 // Exclude Properties
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .ExcludingProperties();
 ```
 
@@ -810,12 +804,11 @@ This configuration affects the initial inclusion of members and happens before a
 This configuration also affects matching.
 For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
 
-
 ### Equivalency Comparison Behavior ###
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.Should().BeEquivalentTo(order, options => options
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
     .When(info => info.SelectedMemberPath.EndsWith("Date")));
 ```
@@ -823,28 +816,25 @@ orderDto.ShouldBeEquivalentTo(order, options => options
 If you want to do this for all members of a certain type, you can shorten the above call like this.
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options 
+orderDto.Should().BeEquivalentTo(order, options => options 
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
     .WhenTypeIs<DateTime>();
 ```
 
 ### Enums ###
 
-By default, ``ShouldBeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value.
+By default, ``Should().BeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value.
 An option to compare Enums only by name is also available, using the following configuration :
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.ComparingEnumsByName());
+orderDto.Should().BeEquivalentTo(expectation, options => options.ComparingEnumsByName());
 ```
 
 ### Collections and Dictionaries ###
-The original `ShouldAllBeEquivalentTo()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, nor does it support (nested) dictionaries.
-The new extension method `ShouldAllBeEquivalentTo()` supports this so you can configure comparisons on the type of items in the collection.
-
 Considering our running example, you could use the following against a collection of `OrderDto`s: 
 
 ```csharp
-orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name));
+orderDtos.Should().BeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name));
 ```
 
 ### Ordering ###
@@ -853,13 +843,13 @@ Fluent Assertions will, by default, ignore the order of the items in the collect
 If the order is important, you can override the default behavior with the following option:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering());
+orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrdering());
 ```
 
 You can even tell FA to use strict ordering only for a particular collection or dictionary member, similar to how you exclude certain members:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
+orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
 ```
 
 **Notice:** For performance reasons, collections of bytes are compared in exact order.
@@ -907,7 +897,7 @@ subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForei
 
 ## Event Monitoring ##
 
-Version 1.3.0 introduced a new set of extensions that allow you to verify that an object raised a particular event.
+Fluent Assertions has a set of extensions that allow you to verify that an object raised a particular event.
 Before you can invoke the assertion extensions, you must first tell Fluent Assertions that you want to monitor the object:
 
 ```csharp

@@ -19,7 +19,7 @@ collection.Should().HaveCount(4, "because we thought we put four items in the co
 
 The nice thing about the second failing example is that it will throw an exception with the message
 
-> "Expected <4> items because we thought we put four items in the collection, but found <3>."
+> "Expected collection to contain 4 item(s) because we thought we put four items in the collection, but found 3."
 
 To verify that a particular business rule is enforced using exceptions.
 

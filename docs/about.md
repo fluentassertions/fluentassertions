@@ -16,38 +16,36 @@ For instance, only test a single condition per test case. If you don't, and the 
 That’s why we designed Fluent Assertions to help you in this area. Not only by using clearly named assertion methods, but also by making sure the failure message provides as much information as possible. Consider this example:
 
 ```c#
-"1234567890".Should().Be("0987654321");
+string accountNumber = "1234567890";
+accountNumber.Should().Be("0987654321");
 ```
 
 This will be reported as:
 
-> Expected string to be
+> Expected accountNumber to be
 "0987654321", but
 "1234567890" differs near "123" (index 0).
 
 The fact that both strings are displayed on a separate line is not a coincidence and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional explanation (the because) that supports formatting placeholders similar to String.Format which you can use to enrich the failure message. For instance, the assertion
 
 ```c#
-new[] { 1, 2, 3 }.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
+var numbers = new[] { 1, 2, 3 };
+numbers.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
 ```
 
 will fail with:
 
-> Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.
+> Expected numbers to have an item matching (item > 3) because at least 1 item should be larger than 3.
 
-## Who are we?
+## Who is behind this project
 
-We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular
-
-* [Dennis Doomen](https://twitter.com/ddoomen)  
+My name is [Dennis Doomen](https://twitter.com/ddoomen) and I work for Aviva Solutions (in The Netherlands). I maintain a [blog](http://www.continuousimprover.com/) on my everlasting quest for knowledge that significantly improves the way you build your key systems in an agile world. Fluent Assertions is one of those aspects of that.
 
 Notable contributors include
 
 * [Adam Voss](https://github.com/adamvoss)
-
-The [Xamarin](https://github.com/onovotny/fluentassertions) version has been built by
-
 * [Oren Novotny](https://twitter.com/onovotny)
+* [Jonas Nyrup](https://github.com/jnyrup)
 
 The [Fluent Assertions logo](./logo/fluent_assertions.svg) was created by
 
@@ -61,6 +59,6 @@ The version numbers of Fluent Assertions releases comply to the [Semantic Versio
 
 ## What do you need to compile the solution?
 
-* Visual Studio 2013 Update 2 or later
-* Windows 8.1
-* The Windows Phone 8 SDK
+* Visual Studio 2017 or Jetbrains Rider and Build Tools 2017
+* Windows 10
+* .NET Core SDK 2.0 (Preview 2>)
