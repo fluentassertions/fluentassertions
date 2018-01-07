@@ -250,7 +250,14 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            List<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys).ToList();
+            List<TSubjectKey> additionalKeys = new List<TSubjectKey>();
+            foreach (TSubjectKey subjectKey in subject.Keys)
+            {
+                if(!presentKeys.Contains(subjectKey))
+                {
+                    additionalKeys.Add(subjectKey);
+                }
+            }
 
             var keyDifference = new KeyDifference<TSubjectKey, TExpectedKey>(
                 missingKeys: missingKeys, additionalKeys: additionalKeys);
