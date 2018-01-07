@@ -250,6 +250,48 @@ namespace FluentAssertions.Specs
             public Dictionary<string, string> Dictionary { get; set; }
         }
 
+        public class SomeBaseKeyClass : IEquatable<SomeBaseKeyClass>
+        {
+            public SomeBaseKeyClass(int id)
+            {
+                Id = id;
+            }
+
+            public int Id { get; }
+
+            public override int GetHashCode()
+            {
+                return Id;
+            }
+
+            public bool Equals(SomeBaseKeyClass obj)
+            {
+                if (object.ReferenceEquals(obj, null))
+                {
+                    return false;
+                }
+
+                return this.Id == obj.Id;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this.Equals(obj as SomeBaseKeyClass);
+            }
+
+            public override string ToString()
+            {
+                return $"BaseKey {Id}";
+            }
+        }
+
+        public class SomeDerivedKeyClass : SomeBaseKeyClass
+        {
+            public SomeDerivedKeyClass(int id) : base(id)
+            {
+            }
+        }
+
         [Fact]
         public void When_a_dictionary_does_not_implement_the_dictionary_interface_it_should_still_be_treated_as_a_dictionary()
         {
@@ -675,8 +717,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
+        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -708,7 +749,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
+                "Expected*Customers*dictionary*2 item(s)*but*misses*");
         }
 
         [Fact]
@@ -776,7 +817,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_it_should_fail_descriptively()
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_fails_describing_missing_keys()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -787,25 +828,144 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act1 = () => dictionary1.Should().BeEquivalentTo(dictionary2);
-            Action act2 = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act1.Should().Throw<XunitException>()
+            action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s)*");
+                .WithMessage("Expected subject to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
 #else
-                .WithMessage("Expected dictionary1 to be a dictionary with 2 item(s), but found 1 item(s)*");
+                .WithMessage("Expected dictionary1 to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
 #endif
+        }
 
-            act2.Should().Throw<XunitException>()
+        [Fact]
+        public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_have_less_elements_other_dictionary_derived_class_keys_fails_describing_missing_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" }
+            };
+
+            var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" },
+                { new SomeDerivedKeyClass(2), "hello" }
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be a dictionary with 2 item(s), but*misses key(s) {BaseKey 2}*");
+        }
+
+        [Fact]
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_fails_describing_additional_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s)*");
+                .WithMessage("Expected subject to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
 #else
-                .WithMessage("Expected dictionary2 to be a dictionary with 1 item(s), but found 2 item(s)*");
+                .WithMessage("Expected dictionary2 to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
 #endif
+        }
+
+        [Fact]
+        public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_and_other_dictionary_derived_class_keys_fails_because_of_types_incompatibility()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" }
+            };
+
+            var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
+            {
+                { new SomeDerivedKeyClass(1), "hello" },
+                { new SomeDerivedKeyClass(2), "hello" }
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*the expectation is not keyed with any compatible types*");
+        }
+
+        [Fact]
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be a dictionary with 2 item(s), but*misses key(s)*{\"greeting\", \"farewell\"}*additional key(s) {\"GREETING\"}*");
+        }
+
+        [Fact]
+        public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be a dictionary with 1 item(s), but*misses key(s) {\"GREETING\"}*additional key(s) {\"greeting\", \"farewell\"}*");
         }
 
         [Fact]
