@@ -67,7 +67,7 @@ namespace FluentAssertions.Formatting
 
             var type = obj.GetType();
             builder.AppendLine(type.FullName);
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).AppendLine("{");
+            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
 
             IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
@@ -75,7 +75,7 @@ namespace FluentAssertions.Formatting
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, context, formatChild));
             }
 
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append("}");
+            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('}');
 
             return builder.ToString();
         }

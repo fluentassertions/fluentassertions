@@ -16,7 +16,7 @@ namespace FluentAssertions.Equivalency
 
         internal static string GetAdjustedPropertyPath(string propertyPath)
         {
-            return propertyPath.Substring(propertyPath.IndexOf(".", StringComparison.Ordinal) + 1);
+            return propertyPath.Substring(propertyPath.IndexOf('.') + 1);
         }
 
         public SelectedMemberInfo SelectedMemberInfo { get; private set; }
