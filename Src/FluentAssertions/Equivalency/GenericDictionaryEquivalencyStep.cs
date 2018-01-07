@@ -153,6 +153,19 @@ namespace FluentAssertions.Equivalency
         {
             return GetIDictionaryInterfaces(expectedType).Single();
         }
+
+        private class KeyDifference<TSubjectKey, TExpectedKey>
+        {
+            public KeyDifference(List<TExpectedKey> missingKeys, List<TSubjectKey> additionalKeys)
+            {
+                MissingKeys = missingKeys;
+                AdditionalKeys = additionalKeys;
+            }
+
+            public List<TExpectedKey> MissingKeys { get; }
+
+            public List<TSubjectKey> AdditionalKeys { get; }
+        }
         
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject,
@@ -167,26 +180,10 @@ namespace FluentAssertions.Equivalency
 
             if(expectation.Count != subject.Count)
             {
-                // First, we gather missing and additional keys
-                List<TExpectedKey> missingKeys = new List<TExpectedKey>();
-                HashSet<TSubjectKey> presentKeys = new HashSet<TSubjectKey>();
-                
-                foreach (TExpectedKey expectationKey in expectation.Keys)
-                {
-                    if(subject.ContainsKey(expectationKey))
-                    {
-                        presentKeys.Add(expectationKey);
-                    }
-                    else
-                    {
-                        missingKeys.Add(expectationKey);
-                    }
-                }
+                var keyDifference = CalculateKeyDifference(subject, expectation);
 
-                IEnumerable<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys);
-
-                bool thereAreSomeMissingKeys = missingKeys.Count > 0;
-                bool thereAreSomeAdditionalKeys = additionalKeys.Any();
+                bool thereAreSomeMissingKeys = keyDifference.MissingKeys.Count > 0;
+                bool thereAreSomeAdditionalKeys = keyDifference.AdditionalKeys.Any();
 
                 // Just missing keys
                 if(thereAreSomeMissingKeys && !thereAreSomeAdditionalKeys)
@@ -196,7 +193,7 @@ namespace FluentAssertions.Equivalency
                             $"{messageCore} Missing key(s): {{2}}",
                             expectation.Count,
                             subject.Count,
-                            missingKeys);
+                            keyDifference.MissingKeys);
                 }
 
                 // Just additional keys
@@ -207,7 +204,7 @@ namespace FluentAssertions.Equivalency
                             $"{messageCore} Additional key(s): {{2}}",
                             expectation.Count,
                             subject.Count,
-                            additionalKeys);
+                            keyDifference.AdditionalKeys);
                 }
 
                 // Both missing and additional keys
@@ -218,8 +215,8 @@ namespace FluentAssertions.Equivalency
                             $"{messageCore} Missing key(s): {{2}}. Additional key(s): {{3}}",
                             expectation.Count,
                             subject.Count,
-                            missingKeys,
-                            additionalKeys);
+                            keyDifference.MissingKeys,
+                            keyDifference.AdditionalKeys);
                 }
             }
 
@@ -233,6 +230,31 @@ namespace FluentAssertions.Equivalency
                         messageCore,
                         expectation.Count,
                         subject.Count);
+        }
+
+        private static KeyDifference<TSubjectKey, TExpectedKey> CalculateKeyDifference<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(IDictionary<TSubjectKey, TSubjectValue> subject,
+            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
+        {
+            List<TExpectedKey> missingKeys = new List<TExpectedKey>();
+            HashSet<TSubjectKey> presentKeys = new HashSet<TSubjectKey>();
+
+            foreach (TExpectedKey expectationKey in expectation.Keys)
+            {
+                if (subject.ContainsKey(expectationKey))
+                {
+                    presentKeys.Add(expectationKey);
+                }
+                else
+                {
+                    missingKeys.Add(expectationKey);
+                }
+            }
+
+            List<TSubjectKey> additionalKeys = subject.Keys.Except(presentKeys).ToList();
+
+            var keyDifference = new KeyDifference<TSubjectKey, TExpectedKey>(
+                missingKeys: missingKeys, additionalKeys: additionalKeys);
+            return keyDifference;
         }
 
         private static void AssertDictionaryEquivalence(IEquivalencyValidationContext context,
