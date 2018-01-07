@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace FluentAssertions.Formatting
@@ -73,7 +74,7 @@ namespace FluentAssertions.Formatting
             if (ticks > 0)
             {
                 var microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
-                fragments.Add(microSeconds.ToString("0.0") + "µs");
+                fragments.Add(microSeconds.ToString("0.0", CultureInfo.InvariantCulture) + "µs");
             }
         }
 
@@ -81,11 +82,11 @@ namespace FluentAssertions.Formatting
         {
             if ((timeSpan.Seconds > 0) || (timeSpan.Milliseconds > 0))
             {
-                string result = timeSpan.Seconds.ToString();
+                string result = timeSpan.Seconds.ToString(CultureInfo.InvariantCulture);
 
                 if (timeSpan.Milliseconds > 0)
                 {
-                    result += "." + timeSpan.Milliseconds.ToString("000");
+                    result += "." + timeSpan.Milliseconds.ToString("000", CultureInfo.InvariantCulture);
                 }
 
                 fragments.Add(result + "s");
@@ -96,7 +97,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Minutes > 0)
             {
-                fragments.Add(timeSpan.Minutes.ToString() + "m");
+                fragments.Add(timeSpan.Minutes.ToString(CultureInfo.InvariantCulture) + "m");
             }
         }
 
@@ -104,7 +105,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Hours > 0)
             {
-                fragments.Add(timeSpan.Hours.ToString() + "h");
+                fragments.Add(timeSpan.Hours.ToString(CultureInfo.InvariantCulture) + "h");
             }
         }
 
@@ -112,7 +113,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Days > 0)
             {
-                fragments.Add(timeSpan.Days.ToString() + "d");
+                fragments.Add(timeSpan.Days.ToString(CultureInfo.InvariantCulture) + "d");
             }
         }
 

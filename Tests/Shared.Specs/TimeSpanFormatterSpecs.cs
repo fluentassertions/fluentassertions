@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions.Formatting;
 using Xunit;
 
@@ -97,7 +98,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var formatter = new TimeSpanValueFormatter();
-            var value = TimeSpan.Parse(actual);
+            var value = TimeSpan.Parse(actual, CultureInfo.InvariantCulture);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
