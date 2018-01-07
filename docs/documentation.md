@@ -779,7 +779,7 @@ You can directly specify a property expression or use a predicate that acts on t
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
-    .Including(pi => pi.PropertyPath.EndsWith("Date"));
+    .Including(pi => pi.SelectedMemberPath.EndsWith("Date"));
 ```
 
 ### Including properties and/or fields ###
