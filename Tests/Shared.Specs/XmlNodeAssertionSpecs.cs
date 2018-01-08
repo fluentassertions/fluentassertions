@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected doc to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long....");
+                .WithMessage("Expected doc to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long….");
         }
 
         [Fact]

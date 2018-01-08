@@ -25,7 +25,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(@"<configuration>...</configuration>");
+            result.Should().Be(@"<configuration>…</configuration>");
         }
 
         [Fact]

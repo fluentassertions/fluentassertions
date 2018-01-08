@@ -172,7 +172,7 @@ namespace JetBrains.Annotations
     ///   public event PropertyChangedEventHandler PropertyChanged;
     /// 
     ///   [NotifyPropertyChangedInvocator]
-    ///   protected virtual void NotifyChanged(string propertyName) { ... }
+    ///   protected virtual void NotifyChanged(string propertyName) { … }
     ///
     ///   string _name;
     /// 
@@ -479,7 +479,7 @@ namespace JetBrains.Annotations
     /// </summary>
     /// <example><code>
     /// class Foo {
-    ///   [ProvidesContext] IBarService _barService = ...;
+    ///   [ProvidesContext] IBarService _barService = …;
     /// 
     ///   void ProcessNode(INode node) {
     ///     DoSomething(node, node.GetGlobalServices().Bar);

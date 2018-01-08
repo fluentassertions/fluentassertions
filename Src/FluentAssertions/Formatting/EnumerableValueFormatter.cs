@@ -29,7 +29,7 @@ namespace FluentAssertions.Formatting
                 int maxItems = 32;
                 if (enumerable.Length > maxItems)
                 {
-                    postfix = $", ...{enumerable.Length - maxItems} more...";
+                    postfix = $", …{enumerable.Length - maxItems} more…";
                     enumerable = enumerable.Take(maxItems).ToArray();
                 }
 

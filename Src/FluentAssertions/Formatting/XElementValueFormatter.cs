@@ -46,7 +46,7 @@ namespace FluentAssertions.Formatting
             string firstLine = lines.First().RemoveNewLines();
             string lastLine = lines.Last().RemoveNewLines();
 
-            string formattedElement = firstLine + "..." + lastLine;
+            string formattedElement = firstLine + "…" + lastLine;
             return formattedElement.Escape(escapePlaceholders: true);
         }
 
