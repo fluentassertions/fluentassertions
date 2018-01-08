@@ -968,6 +968,9 @@ Some examples.
 
 ```csharp
 typeof(MyPresentationModel).Should().BeDecoratedWith<SomeAttribute>();
+typeof(MyPresentationModel).Should().BeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
+typeof(MyPresentationModel).Should().NotBeDecoratedWith<SomeAttribute>();
+typeof(MyPresentationModel).Should().NotBeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
 
 MethodInfo method = GetMethod();
 method.Should().BeVirtual();
