@@ -981,6 +981,205 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeDecoratedWithOrInherit
+
+        [Fact]
+        public void When_type_inherits_expected_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_does_not_inherit_expected_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_type_does_not_inherit_expected_attribute_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>(
+                    "because we want to test the error {0}",
+                    "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with or inherit " +
+                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                        "was not found.");
+        }
+
+        [Fact]
+        public void When_type_inherits_expected_attribute_with_the_expected_properties_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_inherits_expected_attribute_that_has_an_unexpected_property_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithInheritedAttribute to be decorated with or inherit " +
+                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                        "but no matching attribute was found.");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_decorated_types_inheriting_an_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithInheritedAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().BeDecoratedWithOrInherit<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_non_decorated_types_inheriting_an_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithAttribute),
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().BeDecoratedWithOrInherit<DummyClassAttribute>("because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be decorated with or inherit *DummyClassAttribute*" +
+                    " because we do, but the attribute was not found on the following types:\r\n" +
+                    "*ClassWithoutAttribute*\r\n" +
+                    "*OtherClassWithoutAttribute*.");
+        }
+
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_with_some_inheriting_attributes_with_unexpected_attribute_property_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithAttribute),
+                typeof (ClassWithInheritedAttribute),
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should()
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be decorated with or inherit *DummyClassAttribute*" +
+                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
+                    " but no matching attribute was found on the following types:\r\n" +
+                    "*ClassWithoutAttribute*\r\n" +
+                    "*OtherClassWithoutAttribute*.");
+        }
+
+        #endregion
+
         #region NotBeDecoratedWith
 
         [Fact]
@@ -1169,6 +1368,169 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all types to not be decorated with *DummyClassAttribute" +
                     "*((a.Name == \"Expected\")*a.IsEnabled) because we do" +
                     "*matching attribute was found*ClassWithAttribute*.");
+        }
+
+        #endregion
+
+        #region NotBeDecoratedWithOrInherit
+
+        [Fact]
+        public void When_type_does_not_inherit_unexpected_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_inherits_unexpected_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_type_inherits_unexpected_attribute_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>(
+                    "because we want to test the error {0}",
+                    "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type*ClassWithInheritedAttribute to not be decorated with or inherit" +
+                    "*DummyClassAttribute*because we want to test the error message*attribute was found.");
+        }
+
+        [Fact]
+        public void When_type_does_not_inherit_unexpected_attribute_with_the_expected_properties_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should()
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_does_not_inhert_expected_attribute_that_has_an_unexpected_property_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should()
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type*ClassWithInheritedAttribute to not be decorated with or inherit" +
+                    "*DummyClassAttribute that matches ((a.Name == \"Expected\")*a.IsEnabled)" +
+                        "*matching attribute was found.");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_non_decorated_types_does_not_inherit_an_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_decorated_types_does_not_inherit_an_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithoutAttribute),
+                typeof (ClassWithInheritedAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>("because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to not be decorated with or inherit*DummyClassAttribute" +
+                    "*because we do*attribute was found*ClassWithInheritedAttribute*");
         }
 
         #endregion
@@ -3703,6 +4065,10 @@ namespace FluentAssertions.Specs
     {
     }
 
+    public class ClassWithInheritedAttribute : ClassWithAttribute
+    {
+    }
+
     public class ClassWithoutAttribute
     {
     }
@@ -3711,7 +4077,7 @@ namespace FluentAssertions.Specs
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DummyClassAttribute : Attribute
     {
         public string Name { get; set; }
