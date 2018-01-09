@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using FluentAssertions.Common;
@@ -38,26 +39,26 @@ namespace FluentAssertions.Formatting
 
             if (HasDate(dateTime))
             {
-                fragments.Add(dateTime.ToString("yyyy-MM-dd"));
+                fragments.Add(dateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
             }
 
             if (HasTime(dateTime))
             {
                 if (HasNanoSeconds(dateTime))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.fffffff"));
+                    fragments.Add(dateTime.ToString("HH:mm:ss.fffffff", CultureInfo.InvariantCulture));
                 }
                 else if (HasMicroSeconds(dateTime))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.ffffff"));
+                    fragments.Add(dateTime.ToString("HH:mm:ss.ffffff", CultureInfo.InvariantCulture));
                 }
-                else if(HasMilliSeconds(dateTime))
+                else if (HasMilliSeconds(dateTime))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.fff"));
+                    fragments.Add(dateTime.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss"));
+                    fragments.Add(dateTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
 
@@ -75,7 +76,7 @@ namespace FluentAssertions.Formatting
             {
                 if (HasMilliSeconds(dateTime))
                 {
-                    fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff"));
+                    fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
