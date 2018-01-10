@@ -241,6 +241,57 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is decorated with, or inherits from a parent class, the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            Execute.Assertion
+                .ForCondition(Subject.IsDecoratedWith<TAttribute>(true))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
+                    Subject, typeof(TAttribute));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is decorated with, or inherits from a parent class, an attribute of type <typeparamref name="TAttribute"/>
+        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
+        /// </summary>
+        /// <param name="isMatchingAttributePredicate">
+        /// The predicate that the attribute must match.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
+
+            Execute.Assertion
+                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}, but no matching attribute was found.",
+                    Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is not decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
@@ -284,6 +335,55 @@ namespace FluentAssertions.Types
                 .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with {1} that matches {2}{reason}, but a matching attribute was found.",
+                    Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not decorated with and does not inherit from a parent class,  the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.IsDecoratedWith<TAttribute>(true))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to not be decorated with or inherit {1}{reason}, but the attribute was found.",
+                    Subject, typeof(TAttribute));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not decorated with and does not inherit from a parent class, an attribute of type <typeparamref name="TAttribute"/>
+        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
+        /// </summary>
+        /// <param name="isMatchingAttributePredicate">
+        /// The predicate that the attribute must match.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}, but a matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
             return new AndConstraint<TypeAssertions>(this);

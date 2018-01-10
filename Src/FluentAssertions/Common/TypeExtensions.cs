@@ -45,20 +45,20 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
-        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
 
-            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+            return GetCustomAttributes<TAttribute>(type, inherit).Any(isMatchingAttribute);
         }
 
-        public static bool HasMatchingAttribute<TAttribute>(this TypeInfo typeInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool HasMatchingAttribute<TAttribute>(this TypeInfo typeInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
 
-            return GetCustomAttributes<TAttribute>(typeInfo).Any(isMatchingAttribute);
+            return GetCustomAttributes<TAttribute>(typeInfo, inherit).Any(isMatchingAttribute);
         }
 
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
@@ -67,12 +67,11 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
-        public static bool IsDecoratedWith<TAttribute>(this Type type)
+        public static bool IsDecoratedWith<TAttribute>(this Type type, bool inherit = false)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes<TAttribute>(type).Any();
+            return GetCustomAttributes<TAttribute>(type, inherit).Any();
         }
-
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type) 
             where TAttribute : Attribute
@@ -80,16 +79,16 @@ namespace FluentAssertions.Common
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false) 
             where TAttribute : Attribute
         {
-            return GetCustomAttributes<TAttribute>(type.GetTypeInfo());
+            return GetCustomAttributes<TAttribute>(type.GetTypeInfo(), inherit);
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo, bool inherit = false) 
             where TAttribute : Attribute
         {
-            return typeInfo.GetCustomAttributes(false).OfType<TAttribute>();
+            return typeInfo.GetCustomAttributes(inherit).OfType<TAttribute>();
         }
 
         /// <summary>
