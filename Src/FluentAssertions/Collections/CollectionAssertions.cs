@@ -244,7 +244,7 @@ namespace FluentAssertions.Collections
             {
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
-            
+
             TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
 
             AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
@@ -307,18 +307,18 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -328,28 +328,46 @@ namespace FluentAssertions.Collections
             string because = "", params object[] becauseArgs)
         {
             BeEquivalentTo(expectation, config => config, because, becauseArgs);
-            
+
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        public AndConstraint<TAssertions> BeEquivalentTo(params object[] expectations)
+        {
+            BeEquivalentTo(expectations, config => config, string.Empty);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same
+        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -373,7 +391,7 @@ namespace FluentAssertions.Collections
             };
 
             new EquivalencyValidator(options).AssertEquality(context);
-            
+
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -429,14 +447,14 @@ namespace FluentAssertions.Collections
             }
 
             string[] failures;
-            
+
             using (var scope = new AssertionScope())
             {
                 Subject.Should().BeEquivalentTo(unexpected);
-                
+
                 failures = scope.Discard();
             }
-            
+
             Execute.Assertion
                 .ForCondition(failures.Length > 0)
                 .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
@@ -1387,7 +1405,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <typeparam name="T">The expected type of the objects</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1403,7 +1421,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedType">The expected type of the objects</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1429,7 +1447,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <typeparam name="T">The expected type of the objects</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1445,7 +1463,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedType">The expected type of the objects</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
