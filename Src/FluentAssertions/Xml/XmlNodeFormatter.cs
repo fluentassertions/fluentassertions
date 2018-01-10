@@ -23,7 +23,7 @@ namespace FluentAssertions.Xml
 
             if (outerXml.Length > maxLength)
             {
-                outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "...";
+                outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "…";
             }
 
             return outerXml.Escape(escapePlaceholders: true);

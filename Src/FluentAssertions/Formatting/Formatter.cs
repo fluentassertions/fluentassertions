@@ -116,7 +116,7 @@ namespace FluentAssertions.Formatting
                 }
                 else if (graph.Depth > MaxDepth)
                 {
-                    return "{Maximum recursion depth was reached...}";
+                    return "{Maximum recursion depth was reached…}";
                 }
                 else
                 {
