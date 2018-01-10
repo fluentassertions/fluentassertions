@@ -7,7 +7,7 @@ using System.Text;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>. 
+    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>.
     /// </summary>
     public class ConversionSelector
     {
@@ -32,7 +32,7 @@ namespace FluentAssertions.Equivalency
             exclusions.Add(predicate.Compile());
             description.Append("Do not convert member ").Append(predicate.Body).Append(". ");
         }
-        
+
         public bool RequiresConversion(ISubjectInfo info)
         {
             return inclusions.Any(p => p(info)) && !exclusions.Any(p => p(info));
@@ -40,7 +40,8 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return description.ToString();
+            string result = description.ToString();
+            return (result.Length > 0) ? result : "Without automatic conversion.";
         }
     }
 }
