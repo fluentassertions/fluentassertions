@@ -41,7 +41,7 @@ Task("Clean")
 
 Task("GitVersion").Does(() => {
     gitVersion = GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true
+        UpdateAssemblyInfo = true,
 	});
 });
 
@@ -61,6 +61,7 @@ Task("Restore-NuGet-Packages")
 
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
+	.IsDependentOn("GitVersion")
     .Does(() =>
 {
     if(IsRunningOnWindows())
