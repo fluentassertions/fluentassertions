@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
@@ -11,9 +12,9 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class ConversionSelector
     {
-        private readonly List<Func<ISubjectInfo, bool>> inclusions = new List<Func<ISubjectInfo, bool>>();
-        private readonly List<Func<ISubjectInfo, bool>> exclusions = new List<Func<ISubjectInfo, bool>>();
-        private readonly StringBuilder description = new StringBuilder();
+        private List<Func<ISubjectInfo, bool>> inclusions = new List<Func<ISubjectInfo, bool>>();
+        private List<Func<ISubjectInfo, bool>> exclusions = new List<Func<ISubjectInfo, bool>>();
+        private StringBuilder description = new StringBuilder();
 
         public void IncludeAll()
         {
@@ -42,6 +43,16 @@ namespace FluentAssertions.Equivalency
         {
             string result = description.ToString();
             return (result.Length > 0) ? result : "Without automatic conversion.";
+        }
+
+        public ConversionSelector Clone()
+        {
+            return new ConversionSelector
+            {
+                inclusions = new List<Func<ISubjectInfo, bool>>(inclusions),
+                exclusions = new List<Func<ISubjectInfo, bool>>(exclusions),
+                description = description
+            };
         }
     }
 }

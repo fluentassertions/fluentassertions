@@ -51,7 +51,7 @@ namespace FluentAssertions.Equivalency
 
         private readonly Func<Type, bool> isValueType = _ => false;
         private ITraceWriter traceWriter;
-        
+
         private readonly ConversionSelector conversionSelector = new ConversionSelector();
 
         #endregion
@@ -80,6 +80,7 @@ namespace FluentAssertions.Equivalency
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
+            conversionSelector = defaults.ConversionSelector.Clone();
 
             isValueType = defaults.IsValueType;
             traceWriter = defaults.TraceWriter;
@@ -96,7 +97,7 @@ namespace FluentAssertions.Equivalency
             get
             {
                 bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
-                
+
                 if (includeProperties && !hasConflictingRules)
                 {
                     yield return new AllPublicPropertiesSelectionRule();
@@ -132,6 +133,11 @@ namespace FluentAssertions.Equivalency
             {
                 return userEquivalencySteps.Concat(new[] { new TryConversionStep(conversionSelector), });
             }
+        }
+
+        public ConversionSelector ConversionSelector
+        {
+            get { return conversionSelector; }
         }
 
         /// <summary>
@@ -193,7 +199,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type. 
+        /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type.
         /// </summary>
         /// <remarks>
         /// This clears all previously registered selection rules.
@@ -229,7 +235,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///  Instructs the comparison to include fields. 
+        ///  Instructs the comparison to include fields.
         /// </summary>
         /// <remarks>
         ///  This is part of the default behavior.
@@ -241,7 +247,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///  Instructs the comparison to exclude fields. 
+        ///  Instructs the comparison to exclude fields.
         /// </summary>
         /// <remarks>
         ///  This does not preclude use of `Including`.
@@ -253,7 +259,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///  Instructs the comparison to include properties.  
+        ///  Instructs the comparison to include properties.
         /// </summary>
         /// <remarks>
         ///  This is part of the default behavior.
@@ -265,7 +271,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///  Instructs the comparison to exclude properties. 
+        ///  Instructs the comparison to exclude properties.
         /// </summary>
         /// <remarks>
         ///  This does not preclude use of `Including`.
@@ -304,7 +310,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Tries to match the members of the subject with equally named members on the expectation. Ignores those 
+        /// Tries to match the members of the subject with equally named members on the expectation. Ignores those
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
         public TSelf ExcludingMissingMembers()
@@ -436,7 +442,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared in the order 
+        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared in the order
         /// in which the items appear in the expectation.
         /// </summary>
         public TSelf WithStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
@@ -446,7 +452,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared ignoring the order 
+        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared ignoring the order
         /// in which the items appear in the expectation.
         /// </summary>
         public TSelf WithoutStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
@@ -484,7 +490,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Marks the <typeparamref name="T"/> as a value type which must be compared using its 
+        /// Marks the <typeparamref name="T"/> as a value type which must be compared using its
         /// <see cref="object.Equals(object)"/> method.
         /// </summary>
         public TSelf ComparingByValue<T>()
@@ -503,18 +509,18 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Instructs the equivalency comparison to try to convert the values of 
-        /// matching properties before running any of the other steps. 
+        /// Instructs the equivalency comparison to try to convert the values of
+        /// matching properties before running any of the other steps.
         /// </summary>
         public TSelf WithAutoConversion()
         {
             conversionSelector.IncludeAll();
             return (TSelf)this;
         }
-        
+
         /// <summary>
-        /// Instructs the equivalency comparison to try to convert the value of 
-        /// a specific property on the expectation object before running any of the other steps. 
+        /// Instructs the equivalency comparison to try to convert the value of
+        /// a specific property on the expectation object before running any of the other steps.
         /// </summary>
         public TSelf WithAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
         {
@@ -523,15 +529,15 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Instructs the equivalency comparison to prevent trying to convert the value of 
-        /// a specific property on the expectation object before running any of the other steps. 
+        /// Instructs the equivalency comparison to prevent trying to convert the value of
+        /// a specific property on the expectation object before running any of the other steps.
         /// </summary>
         public TSelf WithoutAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             conversionSelector.Exclude(predicate);
             return (TSelf)this;
         }
-        
+
         #region Non-fluent API
 
         protected void RemoveSelectionRule<T>() where T : IMemberSelectionRule
