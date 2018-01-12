@@ -39,7 +39,12 @@ namespace FluentAssertions.Equivalency
         /// ordering is irrelevant.
         /// </summary>
         OrderingRuleCollection OrderingRules { get; }
-        
+
+        /// <summary>
+        /// Contains the rules for what properties to run an auto-conversion.
+        /// </summary>
+        ConversionSelector ConversionSelector { get; }
+
         /// <summary>
         /// Gets value indicating how the enums should be compared.
         /// </summary>

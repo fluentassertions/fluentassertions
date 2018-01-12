@@ -28,7 +28,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected number of items in the collection.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -208,7 +208,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="countPredicate">A predicate that yields the number of items that is expected to be in the collection.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -263,7 +263,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">An object, or <see cref="IEnumerable"/> of objects that are expected to be in the collection.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -286,7 +286,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The element that is not expected to be in the collection</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -302,36 +302,20 @@ namespace FluentAssertions.Collections
 
             return base.NotContain(new[] { unexpected }, because, becauseArgs);
         }
-        
-        /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
-        /// </summary>
-        /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
-        /// </remarks>
-        public void BeEquivalentTo(params object[] expectation)
-        {
-            BeEquivalentTo(expectation, config => config);
-        }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -343,23 +327,23 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same
+        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

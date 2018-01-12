@@ -37,6 +37,11 @@ namespace FluentAssertions.Equivalency
             }
         }
 
+        public ConversionSelector ConversionSelector
+        {
+            get { return inner.ConversionSelector; }
+        }
+
         public IEnumerable<IEquivalencyStep> UserEquivalencySteps
         {
             get { return inner.UserEquivalencySteps.Select(step => new CollectionMemberAssertionRuleDecorator(step)).ToArray(); }

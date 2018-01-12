@@ -5,7 +5,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Attempts to convert the subject's property value to the expected type. 
+    /// Attempts to convert the subject's property value to the expected type.
     /// </summary>
     /// <remarks>
     /// Whether or not the conversion is attempted depends on the <see cref="ConversionSelector"/>.
@@ -13,12 +13,10 @@ namespace FluentAssertions.Equivalency
     public class TryConversionStep : IEquivalencyStep
     {
         private readonly ConversionSelector selector;
-        private readonly string description;
 
         public TryConversionStep(ConversionSelector selector)
         {
             this.selector = selector;
-            description = selector.ToString();
         }
 
         /// <summary>
@@ -84,7 +82,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return description;
+            return  selector.ToString();
         }
     }
 }

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>. 
+    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>.
     /// </summary>
     public class ConversionSelector
     {
-        private readonly List<Func<ISubjectInfo, bool>> inclusions = new List<Func<ISubjectInfo, bool>>();
-        private readonly List<Func<ISubjectInfo, bool>> exclusions = new List<Func<ISubjectInfo, bool>>();
-        private readonly StringBuilder description = new StringBuilder();
+        private List<Func<ISubjectInfo, bool>> inclusions = new List<Func<ISubjectInfo, bool>>();
+        private List<Func<ISubjectInfo, bool>> exclusions = new List<Func<ISubjectInfo, bool>>();
+        private StringBuilder description = new StringBuilder();
 
         public void IncludeAll()
         {
@@ -32,7 +33,7 @@ namespace FluentAssertions.Equivalency
             exclusions.Add(predicate.Compile());
             description.Append("Do not convert member ").Append(predicate.Body).Append(". ");
         }
-        
+
         public bool RequiresConversion(ISubjectInfo info)
         {
             return inclusions.Any(p => p(info)) && !exclusions.Any(p => p(info));
@@ -40,7 +41,18 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return description.ToString();
+            string result = description.ToString();
+            return (result.Length > 0) ? result : "Without automatic conversion.";
+        }
+
+        public ConversionSelector Clone()
+        {
+            return new ConversionSelector
+            {
+                inclusions = new List<Func<ISubjectInfo, bool>>(inclusions),
+                exclusions = new List<Func<ISubjectInfo, bool>>(exclusions),
+                description = description
+            };
         }
     }
 }
