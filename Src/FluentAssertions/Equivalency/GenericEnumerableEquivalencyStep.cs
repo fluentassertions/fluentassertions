@@ -65,7 +65,14 @@ namespace FluentAssertions.Equivalency
                     subjectAsArray,
                     expectationAsArray);
 
-                Expression.Lambda(executeExpression).Compile().DynamicInvoke();
+                try
+                {
+                    Expression.Lambda(executeExpression).Compile().DynamicInvoke();
+                }
+                catch (TargetInvocationException e)
+                {
+                    throw e.Unwrap();
+                }
             }
 
             return true;
