@@ -16,7 +16,6 @@ So although you are free to go through the many examples here, please consider t
 
 
 ## Supported Test Frameworks ##
-
 Fluent Assertions supports a lot of different unit testing frameworks. Just add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
 
 If, for some unknown reason, Fluent Assertions fails to find the assembly, and you're runnning under .NET 4.5 or a .NET Standard 2.0 project, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
@@ -30,6 +29,48 @@ If, for some unknown reason, Fluent Assertions fails to find the assembly, and y
 </configuration>
 ```
 Just add NuGet package "FluentAssertions" to your test project.
+
+## Subject Identification ##
+Fluent Assertions can use the C# code of the unit test to extract the name of the subject and use that in the assertion failure. Consider for instance this statement:
+
+```csharp
+string username = "dennis";
+username.Should().Be("jonas");
+```
+
+This will throw a test framework-specific exception with the following message:
+
+`Expected username to be "jonas", but "dennis" differs near 'd' (index 0)`.`
+
+The way this works is that Fluent Assertions will try to traverse the current stack trace to find the line and column numbers as well as the full path to the source file. Since it needs the debug symbols for that, this will require you to compile the unit tests in debug mode, even on your build servers. Also, since only .NET Standard 2.0 and the full .NET Framework support getting direct access to the current stack trace, subject identification only works for the platforms targeting those frameworks.
+
+Now, if you've built your own extensions that use Fluent Assertions directly, you can tell it to skip that extension code while traversing the stack trace. Consider for example the customer assertion:
+
+```csharp
+    public class CustomerAssertions
+    {
+        private readonly Customer customer;
+
+        public CustomerAssertions(Customer customer)
+        {
+            this.customer = customer;
+        }
+
+        [CustomAssertion]
+        public void BeActive(string because = "", params object[] becauseArgs)
+        {
+            customer.Active.Should().BeTrue(because, becauseArgs);
+        }
+    }
+```
+
+And it's usage:
+
+```
+myClient.Should().BeActive("because we don't work with old clients");
+```
+
+Without the `[CustomAssertion]` attribute, Fluent Assertions would find the line that calls `Should().BeTrue()` and treat the `customer` variable as the subject-under-test (SUT). But by applying this attribute, it will ignore this invocation and instead find the SUT by looking for a call to `Should().BeActive()` and use the `myClient` variable instead.
 
 ## Basic assertions ##
 The following assertions are available to all types of objects.
@@ -242,9 +283,7 @@ byte theByte = 2;
 theByte.Should().Be(2);
 ```
 
-Notice that `Should().Be()` and `Should().NotBe()` are not available for floats and doubles.
-Floating point variables are inheritably inaccurate and should never be compared for equality.
-Instead, either use the Should().BeInRange() method or the following method specifically designed for floating point or `decimal` variables.
+Notice that `Should().Be()` and `Should().NotBe()` are not available for floats and doubles. Floating point variables are inheritably inaccurate and should never be compared for equality. Instead, either use the `Should().BeInRange()` method or the following method specifically designed for floating point or `decimal` variables.
 
 ```csharp
 float value = 3.1415927F;
@@ -381,7 +420,7 @@ collection.Should().Equal(new List<int> { 1, 2, 5, 8 });
 collection.Should().Equal(1, 2, 5, 8);
 collection.Should().NotEqual(8, 2, 3, 5);
 collection.Should().BeEquivalentTo(8, 2, 1, 5);
-collection.Should().NotBeEquivalentTo(8, 2, 3, 5);
+collection.Should().NotBeEquivalentTo(new[] {8, 2, 3, 5});
 
 collection.Should().HaveCount(c => c > 3)
   .And.OnlyHaveUniqueItems();
@@ -611,8 +650,7 @@ act.Should().Throw<InvalidOperationException>()
     .WithMessage("whatever");
 ```
 
-Notice that the example also verifies that the exception has a particular inner exception with a specific message.
-In fact, you can even check the individual properties of the exception instance using the And property.
+Notice that the example also verifies that the exception has a particular inner exception with a specific message. In fact, you can even check the individual properties of the exception instance using the And property.
 
 ```csharp
 Action act = () => subject.Foo(null);
@@ -653,9 +691,7 @@ Action act = () => subject.Foo("Hello");
 act.Should().NotThrow<InvalidOperationException>();
 ```
 
-If the method you are testing returns an `IEnumerable` or `IEnumerable<T>` and it uses the `yield` keyword to construct that collection, just calling the method will not cause the effect you expected.
-Because the real work is not done until you actually iterate over that collection.
-You can use the Enumerating() extension method to force enumerating the collection like this.
+If the method you are testing returns an `IEnumerable` or `IEnumerable<T>` and it uses the `yield` keyword to construct that collection, just calling the method will not cause the effect you expected because the real work is not done until you actually iterate over that collection. You can use the `Enumerating()` extension method to force enumerating the collection like this.
 
 ```csharp
 Func<IEnumerable<char>> func = () => obj.SomeMethodThatUsesYield("blah");
@@ -696,7 +732,7 @@ Suppose also that an order has one or more `Product`s and an associated `Custome
 Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`.
 You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
-You may assert the structural equality of two object graphs with `Should().BeEquivalentTo`:
+You may assert the structural equality of two object graphs with `Should().BeEquivalentTo()`:
 ```csharp
 orderDto.Should().BeEquivalentTo(order);
 ```
@@ -712,13 +748,34 @@ orderDto.Should().BeEquivalentTo(order, options =>
     options.ExcludingNestedObjects());
 ```
 
+### Value Types ###
+
+To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. There's no easy way to look at a .NET type from the outside and conclude it should have value semantics. 
+
+Unless you've changed the predicate associated with `AssertionOptions.IsValueType`, it will ignore anything from the `System` namespace. To change that for individual assertions, use the `ComparingByValue<T>` option:
+
+```csharp
+subject.Should().BeEquivalentTo(expected,
+   options => options.ComparingByValue<IPAddress>());
+```
+
+### Auto-Conversion ###
+In the past, Fluent Assertions would attempt to convert the value of a property of the subject-under-test to the type of the corresponding property on the expectation. But a lot of people complained about this behavior where a string property representing a date and time would magically match a `DateTime` property. As of 5.0, this conversion will no longer happen. However, you can still adjust the assertion by using the `WithAutoConversion` or `WithAutoConversionFor` options:
+
+```csharp
+subject.Should().BeEquivalentTo(expectation, options => options
+    .WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
+```
+
 ### Compile-time types vs. run-time types ###
 
 By default, Fluent Assertions respects an object's or member's declared (compile-time) type when selecting members to process during a recursive comparison.
-That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `Dto` only the members defined by the latter class would be included.
+That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `Dto` only the members defined by the latter class would be considered when comparing the object to the `order` variable.
 This behavior can be configured and you can choose to use run-time types if you prefer:
 
 ```csharp
+Dto orderDto = new OrderDto();
+
 // Use runtime type information of orderDto
 orderDto.Should().BeEquivalentTo(order, options => 
     options.RespectingRuntimeTypes());
@@ -823,8 +880,8 @@ orderDto.Should().BeEquivalentTo(order, options => options
 
 ### Enums ###
 
-By default, ``Should().BeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value.
-An option to compare Enums only by name is also available, using the following configuration :
+By default, ``Should().BeEquivalentTo()`` compares `Enum` members by the enum's underlying numeric value.
+An option to compare an `Enum` only by name is also available, using the following configuration :
 
 ```csharp
 orderDto.Should().BeEquivalentTo(expectation, options => options.ComparingEnumsByName());
@@ -835,6 +892,12 @@ Considering our running example, you could use the following against a collectio
 
 ```csharp
 orderDtos.Should().BeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name));
+```
+
+You can also assert that all instances of `OrderDto` are structurally equal to a single object:
+
+```csharp
+orderDtos.Should().AllBeEquivalentTo(singleOrder);
 ```
 
 ### Ordering ###
@@ -854,6 +917,60 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrder
 
 **Notice:** For performance reasons, collections of bytes are compared in exact order.
 
+### Diagnostics
+`Should().BeEquivalentTo` is a very powerful feature, and one of the unique selling points of Fluent Assertions. But sometimes it can be a bit overwhelming, especially if some assertion fails under unexpected conditions. To help you understand how Fluent Assertions compared two (collections of) object graphs, the failure message will always include the relavant configuration settings:
+
+```txt
+Xunit.Sdk.XunitException
+Expected item[0] to be 0x06, but found 0x01.
+Expected item[1] to be 0x05, but found 0x02.
+Expected item[2] to be 0x04, but found 0x03.
+Expected item[3] to be 0x03, but found 0x04.
+Expected item[4] to be 0x02, but found 0x05.
+Expected item[5] to be 0x01, but found 0x06.
+
+With configuration:
+- Use declared types and members
+- Compare enums by value
+- Include all non-private properties
+- Include all non-private fields
+- Match member by name (or throw)
+- Be strict about the order of items in byte arrays
+```
+
+However, sometimes that's not enough. For those scenarios where you need to understand a but more, you can add the `WithTracing` option. When added to the assertion call, it would extend the above output with something like this:
+
+```txt
+With trace:
+  Structurally comparing System.Object[] and expectation System.Byte[] at root
+  {
+    Strictly comparing expectation 6 at root to item with index 0 in System.Object[]
+    {
+      Treating item[0] as a value type
+    }
+    Strictly comparing expectation 5 at root to item with index 1 in System.Object[]
+    {
+      Treating item[1] as a value type
+    }
+    Strictly comparing expectation 4 at root to item with index 2 in System.Object[]
+    {
+      Treating item[2] as a value type
+    }
+    Strictly comparing expectation 3 at root to item with index 3 in System.Object[]
+    {
+      Treating item[3] as a value type
+    }
+    Strictly comparing expectation 2 at root to item with index 4 in System.Object[]
+    {
+      Treating item[4] as a value type
+    }
+    Strictly comparing expectation 1 at root to item with index 5 in System.Object[]
+    {
+      Treating item[5] as a value type
+    }
+  }
+  ```
+
 ### Global Configuration ###
 Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale.
 This is where the static class `AssertionOptions` comes into play.
@@ -863,36 +980,12 @@ For instance, to always compare enumerations by name, use the following statemen
 AssertionOptions.AssertEquivalencyUsing(options => options.ComparingEnumsByValue);
 ``` 
 
-All the options available to an individual call to `ShouldBeEquivalenTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
+All the options available to an individual call to `Should().BeEquivalenTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
 You can even change the algorithm that Fluent Assertions uses to determine if an object should be treated as a value type.
 Simply replace the `AssertionOptions.IsValueType` predicate with your own:
 
 ```csharp
 AssertionOptions.IsValueType = type => // a custom algorithm 
-```
-
-### Extensibility ###
-Internally the structural comparison process consists of three phases which repeat as the comparison recurses:
-
-1. Select the members of the subject object to include in the comparison.
-2. Find a matching member on the expectation object and decide what to do if it can’t find any.
-3. Select the appropriate assertion method for the member’s type and execute it.
-
-Three main extension points exist: `IEquivalencyStep`, `IMemberSelectionRule`, `IMemberMatchingRule`.
-You may add your own implementations using the `Using` method overloads on `EquivalencyAssertionOptions`, or if you want to make it a global change, to the `AssertionOptions.EquivalencySteps` collection.
-
-Fluent Assertions uses these same interfaces to provide its built-in functionality.
-Internally, for example, `ExcludeMemberByPredicateSelectionRule`, is added to the collection of selection rules when you use the `Excluding(expression)` method on the options parameter of `ShouldBeEquivalentTo()`.
-Even the `Using().When()` construct in the previous section is doing nothing more than inserting an `IEquivalencyStep` in to the list of equivalency steps.
-Creating your own rules is quite straightforward.
-
-1. Choose the appropriate phase that the rule should influence 
-2. Select the corresponding interface 
-3. Create a class that implements this interface 
-4. Add it to the `ShouldBeEquivalentTo()` call using the `Using()` method on the options parameters.
-
-```csharp
-subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForeignKeysSelectionRule()));
 ```
 
 ## Event Monitoring ##
@@ -902,14 +995,20 @@ Before you can invoke the assertion extensions, you must first tell Fluent Asser
 
 ```csharp
 var subject = new EditCustomerViewModel();
-subject.MonitorEvents();
+using (var monitoredSubject = subject.Monitor())
+{
+    subject.Foo();
+    monitoredSubject.Should().Raise("NameChangedEvent");
+}
 ```
+
+Notice that Fluent Assertions will keep monitoring the `subject` for as long as the `using` block lasts.
 
 Assuming that we’re dealing with a MVVM implementation, you might want to verify that it raised its `PropertyChanged` event for a particular property:
 
 ```csharp
-subject
-  .ShouldRaise("PropertyChanged")
+monitoredSubject
+  .Should().Raise("PropertyChanged")
   .WithSender(subject)
   .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
 ```
@@ -921,41 +1020,65 @@ In other words, event monitoring only works for events that comply with the stan
 Since verifying for `PropertyChanged` events is so common, I’ve included a specialized shortcut to the example above:
 
 ```csharp
-subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
+subject.Should().Raise().PropertyChangeFor(x => x.SomeProperty);
 ```
 
-In version 1.4 you can also do the opposite; asserting that a particular event was not raised.
+You can also do the opposite; asserting that a particular event was not raised.
 
 ```csharp
-subject.ShouldNotRaisePropertyChangeFor(x => x.SomeProperty);
+subject.Should().NotRaisePropertyChangeFor(x => x.SomeProperty);
 ```
 
-Or, if your project is .NET 3.5 or 4.0 based:
+Or...
 
 ```csharp
-subject.ShouldNotRaise("SomeOtherEvent");
+subject.Should().NotRaise("SomeOtherEvent");
 ```
 
-In version 4.1.2 we added a new generic version of `MonitorEvents()`.
+There's also a generic version of `Monitor()`.
 It is used to limit which events you want to listen to.
 You do that by providing a type which defines the events.
 
 ```csharp
 var subject = new ClassWithManyEvents();
-subject.MonitorEvents<IInterfaceWithFewEvents>();
+using (var monitor = subject.Monitor<IInterfaceWithFewEvents>();
+{
+    
+}
 ```
 
-This generic version of `MonitorEvents()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`.
-Since events are dynamically generated and are not present in parent class non-generic version of `MonitorEvents()` will not find the events.
+This generic version of `Monitor()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`.
+Since events are dynamically generated and are not present in parent class non-generic version of `Monitor()` will not find the events.
 This way you can tell the event monitor which interface was implemented in the generated class.
 
 ```csharp
 POCOClass subject = EmitViewModelFromPOCOClass();
-subject.MonitorEvents<INotifyPropertyChanged>(); // POCO class doesn't have INotifyPropertyChanged implemented
-subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
+
+using (var monitor = subject.Monitor<INotifyPropertyChanged>())
+{
+    // POCO class doesn't have INotifyPropertyChanged implemented
+    subject.Should().RaisePropertyChangeFor(x => x.SomeProperty);
+}
 ```
 
-**Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the `ShouldRaisePropertyChangeFor` and `ShouldNotRaisePropertyChangeFor` methods are supported in those versions.
+The object returned by `Monitor` exposes a method named `GetEventRecorder` as well as the properties `MonitoredEvents` and `OccurredEvents` that you can use to directly interact with the monitor, e.g. to create your own extensions. For example:
+
+```csharp
+    var eventSource = new ClassThatRaisesEventsItself();
+    using (var monitor = eventSource.Monitor<IEventRaisingInterface>())
+    {
+        EventMetadata[] metadata = monitor.MonitoredEvents;
+
+        metadata.Should().BeEquivalentTo(new[]
+        {
+            new
+            {
+                EventName = nameof(IEventRaisingInterface.InterfaceEvent),
+                HandlerType = typeof(EventHandler)
+            }
+        });
+    }
+```
 
 ## Type, Method, and Property assertions ##
 
@@ -1041,7 +1164,7 @@ AllTypes.From(assembly)
   .ThatAreNotInNamespace("Internal.Main.Test");
 ```
 ## Assembly References ##
-New in version 3.1 are methods to assert an assembly does or does not reference another assembly.
+If you're running .NET 4.5 or .NET Standard 2.0, you have access to methods to assert an assembly does or does not reference another assembly.
 These are typically used to enforce layers within an application, such as for example, asserting the web layer does not reference the data layer.
 To assert the references, use the the following syntax:
 
@@ -1049,8 +1172,6 @@ To assert the references, use the the following syntax:
 assembly.Should().Reference(otherAssembly);
 assembly.Should().NotReference(otherAssembly);
 ```
-
-These assertions are only available in the .NET 4 and 4.5 versions of Fluent Assertions as the reflection methods used are not available in Silverlight and Windows Phone and Windows 8 run-times.
 
 ## XML classes ##
 
@@ -1131,62 +1252,3 @@ someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
 someAction.ExecutionTime().Should().BeGreaterOrEqualTo(100.Milliseconds());
 someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Milliseconds());
 ```
-
-## Extensibility ##
-
-**Custom assertions**
-Adding your own assertion extensions is quite straightforward and happens in my projects quite often.
-You have a few options though.
-
-* Extend one of the built-in classes such as `CollectionAssertions<T>` or `ReferenceTypeAssertions<T>` and expose them through a custom static class with extension methods named `Should()`.
-
-* Create extension methods that extend an assertion class: 
-
-```csharp
-public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string because, params object[] becauseArgs)
-{
-    Execute.Assertion
-        .ForCondition(somecondition)
-        .BecauseOf(reason, reasonArgs)
-        .FailWith("Expected object not to be {0}{reason}", null);
-}
-```
-
-* Create a custom assertions class and use the `Assertion` class to verify conditions and create comprehensive failure messages using the built-in formatters.
-Notice that error messages of custom assertion extensions can specify the `{context}` tag that is used to inject the property path in object graph comparisons.
-For instance, in the date/time assertions, this is used to display date and time.
-But when this assertion is used as part of a recursive object graph comparison, it will display the property path instead.
-You can use this special tag in your own extensions like this:
-
-```csharp
-Execute.Assertion
-    .ForCondition(Subject.Value == expected)
-    .BecauseOf(reason, reasonArgs)
-    .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.", expected, subject.Value);
-```
-
-
-**Formatters**
-In addition to writing your own extensions, you can influence the way data is formatted with these two techniques.
-
-* You can alter the list of `IValueFormatter` objects on the `Formatter` class with your own implementation of that interface using its methods `AddFormatter` and `RemoveFormatter`.
-
-* You can override the way Fluent Assertions formats objects in an error message by annotating a static method with the `[ValueFormatter]` attribute.
-If a class doesn’t override `ToString()`, the built-in `DefaultValueFormatter` will render an object graph of that object.
-But you can now override that using a construct like this:
-
-```csharp
-public static class CustomFormatter
-{
-    [ValueFormatter]
-    public static string Foo(SomeClassvalue value)
-    {
-        return "Property = " + value.Property;
-    }
-}
-```
-
-Since scanning for value formatters incurs a significant performance hit, you need to explicitly enable that using the `<appSetting>` with key `valueFormatters`.
-Valid values include `Disabled` (the default), `Scan` and `Specific`, where `Scan` will scan all assemblies in the `AppDomain`.
-Option `Specific` also requires you to set the `valueFormattersAssembly` setting key with the (partial) name of an assembly FA should scan.
-Since Silverlight and Windows Phone apps do not support an `app.config` file, you'll need to set those settings through the `ValueFormatterDetectionMode` and `ValueFormatterAssembly` properties of the static `Configuration.Current` object.
