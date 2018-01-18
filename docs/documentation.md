@@ -312,7 +312,7 @@ value.Should().BeOneOf(new[] { 3, 6});
 For asserting a `DateTime` or a `DateTimeOffset` against various constraints, FA offers a bunch of methods that, provided that you use the extension methods for representing dates and times, really help to keep your assertions readable.
 
 ```csharp
-var theDatetime = 1.March(2010).At(22, 15);
+var theDatetime = 1.March(2010).At(22, 15).AsLocal();
 
 theDatetime.Should().Be(1.March(2010).At(22, 15));
 theDatetime.Should().BeAfter(1.February(2010));
@@ -329,6 +329,18 @@ theDatetime.Should().NotBeOnOrAfter(2.March(2010));
 theDatetime.Should().NotBeOnOrBefore(1.February(2010));
 theDatetime.Should().NotBeSameDateAs(2.March(2010));
 
+theDatetime.Should().BeOneOf(
+    1.March(2010).At(21, 15),
+    1.March(2010).At(22, 15),
+    1.March(2010).At(23, 15)
+);
+```
+
+Notice how we use extension methods like `March`, `At` to represent dates in a more human readable form. There's a lot more like these, including `2000.Microseconds()`, `3.Nanoseconds` as well as methods like `AsLocal` and `AsUtc` to convert between representations. You can even do relative calculations like `2.Hours().Before(DateTime.Now)`.
+
+If you only care about specific parts of a date or time, use the following assertion methods instead.
+
+```csharp
 theDatetime.Should().HaveDay(1);
 theDatetime.Should().HaveMonth(3);
 theDatetime.Should().HaveYear(2010);
@@ -343,14 +355,6 @@ theDatetime.Should().NotHaveHour(23);
 theDatetime.Should().NotHaveMinute(16);
 theDatetime.Should().NotHaveSecond(1);
 
-theDatetime.Should().BeOneOf(
-    1.March(2010).At(21, 15),
-    1.March(2010).At(22, 15),
-    1.March(2010).At(23, 15)
-);
-```
-
-```csharp
 var theDatetimeOffset = 1.March(2010).AsUtc().ToDateTimeOffset(2.Hours());
 
 theDatetimeOffset.Should().HaveOffset(2);
@@ -382,7 +386,7 @@ This can be particularly useful if your database truncates date/time values.
 
 ## TimeSpans ##
 
-FA also support a few dedicated methods that apply to (nullable) TimeSpans directly:
+FA also support a few dedicated methods that apply to (nullable) `TimeSpan` instances directly:
 
 ```csharp
 var timeSpan = new TimeSpan(12, 59, 59);
@@ -1091,9 +1095,13 @@ Some examples.
 
 ```csharp
 typeof(MyPresentationModel).Should().BeDecoratedWith<SomeAttribute>();
-typeof(MyPresentationModel).Should().BeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
+
+typeof(MyPresentationModel)
+  .Should().BeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
+
 typeof(MyPresentationModel).Should().NotBeDecoratedWith<SomeAttribute>();
-typeof(MyPresentationModel).Should().NotBeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
+typeof(MyPresentationModel)
+  .Should().NotBeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
 
 MethodInfo method = GetMethod();
 method.Should().BeVirtual();
@@ -1166,6 +1174,9 @@ AllTypes.From(assembly)
   .ThatAreNotUnderNamespace("Internal.Main")
   .ThatAreNotInNamespace("Internal.Main.Test");
 ```
+
+There are so many possibilities and specialized methods that none of these examples do them good. Check out the `TypeAssertionSpecs.cs` from the source for more examples. 
+
 ## Assembly References ##
 If you're running .NET 4.5 or .NET Standard 2.0, you have access to methods to assert an assembly does or does not reference another assembly.
 These are typically used to enforce layers within an application, such as for example, asserting the web layer does not reference the data layer.
