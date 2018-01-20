@@ -3,10 +3,6 @@ title: About
 layout: page
 ---
 
-## What is Fluent Assertions?
-
-Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test.
-
 ## Why?
 
 Nothing is more annoying than a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to "keep out of the debugger hell" and I can only agree with that.
@@ -37,15 +33,35 @@ will fail with:
 
 > Expected numbers to have an item matching (item > 3) because at least 1 item should be larger than 3.
 
+## Supported Frameworks and Libraries
+
+Fluent Assertions cross-compiles to .NET Framework 4.5, as well as .NET Standard 1.4, 1.6 and 2.0. Because of that it supports the following minimum platforms.
+*   .NET Core 1.0 and 2.0
+*   .NET Framework 4.5
+*   Mono, Xamarin.iOS 10.0, Xamarin.Mac 3.0 and Xamarin.Android 7.0
+*   Univeral Windows Platform
+
+Fluent Assertions supports the following unit test frameworks:
+
+*   MSTest (Visual Studio 2010, 2012 Update 2, 2013 and 2015)
+*   MSTest2 (Visual Studio 2017)
+*   [NUnit](http://www.nunit.org/)
+*   [XUnit](http://xunit.codeplex.com/)
+*   [XUnit2](https://github.com/xunit/xunit/releases)
+*   [MBUnit](http://code.google.com/p/mb-unit/)
+*   [Gallio](http://code.google.com/p/mb-unit/)
+*   [NSpec](http://nspec.org/)
+*   [MSpec](https://github.com/machine/machine.specifications)
+
 ## Who is behind this project
 
 My name is [Dennis Doomen](https://twitter.com/ddoomen) and I work for Aviva Solutions (in The Netherlands). I maintain a [blog](http://www.continuousimprover.com/) on my everlasting quest for knowledge that significantly improves the way you build your key systems in an agile world. Fluent Assertions is one of those aspects of that.
 
-Notable contributors include
+Notable contributors over the last year include.
 
 * [Adam Voss](https://github.com/adamvoss)
-* [Oren Novotny](https://twitter.com/onovotny)
 * [Jonas Nyrup](https://github.com/jnyrup)
+* [Artur Krajweski](https://github.com/krajek)
 
 The [Fluent Assertions logo](./logo/fluent_assertions.svg) was created by
 

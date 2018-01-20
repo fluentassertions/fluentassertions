@@ -13,13 +13,13 @@ actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLeng
 To verify that a collection contains a specified number of elements and that all elements match a predicate.
 
 ```c#
-IEnumerable collection = new[] { 1, 2, 3 };
-collection.Should().HaveCount(4, "because we thought we put four items in the collection"))
+IEnumerable numbers = new[] { 1, 2, 3 };
+numbers.Should().HaveCount(4, "because we thought we put four items in the collection"))
 ```
 
 The nice thing about the second failing example is that it will throw an exception with the message
 
-> "Expected collection to contain 4 item(s) because we thought we put four items in the collection, but found 3."
+> "Expected numbers to contain 4 item(s) because we thought we put four items in the collection, but found 3."
 
 To verify that a particular business rule is enforced using exceptions.
 
@@ -29,7 +29,7 @@ var recipe = new RecipeBuilder()
                     .Build();
 Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
 action
-                    .ShouldThrow<RuleViolationException>()
+                    .Should().Throw<RuleViolationException>()
                     .WithMessage("change the unit of an existing ingredient", ComparisonMode.Substring)
                     .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
 ```

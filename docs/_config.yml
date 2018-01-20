@@ -9,6 +9,7 @@ google_analytics: UA-99995670-1
 header_pages:
   - examples.md
   - documentation.md
+  - extensibility.md
   - tips.md
   - releases.md
   - about.md
