@@ -2,7 +2,7 @@
 title: Extensibility
 ---
 
-To facilitate the need for those developers which ideas don't end up in the library, Fluent Assertions offers several extension points. They are there so that they can build their own extensions with the same consistent API and behavior people are used to. And if they feel the need to alter the behavior of the built-in set of assertion methods, they can use the many hooks offered out of the box. The flip side of all of this is that we cannot just change the internals of FA without considering backwards compatibility. But looking at the many extensions available on the NuGet, its absolutely worth it.
+To facilitate the need for those developers which ideas don't end up in the library, Fluent Assertions offers several extension points. They are there so that they can build their own extensions with the same consistent API and behavior people are used to. And if they feel the need to alter the behavior of the built-in set of assertion methods, they can use the many hooks offered out of the box. The flip side of all of this is that we cannot just change the internals of FA without considering backwards compatibility. But looking at the many extensions available on the NuGet, it's absolutely worth it.
 
 ## Building your own extensions ##
 
@@ -10,10 +10,9 @@ As an example, let's create an extension method on `DirectionInfo` like this
 
 ```csharp
 public static class DirectoryInfoExtensions 
-{ 
-  public static DirectoryInfoAssertions Should(this DirectoryInfo instance)
-
-    { 
+{
+    public static DirectoryInfoAssertions Should(this DirectoryInfo instance)
+    {
       return new DirectoryInfoAssertions(instance); 
     } 
 }
@@ -88,7 +87,7 @@ So in this case, our nicely created `ContainFile` extension method will display 
 
 ## Rendering objects with beauty ##
 
-Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the relevant part. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
+Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
 
 You can hook-up your own formatters in several ways, but what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
@@ -98,7 +97,7 @@ string Format(object value, FormattingContext context, FormatChild formatChild);
 
 Next to the actual value that needs rendering, this method accepts a couple of parameters worth mentioning.
 
-* `context.UseLineBreak`s denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
+* `context.UseLineBreaks` denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
 * `context.Depth` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `formatChild`. It allows the formatter to display its representation using an indented view.
 
 This is what an implementation for the DirectoryInfo would look like.
@@ -127,21 +126,21 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively. For instance, to determine whether FA needs to recursive into a complex object, it needs to know what object should be treated as a complex object. An object that has properties isn't necessarily a complex type that you want to recurse on. `DirectoryInfo` has properties, but you don't want FA to just traverse its properties. So, you need to tell what types should be treated as value types. The default (naive) behavior is to treat everything from the `System` namespace as a value type.
 
 ```charp
-public static Func<Type, bool> IsValueType = type => (type.Namespace == typeof (int).Namespace);
+public static Func<Type, bool> IsValueType = type => (type.Namespace == typeof(int).Namespace);
 ```
 
 But you can easily change that by setting the global `AssertionOption.IsValueType` function or temporarily using the `ComparingByValue<T>` options for individual assertions.
 
 ## Equivalency assertion step by step ##
 
-The entire structural equivalency API is built around the concept of a collection of equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes two methods: `CanHandle` and `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencySteps` collection. Checkout the underlying `EquivalencyStepCollection` to see how it relates your custom step to the other steps. That said, the Handle method has the following signature:
+The entire structural equivalency API is built around the concept of a collection of equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes two methods: `CanHandle` and `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencySteps` collection. Checkout the underlying `EquivalencyStepCollection` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
 ```csharp
 bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, 
     IEquivalencyAssertionOptions config);
 ```
 
-It provides you with a couple of parameters. The context gives you access to information on the subject-under-test, the expectation and some information on where you are in a deeply nested structure. The parent allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. The `config` parameter provides you access to the effective configuration that should apply to the current assertion call. Using this knowledge, the simplest built-in step looks like this:
+It provides you with a couple of parameters. The `context` gives you access to information on the subject-under-test, the expectation and some information on where you are in a deeply nested structure. The `parent` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. The `config` parameter provides you access to the effective configuration that should apply to the current assertion call. Using this knowledge, the simplest built-in step looks like this:
 
 ```csharp
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
@@ -166,9 +165,9 @@ Since `Should().Be()` internally uses the `{context}` placeholder I discussed at
 
 ## About selection, matching and ordering ##
 
-Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the options parameter, but you can add your own by calling the appropriate overloads of the Using methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
+Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
 
-The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `SelectedMemberInfo` objects representing the fields and properties that need to be include. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
+The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `SelectedMemberInfo` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
 
 ```csharp
 internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule

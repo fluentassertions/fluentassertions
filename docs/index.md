@@ -9,7 +9,7 @@ layout: default
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of unit tests. It offers a plethora of features:
 
 * Targets .NET 4.5, .NET Standard 1.4, 1.6 and 2.0.
-* Works with MSTest, XXnit, NUnit, Gallio, MBUnit, MSpec and NSpec.
+* Works with MSTest, xUnit, NUnit, Gallio, MBUnit, MSpec and NSpec.
 * Very detailed and self-explanatory failure message. 
 * Parses the C# code to identify the subject-under-test.
 * Allows asserting the equivalency of (collections of ) deep object graphs.
