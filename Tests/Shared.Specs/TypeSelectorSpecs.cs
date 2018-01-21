@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             types.Should()
-                .HaveCount(8);
+                .HaveCount(12);
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             types.ToArray().Should()
-                .HaveCount(8);
+                .HaveCount(12);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             types.Should()
-                .HaveCount(6);
+                .HaveCount(10);
         }
 
         [Fact]
@@ -339,6 +339,158 @@ namespace FluentAssertions.Specs
                 .ContainSingle()
                     .Which.Should().Be(type);
         }
+
+        [Fact]
+        public void When_selecting_types_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreDecoratedWith<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_types_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreDecoratedWithOrInherit<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_types_not_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreNotDecoratedWith<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_types_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreNotDecoratedWithOrInherit<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_types_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreDecoratedWith<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_types_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreDecoratedWithOrInherit<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_types_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreNotDecoratedWith<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_types_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = type.Types().ThatAreNotDecoratedWithOrInherit<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should().ContainSingle();
+        }
     }
 }
 
@@ -371,8 +523,13 @@ namespace Internal.Main.Test
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     internal class SomeAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    internal class SomeNonInheritableAttribute : Attribute
     {
     }
 
@@ -384,6 +541,24 @@ namespace Internal.Main.Test
         public void Method1()
         {
         }
+    }
+
+    internal class ClassWithSomeAttributeDerived : ClassWithSomeAttribute
+    {
+    }
+
+    [SomeNonInheritable]
+    internal class ClassWithSomeNonInheritableAttribute
+    {
+        public string Property1 { get; set; }
+
+        public void Method1()
+        {
+        }
+    }
+
+    internal class ClassWithSomeNonInheritableAttributeDerived : ClassWithSomeNonInheritableAttribute
+    {
     }
 
     [Some]

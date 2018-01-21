@@ -195,6 +195,158 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             methods.Should().HaveCount(2);
         }
+
+        [Fact]
+        public void When_selecting_methods_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWith<DummyMethodAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_methods_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWithOrInherit<DummyMethodAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_methods_not_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWith<DummyMethodAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_methods_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWithOrInherit<DummyMethodAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_methods_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWith<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_methods_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_methods_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWith<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should().ContainSingle();
+        }
     }
 
     #region Internal classes used in unit tests
@@ -239,7 +391,35 @@ namespace FluentAssertions.Specs
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    internal class TestClassForMethodSelectorWithInheritableAttribute
+    {
+        [DummyMethod]
+        public virtual void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    internal class TestClassForMethodSelectorWithNonInheritableAttribute
+    {
+        [DummyMethodNonInheritableAttribute]
+        public virtual void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    internal class TestClassForMethodSelectorWithInheritableAttributeDerived : TestClassForMethodSelectorWithInheritableAttribute
+    {
+        public override void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    internal class TestClassForMethodSelectorWithNonInheritableAttributeDerived : TestClassForMethodSelectorWithNonInheritableAttribute
+    {
+        public override void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
+    public class DummyMethodNonInheritableAttributeAttribute : Attribute
+    {
+        public bool Filter { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class DummyMethodAttribute : Attribute
     {
         public bool Filter { get; set; }

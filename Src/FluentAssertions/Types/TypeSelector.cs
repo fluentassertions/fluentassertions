@@ -81,6 +81,20 @@ namespace FluentAssertions.Types
         {
             types = types
 
+                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is decorated with, or inherits from a parent class, a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : Attribute
+        {
+            types = types
+
                 .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
                 .ToList();
 
@@ -91,6 +105,20 @@ namespace FluentAssertions.Types
         /// Determines whether a type is not decorated with a particular attribute.
         /// </summary>
         public TypeSelector ThatAreNotDecoratedWith<TAttribute>()
+            where TAttribute : Attribute
+        {
+            types = types
+
+                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is not decorated with and does not inherit from a parent class, a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
             types = types

@@ -20,12 +20,30 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Filters to only include types decorated with, or inherits from a parent class, a particular attribute.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreDecoratedWithOrInherit<TAttribute>(this IEnumerable<Type> types)
+            where TAttribute : Attribute
+        {
+            return new TypeSelector(types).ThatAreDecoratedWithOrInherit<TAttribute>();
+        }
+
+        /// <summary>
         /// Filters to only include types not decorated with a particular attribute.
         /// </summary>
         public static IEnumerable<Type> ThatAreNotDecoratedWith<TAttribute>(this IEnumerable<Type> types)
             where TAttribute : Attribute
         {
             return new TypeSelector(types).ThatAreNotDecoratedWith<TAttribute>();
+        }
+
+        /// <summary>
+        /// Filters to only include types not decorated with and does not inherit from a parent class, a particular attribute.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreNotDecoratedWithOrInherit<TAttribute>(this IEnumerable<Type> types)
+            where TAttribute : Attribute
+        {
+            return new TypeSelector(types).ThatAreNotDecoratedWithOrInherit<TAttribute>();
         }
 
         /// <summary>
