@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -311,6 +312,86 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
+
+        [Fact]
+        public void When_asserting_async_void_method_should_throw_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Action asyncVoidMethod = async () => await asyncObject.IncompleteTask();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncVoidMethod.Should().Throw<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<InvalidOperationException>("*async*void*");
+        }
+
+        [Fact]
+        public void When_asserting_async_void_method_should_throw_exactly_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Action asyncVoidMethod = async () => await asyncObject.IncompleteTask();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncVoidMethod.Should().ThrowExactly<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<InvalidOperationException>("*async*void*");
+        }
+
+        [Fact]
+        public void When_asserting_async_void_method_should_not_throw_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Action asyncVoidMethod = async () => await asyncObject.IncompleteTask();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncVoidMethod.Should().NotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<InvalidOperationException>("*async*void*");
+        }
+
+        [Fact]
+        public void When_asserting_async_void_method_should_not_throw_specific_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Action asyncVoidMethod = async () => await asyncObject.IncompleteTask();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncVoidMethod.Should().NotThrow<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<InvalidOperationException>("*async*void*");
+        }
     }
 
     internal class AsyncClass
@@ -327,6 +408,11 @@ namespace FluentAssertions.Net45.Specs
         public async Task SucceedAsync()
         {
             await Task.FromResult(0);
+        }
+
+        public Task IncompleteTask()
+        {
+            return new TaskCompletionSource<bool>().Task;
         }
     }
 }

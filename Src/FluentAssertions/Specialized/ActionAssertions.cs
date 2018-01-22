@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -35,6 +38,8 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
+            FailIfSubjectIsAsyncVoid();
+
             Exception actualException = InvokeSubjectWithInterception();
             IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
 
@@ -67,6 +72,8 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void NotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
         {
+            FailIfSubjectIsAsyncVoid();
+
             Exception actualException = InvokeSubjectWithInterception();
 
             if (actualException != null)
@@ -92,6 +99,8 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void NotThrow(string because = "", params object[] becauseArgs)
         {
+            FailIfSubjectIsAsyncVoid();
+
             try
             {
                 Subject();
@@ -117,6 +126,14 @@ namespace FluentAssertions.Specialized
                 actualException = exc;
             }
             return actualException;
+        }
+
+        private void FailIfSubjectIsAsyncVoid()
+        {
+            if (Subject.GetMethodInfo().HasAttribute<AsyncStateMachineAttribute>())
+            {
+                throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
+            }
         }
 
         /// <summary>
