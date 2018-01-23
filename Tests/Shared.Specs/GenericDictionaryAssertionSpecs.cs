@@ -11,6 +11,55 @@ namespace FluentAssertions.Specs
 
     public class GenericDictionaryAssertionSpecs
     {
+        // If you try to implement support for IReadOnlyDictionary, these tests should still succeed.
+        #region Sanity Checks
+
+        [Fact]
+        public void When_the_same_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IDictionary<int, string> dictionary = new Dictionary<int, string>();
+            IDictionary<int, string> referenceToDictionary = dictionary;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().BeSameAs(referenceToDictionary);
+        }
+
+        [Fact]
+        public void When_the_same_custom_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
+            IDictionary<int, string> referenceToDictionary = dictionary;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().BeSameAs(referenceToDictionary);
+        }
+
+        [Fact]
+        public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().BeOfType<DictionaryNotImplementingIReadOnlyDictionary<int, string>>();
+        }
+
+        #endregion
+
         #region Be Null
 
         [Fact]
@@ -2855,6 +2904,74 @@ namespace FluentAssertions.Specs
         object IEnumerator.Current
         {
             get { return Current; }
+        }
+    }
+
+    internal class DictionaryNotImplementingIReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    {
+        public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public ICollection<TKey> Keys => throw new NotImplementedException();
+
+        public ICollection<TValue> Values => throw new NotImplementedException();
+
+        public int Count => throw new NotImplementedException();
+
+        public bool IsReadOnly => throw new NotImplementedException();
+
+        public void Add(TKey key, TValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
