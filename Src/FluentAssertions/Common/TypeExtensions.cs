@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
+using System.Runtime.CompilerServices;
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common
@@ -17,27 +17,18 @@ namespace FluentAssertions.Common
             PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         /// <summary>
-        /// Determines whether the specified method has been annotated with a specific attribute.
+        ///     Determines whether the specified method has been annotated with a specific attribute.
         /// </summary>
         /// <returns>
-        ///   <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
         /// </returns>
         public static bool HasAttribute<TAttribute>(this MemberInfo method) where TAttribute : Attribute
         {
-            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
+            return method.GetCustomAttributes(typeof(TAttribute), true).Any();
         }
 
-        public static bool HasAttribute<TAttribute>(this Type type) where TAttribute : Attribute
-        {
-            return HasAttribute<TAttribute>(type.GetTypeInfo());
-        }
-
-        public static bool HasAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
-        {
-            return typeInfo.GetCustomAttributes(typeof(TAttribute), true).Any();
-        }
-
-        public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
@@ -45,20 +36,13 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
-        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
+        public static bool HasMatchingAttribute<TAttribute>(this Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
 
             return GetCustomAttributes<TAttribute>(type, inherit).Any(isMatchingAttribute);
-        }
-
-        public static bool HasMatchingAttribute<TAttribute>(this TypeInfo typeInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
-            where TAttribute : Attribute
-        {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-
-            return GetCustomAttributes<TAttribute>(typeInfo, inherit).Any(isMatchingAttribute);
         }
 
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
@@ -73,84 +57,86 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type, inherit).Any();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
             where TAttribute : Attribute
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type.GetTypeInfo(), inherit);
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo, bool inherit = false) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo, bool inherit = false)
             where TAttribute : Attribute
         {
             return typeInfo.GetCustomAttributes(inherit).OfType<TAttribute>();
         }
 
         /// <summary>
-        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> objects refer to the same member.
+        ///     Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
+        ///     member.
         /// </summary>
         public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                     otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
-                   (property.Name == otherProperty.Name);
+                   property.Name == otherProperty.Name;
         }
 
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
-            return (actualType == expectedType) ||
-                   (expectedType.IsAssignableFrom(actualType));
-        }
-
-        public static bool Implements<TInterface>(this Type type)
-        {
-            return Implements(type, typeof (TInterface));
+            return actualType == expectedType ||
+                   expectedType.IsAssignableFrom(actualType);
         }
 
         /// <summary>
-        /// NOTE: This method does not give the expected results with open generics
+        ///     NOTE: This method does not give the expected results with open generics
         /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
             return
                 expectedBaseType.IsAssignableFrom(type)
-                && (type != expectedBaseType);
+                && type != expectedBaseType;
         }
 
         internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
         {
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
-                return new[] { type };
+                return new[] {type};
             }
 
             Type[] interfaces = type.GetInterfaces();
             return
                 interfaces
-                    .Where(t => (t.GetTypeInfo().IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .Where(t => t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == openGenericType)
                     .ToArray();
         }
 
-        public static bool IsComplexType(this Type type)
+        public static bool OverridesEquals(this Type type)
         {
-            return HasProperties(type) && !AssertionOptions.IsValueType(type);
-        }
+            IEnumerable<MethodInfo> methods = type
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance);
 
-        private static bool HasProperties(Type type)
-        {
-            return type.GetProperties(PublicMembersFlag).Any();
+            methods = methods
+                .Where(m => m.Name == "Equals" &&
+                            m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] {typeof(object)}));
+
+            methods = methods
+                .Where(m => m.GetBaseDefinition().DeclaringType != m.DeclaringType)
+                .ToArray();
+
+            return methods.Any();
         }
 
         /// <summary>
-        /// Finds a member by its case-sensitive name.
+        ///     Finds a member by its case-sensitive name.
         /// </summary>
         /// <returns>
-        /// Returns <c>null</c> if no such member exists.
+        ///     Returns <c>null</c> if no such member exists.
         /// </returns>
         public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
         {
@@ -159,10 +145,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Finds the property by a case-sensitive name.
+        ///     Finds the property by a case-sensitive name.
         /// </summary>
         /// <returns>
-        /// Returns <c>null</c> if no such property exists.
+        ///     Returns <c>null</c> if no such property exists.
         /// </returns>
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
@@ -170,17 +156,17 @@ namespace FluentAssertions.Common
                 type.GetProperties(PublicMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
-            
-            return (properties.Count() > 1)
+
+            return properties.Count() > 1
                 ? properties.SingleOrDefault(p => p.PropertyType == preferredType)
                 : properties.SingleOrDefault();
         }
 
         /// <summary>
-        /// Finds the field by a case-sensitive name.
+        ///     Finds the field by a case-sensitive name.
         /// </summary>
         /// <returns>
-        /// Returns <c>null</c> if no such property exists.
+        ///     Returns <c>null</c> if no such property exists.
         /// </returns>
         public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
         {
@@ -189,7 +175,7 @@ namespace FluentAssertions.Common
                     .Where(pi => pi.Name == fieldName)
                     .ToList();
 
-            return (properties.Count() > 1)
+            return properties.Count() > 1
                 ? properties.SingleOrDefault(p => p.FieldType == preferredType)
                 : properties.SingleOrDefault();
         }
@@ -203,13 +189,14 @@ namespace FluentAssertions.Common
                     .ToArray();
         }
 
-        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
+        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect,
+            IEnumerable<string> filter = null)
         {
-            var query =
+            IEnumerable<PropertyInfo> query =
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
                 where HasNonPrivateGetter(propertyInfo)
                 where !propertyInfo.IsIndexer()
-                where (filter == null) || filter.Contains(propertyInfo.Name)
+                where filter == null || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();
@@ -217,7 +204,7 @@ namespace FluentAssertions.Common
 
         public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect)
         {
-            var query =
+            IEnumerable<FieldInfo> query =
                 from fieldInfo in GetFieldsFromHierarchy(typeToReflect)
                 where !fieldInfo.IsPrivate
                 where !fieldInfo.IsFamily
@@ -251,8 +238,8 @@ namespace FluentAssertions.Common
 
                 while (queue.Count > 0)
                 {
-                    var subType = queue.Dequeue();
-                    foreach (var subInterface in GetInterfaces(subType))
+                    Type subType = queue.Dequeue();
+                    foreach (Type subInterface in GetInterfaces(subType))
                     {
                         if (considered.Contains(subInterface))
                         {
@@ -272,10 +259,8 @@ namespace FluentAssertions.Common
 
                 return propertyInfos.ToArray();
             }
-            else
-            {
-                return getMembers(typeToReflect);
-            }
+
+            return getMembers(typeToReflect);
         }
 
         private static bool IsInterface(Type typeToReflect)
@@ -301,13 +286,14 @@ namespace FluentAssertions.Common
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
             MethodInfo getMethod = propertyInfo.GetGetMethod(true);
-            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily;
+            return getMethod != null && !getMethod.IsPrivate && !getMethod.IsFamily;
         }
 
         public static MethodInfo GetMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
         {
             return type.GetMethods(AllMembersFlag)
-                .SingleOrDefault(m => m.Name == methodName && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+                .SingleOrDefault(m =>
+                    m.Name == methodName && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
         public static bool HasMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
@@ -332,9 +318,11 @@ namespace FluentAssertions.Common
 
         public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
         {
-            var hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
-            var hasSetter = type.GetMethods(AllMembersFlag)
-                .SingleOrDefault(m => m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) && m.GetParameters().Length == 1) != null;
+            bool hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
+            bool hasSetter = type.GetMethods(AllMembersFlag)
+                                 .SingleOrDefault(m =>
+                                     m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
+                                     m.GetParameters().Length == 1) != null;
 
             return hasGetter || hasSetter;
         }
@@ -342,12 +330,13 @@ namespace FluentAssertions.Common
         public static PropertyInfo GetIndexerByParameterTypes(this Type type, IEnumerable<Type> parameterTypes)
         {
             return type.GetProperties(AllMembersFlag)
-                .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
+                .SingleOrDefault(p =>
+                    p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
         }
 
         public static bool IsIndexer(this PropertyInfo member)
         {
-            return (member.GetIndexParameters().Length != 0);
+            return member.GetIndexParameters().Length != 0;
         }
 
         public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
@@ -371,19 +360,47 @@ namespace FluentAssertions.Common
                 .SingleOrDefault();
         }
 
-        private static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType, Func<string, bool> predicate)
+        private static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType,
+            Func<string, bool> predicate)
         {
             return type
                 .GetMethods()
                 .Where(m =>
-                  m.IsPublic
-                  && m.IsStatic
-                  && m.IsSpecialName
-                  && m.ReturnType == targetType
-                  && predicate(m.Name)
-                  && m.GetParameters().Length == 1
-                  && m.GetParameters()[0].ParameterType == sourceType
+                    m.IsPublic
+                    && m.IsStatic
+                    && m.IsSpecialName
+                    && m.ReturnType == targetType
+                    && predicate(m.Name)
+                    && m.GetParameters().Length == 1
+                    && m.GetParameters()[0].ParameterType == sourceType
                 );
+        }
+
+        public static bool IsAnonymousType(this Type type)
+        {
+            bool hasCompilerGeneratedAttribute =
+                type.GetTypeInfo().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
+            bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType");
+
+            return hasCompilerGeneratedAttribute && nameContainsAnonymousType;
+        }
+
+        public static bool IsTuple(this Type type)
+        {
+            if (!type.GetTypeInfo().IsGenericType)
+            {
+                return false;
+            }
+
+            Type openType = type.GetGenericTypeDefinition();
+            return openType == typeof(ValueTuple<>)
+                   || openType == typeof(ValueTuple<,>)
+                   || openType == typeof(ValueTuple<,,>)
+                   || openType == typeof(ValueTuple<,,,>)
+                   || openType == typeof(ValueTuple<,,,,>)
+                   || openType == typeof(ValueTuple<,,,,,>)
+                   || openType == typeof(ValueTuple<,,,,,,>)
+                   || openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]);
         }
     }
 }

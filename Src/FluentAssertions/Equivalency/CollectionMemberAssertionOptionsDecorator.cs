@@ -82,9 +82,9 @@ namespace FluentAssertions.Equivalency
             get { return inner.IncludeFields; }
         }
 
-        public bool IsValueType(Type type)
+        public EqualityStrategy GetEqualityStrategy(Type type)
         {
-            return inner.IsValueType(type);
+            return inner.GetEqualityStrategy(type);
         }
 
         public ITraceWriter TraceWriter => inner.TraceWriter;

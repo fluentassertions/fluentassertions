@@ -76,8 +76,31 @@ namespace FluentAssertions.Equivalency
         ITraceWriter TraceWriter { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
+        /// Determines the right strategy for evaluating the equality of objects of this type.
         /// </summary>
-        bool IsValueType(Type type);
+        EqualityStrategy GetEqualityStrategy(Type type);
+    }
+
+    public enum EqualityStrategy
+    {
+        /// <summary>
+        /// The object overrides <see cref="object.Equals"/>, so use that.
+        /// </summary>
+        Equals,
+
+        /// <summary>
+        /// The object does not seem to override <see cref="object.Equals"/>, so compare by members
+        /// </summary>
+        Members,
+
+        /// <summary>
+        /// Compare using <see cref="object.Equals(object)"/>, whether or not the object overrides it.
+        /// </summary>
+        ForceEquals,
+
+        /// <summary>
+        /// Compare the members, regardless of an <see cref="object.Equals(object)"/> override exists or not.
+        /// </summary>
+        ForceMembers,
     }
 }

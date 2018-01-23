@@ -754,13 +754,20 @@ orderDto.Should().BeEquivalentTo(order, options =>
 
 ### Value Types ###
 
-To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. There's no easy way to look at a .NET type from the outside and conclude it should have value semantics. 
+To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as on object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
 
-Unless you've changed the predicate associated with `AssertionOptions.IsValueType`, it will ignore anything from the `System` namespace. To change that for individual assertions, use the `ComparingByValue<T>` option:
+You can easily override this by using the `ComparingByValue<T>` or `ComparingByMembers<T>` options for individual assertions:
 
 ```csharp
 subject.Should().BeEquivalentTo(expected,
    options => options.ComparingByValue<IPAddress>());
+```
+
+Or  do the same using the global options:
+
+```csharp
+AssertionOptions.AssertEquivalencyUsing(options => options
+    .ComparingByValue<DirectoryInfo`());
 ```
 
 ### Auto-Conversion ###
@@ -981,16 +988,11 @@ This is where the static class `AssertionOptions` comes into play.
 For instance, to always compare enumerations by name, use the following statement:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options.ComparingEnumsByValue);
+AssertionOptions.AssertEquivalencyUsing(options => 
+   options.ComparingEnumsByValue);
 ``` 
 
-All the options available to an individual call to `Should().BeEquivalenTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
-You can even change the algorithm that Fluent Assertions uses to determine if an object should be treated as a value type.
-Simply replace the `AssertionOptions.IsValueType` predicate with your own:
-
-```csharp
-AssertionOptions.IsValueType = type => // a custom algorithm 
-```
+All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
 
 ## Event Monitoring ##
 

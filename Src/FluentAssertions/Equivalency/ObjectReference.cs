@@ -43,7 +43,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Serves as a hash function for a particular type. 
+        /// Serves as a hash function for a particular type.
         /// </summary>
         /// <returns>
         /// A hash code for the current <see cref="T:System.Object"/>.
@@ -59,12 +59,9 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return string.Format("{{\"{0}\", {1}}}", path, @object);
+            return $"{{\"{path}\", {@object}}}";
         }
 
-        public bool IsComplexType
-        {
-            get { return !ReferenceEquals(@object, null) && @object.GetType().IsComplexType(); }
-        }
+        public bool IsComplexType => !ReferenceEquals(@object, null) && !@object.GetType().OverridesEquals();
     }
 }

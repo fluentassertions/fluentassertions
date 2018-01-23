@@ -123,13 +123,20 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 
 ## To be or not to be a value type ##
 
-The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively. For instance, to determine whether FA needs to recursive into a complex object, it needs to know what object should be treated as a complex object. An object that has properties isn't necessarily a complex type that you want to recurse on. `DirectoryInfo` has properties, but you don't want FA to just traverse its properties. So, you need to tell what types should be treated as value types. The default (naive) behavior is to treat everything from the `System` namespace as a value type.
+The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively. 
 
-```charp
-public static Func<Type, bool> IsValueType = type => (type.Namespace == typeof(int).Namespace);
+For instance, to determine whether FA needs to recursive into a complex object, it needs to know whether or not a particular type has value semantics. An object that has properties isn't necessarily a complex type that you want to recurse on. `DirectoryInfo` has properties, but you don't want FA to just traverse its properties. So you need to tell what types should be treated as value types. 
+
+The default behavior is to treat every type that overrides `Object.Equals` as on object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
+
+You can easily override this by using the `ComparingByValue<T>` options for individual assertion, or to do the same using the global options:
+
+```csharp
+AssertionOptions.AssertEquivalencyUsing(options => options
+    .ComparingByValue<DirectoryInfo`());
 ```
 
-But you can easily change that by setting the global `AssertionOption.IsValueType` function or temporarily using the `ComparingByValue<T>` options for individual assertions.
+Similarly, you can force comparing objects that do override `Equals` by their properties using `ComparingByMembers<T>`.
 
 ## Equivalency assertion step by step ##
 
