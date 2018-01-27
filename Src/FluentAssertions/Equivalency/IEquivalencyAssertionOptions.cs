@@ -56,7 +56,7 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the runtime type should be used rather than the declared type.
+        /// Gets a value indicating whether the runtime type of the expectation should be used rather than the declared type.
         /// </summary>
         bool UseRuntimeTyping { get; }
 

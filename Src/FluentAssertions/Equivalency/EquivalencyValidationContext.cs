@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency
         public object Expectation { get; set; }
 
         /// <summary>
-        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </summary>
         public string Because { get; set; }
@@ -54,8 +54,9 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>, 
-        /// then it returns the same <see cref="System.Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
+        /// Gets the compile-time type of the current expectation object. If the current object is not the root object
+        /// and the type is not <see cref="object"/>,  then it returns the same <see cref="System.Type"/>
+        /// as the <see cref="ISubjectInfo.RuntimeType"/> property does.
         /// </summary>
         public Type CompileTimeType
         {
@@ -67,7 +68,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets the run-time type of the current object.
+        /// Gets the run-time type of the current expectation object.
         /// </summary>
         public Type RuntimeType
         {
@@ -88,7 +89,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on 
+        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
         /// the collection type and not on the root itself.
         /// </summary>
         public bool RootIsCollection { get; set; }
