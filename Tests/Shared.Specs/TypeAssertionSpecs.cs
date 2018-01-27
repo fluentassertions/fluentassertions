@@ -1015,7 +1015,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
+                typeWithoutAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -3423,15 +3423,15 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "because we want to test the" +
+                type.Should().NotHaveAccessModifier(CSharpAccessModifier.Internal, "because we want to test the" +
                                                                                                 " error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type InternalClass to be ProtectedInternal because we want to test the error message, " +
-                             "but it is Internal.");
+                .WithMessage("Expected type InternalClass not to be Internal because we want to test the error message, " +
+                             "but it is.");
         }
 
         [Fact]
