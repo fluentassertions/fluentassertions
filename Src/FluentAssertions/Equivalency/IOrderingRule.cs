@@ -6,8 +6,8 @@ namespace FluentAssertions.Equivalency
     public interface IOrderingRule
     {
         /// <summary>
-        /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="memberInfo"/> is relevant.
         /// </summary>
-        OrderStrictness Evaluate(ISubjectInfo subjectInfo);
+        OrderStrictness Evaluate(IMemberInfo memberInfo);
     }
 }

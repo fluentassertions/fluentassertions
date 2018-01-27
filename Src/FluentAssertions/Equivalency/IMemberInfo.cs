@@ -4,10 +4,9 @@ using System.Reflection;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Provides details about the subject's root or nested member.
+    /// Provides details about the expectation's root or nested member.
     /// </summary>
-    // REFACTOR: rename to IMemberInfo since it no longer represents the subject
-    public interface ISubjectInfo
+    public interface IMemberInfo
     {
         /// <summary>
         /// Gets the <see cref="SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
@@ -26,8 +25,8 @@ namespace FluentAssertions.Equivalency
         string SelectedMemberDescription { get; }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>, 
-        /// then it returns the same <see cref="System.Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
+        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
+        /// then it returns the same <see cref="System.Type"/> as the <see cref="IMemberInfo.RuntimeType"/> property does.
         /// </summary>
         Type CompileTimeType { get; }
 

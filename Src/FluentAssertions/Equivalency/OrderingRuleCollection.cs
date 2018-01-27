@@ -58,11 +58,11 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Determines whether the rules in this collection dictate strict ordering during the equivalency assertion on
-        /// the collection pointed to by <paramref name="subjectInfo"/>.
+        /// the collection pointed to by <paramref name="memberInfo"/>.
         /// </summary>
-        public bool IsOrderingStrictFor(ISubjectInfo subjectInfo)
+        public bool IsOrderingStrictFor(IMemberInfo memberInfo)
         {
-            List<OrderStrictness> results = rules.Select(r => r.Evaluate(subjectInfo)).ToList();
+            List<OrderStrictness> results = rules.Select(r => r.Evaluate(memberInfo)).ToList();
             return results.Contains(OrderStrictness.Strict) && !results.Contains(OrderStrictness.NotStrict);
         }
     }

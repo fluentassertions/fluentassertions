@@ -295,7 +295,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         ///     Excludes a (nested) property based on a predicate from the structural equality check.
         /// </summary>
-        public TSelf Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
+        public TSelf Excluding(Expression<Func<IMemberInfo, bool>> predicate)
         {
             AddSelectionRule(new ExcludeMemberByPredicateSelectionRule(predicate));
             return (TSelf)this;
@@ -437,7 +437,7 @@ namespace FluentAssertions.Equivalency
         ///     Causes the collection identified by the provided <paramref name="predicate" /> to be compared in the order
         ///     in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        public TSelf WithStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate));
             return (TSelf)this;
@@ -447,7 +447,7 @@ namespace FluentAssertions.Equivalency
         ///     Causes the collection identified by the provided <paramref name="predicate" /> to be compared ignoring the order
         ///     in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithoutStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        public TSelf WithoutStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate)
             {
@@ -536,7 +536,7 @@ namespace FluentAssertions.Equivalency
         ///     Instructs the equivalency comparison to try to convert the value of
         ///     a specific property on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        public TSelf WithAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
         {
             ConversionSelector.Include(predicate);
             return (TSelf)this;
@@ -546,7 +546,7 @@ namespace FluentAssertions.Equivalency
         ///     Instructs the equivalency comparison to prevent trying to convert the value of
         ///     a specific property on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithoutAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        public TSelf WithoutAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
         {
             ConversionSelector.Exclude(predicate);
             return (TSelf)this;
@@ -634,11 +634,11 @@ namespace FluentAssertions.Equivalency
             ///     Allows overriding the way structural equality is applied to particular members.
             /// </summary>
             /// <param name="predicate">
-            ///     A predicate based on the <see cref="ISubjectInfo" /> of the subject that is used to identify the property for which
+            ///     A predicate based on the <see cref="IMemberInfo" /> of the subject that is used to identify the property for which
             ///     the
             ///     override applies.
             /// </param>
-            public TSelf When(Expression<Func<ISubjectInfo, bool>> predicate)
+            public TSelf When(Expression<Func<IMemberInfo, bool>> predicate)
             {
                 options.Using(new AssertionRule<TMember>(predicate, action));
                 return options;

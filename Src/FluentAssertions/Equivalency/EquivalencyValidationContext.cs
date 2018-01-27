@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
         public string SelectedMemberDescription { get; set; }
 
         /// <summary>
-        /// Gets the value of the <see cref="ISubjectInfo.SelectedMemberInfo" />
+        /// Gets the value of the <see cref="IMemberInfo.SelectedMemberInfo" />
         /// </summary>
         public object Subject { get; set; }
 
@@ -56,7 +56,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the compile-time type of the current expectation object. If the current object is not the root object
         /// and the type is not <see cref="object"/>,  then it returns the same <see cref="System.Type"/>
-        /// as the <see cref="ISubjectInfo.RuntimeType"/> property does.
+        /// as the <see cref="IMemberInfo.RuntimeType"/> property does.
         /// </summary>
         public Type CompileTimeType
         {

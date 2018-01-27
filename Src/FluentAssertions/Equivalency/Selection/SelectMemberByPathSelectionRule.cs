@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency.Selection
             get { return false; }
         }
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context,
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context,
             IEquivalencyAssertionOptions config)
         {
             string path = context.SelectedMemberPath;
@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency.Selection
             return OnSelectMembers(selectedMembers, path, context);
         }
 
-        protected abstract IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, string currentPath, ISubjectInfo context);
+        protected abstract IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, string currentPath, IMemberInfo context);
 
         private static bool ContainsIndexingQualifiers(string path)
         {

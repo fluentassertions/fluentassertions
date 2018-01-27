@@ -17,9 +17,9 @@ namespace FluentAssertions.Equivalency.Selection
         }
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-            ISubjectInfo context, IEquivalencyAssertionOptions config)
+            IMemberInfo context, IEquivalencyAssertionOptions config)
         {
-            return selectionRule.SelectMembers(selectedMembers, new CollectionMemberSubjectInfo(context), config);
+            return selectionRule.SelectMembers(selectedMembers, new CollectionMemberMemberInfo(context), config);
         }
 
         public override string ToString()

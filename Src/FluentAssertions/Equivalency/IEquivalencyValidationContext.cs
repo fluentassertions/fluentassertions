@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Provides information on a particular property during an assertion for structural equality of two object graphs.
     /// </summary>
-    public interface IEquivalencyValidationContext : ISubjectInfo
+    public interface IEquivalencyValidationContext : IMemberInfo
     {
         /// <summary>
         /// Gets the value of the <see cref="MatchingExpectationProperty"/>.

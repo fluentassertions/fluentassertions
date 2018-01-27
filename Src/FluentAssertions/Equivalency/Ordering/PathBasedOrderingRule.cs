@@ -17,11 +17,11 @@ namespace FluentAssertions.Equivalency.Ordering
         }
 
         /// <summary>
-        /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="memberInfo"/> is relevant.
         /// </summary>
-        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(IMemberInfo memberInfo)
         {
-            string currentPropertyPath = subjectInfo.SelectedMemberPath;
+            string currentPropertyPath = memberInfo.SelectedMemberPath;
             if (!ContainsIndexingQualifiers(path))
             {
                 currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);

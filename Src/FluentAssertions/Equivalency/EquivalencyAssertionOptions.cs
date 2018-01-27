@@ -12,7 +12,7 @@ using FluentAssertions.Equivalency.Selection;
 namespace FluentAssertions.Equivalency
 {
     // REFACTOR rename to EquivalencyOptions
-    
+
     /// <summary>
     /// Represents the run-time type-specific behavior of a structural equivalency assertion.
     /// </summary>
@@ -54,14 +54,14 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// This overrides the default behavior of including all declared members.
         /// </remarks>
-        public EquivalencyAssertionOptions<TExpectation> Including(Expression<Func<ISubjectInfo, bool>> predicate)
+        public EquivalencyAssertionOptions<TExpectation> Including(Expression<Func<IMemberInfo, bool>> predicate)
         {
             AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
             return this;
         }
 
         /// <summary>
-        /// Causes the collection identified by <paramref name="expression"/> to be compared in the order 
+        /// Causes the collection identified by <paramref name="expression"/> to be compared in the order
         /// in which the items appear in the expectation.
         /// </summary>
         public EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(

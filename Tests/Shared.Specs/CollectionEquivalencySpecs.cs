@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             public bool OverridesStandardIncludeRules => throw new NotImplementedException();
 
             public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-                ISubjectInfo context, IEquivalencyAssertionOptions config)
+                IMemberInfo context, IEquivalencyAssertionOptions config)
             {
                 return context.CompileTimeType.GetNonPrivateProperties().Select(SelectedMemberInfo.Create);
             }
@@ -154,7 +154,7 @@ namespace FluentAssertions.Specs
             public bool OverridesStandardIncludeRules => true;
 
             public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-                ISubjectInfo context, IEquivalencyAssertionOptions config)
+                IMemberInfo context, IEquivalencyAssertionOptions config)
             {
                 return Enumerable.Empty<SelectedMemberInfo>();
             }
