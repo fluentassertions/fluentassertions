@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1093,6 +1094,42 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
+        }
+
+        [Fact]
+        public void When_a_nested_dictionary_value_doesnt_match_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string json = @"{
+                ""NestedDictionary"": {
+                    ""StringProperty"": ""string"",
+                    ""IntProperty"": 123
+                }
+            }";
+
+            var expectedResult = new Dictionary<string, object>
+            {
+                ["NestedDictionary"] = new Dictionary<string, object>
+                {
+                    ["StringProperty"] = "string",
+                    ["IntProperty"] = 123
+                }
+            };
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            Action act = () => result.Should().BeEquivalentTo(expectedResult);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*String*JValue*");
         }
     }
 }

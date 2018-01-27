@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
         }
 
         internal static IEquivalencyValidationContext CreateForCollectionItem<T>(this IEquivalencyValidationContext context,
-            string index, T subject, object expectation)
+            string index, object subject, T expectation)
         {
             string memberDescription = "[" + index + "]";
             string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "item" : context.SelectedMemberDescription + String.Empty;
@@ -47,11 +47,11 @@ namespace FluentAssertions.Equivalency
             };
         }
 
-        internal static IEquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
+        internal static IEquivalencyValidationContext CreateForDictionaryItem<TKey, TExpectation>(
             this IEquivalencyValidationContext context,
             TKey key,
-            TValue subject,
-            object expectation)
+            object subject,
+            TExpectation expectation)
         {
             string memberDescription = "[" + key + "]";
             string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "pair" : context.SelectedMemberDescription + String.Empty;
@@ -65,25 +65,25 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                CompileTimeType = typeof (TValue),
+                CompileTimeType = typeof (TExpectation),
                 RootIsCollection = context.RootIsCollection,
                 Tracer = context.Tracer
             };
         }
 
         internal static IEquivalencyValidationContext CreateWithDifferentSubject(this IEquivalencyValidationContext context,
-            object subject, Type compileTimeType)
+            object convertedSubject, Type expectationType)
         {
             return new EquivalencyValidationContext
             {
-                CompileTimeType = compileTimeType,
+                CompileTimeType = expectationType,
                 Expectation = context.Expectation,
                 SelectedMemberDescription = context.SelectedMemberDescription,
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 SelectedMemberPath = context.SelectedMemberPath,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                Subject = subject,
+                Subject = convertedSubject,
                 Tracer = context.Tracer
             };
         }
