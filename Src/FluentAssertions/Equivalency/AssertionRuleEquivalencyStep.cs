@@ -8,11 +8,11 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     {
-        private readonly Expression<Func<ISubjectInfo, bool>> canHandle;
+        private readonly Expression<Func<IMemberInfo, bool>> canHandle;
 
         private readonly Action<IAssertionContext<TSubject>> handle;
 
-        public AssertionRuleEquivalencyStep(Expression<Func<ISubjectInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
+        public AssertionRuleEquivalencyStep(Expression<Func<IMemberInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
         {
             canHandle = predicate;
             handle = action;
@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Func<ISubjectInfo, bool> predicate = canHandle.Compile();
+            Func<IMemberInfo, bool> predicate = canHandle.Compile();
 
             return ((context.SelectedMemberInfo != null) && predicate(context));
         }

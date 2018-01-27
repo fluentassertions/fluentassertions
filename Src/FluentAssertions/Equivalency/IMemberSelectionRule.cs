@@ -27,6 +27,6 @@ namespace FluentAssertions.Equivalency
         /// <returns>
         /// The collection of members after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config);
+        IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config);
     }
 }

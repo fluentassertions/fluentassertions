@@ -5,10 +5,10 @@ namespace FluentAssertions.Equivalency.Ordering
 {
     internal class PredicateBasedOrderingRule : IOrderingRule
     {
-        private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly Func<IMemberInfo, bool> predicate;
         private readonly string description;
 
-        public PredicateBasedOrderingRule(Expression<Func<ISubjectInfo, bool>> predicate)
+        public PredicateBasedOrderingRule(Expression<Func<IMemberInfo, bool>> predicate)
         {
             description = predicate.Body.ToString();
             this.predicate = predicate.Compile();
@@ -17,11 +17,11 @@ namespace FluentAssertions.Equivalency.Ordering
         public bool Invert { get; set; }
 
         /// <summary>
-        /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="memberInfo"/> is relevant.
         /// </summary>
-        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(IMemberInfo memberInfo)
         {
-            if (predicate(subjectInfo))
+            if (predicate(memberInfo))
             {
                 return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
             }

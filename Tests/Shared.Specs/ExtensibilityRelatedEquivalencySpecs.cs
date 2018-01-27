@@ -85,7 +85,7 @@ namespace FluentAssertions.Specs
                 get { return false; }
             }
 
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
             {
                 return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
             }

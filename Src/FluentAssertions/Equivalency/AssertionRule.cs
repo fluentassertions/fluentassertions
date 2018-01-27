@@ -13,11 +13,11 @@ namespace FluentAssertions.Equivalency
     /// <typeparam name="TSubject">The type of the subject.</typeparam>
     internal class AssertionRule<TSubject> : IAssertionRule
     {
-        private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly Func<IMemberInfo, bool> predicate;
         private readonly Action<IAssertionContext<TSubject>> action;
         private readonly string description;
 
-        public AssertionRule(Expression<Func<ISubjectInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
+        public AssertionRule(Expression<Func<IMemberInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
         {
             this.predicate = predicate.Compile();
             this.action = action;

@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency.Selection
         public override bool IncludesMembers => true;
 
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-            string currentPath, ISubjectInfo context)
+            string currentPath, IMemberInfo context)
         {
             var matchingMembers =
                 from member in context.RuntimeType.GetNonPrivateMembers()

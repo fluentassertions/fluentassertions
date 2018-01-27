@@ -9,9 +9,9 @@ namespace FluentAssertions.Equivalency.Ordering
     /// </summary>
     internal class ByteArrayOrderingRule : IOrderingRule
     {
-        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(IMemberInfo memberInfo)
         {
-            return subjectInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>)) ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
+            return memberInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>)) ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
         }
 
         public override string ToString()

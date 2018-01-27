@@ -32,7 +32,7 @@ namespace FluentAssertions.Equivalency
                 Expectation = context.Expectation,
                 SelectedMemberDescription = context.SelectedMemberDescription,
                 SelectedMemberInfo = context.SelectedMemberInfo,
-                SelectedMemberPath = CollectionMemberSubjectInfo.GetAdjustedPropertyPath(context.SelectedMemberPath),
+                SelectedMemberPath = CollectionMemberMemberInfo.GetAdjustedPropertyPath(context.SelectedMemberPath),
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
                 Subject = context.Subject

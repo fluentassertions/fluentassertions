@@ -11,10 +11,10 @@ namespace FluentAssertions.Equivalency.Selection
     /// </summary>
     internal class IncludeMemberByPredicateSelectionRule : IMemberSelectionRule
     {
-        private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly Func<IMemberInfo, bool> predicate;
         private readonly string description;
 
-        public IncludeMemberByPredicateSelectionRule(Expression<Func<ISubjectInfo, bool>> predicate)
+        public IncludeMemberByPredicateSelectionRule(Expression<Func<IMemberInfo, bool>> predicate)
         {
             description = predicate.Body.ToString();
             this.predicate = predicate.Compile();
@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency.Selection
             get { return true; }
         }
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
         {
             var members = new List<SelectedMemberInfo>(selectedMembers);
 

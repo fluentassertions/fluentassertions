@@ -3,15 +3,15 @@ using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class CollectionMemberSubjectInfo : ISubjectInfo
+    internal class CollectionMemberMemberInfo : IMemberInfo
     {
-        public CollectionMemberSubjectInfo(ISubjectInfo subjectInfo)
+        public CollectionMemberMemberInfo(IMemberInfo memberInfo)
         {
-            CompileTimeType = subjectInfo.CompileTimeType;
-            SelectedMemberDescription = subjectInfo.SelectedMemberDescription;
-            SelectedMemberInfo = subjectInfo.SelectedMemberInfo;
-            SelectedMemberPath = GetAdjustedPropertyPath(subjectInfo.SelectedMemberPath);
-            RuntimeType = subjectInfo.RuntimeType;
+            CompileTimeType = memberInfo.CompileTimeType;
+            SelectedMemberDescription = memberInfo.SelectedMemberDescription;
+            SelectedMemberInfo = memberInfo.SelectedMemberInfo;
+            SelectedMemberPath = GetAdjustedPropertyPath(memberInfo.SelectedMemberPath);
+            RuntimeType = memberInfo.RuntimeType;
         }
 
         internal static string GetAdjustedPropertyPath(string propertyPath)
