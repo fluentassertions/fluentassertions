@@ -1,10 +1,15 @@
-<img src="./docs/images/fluent_assertions.svg.png" width="400">
+# What is this and why do I need this?
+See http://fluentassertions.com for background information, usage documentation, an extensibility guide, support information and more tips & tricks.
 
-***"With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable"*** -[_Girish_](https://twitter.com/girishracharya)
+# Where do I get this?
+https://www.nuget.org/packages/fluentassertions
 
-* See [fluentassertions.com](http://fluentassertions.com/) for more information about this project.
-* Check out the [documentation](http://fluentassertions.com/documentation.html) for the details of the API.
-* The build status is [![Build status](https://ci.appveyor.com/api/projects/status/h60mq3e5uf5tuout/branch/develop?svg=true)](https://ci.appveyor.com/project/dennisdoomen/fluentassertions/branch/develop)
-* Join the chat at the [official Slack channel](https://fluentassertionsslack.herokuapp.com/)
+# How do I build this?
+Install Visual Studio 2017 or JetBrains Rider 2017.1 and Build Tools 2017 and run
+
+`build.ps1`
+
+# Build Status
+[![Build status](https://ci.appveyor.com/api/projects/status/h60mq3e5uf5tuout/branch/master?svg=true)](https://ci.appveyor.com/project/dennisdoomen/fluentassertions/branch/master)
 
 

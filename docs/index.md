@@ -6,6 +6,8 @@ layout: default
 
 ## What is Fluent Assertions?
 
+> "With Fluent Assertions, the assertions look beautiful, natural and most  importantly, extremely readable" -[_Girish_](https://twitter.com/girishracharya)
+
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of unit tests. It offers a plethora of features:
 
 * Targets .NET 4.5, .NET Standard 1.4, 1.6 and 2.0.
@@ -40,6 +42,11 @@ Changes:
 View [Release on GitHub]( {{ release.html_url }} )
     
 {% endfor %}
+
+## How to get help
+* For general questions, check out  [StackOverflow](https://stackoverflow.com/questions/tagged/fluent-assertions?mixed=1).
+* To discuss issues or ask questions to the team directly, use [Slack](https://fluentassertionsslack.herokuapp.com/)
+* To report an issue or request, create an issue on [Github](https://github.com/fluentassertions/fluentassertions/issues).
 
 ## Support us
 As you can imagine, a lot of our private time is put into this wonderful project. Please support us by becoming a sponsor through Patreon. 
