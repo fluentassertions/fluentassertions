@@ -511,8 +511,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    actual.Should().BeEquivalentTo(expectation,
-                        opts => opts.RespectingRuntimeTypes());
+                    actual.Should().BeEquivalentTo(expectation, opts => opts
+                        .RespectingRuntimeTypes()
+                        .ComparingByMembers<CustomerType>()
+                    );
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

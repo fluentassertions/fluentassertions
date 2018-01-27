@@ -15,17 +15,9 @@ namespace FluentAssertions.Specs
     {
         public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
-            private readonly Func<Type, bool> defaultValueTypePredicate;
-
-            protected Given_temporary_global_assertion_options()
-            {
-                defaultValueTypePredicate = AssertionOptions.IsValueType;
-            }
-
             protected override void Dispose(bool disposing)
             {
                 AssertionOptions.AssertEquivalencyUsing(options => new EquivalencyAssertionOptions());
-                AssertionOptions.IsValueType = defaultValueTypePredicate;
 
                 base.Dispose(disposing);
             }
@@ -112,42 +104,6 @@ namespace FluentAssertions.Specs
                 };
 
                 Action act = () => actual.Should().BeEquivalentTo(expected);
-
-                act.Should().NotThrow();
-            }
-        }
-
-        [Collection("Equivalency")]
-        public class When_marking_a_specific_type_as_a_value_type_globally : Given_temporary_global_assertion_options
-        {
-            public When_marking_a_specific_type_as_a_value_type_globally()
-            {
-                When(() =>
-                {
-                    Func<Type, bool> defaultPredicate = AssertionOptions.IsValueType;
-
-                    AssertionOptions.IsValueType =
-                        type => defaultPredicate(type) || (type == typeof(IPAddress));
-                });
-            }
-
-            [Fact]
-            public void Then_this_should_not_throw()
-            {
-                var subject = new
-                {
-                    Address = IPAddress.Parse("1.2.3.4"),
-                    Word = "a"
-                };
-
-                var expected = new
-                {
-                    Address = IPAddress.Parse("1.2.3.4"),
-                    Word = "a"
-                };
-
-                Action act = () => subject.Should().BeEquivalentTo(expected,
-                    options => options.ComparingByValue<IPAddress>());
 
                 act.Should().NotThrow();
             }

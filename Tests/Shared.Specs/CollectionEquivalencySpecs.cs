@@ -1873,7 +1873,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => list1.Should().BeEquivalentTo(list2, config => config.Excluding(ctx => ctx.Key));
+            Action act = () => list1.Should().BeEquivalentTo(list2, config => config
+                .Excluding(ctx => ctx.Key)
+                .ComparingByMembers<KeyValuePair<int, int>>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

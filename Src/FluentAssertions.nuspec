@@ -29,15 +29,20 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
     </frameworkAssemblies>
     <dependencies>
+      <group targetFramework="net45">
+        <dependency id="System.ValueType" version="4.3.0" />
+      </group>
       <group targetFramework="netstandard1.4">
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
         <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+        <dependency id="System.ValueType" version="4.3.0" />
       </group>
       <group targetFramework="netstandard1.6">
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
         <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+          <dependency id="System.ValueType" version="4.3.0" />
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="System.Configuration.ConfigurationManager" version="4.4.0" />
@@ -47,7 +52,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Artifacts\Release\net45\*.*"  target="lib\net45" />
+    <file src="..\Artifacts\Release\net45\*.*"  target="lib\net45" exclude="**\System.*" />
     <file src="..\Artifacts\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
     <file src="..\Artifacts\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
     <file src="..\Artifacts\Release\netstandard2.0\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard2.0" />

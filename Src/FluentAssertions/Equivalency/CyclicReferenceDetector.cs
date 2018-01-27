@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using FluentAssertions.Execution;
@@ -23,7 +24,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the 
+        /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
         /// equivalency validation.
         /// </summary>
         /// <remarks>
@@ -57,7 +58,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// 
+        ///
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>

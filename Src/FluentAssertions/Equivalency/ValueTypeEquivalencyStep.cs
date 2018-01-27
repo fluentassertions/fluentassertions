@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -13,16 +14,18 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type type = config.GetExpectationType(context);
+            EqualityStrategy strategy = config.GetEqualityStrategy(type);
 
-            bool canHandle =
-                (type != null) && 
-                (type != typeof (object)) && 
-                config.IsValueType(type) && 
-                !type.IsArray;
-
+            bool canHandle = (strategy == EqualityStrategy.Equals) || (strategy == EqualityStrategy.ForceEquals);
             if (canHandle)
             {
-                context.TraceSingle(path => $"Treating {path} as a value type");
+                context.TraceSingle(path =>
+                {
+                    string strategyName = (strategy == EqualityStrategy.Equals)
+                        ? "Equals must be used" : "object overrides Equals";
+
+                    return $"Treating {path} as a value type because {strategyName}.";
+                });
             }
 
             return canHandle;

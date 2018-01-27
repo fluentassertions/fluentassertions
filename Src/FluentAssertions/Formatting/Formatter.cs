@@ -83,9 +83,9 @@ namespace FluentAssertions.Formatting
                     throw new InvalidOperationException(
                         $"Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children");
                 }
-                
+
                 isRentry = true;
-                
+
                 var graph = new ObjectGraph(value);
 
                 return Format(value, new FormattingContext
@@ -162,7 +162,7 @@ namespace FluentAssertions.Formatting
         }
 
         /// <summary>
-        /// Tracks the objects that were formatted as well as the path in the object graph of 
+        /// Tracks the objects that were formatted as well as the path in the object graph of
         /// that object.
         /// </summary>
         /// <remarks>

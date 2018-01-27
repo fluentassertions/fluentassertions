@@ -161,6 +161,170 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_object_hides_object_equals_it_should_be_compared_using_its_members()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new VirtualClassOverride
+            {
+                Property = "Value",
+                OtherProperty = "Actual"
+            };
+
+            var expected = new VirtualClassOverride
+            {
+                Property = "Value",
+                OtherProperty = "Expected"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>("*OtherProperty*Expected*Actual*");
+        }
+
+        public class VirtualClass
+        {
+            public string Property { get; set; }
+
+            public new virtual bool Equals(object obj)
+            {
+                return (obj is VirtualClass other) && other.Property.Equals(Property);
+            }
+        }
+
+        public class VirtualClassOverride : VirtualClass
+        {
+            public string OtherProperty { get; set;}
+        }
+
+        [Fact]
+        public void When_treating_a_value_type_in_a_collection_as_a_complex_type_it_should_compare_them_by_members()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[] { new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "SameKey",
+                NestedProperty = "SomeValue"
+            } };
+
+            var expected = new[] { new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "SameKey",
+                NestedProperty = "OtherValue"
+            } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected,
+                options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
+        }
+
+        [Fact]
+        public void When_treating_a_value_type_as_a_complex_type_it_should_compare_them_by_members()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "SameKey",
+                NestedProperty = "SomeValue"
+            };
+
+            var expected = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "SameKey",
+                NestedProperty = "OtherValue"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected,
+                options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
+        }
+
+        [Fact]
+        public void When_treating_a_type_as_value_type_but_it_was_already_marked_as_reference_type_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "Don't care",
+            };
+
+            var expected = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "Don't care",
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = ()  => subject.Should().BeEquivalentTo(expected, options => options
+                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
+                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                $"*compare {nameof(ClassWithValueSemanticsOnSingleProperty)}*value*already*members*");
+        }
+
+        [Fact]
+        public void When_treating_a_type_as_reference_type_but_it_was_already_marked_as_value_type_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "Don't care",
+            };
+
+            var expected = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "Don't care",
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = ()  => subject.Should().BeEquivalentTo(expected, options => options
+                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>()
+                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                $"*compare {nameof(ClassWithValueSemanticsOnSingleProperty)}*members*already*value*");
+        }
+
+        [Fact]
         public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -219,6 +383,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
+
 
         [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
@@ -333,7 +498,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_scenario_it_should_behavior()
+        public void When_nummer_values_are_convertible_it_should_treat_them_as_equivalent()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -350,15 +515,15 @@ namespace FluentAssertions.Specs
                 { "002", 2 }
             };
 
-            actual.Should().BeEquivalentTo(expected, x => x.WithTracing());
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-
+            Action act = () => actual.Should().BeEquivalentTo(expected, x => x.WithTracing());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -3215,6 +3380,37 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Tuples
+
+        [Fact]
+        public void When_a_nested_member_is_a_tuple_it_should_compare_its_property_for_equivalence()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new
+            {
+                Tuple = (new[] {"string1"}, new[] {"string2"})
+            };
+
+            var expected = new
+            {
+                Tuple = (new[] {"string1"}, new[] {"string2"})
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        #endregion
+
         #region Enums
 
         [Fact]
@@ -3463,20 +3659,6 @@ namespace FluentAssertions.Specs
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => new ClassWithNoMembers().Should().BeEquivalentTo(new ClassWithNoMembers());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
-        public void When_asserting_instances_of_a_struct_having_no_memebers_are_equivilent_it_should_fail()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new StructWithNoMembers().Should().BeEquivalentTo(new StructWithNoMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
