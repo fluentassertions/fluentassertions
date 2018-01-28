@@ -98,12 +98,32 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only select the methods that are decorated with, or inherits from a parent class, an attribute of the specified type.
+        /// </summary>
+        public MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : Attribute
+        {
+            selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(true).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
         /// Only select the methods that are not decorated with an attribute of the specified type.
         /// </summary>
         public MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
             selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
+        /// Only select the methods that are not decorated with and does not inherit from a parent class, an attribute of the specified type.
+        /// </summary>
+        public MethodInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : Attribute
+        {
+            selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(true).OfType<TAttribute>().Any());
             return this;
         }
 

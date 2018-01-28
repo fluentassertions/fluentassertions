@@ -55,7 +55,17 @@ namespace FluentAssertions.Types
         public PropertyInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedProperties = selectedProperties.Where(property => property.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            selectedProperties = selectedProperties.Where(property => CustomAttributeExtensions.GetCustomAttributes(property, false).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
+        /// Only select the properties that are decorated with, or inherits from a parent class, an attribute of the specified type.
+        /// </summary>
+        public PropertyInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : Attribute
+        {
+            selectedProperties = selectedProperties.Where(property => CustomAttributeExtensions.GetCustomAttributes(property, true).OfType<TAttribute>().Any());
             return this;
         }
 
@@ -66,6 +76,16 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             selectedProperties = selectedProperties.Where(property => !property.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
+        /// Only select the properties that are not decorated with and does not inherit from a parent class an attribute of the specified type.
+        /// </summary>
+        public PropertyInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : Attribute
+        {
+            selectedProperties = selectedProperties.Where(property => !CustomAttributeExtensions.GetCustomAttributes(property, true).OfType<TAttribute>().Any());
             return this;
         }
 
