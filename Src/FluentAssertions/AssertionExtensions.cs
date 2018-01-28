@@ -311,6 +311,26 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="uint"/>.
+        /// </summary>
+        [Pure]
+        public static NumericAssertions<uint> Should(this uint actualValue)
+        {
+            return new NumericAssertions<uint>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="uint"/>.
+        /// </summary>
+        [Pure]
+        public static NullableNumericAssertions<uint> Should(this uint? actualValue)
+        {
+            return new NullableNumericAssertions<uint>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="decimal"/>.
         /// </summary>
         [Pure]
@@ -351,6 +371,26 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="sbyte"/>.
+        /// </summary>
+        [Pure]
+        public static NumericAssertions<sbyte> Should(this sbyte actualValue)
+        {
+            return new NumericAssertions<sbyte>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="sbyte"/>.
+        /// </summary>
+        [Pure]
+        public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
+        {
+            return new NullableNumericAssertions<sbyte>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="short"/>.
         /// </summary>
         [Pure]
@@ -371,6 +411,26 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="ushort"/>.
+        /// </summary>
+        [Pure]
+        public static NumericAssertions<ushort> Should(this ushort actualValue)
+        {
+            return new NumericAssertions<ushort>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="ushort"/>.
+        /// </summary>
+        [Pure]
+        public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
+        {
+            return new NullableNumericAssertions<ushort>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="long"/>.
         /// </summary>
         [Pure]
@@ -387,6 +447,26 @@ namespace FluentAssertions
         public static NullableNumericAssertions<long> Should(this long? actualValue)
         {
             return new NullableNumericAssertions<long>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="ulong"/>.
+        /// </summary>
+        [Pure]
+        public static NumericAssertions<ulong> Should(this ulong actualValue)
+        {
+            return new NumericAssertions<ulong>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="ulong"/>.
+        /// </summary>
+        [Pure]
+        public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
+        {
+            return new NullableNumericAssertions<ulong>(actualValue);
         }
 
         /// <summary>
