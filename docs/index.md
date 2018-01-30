@@ -6,7 +6,9 @@ layout: default
 
 ## What is Fluent Assertions?
 
-> "With Fluent Assertions, the assertions look beautiful, natural and most  importantly, extremely readable" -[_Girish_](https://twitter.com/girishracharya)
+> With Fluent Assertions, the assertions look beautiful, natural and most  importantly, extremely readable -[_Girish_](https://twitter.com/girishracharya)
+
+> everyone.Should().Like(FluentAssertions, "because everything is so damn cool and readable"); - [Jim Speaker](https://twitter.com/jspeaker) and [Bart Roozendaal](https://twitter.com/BartRoozendaal) 
 
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of unit tests. It offers a plethora of features:
 
