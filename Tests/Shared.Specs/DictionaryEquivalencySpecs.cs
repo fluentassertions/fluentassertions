@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
@@ -312,6 +313,64 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_read_only_dictionary_matches_the_expectation_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
+                new ReadOnlyDictionary<string, IEnumerable<string>>(
+                new Dictionary<string, IEnumerable<string>>()
+            {
+                {"Key2", new[] {"Value2"}},
+                {"Key1", new[] {"Value1"}},
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
+            {
+                {"Key1", new[] {"Value1"}},
+                {"Key2", new[] {"Value2"}},
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_read_only_dictionary_does_not_match_the_expectation_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
+                new ReadOnlyDictionary<string, IEnumerable<string>>(
+                new Dictionary<string, IEnumerable<string>>()
+            {
+                {"Key2", new[] {"Value2"}},
+                {"Key1", new[] {"Value1"}},
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
+            {
+                {"Key2", new[] {"Value3"}},
+                {"Key1", new[] {"Value1"}},
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected item[0]*Value3*Value2*");
         }
 
         [Fact]
