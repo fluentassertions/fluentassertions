@@ -174,7 +174,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    if (type.OverridesEquals() && !type.IsAnonymousType() && !type.IsTuple())
+                    if (type.HasValueSemantics())
                     {
                         strategy =  EqualityStrategy.Equals;
                     }

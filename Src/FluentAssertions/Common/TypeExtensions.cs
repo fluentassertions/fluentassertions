@@ -376,7 +376,18 @@ namespace FluentAssertions.Common
                 );
         }
 
-        public static bool IsAnonymousType(this Type type)
+        public static bool HasValueSemantics(this Type type)
+        {
+            return type.OverridesEquals() &&
+                   !type.IsAnonymousType() && !type.IsTuple() && !IsKeyValuePair(type);
+        }
+
+        private static bool IsKeyValuePair(Type type)
+        {
+            return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
+        }
+
+        private static bool IsAnonymousType(this Type type)
         {
             bool hasCompilerGeneratedAttribute =
                 type.GetTypeInfo().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
@@ -385,7 +396,7 @@ namespace FluentAssertions.Common
             return hasCompilerGeneratedAttribute && nameContainsAnonymousType;
         }
 
-        public static bool IsTuple(this Type type)
+        private static bool IsTuple(this Type type)
         {
             if (!type.GetTypeInfo().IsGenericType)
             {
