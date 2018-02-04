@@ -1,0 +1,23 @@
+- old: |
+    actual.Date.Should().Be(expected.Date);
+
+  new: |
+    actual.Should().BeSameDateAs(expected);
+
+  old-message: |
+    Expected date and time to be <2017-01-01>, but found <2017-01-02>.
+
+  new-message: |
+    Expected a date and time with date <2017-01-01>, but found <2017-01-02 21:00:00>.
+
+- old: |
+    actual.Date.Should().NotBe(unexpected.Date);
+
+  new: |
+    actual.Should().NotBeSameDateAs(unexpected);
+
+  old-message: |
+    Expected date and time not to be <2017-01-01>, but it is.
+
+  new-message: |
+    Expected a date and time that does not have date <2017-01-01>, but found it does.

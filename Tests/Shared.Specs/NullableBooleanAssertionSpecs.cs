@@ -1,0 +1,346 @@
+using System;
+
+using FluentAssertions.Execution;
+using Xunit;
+using Xunit.Sdk;
+
+namespace FluentAssertions.Specs
+{
+
+    public class NullableBooleanAssertionSpecs
+    {
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_have_a_value_it_should_succeed()
+        {
+            bool? nullableBoolean = true;
+            nullableBoolean.Should().HaveValue();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_not_be_null_it_should_succeed()
+        {
+            bool? nullableBoolean = true;
+            nullableBoolean.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail()
+        {
+            bool? nullableBoolean = null;
+            Action act = () => nullableBoolean.Should().HaveValue();
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail()
+        {
+            bool? nullableBoolean = null;
+            Action act = () => nullableBoolean.Should().NotBeNull();
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = null;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected a value because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = null;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected a value because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_have_a_value_it_should_succeed()
+        {
+            bool? nullableBoolean = null;
+            nullableBoolean.Should().NotHaveValue();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_be_null_it_should_succeed()
+        {
+            bool? nullableBoolean = null;
+            nullableBoolean.Should().BeNull();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_not_have_a_value_it_should_fail()
+        {
+            bool? nullableBoolean = true;
+            Action act = () => nullableBoolean.Should().NotHaveValue();
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail()
+        {
+            bool? nullableBoolean = true;
+            Action act = () => nullableBoolean.Should().BeNull();
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_not_have_a_value_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = true;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+                .Should().Throw<XunitException>()
+                .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
+        }
+
+        [Fact]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = true;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
+                .Should().Throw<XunitException>()
+                .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
+        }
+
+        [Fact]
+        public void When_asserting_boolean_null_value_is_false_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().BeFalse("we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected boolean to be false because we want to test the failure message, but found <null>.");
+#else
+                .WithMessage("Expected nullableBoolean to be false because we want to test the failure message, but found <null>.");
+#endif
+
+        }
+
+        [Fact]
+        public void When_asserting_boolean_null_value_is_true_it_sShould_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().BeTrue("we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected boolean to be true because we want to test the failure message, but found <null>.");
+#else
+                .WithMessage("Expected nullableBoolean to be true because we want to test the failure message, but found <null>.");
+#endif
+        }
+
+        [Fact]
+        public void When_asserting_boolean_null_value_to_be_equal_to_different_nullable_boolean_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+            bool? differentNullableBoolean = false;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().Be(differentNullableBoolean, "we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected False because we want to test the failure message, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_boolean_null_value_to_be_equal_to_null_it_sShould_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+            bool? otherNullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().Be(otherNullableBoolean);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_true_is_not_false_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? trueBoolean = true;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                trueBoolean.Should().NotBeFalse();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_null_is_not_false_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? nullValue = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullValue.Should().NotBeFalse();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_false_is_not_false_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? falseBoolean = false;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                falseBoolean.Should().NotBeFalse("we want to test the failure message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected*nullable*boolean*not*False*because we want to test the failure message, but found False.");
+#else
+                .WithMessage("Expected*falseBoolean*not*False*because we want to test the failure message, but found False.");
+#endif
+        }
+
+        [Fact]
+        public void When_asserting_false_is_not_true_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? trueBoolean = false;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                trueBoolean.Should().NotBeTrue();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_null_is_not_true_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? nullValue = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullValue.Should().NotBeTrue();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_true_is_not_true_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            bool? falseBoolean = true;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                falseBoolean.Should().NotBeTrue("we want to test the failure message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected*nullable*boolean*not*True*because we want to test the failure message, but found True.");
+#else
+                .WithMessage("Expected*falseBoolean*not*True*because we want to test the failure message, but found True.");
+#endif
+        }
+
+        [Fact]
+        public void Should_support_chaining_constraints_with_and()
+        {
+            bool? nullableBoolean = true;
+            nullableBoolean.Should()
+                .HaveValue()
+                .And
+                .BeTrue();
+        }
+    }
+}

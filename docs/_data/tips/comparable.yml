@@ -1,0 +1,72 @@
+- old: |
+    actual.Should().BeGreaterThan(0);
+
+  new: |
+    actual.Should().BePositive();
+
+  old-message: |
+    Expected a value greater than 0, but found -1.
+
+  new-message: |
+    Expected positive value, but found -1
+
+- old: |
+    actual.Should().BeLessThan(0);
+
+  new: |
+    actual.Should().BeNegative();
+
+  old-message: |
+    Expected a value less than 0, but found 1.
+
+  new-message: |
+    Expected negative value, but found 1
+
+- old: |
+    (lower <= actual && actual <= upper).Should().BeTrue();
+
+  new: |
+    actual.Should().BeInRange(lower, upper);
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected value to be between 1 and 5, but found 6.
+
+- old: |
+    (lower <= actual && actual <= upper).Should().BeFalse();
+
+  new: |
+    actual.Should().NotBeInRange(lower, upper);
+
+  old-message: |
+    Expected False, but found True.
+
+  new-message: |
+    Expected value to not be between 1 and 5, but found 4.
+
+- old: |
+    actual.Should().BeGreaterOrEqualTo(lower)
+        .And.BeLessOrEqualTo(upper);
+
+  new: |
+    actual.Should().BeInRange(lower, upper);
+
+  old-message: |
+    Expected a value less or equal to 5, but found 6.
+
+  new-message: |
+    Expected value to be between 1 and 5, but found 6.
+
+- old: |
+    Math.Abs(expected - actual).Should().BeLessOrEqualTo(delta);
+
+  new: |
+    actual.Should().BeApproximately(expected, delta);
+
+  old-message: |
+    Expected a value less or equal to 1.0, but found 2.0.
+
+  new-message: |
+    Expected value 6.5 to approximate 4.5 +/- 1.0, but it differed by 2.0.

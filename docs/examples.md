@@ -16,13 +16,13 @@ actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLeng
 To verify that a collection contains a specified number of elements and that all elements match a predicate.
 
 ```c#
-IEnumerable collection = new[] { 1, 2, 3 };
-collection.Should().HaveCount(4, "because we thought we put four items in the collection"))
+IEnumerable numbers = new[] { 1, 2, 3 };
+numbers.Should().HaveCount(4, "because we thought we put four items in the collection"))
 ```
 
 The nice thing about the second failing example is that it will throw an exception with the message
 
-> "Expected <4> items because we thought we put four items in the collection, but found <3>."
+> "Expected numbers to contain 4 item(s) because we thought we put four items in the collection, but found 3."
 
 To verify that a particular business rule is enforced using exceptions.
 
@@ -32,7 +32,7 @@ var recipe = new RecipeBuilder()
                     .Build();
 Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
 action
-                    .ShouldThrow<RuleViolationException>()
+                    .Should().Throw<RuleViolationException>()
                     .WithMessage("change the unit of an existing ingredient", ComparisonMode.Substring)
                     .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
 ```
@@ -47,3 +47,18 @@ xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.
 
 This chaining can make your unit tests a lot easier to read.
 
+## MSTest Migration
+{:.no_toc}
+
+The examples below show how you might write equivalent MSTest assertions using Fluent Assertions including the failure message from each case.
+We think this is both a useful migration guide and a convincing argument for switching.
+
+If you see something missing, please consider submitting a pull request.
+
+* TOC
+{:toc}
+
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="Assert"            examples=site.data.mstest-migration.assert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="CollectionAssert"  examples=site.data.mstest-migration.collectionAssert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="StringAssert"      examples=site.data.mstest-migration.stringAssert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="Exceptions"        examples=site.data.mstest-migration.exceptions %}

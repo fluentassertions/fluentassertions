@@ -1,8 +1,11 @@
-## *"With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable"* (by [Girish](https://twitter.com/girishracharya))
+[![Build status](https://ci.appveyor.com/api/projects/status/h60mq3e5uf5tuout/branch/master?svg=true)](https://ci.appveyor.com/project/dennisdoomen/fluentassertions/branch/master) [![NuGet](https://img.shields.io/nuget/vpre/FluentAssertions.svg)](https://www.nuget.org/packages/FluentAssertions)
 
-* See [fluentassertions.com](http://www.fluentassertions.com/) for more information about this project.
-* Check out the [documentation](http://www.fluentassertions.com/documentation.html) for the details of the API.
-* The build status is [![Build status](https://ci.appveyor.com/api/projects/status/h60mq3e5uf5tuout/branch/develop?svg=true)](https://ci.appveyor.com/project/dennisdoomen/fluentassertions/branch/develop)
-* Join the chat at [![Join the chat at https://gitter.im/dennisdoomen/fluentassertions](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dennisdoomen/fluentassertions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# What is this and why do I need this?
+See http://fluentassertions.com for background information, usage documentation, an extensibility guide, support information and more tips & tricks.
+
+# How do I build this?
+Install Visual Studio 2017 or JetBrains Rider 2017.1 and Build Tools 2017 and run
+
+`build.ps1`
 
 

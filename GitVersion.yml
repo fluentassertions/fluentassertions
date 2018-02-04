@@ -1,0 +1,5 @@
+branches:
+  releases?[/-]:
+    tag: rc
+ignore:
+  sha: []

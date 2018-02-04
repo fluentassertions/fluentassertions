@@ -7,10 +7,12 @@ github_username:  fluentassertions
 google_analytics: UA-99995670-1
 
 header_pages:
-  - about.md
-  - documentation.md
   - examples.md
+  - documentation.md
+  - extensibility.md
+  - tips.md
   - releases.md
+  - about.md
 
 theme: minima
 gems:
