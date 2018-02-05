@@ -72,7 +72,7 @@ namespace FluentAssertions.Execution
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
-            string pattern = @"[^\{]\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+            string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
 
             return Regex.Replace(message, pattern, match =>
             {
