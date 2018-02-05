@@ -250,5 +250,52 @@ namespace FluentAssertions.Specs
             act.Should().ThrowExactly<XunitException>()
                 .WithMessage("*empty*");
         }
+
+        [Fact]
+        public void When_message_starts_with_single_braces_they_should_be_replaced_with_context()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            scope.AddReportable("MyKey", "MyValue");
+
+            AssertionScope.Current.FailWith("{MyKey}");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*MyValue*");
+        }
+
+        [Fact]
+        public void When_message_starts_with_two_single_braces_they_should_be_replaced_with_context()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            scope.AddReportable("SomeKey", "SomeValue");
+            scope.AddReportable("AnotherKey", "AnotherValue");
+
+            AssertionScope.Current.FailWith("{SomeKey}{AnotherKey}");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*SomeValue*AnotherValue*");
+        }
     }
 }
