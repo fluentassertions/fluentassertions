@@ -180,6 +180,17 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns an <see cref="NullableStructAssertions{TSource}"/> object that can be used to assert the
+        /// current nullable struct.
+        /// </summary>
+        [Pure]
+        public static NullableStructAssertions<TSource> Should<TSource>(this TSource? actualValue)
+            where TSource : struct
+        {
+            return new NullableStructAssertions<TSource>(actualValue);
+        }
+
+        /// <summary>
         /// Returns an <see cref="GuidAssertions"/> object that can be used to assert the
         /// current <see cref="Guid"/>.
         /// </summary>
