@@ -29,6 +29,8 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
     </frameworkAssemblies>
     <dependencies>
+      <group targetFramework="net47">
+      </group>
       <group targetFramework="net45">
         <dependency id="System.ValueTuple" version="4.3.0" />
       </group>
@@ -52,6 +54,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\Artifacts\Release\net47\*.*"  target="lib\net47" />
     <file src="..\Artifacts\Release\net45\*.*"  target="lib\net45" exclude="**\System.*" />
     <file src="..\Artifacts\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
     <file src="..\Artifacts\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
