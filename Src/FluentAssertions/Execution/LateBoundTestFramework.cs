@@ -32,7 +32,7 @@ namespace FluentAssertions.Execution
             get
             {
 
-#if !NET45
+#if !NET45 && !NET47
                 // For CoreCLR, we need to attempt to load the assembly
                 try
                 {

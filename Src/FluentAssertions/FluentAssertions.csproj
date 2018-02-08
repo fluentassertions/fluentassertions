@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.4;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net47;netstandard1.4;netstandard1.6;netstandard2.0</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -10,6 +10,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
     <DefineConstants>NET45</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net47'">
+    <DefineConstants>NET47</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\Artifacts\Debug\</OutputPath>
@@ -37,6 +40,10 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    <Reference Include="System.Configuration">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <Reference Include="System.Configuration">
     </Reference>
   </ItemGroup>
