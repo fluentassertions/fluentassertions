@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+    <AssemblyName>FluentAssertions.Net47.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.Net47.Specs</RootNamespace>
+    <DefineConstants>$(DefineConstants);NET47</DefineConstants>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Chill" Version="3.0.1.0" />
+    <PackageReference Include="FakeItEasy" Version="3.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta5-build3769" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta5-build3769" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
+    <ProjectReference Include="..\AssemblyA\AssemblyA.csproj" />
+    <ProjectReference Include="..\AssemblyB\AssemblyB.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" />
+</Project>
