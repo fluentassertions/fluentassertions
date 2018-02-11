@@ -98,6 +98,69 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeEquivalentTo
+        [Fact]
+        public void When_two_instances_are_equivalent_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableCustomer(42);
+            var expected = new CustomerDTO(42);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_two_instances_are_equivalent_due_to_exclusion_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableCustomer(42);
+            var expected = new AnotherCustomerDTO(42)
+            {
+                SomeOtherProperty = 1337
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeEquivalentTo(expected,
+                options => options.Excluding(x => x.SomeOtherProperty),
+                "they have the same property values");
+        }
+
+        [Fact]
+        public void When_two_instances_are_not_equivalent_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableCustomer(42);
+            var expected = new AnotherCustomerDTO(42)
+            {
+                SomeOtherProperty = 1337
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected, "they have the same property values");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expectation has member SomeOtherProperty that the other object does not have*");
+        }
+        #endregion
+
         #region BeNull / NotBeNull
 
         [Fact]
@@ -571,4 +634,40 @@ namespace FluentAssertions.Specs
         }
     }
 
+    public class ComparableCustomer : IComparable<ComparableCustomer>
+    {
+        public ComparableCustomer(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
+
+        public int CompareTo(ComparableCustomer other)
+        {
+            return Id.CompareTo(other.Id);
+        }
+    }
+
+    public class CustomerDTO
+    {
+        public CustomerDTO(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
+    }
+
+    public class AnotherCustomerDTO
+    {
+        public AnotherCustomerDTO(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
+
+        public int SomeOtherProperty { get; set; }
+    }
 }
