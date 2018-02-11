@@ -80,12 +80,18 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
-            return AssertionScope.Current
+            bool conditionMet = AssertionScope.Current
                 .ForCondition(!ReferenceEquals(subject, null))
-                .FailWith("Expected {context:Subject} not to be {0}.", new object[]{null})
-                .Then
-                .ForCondition(IsGenericCollection(subject.GetType()))
-                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", expectation, subject);
+                .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
+
+            if (conditionMet)
+            {
+                conditionMet = AssertionScope.Current
+                    .ForCondition(IsGenericCollection(subject.GetType()))
+                    .FailWith("Expected {context:Subject} to be {0}, but found {1}.", expectation, subject);
+            }
+
+            return conditionMet;
         }
 
         private static bool IsGenericCollection(Type type)
