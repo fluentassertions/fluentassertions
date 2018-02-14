@@ -115,18 +115,26 @@ namespace FluentAssertions.Execution
         /// <param name="because">
         /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why 
         /// the condition should be satisfied. If the phrase does not start with the word <i>because</i>, 
-        /// it is prepended to the message. 
+        /// it is prepended to the message. If the format of <paramref name="because"/> or 
+        /// <paramref name="becauseArgs"/> is not compatible with <see cref="string.Format(string,object[])"/>,
+        /// then a warning message is returned instead.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        /// <exception cref="System.FormatException">
-        /// Thrown if the format of <paramref name="because"/> or <paramref name="becauseArgs"/> is not 
-        /// compatible with <see cref="string.Format(string,object[])"/>.
-        /// </exception>
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
-            reason = () => string.Format(because ?? "", becauseArgs ?? new object[0]);
+            reason = () =>
+            {
+                try
+                {
+                    return string.Format(because ?? "", becauseArgs ?? new object[0]);
+                }
+                catch (FormatException formatException)
+                {
+                    return $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+                }
+            };
             return this;
         }
 
