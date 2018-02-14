@@ -43,7 +43,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NullableStructAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NullableBooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NullableGuidAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NullableNumericAssertionSpecs.cs" />
