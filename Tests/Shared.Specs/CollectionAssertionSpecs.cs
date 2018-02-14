@@ -1847,7 +1847,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*collection*2 item(s)*we treat all alike, but found 3*");
+                "Expected*collection*2 item(s)*we treat all alike, but *1 item(s) more than*");
         }
 
         [Fact]
@@ -1889,7 +1889,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be a collection with 0 item(s), but found 3*");
+                "Expected subject to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
         [Fact]
