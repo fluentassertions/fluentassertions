@@ -193,6 +193,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_invalid_format_is_used_in_because_parameter_it_should_render_default_text()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because message 'use of {} is considered invalid in because parameter' could not be formatted with string.Format*");
+        }
+
+        [Fact]
         public void When_an_assertion_fails_in_a_scope_with_braces_it_should_use_the_name_as_the_assertion_context()
         {
             //-----------------------------------------------------------------------------------------------------------
