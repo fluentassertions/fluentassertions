@@ -10,7 +10,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class NullableSimpleTimeSpanAssertionSpecs
     {
         [Fact]
@@ -58,7 +57,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]

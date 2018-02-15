@@ -17,7 +17,7 @@ namespace FluentAssertions.Events
         /// Clears all recorded events from the monitor and continues monitoring.
         /// </summary>
         void Clear();
-        
+
         /// <summary>
         /// Provides access to several assertion methods.
         /// </summary>
@@ -32,7 +32,7 @@ namespace FluentAssertions.Events
         /// Gets the metadata of all the events that are currently being monitored.
         /// </summary>
         EventMetadata[] MonitoredEvents { get; }
-        
+
         /// <summary>
         /// Gets a collection of all events that have occurred since the monitor was created or
         /// <see cref="Clear"/> was called.
@@ -48,17 +48,17 @@ namespace FluentAssertions.Events
         /// <summary>
         /// The name of the event as defined on the monitored object.
         /// </summary>
-        public string EventName { get; set;}
-        
+        public string EventName { get; set; }
+
         /// <summary>
         /// The parameters that were passed to the event handler.
         /// </summary>
-        public object[] Parameters { get; set;}
-        
+        public object[] Parameters { get; set; }
+
         /// <summary>
         /// The exact date and time of the occurrence in <see cref="DateTimeKind.Local"/>. 
         /// </summary>
-        public DateTime TimestampUtc { get; set;}
+        public DateTime TimestampUtc { get; set; }
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ namespace FluentAssertions.Events
         /// The name of the event member on the monitored object
         /// </summary>
         public string EventName { get; }
-        
+
         /// <summary>
         /// The type of the event handler and event args.
         /// </summary>

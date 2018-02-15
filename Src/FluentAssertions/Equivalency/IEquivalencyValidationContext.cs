@@ -65,5 +65,5 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Defines a function that takes the current path and returns the trace message to log.
     /// </summary>
-    public delegate string GetTraceMessage(string path); 
+    public delegate string GetTraceMessage(string path);
 }

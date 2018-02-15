@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class DateTimeAssertionSpecs
     {
         #region (Not) Have Value
@@ -1126,7 +1125,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
-
         }
         #endregion
 
@@ -1364,13 +1362,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2016, 06, 04 );
-            DateTime expectation = new DateTime( 2016, 06, 05 );
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeOnOrAfter( expectation );
+            Action act = () => subject.Should().BeOnOrAfter(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1379,7 +1377,7 @@ namespace FluentAssertions.Specs
 #if NETCOREAPP1_1
                 .WithMessage("Expected the date and time to be on or after <2016-06-05>, but found <2016-06-04>." );
 #else
-                .WithMessage("Expected subject to be on or after <2016-06-05>, but found <2016-06-04>." );
+                .WithMessage("Expected subject to be on or after <2016-06-05>, but found <2016-06-04>.");
 #endif
         }
 
@@ -1389,13 +1387,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2016, 06, 04 );
-            DateTime expectation = new DateTime( 2016, 06, 05 );
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBeOnOrAfter( expectation );
+            Action act = () => subject.Should().NotBeOnOrAfter(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2758,7 +2756,6 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
-
         #region Be One Of
 
         [Fact]
@@ -2796,7 +2793,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(new [] { value.AddDays(1), value.AddMilliseconds(1)}, "because it's true");
+            Action action = () => value.Should().BeOneOf(new[] { value.AddDays(1), value.AddMilliseconds(1) }, "because it's true");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2817,7 +2814,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             DateTime value = new DateTime(2016, 12, 30, 23, 58, 57);
 
-
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2836,7 +2832,6 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime? value = null;
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2861,7 +2856,6 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime? value = null;
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

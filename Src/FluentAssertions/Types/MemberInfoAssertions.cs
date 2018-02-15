@@ -15,7 +15,7 @@ namespace FluentAssertions.Types
     /// </summary>
     [DebuggerNonUserCode]
     public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
-        where TSubject : MemberInfo 
+        where TSubject : MemberInfo
         where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
     {
         /// <summary>
@@ -73,7 +73,7 @@ namespace FluentAssertions.Types
         {
             string failureMessage = String.Format("Expected {0} {1}" +
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
-                                                  Identifier, SubjectDescription, typeof (TAttribute));
+                                                  Identifier, SubjectDescription, typeof(TAttribute));
 
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 

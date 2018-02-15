@@ -97,7 +97,7 @@ namespace FluentAssertions.Xml
         /// <param name="expected">The expected element</param>
         public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected)
         {
-            return  BeEquivalentTo(expected, string.Empty);
+            return BeEquivalentTo(expected, string.Empty);
         }
 
         /// <summary>

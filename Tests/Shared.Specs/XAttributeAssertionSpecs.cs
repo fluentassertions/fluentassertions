@@ -5,7 +5,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class XAttributeAssertionSpecs
     {
         #region Be / NotBe
@@ -116,7 +115,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            string expectedMessage = string.Format(@"Did not expect XML attribute to be {0}" +
+            string expectedMessage = string.Format("Did not expect XML attribute to be {0}" +
                 " because we want to test the failure message.", sameXAttribute);
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);

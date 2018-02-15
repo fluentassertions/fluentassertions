@@ -1415,7 +1415,6 @@ namespace FluentAssertions.Specs
 
     }
 
-
     internal class DummyBaseClass
     {
     }

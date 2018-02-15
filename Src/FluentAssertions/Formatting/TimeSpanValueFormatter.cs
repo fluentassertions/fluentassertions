@@ -22,7 +22,7 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var timeSpan = (TimeSpan) value;
+            var timeSpan = (TimeSpan)value;
 
             if (timeSpan == TimeSpan.MinValue)
             {

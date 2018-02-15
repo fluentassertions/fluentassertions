@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         {
             unchecked
             {
-                return (@object.GetHashCode()*397) ^ path.GetHashCode();
+                return (@object.GetHashCode() * 397) ^ path.GetHashCode();
             }
         }
 

@@ -49,7 +49,7 @@ namespace FluentAssertions.Events
         public void Attach(WeakReference subject, EventInfo eventInfo)
         {
             EventHandlerType = eventInfo.EventHandlerType;
-            
+
             Delegate handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, this);
             eventInfo.AddEventHandler(subject.Target, handler);
 

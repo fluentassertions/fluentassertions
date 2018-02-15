@@ -134,7 +134,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,  string because = "", params object[] becauseArgs)
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);

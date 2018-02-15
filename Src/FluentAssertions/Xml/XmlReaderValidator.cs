@@ -24,7 +24,7 @@ namespace FluentAssertions.Xml
         public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
         {
             assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
-        
+
             this.subjectReader = subjectReader;
             this.otherReader = otherReader;
         }
@@ -46,11 +46,11 @@ namespace FluentAssertions.Xml
         {
             ValidationResult validationResult = Validate();
 
-            if(expectedEquivalence && validationResult != null)
+            if (expectedEquivalence && validationResult != null)
             {
                 assertion.FailWith(validationResult.FormatString, validationResult.FormatParams);
             }
-            if(!expectedEquivalence && validationResult == null)
+            if (!expectedEquivalence && validationResult == null)
             {
                 assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
             }
@@ -74,13 +74,13 @@ namespace FluentAssertions.Xml
                 {
                     case XmlNodeType.Element:
                         validationResult = ValidateStartElement();
-                        if(validationResult != null)
+                        if (validationResult != null)
                         {
                             return validationResult;
                         }
                         locationStack.Push(subjectReader.LocalName);
                         validationResult = ValidateAttributes();
-                        if(subjectReader.IsEmptyElement)
+                        if (subjectReader.IsEmptyElement)
                         {
                             locationStack.Pop();
                         }
@@ -98,7 +98,7 @@ namespace FluentAssertions.Xml
                         throw new NotSupportedException($"{subjectReader.NodeType} found at {CurrentLocation} is not supported for equivalency comparison.");
                 }
 
-                if(validationResult != null)
+                if (validationResult != null)
                 {
                     return validationResult;
                 }
@@ -125,7 +125,6 @@ namespace FluentAssertions.Xml
             return null;
         }
 
-
         private class AttributeData
         {
             public AttributeData(string namespaceUri, string localName, string value, string prefix)
@@ -145,7 +144,7 @@ namespace FluentAssertions.Xml
             {
                 get
                 {
-                    if(string.IsNullOrEmpty(Prefix))
+                    if (string.IsNullOrEmpty(Prefix))
                     {
                         return LocalName;
                     }

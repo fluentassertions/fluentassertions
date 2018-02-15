@@ -64,7 +64,6 @@ namespace FluentAssertions.Specs
             result.Should().Be("min time span");
         }
 
-        
         [Theory]
         [InlineData("00:00:00.0000007", "0.7µs")]
         [InlineData("-00:00:00.0000007", "-0.7µs")]

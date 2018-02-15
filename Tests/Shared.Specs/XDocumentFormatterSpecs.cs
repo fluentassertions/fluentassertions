@@ -5,7 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XDocumentFormatterSpecs
     {
         [Fact]
@@ -25,7 +24,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(@"<configuration>…</configuration>");
+            result.Should().Be("<configuration>…</configuration>");
         }
 
         [Fact]
@@ -41,7 +40,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(@"[XML document without root element]");
+            result.Should().Be("[XML document without root element]");
         }
     }
 }

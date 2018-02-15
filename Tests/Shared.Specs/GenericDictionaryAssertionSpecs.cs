@@ -8,7 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class GenericDictionaryAssertionSpecs
     {
         // If you try to implement support for IReadOnlyDictionary, these tests should still succeed.
@@ -161,9 +160,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().HaveCount(3);
         }
@@ -173,14 +172,13 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             Action act = () => dictionary.Should().HaveCount(4);
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -192,9 +190,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -217,9 +215,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -236,9 +234,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -261,9 +259,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -327,9 +325,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().NotHaveCount(2);
         }
@@ -339,9 +337,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             Action act = () => dictionary.Should().NotHaveCount(3);
 
@@ -356,9 +354,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -401,9 +399,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().HaveCountGreaterThan(2);
         }
@@ -413,9 +411,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             Action act = () => dictionary.Should().HaveCountGreaterThan(3);
 
@@ -430,9 +428,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -475,9 +473,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().HaveCountGreaterOrEqualTo(3);
         }
@@ -487,9 +485,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(4);
 
@@ -504,9 +502,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -549,9 +547,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().HaveCountLessThan(4);
         }
@@ -561,9 +559,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             Action act = () => dictionary.Should().HaveCountLessThan(3);
 
@@ -578,9 +576,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -623,9 +621,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             dictionary.Should().HaveCountLessOrEqualTo(3);
         }
@@ -635,9 +633,9 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             Action act = () => dictionary.Should().HaveCountLessOrEqualTo(2);
 
@@ -652,9 +650,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -704,12 +702,11 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" }
+                [1] = "One"
             };
 
             Action act = () => dictionary.Should().BeEmpty();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -717,7 +714,7 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" }
+                [1] = "One"
             };
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
@@ -730,7 +727,7 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" }
+                [1] = "One"
             };
             dictionary.Should().NotBeEmpty();
         }
@@ -751,7 +748,6 @@ namespace FluentAssertions.Specs
 
             Action act = () => dictionary.Should().NotBeEmpty();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -813,13 +809,13 @@ namespace FluentAssertions.Specs
         {
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             dictionary1.Should().Equal(dictionary2);
         }
@@ -829,13 +825,13 @@ namespace FluentAssertions.Specs
         {
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, null }
+                [1] = "One",
+                [2] = null
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, null }
+                [1] = "One",
+                [2] = null
             };
             dictionary1.Should().Equal(dictionary2);
         }
@@ -848,13 +844,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 22, "Two" }
+                [1] = "One",
+                [22] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -881,14 +877,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -915,13 +911,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Three" }
+                [1] = "One",
+                [2] = "Three"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -949,8 +945,8 @@ namespace FluentAssertions.Specs
             Dictionary<int, string> dictionary1 = null;
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -977,8 +973,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             Dictionary<int, string> dictionary2 = null;
 
@@ -1003,8 +999,8 @@ namespace FluentAssertions.Specs
             var dictionary1 = new Dictionary<int, string>();
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1028,13 +1024,13 @@ namespace FluentAssertions.Specs
         {
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 22, "Two" }
+                [1] = "One",
+                [22] = "Two"
             };
 
             dictionary1.Should().NotEqual(dictionary2);
@@ -1045,13 +1041,13 @@ namespace FluentAssertions.Specs
         {
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, null }
+                [1] = "One",
+                [2] = null
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             dictionary1.Should().NotEqual(dictionary2);
@@ -1065,13 +1061,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1094,13 +1090,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1115,7 +1111,6 @@ namespace FluentAssertions.Specs
                 "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal because we want to test the failure message.");
         }
 
-
         [Fact]
         public void When_asserting_dictionaries_not_to_be_equal_subject_but_dictionary_is_null_it_should_throw()
         {
@@ -1125,8 +1120,8 @@ namespace FluentAssertions.Specs
             Dictionary<int, string> dictionary1 = null;
             var dictionary2 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1150,8 +1145,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             Dictionary<int, string> dictionary2 = null;
 
@@ -1176,8 +1171,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             var dictionary2 = dictionary1;
 
@@ -1203,8 +1198,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             dictionary.Should().ContainKey(1);
         }
@@ -1217,14 +1212,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "One", "One" },
-                { "Two", "Two" }
+                ["One"] = "One",
+                ["Two"] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1239,8 +1233,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             dictionary.Should().ContainKeys(2, 1);
         }
@@ -1253,8 +1247,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1277,7 +1271,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<string, MyClass>
             {
-                { "Key", new MyClass { SomeProperty = 3} },
+                ["Key"] = new MyClass { SomeProperty = 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1317,7 +1311,7 @@ namespace FluentAssertions.Specs
                     return false;
                 }
 
-                return Equals((MyClass) obj);
+                return Equals((MyClass)obj);
             }
 
             public override int GetHashCode()
@@ -1334,8 +1328,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1358,8 +1352,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1382,8 +1376,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1405,8 +1399,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1428,8 +1422,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1473,8 +1467,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1497,8 +1491,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1525,8 +1519,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1548,7 +1542,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, null }
+                [1] = null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1575,7 +1569,7 @@ namespace FluentAssertions.Specs
 
             var dictionary = new Dictionary<int, MyClass>
             {
-                { 1, myClass }
+                [1] = myClass
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1595,12 +1589,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var myClass = new MyClass {SomeProperty = 0};
+            var myClass = new MyClass { SomeProperty = 0 };
 
             var dictionary = new Dictionary<int, MyClass>
             {
-                {1, myClass},
-                {2, new MyClass {SomeProperty = 0}}
+                [1] = myClass,
+                [2] = new MyClass { SomeProperty = 0 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1609,7 +1603,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     dictionary.Should()
-                        .ContainValue(new MyClass {SomeProperty = 0})
+                        .ContainValue(new MyClass { SomeProperty = 0 })
                         .Which.Should()
                         .BeSameAs(myClass);
 
@@ -1627,8 +1621,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1650,8 +1644,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1674,8 +1668,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1698,8 +1692,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1722,8 +1716,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1745,8 +1739,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1790,8 +1784,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1813,8 +1807,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1837,8 +1831,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1862,8 +1856,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -1882,10 +1876,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" },
-                { 3, "Three" },
-                { 4, "Four" }
+                [1] = "One",
+                [2] = "Two",
+                [3] = "Three",
+                [4] = "Four"
             };
 
             var expectedKeyValuePair1 = new KeyValuePair<int, string>(2, "Two");
@@ -1902,8 +1896,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -1922,8 +1916,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var unexpectedKeyValuePair1 = new KeyValuePair<int, string>(3, "Three");
@@ -1940,8 +1934,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -1957,8 +1951,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -1975,8 +1969,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -1993,8 +1987,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2014,8 +2008,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2044,8 +2038,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2074,8 +2068,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2103,15 +2097,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(3, "Three"),
-                new KeyValuePair<int, string>(4, "Four"),
+                new KeyValuePair<int, string>(4, "Four")
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2134,8 +2128,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2163,8 +2157,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var keyValuePairs = new List<KeyValuePair<int, string>>()
@@ -2195,7 +2189,7 @@ namespace FluentAssertions.Specs
             List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(1, "Two")
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2219,8 +2213,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>();
 
@@ -2244,8 +2238,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             List<KeyValuePair<int, string>> keyValuePairs = null;
 
@@ -2271,7 +2265,7 @@ namespace FluentAssertions.Specs
             List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(1, "Two")
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2295,8 +2289,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             List<KeyValuePair<int, string>> keyValuePair = new List<KeyValuePair<int, string>>();
 
@@ -2320,8 +2314,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
             List<KeyValuePair<int, string>> keyValuePairs = null;
 
@@ -2345,8 +2339,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2363,7 +2357,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, null }
+                [1] = null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2380,8 +2374,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2403,8 +2397,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2422,8 +2416,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2447,14 +2441,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             var items = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "Two"),
-                new KeyValuePair<int, string>(2, "Three"),
+                new KeyValuePair<int, string>(2, "Three")
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2477,8 +2471,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2501,8 +2495,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2546,8 +2540,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2564,8 +2558,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2582,7 +2576,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, null },
+                [1] = null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2604,8 +2598,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2627,8 +2621,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2646,8 +2640,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2671,8 +2665,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2700,8 +2694,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2746,8 +2740,8 @@ namespace FluentAssertions.Specs
         {
             var dictionary = new Dictionary<int, string>
             {
-                { 1, "One" },
-                { 2, "Two" }
+                [1] = "One",
+                [2] = "Two"
             };
 
             dictionary.Should()

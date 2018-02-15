@@ -184,9 +184,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new byte[] {1, 2, 3, 4, 5, 6};
+            var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
 
-            var expectation = new byte[] {6, 5, 4, 3, 2, 1};
+            var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -580,8 +580,8 @@ namespace FluentAssertions.Specs
                     },
                     Collection = new[]
                     {
-                        new {Number = 1, Text = "Text"},
-                        new {Number = 2, Text = "Actual"}
+                        new { Number = 1, Text = "Text" },
+                        new { Number = 2, Text = "Actual" }
                     }
                 }
             };
@@ -598,8 +598,8 @@ namespace FluentAssertions.Specs
                     },
                     Collection = new[]
                     {
-                        new {Number = 1, Text = "Text"},
-                        new {Number = 2, Text = "Expected"}
+                        new { Number = 1, Text = "Text" },
+                        new { Number = 2, Text = "Expected" }
                     }
                 }
             };
@@ -628,8 +628,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    ["Key2"] = "Value2",
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -637,8 +637,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    ["Key1"] = "Value1",
+                    ["Key2"] = "Value2"
                 }
             };
 
@@ -701,7 +701,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.Should().BeEquivalentTo(new[] {expected}, options => options.Including(x => x.A));
+            Action act = () => result.Should().BeEquivalentTo(new[] { expected }, options => options.Including(x => x.A));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -717,8 +717,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new List<Car> {new Car()};
-            ICollection collection2 = new List<Customer> {new Customer()};
+            ICollection collection1 = new List<Car> { new Car() };
+            ICollection collection2 = new List<Customer> { new Customer() };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -740,9 +740,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<SomeDto>
             {
-                new SomeDto {Name = "someDto", Age = 1},
-                new SomeDto {Name = "someDto", Age = 1},
-                new SomeDto {Name = "someDto", Age = 1}
+                new SomeDto { Name = "someDto", Age = 1 },
+                new SomeDto { Name = "someDto", Age = 1 },
+                new SomeDto { Name = "someDto", Age = 1 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -767,7 +767,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new[] {1, 2, 3};
+            var subject = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -814,7 +814,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
                 },
                 new
                 {
@@ -828,7 +828,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
                 },
                 new
                 {
@@ -861,7 +861,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
                 },
                 new
                 {
@@ -875,7 +875,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
                 },
                 new
                 {
@@ -913,7 +913,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
                 },
                 new
                 {
@@ -927,7 +927,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
                 },
                 new
                 {
@@ -957,8 +957,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new NonGenericCollection(new[] {new Customer()});
-            ICollection collection2 = new NonGenericCollection(new[] {new Car()});
+            ICollection collection1 = new NonGenericCollection(new[] { new Customer() });
+            ICollection collection2 = new NonGenericCollection(new[] { new Car() });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -980,8 +980,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection1 = new Collection<CustomerType> {new DerivedCustomerType("123")};
-            var collection2 = new Collection<CustomerType> {new CustomerType("123")};
+            var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
+            var collection2 = new Collection<CustomerType> { new CustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1000,8 +1000,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection subject = new NonGenericCollection(new[] {new Customer()});
-            ICollection expectation = new NonGenericCollection(new[] {new Car()});
+            ICollection subject = new NonGenericCollection(new[] { new Customer() });
+            ICollection expectation = new NonGenericCollection(new[] { new Car() });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1123,8 +1123,8 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            IList<MyObject> actualList = new List<MyObject> {actual};
-            IList<MyObject> expectationList = new List<MyObject> {expectation};
+            IList<MyObject> actualList = new List<MyObject> { actual };
+            IList<MyObject> expectationList = new List<MyObject> { expectation };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1254,8 +1254,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var list1 = new[] {new {Value = 3}};
-            var list2 = new[] {new {Value = 2}};
+            var list1 = new[] { new { Value = 3 } };
+            var list2 = new[] { new { Value = 2 } };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1486,8 +1486,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    ["Key1"] = "Value1",
+                    ["Key2"] = "Value2"
                 }
             };
 
@@ -1495,7 +1495,7 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"}
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -1526,8 +1526,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    ["Key2"] = "Value2",
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -1551,16 +1551,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var company1 = new MyCompany {Name = "Company"};
-            var user1 = new MyUser {Name = "User", Company = company1};
-            company1.Users = new List<MyUser> {user1};
-            var logo1 = new MyCompanyLogo {Url = "blank", Company = company1, CreatedBy = user1};
+            var company1 = new MyCompany { Name = "Company" };
+            var user1 = new MyUser { Name = "User", Company = company1 };
+            company1.Users = new List<MyUser> { user1 };
+            var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
             company1.Logo = logo1;
 
-            var company2 = new MyCompany {Name = "Company"};
-            var user2 = new MyUser {Name = "User", Company = company2};
-            company2.Users = new List<MyUser> {user2};
-            var logo2 = new MyCompanyLogo {Url = "blank", Company = company2, CreatedBy = user2};
+            var company2 = new MyCompany { Name = "Company" };
+            var user2 = new MyUser { Name = "User", Company = company2 };
+            company2.Users = new List<MyUser> { user2 };
+            var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1889,8 +1889,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var list1 = new[] {new KeyValuePair<int, int>(1, 123)};
-            var list2 = new[] {new KeyValuePair<int, int>(2, 321)};
+            var list1 = new[] { new KeyValuePair<int, int>(1, 123) };
+            var list2 = new[] { new KeyValuePair<int, int>(2, 321) };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1914,9 +1914,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int?>
             {
-                {"C", null},
-                {"B", 0},
-                {"A", 0}
+                ["C"] = null,
+                ["B"] = 0,
+                ["A"] = 0
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1924,9 +1924,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
-                {"A", 0},
-                {"B", 0},
-                {"C", null}
+                ["A"] = 0,
+                ["B"] = 0,
+                ["C"] = null
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1943,9 +1943,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int>
             {
-                {"C", 0},
-                {"B", 0},
-                {"A", 0}
+                ["C"] = 0,
+                ["B"] = 0,
+                ["A"] = 0
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1953,9 +1953,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int>
             {
-                {"A", 0},
-                {"B", 0},
-                {"C", 0}
+                ["A"] = 0,
+                ["B"] = 0,
+                ["C"] = 0
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2138,7 +2138,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, null}
+                    [1] = null
                 }
             };
 
@@ -2146,7 +2146,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, null}
+                    [1] = null
                 }
             };
 
@@ -2197,7 +2197,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, "Bla1"}
+                    [1] = "Bla1"
                 }
             };
 
@@ -2205,7 +2205,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, "Bla2"}
+                    [1] = "Bla2"
                 }
             };
 

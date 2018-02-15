@@ -74,7 +74,7 @@ namespace FluentAssertions.Execution
             TExpected[] expected, Func<TActual[], TExpected[], int> findIndex)
         {
             givenSelector
-                .Given(actual => new {Items = actual, Index = findIndex(actual, expected)})
+                .Given(actual => new { Items = actual, Index = findIndex(actual, expected) })
                 .ForCondition(diff => diff.Index == -1)
                 .FailWith("but {0} differs at index {1}.", diff => diff.Items, diff => diff.Index);
         }

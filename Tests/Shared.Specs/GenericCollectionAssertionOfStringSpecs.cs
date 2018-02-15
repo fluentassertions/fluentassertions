@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             Action act = () => collection.Should().HaveCount(4);
 
             act.Should().Throw<XunitException>();
@@ -25,8 +25,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subject = new[] {"one", "two"};
-            IEnumerable<string> otherSet = new[] {"one", "two", "three"};
+            IEnumerable<string> subject = new[] { "one", "two" };
+            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_fail_when_asserting_collection_with_items_is_empty()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             Action act = () => collection.Should().BeEmpty();
 
             act.Should().Throw<XunitException>();
@@ -56,30 +56,30 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should().HaveCount(3);
         }
 
         [Fact]
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
         {
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
             collection1.Should().Equal(collection2);
         }
 
         [Fact]
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_list_of_elements()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should().Equal("one", "two", "three");
         }
 
         [Fact]
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
         {
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"three", "one", "two"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one", "two" };
             collection1.Should()
                 .NotEqual(collection2);
         }
@@ -90,8 +90,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"three", "one"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -102,7 +102,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three", "four"};
+            IEnumerable<string> collection = new[] { "one", "two", "three", "four" };
             collection.Should().OnlyHaveUniqueItems();
         }
 
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should()
                 .HaveCount(3)
                 .And
@@ -130,7 +130,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -150,7 +150,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "two", "three", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "two", "three", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -170,7 +170,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "one", "three", "twelve", "two", "two"};
+            IEnumerable<string> collection = new[] { "one", "two", "one", "three", "twelve", "two", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -190,7 +190,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new[] {"one", "two", "three"}.Should().ContainInOrder(new[] {"four", "one"}, "we failed");
+            Action act = () => new[] { "one", "two", "three" }.Should().ContainInOrder(new[] { "four", "one" }, "we failed");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -206,12 +206,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(new[] {"three", "four", "five"}, "because {0}", "we do");
+            Action act = () => collection.Should().Contain(new[] { "three", "four", "five" }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -226,7 +226,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -246,8 +246,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subject = new[] {"one", "two", "four"};
-            IEnumerable<string> otherSet = new[] {"one", "two", "three"};
+            IEnumerable<string> subject = new[] { "one", "two", "four" };
+            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -261,7 +261,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subset = new[] {"one", "two", "three"};
+            IEnumerable<string> subset = new[] { "one", "two", "three" };
             IEnumerable<string> superset = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -282,8 +282,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new List<string> {"ONE", "TWO", "THREE", "FOUR"};
-            var expected = new List<string> {"One", "Two", "Three", "Four"};
+            var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
+            var expected = new List<string> { "One", "Two", "Three", "Four" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -304,7 +304,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var collection1 = new string[0];
-            IEnumerable<string> collection2 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -329,7 +329,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> subset = new string[0];
-            IEnumerable<string> superset = new[] {"one", "two", "four", "five"};
+            IEnumerable<string> superset = new[] { "one", "two", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -349,7 +349,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> subject = new string[] { };
-            IEnumerable<string> otherSet = new[] {"one", "two", "three"};
+            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -373,8 +373,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new List<string> {"ONE", "TWO", "THREE", "FOUR"};
-            var expected = new List<string> {"One", "Two", "Three", "Five"};
+            var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
+            var expected = new List<string> { "One", "Two", "Three", "Five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -397,8 +397,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var expected = new List<string> {"hello", "world"};
-            var actual = new List<string> {"hello", "world"};
+            var expected = new List<string> { "hello", "world" };
+            var actual = new List<string> { "hello", "world" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -417,7 +417,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -436,12 +436,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(new[] {"two", "one"});
+            Action act = () => collection.Should().Contain(new[] { "two", "one" });
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -462,7 +462,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => strings.Should()
-                    .ContainInOrder(new[] {"string4"}, "because we're checking how it reacts to a null subject");
+                    .ContainInOrder(new[] { "string4" }, "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -564,7 +564,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = collection;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -627,7 +627,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = collection;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -667,7 +667,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should().NotBeEmpty();
         }
 
@@ -693,7 +693,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
             IEnumerable<string> collection2 = collection1;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -715,7 +715,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> collection1 = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -738,7 +738,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -760,7 +760,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> actual = null;
-            IEnumerable<string> expectation = new[] {"one", "two", "three"};
+            IEnumerable<string> expectation = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -785,7 +785,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> collection1 = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -808,7 +808,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -830,7 +830,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -856,7 +856,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -878,7 +878,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -899,7 +899,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -921,7 +921,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -943,7 +943,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = collection;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -965,8 +965,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "five", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "five", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -985,8 +985,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -1002,8 +1002,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
-            IEnumerable<string> otherCollection = new[] {"two", "three", "four"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "two", "three", "four" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1025,8 +1025,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
-            IEnumerable<string> otherCollection = new[] {"three", "four", "five"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "three", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1040,8 +1040,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
-            IEnumerable<string> otherCollection = new[] {"four", "five"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1055,8 +1055,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
-            IEnumerable<string> otherCollection = new[] {"four", "five"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1096,8 +1096,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -1116,8 +1116,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "five", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "five", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -1133,7 +1133,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1153,7 +1153,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"", null, "", null};
+            IEnumerable<string> collection = new[] { "", null, "", null };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1173,7 +1173,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", null, "two", "string"};
+            IEnumerable<string> collection = new[] { "one", null, "two", "string" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1187,7 +1187,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"", null};
+            IEnumerable<string> collection = new[] { "", null };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1207,7 +1207,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1268,7 +1268,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1288,7 +1288,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1307,7 +1307,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1321,7 +1321,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1335,7 +1335,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1355,7 +1355,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1375,7 +1375,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1390,7 +1390,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1411,7 +1411,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1431,7 +1431,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1474,7 +1474,7 @@ namespace FluentAssertions.Specs
                 "Expected collection to be <null> because null is valid, but found {empty}.");
 #else
                 "Expected someCollection to be <null> because null is valid, but found {empty}.");
-    #endif
+#endif
         }
 
         [Fact]
@@ -1483,8 +1483,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subset = new[] {"one", "two", "three", "six"};
-            IEnumerable<string> superset = new[] {"one", "two", "four", "five"};
+            IEnumerable<string> subset = new[] { "one", "two", "three", "six" };
+            IEnumerable<string> superset = new[] { "one", "two", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1547,8 +1547,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subset = new[] {"one", "two"};
-            IEnumerable<string> superset = new[] {"one", "two", "three"};
+            IEnumerable<string> subset = new[] { "one", "two" };
+            IEnumerable<string> superset = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1562,8 +1562,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"three", "one", "two"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1587,8 +1587,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three", "one"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "three", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three", "one" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1608,8 +1608,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -1628,8 +1628,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<string> firstCollection = new[] {"one", "two", "three"};
-            IEnumerable<string> secondCollection = new[] {"four", "five", "six"};
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "five", "six" };
 
             StringCollectionAssertions extensions = firstCollection.Should();
 
@@ -1648,7 +1648,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
             IEnumerable<string> collection2 = new string[0];
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1668,7 +1668,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new[] {"one", "two", "three"}.Should().ContainInOrder(null);
+            Action act = () => new[] { "one", "two", "three" }.Should().ContainInOrder(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1683,7 +1683,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
             IEnumerable<string> collection2 = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1704,7 +1704,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             IEnumerable<string> collection1 = collection;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1726,7 +1726,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> subject = new[] {"one", "two", "three"};
+            IEnumerable<string> subject = new[] { "one", "two", "three" };
             IEnumerable<string> otherCollection = new string[0];
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1747,7 +1747,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
             IEnumerable<string> collection2 = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1772,7 +1772,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1794,7 +1794,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1814,7 +1814,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1833,7 +1833,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "three", "two"};
+            IEnumerable<string> collection = new[] { "one", "two", "three", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1867,8 +1867,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "five"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1893,8 +1893,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "three", "four"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three", "four" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1919,8 +1919,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1944,7 +1944,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "one", "two", "twelve", "two", "two"};
+            IEnumerable<string> collection = new[] { "one", "two", "one", "two", "twelve", "two", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1958,8 +1958,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"three", "two", "one"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "two", "one" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1974,7 +1974,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                new[] {"one", "two", "three"}.Should().ContainInOrder(new[] {"three", "one"}, "because we said so");
+                new[] { "one", "two", "three" }.Should().ContainInOrder(new[] { "three", "one" }, "because we said so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1989,7 +1989,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] {"one", "two", "two", "three"};
+            IEnumerable<string> collection = new[] { "one", "two", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2003,8 +2003,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<string> {"aaa", null};
-            var expected = new List<string> {"aaa", null};
+            var subject = new List<string> { "aaa", null };
+            var expected = new List<string> { "aaa", null };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2023,8 +2023,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2044,8 +2044,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] {"one", "two", "three"};
-            IEnumerable<string> collection2 = new[] {"one", "two", "three"};
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2070,7 +2070,7 @@ namespace FluentAssertions.Specs
                 from method in methodInfo
                 where !method.IsSpecialName // Exclude Properties
                 where method.DeclaringType != typeof(object)
-                select new {method.Name, method.ReturnType};
+                select new { method.Name, method.ReturnType };
 
             methods.Should().OnlyContain(method =>
                 typeof(AndConstraint<StringCollectionAssertions>)

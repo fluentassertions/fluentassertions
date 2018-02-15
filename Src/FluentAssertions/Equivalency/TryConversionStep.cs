@@ -82,7 +82,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return  selector.ToString();
+            return selector.ToString();
         }
     }
 }

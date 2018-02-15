@@ -18,7 +18,7 @@ namespace FluentAssertions.Types
         {
             Subject = constructorInfo;
         }
-        
+
         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
         {
             return String.Format("{0}({1})",

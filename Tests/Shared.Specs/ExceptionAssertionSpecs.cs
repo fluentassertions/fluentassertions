@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-
 using FakeItEasy;
 
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
 {
-
     public class ExceptionAssertionSpecs
     {
         [Fact]
@@ -19,14 +17,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action a = () => { throw new ArgumentNullException(); };
+            Action act = () => throw new ArgumentNullException();
 
             try
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
                 throw new XunitException("This point should not be reached.");
             }
@@ -45,12 +43,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action a = () => { throw new ArgumentNullException(); };
+            Action act = () => throw new ArgumentNullException();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.Should().ThrowExactly<ArgumentNullException>();
+            act.Should().ThrowExactly<ArgumentNullException>();
         }
 
         #region Outer Exceptions
@@ -340,7 +338,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Fact]
         public void When_subject_throws_exception_with_message_with_braces_but_a_different_message_is_expected_it_should_report_that()
         {
@@ -428,14 +425,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
-            Action a = () => { throw new BadImageFormatException("", innerException); };
+            Action act = () => throw new BadImageFormatException("", innerException);
 
             try
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.Should().Throw<BadImageFormatException>()
+                act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>();
 
                 throw new XunitException("This point should not be reached.");
@@ -457,12 +454,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action a = () => { throw new BadImageFormatException("", new ArgumentNullException()); };
+            Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.Should().Throw<BadImageFormatException>()
+            act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>();
         }
 
@@ -474,14 +471,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
-            Action a = () => { throw new BadImageFormatException("", innerException); };
+            Action act = () => throw new BadImageFormatException("", innerException);
 
             try
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.Should().Throw<BadImageFormatException>()
+                act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
 
                 throw new XunitException("This point should not be reached.");
@@ -503,12 +500,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action a = () => { throw new BadImageFormatException("", new ArgumentNullException()); };
+            Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            a.Should().Throw<BadImageFormatException>()
+            act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
         }
 
@@ -686,7 +683,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => { throw new ArgumentException(""); };
+            Action act = () => throw new ArgumentException("");
 
             try
             {
@@ -715,7 +712,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => { throw new ArgumentException("Fail"); };
+            Action act = () => throw new ArgumentException("Fail");
 
             try
             {
@@ -741,7 +738,6 @@ namespace FluentAssertions.Specs
             {
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
-
             }
         }
 
@@ -751,7 +747,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => { throw new ArgumentException(""); };
+            Action act = () => throw new ArgumentException("");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -791,7 +787,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action throwException = () => { throw new ExceptionWithEmptyToString(); };
+            Action throwException = () => throw new ExceptionWithEmptyToString();
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -805,7 +801,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     string.Format("*System.ArgumentNullException*{0}*",
-                        typeof (ExceptionWithEmptyToString)));
+                        typeof(ExceptionWithEmptyToString)));
         }
 
         #endregion

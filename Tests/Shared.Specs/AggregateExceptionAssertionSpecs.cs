@@ -4,7 +4,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Net40.Specs
 {
-    
     public class AggregateExceptionAssertionSpecs
     {
         [Fact]
@@ -20,7 +19,7 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => { throw exception; };
+            Action act = () => throw exception;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

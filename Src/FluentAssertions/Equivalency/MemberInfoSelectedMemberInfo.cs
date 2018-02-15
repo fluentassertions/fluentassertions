@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
                 return false;
             }
 
-            return Equals((MemberInfoSelectedMemberInfo) obj);
+            return Equals((MemberInfoSelectedMemberInfo)obj);
         }
 
         public override int GetHashCode()

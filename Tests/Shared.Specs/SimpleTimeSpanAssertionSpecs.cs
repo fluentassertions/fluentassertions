@@ -10,7 +10,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class SimpleTimeSpanAssertionSpecs
     {
         [Fact]
@@ -24,7 +23,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Negate().Should().BePositive();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -47,7 +45,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeNegative();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -70,7 +67,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().Be(2.Seconds());
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -79,7 +75,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.Be(2.Seconds(), "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Expected 2s because we want to test the failure message, but found 1s.");
+                .WithMessage("Expected 2s because we want to test the failure message, but found 1s.");
         }
 
         [Fact]
@@ -94,7 +90,6 @@ namespace FluentAssertions.Specs
             var oneSecond = 1.Seconds();
             Action act = () => oneSecond.Should().NotBe(oneSecond);
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -104,7 +99,7 @@ namespace FluentAssertions.Specs
             var assertions = oneSecond.Should();
             assertions.Invoking(x => x.NotBe(oneSecond, "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
-                .WithMessage(@"Did not expect 1s because we want to test the failure message.");
+                .WithMessage("Did not expect 1s because we want to test the failure message.");
         }
 
         [Fact]
@@ -118,7 +113,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeGreaterThan(2.Seconds());
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -127,7 +121,6 @@ namespace FluentAssertions.Specs
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeGreaterThan(twoSeconds);
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -157,7 +150,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeGreaterOrEqualTo(2.Seconds());
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -180,7 +172,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 2.Seconds().Should().BeLessThan(1.Seconds());
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -189,7 +180,6 @@ namespace FluentAssertions.Specs
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeLessThan(twoSeconds);
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -219,7 +209,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 2.Seconds().Should().BeLessOrEqualTo(1.Seconds());
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]

@@ -699,20 +699,20 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> HaveOffset( TimeSpan expected, string because = "",
-            params object[] becauseArgs )
+        public AndConstraint<DateTimeOffsetAssertions> HaveOffset(TimeSpan expected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
-                .ForCondition( Subject.HasValue )
-                .BecauseOf( because, becauseArgs )
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition( Subject.Value.Offset == expected)
-                .BecauseOf( because, becauseArgs )
+                .ForCondition(Subject.Value.Offset == expected)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Second);
 
-            return new AndConstraint<DateTimeOffsetAssertions>( this );
+            return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
 
         /// <summary>
@@ -726,20 +726,20 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> NotHaveOffset( TimeSpan unexpected, string because = "",
-            params object[] becauseArgs )
+        public AndConstraint<DateTimeOffsetAssertions> NotHaveOffset(TimeSpan unexpected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
-                .ForCondition( Subject.HasValue )
-                .BecauseOf( because, becauseArgs )
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition( Subject.Value.Offset != unexpected )
-                .BecauseOf( because, becauseArgs )
+                .ForCondition(Subject.Value.Offset != unexpected)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.");
 
-            return new AndConstraint<DateTimeOffsetAssertions>( this );
+            return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
 
         /// <summary>

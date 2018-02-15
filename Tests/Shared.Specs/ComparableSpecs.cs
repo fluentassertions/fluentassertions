@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class ComparableSpecs
     {
         #region Be / Not Be

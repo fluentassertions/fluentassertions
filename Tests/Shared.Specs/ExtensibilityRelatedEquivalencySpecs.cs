@@ -613,7 +613,7 @@ namespace FluentAssertions.Specs
                 () =>
                     subject.Should().BeEquivalentTo(expected,
                         opts =>
-                            opts.Using<object>(context => { throw new Exception(); })
+                            opts.Using<object>(context => throw new Exception())
                                 .When(s => true)
                                 .Using<object>(context => { })
                                 .When(s => true));
@@ -683,7 +683,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected*123*123*");
         }
 
-
         [Fact]
         public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
         {
@@ -733,7 +732,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<NotSupportedException>();
         }
-
 
         internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep where TException : Exception, new()
         {

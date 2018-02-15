@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class XElementAssertionSpecs
     {
         #region Be / NotBe
@@ -379,8 +378,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -400,8 +399,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /><child2 /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -421,8 +420,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /><child2 /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -442,8 +441,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /><child2 /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -464,8 +463,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /><child2 /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -486,8 +485,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /><child2 /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -507,8 +506,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /><child2 /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -528,8 +527,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -571,7 +570,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var element = XElement.Parse(@"<xml xmlns:ns1=""a"" />");
-            var otherXElement = XElement.Parse(@"<xml />");
+            var otherXElement = XElement.Parse("<xml />");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -612,8 +611,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -634,7 +633,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<parent><child /></parent>");
+            var element = XElement.Parse("<parent><child /></parent>");
             var sameXelement = element;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -832,7 +831,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<user>grega</user>");
+            var element = XElement.Parse("<user>grega</user>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -852,7 +851,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<user>grega</user>");
+            var element = XElement.Parse("<user>grega</user>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -872,7 +871,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse(@"<user>grega</user>");
+            var element = XElement.Parse("<user>grega</user>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1132,7 +1131,6 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-
         [Fact]
         public void When_asserting_element_has_child_element_with_ns_and_it_does_it_should_succeed()
         {
@@ -1256,7 +1254,6 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
-
         [Fact]
         public void When_asserting_element_has_child_element_it_should_return_the_matched_element_in_the_which_property()
         {
@@ -1272,7 +1269,6 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             var matchedElement = element.Should().HaveElement("child").Subject;
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

@@ -32,7 +32,7 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            if (value.GetType() == typeof (object))
+            if (value.GetType() == typeof(object))
             {
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
@@ -101,7 +101,7 @@ namespace FluentAssertions.Formatting
 
         private static string CreateWhitespaceForLevel(int level)
         {
-            return new string(' ', level*SpacesPerIndentionLevel);
+            return new string(' ', level * SpacesPerIndentionLevel);
         }
     }
 }

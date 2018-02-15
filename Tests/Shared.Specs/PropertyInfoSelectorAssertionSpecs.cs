@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class PropertyInfoSelectorAssertionSpecs
     {
         [Fact]
@@ -330,7 +329,7 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithAllPropertiesVirtual
     {
-        public virtual string PublicVirtualProperty { set {} }
+        public virtual string PublicVirtualProperty { set { } }
 
         internal virtual string InternalVirtualProperty { get { return null; } }
 

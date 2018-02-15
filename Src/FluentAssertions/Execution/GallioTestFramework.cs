@@ -36,15 +36,15 @@ namespace FluentAssertions.Execution
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
             object assertionFailure;
-            var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new [] {typeof(string)});
-            setMessageMethod.Invoke(assertionFailureBuilder, new object[] {message});
+            var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new[] { typeof(string) });
+            setMessageMethod.Invoke(assertionFailureBuilder, new object[] { message });
 
             var toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
             assertionFailure = toAssertionFailureMethod.Invoke(assertionFailureBuilder, null);
             try
             {
                 var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
-                failMethod.Invoke(null, new[] {assertionFailure});
+                failMethod.Invoke(null, new[] { assertionFailure });
             }
             catch (TargetInvocationException ex)
             {
@@ -59,7 +59,6 @@ namespace FluentAssertions.Execution
         {
             get
             {
-
 #if !NET45 && !NET47
                 // For CoreCLR, we need to attempt to load the assembly
                 try

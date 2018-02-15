@@ -13,7 +13,7 @@ namespace FluentAssertions
     /// </summary>
     public static class CallerIdentifier
     {
-        public static Action<string>  logger = str => {};
+        public static Action<string> logger = str => { };
 #if NET45 || NET47 || NETSTANDARD2_0
         public static string DetermineCallerIdentity()
         {

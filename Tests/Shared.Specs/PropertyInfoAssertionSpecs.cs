@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class PropertyInfoAssertionSpecs
     {
         #region BeVirtual
@@ -20,7 +19,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -42,7 +40,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -123,7 +120,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -144,7 +140,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -167,7 +162,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicPropertyWithSameAttributeTwice");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -188,7 +182,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -239,13 +232,11 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>(d => d.Value == "Value");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -292,7 +283,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadWriteProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -312,7 +302,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -338,7 +327,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -359,7 +347,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -379,7 +366,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -407,7 +393,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -427,7 +412,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -485,7 +469,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -511,7 +494,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -539,7 +521,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -563,7 +544,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -610,7 +590,6 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -630,7 +609,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -657,11 +635,10 @@ namespace FluentAssertions.Specs
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return(typeof (String));
+            Action action = () => propertyInfo.Should().Return(typeof(String));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -703,7 +680,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -837,7 +813,7 @@ namespace FluentAssertions.Specs
             public string ReadPrivateWriteProperty { get; private set; }
             public string ReadWriteProperty { get; set; }
             public string WritePrivateReadProperty { private get; set; }
-            public string WriteOnlyProperty { set{} }
+            public string WriteOnlyProperty { set { } }
             public string StringProperty { get; set; }
         }
 

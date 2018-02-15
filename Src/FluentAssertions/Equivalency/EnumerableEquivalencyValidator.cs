@@ -54,7 +54,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!ReferenceEquals(expectation, null))
-                .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[]{ subject});
+                .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[] { subject });
         }
 
         private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations)

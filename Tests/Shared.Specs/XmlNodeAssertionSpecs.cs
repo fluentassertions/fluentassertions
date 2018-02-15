@@ -9,7 +9,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class XmlNodeAssertionSpecs
     {
         #region BeSameAs / NotBeSameAs

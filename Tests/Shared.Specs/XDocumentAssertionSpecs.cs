@@ -5,10 +5,8 @@ using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-
 namespace FluentAssertions.Specs
 {
-
     public class XDocumentAssertionSpecs
     {
         #region Be / NotBe
@@ -82,8 +80,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<configuration></configuration>");
-            var otherXDocument = XDocument.Parse(@"<data></data>");
+            var document = XDocument.Parse("<configuration></configuration>");
+            var otherXDocument = XDocument.Parse("<data></data>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -218,8 +216,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -239,8 +237,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -260,8 +258,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -281,8 +279,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -303,8 +301,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -325,8 +323,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -346,8 +344,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /><child2 /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -367,8 +365,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -409,8 +407,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
-            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child /></parent>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -453,7 +451,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var element = XDocument.Parse(@"<xml xmlns:ns1=""a"" />");
-            var otherXElement = XDocument.Parse(@"<xml />");
+            var otherXElement = XDocument.Parse("<xml />");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -473,7 +471,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var document = XDocument.Parse("<parent><child /></parent>");
             var sameXDocument = document;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -711,7 +709,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var document = XDocument.Parse(@"<configuration></configuration>");
+            var document = XDocument.Parse("<configuration></configuration>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

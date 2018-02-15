@@ -154,7 +154,7 @@ namespace FluentAssertions.Extensions
             }
 
             var value = new DateTime(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds);
-            
+
             if (microseconds != 0)
             {
                 value += microseconds.Microseconds();

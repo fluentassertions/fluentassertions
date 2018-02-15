@@ -266,14 +266,14 @@ namespace FluentAssertions.Specs
                 return Id;
             }
 
-            public bool Equals(SomeBaseKeyClass obj)
+            public bool Equals(SomeBaseKeyClass other)
             {
-                if (object.ReferenceEquals(obj, null))
+                if (object.ReferenceEquals(other, null))
                 {
                     return false;
                 }
 
-                return this.Id == obj.Id;
+                return this.Id == other.Id;
             }
 
             public override bool Equals(object obj)
@@ -300,9 +300,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IDictionary<string, int> dictionary = new GenericDictionaryNotImplementingIDictionary<string, int> {{"hi", 1}};
+            IDictionary<string, int> dictionary = new GenericDictionaryNotImplementingIDictionary<string, int>
+            {
+                ["hi"] = 1
+            };
+
             ICollection<KeyValuePair<string, int>> collection =
-                new List<KeyValuePair<string, int>> {new KeyValuePair<string, int>("hi", 1)};
+                new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>("hi", 1) };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -324,18 +328,18 @@ namespace FluentAssertions.Specs
             IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
                 new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>()
-            {
-                {"Key2", new[] {"Value2"}},
-                {"Key1", new[] {"Value1"}},
-            });
+                {
+                    ["Key2"] = new[] { "Value2" },
+                    ["Key1"] = new[] { "Value1" }
+                });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
             {
-                {"Key1", new[] {"Value1"}},
-                {"Key2", new[] {"Value2"}},
+                ["Key1"] = new[] { "Value1" },
+                ["Key2"] = new[] { "Value2" }
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -353,18 +357,18 @@ namespace FluentAssertions.Specs
             IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
                 new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>()
-            {
-                {"Key2", new[] {"Value2"}},
-                {"Key1", new[] {"Value1"}},
-            });
+                {
+                    ["Key2"] = new[] { "Value2" },
+                    ["Key1"] = new[] { "Value1" }
+                });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
             {
-                {"Key2", new[] {"Value3"}},
-                {"Key1", new[] {"Value1"}},
+                ["Key2"] = new[] { "Value3" },
+                ["Key1"] = new[] { "Value1" }
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -385,8 +389,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    ["Key2"] = "Value2",
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -394,8 +398,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    ["Key1"] = "Value1",
+                    ["Key2"] = "Value2"
                 }
             };
 
@@ -417,8 +421,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object object1 = new Dictionary<string, string> {{"greeting", "hello"}};
-            object object2 = new Dictionary<string, string> {{"greeting", "hello"}};
+            object object1 = new Dictionary<string, string> { ["greeting"] = "hello" };
+            object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -437,8 +441,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object object1 = new Dictionary<string, string> {{"greeting", "hello"}};
-            object object2 = new Dictionary<string, string> {{"greeting", "hello"}};
+            object object1 = new Dictionary<string, string> { ["greeting"] = "hello" };
+            object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -458,8 +462,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object object1 = new NonGenericDictionary {{"greeting", "hello"}};
-            object object2 = new NonGenericDictionary {{"greeting", "hello"}};
+            object object1 = new NonGenericDictionary { ["greeting"] = "hello" };
+            object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -519,8 +523,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IDictionary dictionary1 = new NonGenericDictionary {{2001, new Car()}};
-            IDictionary dictionary2 = new NonGenericDictionary {{2001, new Customer()}};
+            IDictionary dictionary1 = new NonGenericDictionary { [2001] = new Car() };
+            IDictionary dictionary2 = new NonGenericDictionary { [2001] = new Customer() };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -542,8 +546,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new Dictionary<int, CustomerType> {{0, new CustomerType("123")}};
-            var expectation = new Dictionary<int, CustomerType> {{0, new DerivedCustomerType("123")}};
+            var actual = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
+            var expectation = new Dictionary<int, CustomerType> { [0] = new DerivedCustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -563,8 +567,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new Dictionary<int, CustomerType> {{0, new CustomerType("123")}};
-            var expectation = new Dictionary<int, CustomerType> {{0, new DerivedCustomerType("123")}};
+            var actual = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
+            var expectation = new Dictionary<int, CustomerType> { [0] = new DerivedCustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -589,8 +593,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new Dictionary<object, string> {{new object(), "hello"}};
-            var expected = new Dictionary<string, string> {{"greeting", "hello"}};
+            var actual = new Dictionary<object, string> { [new object()] = "hello" };
+            var expected = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -614,8 +618,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dictionary1 = new Dictionary<object, string> {{"greeting", "hello"}};
-            var dictionary2 = new Dictionary<string, string> {{"greeting", "hello"}};
+            var dictionary1 = new Dictionary<object, string> { ["greeting"] = "hello" };
+            var dictionary2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -634,8 +638,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new Dictionary<int, string> {{1234, "hello"}};
-            var expectation = new Dictionary<string, string> {{"greeting", "hello"}};
+            var actual = new Dictionary<int, string> { [1234] = "hello" };
+            var expectation = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -662,8 +666,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var userId = Guid.NewGuid();
 
-            var dictionary1 = new Dictionary<Guid, IEnumerable<string>> {{userId, new List<string> {"Admin", "Special"}}};
-            var dictionary2 = new Dictionary<Guid, IEnumerable<string>> {{userId, new List<string> {"Admin", "Other"}}};
+            var dictionary1 = new Dictionary<Guid, IEnumerable<string>> { [userId] = new List<string> { "Admin", "Special" } };
+            var dictionary2 = new Dictionary<Guid, IEnumerable<string>> { [userId] = new List<string> { "Admin", "Other" } };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -685,8 +689,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var userId = Guid.NewGuid();
 
-            var dictionary1 = new NonGenericDictionary {{userId, new List<string> {"Admin", "Special"}}};
-            var dictionary2 = new NonGenericDictionary {{userId, new List<string> {"Admin", "Other"}}};
+            var dictionary1 = new NonGenericDictionary { [userId] = new List<string> { "Admin", "Special" } };
+            var dictionary2 = new NonGenericDictionary { [userId] = new List<string> { "Admin", "Other" } };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -708,10 +712,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, CustomerType>
             {
-                {0, new DerivedCustomerType("123")}
+                [0] = new DerivedCustomerType("123")
             };
 
-            var expectation = new Dictionary<int, CustomerType> {{0, new CustomerType("123")}};
+            var expectation = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -789,8 +793,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    ["Key1"] = "Value1",
+                    ["Key2"] = "Value2"
                 }
             };
 
@@ -798,7 +802,7 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"}
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -829,8 +833,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    ["Key2"] = "Value2",
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -856,8 +860,8 @@ namespace FluentAssertions.Specs
             {
                 Dictionary = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    ["Key2"] = "Value2",
+                    ["Key1"] = "Value1"
                 }
             };
 
@@ -884,8 +888,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dictionary1 = new Dictionary<string, string> {{"greeting", "hello"}};
-            var dictionary2 = new Dictionary<string, string> {{"greeting", "hello"}, {"farewell", "goodbye"}};
+            var dictionary1 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello"
+            };
+            var dictionary2 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello",
+                ["farewell"] = "goodbye"
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -911,13 +922,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
             {
-                { new SomeDerivedKeyClass(1), "hello" }
+                [new SomeDerivedKeyClass(1)] = "hello"
             };
 
             var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
             {
-                { new SomeDerivedKeyClass(1), "hello" },
-                { new SomeDerivedKeyClass(2), "hello" }
+                [new SomeDerivedKeyClass(1)] = "hello",
+                [new SomeDerivedKeyClass(2)] = "hello"
 
             };
 
@@ -939,8 +950,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
-            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+            var dictionary1 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello"
+            };
+            var dictionary2 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello",
+                ["farewell"] = "goodbye"
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -966,13 +984,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
             {
-                { new SomeDerivedKeyClass(1), "hello" }
+                [new SomeDerivedKeyClass(1)] = "hello"
             };
 
             var dictionary2 = new Dictionary<SomeDerivedKeyClass, string>
             {
-                { new SomeDerivedKeyClass(1), "hello" },
-                { new SomeDerivedKeyClass(2), "hello" }
+                [new SomeDerivedKeyClass(1)] = "hello",
+                [new SomeDerivedKeyClass(2)] = "hello"
 
             };
 
@@ -994,8 +1012,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
-            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+            var dictionary1 = new Dictionary<string, string>
+            {
+                ["GREETING"] = "hello"
+            };
+            var dictionary2 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello",
+                ["farewell"] = "goodbye"
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1015,8 +1040,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dictionary1 = new Dictionary<string, string> { { "GREETING", "hello" } };
-            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+            var dictionary1 = new Dictionary<string, string>
+            {
+                ["GREETING"] = "hello"
+            };
+            var dictionary2 = new Dictionary<string, string>
+            {
+                ["greeting"] = "hello",
+                ["farewell"] = "goodbye"
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1038,9 +1070,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int?>
             {
-                {"C", null},
-                {"B", 0},
-                {"A", 0}
+                ["C"] = null,
+                ["B"] = 0,
+                ["A"] = 0
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1048,9 +1080,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
-                {"A", 0},
-                {"B", 0},
-                {"C", null}
+                ["A"] = 0,
+                ["B"] = 0,
+                ["C"] = null
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1067,9 +1099,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int>
             {
-                {"C", 0},
-                {"B", 0},
-                {"A", 0}
+                ["C"] = 0,
+                ["B"] = 0,
+                ["A"] = 0
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1077,9 +1109,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int>
             {
-                {"A", 0},
-                {"B", 0},
-                {"C", 0}
+                ["A"] = 0,
+                ["B"] = 0,
+                ["C"] = 0
             });
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1098,7 +1130,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, null}
+                    [1] = null
                 }
             };
 
@@ -1106,7 +1138,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, null}
+                    [1] = null
                 }
             };
 
@@ -1131,7 +1163,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, "Bla1"}
+                    [1] = "Bla1"
                 }
             };
 
@@ -1139,7 +1171,7 @@ namespace FluentAssertions.Specs
             {
                 ReferencedEquipment = new Dictionary<int, string>
                 {
-                    {1, "Bla2"}
+                    [1] = "Bla2"
                 }
             };
 
@@ -1176,7 +1208,6 @@ namespace FluentAssertions.Specs
                     ["IntProperty"] = 123
                 }
             };
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
