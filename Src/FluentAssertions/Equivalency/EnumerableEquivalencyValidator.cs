@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace FluentAssertions.Equivalency
 
         public void Execute<T>(object[] subject, T[] expectation)
         {
-            if (AssertIsNotNull(expectation, subject) && AssertLengthEquality(subject.Length, expectation.Length))
+            if (AssertIsNotNull(expectation, subject) && EnumerableEquivalencyValidatorExtensions.AssertCollectionsHaveSameCount(subject, expectation))
             {
                 if (Recursive)
                 {
@@ -54,14 +55,6 @@ namespace FluentAssertions.Equivalency
             return AssertionScope.Current
                 .ForCondition(!ReferenceEquals(expectation, null))
                 .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[]{ subject});
-        }
-
-        private bool AssertLengthEquality(int subjectLength, int expectationLength)
-        {
-            return AssertionScope.Current
-                .ForCondition(subjectLength == expectationLength)
-                .FailWith("Expected {context:subject} to be a collection with {0} item(s){reason}, but found {1}.",
-                    expectationLength, subjectLength);
         }
 
         private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations)

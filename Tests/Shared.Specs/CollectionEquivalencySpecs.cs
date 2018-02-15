@@ -201,6 +201,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_collection_does_not_match_it_should_include_items_in_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new int[] { 1, 2 };
+
+            var expectation = new int[] { 3, 2, 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*but*{1, 2}*1 item(s) less than*{3, 2, 1}*");
+        }
+
+        [Fact]
         public void
             When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
             ()
@@ -297,7 +319,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*member Customers to be a collection with 2 item(s), but found 1*");
+                    "*member Customers to be a collection with 2 item(s), but*contains 1 item(s) less than*");
         }
 
         [Fact]
@@ -350,7 +372,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*member Customers to be a collection with 1 item(s), but found 2*");
+                    "*member Customers to be a collection with 1 item(s), but*contains 1 item(s) more than*");
         }
 
         [Fact]
@@ -825,7 +847,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*empty collection*");
         }
 
         [Fact]
@@ -877,7 +899,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*Expected item[0].UnorderedCollection*5 item(s)*0*");
+                    "*Expected item[0].UnorderedCollection*5 item(s)*empty collection*");
         }
 
         [Fact]
@@ -1331,7 +1353,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*29*but found 6*");
+                .WithMessage("Expected*29*but*contains 23 item(s) less than*");
         }
 
         [Fact]
@@ -1448,9 +1470,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected subject*2 item(s)*but found 6*");
+                .WithMessage("Expected subject*2 item(s)*but*contains 4 item(s) more than*");
 #else
-                .WithMessage("Expected actual*2 item(s)*but found 6*");
+                .WithMessage("Expected actual*2 item(s)*but*contains 4 item(s) more than*");
 #endif
         }
 
@@ -1597,7 +1619,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*subject to be a collection with 2 item(s), but found 1*");
+                    "*subject to be a collection with 2 item(s), but*contains 1 item(s) less than*");
         }
 
         [Fact]
@@ -1645,7 +1667,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected subject to be a collection with 1 item(s), but found 2*");
+                    "Expected subject to be a collection with 1 item(s), but*contains 1 item(s) more than*");
         }
 
         [Fact]
