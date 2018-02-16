@@ -50,7 +50,6 @@ namespace FluentAssertions.Equivalency
                         }
                     }
                 }
-                
             }
 
             return true;
@@ -58,15 +57,15 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject)
         {
-            return AssertIsDictionary(subject) 
-                   && AssertEitherIsNotNull(expectation, subject) 
+            return AssertIsDictionary(subject)
+                   && AssertEitherIsNotNull(expectation, subject)
                    && AssertSameLength(expectation, subject);
         }
 
         private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition((expectation == null) && (subject == null) || (expectation != null))
+                .ForCondition(((expectation == null) && (subject == null)) || (expectation != null))
                 .FailWith("Expected {context:subject} to be {0}, but found {1}.", null, subject);
         }
 

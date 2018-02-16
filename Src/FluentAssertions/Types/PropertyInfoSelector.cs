@@ -18,7 +18,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="type">The type from which to select properties.</param>
         public PropertyInfoSelector(Type type)
-            : this(new [] {type})
+            : this(new[] { type })
         {
         }
 

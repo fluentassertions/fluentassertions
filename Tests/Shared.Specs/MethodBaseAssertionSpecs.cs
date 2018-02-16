@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class MethodBaseAssertionSpecs
     {
         #region Return
@@ -359,11 +358,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
 
-            MethodInfo setMethod;
-
-
-            setMethod = propertyInfo.SetMethod;
-
+            MethodInfo setMethod = propertyInfo.SetMethod;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -385,10 +380,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
 
-            MethodInfo setMethod;
-
-
-            setMethod = propertyInfo.SetMethod;
+            MethodInfo setMethod = propertyInfo.SetMethod;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -414,11 +406,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
 
-            MethodInfo getMethod;
-
-
-            getMethod = propertyInfo.GetMethod;
-
+            MethodInfo getMethod = propertyInfo.GetMethod;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -440,11 +428,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
 
-            MethodInfo getMethod;
-
-
-            getMethod = propertyInfo.GetMethod;
-
+            MethodInfo getMethod = propertyInfo.GetMethod;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -770,13 +754,13 @@ namespace FluentAssertions.Specs
 
     #region Internal classes used in unit tests
 
-    class TestClass
+    internal class TestClass
     {
         public void VoidMethod() { }
 
         public int IntMethod() { return 0; }
 
-        private void PrivateMethod() {}
+        private void PrivateMethod() { }
 
         public string PublicGetProperty { get; private set; }
 

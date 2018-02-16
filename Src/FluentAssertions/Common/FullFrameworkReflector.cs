@@ -31,7 +31,6 @@ namespace FluentAssertions.Common
                    !assemblyName.StartsWith("newtonsoft");
         }
 
-
         private static bool IsDynamic(Assembly assembly)
         {
             return (assembly is AssemblyBuilder) ||

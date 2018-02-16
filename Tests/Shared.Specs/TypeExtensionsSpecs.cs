@@ -8,7 +8,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class TypeExtensionsSpecs
     {
         [Fact]
@@ -185,11 +184,11 @@ namespace FluentAssertions.Specs
                 );
         }
 
-        class InheritedType { }
+        private class InheritedType { }
 
-        class InheritingType : InheritedType { }
+        private class InheritingType : InheritedType { }
 
-        struct TypeWithFakeConversionOperators
+        private struct TypeWithFakeConversionOperators
         {
             private readonly int value;
 

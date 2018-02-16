@@ -6,7 +6,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class ObjectCastingSpecs
     {
         [Fact]
@@ -30,10 +29,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             derivedInstance.DerivedProperty.Should().Be("hello");
         }
-        
+
         private class SomeBaseClass
         {
-            
+
         }
 
         private class SomeDerivedClass : SomeBaseClass

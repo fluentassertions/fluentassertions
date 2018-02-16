@@ -20,7 +20,7 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var attribute = (XAttribute) value;
+            var attribute = (XAttribute)value;
             return attribute.ToString();
         }
     }

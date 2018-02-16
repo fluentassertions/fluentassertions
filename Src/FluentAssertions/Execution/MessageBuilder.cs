@@ -19,7 +19,7 @@ namespace FluentAssertions.Execution
 
         private readonly bool useLineBreaks;
 
-        private readonly char[] blanks = {'\r', '\n', ' ', '\t'};
+        private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         #endregion
 

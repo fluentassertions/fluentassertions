@@ -9,7 +9,6 @@ using FluentAssertions.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
-
 namespace FluentAssertions.Specs
 {
     [Collection("Equivalency")]
@@ -60,7 +59,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
             {
-                new MyClass {Items = new[] {"a"}}
+                new MyClass { Items = new[] { "a" } }
             };
 
             var expectation = new[]
@@ -201,7 +200,7 @@ namespace FluentAssertions.Specs
 
         public class VirtualClassOverride : VirtualClass
         {
-            public string OtherProperty { get; set;}
+            public string OtherProperty { get; set; }
         }
 
         [Fact]
@@ -272,20 +271,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithValueSemanticsOnSingleProperty
             {
-                Key = "Don't care",
+                Key = "Don't care"
             };
 
             var expected = new ClassWithValueSemanticsOnSingleProperty
             {
-                Key = "Don't care",
+                Key = "Don't care"
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = ()  => subject.Should().BeEquivalentTo(expected, options => options
-                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
-                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options
+               .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
+               .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -302,20 +301,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithValueSemanticsOnSingleProperty
             {
-                Key = "Don't care",
+                Key = "Don't care"
             };
 
             var expected = new ClassWithValueSemanticsOnSingleProperty
             {
-                Key = "Don't care",
+                Key = "Don't care"
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = ()  => subject.Should().BeEquivalentTo(expected, options => options
-                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>()
-                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options
+               .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>()
+               .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -384,7 +383,6 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-
         [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
@@ -412,7 +410,6 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
-
 
         [Fact]
         public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
@@ -483,8 +480,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 1};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -505,14 +502,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<string, long>
             {
-                { "001", 1L },
-                { "002", 2L }
+                ["001"] = 1L,
+                ["002"] = 2L
             };
 
             var expected = new Dictionary<string, int>
             {
-                { "001", 1 },
-                { "002", 2 }
+                ["001"] = 1,
+                ["002"] = 2
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -532,8 +529,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 101};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -552,8 +549,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -572,8 +569,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            object onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -593,8 +590,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -618,13 +615,13 @@ namespace FluentAssertions.Specs
             var record = new
             {
                 Member1 = "",
-                Member2 = new[] {"", ""}
+                Member2 = new[] { "", "" }
             };
 
             var record2 = new
             {
                 Member1 = "different",
-                Member2 = new[] {"", ""}
+                Member2 = new[] { "", "" }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -819,14 +816,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var list1 = new List<CustomType>
             {
-                new CustomType {Name = "A"},
-                new CustomType {Name = "B"}
+                new CustomType { Name = "A" },
+                new CustomType { Name = "B" }
             };
 
             var list2 = new List<CustomType>
             {
-                new CustomType {Name = "C"},
-                new CustomType {Name = "D"}
+                new CustomType { Name = "C" },
+                new CustomType { Name = "D" }
             };
 
             var objectA = new ClassA { ListOfCustomTypes = list1 };
@@ -881,7 +878,7 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -912,7 +909,7 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -970,7 +967,7 @@ namespace FluentAssertions.Specs
                 Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1000,7 +997,7 @@ namespace FluentAssertions.Specs
                 Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1113,9 +1110,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithAPrivateField(1234) {Value = 1};
+            var subject = new ClassWithAPrivateField(1234) { Value = 1 };
 
-            var other = new ClassWithAPrivateField(54321) {Value = 1};
+            var other = new ClassWithAPrivateField(54321) { Value = 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1169,8 +1166,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SubclassA<string> {Foo = "test"};
-            var expectation = new SubclassB<string> {Foo = "test"};
+            var subject = new SubclassA<string> { Foo = "test" };
+            var expectation = new SubclassB<string> { Foo = "test" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1189,8 +1186,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var expected = new ClassWithIndexer {Foo = "test"};
-            var result = new ClassWithIndexer {Foo = "test"};
+            var expected = new ClassWithIndexer { Foo = "test" };
+            var result = new ClassWithIndexer { Foo = "test" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1606,7 +1603,7 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "color"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "color" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1632,7 +1629,7 @@ namespace FluentAssertions.Specs
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
                     ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
-                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 }
                 }
             };
 
@@ -1642,7 +1639,7 @@ namespace FluentAssertions.Specs
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
                     ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
-                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 }
                 }
             };
 
@@ -1673,7 +1670,7 @@ namespace FluentAssertions.Specs
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
                     ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
-                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 }
                 }
             };
 
@@ -1683,7 +1680,7 @@ namespace FluentAssertions.Specs
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
                     ["Foo"] = new ClassWithOnlyAProperty { Value = 6 },
-                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 }
                 }
             };
 
@@ -1720,7 +1717,7 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            object class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor"};
+            object class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2467,7 +2464,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new { Property = 32 };
-            var expectation = new { Property = "32"};
+            var expectation = new { Property = "32" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2577,13 +2574,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string s = "This is a test";
-            CustomConvertible o = new CustomConvertible(s);
+            string str = "This is a test";
+            CustomConvertible obj = new CustomConvertible(str);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => o.Should().BeEquivalentTo(s, options => options.WithAutoConversion());
+            Action act = () => obj.Should().BeEquivalentTo(str, options => options.WithAutoConversion());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3156,25 +3153,24 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-
         [Fact]
         public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var a = new Parent();
-            a.Child1 = new Child(a, 1);
-            a.Child2 = new Child(a);
+            var actual = new Parent();
+            actual.Child1 = new Child(actual, 1);
+            actual.Child2 = new Child(actual);
 
-            var b = new Parent();
-            b.Child1 = new Child(b);
-            b.Child2 = new Child(b);
+            var expected = new Parent();
+            expected.Child1 = new Child(expected);
+            expected.Child2 = new Child(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => a.Should().BeEquivalentTo(b, x => x
+            Action act = () => actual.Should().BeEquivalentTo(expected, x => x
                 .Excluding(y => y.Child1)
                 .IgnoringCyclicReferences());
 
@@ -3200,10 +3196,7 @@ namespace FluentAssertions.Specs
 
             public Parent Parent { get; set; }
             public int Stuff { get; set; }
-
         }
-
-
 
         [Fact]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
@@ -3357,14 +3350,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var company1 = new MyCompany {Name = "Company"};
-            var user1 = new MyUser {Name = "User", Company = company1};
-            var logo1 = new MyCompanyLogo {Url = "blank", Company = company1, CreatedBy = user1};
+            var company1 = new MyCompany { Name = "Company" };
+            var user1 = new MyUser { Name = "User", Company = company1 };
+            var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
             company1.Logo = logo1;
 
-            var company2 = new MyCompany {Name = "Company"};
-            var user2 = new MyUser {Name = "User", Company = company2};
-            var logo2 = new MyCompanyLogo {Url = "blank", Company = company2, CreatedBy = user2};
+            var company2 = new MyCompany { Name = "Company" };
+            var user2 = new MyUser { Name = "User", Company = company2 };
+            var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -3390,12 +3383,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var actual = new
             {
-                Tuple = (new[] {"string1"}, new[] {"string2"})
+                Tuple = (new[] { "string1" }, new[] { "string2" })
             };
 
             var expected = new
             {
-                Tuple = (new[] {"string1"}, new[] {"string2"})
+                Tuple = (new[] { "string1" }, new[] { "string2" })
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -3528,8 +3521,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne {Enum = EnumOne.One};
-            var expectation = new ClassWithEnumThree {Enum = EnumeThree.ValueZero};
+            var subject = new ClassWithEnumOne { Enum = EnumOne.One };
+            var expectation = new ClassWithEnumThree { Enum = EnumeThree.ValueZero };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3548,8 +3541,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne {Enum = EnumOne.Two};
-            var expectation = new ClassWithEnumThree {Enum = EnumeThree.Two};
+            var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
+            var expectation = new ClassWithEnumThree { Enum = EnumeThree.Two };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3568,8 +3561,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumCharOne {Enum = EnumCharOne.B};
-            var expectation = new ClassWithEnumCharTwo {Enum = EnumCharTwo.ValueB};
+            var subject = new ClassWithEnumCharOne { Enum = EnumCharOne.B };
+            var expectation = new ClassWithEnumCharTwo { Enum = EnumCharTwo.ValueB };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3644,7 +3637,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new {}.Should().BeEquivalentTo(new {});
+            Action act = () => new { }.Should().BeEquivalentTo(new { });
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3686,8 +3679,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 101};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3706,8 +3699,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAProperty {Value = 1};
-            var object2 = new ClassWithOnlyAProperty {Value = 101};
+            var object1 = new ClassWithOnlyAProperty { Value = 1 };
+            var object2 = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3982,7 +3975,7 @@ namespace FluentAssertions.Specs
 
         public override int GetHashCode()
         {
-            return (Code != null ? Code.GetHashCode() : 0);
+            return (Code?.GetHashCode() ?? 0);
         }
 
         public static bool operator ==(CustomerType a, CustomerType b)
@@ -4014,7 +4007,6 @@ namespace FluentAssertions.Specs
         {
         }
     }
-
 
     public class CustomConvertible : IConvertible
     {
@@ -4110,8 +4102,6 @@ namespace FluentAssertions.Specs
             throw new InvalidCastException();
         }
     }
-
-
 
     #endregion
 

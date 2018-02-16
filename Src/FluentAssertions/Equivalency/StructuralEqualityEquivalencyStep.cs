@@ -54,9 +54,9 @@ namespace FluentAssertions.Equivalency
             SelectedMemberInfo matchingMember = FindMatchFor(selectedMemberInfo, context, config);
             if (matchingMember != null)
             {
-                IEquivalencyValidationContext nestedContext = 
+                IEquivalencyValidationContext nestedContext =
                     context.CreateForNestedMember(selectedMemberInfo, matchingMember);
-                
+
                 if (nestedContext != null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
@@ -75,7 +75,7 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context, 
+        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();

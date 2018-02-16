@@ -15,7 +15,7 @@ namespace FluentAssertions.Common
 
         public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime, TimeSpan offset)
         {
-            return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified) , offset);
+            return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified), offset);
         }
     }
 }

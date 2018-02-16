@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                CompileTimeType = typeof (T),
+                CompileTimeType = typeof(T),
                 RootIsCollection = context.RootIsCollection,
                 Tracer = context.Tracer
             };
@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                CompileTimeType = typeof (TExpectation),
+                CompileTimeType = typeof(TExpectation),
                 RootIsCollection = context.RootIsCollection,
                 Tracer = context.Tracer
             };

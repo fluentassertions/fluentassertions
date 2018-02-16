@@ -123,7 +123,7 @@ namespace FluentAssertions.Equivalency
         ///     Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps =>
-            userEquivalencySteps.Concat(new[] {new TryConversionStep(ConversionSelector)});
+            userEquivalencySteps.Concat(new[] { new TryConversionStep(ConversionSelector) });
 
         public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
 
@@ -176,7 +176,7 @@ namespace FluentAssertions.Equivalency
                 {
                     if (type.HasValueSemantics())
                     {
-                        strategy =  EqualityStrategy.Equals;
+                        strategy = EqualityStrategy.Equals;
                     }
                     else
                     {
@@ -644,7 +644,6 @@ namespace FluentAssertions.Equivalency
                 return options;
             }
         }
-
 
         #region Non-fluent API
 

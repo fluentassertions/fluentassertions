@@ -41,7 +41,6 @@ namespace Chill.Autofac
             Container.Dispose();
         }
 
-
         public void RegisterType<T>() where T : class
         {
             Container.ComponentRegistry.Register(RegistrationBuilder.ForType<T>().InstancePerLifetimeScope().CreateRegistration());
@@ -66,7 +65,6 @@ namespace Chill.Autofac
                 Container.ComponentRegistry
                     .Register(RegistrationBuilder.ForDelegate((c, p) => valueToSet)
                         .InstancePerLifetimeScope().CreateRegistration());
-
             }
             else
             {
@@ -78,8 +76,7 @@ namespace Chill.Autofac
             return Get<T>(key);
         }
 
-
-        public bool IsRegistered<T>()where T : class
+        public bool IsRegistered<T>() where T : class
         {
             return IsRegistered(typeof(T));
         }

@@ -33,7 +33,7 @@ namespace FluentAssertions
             params object[] becauseArgs)
             where TException : Exception
         {
-            var exceptionAssertions = actionAssertions.Throw<TException>(because, becauseArgs); 
+            var exceptionAssertions = actionAssertions.Throw<TException>(because, becauseArgs);
             exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
             return exceptionAssertions;
         }

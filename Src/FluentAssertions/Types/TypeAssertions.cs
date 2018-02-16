@@ -206,7 +206,7 @@ namespace FluentAssertions.Types
                 .ForCondition(Subject.IsDecoratedWith<TAttribute>())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
-                    Subject, typeof (TAttribute));
+                    Subject, typeof(TAttribute));
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -419,7 +419,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<TypeAssertions> Implement<TInterface>(string because = "", params object[] becauseArgs) where TInterface : class
         {
-            return Implement(typeof (TInterface), because, becauseArgs); 
+            return Implement(typeof(TInterface), because, becauseArgs);
         }
 
         /// <summary>
@@ -552,7 +552,7 @@ namespace FluentAssertions.Types
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
-        
+
         /// <summary>
         /// Asserts that the current type has a property of type <typeparamref name="TProperty"/> named <paramref name="name"/>.
         /// </summary>
@@ -605,7 +605,7 @@ namespace FluentAssertions.Types
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
             var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
-                
+
             Execute.Assertion.ForCondition(explicitlyImplementsProperty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(String.Format("Expected {0} to explicitly implement {1}.{2}{{reason}}, but it does not.",
@@ -625,7 +625,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<TypeAssertions> HaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs) where TInterface : class
         {
-            return HaveExplicitProperty(typeof (TInterface), name, because, becauseArgs);
+            return HaveExplicitProperty(typeof(TInterface), name, because, becauseArgs);
         }
 
         /// <summary>
@@ -874,7 +874,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(string because = "", params object[] becauseArgs)
         {
-            return HaveConstructor(new Type[] {}, because, becauseArgs);
+            return HaveConstructor(new Type[] { }, because, becauseArgs);
         }
 
         /// <summary>

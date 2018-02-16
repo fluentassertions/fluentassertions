@@ -23,7 +23,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_assertion_doubles_should_always_allow_small_deviations :
             Given_temporary_global_assertion_options
@@ -43,7 +42,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D/3D)
+                    Value = (1D / 3D)
                 };
 
                 var expected = new
@@ -75,7 +74,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D/3D)
+                    Value = (1D / 3D)
                 };
 
                 var expected = new
@@ -95,7 +94,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D/3D)
+                    Value = (1D / 3D)
                 };
 
                 var expected = new
@@ -124,13 +123,12 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_inserting_a_step : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step()
             {
-                When(() => { Steps.Insert<MyEquivalencyStep>(); });
+                When(() => Steps.Insert<MyEquivalencyStep>());
             }
 
             [Fact]
@@ -142,13 +140,12 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step_before_another()
             {
-                When(() => { Steps.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>(); });
+                When(() => Steps.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>());
             }
 
             [Fact]
@@ -161,13 +158,12 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_appending_a_step : Given_temporary_equivalency_steps
         {
             public When_appending_a_step()
             {
-                When(() => { Steps.Add<MyEquivalencyStep>(); });
+                When(() => Steps.Add<MyEquivalencyStep>());
             }
 
             [Fact]
@@ -180,13 +176,12 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
         {
             public When_appending_a_step_after_another()
             {
-                When(() => { Steps.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>(); });
+                When(() => Steps.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>());
             }
 
             [Fact]
@@ -198,7 +193,6 @@ namespace FluentAssertions.Specs
                 Steps.Should().HaveElementSucceeding(predecessor, addedStep);
             }
         }
-
 
         [Collection("Equivalency")]
         public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
@@ -221,13 +215,12 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_removing_a_specific_step : Given_temporary_equivalency_steps
         {
             public When_removing_a_specific_step()
             {
-                When(() => { Steps.Remove<SimpleEqualityEquivalencyStep>(); });
+                When(() => Steps.Remove<SimpleEqualityEquivalencyStep>());
             }
 
             [Fact]

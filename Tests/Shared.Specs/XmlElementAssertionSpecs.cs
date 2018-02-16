@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class XmlElementAssertionSpecs
     {
         #region BeEquivalent
@@ -22,10 +21,10 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user>grega</user>");
+            xmlDoc.LoadXml("<user>grega</user>");
             var element = xmlDoc.DocumentElement;
             var expectedDoc = new XmlDocument();
-            expectedDoc.LoadXml(@"<user>grega</user>");
+            expectedDoc.LoadXml("<user>grega</user>");
             var expected = expectedDoc.DocumentElement;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -38,7 +37,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
-
         }
         #endregion
 
@@ -51,7 +49,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user>grega</user>");
+            xmlDoc.LoadXml("<user>grega</user>");
             var element = xmlDoc.DocumentElement;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -73,7 +71,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user>grega</user>");
+            xmlDoc.LoadXml("<user>grega</user>");
             var element = xmlDoc.DocumentElement;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -95,7 +93,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user>grega</user>");
+            xmlDoc.LoadXml("<user>grega</user>");
             var element = xmlDoc.DocumentElement;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -366,7 +364,6 @@ namespace FluentAssertions.Specs
                   </parent>");
             var element = xml.DocumentElement;
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -378,7 +375,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
-
 
         [Fact]
         public void When_asserting_xml_element_has_child_element_with_ns_and_it_does_it_should_succeed()
@@ -512,7 +508,6 @@ namespace FluentAssertions.Specs
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
-
 
         [Fact]
         public void When_asserting_xml_element_has_child_element_it_should_return_the_matched_element_in_the_which_property()

@@ -5,9 +5,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-
-
-
 namespace FluentAssertions.Execution
 {
     internal abstract class LateBoundTestFramework : ITestFramework
@@ -31,7 +28,6 @@ namespace FluentAssertions.Execution
         {
             get
             {
-
 #if !NET45 && !NET47
                 // For CoreCLR, we need to attempt to load the assembly
                 try
@@ -45,7 +41,6 @@ namespace FluentAssertions.Execution
                 }
 #else
                 string prefix = AssemblyName + ",";
-
 
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()

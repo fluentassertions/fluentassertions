@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectationType = config.GetExpectationType(context);
 
-            return (expectationType != null) && (expectationType == typeof (string));
+            return (expectationType != null) && (expectationType == typeof(string));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
             bool subjectIsString = ValidateAgainstType<string>(context);
             if (subjectIsString)
             {
-                string subject = (string) context.Subject;
+                string subject = (string)context.Subject;
                 string expectation = (string)context.Expectation;
 
                 subject.Should()
@@ -61,7 +61,7 @@ namespace FluentAssertions.Equivalency
 
                 AssertionScope.Current.FailWith(
                     $"Expected {subjectDescription} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
-                
+
                 return false;
             }
 
@@ -77,12 +77,11 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            return 
+            return
                 AssertionScope.Current
-                    .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof (T)))
+                    .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof(T)))
                     .FailWith($"Expected {GetSubjectDescription(context)} to be {{0}}, but found {{1}}.",
                         context.RuntimeType, context.Subject.GetType());
-
         }
 
         private static string GetSubjectDescription(IEquivalencyValidationContext context)

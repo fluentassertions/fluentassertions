@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
     public class DateTimeOffsetAssertionSpecs
     {
         #region (Not) Have Value
@@ -395,7 +394,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected nullableDateTime to be <2016-03-27 +1h> because we want to test the failure message, but it was <null>.");
 #endif
         }
-
 
         [Fact]
         public void
@@ -1129,7 +1127,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
-
         }
         #endregion
 
@@ -2306,7 +2303,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void     When_asserting_subject_datetimeoffset_should_have_offset_with_different_value_it_should_throw()
+        public void When_asserting_subject_datetimeoffset_should_have_offset_with_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

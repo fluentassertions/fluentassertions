@@ -93,7 +93,6 @@ namespace FluentAssertions.Formatting
                     Depth = graph.Depth,
                     UseLineBreaks = useLineBreaks
                 }, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
-
             }
             finally
             {

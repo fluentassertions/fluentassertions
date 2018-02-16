@@ -106,7 +106,7 @@ namespace FluentAssertions.Common
         {
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
-                return new[] {type};
+                return new[] { type };
             }
 
             Type[] interfaces = type.GetInterfaces();
@@ -123,7 +123,7 @@ namespace FluentAssertions.Common
 
             methods = methods
                 .Where(m => m.Name == "Equals" &&
-                            m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] {typeof(object)}));
+                            m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(object) }));
 
             methods = methods
                 .Where(m => m.GetBaseDefinition().DeclaringType != m.DeclaringType)
@@ -411,7 +411,7 @@ namespace FluentAssertions.Common
                    || openType == typeof(ValueTuple<,,,,>)
                    || openType == typeof(ValueTuple<,,,,,>)
                    || openType == typeof(ValueTuple<,,,,,,>)
-                   || openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]);
+                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
         }
     }
 }

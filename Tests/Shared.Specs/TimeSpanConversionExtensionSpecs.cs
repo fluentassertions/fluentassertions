@@ -5,7 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class TimeSpanConversionExtensionSpecs
     {
         [Fact]
@@ -119,7 +118,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             time.Should().Be(TimeSpan.FromSeconds(4.5));
         }
-        
+
         [Fact]
         public void When_getting_the_nanoseconds_component_it_should_return_the_correct_value()
         {
@@ -185,7 +184,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             total.Should().Be(1_000_000);
         }
-        
+
         [Fact]
         public void When_getting_the_microseconds_component_it_should_return_the_correct_value()
         {

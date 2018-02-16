@@ -5,7 +5,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class NullableNumericAssertionSpecs
     {
         [Fact]
@@ -28,7 +27,6 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().HaveValue();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -37,7 +35,6 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().NotBeNull();
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]
@@ -78,7 +75,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_not_have_a_value()
         {
             int? nullableInteger = 1;
-            
+
             Action act = () => nullableInteger.Should().NotHaveValue();
             act.Should().Throw<XunitException>();
         }
@@ -147,7 +144,6 @@ namespace FluentAssertions.Specs
 
             Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
             act.Should().Throw<XunitException>();
-
         }
 
         [Fact]

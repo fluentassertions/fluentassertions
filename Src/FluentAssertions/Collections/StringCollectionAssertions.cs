@@ -32,7 +32,7 @@ namespace FluentAssertions.Collections
         {
             return base.Equal(expected);
         }
-        
+
         /// <summary>
         /// Asserts that a collection of string is equivalent to another collection of strings. 
         /// </summary>
@@ -42,7 +42,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<StringCollectionAssertions> BeEquivalentTo(params string[] expectation)
         {
             BeEquivalentTo(expectation, config => config);
-            
+
             return new AndConstraint<StringCollectionAssertions>(this);
         }
 
@@ -62,10 +62,10 @@ namespace FluentAssertions.Collections
         public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
         {
             BeEquivalentTo(expectation, config => config, because, becauseArgs);
-            
+
             return new AndConstraint<StringCollectionAssertions>(this);
         }
-     
+
         /// <summary>
         /// Asserts that a collection of objects is equivalent to another collection of objects. 
         /// </summary>
@@ -103,10 +103,9 @@ namespace FluentAssertions.Collections
             };
 
             new EquivalencyValidator(options).AssertEquality(context);
-            
+
             return new AndConstraint<StringCollectionAssertions>(this);
         }
-
 
         /// <summary>
         /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
@@ -162,7 +161,7 @@ namespace FluentAssertions.Collections
             object becauseArg = null,
             params object[] becauseArgs)
         {
-            var args = new List<object> {becauseArg};
+            var args = new List<object> { becauseArg };
             args.AddRange(becauseArgs);
             return base.Contain(expected, because, args.ToArray());
         }

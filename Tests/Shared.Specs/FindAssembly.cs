@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 
-
-
 namespace FluentAssertions
 {
     public static class FindAssembly

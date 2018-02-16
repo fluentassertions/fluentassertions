@@ -69,9 +69,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-
                 Task.Run(Subject).Wait();
-
             }
             catch (Exception exception)
             {
@@ -101,9 +99,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-
                 Task.Run(Subject).Wait();
-
             }
             catch (Exception exception)
             {
@@ -129,9 +125,7 @@ namespace FluentAssertions.Specialized
 
             try
             {
-
                 Task.Run(Subject).Wait();
-
             }
             catch (Exception exception)
             {

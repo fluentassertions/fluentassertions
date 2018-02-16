@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => b.Should().BeNull();
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -289,7 +289,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var stuffWithAField = new StuffWithAField {Field = "Some Text"};
+            var stuffWithAField = new StuffWithAField { Field = "Some Text" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -673,7 +673,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Task<int> bar = Task.Delay(100000).ContinueWith(_ => 42);
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -682,7 +682,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be("System.Threading.Tasks.ContinuationResultTaskFromTask`1[System.Int32] {Status=WaitingForActivation}"); 
+            result.Should().Be("System.Threading.Tasks.ContinuationResultTaskFromTask`1[System.Int32] {Status=WaitingForActivation}");
         }
 
         [Fact]
@@ -692,7 +692,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var completionSource = new TaskCompletionSource<int>();
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -701,9 +701,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Match("*TaskCompletionSource*Task*System.Int32*Status=WaitingForActivation*"); 
+            result.Should().Match("*TaskCompletionSource*Task*System.Int32*Status=WaitingForActivation*");
         }
-        
+
         public class BaseStuff
         {
             public int StuffId { get; set; }
@@ -820,7 +820,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be(subject.ToString());
         }
-        
+
         public class SomeClassWithCustomFormatter
         {
             public string Property { get; set; }

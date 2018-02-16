@@ -70,6 +70,6 @@ namespace FluentAssertions.Types
             return !parameterTypes.Any()
                 ? String.Empty
                 : parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c);
-        } 
+        }
     }
 }

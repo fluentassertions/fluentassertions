@@ -17,7 +17,6 @@ namespace FluentAssertions.Formatting
             return value is Expression;
         }
 
-
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {

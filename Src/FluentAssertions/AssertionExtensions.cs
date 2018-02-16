@@ -148,7 +148,7 @@ namespace FluentAssertions
                 // Do nothing
             }
         }
-        
+
         /// <summary>
         /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
         /// current <see cref="object"/>.
@@ -612,7 +612,7 @@ namespace FluentAssertions
         {
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
-        
+
         /// <summary>
         /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
         /// current <see cref="System.Action"/> .
@@ -622,7 +622,7 @@ namespace FluentAssertions
         {
             return new ActionAssertions(action, extractor);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
         /// current <see cref="System.Func{T}"/> .

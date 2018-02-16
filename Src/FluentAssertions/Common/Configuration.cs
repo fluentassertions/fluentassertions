@@ -36,7 +36,7 @@ namespace FluentAssertions.Common
         {
             get
             {
-                lock(propertiesAccessLock)
+                lock (propertiesAccessLock)
                 {
                     if (!valueFormatterDetectionMode.HasValue)
                     {
@@ -45,7 +45,6 @@ namespace FluentAssertions.Common
 
                     return valueFormatterDetectionMode.Value;
                 }
-                
             }
             set { valueFormatterDetectionMode = value; }
         }
@@ -96,7 +95,7 @@ namespace FluentAssertions.Common
             }
             set
             {
-                lock(propertiesAccessLock)
+                lock (propertiesAccessLock)
                 {
                     valueFormatterAssembly = value;
                     valueFormatterDetectionMode = null;

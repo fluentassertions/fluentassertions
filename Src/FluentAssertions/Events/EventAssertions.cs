@@ -50,7 +50,7 @@ namespace FluentAssertions.Events
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", monitor.Subject, eventName);
             }
-            
+
             return eventRecorder;
         }
 

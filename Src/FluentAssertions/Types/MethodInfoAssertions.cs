@@ -143,7 +143,7 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
-        
+
         /// <summary>
         /// Asserts that the selected MethodInfo returns <typeparamref name="TReturn"/>.
         /// </summary>
@@ -157,7 +157,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return<TReturn>(string because = "", params object[] becauseArgs)
         {
-            return Return(typeof (TReturn), because, becauseArgs);
+            return Return(typeof(TReturn), because, becauseArgs);
         }
 
         /// <summary>

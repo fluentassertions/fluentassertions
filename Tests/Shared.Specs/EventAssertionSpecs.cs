@@ -851,12 +851,12 @@ namespace FluentAssertions.Specs
         {
             Type baseType = typeof(EventRaisingClass);
             Type interfaceType = typeof(IEventRaisingInterface);
-            AssemblyName assemblyName = new AssemblyName {Name = baseType.Assembly.FullName + ".GeneratedForTest"};
+            AssemblyName assemblyName = new AssemblyName { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                 AssemblyBuilderAccess.Run);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] {interfaceType});
+            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
             Func<string, MethodBuilder> emitAddRemoveEventHandler = methodName =>
             {
@@ -971,8 +971,8 @@ namespace FluentAssertions.Specs
 
             public void RaiseBothEvents()
             {
-                InterfaceEvent?.Invoke(this, new EventArgs());
-                Interface2Event?.Invoke(this, new EventArgs());
+                InterfaceEvent?.Invoke(this, EventArgs.Empty);
+                Interface2Event?.Invoke(this, EventArgs.Empty);
             }
         }
 
