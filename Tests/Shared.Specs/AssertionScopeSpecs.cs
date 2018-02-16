@@ -193,18 +193,33 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_invalid_format_is_used_in_because_parameter_it_should_render_default_text()
+        public void When_invalid_format_is_used_in_because_parameter_without_becauseArgs_it_should_still_render_reason_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter");
+        Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because parameters");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("*because message 'use of {} is considered invalid in because parameter' could not be formatted with string.Format*");
+                .WithMessage("*because use of {} is okay if there are no because parameters*");
+        }
+
+        [Fact]
+        public void When_invalid_format_is_used_in_because_parameter_along_with_becauseArgs_it_should_render_default_text()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs", "additional becauseArgs parameter");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because message 'use of {} is considered invalid in because parameter with becauseArgs' could not be formatted with string.Format*");
         }
 
         [Fact]
