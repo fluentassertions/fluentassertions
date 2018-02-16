@@ -128,7 +128,8 @@ namespace FluentAssertions.Execution
             {
                 try
                 {
-                    return string.Format(because ?? "", becauseArgs ?? new object[0]);
+                    string becauseOrEmpty = because ?? "";
+                    return becauseArgs.Any() ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
                 {
