@@ -129,7 +129,7 @@ namespace FluentAssertions.Execution
                 try
                 {
                     string becauseOrEmpty = because ?? "";
-                    return becauseArgs.Any() ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
+                    return (becauseArgs?.Any() == true) ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
                 {

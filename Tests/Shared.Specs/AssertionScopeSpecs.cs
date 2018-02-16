@@ -192,12 +192,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_becauseArgs_is_null_it_should_render_reason_correctly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            object[] becauseArgs = null;
+            Action act = () => 1.Should().Be(2, "it should still work", becauseArgs);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*it should still work*");
+        }
+
+        [Fact]
         public void When_invalid_format_is_used_in_because_parameter_without_becauseArgs_it_should_still_render_reason_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-        Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because parameters");
+            Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because parameters");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
