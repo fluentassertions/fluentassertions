@@ -1060,10 +1060,10 @@ This way you can tell the event monitor which interface was implemented in the g
 ```csharp
 POCOClass subject = EmitViewModelFromPOCOClass();
 
-using (var monitor = subject.Monitor<INotifyPropertyChanged>())
+using (var monitor = subject.Monitor<ISomeInterface>())
 {
     // POCO class doesn't have INotifyPropertyChanged implemented
-    subject.Should().RaisePropertyChangeFor(x => x.SomeProperty);
+    monitor.Should().Raise("SomeEvent");
 }
 ```
 
