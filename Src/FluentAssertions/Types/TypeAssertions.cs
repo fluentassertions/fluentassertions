@@ -696,7 +696,7 @@ namespace FluentAssertions.Types
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<TypeAssertions> HaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs) where TInterface : class
@@ -735,7 +735,7 @@ namespace FluentAssertions.Types
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs) where TInterface : class
