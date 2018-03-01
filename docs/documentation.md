@@ -1268,3 +1268,30 @@ someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
 someAction.ExecutionTime().Should().BeGreaterOrEqualTo(100.Milliseconds());
 someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Milliseconds());
 ```
+
+
+## Assertion Scope ##
+
+You can batch multiple Assertions, into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
+
+E.g.
+
+```csharp
+using (new AssertionScope())
+{
+    5.Should().Be(10);
+    "Actual".Should().Be("Expected");
+}
+```
+
+The above will batch the 2 failures, and throw an exception at the point of disposing the `AssertionScope` displaying both errors.
+
+E.g. Exception thrown at point of dispose contains:
+
+    Expected value to be 10, but found 5.
+    Expected string to be "Expected" with a length of 8, but "Actual" has a length of 6.
+    
+        at........
+        
+For more information take a look at the `AssertionScopeSpecs.cs` in Unit Tests.
+
