@@ -84,7 +84,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(unexpected) != 0)
+                .ForCondition(Subject?.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
 
