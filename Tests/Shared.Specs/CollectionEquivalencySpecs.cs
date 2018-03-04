@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions.Common;
@@ -178,8 +179,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_byte_array_does_not_match_strictly_it_should_throw()
+        public void When_a_byte_array_does_not_match_strictly_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -220,6 +220,31 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*but*{1, 2}*1 item(s) less than*{3, 2, 1}*");
+        }
+
+        [Fact]
+        public void When_a_nullable_collection_does_not_match_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Values = (ImmutableArray<int>?) ImmutableArray.Create<int>(1, 2, 3)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(new
+            {
+                Values = (ImmutableArray<int>?) ImmutableArray.Create<int>(1, 2, 4)
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected member Values[2] to be 4, but found 3*");
         }
 
         [Fact]
