@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -1527,6 +1526,327 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to not be decorated with or inherit*DummyClassAttribute" +
                     "*because we do*attribute was found*ClassWithInheritedAttribute*");
+        }
+
+        #endregion
+
+        #region BeSealed
+
+        [Fact]
+        public void When_type_is_sealed_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(Sealed).Should().BeSealed();
+        }
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be sealed.")]
+        [InlineData(typeof(Abstract), "Expected type FluentAssertions.Specs.Abstract to be sealed.")]
+        [InlineData(typeof(Static), "Expected type FluentAssertions.Specs.Static to be sealed.")]
+        public void When_type_is_not_sealed_it_fails(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeSealed();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_type_is_not_sealed_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeSealed("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be sealed because it's very important.");
+        }
+
+        #endregion
+
+        #region NotBeSealed
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers))]
+        [InlineData(typeof(Abstract))]
+        [InlineData(typeof(Static))]
+        public void When_type_is_not_sealed_it_succeeds(Type type)
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            type.Should().NotBeSealed();
+        }
+
+        [Fact]
+        public void When_type_is_sealed_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Sealed);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeSealed();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Sealed to not be sealed.");
+        }
+
+        [Fact]
+        public void When_type_is_sealed_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Sealed);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeSealed("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Sealed to not be sealed because it's very important.");
+        }
+
+        #endregion
+
+        #region BeAbstract
+
+        [Fact]
+        public void When_type_is_abstract_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(Abstract).Should().BeAbstract();
+        }
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be abstract.")]
+        [InlineData(typeof(Sealed), "Expected type FluentAssertions.Specs.Sealed to be abstract.")]
+        [InlineData(typeof(Static), "Expected type FluentAssertions.Specs.Static to be abstract.")]
+        public void When_type_is_not_abstract_it_fails(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeAbstract();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_type_is_not_abstract_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeAbstract("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be abstract because it's very important.");
+        }
+
+        #endregion
+
+        #region NotBeAbstract
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers))]
+        [InlineData(typeof(Sealed))]
+        [InlineData(typeof(Static))]
+        public void When_type_is_not_abstract_it_succeeds(Type type)
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            type.Should().NotBeAbstract();
+        }
+
+        [Fact]
+        public void When_type_is_abstract_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Abstract);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeAbstract();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Abstract not to be abstract.");
+        }
+
+        [Fact]
+        public void When_type_is_abstract_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Abstract);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeAbstract("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Abstract not to be abstract because it's very important.");
+        }
+
+        #endregion
+
+        #region BeStatic
+
+        [Fact]
+        public void When_type_is_static_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(Static).Should().BeStatic();
+        }
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be static.")]
+        [InlineData(typeof(Sealed), "Expected type FluentAssertions.Specs.Sealed to be static.")]
+        [InlineData(typeof(Abstract), "Expected type FluentAssertions.Specs.Abstract to be static.")]
+        public void When_type_is_not_static_it_fails(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeStatic();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_type_is_not_static_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeStatic("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be static because it's very important.");
+        }
+
+        #endregion
+
+        #region NotBeStatic
+
+        [Theory]
+        [InlineData(typeof(ClassWithoutMembers))]
+        [InlineData(typeof(Sealed))]
+        [InlineData(typeof(Abstract))]
+        public void When_type_is_not_static_it_succeeds(Type type)
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            type.Should().NotBeStatic();
+        }
+
+        [Fact]
+        public void When_type_is_static_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Static);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeStatic();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Static not to be static.");
+        }
+
+        [Fact]
+        public void When_type_is_static_it_fails_with_a_meaningful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(Static);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeStatic("it's {0} important", "very");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.Static not to be static because it's very important.");
         }
 
         #endregion
@@ -4165,6 +4485,12 @@ namespace FluentAssertions.Specs
         public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) => typeWithConversionOperators.value;
         public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) => (byte)typeWithConversionOperators.value;
     }
+
+    internal sealed class Sealed { }
+
+    internal abstract class Abstract { }
+
+    internal static class Static { }
 
     #endregion
 }
