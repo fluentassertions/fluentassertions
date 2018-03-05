@@ -1272,7 +1272,7 @@ someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Millisecond
 
 ## Assertion Scope ##
 
-You can batch multiple Assertions, into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
+You can batch multiple assertions into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
 
 E.g.
 
@@ -1284,7 +1284,7 @@ using (new AssertionScope())
 }
 ```
 
-The above will batch the 2 failures, and throw an exception at the point of disposing the `AssertionScope` displaying both errors.
+The above will batch the two failures, and throw an exception at the point of disposing the `AssertionScope` displaying both errors.
 
 E.g. Exception thrown at point of dispose contains:
 
@@ -1293,5 +1293,5 @@ E.g. Exception thrown at point of dispose contains:
     
         at........
         
-For more information take a look at the `AssertionScopeSpecs.cs` in Unit Tests.
+For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/Shared.Specs/AssertionScopeSpecs.cs) in Unit Tests.
 
