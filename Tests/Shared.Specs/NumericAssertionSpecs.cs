@@ -1543,7 +1543,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value *3.1415927* to approximate *3.14* +/- *0.001* because rockets will crash otherwise, but it differed by *0.001592*");
+                .WithMessage("Expected value to approximate *3.14* +/- *0.001* because rockets will crash otherwise, but *3.1415927* differed by *0.001592*");
         }
 
         [Fact]
@@ -1624,7 +1624,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value *3.1415927* to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.001592*");
+                .WithMessage("Expected value to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but *3.1415927* only differed by *0.001592*");
         }
 
         [Fact]
@@ -1772,7 +1772,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value 3.1415927 to approximate 3.14 +/- 0.001 because rockets will crash otherwise, but it differed by 0.001592*");
+                .WithMessage("Expected value to approximate 3.14 +/- 0.001 because rockets will crash otherwise, but 3.1415927 differed by 0.001592*");
         }
 
         [Fact]
@@ -1832,7 +1832,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected value *3.1415927* to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.001592*");
+                    "Expected value to not approximate *3.14* +/- *0.1* because rockets will crash otherwise, but *3.1415927* only differed by *0.001592*");
         }
 
         [Fact]
@@ -1980,7 +1980,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
 
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected value*3.5011* to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but it differed by*0.0011*");
+                "Expected value to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but *3.5011* differed by*0.0011*");
         }
 
         [Fact]
@@ -2021,7 +2021,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected value *3.5011* to not approximate *3.5* +/- *0.1* because rockets will crash otherwise, but it only differed by *0.0011*");
+                    "Expected value to not approximate *3.5* +/- *0.1* because rockets will crash otherwise, but *3.5011* only differed by *0.0011*");
         }
 
         [Fact]
