@@ -20,7 +20,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -52,7 +52,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -67,7 +67,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
+                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
                     parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
@@ -84,7 +84,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -116,7 +116,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -131,7 +131,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
+                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
                     parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
@@ -148,7 +148,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -180,7 +180,7 @@ namespace FluentAssertions
         /// The maximum amount of which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -195,7 +195,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
+                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
                     parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<decimal>>(parent);
@@ -259,7 +259,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference > precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to not approximate {1} +/- {2}{reason}, but it only differed by {3}.",
+                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
                     parent.Subject, unexpectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
@@ -323,7 +323,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference > precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to not approximate {1} +/- {2}{reason}, but it only differed by {3}.",
+                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
                     parent.Subject, unexpectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
@@ -387,7 +387,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(actualDifference > precision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} {0} to not approximate {1} +/- {2}{reason}, but it only differed by {3}.",
+                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
                     parent.Subject, unexpectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<decimal>>(parent);

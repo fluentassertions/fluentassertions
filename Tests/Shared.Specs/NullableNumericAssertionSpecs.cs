@@ -216,7 +216,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value*to approximate 1.0 +/- 0.1, but it differed by*");
+                .WithMessage("Expected value to approximate 1.0 +/- 0.1, but 3.14* differed by*");
         }
 
         [Fact]
@@ -257,7 +257,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected value*to approximate *1* +/- *0.1* but it differed by*");
+                    "Expected value to approximate *1* +/- *0.1* but 3.14* differed by*");
         }
 
         [Fact]
@@ -316,7 +316,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value*to approximate*1.0* +/-*0.1*, but it differed by*");
+                .WithMessage("Expected value to approximate*1.0* +/-*0.1*, but 3.14* differed by*");
         }
 
         #endregion
@@ -380,7 +380,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value*to not approximate 3.14 +/- 0.1, but it only differed by*");
+                .WithMessage("Expected value to not approximate 3.14 +/- 0.1, but 3.14*only differed by*");
         }
 
         [Fact]
@@ -440,7 +440,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value*to not approximate *3.14F* +/- *0.1F* but it only differed by*");
+                .WithMessage("Expected value to not approximate *3.14F* +/- *0.1F* but 3.14* only differed by*");
         }
 
         [Fact]
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value*to not approximate*3.14* +/-*0.1*, but it only differed by*");
+                .WithMessage("Expected value to not approximate*3.14* +/-*0.1*, but*3.14*only differed by*");
         }
 
         #endregion
