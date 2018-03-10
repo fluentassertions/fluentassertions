@@ -1105,6 +1105,9 @@ typeof(MyPresentationModel).Should().NotBeDecoratedWith<SomeAttribute>();
 typeof(MyPresentationModel)
   .Should().NotBeDecoratedWithOrInherit<SomeInheritedOrDirectlyDecoratedAttribute>();
 
+typeof(MyBaseClass).Should().BeAbstract();
+typeof(InjectedClass).Should().NotBeStatic();
+
 MethodInfo method = GetMethod();
 method.Should().BeVirtual();
 

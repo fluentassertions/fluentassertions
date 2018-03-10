@@ -551,7 +551,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.IsCSharpSealed())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} to not be sealed{reason}.", Subject);
+                .FailWith("Expected type {0} not to be sealed{reason}.", Subject);
 
             return new AndConstraint<TypeAssertions>(this);
         }

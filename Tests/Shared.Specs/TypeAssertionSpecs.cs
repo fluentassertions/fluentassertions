@@ -1612,7 +1612,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Sealed to not be sealed.");
+                .WithMessage("Expected type FluentAssertions.Specs.Sealed not to be sealed.");
         }
 
         [Fact]
@@ -1632,7 +1632,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Sealed to not be sealed because it's very important.");
+                .WithMessage("Expected type FluentAssertions.Specs.Sealed not to be sealed because it's very important.");
         }
 
         #endregion
