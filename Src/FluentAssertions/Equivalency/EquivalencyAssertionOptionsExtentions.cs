@@ -16,7 +16,7 @@ namespace FluentAssertions.Equivalency
         {
             Type type = config.UseRuntimeTyping ? context.RuntimeType : context.CompileTimeType;
 
-            return NullableOrActualType(type);;
+            return NullableOrActualType(type);
         }
 
         private static Type NullableOrActualType(Type type)
