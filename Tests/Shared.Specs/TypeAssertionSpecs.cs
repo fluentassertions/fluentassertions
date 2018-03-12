@@ -1579,6 +1579,24 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be sealed because it's very important.");
         }
 
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_BeSealed_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeSealed();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
+        }
+
         #endregion
 
         #region NotBeSealed
@@ -1635,6 +1653,24 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type FluentAssertions.Specs.Sealed not to be sealed because it's very important.");
         }
 
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_NotBeSealed_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeSealed();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
+        }
+
         #endregion
 
         #region BeAbstract
@@ -1684,6 +1720,24 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be abstract because it's very important.");
+        }
+
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_BeAbstract_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeAbstract();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
         }
 
         #endregion
@@ -1742,6 +1796,24 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type FluentAssertions.Specs.Abstract not to be abstract because it's very important.");
         }
 
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_NotBeAbstract_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeAbstract();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
+        }
+
         #endregion
 
         #region BeStatic
@@ -1791,6 +1863,24 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be static because it's very important.");
+        }
+
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_BeStatic_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().BeStatic();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
         }
 
         #endregion
@@ -1847,6 +1937,24 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type FluentAssertions.Specs.Static not to be static because it's very important.");
+        }
+
+        [Theory]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        public void When_type_is_not_valid_for_NotBeStatic_it_throws_exception(Type type, string exceptionMessage)
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => type.Should().NotBeStatic();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage(exceptionMessage);
         }
 
         #endregion
@@ -4491,6 +4599,10 @@ namespace FluentAssertions.Specs
     internal abstract class Abstract { }
 
     internal static class Static { }
+
+    internal struct Struct { }
+
+    public delegate void ExampleDelegate();
 
     #endregion
 }

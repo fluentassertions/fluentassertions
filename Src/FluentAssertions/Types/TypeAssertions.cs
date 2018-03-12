@@ -531,6 +531,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(Subject.IsCSharpSealed())
                 .BecauseOf(because, becauseArgs)
@@ -548,6 +550,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(!Subject.IsCSharpSealed())
                 .BecauseOf(because, becauseArgs)
@@ -565,6 +569,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(Subject.IsCSharpAbstract())
                 .BecauseOf(because, becauseArgs)
@@ -582,6 +588,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(!Subject.IsCSharpAbstract())
                 .BecauseOf(because, becauseArgs)
@@ -599,6 +607,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(Subject.IsCSharpStatic())
                 .BecauseOf(because, becauseArgs)
@@ -616,6 +626,8 @@ namespace FluentAssertions.Types
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
         {
+            AssertThatSubjectIsClass();
+
             Execute.Assertion
                 .ForCondition(!Subject.IsCSharpStatic())
                 .BecauseOf(because, becauseArgs)
@@ -1203,6 +1215,15 @@ namespace FluentAssertions.Types
         protected override string Identifier
         {
             get { return "type"; }
+        }
+
+        private void AssertThatSubjectIsClass()
+        {
+            var typeInfo = Subject.GetTypeInfo();
+            if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
+            {
+               throw new ArgumentException($"{Subject} must be a class.");
+            }
         }
     }
 }
