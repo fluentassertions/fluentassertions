@@ -1593,7 +1593,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -1667,7 +1667,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -1736,7 +1736,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -1810,7 +1810,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -1879,7 +1879,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -1953,7 +1953,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 

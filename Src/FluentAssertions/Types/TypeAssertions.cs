@@ -1222,7 +1222,7 @@ namespace FluentAssertions.Types
             var typeInfo = Subject.GetTypeInfo();
             if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
             {
-               throw new ArgumentException($"{Subject} must be a class.");
+               throw new InvalidOperationException($"{Subject} must be a class.");
             }
         }
     }
