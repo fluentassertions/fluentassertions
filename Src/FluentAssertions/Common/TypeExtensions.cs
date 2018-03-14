@@ -289,6 +289,39 @@ namespace FluentAssertions.Common
             return getMethod != null && !getMethod.IsPrivate && !getMethod.IsFamily;
         }
 
+        /// <summary>
+        /// Check if the type is declared as abstract. 
+        /// </summary>
+        /// <param name="type">Type to be checked</param>
+        /// <returns></returns>
+        public static bool IsCSharpAbstract(this Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+            return typeInfo.IsAbstract && !typeInfo.IsSealed;
+        }
+
+        /// <summary>
+        /// Check if the type is declared as sealed. 
+        /// </summary>
+        /// <param name="type">Type to be checked</param>
+        /// <returns></returns>
+        public static bool IsCSharpSealed(this Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+            return typeInfo.IsSealed && !typeInfo.IsAbstract;
+        }
+
+        /// <summary>
+        /// Check if the type is declared as static. 
+        /// </summary>
+        /// <param name="type">Type to be checked</param>
+        /// <returns></returns>
+        public static bool IsCSharpStatic(this Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+            return typeInfo.IsSealed && typeInfo.IsAbstract;
+        }
+
         public static MethodInfo GetMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
         {
             return type.GetMethods(AllMembersFlag)

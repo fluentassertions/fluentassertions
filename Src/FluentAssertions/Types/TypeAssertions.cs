@@ -523,6 +523,120 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is sealed.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(Subject.IsCSharpSealed())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to be sealed{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not sealed.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(!Subject.IsCSharpSealed())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} not to be sealed{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is abstract.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(Subject.IsCSharpAbstract())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to be abstract{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not abstract.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(!Subject.IsCSharpAbstract())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} not to be abstract{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is static.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(Subject.IsCSharpStatic())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to be static{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not static.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <returns></returns>
+        public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
+        {
+            AssertThatSubjectIsClass();
+
+            Execute.Assertion
+                .ForCondition(!Subject.IsCSharpStatic())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} not to be static{reason}.", Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current type has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
         /// </summary>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -1101,6 +1215,15 @@ namespace FluentAssertions.Types
         protected override string Identifier
         {
             get { return "type"; }
+        }
+
+        private void AssertThatSubjectIsClass()
+        {
+            var typeInfo = Subject.GetTypeInfo();
+            if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
+            {
+               throw new InvalidOperationException($"{Subject} must be a class.");
+            }
         }
     }
 }
