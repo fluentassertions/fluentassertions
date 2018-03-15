@@ -32,19 +32,19 @@
       <group targetFramework="net47">
       </group>
       <group targetFramework="net45">
-        <dependency id="System.ValueTuple" version="4.3.0" />
+        <dependency id="System.ValueTuple" version="4.4.0" />
       </group>
       <group targetFramework="netstandard1.3">
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
         <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
-        <dependency id="System.ValueTuple" version="4.3.0" />
+        <dependency id="System.ValueTuple" version="4.4.0" />
       </group>
       <group targetFramework="netstandard1.6">
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
         <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
-          <dependency id="System.ValueTuple" version="4.3.0" />
+          <dependency id="System.ValueTuple" version="4.4.0" />
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="System.Configuration.ConfigurationManager" version="4.4.0" />
