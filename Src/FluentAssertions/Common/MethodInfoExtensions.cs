@@ -44,9 +44,9 @@ namespace FluentAssertions.Common
 
         private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MemberInfo memberInfo)
         {
-            var methodInfo = memberInfo as MethodInfo ?? null;
+            var methodInfo = memberInfo as MethodInfo;
 
-            var implementationFlags = methodInfo.MethodImplementationFlags;
+            var implementationFlags = methodInfo?.MethodImplementationFlags ?? 0;
 
             var implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;

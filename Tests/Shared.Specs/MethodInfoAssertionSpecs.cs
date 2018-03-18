@@ -328,7 +328,7 @@ namespace FluentAssertions.Specs
         #region NotBeDecoratedWithOfT
 
         [Fact]
-        public void When_asserting_a_method_is_not_decorated_with__attribute_and_it_is_not_it_succeeds()
+        public void When_asserting_a_method_is_not_decorated_with_attribute_and_it_is_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
