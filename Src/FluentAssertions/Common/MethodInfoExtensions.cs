@@ -24,8 +24,7 @@ namespace FluentAssertions.Common
                 .Cast<TAttribute>()
                 .ToList();
 
-            var methodBase = memberInfo as MethodBase;
-            if (typeof(TAttribute) == typeof(MethodImplAttribute) && methodBase != null)
+            if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
             {
                 var (success, methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
 
@@ -46,7 +45,7 @@ namespace FluentAssertions.Common
 
         private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MethodBase methodBase)
         {
-            var implementationFlags = methodBase?.MethodImplementationFlags ?? 0;
+            var implementationFlags = methodBase.MethodImplementationFlags;
 
             var implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;
