@@ -9,7 +9,8 @@ namespace FluentAssertions.Common
 {
     public static class MethodInfoExtensions
     {
-        private static Lazy<int> ImplementationOptionsMask = new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
+        private static readonly Lazy<int> ImplementationOptionsMask =
+            new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
 
         internal static bool IsAsync(this MethodInfo methodInfo)
         {
@@ -23,9 +24,10 @@ namespace FluentAssertions.Common
                 .Cast<TAttribute>()
                 .ToList();
 
-            if(typeof(TAttribute) == typeof(MethodImplAttribute))
+            var methodBase = memberInfo as MethodBase;
+            if (typeof(TAttribute) == typeof(MethodImplAttribute) && methodBase != null)
             {
-                var (success, methodImplAttribute) = RecreateMethodImplAttribute(memberInfo);
+                var (success, methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
 
                 if (success)
                 {
@@ -42,11 +44,9 @@ namespace FluentAssertions.Common
             return !method.IsVirtual || method.IsFinal;
         }
 
-        private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MemberInfo memberInfo)
+        private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MethodBase methodBase)
         {
-            var methodInfo = memberInfo as MethodInfo;
-
-            var implementationFlags = methodInfo?.MethodImplementationFlags ?? 0;
+            var implementationFlags = methodBase?.MethodImplementationFlags ?? 0;
 
             var implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;
