@@ -190,6 +190,54 @@ namespace FluentAssertions.Specs
                         "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
+#if !NETCOREAPP1_1
+        [Fact]
+        public void When_asserting_a_method_is_decorated_with_MethodImpl_attribute_with_no_options_and_it_is_it_throws()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetParameterlessMethod("NoOptions");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeDecoratedWith<MethodImplAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected method Void FluentAssertions.Specs.ClassWithMethodWithImplementationAttribute.NoOptions to be decorated with " +
+                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+        }
+#endif
+
+        [Fact]
+        public void When_asserting_a_method_is_decorated_with_MethodImpl_attribute_with_zero_as_options_and_it_is_it_throws()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetParameterlessMethod("ZeroOptions");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeDecoratedWith<MethodImplAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected method Void FluentAssertions.Specs.ClassWithMethodWithImplementationAttribute.ZeroOptions to be decorated with " +
+                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+        }
+
         [Fact]
         public void When_asserting_a_class_is_decorated_with_MethodImpl_attribute_and_it_is_not_it_throws()
         {
@@ -739,6 +787,14 @@ namespace FluentAssertions.Specs
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void DoNotInlineMe() { }
+
+#if !NETCOREAPP1_1
+        [MethodImpl]
+        public void NoOptions() { }
+#endif
+
+        [MethodImpl((MethodImplOptions)0)]
+        public void ZeroOptions() { }
     }
 
     #endregion
