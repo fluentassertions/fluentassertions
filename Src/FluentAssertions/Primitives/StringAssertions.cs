@@ -694,7 +694,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string contains all values present in <paramref name="values"/>.
         /// </summary>
         /// <param name="values">
-        /// The values that should not be present in the string
+        /// The values that should all be present in the string
         /// </param>
         public AndConstraint<StringAssertions> ContainAll(params string[] values)
         {
