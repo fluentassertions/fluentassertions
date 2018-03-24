@@ -9,6 +9,10 @@ namespace FluentAssertions.Common
 {
     public static class MethodInfoExtensions
     {
+        /// <summary>
+        /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
+        /// They are a subset of <see cref="MethodImplAttributes"/> which can be checked on a type and therefore this mask has to be applied to check only for options.
+        /// </summary>
         private static readonly Lazy<int> ImplementationOptionsMask =
             new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
 
@@ -45,12 +49,12 @@ namespace FluentAssertions.Common
 
         private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MethodBase methodBase)
         {
-            var implementationFlags = methodBase.MethodImplementationFlags;
+            MethodImplAttributes implementationFlags = methodBase.MethodImplementationFlags;
 
-            var implementationFlagsMatchingImplementationOptions =
+            int implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;
 
-            var implementationOptions =
+            MethodImplOptions implementationOptions =
                 (MethodImplOptions)
                 implementationFlagsMatchingImplementationOptions;
 
