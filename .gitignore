@@ -171,3 +171,17 @@ Build/**
 Tools/**
 
 .idea*
+
+# Jekyll
+*.gem
+*.sublime-project
+*.sublime-workspace
+docs/.bundle
+docs/.DS_Store
+docs/.jekyll-metadata
+docs/.sass-cache
+docs/_asset_bundler_cache
+docs/_site
+docs/codekit-config.json
+docs/Gemfile.lock
+docs/node_modules
