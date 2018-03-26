@@ -4,8 +4,6 @@ main:
     url: /about/
   - title: "Documentation"
     url: /documentation/
-  - title: "About the Author"
-    url: https://www.continuousimprover.com
 
 sidebar:
   - title: About
@@ -55,3 +53,5 @@ sidebar:
         url: /tips/#improved-assertions
       - title: Migrating from MSTest
         url: /tips/#mstest-migration
+      - title: Common problems while upgrading to 5.0
+        url: https://continuousimprover.com/2018/02/fluent-assertions-50-best-unit-test.html#upgrading-tips
