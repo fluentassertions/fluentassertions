@@ -1,0 +1,57 @@
+# main links
+main:
+  - title: "About"
+    url: /about/
+  - title: "Documentation"
+    url: /documentation/
+  - title: "About the Author"
+    url: https://www.continuousimprover.com
+
+sidebar:
+  - title: About
+    url: /about/
+    children:
+      - title: Why
+        url: /about/#why
+      - title: Frameworks and libraries
+        url: /about/#supported-frameworks-and-libraries
+      - title: Who
+        url: /about/#who-is-behind-this-project
+      - title: Versioning
+        url: /about/#versioning
+      - title: Building the code
+        url: /about/#what-do-you-need-to-compile-the-solution
+
+  - title: Examples
+    url: /examples/
+  - title: Documentation
+    url: /documentation/
+    children:
+      - title: Subject Identification
+        url: /documentation/#subject-identification
+      - title: Object Graph Equivalency
+        url: /documentation/#object-graph-comparison
+      - title: Grouping Assertions
+        url: /documentation/#assertion-scope
+
+  - title: Extensibility
+    url: /extensibility/
+    children:
+      - title: Custom Extensions
+        url: /extensibility/#building-your-own-extensions
+      - title: Scoping Extensions
+        url: /extensibility/#scoping-your-extensions
+      - title: Rendering
+        url: /extensibility/#rendering-objects-with-beauty
+      - title: Customizing Equivalency Assertions
+        url: /extensibility/#to-be-or-not-to-be-a-value-type
+
+  - title: Tips & Tricks
+    url: /tips/
+    children:
+      - title: General Tips
+        url: /tips/#general-tips
+      - title: Improving Assertions
+        url: /tips/#improved-assertions
+      - title: Migrating from MSTest
+        url: /tips/#mstest-migration

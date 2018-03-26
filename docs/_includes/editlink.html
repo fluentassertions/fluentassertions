@@ -1,0 +1,7 @@
+{% if post.url %}
+  {% assign path = post.path %}
+{% else %}
+  {% assign path = page.path %}
+{% endif %}
+
+<a href="https://github.com/{{ site.repository }}/edit/master/docs/{{ path }}"><i class="far fa-edit"></i> Edit this page</a>
