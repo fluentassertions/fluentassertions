@@ -49,7 +49,7 @@
 /* remove border*/
 .page__content {
   .archive__item-title {
-    margin-top: 1em;
+    margin-top: 0.25em;
     border-bottom: none;
   }
 }
@@ -65,9 +65,13 @@
 
 .archive__item-teaser {
   border-radius: $border-radius;
+  background-color: #fff;
   overflow: hidden;
   img {
-    width: 100%;
+    display: block;
+    margin-left: auto;
+    width: 100px;
+    margin-right:auto;
   }
 }
 
@@ -190,6 +194,7 @@
 .feature__item {
   margin-bottom: 2em;
   font-size: 1.25rem;
+  text-align: center;
 
   @include breakpoint($small) {
     float: left;
