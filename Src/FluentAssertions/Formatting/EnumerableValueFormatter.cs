@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -21,19 +22,20 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var enumerable = ((IEnumerable)value).Cast<object>().ToArray();
+            ICollection<object> enumerable = ((IEnumerable)value).ConvertOrCastToCollection<object>();
+
             if (enumerable.Any())
             {
                 string postfix = "";
 
                 int maxItems = 32;
-                if (enumerable.Length > maxItems)
+                if (enumerable.Count > maxItems)
                 {
-                    postfix = $", …{enumerable.Length - maxItems} more…";
+                    postfix = $", …{enumerable.Count - maxItems} more…";
                     enumerable = enumerable.Take(maxItems).ToArray();
                 }
 
-                return "{" + string.Join(", ", enumerable.Select((item, index) => formatChild(index.ToString(), item)).ToArray()) + postfix + "}";
+                return "{" + string.Join(", ", enumerable.Select((item, index) => formatChild(index.ToString(), item))) + postfix + "}";
             }
             else
             {

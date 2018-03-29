@@ -244,7 +244,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
 
-            TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
+            ICollection<TExpected> expectedItems = expectation.ConvertOrCastToCollection<TExpected>();
 
             AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
@@ -254,8 +254,8 @@ namespace FluentAssertions.Collections
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
-                .Given(() => Subject.Cast<TActual>().ToList().AsEnumerable())
-                .AssertCollectionsHaveSameCount(expectedItems.Length)
+                .Given(() => Subject.ConvertOrCastToCollection<TActual>())
+                .AssertCollectionsHaveSameCount(expectedItems.Count)
                 .Then
                 .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
         }
@@ -293,7 +293,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
             }
 
-            List<object> actualitems = Subject.Cast<object>().ToList();
+            ICollection<object> actualitems = Subject.ConvertOrCastToCollection<object>();
 
             if (actualitems.SequenceEqual(unexpected.Cast<object>()))
             {
@@ -435,10 +435,10 @@ namespace FluentAssertions.Collections
 
             if (actualItems.Count() == unexpectedItems.Count())
             {
-                object[] missingItems = GetMissingItems(unexpectedItems, actualItems);
+                List<object> missingItems = GetMissingItems(unexpectedItems, actualItems);
 
                 Execute.Assertion
-                    .ForCondition(missingItems.Length > 0)
+                    .ForCondition(missingItems.Count > 0)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
                         unexpected);
@@ -499,7 +499,7 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private static T[] GetMissingItems<T>(IEnumerable<T> expectedItems, IEnumerable<T> actualItems)
+        private static List<T> GetMissingItems<T>(IEnumerable<T> expectedItems, IEnumerable<T> actualItems)
         {
             List<T> missingItems = new List<T>();
             List<T> subject = actualItems.ToList();
@@ -516,7 +516,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return missingItems.ToArray();
+            return missingItems;
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expected), "Cannot verify containment against a <null> collection");
             }
 
-            IEnumerable<object> expectedObjects = expected.Cast<object>().ToArray();
+            ICollection<object> expectedObjects = expected.ConvertOrCastToCollection<object>();
             if (!expectedObjects.Any())
             {
                 throw new ArgumentException("Cannot verify containment against an empty collection",
@@ -566,7 +566,7 @@ namespace FluentAssertions.Collections
                 IEnumerable<object> missingItems = expectedObjects.Except(Subject.Cast<object>());
                 if (missingItems.Any())
                 {
-                    if (expectedObjects.Count() > 1)
+                    if (expectedObjects.Count > 1)
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
@@ -625,10 +625,10 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
             }
 
-            object[] expectedItems = expected.Cast<object>().ToArray();
-            object[] actualItems = Subject.Cast<object>().ToArray();
+            IList<object> expectedItems = expected.ConvertOrCastToList<object>();
+            IList<object> actualItems = Subject.ConvertOrCastToList<object>();
 
-            for (int index = 0; index < expectedItems.Length; index++)
+            for (int index = 0; index < expectedItems.Count; index++)
             {
                 object expectedItem = expectedItems[index];
                 actualItems = actualItems.SkipWhile(actualItem => !actualItem.IsSameOrEqualTo(expectedItem)).ToArray();
@@ -736,7 +736,7 @@ namespace FluentAssertions.Collections
                         Subject);
             }
 
-            object[] actualItems = Subject.Cast<object>().ToArray();
+            IList<object> actualItems = Subject.ConvertOrCastToList<object>();
 
             object[] orderedItems = (expectedOrder == SortOrder.Ascending)
                 ? actualItems.OrderBy(item => item, comparer).ToArray()
@@ -846,9 +846,8 @@ namespace FluentAssertions.Collections
                 ? Subject.Cast<object>().OrderBy(item => item, comparer).ToArray()
                 : Subject.Cast<object>().OrderByDescending(item => item, comparer).ToArray();
 
-            object[] actualItems = Subject.Cast<object>().ToArray();
-
-            bool itemsAreUnordered = actualItems
+            bool itemsAreUnordered = Subject
+                .Cast<object>()
                 .Where((actualItem, index) => !actualItem.IsSameOrEqualTo(orderedItems[index]))
                 .Any();
 
@@ -937,9 +936,9 @@ namespace FluentAssertions.Collections
             }
 
             IEnumerable<object> expectedItems = unexpectedSuperset.Cast<object>();
-            object[] actualItems = Subject.Cast<object>().ToArray();
+            ICollection<object> actualItems = Subject.ConvertOrCastToCollection<object>();
 
-            if (actualItems.Intersect(expectedItems).Count() == actualItems.Length)
+            if (actualItems.Intersect(expectedItems).Count() == actualItems.Count)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1104,7 +1103,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify non-containment against a <null> collection");
             }
 
-            IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
+            ICollection<object> unexpectedObjects = unexpected.ConvertOrCastToCollection<object>();
             if (!unexpectedObjects.Any())
             {
                 throw new ArgumentException("Cannot verify non-containment against an empty collection",
@@ -1132,7 +1131,7 @@ namespace FluentAssertions.Collections
                 IEnumerable<object> foundItems = unexpectedObjects.Intersect(Subject.Cast<object>());
                 if (foundItems.Any())
                 {
-                    if (unexpectedObjects.Count() > 1)
+                    if (unexpectedObjects.Count > 1)
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
@@ -1275,7 +1274,20 @@ namespace FluentAssertions.Collections
                 .Then
                 .AssertCollectionHasEnoughItems(expected.Length)
                 .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Length).IndexOfFirstDifferenceWith(e, equalityComparison));
+                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison));
+        }
+
+        protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
+                .Given(() => actualItems)
+                .AssertCollectionIsNotNull()
+                .Then
+                .AssertCollectionHasEnoughItems(expected.Count)
+                .Then
+                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison));
         }
 
         /// <summary>
@@ -1310,7 +1322,25 @@ namespace FluentAssertions.Collections
                 .Then
                 .AssertCollectionsHaveSameItems(expected, (a, e) =>
                 {
-                    int firstIndexToCompare = a.Length - e.Length;
+                    int firstIndexToCompare = a.Count - e.Count;
+                    int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
+                    return index >= 0 ? index + firstIndexToCompare : index;
+                });
+        }
+
+        protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
+                .Given(() => actual)
+                .AssertCollectionIsNotNull()
+                .Then
+                .AssertCollectionHasEnoughItems(expected.Count)
+                .Then
+                .AssertCollectionsHaveSameItems(expected, (a, e) =>
+                {
+                    int firstIndexToCompare = a.Count - e.Count;
                     int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
                     return index >= 0 ? index + firstIndexToCompare : index;
                 });
@@ -1352,8 +1382,8 @@ namespace FluentAssertions.Collections
 
         private object PredecessorOf(object succesor, IEnumerable<object> subject)
         {
-            object[] collection = subject.ToArray();
-            int index = Array.IndexOf(collection, succesor);
+            IList<object> collection = subject.ConvertOrCastToList();
+            int index = collection.IndexOf(succesor);
             return (index > 0) ? collection[index - 1] : null;
         }
 
@@ -1393,9 +1423,9 @@ namespace FluentAssertions.Collections
 
         private object SuccessorOf(object predecessor, IEnumerable<object> subject)
         {
-            object[] collection = subject.ToArray();
-            int index = Array.IndexOf(collection, predecessor);
-            return (index < (collection.Length - 1)) ? collection[index + 1] : null;
+            IList<object> collection = subject.ConvertOrCastToList();
+            int index = collection.IndexOf(predecessor);
+            return (index < (collection.Count - 1)) ? collection[index + 1] : null;
         }
 
         /// <summary>

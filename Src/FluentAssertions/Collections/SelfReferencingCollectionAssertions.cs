@@ -300,7 +300,7 @@ namespace FluentAssertions.Collections
                 return base.StartWith(null, because, becauseArgs);
             }
 
-            AssertCollectionStartsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
+            AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -329,7 +329,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
 
-            AssertCollectionStartsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);
+            AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -354,7 +354,7 @@ namespace FluentAssertions.Collections
                 return base.EndWith(null, because, becauseArgs);
             }
 
-            AssertCollectionEndsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
+            AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -383,7 +383,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
 
-            AssertCollectionEndsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);
+            AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -633,7 +633,7 @@ namespace FluentAssertions.Collections
                     .FailWith(expectationPrefix + "but found {0}.", Subject);
             }
 
-            T[] actualItems = Subject.ToArray();
+            ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
             Execute.Assertion
                 .ForCondition(actualItems.Any())
                 .BecauseOf(because, becauseArgs)
