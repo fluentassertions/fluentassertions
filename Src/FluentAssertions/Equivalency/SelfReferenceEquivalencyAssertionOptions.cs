@@ -650,10 +650,7 @@ namespace FluentAssertions.Equivalency
         protected void RemoveSelectionRule<T>()
             where T : IMemberSelectionRule
         {
-            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
-            {
-                selectionRules.Remove(selectionRule);
-            }
+            selectionRules.RemoveAll(selectionRule => selectionRule is T);
         }
 
         private void ClearMatchingRules()
