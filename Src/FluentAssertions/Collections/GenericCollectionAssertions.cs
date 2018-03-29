@@ -246,7 +246,7 @@ namespace FluentAssertions.Collections
 
             if (IsValidProperty(propertyExpression, because, args))
             {
-                IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
+                ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
                 Func<T, TSelector> keySelector = propertyExpression.Compile();
 

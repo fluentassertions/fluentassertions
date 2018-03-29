@@ -546,7 +546,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expected), "Cannot verify key containment against a <null> collection of keys");
             }
 
-            TKey[] expectedKeys = expected.ToArray();
+            ICollection<TKey> expectedKeys = expected.ConvertOrCastToCollection();
 
             if (!expectedKeys.Any())
             {
@@ -564,7 +564,7 @@ namespace FluentAssertions.Collections
 
             if (missingKeys.Any())
             {
-                if (expectedKeys.Length > 1)
+                if (expectedKeys.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -649,7 +649,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
             }
 
-            TKey[] unexpectedKeys = unexpected.ToArray();
+            ICollection<TKey> unexpectedKeys = unexpected.ConvertOrCastToCollection();
 
             if (!unexpectedKeys.Any())
             {
@@ -667,7 +667,7 @@ namespace FluentAssertions.Collections
 
             if (foundKeys.Any())
             {
-                if (unexpectedKeys.Length > 1)
+                if (unexpectedKeys.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -750,7 +750,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expected), "Cannot verify value containment against a <null> collection of values");
             }
 
-            TValue[] expectedValues = expected.ToArray();
+            ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
 
             if (!expectedValues.Any())
             {
@@ -767,7 +767,7 @@ namespace FluentAssertions.Collections
             var missingValues = expectedValues.Except(Subject.Values);
             if (missingValues.Any())
             {
-                if (expectedValues.Length > 1)
+                if (expectedValues.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -867,7 +867,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
             }
 
-            var unexpectedValues = unexpected.ToArray();
+            ICollection<TValue> unexpectedValues = unexpected.ConvertOrCastToCollection();
 
             if (!unexpectedValues.Any())
             {
@@ -884,7 +884,7 @@ namespace FluentAssertions.Collections
             var foundValues = unexpectedValues.Intersect(Subject.Values);
             if (foundValues.Any())
             {
-                if (unexpectedValues.Length > 1)
+                if (unexpectedValues.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -937,7 +937,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
             }
 
-            KeyValuePair<TKey, TValue>[] expectedKeyValuePairs = expected.ToArray();
+            ICollection<KeyValuePair<TKey, TValue>> expectedKeyValuePairs = expected.ConvertOrCastToCollection();
 
             if (!expectedKeyValuePairs.Any())
             {
@@ -957,7 +957,7 @@ namespace FluentAssertions.Collections
 
             if (missingKeys.Any())
             {
-                if (expectedKeyValuePairs.Length > 1)
+                if (expectedKeyValuePairs.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -1092,7 +1092,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(items), "Cannot compare dictionary with <null>.");
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairs = items.ToArray();
+            ICollection<KeyValuePair<TKey, TValue>> keyValuePairs = items.ConvertOrCastToCollection();
 
             if (!keyValuePairs.Any())
             {

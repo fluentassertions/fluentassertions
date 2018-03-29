@@ -34,7 +34,7 @@ namespace FluentAssertions.Execution
             if (failureMessages.Any())
             {
                 var builder = new StringBuilder();
-                builder.AppendLine(string.Join(Environment.NewLine, failureMessages.ToArray()));
+                builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
 
                 if (context.Any())
                 {
