@@ -119,18 +119,13 @@ namespace FluentAssertions.Common
 
         public static bool OverridesEquals(this Type type)
         {
-            IEnumerable<MethodInfo> methods = type
+            MethodInfo[] methods = type
                 .GetMethods(BindingFlags.Public | BindingFlags.Instance);
 
-            methods = methods
-                .Where(m => m.Name == "Equals" &&
-                            m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(object) }));
-
-            methods = methods
-                .Where(m => m.GetBaseDefinition().DeclaringType != m.DeclaringType)
-                .ToArray();
-
-            return methods.Any();
+            return methods
+                .Any(m => m.Name == "Equals"
+                       && m.GetParameters().SingleOrDefault()?.ParameterType == typeof(object)
+                       && m.GetBaseDefinition().DeclaringType != m.DeclaringType);
         }
 
         /// <summary>

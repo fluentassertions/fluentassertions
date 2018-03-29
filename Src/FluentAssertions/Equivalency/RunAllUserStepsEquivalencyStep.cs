@@ -17,8 +17,7 @@ namespace FluentAssertions.Equivalency
             IEquivalencyAssertionOptions config)
         {
             return config.UserEquivalencySteps
-                .Where(s => s.CanHandle(context, config))
-                .Any(step => step.Handle(context, parent, config));
+                .Any(step => step.CanHandle(context, config) && step.Handle(context, parent, config));
         }
     }
 }
