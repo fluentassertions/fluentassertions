@@ -87,21 +87,24 @@ namespace FluentAssertions.Equivalency
         private void LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
+            int index = 0;
+            GetTraceMessage getMessage = path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]";
+            int count = subjects.Count;
 
-            foreach (int index in Enumerable.Range(0, subjects.Count))
+            for (; index < count; index++)
             {
                 if (!matchedSubjectIndexes.Contains(index))
                 {
                     object subject = subjects[index];
 
-                    using (context.TraceBlock(path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]"))
+                    using (context.TraceBlock(getMessage))
                     {
                         string[] failures = TryToMatch(subject, expectation, expectationIndex);
 
                         results.AddSet(index, failures);
                         if (results.ContainsSuccessfulSet())
                         {
-                            context.TraceSingle(_ => $"It's a match");
+                            context.TraceSingle(_ => "It's a match");
                             matchedSubjectIndexes.Add(index);
                             break;
                         }
