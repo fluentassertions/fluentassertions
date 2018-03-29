@@ -143,7 +143,7 @@ namespace FluentAssertions.Equivalency
             return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
         }
 
-        private static IEnumerable<Type> GetDictionaryTypeArguments(Type type)
+        private static Type[] GetDictionaryTypeArguments(Type type)
         {
             Type dictionaryType = GetIDictionaryInterface(type);
 

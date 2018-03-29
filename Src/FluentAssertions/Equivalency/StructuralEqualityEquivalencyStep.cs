@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
                         context.Expectation,
                         context.Subject);
 
-            IEnumerable<SelectedMemberInfo> selectedMembers = GetSelectedMembers(context, config).ToArray();
+            SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
             if (context.IsRoot && !selectedMembers.Any())
             {
                 throw new InvalidOperationException(
