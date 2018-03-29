@@ -20,7 +20,7 @@ namespace FluentAssertions
 
         public EquivalencyStepCollection()
         {
-            steps = GetDefaultSteps().ToList();
+            steps = GetDefaultSteps();
         }
 
         public IEnumerator<IEquivalencyStep> GetEnumerator()
@@ -105,23 +105,26 @@ namespace FluentAssertions
 
         public void Reset()
         {
-            steps = GetDefaultSteps().ToList();
+            steps = GetDefaultSteps();
         }
 
-        private static IEnumerable<IEquivalencyStep> GetDefaultSteps()
+        private static List<IEquivalencyStep> GetDefaultSteps()
         {
-            yield return new RunAllUserStepsEquivalencyStep();
-            yield return new ReferenceEqualityEquivalencyStep();
-            yield return new GenericDictionaryEquivalencyStep();
-            yield return new DictionaryEquivalencyStep();
-            yield return new MultiDimensionalArrayEquivalencyStep();
-            yield return new GenericEnumerableEquivalencyStep();
-            yield return new EnumerableEquivalencyStep();
-            yield return new StringEqualityEquivalencyStep();
-            yield return new EnumEqualityStep();
-            yield return new ValueTypeEquivalencyStep();
-            yield return new StructuralEqualityEquivalencyStep();
-            yield return new SimpleEqualityEquivalencyStep();
+            return new List<IEquivalencyStep>(12)
+            {
+                new RunAllUserStepsEquivalencyStep(),
+                new ReferenceEqualityEquivalencyStep(),
+                new GenericDictionaryEquivalencyStep(),
+                new DictionaryEquivalencyStep(),
+                new MultiDimensionalArrayEquivalencyStep(),
+                new GenericEnumerableEquivalencyStep(),
+                new EnumerableEquivalencyStep(),
+                new StringEqualityEquivalencyStep(),
+                new EnumEqualityStep(),
+                new ValueTypeEquivalencyStep(),
+                new StructuralEqualityEquivalencyStep(),
+                new SimpleEqualityEquivalencyStep()
+            };
         }
     }
 }
