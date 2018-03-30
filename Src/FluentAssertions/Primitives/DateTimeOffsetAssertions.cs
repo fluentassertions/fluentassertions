@@ -124,11 +124,11 @@ namespace FluentAssertions.Primitives
             string because = "",
             params object[] becauseArgs)
         {
-            long distanceToMinInMs = (long)(nearbyTime - DateTimeOffset.MinValue).TotalMilliseconds;
-            DateTimeOffset minimumValue = nearbyTime.AddMilliseconds(-Math.Min(precision.TotalMilliseconds, distanceToMinInMs));
+            long distanceToMinInTicks = (nearbyTime - DateTimeOffset.MinValue).Ticks;
+            DateTimeOffset minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
 
-            long distanceToMaxInMs = (long)(DateTimeOffset.MaxValue - nearbyTime).TotalMilliseconds;
-            DateTimeOffset maximumValue = nearbyTime.AddMilliseconds(Math.Min(precision.TotalMilliseconds, distanceToMaxInMs));
+            long distanceToMaxInTicks = (long)(DateTimeOffset.MaxValue - nearbyTime).Ticks;
+            DateTimeOffset maximumValue = nearbyTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
@@ -191,11 +191,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotBeCloseTo(DateTimeOffset distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
-            long distanceToMinInMs = (long)(distantTime - DateTimeOffset.MinValue).TotalMilliseconds;
-            DateTimeOffset minimumValue = distantTime.AddMilliseconds(-Math.Min(precision.TotalMilliseconds, distanceToMinInMs));
+            long distanceToMinInTicks = (distantTime - DateTimeOffset.MinValue).Ticks;
+            DateTimeOffset minimumValue = distantTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
 
-            long distanceToMaxInMs = (long)(DateTimeOffset.MaxValue - distantTime).TotalMilliseconds;
-            DateTimeOffset maximumValue = distantTime.AddMilliseconds(Math.Min(precision.TotalMilliseconds, distanceToMaxInMs));
+            long distanceToMaxInTicks = (DateTimeOffset.MaxValue - distantTime).Ticks;
+            DateTimeOffset maximumValue = distantTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
