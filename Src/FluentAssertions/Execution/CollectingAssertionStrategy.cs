@@ -14,10 +14,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
-        public IEnumerable<string> FailureMessages
-        {
-            get { return failureMessages; }
-        }
+        public IEnumerable<string> FailureMessages => failureMessages;
 
         /// <summary>
         /// Discards and returns the failure messages that happened up to now.

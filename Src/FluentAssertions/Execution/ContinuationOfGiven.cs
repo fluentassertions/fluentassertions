@@ -21,10 +21,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Continuous the assertion chain if the previous assertion was successful.
         /// </summary>
-        public GivenSelector<TSubject> Then
-        {
-            get { return parent; }
-        }
+        public GivenSelector<TSubject> Then => parent;
 
         /// <summary>
         /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith"/> to return a boolean.

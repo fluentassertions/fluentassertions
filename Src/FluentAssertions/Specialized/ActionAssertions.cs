@@ -141,9 +141,6 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "action"; }
-        }
+        protected override string Identifier => "action";
     }
 }

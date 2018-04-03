@@ -28,10 +28,7 @@ namespace FluentAssertions.Equivalency
             return fieldInfo.GetValue(obj);
         }
 
-        public override Type MemberType
-        {
-            get { return fieldInfo.FieldType; }
-        }
+        public override Type MemberType => fieldInfo.FieldType;
 
         internal override CSharpAccessModifier GetGetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
 

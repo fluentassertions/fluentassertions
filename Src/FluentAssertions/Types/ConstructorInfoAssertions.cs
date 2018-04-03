@@ -25,14 +25,8 @@ namespace FluentAssertions.Types
                 constructorInfo.DeclaringType, GetParameterString(constructorInfo));
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
-        protected override string Identifier
-        {
-            get { return "constructor"; }
-        }
+        protected override string Identifier => "constructor";
     }
 }

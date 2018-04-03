@@ -78,10 +78,7 @@ namespace FluentAssertions.Execution
 
             public object Value { get; private set; }
 
-            public bool Reportable
-            {
-                get { return reportability == Reportability.Reportable; }
-            }
+            public bool Reportable => reportability == Reportability.Reportable;
 
             public DataItem Clone()
             {

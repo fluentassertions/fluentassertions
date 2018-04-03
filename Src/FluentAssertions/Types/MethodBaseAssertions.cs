@@ -58,10 +58,7 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Identifier
-        {
-            get { return "methodBase"; }
-        }
+        protected override string Identifier => "methodBase";
 
         internal static string GetParameterString(MethodBase methodBase)
         {

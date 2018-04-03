@@ -222,9 +222,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected string Context
-        {
-            get { return "method"; }
-        }
+        protected string Context => "method";
     }
 }

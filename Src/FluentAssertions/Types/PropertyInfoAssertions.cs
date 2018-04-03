@@ -274,17 +274,11 @@ namespace FluentAssertions.Types
                 property.DeclaringType, property.Name);
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "property"; }
-        }
+        protected override string Identifier => "property";
     }
 }

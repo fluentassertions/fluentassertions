@@ -188,9 +188,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "object"; }
-        }
+        protected override string Identifier => "object";
     }
 }

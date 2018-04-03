@@ -17,10 +17,7 @@ namespace FluentAssertions.Equivalency
             this.propertyInfo = propertyInfo;
         }
 
-        public override Type MemberType
-        {
-            get { return propertyInfo.PropertyType; }
-        }
+        public override Type MemberType => propertyInfo.PropertyType;
 
         internal override CSharpAccessModifier GetGetAccessModifier() => propertyInfo.GetGetMethod(true).GetCSharpAccessModifier();
 

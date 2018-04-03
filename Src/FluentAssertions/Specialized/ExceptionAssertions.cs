@@ -39,26 +39,17 @@ namespace FluentAssertions.Specialized
         /// <summary>
         ///   Gets the exception object of the exception thrown.
         /// </summary>
-        public TException And
-        {
-            get { return SingleSubject; }
-        }
+        public TException And => SingleSubject;
 
         /// <summary>
         ///   Gets the exception object of the exception thrown.
         /// </summary>
-        public TException Which
-        {
-            get { return And; }
-        }
+        public TException Which => And;
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "exception"; }
-        }
+        protected override string Identifier => "exception";
 
         /// <summary>
         ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />

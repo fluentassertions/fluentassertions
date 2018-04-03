@@ -2,14 +2,8 @@
 {
     internal class MSpecFramework : LateBoundTestFramework
     {
-        protected override string AssemblyName
-        {
-            get { return "Machine.Specifications"; }
-        }
+        protected override string AssemblyName => "Machine.Specifications";
 
-        protected override string ExceptionFullName
-        {
-            get { return "Machine.Specifications.SpecificationException"; }
-        }
+        protected override string ExceptionFullName => "Machine.Specifications.SpecificationException";
     }
 }

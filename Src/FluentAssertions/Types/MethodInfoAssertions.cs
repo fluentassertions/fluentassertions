@@ -225,14 +225,8 @@ namespace FluentAssertions.Types
                 method.DeclaringType, method.Name);
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
-        protected override string Identifier
-        {
-            get { return "method"; }
-        }
+        protected override string Identifier => "method";
     }
 }

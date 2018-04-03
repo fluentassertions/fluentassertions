@@ -18,10 +18,7 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Gets the active configuration,
         /// </summary>
-        public static Configuration Current
-        {
-            get { return Services.Configuration; }
-        }
+        public static Configuration Current => Services.Configuration;
 
         public Configuration(IConfigurationStore store)
         {

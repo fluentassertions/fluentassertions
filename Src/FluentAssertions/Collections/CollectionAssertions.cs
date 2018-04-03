@@ -1485,9 +1485,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "collection"; }
-        }
+        protected override string Identifier => "collection";
     }
 }

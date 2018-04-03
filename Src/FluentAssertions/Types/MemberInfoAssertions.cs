@@ -118,10 +118,7 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Identifier
-        {
-            get { return "member"; }
-        }
+        protected override string Identifier => "member";
 
         internal virtual string SubjectDescription
         {

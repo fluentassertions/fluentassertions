@@ -87,10 +87,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "Xml Node"; }
-        }
+        protected override string Identifier => "Xml Node";
     }
 }
 
