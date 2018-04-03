@@ -25,7 +25,7 @@ namespace FluentAssertions.Formatting
         /// <param name="context"> </param>
         /// <param name="formatChild"></param>
         /// <param name="processedObjects">
-        /// A collection of objects that 
+        /// A collection of objects that
         /// </param>
         /// <param name="nestedPropertyLevel">
         /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have

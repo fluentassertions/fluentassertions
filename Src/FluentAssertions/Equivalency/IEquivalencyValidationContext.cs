@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         object Expectation { get; }
 
         /// <summary>
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </summary>
         string Because { get; }
@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
         object Subject { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on 
+        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
         /// the collection type and not on the root itself.
         /// </summary>
         bool RootIsCollection { get; set; }

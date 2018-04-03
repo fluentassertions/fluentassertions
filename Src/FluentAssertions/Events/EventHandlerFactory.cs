@@ -1,4 +1,3 @@
-
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -130,6 +129,7 @@ namespace FluentAssertions.Events
             {
                 return false;
             }
+
             var invoke = d.GetMethod("Invoke");
             return invoke != null;
         }
@@ -149,4 +149,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-

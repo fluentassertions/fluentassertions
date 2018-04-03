@@ -25,11 +25,11 @@
         ///     Contains additional information about the formatting task.
         /// </param>
         /// <param name="formatChild">
-        ///     Allows the formatter to recursively format any child objects. 
+        ///     Allows the formatter to recursively format any child objects.
         /// </param>
         /// <remarks>
         /// DO NOT CALL <see cref="Formatter.ToString(object,bool)"/> directly, but use <paramref name="formatChild"/>
-        /// instead. This will ensure cyclic dependencies are properly detected. 
+        /// instead. This will ensure cyclic dependencies are properly detected.
         /// </remarks>
         string Format(object value, FormattingContext context, FormatChild formatChild);
     }
@@ -40,6 +40,7 @@
     public class FormattingContext
     {
         public int Depth { get; set; }
+
         public bool UseLineBreaks { get; set; }
     }
 

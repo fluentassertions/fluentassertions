@@ -290,7 +290,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Check if the type is declared as abstract. 
+        /// Check if the type is declared as abstract.
         /// </summary>
         /// <param name="type">Type to be checked</param>
         /// <returns></returns>
@@ -301,7 +301,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Check if the type is declared as sealed. 
+        /// Check if the type is declared as sealed.
         /// </summary>
         /// <param name="type">Type to be checked</param>
         /// <returns></returns>
@@ -312,7 +312,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Check if the type is declared as static. 
+        /// Check if the type is declared as static.
         /// </summary>
         /// <param name="type">Type to be checked</param>
         /// <returns></returns>
@@ -405,8 +405,7 @@ namespace FluentAssertions.Common
                     && m.ReturnType == targetType
                     && predicate(m.Name)
                     && m.GetParameters().Length == 1
-                    && m.GetParameters()[0].ParameterType == sourceType
-                );
+                    && m.GetParameters()[0].ParameterType == sourceType);
         }
 
         public static bool HasValueSemantics(this Type type)

@@ -9,8 +9,8 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// Provides convenient assertion methods on a <see cref="IMonitor{T}"/> that can be 
-    /// used to assert that certain events have been raised. 
+    /// Provides convenient assertion methods on a <see cref="IMonitor{T}"/> that can be
+    /// used to assert that certain events have been raised.
     /// </summary>
     public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
@@ -30,7 +30,7 @@ namespace FluentAssertions.Events
         /// The name of the event that should have been raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -62,7 +62,7 @@ namespace FluentAssertions.Events
         /// The name of the event that should not be raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -92,7 +92,7 @@ namespace FluentAssertions.Events
         /// <c>null</c> to refer to all properties.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -127,7 +127,7 @@ namespace FluentAssertions.Events
         /// A lambda expression referring to the property for which the property changed event should have been raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">

@@ -14,7 +14,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by
         /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
@@ -24,7 +24,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by
         /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
@@ -34,7 +34,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of string is equivalent to another collection of strings. 
+        /// Asserts that a collection of string is equivalent to another collection of strings.
         /// </summary>
         /// <remarks>
         /// The two collections are equivalent when they both contain the same strings in any order.
@@ -47,13 +47,13 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
         /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -67,19 +67,19 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that a collection of objects is equivalent to another collection of objects.
         /// </summary>
         /// <remarks>
         /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -123,7 +123,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -151,7 +151,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable{T}" /> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -172,7 +172,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

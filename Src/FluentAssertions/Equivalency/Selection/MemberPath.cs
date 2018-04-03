@@ -5,7 +5,7 @@ using System.Linq;
 namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
-    /// Encapsulates a dotted candidate to a (nested) member of a type. 
+    /// Encapsulates a dotted candidate to a (nested) member of a type.
     /// </summary>
     internal class MemberPath
     {

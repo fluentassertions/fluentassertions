@@ -70,7 +70,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Only select the methods that return the specified type 
+        /// Only select the methods that return the specified type
         /// </summary>
         public MethodInfoSelector ThatReturn<TReturn>()
         {
@@ -79,7 +79,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Only select the methods that do not return the specified type 
+        /// Only select the methods that do not return the specified type
         /// </summary>
         public MethodInfoSelector ThatDoNotReturn<TReturn>()
         {

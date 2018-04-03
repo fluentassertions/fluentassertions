@@ -53,6 +53,7 @@ namespace FluentAssertions.Execution
         }
 
         protected abstract string AssemblyName { get; }
+
         protected abstract string ExceptionFullName { get; }
     }
 }

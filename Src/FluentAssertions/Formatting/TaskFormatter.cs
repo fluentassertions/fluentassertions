@@ -3,7 +3,7 @@
 namespace FluentAssertions.Formatting
 {
     /// <summary>
-    /// Provides a human readable version of a generic or non-generic <see cref="Task"/> 
+    /// Provides a human readable version of a generic or non-generic <see cref="Task"/>
     /// including its state.
     /// </summary>
     public class TaskFormatter : IValueFormatter

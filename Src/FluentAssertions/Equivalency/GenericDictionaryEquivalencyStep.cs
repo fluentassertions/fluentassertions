@@ -162,7 +162,6 @@ namespace FluentAssertions.Equivalency
             // but it is valid. This constraint is implicitly enforced by the
             // AssertIsCompatiblyTypedDictionary method which is called before
             // the AssertSameLength method.
-
         {
             if (expectation.Count == subject.Count)
             {

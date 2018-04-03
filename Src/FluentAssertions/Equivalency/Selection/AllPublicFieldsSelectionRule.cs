@@ -5,7 +5,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
-    /// Selection rule that adds all public fields of the subject. 
+    /// Selection rule that adds all public fields of the subject.
     /// </summary>
     internal class AllPublicFieldsSelectionRule : IMemberSelectionRule
     {

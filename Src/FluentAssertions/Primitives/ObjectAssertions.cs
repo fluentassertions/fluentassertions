@@ -25,7 +25,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -47,7 +47,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -64,17 +64,17 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that an object is equivalent to another object. 
+        /// Asserts that an object is equivalent to another object.
         /// </summary>
         /// <remarks>
-        /// Objects are equivalent when both object graphs have equally named properties with the same value, 
+        /// Objects are equivalent when both object graphs have equally named properties with the same value,
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -87,22 +87,22 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that an object is equivalent to another object. 
+        /// Asserts that an object is equivalent to another object.
         /// </summary>
         /// <remarks>
-        /// Objects are equivalent when both object graphs have equally named properties with the same value, 
+        /// Objects are equivalent when both object graphs have equally named properties with the same value,
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -132,7 +132,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expectedFlag">The expected flag.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -161,7 +161,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpectedFlag">The unexpected flag.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">

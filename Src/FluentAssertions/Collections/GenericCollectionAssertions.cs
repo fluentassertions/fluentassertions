@@ -282,18 +282,18 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
+        /// Asserts that all elements in a collection of objects are equivalent to a given object.
         /// </summary>
         /// <remarks>
-        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -306,24 +306,24 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
+        /// Asserts that all elements in a collection of objects are equivalent to a given object.
         /// </summary>
         /// <remarks>
-        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

@@ -90,7 +90,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Only select the properties that return the specified type 
+        /// Only select the properties that return the specified type
         /// </summary>
         public PropertyInfoSelector OfType<TReturn>()
         {
@@ -99,7 +99,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Only select the properties that do not return the specified type 
+        /// Only select the properties that do not return the specified type
         /// </summary>
         public PropertyInfoSelector NotOfType<TReturn>()
         {

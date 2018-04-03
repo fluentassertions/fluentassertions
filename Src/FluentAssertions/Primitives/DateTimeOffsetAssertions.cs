@@ -900,6 +900,7 @@ namespace FluentAssertions.Primitives
         {
             return BeOneOf(validValues.Cast<DateTimeOffset?>(), because, becauseArgs);
         }
+
         /// <summary>
         /// Asserts that the <see cref="DateTimeOffset"/> is one of the specified <paramref name="validValues"/>.
         /// </summary>

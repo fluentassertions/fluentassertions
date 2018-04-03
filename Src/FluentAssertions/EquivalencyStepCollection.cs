@@ -12,7 +12,7 @@ namespace FluentAssertions
 {
     /// <summary>
     /// Represents a mutable collection of equivalency steps that can be reordered and/or amended with additional
-    /// custom equivalency steps. 
+    /// custom equivalency steps.
     /// </summary>
     public class EquivalencyStepCollection : IEnumerable<IEquivalencyStep>
     {
@@ -34,7 +34,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Adds a new <see cref="IEquivalencyStep"/> after any of the built-in steps, with the exception of the final 
+        /// Adds a new <see cref="IEquivalencyStep"/> after any of the built-in steps, with the exception of the final
         /// <see cref="SimpleEqualityEquivalencyStep"/>.
         /// </summary>
         public void Add<TStep>() where TStep : IEquivalencyStep, new()
@@ -59,7 +59,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Inserts a new <see cref="IEquivalencyStep"/> before any of the built-in steps. 
+        /// Inserts a new <see cref="IEquivalencyStep"/> before any of the built-in steps.
         /// </summary>
         public void Insert<TStep>() where TStep : IEquivalencyStep, new()
         {

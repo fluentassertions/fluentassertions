@@ -6,7 +6,7 @@ using System.Reflection;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// Tracks the events an object raises. 
+    /// Tracks the events an object raises.
     /// </summary>
     internal class EventMonitor<T> : IMonitor<T>
     {

@@ -197,4 +197,3 @@ namespace FluentAssertions.Formatting
         }
     }
 }
-

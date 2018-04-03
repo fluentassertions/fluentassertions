@@ -50,6 +50,7 @@ namespace FluentAssertions.Xml
             {
                 assertion.FailWith(validationResult.FormatString, validationResult.FormatParams);
             }
+
             if (!expectedEquivalence && validationResult == null)
             {
                 assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
@@ -78,12 +79,14 @@ namespace FluentAssertions.Xml
                         {
                             return validationResult;
                         }
+
                         locationStack.Push(subjectReader.LocalName);
                         validationResult = ValidateAttributes();
                         if (subjectReader.IsEmptyElement)
                         {
                             locationStack.Pop();
                         }
+
                         break;
                     case XmlNodeType.EndElement:
                         // No need to verify end element, if it doesn't match
@@ -136,8 +139,11 @@ namespace FluentAssertions.Xml
             }
 
             public string NamespaceUri { get; }
+
             public string LocalName { get; }
+
             public string Value { get; }
+
             public string Prefix { get; }
 
             public string QualifiedName
@@ -188,6 +194,7 @@ namespace FluentAssertions.Xml
                 return new ValidationResult("Expected attribute {0} at {1}{reason}, but found none.",
                     missingAttribute.LocalName, CurrentLocation);
             }
+
             return null;
         }
 
@@ -203,7 +210,8 @@ namespace FluentAssertions.Xml
                     {
                         attributes.Add(new AttributeData(reader.NamespaceURI, reader.LocalName, reader.Value, reader.Prefix));
                     }
-                } while (reader.MoveToNextAttribute());
+                }
+                while (reader.MoveToNextAttribute());
             }
 
             return attributes;

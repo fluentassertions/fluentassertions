@@ -139,6 +139,7 @@ namespace FluentAssertions.Common
                         {
                             throw new ArgumentException(unsupportedExpressionMessage, nameof(expression));
                         }
+
                         constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
                         node = methodCallExpression.Object;
                         segments.Add("[" + constantExpression.Value + "]");

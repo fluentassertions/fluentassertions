@@ -29,7 +29,7 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -64,7 +64,7 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Action"/> does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -91,7 +91,7 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Action"/> does not throw any exception.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -125,6 +125,7 @@ namespace FluentAssertions.Specialized
             {
                 actualException = exc;
             }
+
             return actualException;
         }
 

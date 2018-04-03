@@ -28,7 +28,7 @@ namespace FluentAssertions.Types
         /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -44,7 +44,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="expected">The expected type</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -125,7 +125,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Creates an error message in case the specified <paramref name="actual"/> type differs from the 
+        /// Creates an error message in case the specified <paramref name="actual"/> type differs from the
         /// <paramref name="expected"/> type.
         /// </summary>
         /// <returns>
@@ -155,7 +155,7 @@ namespace FluentAssertions.Types
         /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -171,7 +171,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="unexpected">The unexpected type</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -193,7 +193,7 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -219,7 +219,7 @@ namespace FluentAssertions.Types
         /// The predicate that the attribute must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -244,7 +244,7 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is decorated with, or inherits from a parent class, the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -270,7 +270,7 @@ namespace FluentAssertions.Types
         /// The predicate that the attribute must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -706,7 +706,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a property named 
+        /// Asserts that the current type explicitly implements a property named
         /// <paramref name="name"/> from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -729,7 +729,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a property named 
+        /// Asserts that the current type explicitly implements a property named
         /// <paramref name="name"/> from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
@@ -743,7 +743,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a property named 
+        /// Asserts that the current type does not explicitly implement a property named
         /// <paramref name="name"/> from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -766,7 +766,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a property named 
+        /// Asserts that the current type does not explicitly implement a property named
         /// <paramref name="name"/> from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
@@ -780,7 +780,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a method named <paramref name="name"/> 
+        /// Asserts that the current type explicitly implements a method named <paramref name="name"/>
         /// from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -804,7 +804,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a method named <paramref name="name"/> 
+        /// Asserts that the current type explicitly implements a method named <paramref name="name"/>
         /// from interface  <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
@@ -819,7 +819,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/> 
+        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/>
         /// from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -843,7 +843,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/> 
+        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/>
         /// from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
@@ -1038,7 +1038,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1060,7 +1060,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The unexpected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

@@ -182,4 +182,3 @@ namespace FluentAssertions.Specialized
         }
     }
 }
-

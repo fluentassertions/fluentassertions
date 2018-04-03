@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency.Selection
         public string SelectedMemberDescription { get; private set; }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
+        /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the
         /// same <see cref="System.Type"/> as the <see cref="IMemberInfo.RuntimeType"/> property does.
         /// </summary>
         public Type CompileTimeType { get; private set; }

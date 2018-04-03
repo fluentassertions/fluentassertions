@@ -22,8 +22,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the 
-        /// <paramref name="expected"/> element, by using 
+        /// Asserts that the current <see cref="XElement"/> equals the
+        /// <paramref name="expected"/> element, by using
         /// <see cref="XNode.DeepEquals(XNode, XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
@@ -33,13 +33,13 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the 
-        /// <paramref name="expected"/> element, by using 
+        /// Asserts that the current <see cref="XElement"/> equals the
+        /// <paramref name="expected"/> element, by using
         /// <see cref="XNode.DeepEquals(XNode, XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -56,8 +56,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> does not equal the 
-        /// <paramref name="unexpected"/> element, using 
+        /// Asserts that the current <see cref="XElement"/> does not equal the
+        /// <paramref name="unexpected"/> element, using
         /// <see cref="XNode.DeepEquals(XNode, XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
@@ -67,13 +67,13 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> does not equal the 
-        /// <paramref name="unexpected"/> element, using 
+        /// Asserts that the current <see cref="XElement"/> does not equal the
+        /// <paramref name="unexpected"/> element, using
         /// <see cref="XNode.DeepEquals(XNode, XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -90,7 +90,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is equivalent to the 
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the
         /// <paramref name="expected"/> element, using a semantic equivalency
         /// comparison.
         /// </summary>
@@ -101,13 +101,13 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is equivalent to the 
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the
         /// <paramref name="expected"/> element, using a semantic equivalency
         /// comparison.
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -125,7 +125,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is not equivalent to 
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to
         /// the <paramref name="unexpected"/> element, using a semantic
         /// equivalency comparison.
         /// </summary>
@@ -136,13 +136,13 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is not equivalent to 
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to
         /// the <paramref name="unexpected"/> element, using a semantic
         /// equivalency comparison.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -169,7 +169,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -215,7 +215,7 @@ namespace FluentAssertions.Xml
         /// <param name="expectedName">The name of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -234,7 +234,7 @@ namespace FluentAssertions.Xml
         /// <param name="expectedName">The name <see cref="XName"/> of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -288,7 +288,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The name <see cref="XName"/> of the expected child element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -305,7 +305,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The name <see cref="XName"/> of the expected child element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
