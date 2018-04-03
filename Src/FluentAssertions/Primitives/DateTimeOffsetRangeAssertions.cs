@@ -24,11 +24,11 @@ namespace FluentAssertions.Primitives
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
             <TimeSpanCondition, TimeSpanPredicate>
         {
-            { TimeSpanCondition.MoreThan, new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than") },
-            { TimeSpanCondition.AtLeast, new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least") },
-            { TimeSpanCondition.Exactly, new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly") },
-            { TimeSpanCondition.Within, new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within") },
-            { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }
+            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
+            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
+            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly"),
+            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within"),
+            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")
         };
 
         private readonly DateTimeOffset? subject;
