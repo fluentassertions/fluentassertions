@@ -18,13 +18,15 @@ namespace FluentAssertions.Events
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
+            Module module = recorder.GetType()
+                .GetTypeInfo()
+                .Module;
+
             var eventHandler = new DynamicMethod(
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters),
-                recorder.GetType()
-                .GetTypeInfo()
-                .Module);
+                module);
 
             MethodInfo methodToCall = typeof(IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);

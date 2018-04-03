@@ -88,11 +88,13 @@ namespace FluentAssertions.Formatting
 
                 var graph = new ObjectGraph(value);
 
-                return Format(value, new FormattingContext
+                var context = new FormattingContext
                 {
                     Depth = graph.Depth,
                     UseLineBreaks = useLineBreaks
-                }, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
+                };
+
+                return Format(value, context, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
             }
             finally
             {
@@ -119,11 +121,13 @@ namespace FluentAssertions.Formatting
                 }
                 else
                 {
-                    return Format(childValue, new FormattingContext
+                    var context = new FormattingContext
                     {
                         Depth = graph.Depth,
                         UseLineBreaks = useLineBreaks
-                    }, (x, y) => FormatChild(x, y, useLineBreaks, graph));
+                    };
+
+                    return Format(childValue, context, (x, y) => FormatChild(x, y, useLineBreaks, graph));
                 }
             }
             finally
