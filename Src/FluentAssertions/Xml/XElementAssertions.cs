@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Xml;
 using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-using System.Xml;
 
 namespace FluentAssertions.Xml
 {

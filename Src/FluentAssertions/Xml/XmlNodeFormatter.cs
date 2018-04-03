@@ -1,9 +1,8 @@
 ﻿#if NET45 || NET47 || NETSTANDARD2_0
 
+using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace FluentAssertions.Xml
 {

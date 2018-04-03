@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 using FluentAssertions.Execution;
-using System.Reflection;
 
 namespace FluentAssertions.Numeric
 {
