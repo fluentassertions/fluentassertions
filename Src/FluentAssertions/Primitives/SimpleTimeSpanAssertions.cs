@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Value.CompareTo(new TimeSpan()) > 0)
+                .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be positive{reason}, but found {0}.", Subject.Value);
 
@@ -57,7 +57,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Value.CompareTo(new TimeSpan()) < 0)
+                .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be negative{reason}, but found {0}.", Subject.Value);
 
