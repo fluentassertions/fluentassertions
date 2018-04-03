@@ -22,15 +22,9 @@ namespace FluentAssertions.Equivalency
             get { return propertyInfo.PropertyType; }
         }
 
-        internal override CSharpAccessModifier GetAccessModifier
-        {
-            get { return propertyInfo.GetGetMethod(true).GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetGetAccessModifier() => propertyInfo.GetGetMethod(true).GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier SetAccessModifier
-        {
-            get { return propertyInfo.GetSetMethod(true).GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetSetAccessModifier() => propertyInfo.GetSetMethod(true).GetCSharpAccessModifier();
 
         public override object GetValue(object obj, object[] index)
         {

@@ -33,14 +33,8 @@ namespace FluentAssertions.Equivalency
             get { return fieldInfo.FieldType; }
         }
 
-        internal override CSharpAccessModifier GetAccessModifier
-        {
-            get { return fieldInfo.GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetGetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier SetAccessModifier
-        {
-            get { return fieldInfo.GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetSetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
     }
 }

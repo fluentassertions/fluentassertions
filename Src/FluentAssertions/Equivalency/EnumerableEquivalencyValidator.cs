@@ -99,7 +99,7 @@ namespace FluentAssertions.Equivalency
                         string[] failures = TryToMatch(subject, expectation, expectationIndex);
 
                         results.AddSet(index, failures);
-                        if (results.ContainsSuccessfulSet)
+                        if (results.ContainsSuccessfulSet())
                         {
                             context.TraceSingle(_ => $"It's a match");
                             matchedSubjectIndexes.Add(index);

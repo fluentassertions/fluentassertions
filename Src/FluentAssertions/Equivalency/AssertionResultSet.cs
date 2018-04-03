@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public string[] SelectClosestMatchFor(object key = null)
         {
-            if (ContainsSuccessfulSet)
+            if (ContainsSuccessfulSet())
             {
                 return new string[0];
             }
@@ -56,9 +56,6 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this collection contains a set without any failures at all.
         /// </summary>
-        public bool ContainsSuccessfulSet
-        {
-            get { return set.Values.Any(v => v.Length == 0); }
-        }
+        public bool ContainsSuccessfulSet() => set.Values.Any(v => v.Length == 0);
     }
 }

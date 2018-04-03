@@ -224,7 +224,7 @@ namespace FluentAssertions.Specialized
                             results.AddSet(message, scope.Discard());
                         }
 
-                        if (results.ContainsSuccessfulSet)
+                        if (results.ContainsSuccessfulSet())
                         {
                             break;
                         }

@@ -299,7 +299,7 @@ namespace FluentAssertions.Execution
             }
             else
             {
-                assertionStrategy.ThrowIfAny(contextData.Reportable);
+                assertionStrategy.ThrowIfAny(contextData.GetReportable());
             }
         }
 
