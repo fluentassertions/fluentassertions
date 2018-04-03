@@ -49,7 +49,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> BeOneOf(params string[] validValues)
         {
-            return BeOneOf(validValues, String.Empty);
+            return BeOneOf(validValues, string.Empty);
         }
 
         /// <summary>

@@ -251,7 +251,7 @@ namespace FluentAssertions.Collections
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)
         {
-            return Equal(elements, String.Empty);
+            return Equal(elements, string.Empty);
         }
 
         /// <summary>

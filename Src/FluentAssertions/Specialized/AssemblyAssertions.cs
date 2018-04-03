@@ -27,7 +27,7 @@ namespace FluentAssertions.Reflection
         /// <param name="assembly">The assembly which should not be referenced.</param>
         public void NotReference(Assembly assembly)
         {
-            NotReference(assembly, String.Empty);
+            NotReference(assembly, string.Empty);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FluentAssertions.Reflection
         /// <param name="assembly">The assembly which should be referenced.</param>
         public void Reference(Assembly assembly)
         {
-            Reference(assembly, String.Empty);
+            Reference(assembly, string.Empty);
         }
 
         /// <summary>

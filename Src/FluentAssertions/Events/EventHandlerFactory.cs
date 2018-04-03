@@ -36,7 +36,7 @@ namespace FluentAssertions.Events
 
             // Create the object array for the parameters and store in local var index 0
             ilGen.Emit(OpCodes.Ldc_I4, parameters.Length);
-            ilGen.Emit(OpCodes.Newarr, typeof(Object));
+            ilGen.Emit(OpCodes.Newarr, typeof(object));
             ilGen.Emit(OpCodes.Stloc_0);
 
             for (var index = 0; index < parameters.Length; index++)

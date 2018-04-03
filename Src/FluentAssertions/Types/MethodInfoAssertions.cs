@@ -221,7 +221,7 @@ namespace FluentAssertions.Types
         {
             string returnTypeName = method.ReturnType.Name;
 
-            return String.Format("{0} {1}.{2}", returnTypeName,
+            return string.Format("{0} {1}.{2}", returnTypeName,
                 method.DeclaringType, method.Name);
         }
 

@@ -270,7 +270,7 @@ namespace FluentAssertions.Types
         internal static string GetDescriptionFor(PropertyInfo property)
         {
             string propTypeName = property.PropertyType.Name;
-            return String.Format("{0} {1}.{2}", propTypeName,
+            return string.Format("{0} {1}.{2}", propTypeName,
                 property.DeclaringType, property.Name);
         }
 

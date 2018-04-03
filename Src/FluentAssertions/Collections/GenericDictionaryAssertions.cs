@@ -523,7 +523,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">The expected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
         {
-            return ContainKeys(expected, String.Empty);
+            return ContainKeys(expected, string.Empty);
         }
 
         /// <summary>
@@ -626,7 +626,7 @@ namespace FluentAssertions.Collections
         /// <param name="unexpected">The unexpected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
         {
-            return NotContainKeys(unexpected, String.Empty);
+            return NotContainKeys(unexpected, string.Empty);
         }
 
         /// <summary>
@@ -721,7 +721,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">The expected values</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected)
         {
-            return ContainValues(expected, String.Empty);
+            return ContainValues(expected, string.Empty);
         }
 
         /// <summary>
@@ -844,7 +844,7 @@ namespace FluentAssertions.Collections
         /// <param name="unexpected">The unexpected values</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected)
         {
-            return NotContainValues(unexpected, String.Empty);
+            return NotContainValues(unexpected, string.Empty);
         }
 
         /// <summary>

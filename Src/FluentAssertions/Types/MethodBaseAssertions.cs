@@ -68,7 +68,7 @@ namespace FluentAssertions.Types
             var parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
 
             return !parameterTypes.Any()
-                ? String.Empty
+                ? string.Empty
                 : parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c);
         }
     }

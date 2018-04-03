@@ -869,7 +869,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeOneOf(params DateTimeOffset?[] validValues)
         {
-            return BeOneOf(validValues, String.Empty);
+            return BeOneOf(validValues, string.Empty);
         }
 
         /// <summary>
