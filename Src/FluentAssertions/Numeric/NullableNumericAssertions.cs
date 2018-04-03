@@ -4,9 +4,11 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Numeric
 {
     [DebuggerNonUserCode]
-    public class NullableNumericAssertions<T> : NumericAssertions<T> where T : struct
+    public class NullableNumericAssertions<T> : NumericAssertions<T>
+        where T : struct
     {
-        public NullableNumericAssertions(T? value) : base(value)
+        public NullableNumericAssertions(T? value)
+            : base(value)
         {
         }
 

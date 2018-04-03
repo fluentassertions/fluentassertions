@@ -15,7 +15,8 @@ namespace FluentAssertions.Execution
 
     public class AssertionFailedException : Exception
     {
-        public AssertionFailedException(string message) : base(message)
+        public AssertionFailedException(string message)
+            : base(message)
         {
         }
 

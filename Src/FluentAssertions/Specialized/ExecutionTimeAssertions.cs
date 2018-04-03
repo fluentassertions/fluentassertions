@@ -176,8 +176,8 @@ namespace FluentAssertions.Specialized
         /// </summary>
         /// <param name="subject">The object that exposes the method or property.</param>
         /// <param name="action">A reference to the method or property to measure the execution time of.</param>
-        public MemberExecutionTime(T subject, Expression<Action<T>> action) :
-            base(() => action.Compile()(subject), "(" + action.Body + ")")
+        public MemberExecutionTime(T subject, Expression<Action<T>> action)
+            : base(() => action.Compile()(subject), "(" + action.Body + ")")
         {
         }
     }

@@ -66,7 +66,8 @@ namespace FluentAssertions
 
         private class AggregateExceptionExtractor : IExtractExceptions
         {
-            public IEnumerable<T> OfType<T>(Exception actualException) where T : Exception
+            public IEnumerable<T> OfType<T>(Exception actualException)
+                where T : Exception
             {
                 if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
                 {

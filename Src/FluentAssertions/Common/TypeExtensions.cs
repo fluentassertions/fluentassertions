@@ -22,7 +22,8 @@ namespace FluentAssertions.Common
         /// <returns>
         ///     <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
         /// </returns>
-        public static bool HasAttribute<TAttribute>(this MemberInfo method) where TAttribute : Attribute
+        public static bool HasAttribute<TAttribute>(this MemberInfo method)
+            where TAttribute : Attribute
         {
             return method.GetCustomAttributes(typeof(TAttribute), true).Any();
         }
@@ -225,7 +226,8 @@ namespace FluentAssertions.Common
 
         private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
             Type typeToReflect,
-            Func<Type, IEnumerable<TMemberInfo>> getMembers) where TMemberInfo : MemberInfo
+            Func<Type, IEnumerable<TMemberInfo>> getMembers)
+            where TMemberInfo : MemberInfo
         {
             if (IsInterface(typeToReflect))
             {

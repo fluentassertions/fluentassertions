@@ -12,7 +12,8 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T> where T : struct
+    public class NumericAssertions<T>
+        where T : struct
     {
         public NumericAssertions(object value)
         {

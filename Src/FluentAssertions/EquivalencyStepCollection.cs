@@ -37,7 +37,8 @@ namespace FluentAssertions
         /// Adds a new <see cref="IEquivalencyStep"/> after any of the built-in steps, with the exception of the final
         /// <see cref="SimpleEqualityEquivalencyStep"/>.
         /// </summary>
-        public void Add<TStep>() where TStep : IEquivalencyStep, new()
+        public void Add<TStep>()
+            where TStep : IEquivalencyStep, new()
         {
             InsertBefore<SimpleEqualityEquivalencyStep, TStep>();
         }
@@ -45,7 +46,8 @@ namespace FluentAssertions
         /// <summary>
         /// Adds a new <see cref="IEquivalencyStep"/> right after the specified <typeparamref name="TPredecessor"/>.
         /// </summary>
-        public void AddAfter<TPredecessor, TStep>() where TStep : IEquivalencyStep, new()
+        public void AddAfter<TPredecessor, TStep>()
+            where TStep : IEquivalencyStep, new()
         {
             int insertIndex = Math.Max(steps.Count - 1, 0);
 
@@ -61,7 +63,8 @@ namespace FluentAssertions
         /// <summary>
         /// Inserts a new <see cref="IEquivalencyStep"/> before any of the built-in steps.
         /// </summary>
-        public void Insert<TStep>() where TStep : IEquivalencyStep, new()
+        public void Insert<TStep>()
+            where TStep : IEquivalencyStep, new()
         {
             steps.Insert(0, new TStep());
         }
@@ -69,7 +72,8 @@ namespace FluentAssertions
         /// <summary>
         /// Inserts a new <see cref="IEquivalencyStep"/> just before the <typeparamref name="TSuccessor"/>.
         /// </summary>
-        public void InsertBefore<TSuccessor, TStep>() where TStep : IEquivalencyStep, new()
+        public void InsertBefore<TSuccessor, TStep>()
+            where TStep : IEquivalencyStep, new()
         {
             int insertIndex = Math.Max(steps.Count - 1, 0);
 
@@ -85,7 +89,8 @@ namespace FluentAssertions
         /// <summary>
         /// Removes all instances of the specified <typeparamref name="TStep"/> from the current step.
         /// </summary>
-        public void Remove<TStep>() where TStep : IEquivalencyStep
+        public void Remove<TStep>()
+            where TStep : IEquivalencyStep
         {
             steps.RemoveAll(s => s is TStep);
         }

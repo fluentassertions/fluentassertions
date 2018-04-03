@@ -12,7 +12,8 @@ namespace FluentAssertions.Equivalency
     {
         private readonly FieldInfo fieldInfo;
 
-        public FieldSelectedMemberInfo(FieldInfo fieldInfo) : base(fieldInfo)
+        public FieldSelectedMemberInfo(FieldInfo fieldInfo)
+            : base(fieldInfo)
         {
             this.fieldInfo = fieldInfo;
         }

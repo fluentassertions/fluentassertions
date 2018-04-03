@@ -647,7 +647,8 @@ namespace FluentAssertions.Equivalency
 
         #region Non-fluent API
 
-        protected void RemoveSelectionRule<T>() where T : IMemberSelectionRule
+        protected void RemoveSelectionRule<T>()
+            where T : IMemberSelectionRule
         {
             foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
             {

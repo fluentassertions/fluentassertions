@@ -187,7 +187,8 @@ namespace FluentAssertions.Equivalency
 
         private static KeyDifference<TSubjectKey, TExpectedKey> CalculateKeyDifference<TSubjectKey, TSubjectValue, TExpectedKey,
             TExpectedValue>(IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
+            IDictionary<TExpectedKey, TExpectedValue> expectation)
+            where TExpectedKey : TSubjectKey
         {
             var missingKeys = new List<TExpectedKey>();
             var presentKeys = new HashSet<TSubjectKey>();
@@ -245,7 +246,8 @@ namespace FluentAssertions.Equivalency
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config,
             IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
+            IDictionary<TExpectedKey, TExpectedValue> expectation)
+            where TExpectedKey : TSubjectKey
         {
             foreach (TExpectedKey key in expectation.Keys)
             {

@@ -8,8 +8,8 @@ namespace FluentAssertions.Primitives
         private readonly StringComparison comparisonMode;
 
         public StringEqualityValidator(string subject, string expected, StringComparison comparisonMode, string because,
-            object[] becauseArgs) :
-                base(subject, expected, because, becauseArgs)
+            object[] becauseArgs)
+            : base(subject, expected, because, becauseArgs)
         {
             this.comparisonMode = comparisonMode;
         }

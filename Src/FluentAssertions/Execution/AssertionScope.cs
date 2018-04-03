@@ -57,7 +57,8 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
         /// </summary>
-        public AssertionScope(string context) : this()
+        public AssertionScope(string context)
+            : this()
         {
             Context = context;
         }

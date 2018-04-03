@@ -15,7 +15,8 @@ namespace FluentAssertions.Collections
     public class GenericCollectionAssertions<T> :
         SelfReferencingCollectionAssertions<T, GenericCollectionAssertions<T>>
     {
-        public GenericCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
+        public GenericCollectionAssertions(IEnumerable<T> actualValue)
+            : base(actualValue)
         {
         }
 

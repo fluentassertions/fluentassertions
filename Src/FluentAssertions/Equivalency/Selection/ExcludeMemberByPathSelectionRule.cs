@@ -11,7 +11,8 @@ namespace FluentAssertions.Equivalency.Selection
     {
         private readonly string pathToExclude;
 
-        public ExcludeMemberByPathSelectionRule(string pathToExclude) : base(pathToExclude)
+        public ExcludeMemberByPathSelectionRule(string pathToExclude)
+            : base(pathToExclude)
         {
             this.pathToExclude = pathToExclude;
         }

@@ -11,7 +11,8 @@ namespace FluentAssertions.Equivalency
     {
         private readonly PropertyInfo propertyInfo;
 
-        public PropertySelectedMemberInfo(PropertyInfo propertyInfo) : base(propertyInfo)
+        public PropertySelectedMemberInfo(PropertyInfo propertyInfo)
+            : base(propertyInfo)
         {
             this.propertyInfo = propertyInfo;
         }

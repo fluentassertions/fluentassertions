@@ -11,7 +11,8 @@ namespace FluentAssertions.Equivalency.Selection
     {
         private readonly MemberPath pathToInclude;
 
-        public IncludeMemberByPathSelectionRule(string pathToInclude) : base(pathToInclude)
+        public IncludeMemberByPathSelectionRule(string pathToInclude)
+            : base(pathToInclude)
         {
             this.pathToInclude = new MemberPath(pathToInclude);
         }
