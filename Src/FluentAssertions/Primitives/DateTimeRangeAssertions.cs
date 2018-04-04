@@ -24,11 +24,11 @@ namespace FluentAssertions.Primitives
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
             <TimeSpanCondition, TimeSpanPredicate>
         {
-            {TimeSpanCondition.MoreThan, new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than")},
-            {TimeSpanCondition.AtLeast, new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least")},
-            {TimeSpanCondition.Exactly, new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly")},
-            {TimeSpanCondition.Within, new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within")},
-            {TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")}
+            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
+            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
+            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly"),
+            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within"),
+            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")
         };
 
         private readonly DateTime? subject;
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -95,7 +95,7 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">

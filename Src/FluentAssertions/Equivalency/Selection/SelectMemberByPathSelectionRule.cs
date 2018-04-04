@@ -12,10 +12,7 @@ namespace FluentAssertions.Equivalency.Selection
             this.selectedPath = selectedPath;
         }
 
-        public virtual bool IncludesMembers
-        {
-            get { return false; }
-        }
+        public virtual bool IncludesMembers => false;
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context,
             IEquivalencyAssertionOptions config)

@@ -38,7 +38,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The expected document</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -70,7 +70,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="unexpected">The unexpected document</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -107,7 +107,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The expected document</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -136,7 +136,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="unexpected">The unexpected document</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -175,7 +175,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The name of the expected root element of the current document.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -199,7 +199,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The full name <see cref="XName"/> of the expected root element of the current document.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -261,7 +261,7 @@ namespace FluentAssertions.Xml
         /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -287,7 +287,7 @@ namespace FluentAssertions.Xml
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -328,9 +328,6 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "XML document"; }
-        }
+        protected override string Identifier => "XML document";
     }
 }

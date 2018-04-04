@@ -22,7 +22,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected member is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -39,7 +39,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected member is not decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -60,7 +60,7 @@ namespace FluentAssertions.Types
         /// The predicate that the attribute must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -71,7 +71,7 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = String.Format("Expected {0} {1}" +
+            string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));
 
@@ -93,7 +93,7 @@ namespace FluentAssertions.Types
         /// The predicate that the attribute must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -104,7 +104,7 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = String.Format("Expected {0} {1}" +
+            string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to not be decorated with {2}{{reason}}, but that attribute was found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));
 
@@ -118,16 +118,13 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Identifier
-        {
-            get { return "member"; }
-        }
+        protected override string Identifier => "member";
 
         internal virtual string SubjectDescription
         {
             get
             {
-                return String.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
+                return string.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
             }
         }
     }

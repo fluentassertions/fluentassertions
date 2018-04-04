@@ -15,9 +15,13 @@ namespace FluentAssertions.Equivalency
         }
 
         public SelectedMemberInfo SubjectProperty { get; private set; }
+
         public TSubject Subject { get; private set; }
+
         public TSubject Expectation { get; private set; }
+
         public string Because { get; set; }
+
         public object[] BecauseArgs { get; set; }
 
         internal static AssertionContext<TSubject> CreateFromEquivalencyValidationContext(IEquivalencyValidationContext context)

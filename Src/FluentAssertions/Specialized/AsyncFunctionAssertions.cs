@@ -30,7 +30,7 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -89,13 +89,14 @@ namespace FluentAssertions.Specialized
         /// Asserts that the current <see cref="Func{Task}"/> does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
+        public void NotThrow<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
         {
             try
             {

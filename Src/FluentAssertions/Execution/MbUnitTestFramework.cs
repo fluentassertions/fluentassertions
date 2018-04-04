@@ -2,14 +2,8 @@
 {
     internal class MbUnitTestFramework : LateBoundTestFramework
     {
-        protected override string AssemblyName
-        {
-            get { return "MbUnit.Framework"; }
-        }
+        protected override string AssemblyName => "MbUnit.Framework";
 
-        protected override string ExceptionFullName
-        {
-            get { return "MbUnit.Core.Exceptions.AssertionException"; }
-        }
+        protected override string ExceptionFullName => "MbUnit.Core.Exceptions.AssertionException";
     }
 }

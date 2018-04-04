@@ -207,7 +207,7 @@ namespace FluentAssertions.Collections
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params object[] elements)
         {
-            return Equal(elements, String.Empty);
+            return Equal(elements, string.Empty);
         }
 
         /// <summary>
@@ -1485,9 +1485,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "collection"; }
-        }
+        protected override string Identifier => "collection";
     }
 }

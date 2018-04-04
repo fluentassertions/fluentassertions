@@ -20,7 +20,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -42,7 +42,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The unexpected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -58,17 +58,14 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected override string Identifier
-        {
-            get { return "methodBase"; }
-        }
+        protected override string Identifier => "methodBase";
 
         internal static string GetParameterString(MethodBase methodBase)
         {
             var parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
 
             return !parameterTypes.Any()
-                ? String.Empty
+                ? string.Empty
                 : parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c);
         }
     }

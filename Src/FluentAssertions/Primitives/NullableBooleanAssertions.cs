@@ -19,7 +19,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable boolean value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -39,7 +39,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable boolean value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable boolean value is <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -74,7 +74,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a nullable boolean value is <c>null</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -90,7 +90,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -110,7 +110,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that the value is not <c>false</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -130,7 +130,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that the value is not <c>true</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

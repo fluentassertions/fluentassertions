@@ -1,9 +1,9 @@
 ﻿#if NET45 || NET47 || NETSTANDARD2_0
 
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
 using System.Diagnostics;
 using System.Xml;
+using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Xml
 {
@@ -21,7 +21,8 @@ namespace FluentAssertions.Xml
         /// <param name="xmlElement"></param>
         public XmlElementAssertions(XmlElement xmlElement)
             : base(xmlElement)
-        { }
+        {
+        }
 
         /// <summary>
         /// Asserts that the current <see cref="XmlElement"/> has the specified
@@ -39,7 +40,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expected">The expected value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -63,7 +64,6 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expectedName">The name of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
-
         public AndConstraint<XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue)
         {
             return HaveAttribute(expectedName, expectedValue, string.Empty);
@@ -77,7 +77,7 @@ namespace FluentAssertions.Xml
         /// <param name="expectedName">The name of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -108,7 +108,7 @@ namespace FluentAssertions.Xml
         /// <param name="expectedName">The name of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -160,7 +160,7 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expectedName">The name of the expected child element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -193,7 +193,7 @@ namespace FluentAssertions.Xml
         /// <param name="expectedName">The name of the expected child element</param>
         /// <param name="expectedNamespace">The namespace of the expected child element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

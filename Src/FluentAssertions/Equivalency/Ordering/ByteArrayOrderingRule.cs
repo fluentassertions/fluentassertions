@@ -4,7 +4,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency.Ordering
 {
     /// <summary>
-    /// Ordering rule that ensures that byte arrays are always compared in strict ordering since it would cause a 
+    /// Ordering rule that ensures that byte arrays are always compared in strict ordering since it would cause a
     /// severe performance impact otherwise.
     /// </summary>
     internal class ByteArrayOrderingRule : IOrderingRule

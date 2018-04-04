@@ -37,50 +37,26 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        public ConversionSelector ConversionSelector
-        {
-            get { return inner.ConversionSelector; }
-        }
+        public ConversionSelector ConversionSelector => inner.ConversionSelector;
 
         public IEnumerable<IEquivalencyStep> UserEquivalencySteps
         {
             get { return inner.UserEquivalencySteps.Select(step => new CollectionMemberAssertionRuleDecorator(step)).ToArray(); }
         }
 
-        public bool IsRecursive
-        {
-            get { return inner.IsRecursive; }
-        }
+        public bool IsRecursive => inner.IsRecursive;
 
-        public bool AllowInfiniteRecursion
-        {
-            get { return inner.AllowInfiniteRecursion; }
-        }
+        public bool AllowInfiniteRecursion => inner.AllowInfiniteRecursion;
 
-        public CyclicReferenceHandling CyclicReferenceHandling
-        {
-            get { return inner.CyclicReferenceHandling; }
-        }
+        public CyclicReferenceHandling CyclicReferenceHandling => inner.CyclicReferenceHandling;
 
-        public EnumEquivalencyHandling EnumEquivalencyHandling
-        {
-            get { return inner.EnumEquivalencyHandling; }
-        }
+        public EnumEquivalencyHandling EnumEquivalencyHandling => inner.EnumEquivalencyHandling;
 
-        public bool UseRuntimeTyping
-        {
-            get { return inner.UseRuntimeTyping; }
-        }
+        public bool UseRuntimeTyping => inner.UseRuntimeTyping;
 
-        public bool IncludeProperties
-        {
-            get { return inner.IncludeProperties; }
-        }
+        public bool IncludeProperties => inner.IncludeProperties;
 
-        public bool IncludeFields
-        {
-            get { return inner.IncludeFields; }
-        }
+        public bool IncludeFields => inner.IncludeFields;
 
         public EqualityStrategy GetEqualityStrategy(Type type)
         {

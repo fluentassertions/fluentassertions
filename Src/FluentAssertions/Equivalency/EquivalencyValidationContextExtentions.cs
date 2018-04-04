@@ -30,14 +30,14 @@ namespace FluentAssertions.Equivalency
             string index, object subject, T expectation)
         {
             string memberDescription = "[" + index + "]";
-            string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "item" : context.SelectedMemberDescription + String.Empty;
+            string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "item" : context.SelectedMemberDescription + string.Empty;
 
             return new EquivalencyValidationContext
             {
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 Subject = subject,
                 Expectation = expectation,
-                SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, String.Empty),
+                SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, string.Empty),
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
@@ -54,14 +54,14 @@ namespace FluentAssertions.Equivalency
             TExpectation expectation)
         {
             string memberDescription = "[" + key + "]";
-            string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "pair" : context.SelectedMemberDescription + String.Empty;
+            string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "pair" : context.SelectedMemberDescription + string.Empty;
 
             return new EquivalencyValidationContext
             {
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 Subject = subject,
                 Expectation = expectation,
-                SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, String.Empty),
+                SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, string.Empty),
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,

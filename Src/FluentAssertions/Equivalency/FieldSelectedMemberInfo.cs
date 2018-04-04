@@ -12,7 +12,8 @@ namespace FluentAssertions.Equivalency
     {
         private readonly FieldInfo fieldInfo;
 
-        public FieldSelectedMemberInfo(FieldInfo fieldInfo) : base(fieldInfo)
+        public FieldSelectedMemberInfo(FieldInfo fieldInfo)
+            : base(fieldInfo)
         {
             this.fieldInfo = fieldInfo;
         }
@@ -27,19 +28,10 @@ namespace FluentAssertions.Equivalency
             return fieldInfo.GetValue(obj);
         }
 
-        public override Type MemberType
-        {
-            get { return fieldInfo.FieldType; }
-        }
+        public override Type MemberType => fieldInfo.FieldType;
 
-        internal override CSharpAccessModifier GetAccessModifier
-        {
-            get { return fieldInfo.GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetGetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier SetAccessModifier
-        {
-            get { return fieldInfo.GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetSetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
     }
 }

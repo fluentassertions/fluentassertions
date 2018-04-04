@@ -23,12 +23,12 @@ namespace FluentAssertions.Extensions
     {
         /// <summary>
         /// Represents the number of ticks that are in 1 microsecond.
-        /// </summary>	
+        /// </summary>
         public const Int64 TicksPerMicrosecond = TimeSpan.TicksPerMillisecond / 1000;
 
         /// <summary>
         /// Represents the number of ticks that are in 1 nanosecond.
-        /// </summary>	
+        /// </summary>
         public const Double TicksPerNanosecond = TicksPerMicrosecond / 1000d;
 
         /// <summary>

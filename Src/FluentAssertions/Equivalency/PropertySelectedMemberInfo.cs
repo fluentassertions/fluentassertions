@@ -11,25 +11,17 @@ namespace FluentAssertions.Equivalency
     {
         private readonly PropertyInfo propertyInfo;
 
-        public PropertySelectedMemberInfo(PropertyInfo propertyInfo) : base(propertyInfo)
+        public PropertySelectedMemberInfo(PropertyInfo propertyInfo)
+            : base(propertyInfo)
         {
             this.propertyInfo = propertyInfo;
         }
 
-        public override Type MemberType
-        {
-            get { return propertyInfo.PropertyType; }
-        }
+        public override Type MemberType => propertyInfo.PropertyType;
 
-        internal override CSharpAccessModifier GetAccessModifier
-        {
-            get { return propertyInfo.GetGetMethod(true).GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetGetAccessModifier() => propertyInfo.GetGetMethod(true).GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier SetAccessModifier
-        {
-            get { return propertyInfo.GetSetMethod(true).GetCSharpAccessModifier(); }
-        }
+        internal override CSharpAccessModifier GetSetAccessModifier() => propertyInfo.GetSetMethod(true).GetCSharpAccessModifier();
 
         public override object GetValue(object obj, object[] index)
         {

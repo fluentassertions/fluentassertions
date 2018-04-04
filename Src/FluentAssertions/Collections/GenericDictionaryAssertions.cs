@@ -33,7 +33,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected number of items.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -214,7 +214,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="countPredicate">The predicate which must be satisfied by the amount of items.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -258,7 +258,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the dictionary does not contain any items.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -285,7 +285,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the dictionary contains at least 1 item.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -320,7 +320,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected dictionary</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -379,7 +379,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The unexpected dictionary</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -427,18 +427,18 @@ namespace FluentAssertions.Collections
         #endregion
 
         /// <summary>
-        /// Asserts that two dictionaries are equivalent. 
+        /// Asserts that two dictionaries are equivalent.
         /// </summary>
         /// <remarks>
-        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of the values in the dictionaries are ignored as long as both dictionaries contain the same keys and
-        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global 
+        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global
         /// defaults managed by the <see cref="AssertionOptions"/> class.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -451,24 +451,24 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that two dictionaries are equivalent. 
+        /// Asserts that two dictionaries are equivalent.
         /// </summary>
         /// <remarks>
-        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
+        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
         /// The type of the values in the dictionaries are ignored as long as both dictionaries contain the same keys and
-        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global 
+        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global
         /// defaults managed by the <see cref="AssertionOptions"/> class.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -502,7 +502,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected key</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -523,7 +523,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">The expected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
         {
-            return ContainKeys(expected, String.Empty);
+            return ContainKeys(expected, string.Empty);
         }
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected keys</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -593,7 +593,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The unexpected key</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -626,7 +626,7 @@ namespace FluentAssertions.Collections
         /// <param name="unexpected">The unexpected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
         {
-            return NotContainKeys(unexpected, String.Empty);
+            return NotContainKeys(unexpected, string.Empty);
         }
 
         /// <summary>
@@ -635,7 +635,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The unexpected keys</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -696,7 +696,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -721,7 +721,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">The expected values</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected)
         {
-            return ContainValues(expected, String.Empty);
+            return ContainValues(expected, string.Empty);
         }
 
         /// <summary>
@@ -730,7 +730,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected values</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -811,7 +811,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -844,7 +844,7 @@ namespace FluentAssertions.Collections
         /// <param name="unexpected">The unexpected values</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected)
         {
-            return NotContainValues(unexpected, String.Empty);
+            return NotContainValues(unexpected, string.Empty);
         }
 
         /// <summary>
@@ -853,7 +853,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The unexpected values</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -923,7 +923,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected key/value pairs.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1004,7 +1004,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1023,7 +1023,7 @@ namespace FluentAssertions.Collections
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1078,7 +1078,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="items">The unexpected key/value pairs</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1141,7 +1141,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="item">The unexpected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1160,7 +1160,7 @@ namespace FluentAssertions.Collections
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1193,9 +1193,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "dictionary"; }
-        }
+        protected override string Identifier => "dictionary";
     }
 }

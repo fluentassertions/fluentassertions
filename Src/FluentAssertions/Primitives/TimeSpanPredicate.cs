@@ -16,10 +16,7 @@ namespace FluentAssertions.Primitives
             this.displayText = displayText;
         }
 
-        public string DisplayText
-        {
-            get { return displayText; }
-        }
+        public string DisplayText => displayText;
 
         public bool IsMatchedBy(TimeSpan actual, TimeSpan expected)
         {

@@ -20,7 +20,7 @@ namespace FluentAssertions
         /// The type of the exception it should throw.
         /// </typeparam>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -46,7 +46,7 @@ namespace FluentAssertions
         /// The type of the exception it should throw.
         /// </typeparam>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -66,7 +66,8 @@ namespace FluentAssertions
 
         private class AggregateExceptionExtractor : IExtractExceptions
         {
-            public IEnumerable<T> OfType<T>(Exception actualException) where T : Exception
+            public IEnumerable<T> OfType<T>(Exception actualException)
+                where T : Exception
             {
                 if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
                 {

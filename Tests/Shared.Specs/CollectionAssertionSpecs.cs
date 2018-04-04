@@ -1605,8 +1605,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            try { actual.Should().NotEqual(expected); }
-            catch { /* we don't care about the exception, we just need to check the enumeration count */ }
+            try
+            {
+                actual.Should().NotEqual(expected);
+            }
+            catch
+            {
+                /* we don't care about the exception, we just need to check the enumeration count */
+            }
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1626,8 +1632,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            try { actual.Should().Equal(expected); }
-            catch { /* we don't care about the exception, we just need to check the enumeration count */ }
+            try
+            {
+                actual.Should().Equal(expected);
+            }
+            catch
+            {
+                /* we don't care about the exception, we just need to check the enumeration count */
+            }
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3361,7 +3373,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().StartWith(new[] { "john", "ryan", "jane" }, (s1, s2) => String.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
+            Action act = () => collection.Should().StartWith(new[] { "john", "ryan", "jane" }, (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3419,7 +3431,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().StartWith(new[] { "JoHn", "bIlL" }, (s1, s2) => String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().StartWith(new[] { "JoHn", "bIlL" }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3514,7 +3526,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().StartWith(new[] { null, "JoHn", null, "bIlL" }, (s1, s2) => String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().StartWith(new[] { null, "JoHn", null, "bIlL" }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3632,7 +3644,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().EndWith(new[] { "bill", "ryan", "mike" }, (s1, s2) => String.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
+            Action act = () => collection.Should().EndWith(new[] { "bill", "ryan", "mike" }, (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3690,7 +3702,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().EndWith(new[] { "JaNe", "mIkE" }, (s1, s2) => String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().EndWith(new[] { "JaNe", "mIkE" }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3747,7 +3759,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().EndWith(new[] { "JaNe", null, "mIkE", null }, (s1, s2) => String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().EndWith(new[] { "JaNe", null, "mIkE", null }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

@@ -22,7 +22,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected method is virtual.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -47,7 +47,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected method is not virtual.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -66,7 +66,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected method is async. 
+        /// Asserts that the selected method is async.
         /// </summary>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
@@ -86,7 +86,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected method is not async. 
+        /// Asserts that the selected method is not async.
         /// </summary>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
@@ -107,7 +107,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected MethodInfo returns void.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -128,7 +128,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="returnType">The expected return type.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -149,7 +149,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TReturn">The expected return type.</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -164,7 +164,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected MethodInfo does not return void.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -185,7 +185,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="returnType">The unexpected return type.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -206,7 +206,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TReturn">The unexpected return type.</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -221,18 +221,12 @@ namespace FluentAssertions.Types
         {
             string returnTypeName = method.ReturnType.Name;
 
-            return String.Format("{0} {1}.{2}", returnTypeName,
+            return string.Format("{0} {1}.{2}", returnTypeName,
                 method.DeclaringType, method.Name);
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
-        protected override string Identifier
-        {
-            get { return "method"; }
-        }
+        protected override string Identifier => "method";
     }
 }

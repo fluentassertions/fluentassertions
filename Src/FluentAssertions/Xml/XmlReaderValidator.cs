@@ -1,10 +1,8 @@
-﻿using FluentAssertions.Execution;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Xml
 {
@@ -14,10 +12,7 @@ namespace FluentAssertions.Xml
         private readonly XmlReader subjectReader;
         private readonly XmlReader otherReader;
 
-        private string CurrentLocation
-        {
-            get { return "/" + string.Join("/", locationStack.Reverse()); }
-        }
+        private string GetCurrentLocation() => "/" + string.Join("/", locationStack.Reverse());
 
         private readonly Stack<string> locationStack = new Stack<string>();
 
@@ -50,6 +45,7 @@ namespace FluentAssertions.Xml
             {
                 assertion.FailWith(validationResult.FormatString, validationResult.FormatParams);
             }
+
             if (!expectedEquivalence && validationResult == null)
             {
                 assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
@@ -65,7 +61,7 @@ namespace FluentAssertions.Xml
                 if (subjectReader.NodeType != otherReader.NodeType)
                 {
                     return new ValidationResult("Expected node of type {0} at {1}{reason}, but found {2}.",
-                        otherReader.NodeType, CurrentLocation, subjectReader.NodeType);
+                        otherReader.NodeType, GetCurrentLocation(), subjectReader.NodeType);
                 }
 
                 ValidationResult validationResult = null;
@@ -78,12 +74,14 @@ namespace FluentAssertions.Xml
                         {
                             return validationResult;
                         }
+
                         locationStack.Push(subjectReader.LocalName);
                         validationResult = ValidateAttributes();
                         if (subjectReader.IsEmptyElement)
                         {
                             locationStack.Pop();
                         }
+
                         break;
                     case XmlNodeType.EndElement:
                         // No need to verify end element, if it doesn't match
@@ -95,7 +93,7 @@ namespace FluentAssertions.Xml
                         validationResult = ValidateText();
                         break;
                     default:
-                        throw new NotSupportedException($"{subjectReader.NodeType} found at {CurrentLocation} is not supported for equivalency comparison.");
+                        throw new NotSupportedException($"{subjectReader.NodeType} found at {GetCurrentLocation()} is not supported for equivalency comparison.");
                 }
 
                 if (validationResult != null)
@@ -136,8 +134,11 @@ namespace FluentAssertions.Xml
             }
 
             public string NamespaceUri { get; }
+
             public string LocalName { get; }
+
             public string Value { get; }
+
             public string Prefix { get; }
 
             public string QualifiedName
@@ -168,13 +169,13 @@ namespace FluentAssertions.Xml
                 if (expectedAttribute == null)
                 {
                     return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
-                        subjectAttribute.QualifiedName, CurrentLocation);
+                        subjectAttribute.QualifiedName, GetCurrentLocation());
                 }
 
                 if (subjectAttribute.Value != expectedAttribute.Value)
                 {
                     return new ValidationResult("Expected attribute {0} at {1} to have value {2}{reason}, but found {3}.",
-                        subjectAttribute.LocalName, CurrentLocation, expectedAttribute.Value, subjectAttribute.Value);
+                        subjectAttribute.LocalName, GetCurrentLocation(), expectedAttribute.Value, subjectAttribute.Value);
                 }
             }
 
@@ -186,8 +187,9 @@ namespace FluentAssertions.Xml
                         && sa.LocalName == ea.LocalName));
 
                 return new ValidationResult("Expected attribute {0} at {1}{reason}, but found none.",
-                    missingAttribute.LocalName, CurrentLocation);
+                    missingAttribute.LocalName, GetCurrentLocation());
             }
+
             return null;
         }
 
@@ -203,7 +205,8 @@ namespace FluentAssertions.Xml
                     {
                         attributes.Add(new AttributeData(reader.NamespaceURI, reader.LocalName, reader.Value, reader.Prefix));
                     }
-                } while (reader.MoveToNextAttribute());
+                }
+                while (reader.MoveToNextAttribute());
             }
 
             return attributes;
@@ -214,13 +217,13 @@ namespace FluentAssertions.Xml
             if (subjectReader.LocalName != otherReader.LocalName)
             {
                 return new ValidationResult("Expected local name of element at {0} to be {1}{reason}, but found {2}.",
-                    CurrentLocation, otherReader.LocalName, subjectReader.LocalName);
+                    GetCurrentLocation(), otherReader.LocalName, subjectReader.LocalName);
             }
 
             if (subjectReader.NamespaceURI != otherReader.NamespaceURI)
             {
                 return new ValidationResult("Expected namespace of element {0} at {1} to be {2}{reason}, but found {3}.",
-                    subjectReader.LocalName, CurrentLocation, otherReader.NamespaceURI, subjectReader.NamespaceURI);
+                    subjectReader.LocalName, GetCurrentLocation(), otherReader.NamespaceURI, subjectReader.NamespaceURI);
             }
 
             return null;
@@ -234,7 +237,7 @@ namespace FluentAssertions.Xml
             if (subject != expected)
             {
                 return new ValidationResult("Expected content to be {0} at {1}{reason}, but found {2}.",
-                    expected, CurrentLocation, subject);
+                    expected, GetCurrentLocation(), subject);
             }
 
             return null;

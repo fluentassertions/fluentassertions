@@ -11,10 +11,7 @@ namespace FluentAssertions.Equivalency.Selection
             this.selectionRule = selectionRule;
         }
 
-        public bool IncludesMembers
-        {
-            get { return selectionRule.IncludesMembers; }
-        }
+        public bool IncludesMembers => selectionRule.IncludesMembers;
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
             IMemberInfo context, IEquivalencyAssertionOptions config)

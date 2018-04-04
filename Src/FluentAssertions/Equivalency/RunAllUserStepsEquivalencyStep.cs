@@ -3,7 +3,7 @@
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Represents a composite equivalency step that passes the execution to all user-supplied steps that can handle the 
+    /// Represents a composite equivalency step that passes the execution to all user-supplied steps that can handle the
     /// current context.
     /// </summary>
     public class RunAllUserStepsEquivalencyStep : IEquivalencyStep

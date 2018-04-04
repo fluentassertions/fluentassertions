@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 using FluentAssertions.Execution;
-using System.Reflection;
 
 namespace FluentAssertions.Numeric
 {
@@ -12,7 +12,8 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T> where T : struct
+    public class NumericAssertions<T>
+        where T : struct
     {
         public NumericAssertions(object value)
         {
@@ -33,7 +34,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The expected value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -54,7 +55,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The expected value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -75,7 +76,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="unexpected">The unexpected value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -96,7 +97,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="unexpected">The unexpected value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -116,7 +117,7 @@ namespace FluentAssertions.Numeric
         /// Asserts that the numeric value is greater than zero.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -136,7 +137,7 @@ namespace FluentAssertions.Numeric
         /// Asserts that the numeric value is less than zero.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -157,7 +158,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -178,7 +179,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -200,7 +201,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -222,7 +223,7 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -243,7 +244,7 @@ namespace FluentAssertions.Numeric
         /// Asserts that a value is within a range.
         /// </summary>
         /// <remarks>
-        /// Where the range is continuous or incremental depends on the actual type of the value. 
+        /// Where the range is continuous or incremental depends on the actual type of the value.
         /// </remarks>
         /// <param name="minimumValue">
         /// The minimum valid value of the range.
@@ -252,7 +253,7 @@ namespace FluentAssertions.Numeric
         /// The maximum valid value of the range.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -319,7 +320,7 @@ namespace FluentAssertions.Numeric
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -343,7 +344,7 @@ namespace FluentAssertions.Numeric
         /// The type that the subject is supposed to be of.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -371,7 +372,7 @@ namespace FluentAssertions.Numeric
         /// The type that the subject is not supposed to be of.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

@@ -18,10 +18,7 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Gets the active configuration,
         /// </summary>
-        public static Configuration Current
-        {
-            get { return Services.Configuration; }
-        }
+        public static Configuration Current => Services.Configuration;
 
         public Configuration(IConfigurationStore store)
         {
@@ -29,7 +26,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Gets or sets the mode on how Fluent Assertions will find custom implementations of 
+        /// Gets or sets the mode on how Fluent Assertions will find custom implementations of
         /// <see cref="IValueFormatter"/>.
         /// </summary>
         public ValueFormatterDetectionMode ValueFormatterDetectionMode
@@ -46,7 +43,11 @@ namespace FluentAssertions.Common
                     return valueFormatterDetectionMode.Value;
                 }
             }
-            set { valueFormatterDetectionMode = value; }
+
+            set
+            {
+                valueFormatterDetectionMode = value;
+            }
         }
 
         private ValueFormatterDetectionMode DetermineFormatterDetectionMode()
@@ -93,6 +94,7 @@ namespace FluentAssertions.Common
 
                 return valueFormatterAssembly;
             }
+
             set
             {
                 lock (propertiesAccessLock)
@@ -104,7 +106,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Gets or sets the name of the test framework to use. 
+        /// Gets or sets the name of the test framework to use.
         /// </summary>
         /// <remarks>
         /// If no name is provided, Fluent Assertions

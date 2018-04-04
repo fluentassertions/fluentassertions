@@ -73,7 +73,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute" +
                     " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
@@ -901,7 +900,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithAttribute)
+                typeof(ClassWithAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -924,9 +923,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithAttribute),
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithAttribute),
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -953,9 +952,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithAttribute),
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithAttribute),
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1098,7 +1097,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithInheritedAttribute)
+                typeof(ClassWithInheritedAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1121,9 +1120,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithAttribute),
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithAttribute),
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1150,10 +1149,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithAttribute),
-                typeof (ClassWithInheritedAttribute),
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithAttribute),
+                typeof(ClassWithInheritedAttribute),
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1295,8 +1294,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1319,8 +1318,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithoutAttribute),
-                typeof (ClassWithAttribute)
+                typeof(ClassWithoutAttribute),
+                typeof(ClassWithAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1345,8 +1344,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithoutAttribute),
-                typeof (ClassWithAttribute)
+                typeof(ClassWithoutAttribute),
+                typeof(ClassWithAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1486,8 +1485,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithoutAttribute),
-                typeof (OtherClassWithoutAttribute)
+                typeof(ClassWithoutAttribute),
+                typeof(OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1510,8 +1509,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof (ClassWithoutAttribute),
-                typeof (ClassWithInheritedAttribute)
+                typeof(ClassWithoutAttribute),
+                typeof(ClassWithInheritedAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -3553,7 +3552,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -3574,7 +3572,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -3597,7 +3594,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -3618,7 +3614,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -3902,7 +3897,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -4525,7 +4519,7 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
-        private ClassWithMembers(String overload) { }
+        private ClassWithMembers(string overload) { }
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
         internal string this[string str] { private get { return str; } set { } }
         protected internal string this[int i] { get { return i.ToString(); } private set { } }

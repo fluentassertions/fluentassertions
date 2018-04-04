@@ -20,10 +20,7 @@ namespace FluentAssertions.Equivalency.Selection
             this.predicate = predicate.Compile();
         }
 
-        public bool IncludesMembers
-        {
-            get { return true; }
-        }
+        public bool IncludesMembers => true;
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
         {

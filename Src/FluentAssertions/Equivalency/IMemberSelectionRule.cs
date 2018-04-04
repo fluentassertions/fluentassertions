@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
     public interface IMemberSelectionRule
     {
         /// <summary>
-        /// Gets a value indicating whether this rule should override the default selection rules that include all members. 
+        /// Gets a value indicating whether this rule should override the default selection rules that include all members.
         /// </summary>
         bool IncludesMembers { get; }
 

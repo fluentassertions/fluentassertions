@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Supports recursively comparing two multi-dimensional arrays for equivalency using strict order for the array items 
+    /// Supports recursively comparing two multi-dimensional arrays for equivalency using strict order for the array items
     /// themselves.
     /// </summary>
     internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep

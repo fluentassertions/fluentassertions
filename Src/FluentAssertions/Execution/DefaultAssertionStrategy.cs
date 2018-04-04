@@ -38,7 +38,6 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void ThrowIfAny(IDictionary<string, object> context)
         {
-
         }
     }
 }

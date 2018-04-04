@@ -28,7 +28,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expected number of items in the collection.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -58,7 +58,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="countPredicate">A predicate that yields the number of items that is expected to be in the collection.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -245,17 +245,17 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by
         /// <paramref name="elements" />. Elements are compared using their <see cref="T.Equals(object)" /> method.
         /// </summary>
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)
         {
-            return Equal(elements, String.Empty);
+            return Equal(elements, string.Empty);
         }
 
         /// <summary>
-        /// Asserts that two collections contain the same items in the same order, where equality is determined using a 
+        /// Asserts that two collections contain the same items in the same order, where equality is determined using a
         /// <paramref name="equalityComparison"/>.
         /// </summary>
         /// <param name="expectation">
@@ -265,7 +265,7 @@ namespace FluentAssertions.Collections
         /// A equality comparison the is used to determine whether two objects should be treated as equal.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -280,14 +280,14 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection starts with same elements in the same order as the collection identified by 
+        /// Asserts that the current collection starts with same elements in the same order as the collection identified by
         /// <paramref name="expectation" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expectation">
         /// A collection of expected elements.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -305,7 +305,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection starts with same elements in the same order as the collection identified by 
+        /// Asserts that the current collection starts with same elements in the same order as the collection identified by
         /// <paramref name="expectation" />. Elements are compared using <paramref name="equalityComparison"/>.
         /// </summary>
         /// <param name="expectation">
@@ -315,7 +315,7 @@ namespace FluentAssertions.Collections
         /// A equality comparison the is used to determine whether two objects should be treated as equal.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -334,14 +334,14 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection ends with same elements in the same order as the collection identified by 
+        /// Asserts that the current collection ends with same elements in the same order as the collection identified by
         /// <paramref name="expectation" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expectation">
         /// A collection of expected elements.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -359,7 +359,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection ends with same elements in the same order as the collection identified by 
+        /// Asserts that the current collection ends with same elements in the same order as the collection identified by
         /// <paramref name="expectation" />. Elements are compared using <paramref name="equalityComparison"/>.
         /// </summary>
         /// <param name="expectation">
@@ -369,7 +369,7 @@ namespace FluentAssertions.Collections
         /// A equality comparison the is used to determine whether two objects should be treated as equal.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -392,7 +392,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expectation item.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -438,7 +438,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -468,7 +468,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -502,7 +502,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">The element that is not expected to be in the collection</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -546,7 +546,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="becauseArgs">
@@ -579,7 +579,7 @@ namespace FluentAssertions.Collections
         /// Expects the current collection to contain only a single item.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -596,10 +596,10 @@ namespace FluentAssertions.Collections
 
             switch (Subject.Count())
             {
-                case 0: //Fail, Collection is empty
+                case 0: // Fail, Collection is empty
                     Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
                     break;
-                case 1: //Success Condition
+                case 1: // Success Condition
                     break;
                 default: // Fail, Collection contains more than a single item
                     Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
@@ -614,7 +614,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">The predicate that will be used to find the matching items.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">

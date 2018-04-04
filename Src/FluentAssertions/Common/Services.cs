@@ -49,6 +49,7 @@ namespace FluentAssertions.Common
             {
                 return throwException;
             }
+
             set
             {
                 throwException = value;
@@ -57,10 +58,7 @@ namespace FluentAssertions.Common
 
         public static IReflector Reflector
         {
-            get
-            {
-                return reflector;
-            }
+            get { return reflector; }
             set { reflector = value; }
         }
 
@@ -72,7 +70,7 @@ namespace FluentAssertions.Common
 #elif NETSTANDARD1_6
             reflector = new NetStandardReflector();
             configurationStore = new NullConfigurationStore();
-#else 
+#else
             reflector = new NullReflector();
             configurationStore = new NullConfigurationStore();
 #endif

@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// <returns>True if the subject info setter has the given access modifier, false otherwise.</returns>
         public static bool WhichSetterHas(this IMemberInfo memberInfo, CSharpAccessModifier accessModifier)
         {
-            return memberInfo.SelectedMemberInfo.SetAccessModifier == accessModifier;
+            return memberInfo.SelectedMemberInfo.GetSetAccessModifier() == accessModifier;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency
         /// <returns>True if the subject info setter does not have the given access modifier, false otherwise.</returns>
         public static bool WhichSetterDoesNotHave(this IMemberInfo memberInfo, CSharpAccessModifier accessModifier)
         {
-            return memberInfo.SelectedMemberInfo.SetAccessModifier != accessModifier;
+            return memberInfo.SelectedMemberInfo.GetSetAccessModifier() != accessModifier;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
         /// <returns>True if the subject info getter has the given access modifier, false otherwise.</returns>
         public static bool WhichGetterHas(this IMemberInfo memberInfo, CSharpAccessModifier accessModifier)
         {
-            return memberInfo.SelectedMemberInfo.GetAccessModifier == accessModifier;
+            return memberInfo.SelectedMemberInfo.GetGetAccessModifier() == accessModifier;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FluentAssertions.Equivalency
         /// <returns>True if the subject info getter does not have the given access modifier, false otherwise.</returns>
         public static bool WhichGetterDoesNotHave(this IMemberInfo memberInfo, CSharpAccessModifier accessModifier)
         {
-            return memberInfo.SelectedMemberInfo.GetAccessModifier != accessModifier;
+            return memberInfo.SelectedMemberInfo.GetGetAccessModifier() != accessModifier;
         }
     }
 }

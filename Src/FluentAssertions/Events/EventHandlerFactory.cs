@@ -1,4 +1,3 @@
-
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -19,13 +18,15 @@ namespace FluentAssertions.Events
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
+            Module module = recorder.GetType()
+                .GetTypeInfo()
+                .Module;
+
             var eventHandler = new DynamicMethod(
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters),
-                recorder.GetType()
-                .GetTypeInfo()
-                .Module);
+                module);
 
             MethodInfo methodToCall = typeof(IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
@@ -37,7 +38,7 @@ namespace FluentAssertions.Events
 
             // Create the object array for the parameters and store in local var index 0
             ilGen.Emit(OpCodes.Ldc_I4, parameters.Length);
-            ilGen.Emit(OpCodes.Newarr, typeof(Object));
+            ilGen.Emit(OpCodes.Newarr, typeof(object));
             ilGen.Emit(OpCodes.Stloc_0);
 
             for (var index = 0; index < parameters.Length; index++)
@@ -130,6 +131,7 @@ namespace FluentAssertions.Events
             {
                 return false;
             }
+
             var invoke = d.GetMethod("Invoke");
             return invoke != null;
         }
@@ -149,4 +151,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-

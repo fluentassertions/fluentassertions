@@ -2,14 +2,8 @@
 {
     internal class MSTestFrameworkRT : LateBoundTestFramework
     {
-        protected override string AssemblyName
-        {
-            get { return "Microsoft.VisualStudio.TestPlatform.UnitTestFramework"; }
-        }
+        protected override string AssemblyName => "Microsoft.VisualStudio.TestPlatform.UnitTestFramework";
 
-        protected override string ExceptionFullName
-        {
-            get { return "Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AssertFailedException"; }
-        }
+        protected override string ExceptionFullName => "Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AssertFailedException";
     }
 }

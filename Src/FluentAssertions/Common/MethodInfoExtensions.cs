@@ -21,7 +21,8 @@ namespace FluentAssertions.Common
             return methodInfo.GetMatchingAttributes<Attribute>(a => a.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute")).Any();
         }
 
-        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate) where TAttribute : Attribute
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
         {
             var customAttributes = memberInfo.GetCustomAttributes(
                 typeof(TAttribute), false)

@@ -57,10 +57,7 @@ namespace FluentAssertions
         /// <summary>
         /// Returns the single result of a prior assertion that is used to select a nested or collection item.
         /// </summary>
-        public TMatchedElement Which
-        {
-            get { return matchedConstraint.Value; }
-        }
+        public TMatchedElement Which => matchedConstraint.Value;
 
         /// <summary>
         /// Returns the single result of a prior assertion that is used to select a nested or collection item.
@@ -68,10 +65,6 @@ namespace FluentAssertions
         /// <remarks>
         /// Just a convenience property that returns the same value as <see cref="Which"/>.
         /// </remarks>
-        public TMatchedElement Subject
-        {
-            get { return Which; }
-        }
+        public TMatchedElement Subject => Which;
     }
 }
-

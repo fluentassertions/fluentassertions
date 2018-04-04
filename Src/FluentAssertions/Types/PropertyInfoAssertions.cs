@@ -22,7 +22,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property is virtual.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -47,7 +47,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property is not virtual.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -69,7 +69,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property has a setter.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -93,7 +93,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -112,7 +112,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property does not have a setter.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -135,7 +135,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property has a getter.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -155,7 +155,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -174,7 +174,7 @@ namespace FluentAssertions.Types
         /// Asserts that the selected property does not have a getter.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -198,7 +198,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="propertyType">The expected type of the property.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -219,7 +219,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TReturn">The expected return type.</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -235,7 +235,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="propertyType">The unexpected type of the property.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -256,7 +256,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TReturn">The unexpected return type.</typeparam>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -270,21 +270,15 @@ namespace FluentAssertions.Types
         internal static string GetDescriptionFor(PropertyInfo property)
         {
             string propTypeName = property.PropertyType.Name;
-            return String.Format("{0} {1}.{2}", propTypeName,
+            return string.Format("{0} {1}.{2}", propTypeName,
                 property.DeclaringType, property.Name);
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "property"; }
-        }
+        protected override string Identifier => "property";
     }
 }

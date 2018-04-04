@@ -12,9 +12,9 @@ namespace FluentAssertions.Execution
     {
         private readonly List<DataItem> items = new List<DataItem>();
 
-        public IDictionary<string, object> Reportable
+        public IDictionary<string, object> GetReportable()
         {
-            get { return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value); }
+            return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value);
         }
 
         public string AsStringOrDefault(string key)
@@ -78,10 +78,7 @@ namespace FluentAssertions.Execution
 
             public object Value { get; private set; }
 
-            public bool Reportable
-            {
-                get { return reportability == Reportability.Reportable; }
-            }
+            public bool Reportable => reportability == Reportability.Reportable;
 
             public DataItem Clone()
             {

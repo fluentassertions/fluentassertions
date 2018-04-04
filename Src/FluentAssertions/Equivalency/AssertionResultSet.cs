@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Adds the failures (if any) resulting from executing an assertion within a
-        ///  <see cref="AssertionScope"/> identified by a key. 
+        ///  <see cref="AssertionScope"/> identified by a key.
         /// </summary>
         public void AddSet(object key, string[] failures)
         {
@@ -22,15 +22,15 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Returns  the closest match compared to the set identified by the provided <paramref name="key"/> or
-        /// an empty array if one of the results represents a successful assertion. 
+        /// an empty array if one of the results represents a successful assertion.
         /// </summary>
         /// <remarks>
-        ///  The closest match is the set that contains the least amount of failures, or no failures at all, and preferably 
-        /// the set that is identified by the <paramref name="key"/>.        
+        ///  The closest match is the set that contains the least amount of failures, or no failures at all, and preferably
+        /// the set that is identified by the <paramref name="key"/>.
         /// </remarks>
         public string[] SelectClosestMatchFor(object key = null)
         {
-            if (ContainsSuccessfulSet)
+            if (ContainsSuccessfulSet())
             {
                 return new string[0];
             }
@@ -56,9 +56,6 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this collection contains a set without any failures at all.
         /// </summary>
-        public bool ContainsSuccessfulSet
-        {
-            get { return set.Values.Any(v => v.Length == 0); }
-        }
+        public bool ContainsSuccessfulSet() => set.Values.Any(v => v.Length == 0);
     }
 }

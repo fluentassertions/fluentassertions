@@ -23,7 +23,8 @@ namespace FluentAssertions.Equivalency
         {
         }
 
-        internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults) : base(defaults)
+        internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
+            : base(defaults)
         {
         }
 

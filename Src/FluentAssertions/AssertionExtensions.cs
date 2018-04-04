@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
+using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
-
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using FluentAssertions.Specialized;
 
 namespace FluentAssertions
 {
@@ -29,7 +25,7 @@ namespace FluentAssertions
     public static partial class AssertionExtensions
     {
         /// <summary>
-        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow 
+        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow
         /// overloads.
         /// </summary>
         [Pure]
@@ -122,7 +118,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Forces enumerating a collection. Should be used to assert that a method that uses the 
+        /// Forces enumerating a collection. Should be used to assert that a method that uses the
         /// <c>yield</c> keyword throws a particular exception.
         /// </summary>
         [Pure]
@@ -132,7 +128,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Forces enumerating a collection. Should be used to assert that a method that uses the 
+        /// Forces enumerating a collection. Should be used to assert that a method that uses the
         /// <c>yield</c> keyword throws a particular exception.
         /// </summary>
         [Pure]
@@ -638,7 +634,7 @@ namespace FluentAssertions
         /// </summary>
         /// <param name="eventSource">The object for which to monitor the events.</param>
         /// <param name="utcNow">
-        /// An optional delegate that returns the current date and time in UTC format. 
+        /// An optional delegate that returns the current date and time in UTC format.
         /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
         /// </param>
         /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>

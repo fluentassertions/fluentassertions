@@ -2,12 +2,12 @@ namespace FluentAssertions.Equivalency
 {
     /// <summary>
     /// Represents a rule that defines how to map the selected members of the expectation object to the properties
-    /// of the subject. 
+    /// of the subject.
     /// </summary>
     public interface IMemberMatchingRule
     {
         /// <summary>
-        /// Attempts to find a member on the subject that should be compared with the 
+        /// Attempts to find a member on the subject that should be compared with the
         /// <paramref name="expectedMember"/> during a structural equality.
         /// </summary>
         /// <remarks>

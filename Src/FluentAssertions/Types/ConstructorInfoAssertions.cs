@@ -21,18 +21,12 @@ namespace FluentAssertions.Types
 
         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
         {
-            return String.Format("{0}({1})",
+            return string.Format("{0}({1})",
                 constructorInfo.DeclaringType, GetParameterString(constructorInfo));
         }
 
-        internal override string SubjectDescription
-        {
-            get { return GetDescriptionFor(Subject); }
-        }
+        internal override string SubjectDescription => GetDescriptionFor(Subject);
 
-        protected override string Identifier
-        {
-            get { return "constructor"; }
-        }
+        protected override string Identifier => "constructor";
     }
 }

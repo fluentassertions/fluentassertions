@@ -79,9 +79,6 @@ namespace FluentAssertions.Execution
             }
         }
 
-        private string AssemblyName
-        {
-            get { return "Gallio"; }
-        }
+        private string AssemblyName => "Gallio";
     }
 }

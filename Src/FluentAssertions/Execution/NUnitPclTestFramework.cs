@@ -2,14 +2,8 @@
 {
     internal class NUnitPclTestFramework : LateBoundTestFramework
     {
-        protected override string AssemblyName
-        {
-            get { return "nunit.framework"; }
-        }
+        protected override string AssemblyName => "nunit.framework";
 
-        protected override string ExceptionFullName
-        {
-            get { return "NUnit.Framework.AssertionException"; }
-        }
+        protected override string ExceptionFullName => "NUnit.Framework.AssertionException";
     }
 }

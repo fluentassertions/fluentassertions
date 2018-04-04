@@ -46,6 +46,7 @@ namespace FluentAssertions.Equivalency
                     AssertMemberEquality(context, parent, selectedMemberInfo, config);
                 }
             }
+
             return true;
         }
 

@@ -15,15 +15,9 @@ namespace FluentAssertions.Equivalency
             this.memberInfo = memberInfo;
         }
 
-        public override string Name
-        {
-            get { return memberInfo.Name; }
-        }
+        public override string Name => memberInfo.Name;
 
-        public override Type DeclaringType
-        {
-            get { return memberInfo.DeclaringType; }
-        }
+        public override Type DeclaringType => memberInfo.DeclaringType;
 
         protected bool Equals(MemberInfoSelectedMemberInfo other)
         {

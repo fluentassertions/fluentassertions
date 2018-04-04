@@ -1,6 +1,6 @@
-﻿using FluentAssertions.Common;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using Xunit;
 
 namespace FluentAssertions.Specs

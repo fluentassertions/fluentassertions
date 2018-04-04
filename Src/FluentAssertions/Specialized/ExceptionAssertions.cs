@@ -24,11 +24,6 @@ namespace FluentAssertions.Specialized
 
         private static readonly ExceptionMessageAssertion outerMessageAssertion = new ExceptionMessageAssertion();
 
-        private static readonly ExceptionMessageAssertion innerMessageAssertion = new ExceptionMessageAssertion
-        {
-            Context = "inner exception message"
-        };
-
         #endregion
 
         public ExceptionAssertions(IEnumerable<TException> exceptions)
@@ -39,26 +34,17 @@ namespace FluentAssertions.Specialized
         /// <summary>
         ///   Gets the exception object of the exception thrown.
         /// </summary>
-        public TException And
-        {
-            get { return SingleSubject; }
-        }
+        public TException And => SingleSubject;
 
         /// <summary>
         ///   Gets the exception object of the exception thrown.
         /// </summary>
-        public TException Which
-        {
-            get { return And; }
-        }
+        public TException Which => And;
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "exception"; }
-        }
+        protected override string Identifier => "exception";
 
         /// <summary>
         ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
@@ -95,7 +81,8 @@ namespace FluentAssertions.Specialized
         /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
         /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null,
-            params object[] becauseArgs) where TInnerException : Exception
+            params object[] becauseArgs)
+            where TInnerException : Exception
         {
             Execute.Assertion
                 .ForCondition(Subject != null)
@@ -128,7 +115,8 @@ namespace FluentAssertions.Specialized
         /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
         /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null,
-            params object[] becauseArgs) where TInnerException : Exception
+            params object[] becauseArgs)
+            where TInnerException : Exception
         {
             WithInnerException<TInnerException>(because, becauseArgs);
 
@@ -222,7 +210,7 @@ namespace FluentAssertions.Specialized
                             results.AddSet(message, scope.Discard());
                         }
 
-                        if (results.ContainsSuccessfulSet)
+                        if (results.ContainsSuccessfulSet())
                         {
                             break;
                         }

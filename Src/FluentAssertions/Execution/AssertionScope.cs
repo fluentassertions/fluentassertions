@@ -57,7 +57,8 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
         /// </summary>
-        public AssertionScope(string context) : this()
+        public AssertionScope(string context)
+            : this()
         {
             Context = context;
         }
@@ -113,9 +114,9 @@ namespace FluentAssertions.Execution
         /// Specify the reason why you expect the condition to be <c>true</c>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why 
-        /// the condition should be satisfied. If the phrase does not start with the word <i>because</i>, 
-        /// it is prepended to the message. If the format of <paramref name="because"/> or 
+        /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why
+        /// the condition should be satisfied. If the phrase does not start with the word <i>because</i>,
+        /// it is prepended to the message. If the format of <paramref name="because"/> or
         /// <paramref name="becauseArgs"/> is not compatible with <see cref="string.Format(string,object[])"/>,
         /// then a warning message is returned instead.
         /// </param>
@@ -298,7 +299,7 @@ namespace FluentAssertions.Execution
             }
             else
             {
-                assertionStrategy.ThrowIfAny(contextData.Reportable);
+                assertionStrategy.ThrowIfAny(contextData.GetReportable());
             }
         }
 

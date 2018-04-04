@@ -869,7 +869,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeOneOf(params DateTimeOffset?[] validValues)
         {
-            return BeOneOf(validValues, String.Empty);
+            return BeOneOf(validValues, string.Empty);
         }
 
         /// <summary>
@@ -900,6 +900,7 @@ namespace FluentAssertions.Primitives
         {
             return BeOneOf(validValues.Cast<DateTimeOffset?>(), because, becauseArgs);
         }
+
         /// <summary>
         /// Asserts that the <see cref="DateTimeOffset"/> is one of the specified <paramref name="validValues"/>.
         /// </summary>

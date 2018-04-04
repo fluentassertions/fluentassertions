@@ -9,7 +9,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Formatting
 {
     /// <summary>
-    /// Specialized value formatter that looks for static methods in the caller's assembly marked with the 
+    /// Specialized value formatter that looks for static methods in the caller's assembly marked with the
     /// <see cref="ValueFormatterAttribute"/>.
     /// </summary>
     public class AttributeBasedFormatter : IValueFormatter
@@ -38,10 +38,10 @@ namespace FluentAssertions.Formatting
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             MethodInfo method = GetFormatter(value);
-            return (string)method.Invoke(null, new[]
-            {
-                value
-            });
+
+            object[] parameters = new[]{ value };
+
+            return (string)method.Invoke(null, parameters);
         }
 
         private MethodInfo GetFormatter(object value)

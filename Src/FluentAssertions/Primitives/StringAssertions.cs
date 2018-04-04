@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
-using FluentAssertions.Execution;
-
 using System.Linq;
+using System.Text.RegularExpressions;
+
+using FluentAssertions.Execution;
 using JetBrains.Annotations;
 
 namespace FluentAssertions.Primitives
@@ -49,7 +49,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> BeOneOf(params string[] validValues)
         {
-            return BeOneOf(validValues, String.Empty);
+            return BeOneOf(validValues, string.Empty);
         }
 
         /// <summary>
@@ -1037,9 +1037,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        protected override string Identifier
-        {
-            get { return "string"; }
-        }
+        protected override string Identifier => "string";
     }
 }

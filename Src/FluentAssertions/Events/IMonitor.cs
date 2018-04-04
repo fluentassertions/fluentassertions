@@ -41,7 +41,7 @@ namespace FluentAssertions.Events
     }
 
     /// <summary>
-    /// Represents an occurrence of a particular event. 
+    /// Represents an occurrence of a particular event.
     /// </summary>
     public class OccurredEvent
     {
@@ -56,7 +56,7 @@ namespace FluentAssertions.Events
         public object[] Parameters { get; set; }
 
         /// <summary>
-        /// The exact date and time of the occurrence in <see cref="DateTimeKind.Local"/>. 
+        /// The exact date and time of the occurrence in <see cref="DateTimeKind.Local"/>.
         /// </summary>
         public DateTime TimestampUtc { get; set; }
     }
