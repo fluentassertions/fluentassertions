@@ -24,11 +24,6 @@ namespace FluentAssertions.Specialized
 
         private static readonly ExceptionMessageAssertion outerMessageAssertion = new ExceptionMessageAssertion();
 
-        private static readonly ExceptionMessageAssertion innerMessageAssertion = new ExceptionMessageAssertion
-        {
-            Context = "inner exception message"
-        };
-
         #endregion
 
         public ExceptionAssertions(IEnumerable<TException> exceptions)
