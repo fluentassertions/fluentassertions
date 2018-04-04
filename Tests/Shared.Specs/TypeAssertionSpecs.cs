@@ -4519,7 +4519,7 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
-        private ClassWithMembers(String overload) { }
+        private ClassWithMembers(string overload) { }
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
         internal string this[string str] { private get { return str; } set { } }
         protected internal string this[int i] { get { return i.ToString(); } private set { } }
