@@ -1,6 +1,6 @@
-﻿using FluentAssertions.Formatting;
-using System;
+﻿using System;
 using System.Xml;
+using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
