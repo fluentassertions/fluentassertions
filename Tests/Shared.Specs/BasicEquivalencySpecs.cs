@@ -209,17 +209,23 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new[] { new ClassWithValueSemanticsOnSingleProperty
+            var subject = new[]
             {
-                Key = "SameKey",
-                NestedProperty = "SomeValue"
-            } };
+                new ClassWithValueSemanticsOnSingleProperty
+                {
+                    Key = "SameKey",
+                    NestedProperty = "SomeValue"
+                }
+            };
 
-            var expected = new[] { new ClassWithValueSemanticsOnSingleProperty
+            var expected = new[]
             {
-                Key = "SameKey",
-                NestedProperty = "OtherValue"
-            } };
+                new ClassWithValueSemanticsOnSingleProperty
+                {
+                    Key = "SameKey",
+                    NestedProperty = "OtherValue"
+                }
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -329,17 +335,23 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new[] { new
+            var subject = new[]
             {
-                Address = IPAddress.Parse("1.2.3.4"),
-                Word = "a"
-            } };
+                new
+                {
+                    Address = IPAddress.Parse("1.2.3.4"),
+                    Word = "a"
+                }
+            };
 
-            var expected = new[] { new
+            var expected = new[]
             {
-                Address = IPAddress.Parse("1.2.3.4"),
-                Word = "a"
-            } };
+                new
+                {
+                    Address = IPAddress.Parse("1.2.3.4"),
+                    Word = "a"
+                }
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1495,7 +1507,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-
             };
 
             var other = new
@@ -4158,14 +4169,17 @@ namespace FluentAssertions.Specs
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != GetType())
             {
                 return false;
             }
+
             return Equals((ClassWithValueSemanticsOnSingleProperty)obj);
         }
 

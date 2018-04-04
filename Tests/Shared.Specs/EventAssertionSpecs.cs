@@ -215,7 +215,6 @@ namespace FluentAssertions.Specs
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
             using (var monitor = subject.Monitor())
-
             {
                 subject.RaiseEventWithoutSender();
 
@@ -575,7 +574,6 @@ namespace FluentAssertions.Specs
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
             using (var monitor = subject.Monitor())
-
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
@@ -683,7 +681,7 @@ namespace FluentAssertions.Specs
         }
 
 #if NETCOREAPP2_0 && DEBUG
-# warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
+#warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
 #else
         [Fact]
         public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
@@ -700,6 +698,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 subject = null;
             }
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -933,13 +932,13 @@ namespace FluentAssertions.Specs
                     {
                         EventName = "PropertyChanged",
                         TimestampUtc = utcNow.Subtract(1.Hours()),
-                        Parameters = new object[] {eventSource, new PropertyChangedEventArgs("theProperty")}
+                        Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
                     },
                     new
                     {
                         EventName = "NonConventionalEvent",
                         TimestampUtc = utcNow,
-                        Parameters = new object[] {"first", 123, "third"}
+                        Parameters = new object[] { "first", 123, "third" }
                     }
                 }, o => o.WithStrictOrdering());
             }
