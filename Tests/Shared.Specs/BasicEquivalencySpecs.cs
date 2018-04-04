@@ -4014,7 +4014,8 @@ namespace FluentAssertions.Specs
     {
         public string DerivedInfo { get; set; }
 
-        public DerivedCustomerType(string code) : base(code)
+        public DerivedCustomerType(string code)
+            : base(code)
         {
         }
     }
