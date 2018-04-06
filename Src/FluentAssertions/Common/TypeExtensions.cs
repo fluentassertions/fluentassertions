@@ -119,13 +119,20 @@ namespace FluentAssertions.Common
 
         public static bool OverridesEquals(this Type type)
         {
+#if NETSTANDARD1_3
             MethodInfo[] methods = type
                 .GetMethods(BindingFlags.Public | BindingFlags.Instance);
 
-            return methods
-                .Any(m => m.Name == "Equals"
-                       && m.GetParameters().SingleOrDefault()?.ParameterType == typeof(object)
-                       && m.GetBaseDefinition().DeclaringType != m.DeclaringType);
+            return methods.Any(m => m.Name == "Equals"
+                && m.GetParameters().SingleOrDefault()?.ParameterType == typeof(object)
+                && m.GetBaseDefinition().DeclaringType != m.DeclaringType);
+#else
+            MethodInfo method = type.GetTypeInfo()
+                .GetMethod("Equals", new[] { typeof(object) });
+
+            return method != null
+                && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
+#endif
         }
 
         /// <summary>
@@ -418,11 +425,17 @@ namespace FluentAssertions.Common
 
         private static bool IsAnonymousType(this Type type)
         {
-            bool hasCompilerGeneratedAttribute =
-                type.GetTypeInfo().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
             bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType");
 
-            return hasCompilerGeneratedAttribute && nameContainsAnonymousType;
+            if (!nameContainsAnonymousType)
+            {
+                return false;
+            }
+
+            bool hasCompilerGeneratedAttribute =
+                type.GetTypeInfo().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
+
+            return hasCompilerGeneratedAttribute;
         }
 
         private static bool IsTuple(this Type type)
