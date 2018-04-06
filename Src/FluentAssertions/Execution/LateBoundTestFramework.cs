@@ -28,8 +28,8 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if !NET45 && !NET47
-                // For CoreCLR, we need to attempt to load the assembly
+#if !NET45 && !NET47 && !NETSTANDARD2_0
+                // For .NET Standard < 2.0, we need to attempt to load the assembly
                 try
                 {
                     assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0,0,0,0)});
