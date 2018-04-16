@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -15,6 +16,8 @@ namespace FluentAssertions.Equivalency
         private const int MaxDepth = 10;
 
         private readonly IEquivalencyAssertionOptions config;
+
+        private readonly Dictionary<Type, bool> isComplexTypeMap = new Dictionary<Type, bool>();
 
         #endregion
 
@@ -41,6 +44,22 @@ namespace FluentAssertions.Equivalency
             }
         }
 
+        private bool IsComplexType(object @object)
+        {
+            if (@object == null)
+                return false;
+
+            Type type = @object.GetType();
+
+            if (!isComplexTypeMap.TryGetValue(type, out bool isComplexType))
+            {
+                isComplexType = !type.OverridesEquals();
+                isComplexTypeMap[type] = isComplexType;
+            }
+
+            return isComplexType;
+        }
+
         public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
             if (ContinueRecursion(context.SelectedMemberPath))
@@ -52,7 +71,10 @@ namespace FluentAssertions.Equivalency
 
                 var objectTracker = scope.Get<CyclicReferenceDetector>("objects");
 
-                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Expectation, context.SelectedMemberPath)))
+                bool isComplexType = IsComplexType(context.Expectation);
+                var objectReference = new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType);
+
+                if (!objectTracker.IsCyclicReference(objectReference))
                 {
                     bool wasHandled = false;
 

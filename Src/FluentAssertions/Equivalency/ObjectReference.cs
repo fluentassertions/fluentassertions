@@ -11,11 +11,13 @@ namespace FluentAssertions.Equivalency
     {
         private readonly object @object;
         private readonly string[] path;
+        private readonly bool? isComplexType;
 
-        public ObjectReference(object @object, string path)
+        public ObjectReference(object @object, string path, bool? isComplexType = null)
         {
             this.@object = @object;
             this.path = path.ToLower().Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+            this.isComplexType = isComplexType;
         }
 
         /// <summary>
@@ -62,6 +64,6 @@ namespace FluentAssertions.Equivalency
             return $"{{\"{path}\", {@object}}}";
         }
 
-        public bool IsComplexType => !ReferenceEquals(@object, null) && !@object.GetType().OverridesEquals();
+        public bool IsComplexType => isComplexType ?? (!ReferenceEquals(@object, null) && !@object.GetType().OverridesEquals());
     }
 }
