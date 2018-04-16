@@ -59,7 +59,8 @@ namespace FluentAssertions.Equivalency
 
         private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations)
         {
-            matchedSubjectIndexes = new HashSet<int>();
+            unmatchedSubjectIndexes = new List<int>(subjects.Length);
+            unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
 
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
@@ -82,7 +83,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private HashSet<int> matchedSubjectIndexes;
+        private List<int> unmatchedSubjectIndexes;
 
         private void LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
         {
@@ -90,30 +91,34 @@ namespace FluentAssertions.Equivalency
             int index = 0;
             GetTraceMessage getMessage = path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]";
             int count = subjects.Count;
+            int indexToBeRemoved = -1;
 
-            for (; index < count; index++)
+            for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
             {
-                if (!matchedSubjectIndexes.Contains(index))
+                index = unmatchedSubjectIndexes[metaIndex];
+                object subject = subjects[index];
+
+                using (context.TraceBlock(getMessage))
                 {
-                    object subject = subjects[index];
+                    string[] failures = TryToMatch(subject, expectation, expectationIndex);
 
-                    using (context.TraceBlock(getMessage))
+                    results.AddSet(index, failures);
+                    if (results.ContainsSuccessfulSet())
                     {
-                        string[] failures = TryToMatch(subject, expectation, expectationIndex);
-
-                        results.AddSet(index, failures);
-                        if (results.ContainsSuccessfulSet())
-                        {
-                            context.TraceSingle(_ => "It's a match");
-                            matchedSubjectIndexes.Add(index);
-                            break;
-                        }
-                        else
-                        {
-                            context.TraceSingle(_ => $"Contained {failures.Length} failures");
-                        }
+                        context.TraceSingle(_ => "It's a match");
+                        indexToBeRemoved = metaIndex;
+                        break;
+                    }
+                    else
+                    {
+                        context.TraceSingle(_ => $"Contained {failures.Length} failures");
                     }
                 }
+            }
+
+            if (indexToBeRemoved != -1)
+            {
+                unmatchedSubjectIndexes.RemoveAt(indexToBeRemoved);
             }
 
             foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
