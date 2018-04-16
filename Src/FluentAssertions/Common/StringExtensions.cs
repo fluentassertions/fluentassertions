@@ -83,8 +83,17 @@ namespace FluentAssertions.Common
         /// </remarks>
         public static string Combine(this string @this, string other, string separator = ".")
         {
-            var strings = new[] { @this }.Concat(new[] { other }).Where(s => s.Length > 0).ToArray();
-            return string.Join(separator, strings);
+            if(@this.Length == 0)
+            {
+                return (other.Length != 0) ? other : string.Empty;
+            }
+
+            if (other.Length == 0)
+            {
+                return (@this.Length != 0) ? @this : string.Empty;
+            }
+
+            return @this + separator + other;
         }
 
         /// <summary>
