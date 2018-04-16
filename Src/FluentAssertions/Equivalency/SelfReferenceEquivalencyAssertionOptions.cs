@@ -47,6 +47,8 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
+        private readonly Dictionary<Type, bool> hasValueSemanticsMap = new Dictionary<Type, bool>();
+
         private readonly List<Type> referenceTypes = new List<Type>();
         private readonly List<Type> valueTypes = new List<Type>();
 
@@ -174,7 +176,13 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    if (type.HasValueSemantics())
+                    if(!hasValueSemanticsMap.TryGetValue(type, out bool hasValueSemantics))
+                    {
+                        hasValueSemantics = type.HasValueSemantics();
+                        hasValueSemanticsMap[type] = hasValueSemantics;
+                    }
+
+                    if (hasValueSemantics)
                     {
                         strategy = EqualityStrategy.Equals;
                     }
