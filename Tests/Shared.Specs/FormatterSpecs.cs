@@ -763,7 +763,7 @@ namespace FluentAssertions.Specs
             public List<TChild> Childs { get; set; }
         }
 
-#if !NETSTANDARD_13
+#if !NETSTANDARD1_3
         [Fact]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
         {
