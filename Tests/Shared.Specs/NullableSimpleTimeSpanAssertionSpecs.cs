@@ -66,13 +66,16 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             TimeSpan? nullableTimeSpan = null;
-            var assertions = nullableTimeSpan.Should();
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableTimeSpan.Should().HaveValue("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -83,13 +86,16 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             TimeSpan? nullableTimeSpan = null;
-            var assertions = nullableTimeSpan.Should();
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableTimeSpan.Should().NotBeNull("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -166,13 +172,16 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             TimeSpan? nullableTimeSpan = 1.Seconds();
-            var assertions = nullableTimeSpan.Should();
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableTimeSpan.Should().NotHaveValue("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
@@ -183,13 +192,16 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             TimeSpan? nullableTimeSpan = 1.Seconds();
-            var assertions = nullableTimeSpan.Should();
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableTimeSpan.Should().BeNull("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 

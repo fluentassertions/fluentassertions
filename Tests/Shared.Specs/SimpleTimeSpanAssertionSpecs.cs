@@ -54,12 +54,19 @@ namespace FluentAssertions.Specs
             TimeSpan timeSpan = 1.Seconds().Negate();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = timeSpan.Should();
-            assertions.Invoking(x => x.BePositive("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be positive because we want to test the failure message, but found -1s.");
+            Action act = () => timeSpan.Should().BePositive("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be positive because we want to test the failure message, but found -1s.");
+#else
+                "Expected timeSpan to be positive because we want to test the failure message, but found -1s.");
+#endif
         }
 
         [Fact]
@@ -104,12 +111,19 @@ namespace FluentAssertions.Specs
             TimeSpan timeSpan = 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = timeSpan.Should();
-            assertions.Invoking(x => x.BeNegative("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be negative because we want to test the failure message, but found 1s.");
+            Action act = () => timeSpan.Should().BeNegative("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be negative because we want to test the failure message, but found 1s.");
+#else
+                "Expected timeSpan to be negative because we want to test the failure message, but found 1s.");
+#endif
         }
 
         [Fact]
@@ -156,11 +170,14 @@ namespace FluentAssertions.Specs
             TimeSpan timeSpan = 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = timeSpan.Should();
-            assertions.Invoking(x => x.Be(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => timeSpan.Should().Be(2.Seconds(), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected 2s because we want to test the failure message, but found 1s.");
         }
 
@@ -207,11 +224,14 @@ namespace FluentAssertions.Specs
             var oneSecond = 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = oneSecond.Should();
-            assertions.Invoking(x => x.NotBe(oneSecond, "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => oneSecond.Should().NotBe(oneSecond, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect 1s because we want to test the failure message.");
         }
 
@@ -278,12 +298,19 @@ namespace FluentAssertions.Specs
             TimeSpan actual = 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be greater than 2s because we want to test the failure message, but found 1s.");
+            Action act = () => actual.Should().BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be greater than 2s because we want to test the failure message, but found 1s.");
+#else
+                "Expected actual to be greater than 2s because we want to test the failure message, but found 1s.");
+#endif
         }
 
         [Fact]
@@ -344,12 +371,19 @@ namespace FluentAssertions.Specs
             TimeSpan actual = 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be greater or equal to 2s because we want to test the failure message, but found 1s.");
+            Action act = () => actual.Should().BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be greater or equal to 2s because we want to test the failure message, but found 1s.");
+#else
+                "Expected actual to be greater or equal to 2s because we want to test the failure message, but found 1s.");
+#endif
         }
 
         [Fact]
@@ -415,12 +449,19 @@ namespace FluentAssertions.Specs
             TimeSpan actual = 2.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be less than 1s because we want to test the failure message, but found 2s.");
+            Action act = () => actual.Should().BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be less than 1s because we want to test the failure message, but found 2s.");
+#else
+                "Expected actual to be less than 1s because we want to test the failure message, but found 2s.");
+#endif
         }
 
         [Fact]
@@ -481,12 +522,19 @@ namespace FluentAssertions.Specs
             TimeSpan actual = 2.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected time to be less or equal to 1s because we want to test the failure message, but found 2s.");
+            Action act = () => actual.Should().BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be less or equal to 1s because we want to test the failure message, but found 2s.");
+#else
+                "Expected actual to be less or equal to 1s because we want to test the failure message, but found 2s.");
+#endif
         }
 
         #region Be Close To

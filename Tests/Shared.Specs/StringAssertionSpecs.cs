@@ -2849,12 +2849,19 @@ namespace FluentAssertions.Specs
             string actual = "ABC";
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected string to be empty because we want to test the failure message, but found \"ABC\".");
+            Action act = () => actual.Should().BeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected string to be empty because we want to test the failure message, but found \"ABC\".");
+#else
+                "Expected actual to be empty because we want to test the failure message, but found \"ABC\".");
+#endif
         }
 
         [Fact]
@@ -2923,12 +2930,19 @@ namespace FluentAssertions.Specs
             string actual = "";
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to be empty because we want to test the failure message.");
+            Action act = () => actual.Should().NotBeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Did not expect string to be empty because we want to test the failure message.");
+#else
+                "Did not expect actual to be empty because we want to test the failure message.");
+#endif
         }
 
         #endregion
@@ -2977,13 +2991,19 @@ namespace FluentAssertions.Specs
             string actual = "ABC";
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = actual.Should();
-            assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage(
+            Action act = () => actual.Should().HaveLength(1, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected string with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
+#else
+                "Expected actual with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
+#endif
         }
 
         #endregion

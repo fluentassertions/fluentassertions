@@ -840,11 +840,14 @@ namespace FluentAssertions.Specs
             };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = dictionary.Should();
-            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => dictionary.Should().BeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dictionary to not have any items because we want to test the failure message, but found 1.");
         }
 
@@ -912,11 +915,14 @@ namespace FluentAssertions.Specs
             var dictionary = new Dictionary<int, string>();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = dictionary.Should();
-            assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => dictionary.Should().NotBeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected one or more items because we want to test the failure message, but found none.");
         }
 

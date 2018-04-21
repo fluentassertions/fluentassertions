@@ -295,12 +295,19 @@ namespace FluentAssertions.Specs
             object someObject = null;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = someObject.Should();
-            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected object not to be <null> because we want to test the failure message.");
+            Action act = () => someObject.Should().NotBeNull("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected object not to be <null> because we want to test the failure message.");
+#else
+                "Expected someObject not to be <null> because we want to test the failure message.");
+#endif
         }
 
         #endregion

@@ -82,11 +82,14 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = nullableInteger.Should();
-            assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableInteger.Should().HaveValue("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -99,11 +102,14 @@ namespace FluentAssertions.Specs
             int? nullableInteger = null;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = nullableInteger.Should();
-            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableInteger.Should().NotBeNull("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -205,11 +211,14 @@ namespace FluentAssertions.Specs
             int? nullableInteger = 1;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = nullableInteger.Should();
-            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableInteger.Should().BeNull("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
         }
 
@@ -273,11 +282,14 @@ namespace FluentAssertions.Specs
             int? nullableIntegerB = 2;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = nullableIntegerA.Should();
-            assertions.Invoking(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 
