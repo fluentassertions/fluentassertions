@@ -56,9 +56,15 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some message"));
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>().WithMessage("some message");
         }
 
@@ -639,10 +645,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_validating_a_subject_against_multiple_conditions_it_should_support_chaining()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(
                 new InvalidOperationException("message", new ArgumentException("inner message")));
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<InvalidOperationException>()
@@ -734,7 +746,7 @@ namespace FluentAssertions.Specs
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
             }
-            catch (Exception exc)
+                catch (Exception exc)
             {
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
@@ -745,12 +757,12 @@ namespace FluentAssertions.Specs
         public void When_custom_condition_is_met_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange
+            // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentException("");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
@@ -790,7 +802,7 @@ namespace FluentAssertions.Specs
             Action throwException = () => throw new ExceptionWithEmptyToString();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => throwException.Should().Throw<ArgumentNullException>();

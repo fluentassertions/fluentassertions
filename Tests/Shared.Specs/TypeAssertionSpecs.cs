@@ -1547,7 +1547,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_sealed_it_fails(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeSealed();
 
@@ -1585,7 +1585,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_BeSealed_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeSealed();
 
@@ -1659,7 +1659,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_NotBeSealed_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().NotBeSealed();
 
@@ -1690,7 +1690,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_abstract_it_fails(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeAbstract();
 
@@ -1728,7 +1728,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_BeAbstract_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeAbstract();
 
@@ -1802,7 +1802,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_NotBeAbstract_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().NotBeAbstract();
 
@@ -1833,7 +1833,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_static_it_fails(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeStatic();
 
@@ -1871,7 +1871,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_BeStatic_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().BeStatic();
 
@@ -1945,7 +1945,7 @@ namespace FluentAssertions.Specs
         public void When_type_is_not_valid_for_NotBeStatic_it_throws_exception(Type type, string exceptionMessage)
         {
             //-------------------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => type.Should().NotBeStatic();
 

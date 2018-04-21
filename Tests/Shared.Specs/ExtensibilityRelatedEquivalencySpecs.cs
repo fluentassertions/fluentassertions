@@ -465,6 +465,9 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var actual = new SimpleWithNullable
             {
                 nullableIntegerProperty = 1,
@@ -476,6 +479,9 @@ namespace FluentAssertions.Specs
                 strProperty = "I haz a string!"
             };
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             actual.Should().BeEquivalentTo(expected,
                 opt => opt.Using<long>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<long?>());
         }

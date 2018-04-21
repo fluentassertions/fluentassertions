@@ -1365,7 +1365,7 @@ namespace FluentAssertions.Specs
         public void When_the_expectation_is_not_a_multi_dimensional_array_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -1379,7 +1379,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo("not-a-multi-dimensional-array");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*29*but*contains 23 item(s) less than*");
@@ -1389,7 +1389,7 @@ namespace FluentAssertions.Specs
         public void When_the_expectation_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -1403,7 +1403,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
@@ -1417,7 +1417,7 @@ namespace FluentAssertions.Specs
         public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -1436,7 +1436,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected dimension 0 to contain 1 item(s), but found 2*");
@@ -1446,7 +1446,7 @@ namespace FluentAssertions.Specs
         public void When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -1466,7 +1466,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected dimension 1 to contain 2 item(s), but found 3*");
@@ -1476,7 +1476,7 @@ namespace FluentAssertions.Specs
         public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -1495,7 +1495,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
@@ -2102,7 +2102,7 @@ namespace FluentAssertions.Specs
         public void When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[,]
             {
@@ -2122,7 +2122,7 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
@@ -2131,7 +2131,7 @@ namespace FluentAssertions.Specs
         public void When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new[,]
             {
@@ -2151,7 +2151,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*item[0,2]*4*3*item[1,1]*-5*5*");

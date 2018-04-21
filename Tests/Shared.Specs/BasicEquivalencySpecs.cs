@@ -3516,7 +3516,7 @@ namespace FluentAssertions.Specs
             var expectation = new ClassWithEnumTwo();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
@@ -3536,7 +3536,7 @@ namespace FluentAssertions.Specs
             var expectation = new ClassWithEnumThree { Enum = EnumeThree.ValueZero };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
@@ -3556,7 +3556,7 @@ namespace FluentAssertions.Specs
             var expectation = new ClassWithEnumThree { Enum = EnumeThree.Two };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
@@ -3576,7 +3576,7 @@ namespace FluentAssertions.Specs
             var expectation = new ClassWithEnumCharTwo { Enum = EnumCharTwo.ValueB };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
@@ -3728,7 +3728,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
             object actual = new int[0];
             object expectation = new int[0];
