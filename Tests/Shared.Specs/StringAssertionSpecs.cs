@@ -201,7 +201,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_different_strings_are_expected_to_differ_it_should_not_throw()
         {
-            "ABC".Should().NotBe("DEF");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string unexpected = "DEF";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().NotBe(unexpected);
         }
 
         [Fact]
@@ -223,33 +232,55 @@ namespace FluentAssertions.Specs
         public void When_non_empty_string_is_not_equal_to_empty_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            "ABC".Should().NotBe("");
+            string actual = "ABC";
+            string unexpected = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().NotBe(unexpected);
         }
 
         [Fact]
         public void When_empty_string_is_not_supposed_to_be_equal_to_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "";
+            string unexpected = "";
+
+            //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "".Should().NotBe("");
+            Action act = () => actual.Should().NotBe(unexpected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
                 "Expected string not to be \"\".");
+#else
+                "Expected actual not to be \"\".");
+#endif
         }
 
         [Fact]
         public void When_valid_string_is_not_supposed_to_be_null_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            "ABC".Should().NotBe(null);
+            string actual = "ABC";
+            string unexpected = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().NotBe(unexpected);
         }
 
         [Fact]
@@ -855,7 +886,7 @@ namespace FluentAssertions.Specs
                 value.Should().StartWith("AB");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
@@ -977,7 +1008,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWith("DE");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
@@ -997,7 +1028,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWith("AB", "because of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -1022,7 +1053,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWith(null);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare start of string with <null>.*");
@@ -1043,7 +1074,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWith("");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.*");
@@ -1076,7 +1107,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_string_ends_with_the_same_value_it_should_not_throw()
         {
-            "ABC".Should().EndWith("BC");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedSuffix = "BC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().EndWith(expectedSuffix);
         }
 
         [Fact]
@@ -1180,7 +1220,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWith("AB");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
@@ -1200,7 +1240,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWith("BC", "because of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -1225,7 +1265,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWith(null);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare end of string with <null>.*");
@@ -1246,7 +1286,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWith("");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare end of string with empty string.*");
@@ -1279,7 +1319,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_start_of_string_differs_by_case_only_it_should_not_throw()
         {
-            "ABC".Should().StartWithEquivalent("Ab");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedPrefix = "Ab";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().StartWithEquivalent(expectedPrefix);
         }
 
         [Fact]
@@ -1400,7 +1449,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWithEquivalentOf("Bc");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
@@ -1420,7 +1469,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWithEquivalentOf("aB", "because of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -1445,7 +1494,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWithEquivalentOf(null);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare start of string with <null>.*");
@@ -1466,7 +1515,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWithEquivalentOf("");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.*");
@@ -1503,7 +1552,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_end_of_string_differs_by_case_only_it_should_not_throw()
         {
-            "ABC".Should().EndWithEquivalent("bC");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedSuffix = "bC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().EndWithEquivalent(expectedSuffix);
         }
 
         [Fact]
@@ -1607,7 +1665,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWithEquivalentOf("aB");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
@@ -1627,7 +1685,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWithEquivalentOf("Bc", "because of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -1652,7 +1710,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWithEquivalentOf(null);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare end of string with <null>.*");
@@ -1673,7 +1731,7 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWithEquivalentOf("");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot compare end of string with empty string.*");
@@ -1706,7 +1764,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_contains_the_expected_string_it_should_not_throw()
         {
-            "ABCDEF".Should().Contain("BCD");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "BCD";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().Contain(expectedSubstring);
         }
 
         [Fact]
@@ -1783,7 +1850,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
-            "ABC".Should().BeEquivalentTo("abc");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedEquivalent = "abc";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().BeEquivalentTo(expectedEquivalent);
         }
 
         [Fact]
@@ -2668,11 +2744,15 @@ namespace FluentAssertions.Specs
 
         #region Contain Equivalent Of
 
-        [Fact]
-        public void Should_pass_when_contans_equivalent_of()
+        [InlineData("aa", "A")]
+        [InlineData("aCCa", "acca")]
+        [Theory]
+        public void Should_pass_when_contans_equivalent_of(string actual, string equivalentSubstring)
         {
-            "aa".Should().ContainEquivalentOf("A");
-            "aCCa".Should().ContainEquivalentOf("acca");
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().ContainEquivalentOf(equivalentSubstring);
         }
 
         [Fact]
@@ -2730,20 +2810,48 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
         {
-            "".Should().BeEmpty();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().BeEmpty();
         }
 
         [Fact]
         public void Should_fail_when_asserting_non_empty_string_to_be_empty()
         {
-            Action act = () => "ABC".Should().BeEmpty();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_non_empty_string_to_be_empty()
         {
-            var assertions = "ABC".Should();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var assertions = actual.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected string to be empty because we want to test the failure message, but found \"ABC\".");
@@ -2776,20 +2884,48 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_non_empty_string_to_be_filled()
         {
-            "ABC".Should().NotBeEmpty();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().NotBeEmpty();
         }
 
         [Fact]
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
-            Action act = () => "".Should().NotBeEmpty();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().NotBeEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_empty_string_to_be_filled()
         {
-            var assertions = "".Should();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var assertions = actual.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to be empty because we want to test the failure message.");
@@ -2802,20 +2938,48 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_string_length_to_be_equal_to_the_same_value()
         {
-            "ABC".Should().HaveLength(3);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().HaveLength(3);
         }
 
         [Fact]
         public void Should_fail_when_asserting_string_length_to_be_equal_to_different_value()
         {
-            Action act = () => "ABC".Should().HaveLength(1);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().HaveLength(1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_string_length_to_be_equal_to_different_value()
         {
-            var assertions = "ABC".Should();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var assertions = actual.Should();
             assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
                 .Should().Throw<XunitException>()
                 .WithMessage(
@@ -2827,11 +2991,23 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
-            "ABCDEFGHI".Should()
-                .StartWith("AB").And
-                .EndWith("HI").And
-                .Contain("EF").And
-                .HaveLength(9);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEFGHI";
+            string prefix = "AB";
+            string suffix = "HI";
+            string substring = "EF";
+            int length = 9;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should()
+                .StartWith(prefix).And
+                .EndWith(suffix).And
+                .Contain(substring).And
+                .HaveLength(length);
         }
 
         #region (Not) Null Or Empty
@@ -2864,7 +3040,7 @@ namespace FluentAssertions.Specs
             Action act = () => str.Should().NotBeNullOrEmpty("a valid string is expected for {0}", "str");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -2888,7 +3064,7 @@ namespace FluentAssertions.Specs
             Action act = () => str.Should().NotBeNullOrEmpty("a valid string is expected for {0}", "str");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -2940,7 +3116,7 @@ namespace FluentAssertions.Specs
             Action act = () => str.Should().BeNullOrEmpty("it was not initialized {0}", "yet");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -2954,16 +3130,28 @@ namespace FluentAssertions.Specs
 
         #region (Not) Null Or Whitespace
 
-        [Fact]
-        public void When_correctly_asserting_null_or_whitespace_it_should_not_throw()
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n\r")]
+        [Theory]
+        public void When_correctly_asserting_null_or_whitespace_it_should_not_throw(string actual)
         {
-            ((string)null).Should().BeNullOrWhiteSpace();
-            "".Should().BeNullOrWhiteSpace();
-            " ".Should().BeNullOrWhiteSpace();
-            "\n\r".Should().BeNullOrWhiteSpace();
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().BeNullOrWhiteSpace();
+        }
 
-            "a".Should().NotBeNullOrWhiteSpace();
-            " a ".Should().NotBeNullOrWhiteSpace();
+        [InlineData("a")]
+        [InlineData(" a ")]
+        [Theory]
+        public void When_correctly_asserting_not_null_or_whitespace_it_should_not_throw(string actual)
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]

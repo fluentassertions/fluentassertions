@@ -112,7 +112,7 @@ namespace FluentAssertions.Specs
             Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
             Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
             Action act = () => strings.Should().Contain("string4", "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -205,7 +205,7 @@ namespace FluentAssertions.Specs
             Action act = () => strings.Should().Contain(x => x == "xxx", "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -230,7 +230,7 @@ namespace FluentAssertions.Specs
                 () => strings.Should().NotContain(x => x == "xxx", "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs
             Action act = () => strings.Should().NotContain(new[] { "string3", "string4" }, new object[] { "string2" });
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
@@ -282,7 +282,7 @@ namespace FluentAssertions.Specs
             Action act = () => collection.Should().OnlyContain(i => i <= 10, "10 is the maximum");
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
@@ -326,7 +326,7 @@ namespace FluentAssertions.Specs
             Action act = () => collection.Should().OnlyContain(i => i <= 10);
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
@@ -1159,6 +1159,9 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<SomeClass> collection = new[]
             {
                 new SomeClass { Text = "one" },
@@ -1166,6 +1169,10 @@ namespace FluentAssertions.Specs
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "four" }
             };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             collection.Should().OnlyHaveUniqueItems(e => e.Text);
         }
 

@@ -20,7 +20,7 @@ namespace FluentAssertions.Specs
             var referenceToSubject = subject;
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Arrange
+            // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             subject.Should().BeSameAs(referenceToSubject);
         }
