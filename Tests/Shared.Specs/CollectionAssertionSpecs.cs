@@ -1190,13 +1190,16 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new int[0];
-            var assertions = collection.Should();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Should().Throw<XunitException>()
+            Action act = () => collection.Should().NotBeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection not to be empty because we want to test the failure message.");
         }
 
@@ -4572,12 +4575,10 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 5, 6 };
 
-            var extensions = firstCollection.Should();
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions.HaveSameCount(secondCollection);
+            firstCollection.Should().HaveSameCount(secondCollection);
         }
 
         [Fact]
@@ -4589,15 +4590,20 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 6 };
 
-            var extensions = firstCollection.Should();
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => firstCollection.Should().HaveSameCount(secondCollection);
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions
-                .Invoking(e => e.HaveSameCount(secondCollection))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected collection to have 2 item(s), but found 3.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to have 2 item(s), but found 3.");
+#else
+                "Expected firstCollection to have 2 item(s), but found 3.");
+#endif
         }
 
         [Fact]
@@ -4609,15 +4615,20 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 6 };
 
-            var extensions = firstCollection.Should();
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => firstCollection.Should().HaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions
-                .Invoking(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected collection to have 2 item(s) because we want to test the reason, but found 3.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to have 2 item(s) because we want to test the reason, but found 3.");
+#else
+                "Expected firstCollection to have 2 item(s) because we want to test the reason, but found 3.");
+#endif
         }
 
         [Fact]
@@ -4676,12 +4687,10 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 6 };
 
-            var extensions = firstCollection.Should();
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions.NotHaveSameCount(secondCollection);
+            firstCollection.Should().NotHaveSameCount(secondCollection);
         }
 
         [Fact]
@@ -4693,15 +4702,20 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 5, 6 };
 
-            var extensions = firstCollection.Should();
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection);
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions
-                .Invoking(e => e.NotHaveSameCount(secondCollection))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected collection to not have 3 item(s), but found 3.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to not have 3 item(s), but found 3.");
+#else
+                "Expected firstCollection to not have 3 item(s), but found 3.");
+#endif
         }
 
         [Fact]
@@ -4713,15 +4727,20 @@ namespace FluentAssertions.Specs
             IEnumerable firstCollection = new[] { 1, 2, 3 };
             IEnumerable secondCollection = new[] { 4, 5, 6 };
 
-            var extensions = firstCollection.Should();
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            extensions
-                .Invoking(e => e.NotHaveSameCount(secondCollection, "we want to test the {0}", "reason"))
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected collection to not have 3 item(s) because we want to test the reason, but found 3.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to not have 3 item(s) because we want to test the reason, but found 3.");
+#else
+                "Expected firstCollection to not have 3 item(s) because we want to test the reason, but found 3.");
+#endif
         }
 
         [Fact]

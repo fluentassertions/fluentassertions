@@ -936,6 +936,3 @@ namespace FluentAssertions.Specs
         }
     }
 }
-
-
-

@@ -17,7 +17,6 @@ namespace FluentAssertions.Specs
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException());
 
-
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
