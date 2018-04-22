@@ -15,8 +15,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
-      <HintPath Condition=" '$(Configuration)' == 'Debug' ">..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll</HintPath>
-      <HintPath Condition=" '$(Configuration)' == 'Release' ">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
+      <!-- If both Release and Debug version of FluentAssertions.dll exists, Debug will be selected -->
+      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' == 'Release'">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" />
