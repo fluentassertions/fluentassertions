@@ -6,7 +6,7 @@
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="3.4.2" />
+    <PackageReference Include="FakeItEasy" Version="4.5.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
