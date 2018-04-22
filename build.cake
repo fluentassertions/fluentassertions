@@ -23,10 +23,10 @@ var toolpath = Argument("toolpath", @"");
 var buildDir = Directory("./Artifacts") + Directory(configuration);
 GitVersion gitVersion = null; 
 
-if (!FileExists("./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll"))
+if (!FileExists("./tools/NSpec.2.0.1/tools/net451/NSpec.dll"))
 {
     // NSpec2.0.1 does not have NSpec.dll in the test runner directory, which crashes the test runner.
-    CopyFile("./tools/nspec.2.0.1/NSpec/lib/net451/NSpec.dll", "./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll");
+    CopyFile("./tools/NSpec.2.0.1/lib/net451/NSpec.dll", "./tools/NSpec.2.0.1/tools/net451/NSpec.dll");
 }
 
 //////////////////////////////////////////////////////////////////////
