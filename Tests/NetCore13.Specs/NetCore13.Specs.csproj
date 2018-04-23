@@ -3,7 +3,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>FluentAssertions.NetCore13.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore13.Specs</RootNamespace>
-    <DefineConstants>NETSTANDARD_13</DefineConstants>
+    <DefineConstants>NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="3.4.2" />

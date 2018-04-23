@@ -98,12 +98,8 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
         {
-#if !NETFX_CORE && !WINRT
             var foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
-#else
-            var typeInfo = Subject.DefinedTypes.SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
-            var foundType = typeInfo == null ? null : typeInfo.AsType();
-#endif
+
             Execute.Assertion.ForCondition(foundType != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected assembly {0} to define type {1}.{2}, but it does not.", Subject.FullName,
