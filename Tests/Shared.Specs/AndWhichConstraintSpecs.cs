@@ -30,7 +30,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "More than one object found.  FluentAssertions cannot determine which object is meant.*")
-                .WithMessage("*Found objects:\r\n\t\"hello\"\r\n\t\"world\"");
+                .WithMessage("*Found objects:*\"hello\"*\"world\"");
         }
     }
 }

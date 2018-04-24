@@ -3037,7 +3037,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected member Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*");
+                    "Expected member Level.Level.Text to be *A wrong text value*but*\"Level2\"*length*");
         }
 
         [Fact]

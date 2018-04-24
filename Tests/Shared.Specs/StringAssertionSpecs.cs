@@ -176,7 +176,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \r\n\"0987654321\", but \r\n\"1234567890\" differs near \"123\" (index 0).");
+                "Expected string to be*\"0987654321\", but*\"1234567890\" differs near \"123\" (index 0).");
         }
 
         [Fact]
@@ -416,9 +416,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not.");
+                .WithMessage("Expected string to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
 #else
-                .WithMessage("Expected subject to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not.");
+                .WithMessage("Expected subject to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
 #endif
         }
 
@@ -459,9 +459,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not.");
+                .WithMessage("Expected string to match*\"What\\? Are you deaf\\?\", but*\"What! Are you deaf!\" does not.");
 #else
-                .WithMessage("Expected subject to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not.");
+                .WithMessage("Expected subject to match*\"What\\? Are you deaf\\?\", but*\"What! Are you deaf!\" does not.");
 #endif
         }
 
@@ -483,9 +483,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not.");
+                .WithMessage("Expected string to match*\"*World*\", but*\"hello world\" does not.");
 #else
-                .WithMessage("Expected subject to match \r\n\"*World*\", but \r\n\"hello world\" does not.");
+                .WithMessage("Expected subject to match*\"*World*\", but*\"hello world\" does not.");
 #endif
         }
 
@@ -531,9 +531,9 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                    "Did not expect string to match \r\n\"*world*\" because that's illegal, but \r\n\"hello world\" matches.");
+                    "Did not expect string to match*\"*world*\" because that's illegal, but*\"hello world\" matches.");
 #else
-                    "Did not expect subject to match \r\n\"*world*\" because that's illegal, but \r\n\"hello world\" matches.");
+                    "Did not expect subject to match*\"*world*\" because that's illegal, but*\"hello world\" matches.");
 #endif
         }
 
@@ -559,11 +559,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                "Expected string to match the equivalent of \r\n\"h*earth!\" " +
+                "Expected string to match the equivalent of*\"h*earth!\" " +
 #else
-                "Expected subject to match the equivalent of \r\n\"h*earth!\" " +
+                "Expected subject to match the equivalent of*\"h*earth!\" " +
 #endif
-                "because that's the universal greeting, but \r\n\"hello world!\" does not.");
+                "because that's the universal greeting, but*\"hello world!\" does not.");
         }
 
         [Fact]
@@ -627,11 +627,11 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " +
-                "but \r\n\"hello WORLD\" matches.");
+                .WithMessage("Did not expect string to match the equivalent of*\"*world*\" because that's illegal, " +
+                "but*\"hello WORLD\" matches.");
 #else
-                .WithMessage("Did not expect subject to match the equivalent of \r\n\"*world*\" because that's illegal, " +
-                "but \r\n\"hello WORLD\" matches.");
+                .WithMessage("Did not expect subject to match the equivalent of*\"*world*\" because that's illegal, " +
+                "but*\"hello WORLD\" matches.");
 #endif
         }
 
@@ -676,9 +676,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to match regex \r\n\"h.*\\sworld?$\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+                .WithMessage("Expected string to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
 #else
-              .WithMessage("Expected subject to match regex \r\n\"h.*\\sworld?$\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+              .WithMessage("Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
 #endif
         }
 
@@ -700,9 +700,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to match regex \r\n\".*\" because it should be a string, but it was <null>.");
+                .WithMessage("Expected string to match regex*\".*\" because it should be a string, but it was <null>.");
 #else
-             .WithMessage("Expected subject to match regex \r\n\".*\" because it should be a string, but it was <null>.");
+             .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
 #endif
         }
 
@@ -792,9 +792,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-              .WithMessage("Did not expect string to match regex \r\n\".*world.*\" because that's illegal, but \r\n\"hello world!\" matches.");
+              .WithMessage("Did not expect string to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
 #else
-              .WithMessage("Did not expect subject to match regex \r\n\".*world.*\" because that's illegal, but \r\n\"hello world!\" matches.");
+              .WithMessage("Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
 #endif
         }
 
@@ -816,9 +816,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string to not match regex \r\n\".*\" because it should not be a string, but it was <null>.");
+                .WithMessage("Expected string to not match regex*\".*\" because it should not be a string, but it was <null>.");
 #else
-             .WithMessage("Expected subject to not match regex \r\n\".*\" because it should not be a string, but it was <null>.");
+             .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
 #endif
         }
 
@@ -920,8 +920,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with " +
-                    "\r\n\"ABCDDFGHI\" because it should start, but " +
-                        "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
+                    "*\"ABCDDFGHI\" because it should start, but " +
+                        "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [Fact]
@@ -1359,8 +1359,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
-                    "\r\n\"abcddfghi\" because it should start, but " +
-                        "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
+                    "*\"abcddfghi\" because it should start, but " +
+                        "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [Fact]

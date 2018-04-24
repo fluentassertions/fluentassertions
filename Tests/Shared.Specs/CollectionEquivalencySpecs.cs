@@ -807,7 +807,7 @@ namespace FluentAssertions.Specs
             //// Assert
             ////-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected item[1] to be 1, but found 2.\r\nExpected item[2] to be 1, but found 3*");
+                "Expected item[1] to be 1, but found 2.*Expected item[2] to be 1, but found 3*");
         }
 
         [Fact]

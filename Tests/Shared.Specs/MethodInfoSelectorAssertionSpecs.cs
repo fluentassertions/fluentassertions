@@ -67,9 +67,9 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
                              " to be virtual because we want to test the error message," +
-                             " but the following methods are not virtual:\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
+                             " but the following methods are not virtual:*" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
                              "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
@@ -201,9 +201,9 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
                              " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
-                             " but the following methods are not:\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
+                             " but the following methods are not:*" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
 

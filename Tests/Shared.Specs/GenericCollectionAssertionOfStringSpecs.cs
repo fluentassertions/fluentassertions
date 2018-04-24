@@ -825,7 +825,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.\r\nParameter name: unexpected");
+                "Cannot compare collection with <null>.*Parameter name: unexpected");
         }
 
         [Fact]
@@ -895,7 +895,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.\r\nParameter name: expectation");
+                "Cannot compare collection with <null>.*Parameter name: expectation");
         }
 
         [Fact]
