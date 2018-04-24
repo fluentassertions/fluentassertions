@@ -6,8 +6,9 @@
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="3.4.2" />
+    <PackageReference Include="FakeItEasy" Version="4.5.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta5-build3769" />
@@ -15,8 +16,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
-      <HintPath Condition=" '$(Configuration)' == 'Debug' ">..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll</HintPath>
-      <HintPath Condition=" '$(Configuration)' == 'Release' ">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
+      <!-- If both Release and Debug version of FluentAssertions.dll exists, Debug will be selected -->
+      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' == 'Release'">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" />

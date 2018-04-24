@@ -23,10 +23,10 @@ var toolpath = Argument("toolpath", @"");
 var buildDir = Directory("./Artifacts") + Directory(configuration);
 GitVersion gitVersion = null; 
 
-if (!FileExists("./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll"))
+if (!FileExists("./tools/NSpec.2.0.1/tools/net451/NSpec.dll"))
 {
     // NSpec2.0.1 does not have NSpec.dll in the test runner directory, which crashes the test runner.
-    CopyFile("./tools/nspec.2.0.1/NSpec/lib/net451/NSpec.dll", "./tools/nspec.2.0.1/NSpec/tools/net451/NSpec.dll");
+    CopyFile("./tools/NSpec.2.0.1/lib/net451/NSpec.dll", "./tools/NSpec.2.0.1/tools/net451/NSpec.dll");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -88,18 +88,19 @@ Task("Run-Unit-Tests")
     XUnit2("./Tests/Net45.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/Net47.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration debug");
-    DotNetCoreTool("./Tests/NetCore13.Specs/NetCore13.Specs.csproj", "xunit", "-configuration " + configuration);
+    DotNetCoreTool("./Tests/NetCore13.Specs/NetCore13.Specs.csproj", "xunit", "-configuration debug");
     DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration debug");
 
-    XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
-    XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
-    NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnitSettings { NoResults = true });
-    NUnit3("./Tests/TestFrameworks/NUnit3.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new NUnit3Settings { NoResults = true });
+    DotNetCoreTest("./Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
+    XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
+    XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
+    NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new NUnitSettings { NoResults = true });
+    NUnit3("./Tests/TestFrameworks/NUnit3.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new NUnit3Settings { NoResults = true });
 
-    StartProcess(Context.Tools.Resolve("nspec.1.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec.Net45.Specs/bin/" + configuration + "/NSpec.Specs.dll");
-    StartProcess(Context.Tools.Resolve("nspec.2.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec2.Net45.Specs/bin/" + configuration + "/NSpec2.Specs.dll");
-    StartProcess(Context.Tools.Resolve("nspec.3.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec3.Net45.Specs/bin/" + configuration + "/NSpec3.Specs.dll");
-    StartProcess(Context.Tools.Resolve("mspec-clr4.exe"), "./Tests/TestFrameworks/MSpec.Net45.Specs/bin/" + configuration + "/MSpec.Specs.dll");
+    StartProcess(Context.Tools.Resolve("nspec.1.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec.Net45.Specs/bin/Debug/net451/NSpec.Specs.dll");
+    StartProcess(Context.Tools.Resolve("nspec.2.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec2.Net45.Specs/bin/Debug/net451/NSpec2.Specs.dll");
+    StartProcess(Context.Tools.Resolve("nspec.3.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec3.Net45.Specs/bin/Debug/net451/NSpec3.Specs.dll");
+    StartProcess(Context.Tools.Resolve("mspec-clr4.exe"), "./Tests/TestFrameworks/MSpec.Net45.Specs/bin/Debug/net451/MSpec.Specs.dll");
 });
 
 Task("Pack")
