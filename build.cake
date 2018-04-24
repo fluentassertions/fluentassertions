@@ -4,7 +4,6 @@
 #tool "nuget:?package=nspec&version=1.0.13"
 #tool "nuget:?package=nspec&version=2.0.1"
 #tool "nuget:?package=nspec&version=3.1.0"
-#tool "nuget:?package=Machine.Specifications.Runner.Console&version=0.9.3"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
@@ -91,6 +90,7 @@ Task("Run-Unit-Tests")
     DotNetCoreTool("./Tests/NetCore13.Specs/NetCore13.Specs.csproj", "xunit", "-configuration debug");
     DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration debug");
 
+    DotNetCoreTest("./Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
@@ -100,7 +100,6 @@ Task("Run-Unit-Tests")
     StartProcess(Context.Tools.Resolve("nspec.1.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec.Net45.Specs/bin/Debug/net451/NSpec.Specs.dll");
     StartProcess(Context.Tools.Resolve("nspec.2.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec2.Net45.Specs/bin/Debug/net451/NSpec2.Specs.dll");
     StartProcess(Context.Tools.Resolve("nspec.3.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec3.Net45.Specs/bin/Debug/net451/NSpec3.Specs.dll");
-    StartProcess(Context.Tools.Resolve("mspec-clr4.exe"), "./Tests/TestFrameworks/MSpec.Net45.Specs/bin/Debug/net451/MSpec.Specs.dll");
 });
 
 Task("Pack")

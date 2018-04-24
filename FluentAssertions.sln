@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSpec.Net45.Specs", "Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSpec2.Net45.Specs", "Tests\TestFrameworks\NSpec2.Net45.Specs\NSpec2.Net45.Specs.csproj", "{CCC49B53-FD9A-4C36-8BFF-2407A0555A50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSpec.Net45.Specs", "Tests\TestFrameworks\MSpec.Net45.Specs\MSpec.Net45.Specs.csproj", "{4F210C41-7E8E-424A-B956-FC1AA47663C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSpec.Specs", "Tests\TestFrameworks\MSpec.Specs\MSpec.Specs.csproj", "{4F210C41-7E8E-424A-B956-FC1AA47663C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net47.Specs", "Tests\Net47.Specs\Net47.Specs.csproj", "{1E4EFB8D-FB8B-4EF2-83FC-B42D28CD99A3}"
 EndProject
