@@ -1,5 +1,4 @@
 ﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta5-build3769"
-#tool "nuget:?package=nunit.runners&version=2.6.4"
 #tool "nuget:?package=nspec&version=1.0.13"
 #tool "nuget:?package=nspec&version=2.0.1"
 #tool "nuget:?package=nspec&version=3.1.0"
