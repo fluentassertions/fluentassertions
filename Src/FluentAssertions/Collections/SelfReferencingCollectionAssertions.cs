@@ -606,7 +606,7 @@ namespace FluentAssertions.Collections
                     break;
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Single());
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.SingleOrDefault());
         }
 
         /// <summary>
