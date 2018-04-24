@@ -1,4 +1,4 @@
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
 using Xunit;
@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(@"<person name=\""Martin\"" age=\""36\"">�</person>");
+            result.Should().Be(@"<person name=\""Martin\"" age=\""36\"">…</person>");
         }
     }
 }
