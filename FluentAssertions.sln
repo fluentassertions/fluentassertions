@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyB", "Tests\Assembly
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{4D8FA213-8724-4C43-B68A-F018148D238C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnit2.Net45.Specs", "Tests\TestFrameworks\XUnit2.Net45.Specs\XUnit2.Net45.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnit2.Specs", "Tests\TestFrameworks\XUnit2.Specs\XUnit2.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{31891850-3EDC-480A-9B6C-F60540E9C90F}"
 EndProject

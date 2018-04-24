@@ -92,8 +92,8 @@ Task("Run-Unit-Tests")
     DotNetCoreTest("./Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/NUnit3.Specs/NUnit3.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
+    DotNetCoreTool("./Tests/TestFrameworks/XUnit2.Specs/XUnit2.Specs.csproj", "xunit", "-configuration debug");
     XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
-    XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new NUnitSettings { NoResults = true });
 
     StartProcess(Context.Tools.Resolve("nspec.1.*/**/NSpecRunner.exe"), "./Tests/TestFrameworks/NSpec.Net45.Specs/bin/Debug/net451/NSpec.Specs.dll");
