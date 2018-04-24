@@ -660,7 +660,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.\r\nParameter name: baseType");
+                .WithMessage("Must not be an interface Type.*Parameter name: baseType");
         }
 
         #endregion
@@ -751,7 +751,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.\r\nParameter name: baseType");
+                .WithMessage("Must not be an interface Type.*Parameter name: baseType");
         }
 
         #endregion
@@ -939,8 +939,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to be decorated with *DummyClassAttribute*" +
-                    " because we do, but the attribute was not found on the following types:\r\n" +
-                    "*ClassWithoutAttribute*\r\n" +
+                    " because we do, but the attribute was not found on the following types:*" +
+                    "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
         }
 
@@ -970,8 +970,8 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to be decorated with *DummyClassAttribute*" +
                     " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
-                    " but no matching attribute was found on the following types:\r\n" +
-                    "*ClassWithoutAttribute*\r\n" +
+                    " but no matching attribute was found on the following types:*" +
+                    "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
         }
 
@@ -1136,8 +1136,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to be decorated with or inherit *DummyClassAttribute*" +
-                    " because we do, but the attribute was not found on the following types:\r\n" +
-                    "*ClassWithoutAttribute*\r\n" +
+                    " because we do, but the attribute was not found on the following types:*" +
+                    "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
         }
 
@@ -1168,8 +1168,8 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to be decorated with or inherit *DummyClassAttribute*" +
                     " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
-                    " but no matching attribute was found on the following types:\r\n" +
-                    "*ClassWithoutAttribute*\r\n" +
+                    " but no matching attribute was found on the following types:*" +
+                    "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
         }
 
@@ -2021,7 +2021,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.\r\nParameter name: interfaceType");
+                .WithMessage("Must be an interface Type.*Parameter name: interfaceType");
         }
 
         #endregion
@@ -2112,7 +2112,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.\r\nParameter name: interfaceType");
+                .WithMessage("Must be an interface Type.*Parameter name: interfaceType");
         }
 
         #endregion

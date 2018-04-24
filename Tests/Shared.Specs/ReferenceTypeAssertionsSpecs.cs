@@ -53,11 +53,11 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
 #if NETCOREAPP1_1
-                    "Expected object to refer to \r\n{ UserName = JohnDoe } because " +
-                    "they are the same, but found \r\n{ Name = John Doe }.");
+                    "Expected object to refer to*{ UserName = JohnDoe } because " +
+                    "they are the same, but found*{ Name = John Doe }.");
 #else
-                    "Expected subject to refer to \r\n{ UserName = JohnDoe } because " +
-                    "they are the same, but found \r\n{ Name = John Doe }.");
+                    "Expected subject to refer to*{ UserName = JohnDoe } because " +
+                    "they are the same, but found*{ Name = John Doe }.");
 #endif
         }
 
@@ -95,9 +95,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Did not expect object to refer to \r\nClassWithCustomEqualMethod(1) because they are the same.");
+                .WithMessage("Did not expect object to refer to*ClassWithCustomEqualMethod(1) because they are the same.");
 #else
-                .WithMessage("Did not expect someObject to refer to \r\nClassWithCustomEqualMethod(1) because they are the same.");
+                .WithMessage("Did not expect someObject to refer to*ClassWithCustomEqualMethod(1) because they are the same.");
 #endif
         }
 
@@ -404,13 +404,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
-                "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
-                "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
+                "Expected object to be*FluentAssertions.Specs.SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
+                "   Name = \"Teddie\"*}, but found*FluentAssertions.Specs.SomeDto*{*Age = 37*" +
+                "   Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
 #else
-                "Expected subject to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
-                    "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
-                        "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
+                "Expected subject to be*FluentAssertions.Specs.SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
+                    "   Name = \"Teddie\"*}, but found*FluentAssertions.Specs.SomeDto*{*Age = 37*" +
+                        "   Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
 #endif
         }
 

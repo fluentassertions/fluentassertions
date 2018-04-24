@@ -69,9 +69,9 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                .WithMessage("Expected all selected properties" +
                    " to be virtual because we want to test the error message," +
-                   " but the following properties are not virtual:\r\n" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty\r\n" +
+                   " but the following properties are not virtual:*" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
                    "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
 
@@ -205,9 +205,9 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
-                   " but the following properties are not:\r\n" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
+                   " but the following properties are not:*" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
 
@@ -300,8 +300,8 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all selected properties to have a setter because we want to test the error message, " +
-                    "but the following properties do not:\r\n" +
-                    "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty\r\n" +
+                    "but the following properties do not:*" +
+                    "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty*" +
                     "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty2");
         }
 

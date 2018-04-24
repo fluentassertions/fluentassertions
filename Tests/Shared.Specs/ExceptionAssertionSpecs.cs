@@ -94,8 +94,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().StartWith(
-                    "Expected exception message to match the equivalent of \r\n\"some message\", but \r\n\"some\" does not.");
+                ex.Message.Should().Match(
+                    "Expected exception message to match the equivalent of*\"some message\", but*\"some\" does not*");
             }
         }
 
@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<Exception>()
-                .WithMessage("Expected exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
+                .WithMessage("Expected exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<Exception>()
-                .WithMessage("Expected exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
+                .WithMessage("Expected exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
         }
 
         [Fact]
@@ -279,7 +279,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to match the equivalent of \r\n\"message2\", but \r\n\"message2\r\nParameter name: someParam\"*");
+                    "Expected exception message to match the equivalent of*\"message2\", but*\"message2*Parameter name: someParam\"*");
             }
         }
 
@@ -372,7 +372,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to match the equivalent of \r\n\"message without\"*, but \r\n\"message with {}*");
+                    "Expected exception message to match the equivalent of*\"message without\"*, but*\"message with {}*");
             }
         }
 
