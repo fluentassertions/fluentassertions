@@ -4,7 +4,7 @@
     <AssemblyName>FluentAssertions.Net47.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.Net47.Specs</RootNamespace>
     <DefineConstants>$(DefineConstants);NET47</DefineConstants>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>

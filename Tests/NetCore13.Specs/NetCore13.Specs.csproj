@@ -4,6 +4,7 @@
     <AssemblyName>FluentAssertions.NetCore13.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore13.Specs</RootNamespace>
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
+    <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="4.5.1" />
