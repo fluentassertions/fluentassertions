@@ -44,7 +44,7 @@ namespace FluentAssertions.Execution
 
         private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
-            string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+            const string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
 
             message = Regex.Replace(message, pattern, match =>
             {
@@ -72,7 +72,7 @@ namespace FluentAssertions.Execution
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
-            string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
+            const string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
 
             return Regex.Replace(message, pattern, match =>
             {

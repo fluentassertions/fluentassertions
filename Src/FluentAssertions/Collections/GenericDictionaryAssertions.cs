@@ -988,7 +988,7 @@ namespace FluentAssertions.Collections
                 }
                 else
                 {
-                    var expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject.First();
+                    var expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
                     TValue actual = Subject[expectedKeyValuePair.Key];
 
                     Execute.Assertion
@@ -1125,7 +1125,7 @@ namespace FluentAssertions.Collections
                     }
                     else
                     {
-                        var keyValuePair = keyValuePairsSameOrEqualInSubject.First();
+                        var keyValuePair = keyValuePairsSameOrEqualInSubject[0];
 
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
