@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyB", "Tests\Assembly
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{4D8FA213-8724-4C43-B68A-F018148D238C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnit2.Net45.Specs", "Tests\TestFrameworks\XUnit2.Net45.Specs\XUnit2.Net45.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnit2.Specs", "Tests\TestFrameworks\XUnit2.Specs\XUnit2.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{31891850-3EDC-480A-9B6C-F60540E9C90F}"
 EndProject
@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Specs", "Tests\NetC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore20.Specs", "Tests\NetCore20.Specs\NetCore20.Specs.csproj", "{1C7CF1BF-534B-4CF7-A3B2-5910B091460A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit3.Net45.Specs", "Tests\TestFrameworks\NUnit3.Net45.Specs\NUnit3.Net45.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit3.Specs", "Tests\TestFrameworks\NUnit3.Specs\NUnit3.Specs.csproj", "{C8335EA3-C6CE-47C9-AB4F-CE37157E1EB2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit2.Net45.Specs", "Tests\TestFrameworks\NUnit2.Net45.Specs\NUnit2.Net45.Specs.csproj", "{53DAC943-ED58-4746-AAD7-D3E13CDA6099}"
 EndProject
@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSpec.Net45.Specs", "Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSpec2.Net45.Specs", "Tests\TestFrameworks\NSpec2.Net45.Specs\NSpec2.Net45.Specs.csproj", "{CCC49B53-FD9A-4C36-8BFF-2407A0555A50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSpec.Net45.Specs", "Tests\TestFrameworks\MSpec.Net45.Specs\MSpec.Net45.Specs.csproj", "{4F210C41-7E8E-424A-B956-FC1AA47663C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSpec.Specs", "Tests\TestFrameworks\MSpec.Specs\MSpec.Specs.csproj", "{4F210C41-7E8E-424A-B956-FC1AA47663C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net47.Specs", "Tests\Net47.Specs\Net47.Specs.csproj", "{1E4EFB8D-FB8B-4EF2-83FC-B42D28CD99A3}"
 EndProject
