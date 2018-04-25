@@ -24,59 +24,59 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            DateTimeOffset dateTime;
+            DateTimeOffset dateTimeOffset;
 
-            if (value is DateTime)
+            if (value is DateTime dateTime)
             {
-                dateTime = ((DateTime)value).ToDateTimeOffset();
+                dateTimeOffset = dateTime.ToDateTimeOffset();
             }
             else
             {
-                dateTime = (DateTimeOffset)value;
+                dateTimeOffset = (DateTimeOffset)value;
             }
 
             var fragments = new List<string>();
 
-            if (HasDate(dateTime))
+            if (HasDate(dateTimeOffset))
             {
-                fragments.Add(dateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                fragments.Add(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
             }
 
-            if (HasTime(dateTime))
+            if (HasTime(dateTimeOffset))
             {
-                if (HasNanoSeconds(dateTime))
+                if (HasNanoSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.fffffff", CultureInfo.InvariantCulture));
+                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.fffffff", CultureInfo.InvariantCulture));
                 }
-                else if (HasMicroSeconds(dateTime))
+                else if (HasMicroSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.ffffff", CultureInfo.InvariantCulture));
+                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.ffffff", CultureInfo.InvariantCulture));
                 }
-                else if (HasMilliSeconds(dateTime))
+                else if (HasMilliSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture));
+                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    fragments.Add(dateTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
 
-            if (dateTime.Offset > TimeSpan.Zero)
+            if (dateTimeOffset.Offset > TimeSpan.Zero)
             {
-                fragments.Add("+" + formatChild("offset", dateTime.Offset));
+                fragments.Add("+" + formatChild("offset", dateTimeOffset.Offset));
             }
 
-            if (dateTime.Offset < TimeSpan.Zero)
+            if (dateTimeOffset.Offset < TimeSpan.Zero)
             {
-                fragments.Add(formatChild("offset", dateTime.Offset));
+                fragments.Add(formatChild("offset", dateTimeOffset.Offset));
             }
 
             if (!fragments.Any())
             {
-                if (HasMilliSeconds(dateTime))
+                if (HasMilliSeconds(dateTimeOffset))
                 {
-                    fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff", CultureInfo.InvariantCulture));
+                    fragments.Add("0001-01-01 00:00:00." + dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {

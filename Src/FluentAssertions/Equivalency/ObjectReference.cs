@@ -29,9 +29,7 @@ namespace FluentAssertions.Equivalency
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            var other = obj as ObjectReference;
-
-            if (other is null)
+            if (!(obj is ObjectReference other))
             {
                 return false;
             }

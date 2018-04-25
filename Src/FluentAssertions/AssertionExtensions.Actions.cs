@@ -71,9 +71,7 @@ namespace FluentAssertions
             {
                 if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
                 {
-                    var exception = actualException as T;
-
-                    return (exception == null) ? Enumerable.Empty<T>() : new[] { exception };
+                    return (actualException is T exception) ? new[] { exception } : Enumerable.Empty<T>();
                 }
 
                 return GetExtractedExceptions<T>(actualException);
@@ -84,16 +82,15 @@ namespace FluentAssertions
             {
                 var exceptions = new List<T>();
 
-                var aggregateException = actualException as AggregateException;
-                if (aggregateException != null)
+                if (actualException is AggregateException aggregateException)
                 {
                     var flattenedExceptions = aggregateException.Flatten();
 
                     exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
                 }
-                else if (actualException is T)
+                else if (actualException is T genericException)
                 {
-                    exceptions.Add((T)actualException);
+                    exceptions.Add(genericException);
                 }
 
                 return exceptions;
