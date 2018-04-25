@@ -197,8 +197,10 @@ namespace FluentAssertions.Specs
                 this.value = value;
             }
 
+#pragma warning disable IDE1006 // Naming Styles
             public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => typeWithFakeConversionOperators.value;
             public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => (byte)typeWithFakeConversionOperators.value;
+#pragma warning restore IDE1006 // Naming Styles
         }
     }
 }

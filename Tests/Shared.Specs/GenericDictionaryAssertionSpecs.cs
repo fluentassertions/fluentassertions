@@ -3003,19 +3003,15 @@ namespace FluentAssertions.Specs
 
     internal class TrackingTestDictionary : IDictionary<int, string>
     {
-        private readonly TrackingDictionaryEnumerator enumerator;
         private readonly IDictionary<int, string> entries;
 
         public TrackingTestDictionary(params KeyValuePair<int, string>[] entries)
         {
             this.entries = entries.ToDictionary(e => e.Key, e => e.Value);
-            enumerator = new TrackingDictionaryEnumerator(entries);
+            Enumerator = new TrackingDictionaryEnumerator(entries);
         }
 
-        public TrackingDictionaryEnumerator Enumerator
-        {
-            get { return enumerator; }
-        }
+        public TrackingDictionaryEnumerator Enumerator { get; }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -3024,9 +3020,9 @@ namespace FluentAssertions.Specs
 
         public IEnumerator<KeyValuePair<int, string>> GetEnumerator()
         {
-            enumerator.IncreaseEnumerationCount();
-            enumerator.Reset();
-            return enumerator;
+            Enumerator.IncreaseEnumerationCount();
+            Enumerator.Reset();
+            return Enumerator;
         }
 
         public void Add(KeyValuePair<int, string> item)

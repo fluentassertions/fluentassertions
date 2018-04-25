@@ -3986,7 +3986,7 @@ namespace FluentAssertions.Specs
 
         public override int GetHashCode()
         {
-            return (Code?.GetHashCode() ?? 0);
+            return Code?.GetHashCode() ?? 0;
         }
 
         public static bool operator ==(CustomerType a, CustomerType b)

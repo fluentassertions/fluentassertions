@@ -4993,6 +4993,7 @@ namespace FluentAssertions.Specs
         }
 
         public int GetEnumeratorCallCount { get; private set; }
+
         public IEnumerator GetEnumerator()
         {
             GetEnumeratorCallCount++;
@@ -5002,6 +5003,7 @@ namespace FluentAssertions.Specs
         public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
 
         public int GetCountCallCount { get; private set; }
+
         public int Count
         {
             get
@@ -5025,6 +5027,7 @@ namespace FluentAssertions.Specs
         }
 
         public int GetEnumeratorCallCount { get; private set; }
+
         public IEnumerator<TElement> GetEnumerator()
         {
             GetEnumeratorCallCount++;
@@ -5043,6 +5046,7 @@ namespace FluentAssertions.Specs
         public bool Remove(TElement item) { throw new NotImplementedException(); }
 
         public int GetCountCallCount { get; private set; }
+
         public int Count
         {
             get
@@ -5068,25 +5072,21 @@ namespace FluentAssertions.Specs
 
     internal class TrackingTestEnumerable : IEnumerable
     {
-        private readonly TrackingEnumerator enumerator;
         private readonly int[] values;
 
         public TrackingTestEnumerable(params int[] values)
         {
             this.values = values;
-            enumerator = new TrackingEnumerator(this.values);
+            Enumerator = new TrackingEnumerator(this.values);
         }
 
-        public TrackingEnumerator Enumerator
-        {
-            get { return enumerator; }
-        }
+        public TrackingEnumerator Enumerator { get; }
 
         public IEnumerator GetEnumerator()
         {
-            enumerator.IncreaseEnumerationCount();
-            enumerator.Reset();
-            return enumerator;
+            Enumerator.IncreaseEnumerationCount();
+            Enumerator.Reset();
+            return Enumerator;
         }
     }
 

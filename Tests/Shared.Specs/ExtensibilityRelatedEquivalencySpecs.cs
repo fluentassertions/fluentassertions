@@ -165,15 +165,15 @@ namespace FluentAssertions.Specs
 
         internal class ForeignKeyMatchingRule : IMemberMatchingRule
         {
-            public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+            public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config)
             {
-                string name = subjectMember.Name;
+                string name = expectedMember.Name;
                 if (name.EndsWith("Id"))
                 {
                     name = name.Replace("Id", "");
                 }
 
-                return SelectedMemberInfo.Create(expectation.GetType().GetRuntimeProperty(name));
+                return SelectedMemberInfo.Create(subject.GetType().GetRuntimeProperty(name));
             }
         }
 
