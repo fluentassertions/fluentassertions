@@ -1033,12 +1033,7 @@ namespace FluentAssertions.Types
 
         private string GetParameterString(IEnumerable<Type> parameterTypes)
         {
-            if (!parameterTypes.Any())
-            {
-                return string.Empty;
-            }
-
-            return parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c);
+            return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }
 
         /// <summary>
