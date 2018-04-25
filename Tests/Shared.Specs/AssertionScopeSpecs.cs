@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using FluentAssertions;
@@ -209,6 +210,53 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo to be equal to*");
+        }
+
+        [Fact]
+        public void When_an_assertion_fails_on_ContainKey_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    var values = new Dictionary<int, int>();
+                    values.Should().ContainKey(0);
+                    values.Should().ContainKey(1);
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to contain key 0*Expected*to contain key 1*");
+        }
+
+        [Fact]
+        public void When_an_assertion_fails_on_ContainSingle_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    var values = new List<int>();
+                    values.Should().ContainSingle();
+                    values.Should().ContainSingle();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to contain a single item, but the collection is empty*" +
+                "Expected*to contain a single item, but the collection is empty*");
         }
 
         [Fact]

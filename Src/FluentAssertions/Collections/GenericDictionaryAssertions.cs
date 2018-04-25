@@ -513,7 +513,9 @@ namespace FluentAssertions.Collections
         {
             AndConstraint<GenericDictionaryAssertions<TKey, TValue>> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
 
-            return new WhichValueConstraint<TKey, TValue>(andConstraint.And, Subject[expected]);
+            _ = Subject.TryGetValue(expected, out TValue value);
+
+            return new WhichValueConstraint<TKey, TValue>(andConstraint.And, value);
         }
 
         /// <summary>
