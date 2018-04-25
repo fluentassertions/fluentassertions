@@ -42,7 +42,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithoutAttribute = Subject
+            Type[] typesWithoutAttribute = Subject
                 .Where(type => !type.IsDecoratedWith<TAttribute>())
                 .ToArray();
 
@@ -76,7 +76,7 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithoutMatchingAttribute = Subject
+            Type[] typesWithoutMatchingAttribute = Subject
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
                 .ToArray();
 
@@ -106,7 +106,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithoutAttribute = Subject
+            Type[] typesWithoutAttribute = Subject
                 .Where(type => !type.IsDecoratedWith<TAttribute>(true))
                 .ToArray();
 
@@ -140,7 +140,7 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithoutMatchingAttribute = Subject
+            Type[] typesWithoutMatchingAttribute = Subject
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate, true))
                 .ToArray();
 
@@ -170,7 +170,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithAttribute = Subject
+            Type[] typesWithAttribute = Subject
                 .Where(type => type.IsDecoratedWith<TAttribute>())
                 .ToArray();
 
@@ -204,7 +204,7 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithMatchingAttribute = Subject
+            Type[] typesWithMatchingAttribute = Subject
                 .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate))
                 .ToArray();
 
@@ -234,7 +234,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithAttribute = Subject
+            Type[] typesWithAttribute = Subject
                 .Where(type => type.IsDecoratedWith<TAttribute>(true))
                 .ToArray();
 
@@ -268,7 +268,7 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<Type> typesWithMatchingAttribute = Subject
+            Type[] typesWithMatchingAttribute = Subject
                 .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate, true))
                 .ToArray();
 

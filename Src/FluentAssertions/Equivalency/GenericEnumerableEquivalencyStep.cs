@@ -54,7 +54,7 @@ namespace FluentAssertions.Equivalency
 
                 Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-                Expression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
+                MethodCallExpression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
                 ConstantExpression subjectAsArray =
                     Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Subject));
 
