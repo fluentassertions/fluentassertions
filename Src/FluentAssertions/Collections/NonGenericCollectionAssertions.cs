@@ -36,7 +36,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -66,7 +66,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -96,7 +96,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -126,7 +126,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -156,7 +156,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -186,7 +186,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -222,7 +222,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

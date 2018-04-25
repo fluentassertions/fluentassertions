@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
         {
             var other = obj as ObjectReference;
 
-            if (ReferenceEquals(other, null))
+            if (other is null)
             {
                 return false;
             }
@@ -64,6 +64,6 @@ namespace FluentAssertions.Equivalency
             return $"{{\"{path}\", {@object}}}";
         }
 
-        public bool IsComplexType => isComplexType ?? (!ReferenceEquals(@object, null) && !@object.GetType().OverridesEquals());
+        public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().OverridesEquals());
     }
 }

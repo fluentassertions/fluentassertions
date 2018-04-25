@@ -17,7 +17,7 @@ namespace FluentAssertions.Formatting
         {
             var task = value as Task;
 
-            if (!ReferenceEquals(task, null))
+            if (!(task is null))
             {
                 return $"{formatChild("type", task.GetType())} {{Status={task.Status}}}";
             }

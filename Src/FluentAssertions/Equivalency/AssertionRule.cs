@@ -36,7 +36,7 @@ namespace FluentAssertions.Equivalency
         {
             if (predicate(context))
             {
-                bool subjectIsNull = ReferenceEquals(context.Subject, null);
+                bool subjectIsNull = context.Subject is null;
 
                 bool subjectIsValidType =
                     AssertionScope.Current
@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency
                         .FailWith("Expected " + context.SelectedMemberDescription + " from subject to be a {0}{reason}, but found a {1}.",
                             typeof(TSubject), context.Subject?.GetType());
 
-                bool expectationIsNull = ReferenceEquals(context.Expectation, null);
+                bool expectationIsNull = context.Expectation is null;
 
                 bool expectationIsValidType =
                     AssertionScope.Current

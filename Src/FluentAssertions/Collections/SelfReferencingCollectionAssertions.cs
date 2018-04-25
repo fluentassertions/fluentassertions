@@ -36,7 +36,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -72,7 +72,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -107,7 +107,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -137,7 +137,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -167,7 +167,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -197,7 +197,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -227,7 +227,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -400,7 +400,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -446,7 +446,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -510,7 +510,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -554,7 +554,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -587,7 +587,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -626,7 +626,7 @@ namespace FluentAssertions.Collections
             string expectationPrefix =
                 string.Format("Expected {{context:collection}} to contain a single item matching {0}{{reason}}, ", predicate.Body);
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

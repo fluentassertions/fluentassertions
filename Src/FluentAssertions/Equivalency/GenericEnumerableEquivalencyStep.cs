@@ -81,7 +81,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
             bool conditionMet = AssertionScope.Current
-                .ForCondition(!ReferenceEquals(subject, null))
+                .ForCondition(!(subject is null))
                 .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
 
             if (conditionMet)

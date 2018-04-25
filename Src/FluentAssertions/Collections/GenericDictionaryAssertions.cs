@@ -42,7 +42,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -72,7 +72,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -102,7 +102,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -132,7 +132,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -162,7 +162,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -192,7 +192,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -228,7 +228,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -266,7 +266,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -294,7 +294,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeEmpty(string because = "",
             params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -329,7 +329,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -388,7 +388,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -555,7 +555,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(expected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -604,7 +604,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -658,7 +658,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(unexpected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -759,7 +759,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(expected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -822,7 +822,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -876,7 +876,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(unexpected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -947,7 +947,7 @@ namespace FluentAssertions.Collections
                     nameof(expected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1034,7 +1034,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1102,7 +1102,7 @@ namespace FluentAssertions.Collections
                     nameof(items));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1171,7 +1171,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value,
             string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

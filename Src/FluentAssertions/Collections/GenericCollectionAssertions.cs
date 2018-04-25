@@ -34,7 +34,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericCollectionAssertions<T>> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey : class
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -44,7 +44,7 @@ namespace FluentAssertions.Collections
             Func<T, TKey> compiledPredicate = predicate.Compile();
 
             var values = Subject
-                .Where(e => ReferenceEquals(compiledPredicate(e), null))
+                .Where(e => compiledPredicate(e) is null)
                 .ToArray();
 
             if (values.Length > 0)
@@ -72,7 +72,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -276,7 +276,7 @@ namespace FluentAssertions.Collections
             }
 
             return Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(!(Subject is null))
                 .BecauseOf(because, args)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());

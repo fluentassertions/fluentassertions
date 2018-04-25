@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         private bool AssertIsNotNull(object expectation, object[] subject)
         {
             return AssertionScope.Current
-                .ForCondition(!ReferenceEquals(expectation, null))
+                .ForCondition(!(expectation is null))
                 .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[] { subject });
         }
 

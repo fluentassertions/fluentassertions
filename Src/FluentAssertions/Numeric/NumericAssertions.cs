@@ -17,7 +17,7 @@ namespace FluentAssertions.Numeric
     {
         public NumericAssertions(object value)
         {
-            if (!ReferenceEquals(value, null))
+            if (!(value is null))
             {
                 Subject = value as IComparable;
                 if (Subject == null)
@@ -43,7 +43,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -64,7 +64,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> Be(T? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((ReferenceEquals(Subject, null) && !expected.HasValue) || (!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0))
+                .ForCondition((Subject is null && !expected.HasValue) || (!(Subject is null) && Subject.CompareTo(expected) == 0))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -85,7 +85,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, null) || Subject.CompareTo(unexpected) != 0)
+                .ForCondition(Subject is null || Subject.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
 
@@ -106,7 +106,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((ReferenceEquals(Subject, null) == unexpected.HasValue) || (!ReferenceEquals(Subject, null) && Subject.CompareTo(unexpected) != 0))
+                .ForCondition((Subject is null == unexpected.HasValue) || (!(Subject is null) && Subject.CompareTo(unexpected) != 0))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
 
@@ -126,7 +126,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(default(T)) > 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be positive{reason}, but found {0}.", Subject);
 
@@ -146,7 +146,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(default(T)) < 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", Subject);
 
@@ -167,7 +167,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) < 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, Subject);
 
@@ -189,7 +189,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) <= 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -211,7 +211,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) > 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, Subject);
 
@@ -233,7 +233,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) >= 0)
+                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -263,7 +263,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && (Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
+                .ForCondition(!(Subject is null) && (Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be between {0} and {1}{reason}, but found {2}.",
                     minimumValue, maximumValue, Subject);
@@ -294,7 +294,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && !((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0)))
+                .ForCondition(!(Subject is null) && !((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not be between {0} and {1}{reason}, but found {2}.",
                     minimumValue, maximumValue, Subject);
@@ -330,7 +330,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null) && validValues.Contains((T)Subject))
+                .ForCondition(!(Subject is null) && validValues.Contains((T)Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 

@@ -12,7 +12,7 @@ namespace FluentAssertions.Common
     {
         public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (ReferenceEquals(expression, null))
+            if (expression is null)
             {
                 throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
             }
@@ -42,7 +42,7 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (ReferenceEquals(expression, null))
+            if (expression is null)
             {
                 throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
             }
