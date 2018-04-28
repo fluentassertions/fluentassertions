@@ -1826,7 +1826,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_only_once()
+        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_at_most_twice()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1849,7 +1849,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            actual.GetEnumeratorCallCount.Should().Be(1);
+            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(2);
         }
 
         [Fact]

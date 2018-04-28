@@ -6,7 +6,7 @@ namespace Benchmarks
     {
         public static void Main()
         {
-            var summary = BenchmarkRunner.Run<BeEquivalentToBenchmarks>();
+            var summary = BenchmarkRunner.Run<CollectionEqualBenchmarks>();
         }
     }
 }
