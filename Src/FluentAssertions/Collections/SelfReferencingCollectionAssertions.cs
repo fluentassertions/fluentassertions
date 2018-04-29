@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -251,7 +252,21 @@ namespace FluentAssertions.Collections
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)
         {
-            return Equal(elements, string.Empty);
+            Func<T, T, bool> comparer = GetComparer();
+
+            AssertSubjectEquality(elements, comparer, string.Empty);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private static Func<T, T, bool> GetComparer()
+        {
+            if (typeof(T).GetTypeInfo().IsValueType)
+            {
+                return (T s, T e) => s.Equals(e);
+            }
+
+            return (T s, T e) => Equals(s, e);
         }
 
         /// <summary>
