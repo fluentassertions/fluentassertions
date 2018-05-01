@@ -64,9 +64,9 @@ namespace FluentAssertions
             int column = frame.GetFileColumnNumber();
             string line = GetSourceCodeLineFrom(frame);
 
-            if ((line != null) && (column != 0))
+            if ((line != null) && (column != 0) && (line.Length > 0))
             {
-                string statement = line.Substring(column - 1);
+                string statement = line.Substring(Math.Min(column - 1, line.Length -1));
 
                 logger(statement);
 
