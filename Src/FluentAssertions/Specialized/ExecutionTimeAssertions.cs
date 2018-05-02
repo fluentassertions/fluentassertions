@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
+using System.Threading.Tasks;
 using System.Threading;
 
 namespace FluentAssertions.Specialized
@@ -11,13 +12,7 @@ namespace FluentAssertions.Specialized
     /// </summary>
     public class ExecutionTimeAssertions
     {
-        private readonly ExecutionTime executionTime;
-
-        private TimeSpan executionTimeSpan => executionTime.ExecutionTimeSpan;
-
-        private string actionDescription => executionTime.ActionDescription;
-
-        private bool executionFinished => executionTime.Thread.IsAlive == false;
+        private readonly ExecutionTime execution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
@@ -25,33 +20,32 @@ namespace FluentAssertions.Specialized
         /// <param name="executionTime">The execution on which time must be asserted.</param>
         public ExecutionTimeAssertions(ExecutionTime executionTime)
         {
-            this.executionTime = executionTime;
+            this.execution = executionTime;
         }
 
-        private void PollCheckExecution(Func<TimeSpan, bool> condition, bool stopPollingOnFail, bool stopPollingOnSuccess, TimeSpan pollRate)
+        /// <summary>
+        /// Checks the executing action if it satisfies a condition.
+        /// If the execution runs into an exeption, then this will rethrow it.
+        /// </summary>
+        /// <param name="condition">Condition to check un the current elapsed time.</param>
+        /// <param name="result">The expected result when polling is stopped.</param>
+        /// <param name="stopExecution">If polling is stopped then task execution is also stopped.</param>
+        /// <param name="rate">The rate at which the conition is re-checked.</param>
+        private void PollUntil(Func<TimeSpan, bool> condition, bool result, TimeSpan rate)
         {
-            while (!executionFinished)
+            var forcedStop = false;
+            while (execution.IsRunning)
             {
-                if (condition(executionTimeSpan))
+                if (condition(execution.ElapsedTime) == result)
                 {
-                    if (stopPollingOnSuccess)
-                    {
-                        break;
-                    }
+                    break;
                 }
-                else
-                {
-                    if (stopPollingOnFail)
-                    {
-                        break;
-                    }
-                }
-                Thread.Sleep(pollRate);
+                Task.Delay(rate).Wait();
             }
-            if (executionTime.Exception != null)
+            if (forcedStop == false && execution.Exception != null)
             {
                 // rethrow captured exception
-                throw executionTime.Exception;
+                throw execution.Exception;
             }
         }
 
@@ -71,12 +65,12 @@ namespace FluentAssertions.Specialized
         public void BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) <= 0;
-            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maxDuration);
+            PollUntil(condition, result: false, rate: maxDuration);
             Execute.Assertion
-                .ForCondition(condition(executionTimeSpan))
+                .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be less or equal to {0}{reason}, but it required {1}.",
-                    maxDuration, executionTimeSpan);
+                .FailWith("Execution of " + execution.ActionDescription + " should be less or equal to {0}{reason}, but it required {1}.",
+                    maxDuration, execution.ElapsedTime);
         }
 
         /// <summary>
@@ -95,12 +89,12 @@ namespace FluentAssertions.Specialized
         public void BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) < 0;
-            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maxDuration);
+            PollUntil(condition, result: false, rate: maxDuration);
             Execute.Assertion
-                .ForCondition(condition(executionTimeSpan))
+                .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be less than {0}{reason}, but it required {1}.",
-                    maxDuration, executionTimeSpan);
+                .FailWith("Execution of " + execution.ActionDescription + " should be less than {0}{reason}, but it required {1}.",
+                    maxDuration, execution.ElapsedTime);
         }
 
         /// <summary>
@@ -119,12 +113,12 @@ namespace FluentAssertions.Specialized
         public void BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) >= 0;
-            PollCheckExecution(condition, stopPollingOnFail: false, stopPollingOnSuccess: true, pollRate: minDuration);
+            PollUntil(condition, result: true, rate: minDuration);
             Execute.Assertion
-                .ForCondition(condition(executionTimeSpan))
+                .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be greater or equal to {0}{reason}, but it required {1}.",
-                    minDuration, executionTimeSpan);
+                .FailWith("Execution of " + execution.ActionDescription + " should be greater or equal to {0}{reason}, but it required {1}.",
+                    minDuration, execution.ElapsedTime);
         }
 
         /// <summary>
@@ -143,12 +137,12 @@ namespace FluentAssertions.Specialized
         public void BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) > 0;
-            PollCheckExecution(condition, stopPollingOnFail: false, stopPollingOnSuccess: true, pollRate: minDuration);
+            PollUntil(condition, result: true, rate: minDuration);
             Execute.Assertion
-                .ForCondition(condition(executionTimeSpan))
+                .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be greater than {0}{reason}, but it required {1}.",
-                    minDuration, executionTimeSpan);
+                .FailWith("Execution of " + execution.ActionDescription + " should be greater than {0}{reason}, but it required {1}.",
+                    minDuration, execution.ElapsedTime);
         }
 
         /// <summary>
@@ -172,15 +166,14 @@ namespace FluentAssertions.Specialized
         {
             var minimumValue = expectedDuration - precision;
             var maximumValue = expectedDuration + precision;
-
-            Func<TimeSpan, bool> condition = duration => duration.CompareTo(maximumValue) < 0;
-            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maximumValue);
+            
+            PollUntil(condition: elapsed => elapsed.CompareTo(maximumValue) < 0, result: false, rate: maximumValue);
 
             Execute.Assertion
-                .ForCondition((executionTimeSpan >= minimumValue) && (executionTimeSpan <= maximumValue))
+                .ForCondition((execution.ElapsedTime >= minimumValue) && (execution.ElapsedTime <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + actionDescription + " should be within {0} from {1}{reason}, but it required {2}.",
-                    precision, expectedDuration, executionTimeSpan);
+                .FailWith("Execution of " + execution.ActionDescription + " should be within {0} from {1}{reason}, but it required {2}.",
+                    precision, expectedDuration, execution.ElapsedTime);
         }
     }
 
@@ -194,37 +187,40 @@ namespace FluentAssertions.Specialized
             : this(action, "the action")
         {
         }
-
+        
         protected ExecutionTime(Action action, string actionDescription)
         {
             ActionDescription = actionDescription;
-            Exception = null;
             Stopwatch = new Stopwatch();
-            Thread = new Thread(() => {
+            IsRunning = true;
+            Task = Task.Run(() => {
+                // move stopwatch as close to action start as possible
+                // so that we have to get correct time readings
                 try
                 {
+                    Stopwatch.Start();
                     action();
                 }
                 catch (Exception exception)
                 {
-                    // we have a try catch to catch exceptions in the internal thread
                     Exception = exception;
                 }
                 finally
                 {
+                    // ensures that we stop the stopwatch even on exceptions
                     Stopwatch.Stop();
+                    IsRunning = false;
                 }
             });
-            // everything ready? let's GO!
-            Stopwatch.Start();
-            Thread.Start();
         }
 
-        internal TimeSpan ExecutionTimeSpan => Stopwatch.Elapsed;
+        internal TimeSpan ElapsedTime => Stopwatch.Elapsed;
 
+        internal bool IsRunning { get; private set; }
+        
         internal string ActionDescription { get; }
 
-        internal Thread Thread { get; }
+        internal Task Task { get; }
 
         internal Exception Exception { get; private set; }
 

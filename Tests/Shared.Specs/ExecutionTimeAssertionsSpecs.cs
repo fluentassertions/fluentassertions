@@ -566,6 +566,30 @@ namespace FluentAssertions.Specs
         }
         #endregion
 
+        #region ExecutionTime
+        [Fact]
+        public void When_action_runs_inside_execution_time_exceptions_are_captured_and_rethrown()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action someAction = () =>
+            {
+                throw new ArgumentException("Let's say somebody called the wrong method.");
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>();
+        }
+        #endregion
+
         internal class SleepingClass
         {
             public void Sleep(int milliseconds)
