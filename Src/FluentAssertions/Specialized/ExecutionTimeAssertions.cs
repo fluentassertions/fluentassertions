@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
+using System.Threading;
 
 namespace FluentAssertions.Specialized
 {
@@ -10,9 +11,13 @@ namespace FluentAssertions.Specialized
     /// </summary>
     public class ExecutionTimeAssertions
     {
-        private readonly TimeSpan executionTimeSpan;
+        private readonly ExecutionTime executionTime;
 
-        private readonly string actionDescription;
+        private TimeSpan executionTimeSpan => executionTime.ExecutionTimeSpan;
+
+        private string actionDescription => executionTime.ActionDescription;
+
+        private bool executionFinished => executionTime.Thread.IsAlive == false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
@@ -20,8 +25,34 @@ namespace FluentAssertions.Specialized
         /// <param name="executionTime">The execution on which time must be asserted.</param>
         public ExecutionTimeAssertions(ExecutionTime executionTime)
         {
-            executionTimeSpan = executionTime.ExecutionTimeSpan;
-            actionDescription = executionTime.ActionDescription;
+            this.executionTime = executionTime;
+        }
+
+        private void PollCheckExecution(Func<TimeSpan, bool> condition, bool stopPollingOnFail, bool stopPollingOnSuccess, TimeSpan pollRate)
+        {
+            while (!executionFinished)
+            {
+                if (condition(executionTimeSpan))
+                {
+                    if (stopPollingOnSuccess)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (stopPollingOnFail)
+                    {
+                        break;
+                    }
+                }
+                Thread.Sleep(pollRate);
+            }
+            if (executionTime.Exception != null)
+            {
+                // rethrow captured exception
+                throw executionTime.Exception;
+            }
         }
 
         /// <summary>
@@ -39,8 +70,10 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
+            Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) <= 0;
+            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maxDuration);
             Execute.Assertion
-                .ForCondition(executionTimeSpan.CompareTo(maxDuration) <= 0)
+                .ForCondition(condition(executionTimeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " + actionDescription + " should be less or equal to {0}{reason}, but it required {1}.",
                     maxDuration, executionTimeSpan);
@@ -61,8 +94,10 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
+            Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) < 0;
+            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maxDuration);
             Execute.Assertion
-                .ForCondition(executionTimeSpan.CompareTo(maxDuration) < 0)
+                .ForCondition(condition(executionTimeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " + actionDescription + " should be less than {0}{reason}, but it required {1}.",
                     maxDuration, executionTimeSpan);
@@ -83,8 +118,10 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
+            Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) >= 0;
+            PollCheckExecution(condition, stopPollingOnFail: false, stopPollingOnSuccess: true, pollRate: minDuration);
             Execute.Assertion
-                .ForCondition(executionTimeSpan.CompareTo(minDuration) >= 0)
+                .ForCondition(condition(executionTimeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " + actionDescription + " should be greater or equal to {0}{reason}, but it required {1}.",
                     minDuration, executionTimeSpan);
@@ -105,8 +142,10 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
+            Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) > 0;
+            PollCheckExecution(condition, stopPollingOnFail: false, stopPollingOnSuccess: true, pollRate: minDuration);
             Execute.Assertion
-                .ForCondition(executionTimeSpan.CompareTo(minDuration) > 0)
+                .ForCondition(condition(executionTimeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " + actionDescription + " should be greater than {0}{reason}, but it required {1}.",
                     minDuration, executionTimeSpan);
@@ -134,6 +173,9 @@ namespace FluentAssertions.Specialized
             var minimumValue = expectedDuration - precision;
             var maximumValue = expectedDuration + precision;
 
+            Func<TimeSpan, bool> condition = duration => duration.CompareTo(maximumValue) < 0;
+            PollCheckExecution(condition, stopPollingOnFail: true, stopPollingOnSuccess: false, pollRate: maximumValue);
+
             Execute.Assertion
                 .ForCondition((executionTimeSpan >= minimumValue) && (executionTimeSpan <= maximumValue))
                 .BecauseOf(because, becauseArgs)
@@ -156,17 +198,37 @@ namespace FluentAssertions.Specialized
         protected ExecutionTime(Action action, string actionDescription)
         {
             ActionDescription = actionDescription;
-
-            var stopwatch = Stopwatch.StartNew();
-            action();
-            stopwatch.Stop();
-
-            ExecutionTimeSpan = stopwatch.Elapsed;
+            Exception = null;
+            Stopwatch = new Stopwatch();
+            Thread = new Thread(() => {
+                try
+                {
+                    action();
+                }
+                catch (Exception exception)
+                {
+                    // we have a try catch to catch exceptions in the internal thread
+                    Exception = exception;
+                }
+                finally
+                {
+                    Stopwatch.Stop();
+                }
+            });
+            // everything ready? let's GO!
+            Stopwatch.Start();
+            Thread.Start();
         }
 
-        internal TimeSpan ExecutionTimeSpan { get; }
+        internal TimeSpan ExecutionTimeSpan => Stopwatch.Elapsed;
 
         internal string ActionDescription { get; }
+
+        internal Thread Thread { get; }
+
+        internal Exception Exception { get; private set; }
+
+        internal readonly Stopwatch Stopwatch;
     }
 
     public class MemberExecutionTime<T> : ExecutionTime
