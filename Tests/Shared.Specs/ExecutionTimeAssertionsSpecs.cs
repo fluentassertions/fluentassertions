@@ -116,7 +116,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be less than 0.100s, but it required");
         }
         #endregion
 
@@ -227,7 +230,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be less than 0.100s, but it required");
         }
         #endregion
 
@@ -562,7 +567,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act
+                .Should().Throw<XunitException>()
+                .And.Message.Should().StartWith(
+                    "Execution of the action should be within 0.050s from 0.100s, but it required");
         }
         #endregion
 
@@ -586,7 +594,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>();
+            act
+                .Should().Throw<ArgumentException>()
+                .And.Message.Should().Be("Let's say somebody called the wrong method.");
         }
         #endregion
 
