@@ -40,7 +40,7 @@ namespace FluentAssertions.Specialized
                 {
                     break;
                 }
-                Task.Delay(rate).Wait();
+                execution.Task.Wait(rate);
             }
             if (forcedStop == false && execution.Exception != null)
             {
