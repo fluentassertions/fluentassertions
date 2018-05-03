@@ -27,22 +27,20 @@ namespace FluentAssertions.Specialized
         /// Checks the executing action if it satisfies a condition.
         /// If the execution runs into an exeption, then this will rethrow it.
         /// </summary>
-        /// <param name="condition">Condition to check un the current elapsed time.</param>
+        /// <param name="condition">Condition to check on the current elapsed time.</param>
         /// <param name="result">The expected result when polling is stopped.</param>
-        /// <param name="stopExecution">If polling is stopped then task execution is also stopped.</param>
-        /// <param name="rate">The rate at which the conition is re-checked.</param>
+        /// <param name="rate">The rate at which the condition is re-checked.</param>
         private void PollUntil(Func<TimeSpan, bool> condition, bool result, TimeSpan rate)
         {
-            var forcedStop = false;
             while (execution.IsRunning)
             {
                 if (condition(execution.ElapsedTime) == result)
                 {
                     break;
                 }
-                execution.Task.Wait(rate);
+                var _ = execution.Task.Wait(rate);
             }
-            if (forcedStop == false && execution.Exception != null)
+            if (execution.Exception != null)
             {
                 // rethrow captured exception
                 throw execution.Exception;
@@ -191,14 +189,14 @@ namespace FluentAssertions.Specialized
         protected ExecutionTime(Action action, string actionDescription)
         {
             ActionDescription = actionDescription;
-            Stopwatch = new Stopwatch();
+            stopwatch = new Stopwatch();
             IsRunning = true;
             Task = Task.Run(() => {
                 // move stopwatch as close to action start as possible
                 // so that we have to get correct time readings
                 try
                 {
-                    Stopwatch.Start();
+                    stopwatch.Start();
                     action();
                 }
                 catch (Exception exception)
@@ -208,13 +206,13 @@ namespace FluentAssertions.Specialized
                 finally
                 {
                     // ensures that we stop the stopwatch even on exceptions
-                    Stopwatch.Stop();
+                    stopwatch.Stop();
                     IsRunning = false;
                 }
             });
         }
 
-        internal TimeSpan ElapsedTime => Stopwatch.Elapsed;
+        internal TimeSpan ElapsedTime => stopwatch.Elapsed;
 
         internal bool IsRunning { get; private set; }
         
@@ -224,7 +222,7 @@ namespace FluentAssertions.Specialized
 
         internal Exception Exception { get; private set; }
 
-        internal readonly Stopwatch Stopwatch;
+        private readonly Stopwatch stopwatch;
     }
 
     public class MemberExecutionTime<T> : ExecutionTime
