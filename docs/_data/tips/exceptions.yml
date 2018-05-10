@@ -1,0 +1,20 @@
+- old: |
+    Action act = () => func();
+    
+    act.ShouldThrowExactly<InvalidOperationException>()
+        .Which.Message.Should().Contain("expectedMessage");
+
+  new: |
+    Action act = () => func();
+    
+    // using wildcards
+    act.ShouldThrowExactly<InvalidOperationException>()
+        .WithMessage("*expectedMessage*");
+
+  old-message: |
+    Expected string "Problems, errorCode2 and more Problems" to contain "errorCode1".
+
+  new-message: |
+    Expected exception message to match the equivalent of 
+    "*errorCode1*", but 
+    "Problems, errorCode2 and more Problems" does not.

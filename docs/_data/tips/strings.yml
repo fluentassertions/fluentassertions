@@ -1,0 +1,97 @@
+- old: |
+    actual.StartsWith(expectedPrefix).Should().BeTrue();
+
+  new: |
+    actual.Should().StartWith(expectedPrefix);
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected string to start with 
+    "Expected", but 
+    "ActualString" differs near "Act" (index 0).
+
+- old: |
+    actual.EndsWith(expectedSuffix).Should().BeTrue();
+
+  new: |
+    actual.Should().EndWith(expectedSuffix);
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected string "ActualString" to end with "Expected".
+
+- old: |
+    actual.Should().NotBeNull().And.NotBeEmpty();
+
+  new: |
+    actual.Should().NotBeNullOrEmpty();
+
+  old-message: |
+    Did not expect empty string.
+
+  new-message: |
+    Expected string not to be <null> or empty, but found "".
+
+- old: |
+    string.IsNullOrEmpty(actual).Should().BeTrue();
+
+  new: |
+    actual.Should().BeNullOrEmpty();
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected string to be <null> or empty, but found "Actual".
+
+- old: |
+    string.IsNullOrEmpty(actual).Should().BeFalse();
+
+  new: |
+    actual.Should().NotBeNullOrEmpty();
+
+  old-message: |
+    Expected False, but found True.
+
+  new-message: |
+    Expected string not to be <null> or empty, but found "".
+
+- old: |
+    string.IsNullOrWhiteSpace(actual).Should().BeTrue();
+
+  new: |
+    actual.Should().BeNullOrWhiteSpace();
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected string to be <null> or whitespace, but found "Actual".
+
+- old: |
+    string.IsNullOrWhiteSpace(actual).Should().BeFalse();
+
+  new: |
+    actual.Should().NotBeNullOrWhiteSpace();
+
+  old-message: |
+    Expected False, but found True.
+
+  new-message: |
+    Expected string not to be <null> or whitespace, but found " ".
+
+- old: |
+    actual.Length.Should().Be(k);
+
+  new: |
+    actual.Should().HaveLength(k);
+
+  old-message: |
+    Expected value to be 4, but found 6.
+
+  new-message: |
+    Expected string with length 4, but found string "Actual" with length 6.
