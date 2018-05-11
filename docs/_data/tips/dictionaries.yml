@@ -1,0 +1,75 @@
+- old: |
+    actual.ContainsKey(expected).Should().BeTrue();
+
+  new: |
+    actual.Should().ContainKey(expected);
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected dictionary {[0, ]} to contain key 1.
+
+- old: |
+    actual.ContainsKey(expected).Should().BeFalse();
+
+  new: |
+    actual.Should().NotContainKey(expected);
+
+  old-message: |
+    Expected False, but found True.
+
+  new-message: |
+    Dictionary {[0, ]} should not contain key 0, but found it anyhow.
+
+- old: |
+    actual.ContainsValue(expected).Should().BeTrue();
+
+  new: |
+    actual.Should().ContainValue(expected);
+
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected dictionary {[0, ]} to contain value "expected".
+
+- old: |
+    actual.ContainsValue(expected).Should().BeFalse();
+
+  new: |
+    actual.Should().NotContainValue(expected);
+
+  old-message: |
+    Expected False, but found True.
+
+  new-message: |
+    Dictionary {[0, expected]} should not contain value "expected", but found it anyhow.
+
+- old: |
+    actual.Should().ContainKey(expectedKey)
+        .And.ContainValue(expectedValue);
+
+  new: |
+    actual.Should().Contain(expectedKey, expectedValue);
+
+  old-message: |
+    Expected dictionary {[0, ]} to contain value "expected".
+
+  new-message: |
+    Expected dictionary to contain value "expected" at key 0, but found "".
+
+- old: |
+    actual.Should().ContainKey(expected.Key)
+        .And.ContainValue(expected.Value);
+
+  new: |
+    actual.Should().Contain(expected);
+
+  old-message: |
+    Expected dictionary {[0, ]} to contain value "expected".
+
+  new-message: |
+    Expected dictionary to contain value "expected" at key 0, but found "".
+
+

@@ -6,3 +6,10 @@
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+.code-table {
+  width: 100%;
+  table-layout: fixed;
+  td { padding-right: 30px; width: 50%}
+  pre.highlight code { white-space: pre-wrap; }
+}
