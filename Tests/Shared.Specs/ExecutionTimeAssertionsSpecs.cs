@@ -27,10 +27,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().Match(
-                    "Execution of (s.Sleep(610)) should be less or equal to 0.500s because we like speed, but it required*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*(s.Sleep(610)) should be less or equal to 0.500s because we like speed, but it required*");
         }
 
         [Fact]
@@ -69,10 +67,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be less or equal to 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be less or equal to 0.100s, but it required*");
         }
 
         [Fact]
@@ -111,15 +107,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().Should().BeLessThan(100.Milliseconds());
+            Action act = () => someAction.ExecutionTime().Should().BeLessOrEqualTo(100.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be less than 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be less or equal to 0.100s, but it required*");
         }
         #endregion
 
@@ -141,10 +135,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().Match(
-                    "Execution of (s.Sleep(610)) should be less than 0.500s because we like speed, but it required*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*(s.Sleep(610)) should be less than 0.500s because we like speed, but it required*");
         }
 
         [Fact]
@@ -183,10 +175,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be less than 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be less than 0.100s, but it required*");
         }
 
         [Fact]
@@ -230,9 +220,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be less than 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be less than 0.100s, but it required*");
         }
         #endregion
 
@@ -254,10 +243,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().Match(
-                    "Execution of (s.Sleep(100)) should be greater or equal to 1s because we like speed, but it required*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*(s.Sleep(100)) should be greater or equal to 1s because we like speed, but it required*");
         }
 
         [Fact]
@@ -296,10 +283,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be greater or equal to 1s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be greater or equal to 1s, but it required*");
         }
 
         [Fact]
@@ -365,10 +350,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().Match(
-                    "Execution of (s.Sleep(100)) should be greater than 1s because we like speed, but it required*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*(s.Sleep(100)) should be greater than 1s because we like speed, but it required*");
         }
 
         [Fact]
@@ -407,10 +390,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be greater than 1s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be greater than 1s, but it required*");
         }
 
         [Fact]
@@ -477,10 +458,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().Match(
-                    "Execution of (s.Sleep(200)) should be within 0.050s from 0.100s because we like speed, but it required*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*(s.Sleep(200)) should be within 0.050s from 0.100s because we like speed, but it required*");
         }
 
         [Fact]
@@ -520,10 +499,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be within 0.050s from 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be within 0.050s from 0.100s, but it required*");
         }
 
         [Fact]
@@ -567,10 +544,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should be within 0.050s from 0.100s, but it required");
+            act.Should().Throw<XunitException>().WithMessage(
+                "*action should be within 0.050s from 0.100s, but it required*");
         }
         #endregion
 
@@ -594,9 +569,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .And.Message.Should().Be("Let's say somebody called the wrong method.");
+            act.Should().Throw<ArgumentException>().WithMessage("Let's say somebody called the wrong method.");
         }
         #endregion
 
