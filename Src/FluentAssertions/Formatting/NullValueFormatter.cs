@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return ReferenceEquals(value, null);
+            return value is null;
         }
 
         /// <inheritdoc />

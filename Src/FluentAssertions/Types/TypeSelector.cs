@@ -161,7 +161,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreNotUnderNamespace(string @namespace)
         {
-            types = types.Where(t => !(t.Namespace?.StartsWith(@namespace) == true)).ToList();
+            types = types.Where(t => t.Namespace?.StartsWith(@namespace) != true).ToList();
             return this;
         }
 

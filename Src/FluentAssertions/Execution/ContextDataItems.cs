@@ -82,8 +82,8 @@ namespace FluentAssertions.Execution
 
             public DataItem Clone()
             {
-                var cloneable = Value as ICloneable2;
-                return new DataItem(Key, (cloneable != null) ? cloneable.Clone() : Value, reportability);
+                object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
+                return new DataItem(Key, value, reportability);
             }
         }
     }

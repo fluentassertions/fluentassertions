@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>FluentAssertions.NetCore.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore.Specs</RootNamespace>
+    <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="4.5.1" />

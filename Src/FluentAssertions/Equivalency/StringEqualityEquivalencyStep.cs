@@ -70,7 +70,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool ValidateAgainstType<T>(IEquivalencyValidationContext context)
         {
-            bool subjectIsNull = ReferenceEquals(context.Subject, null);
+            bool subjectIsNull = context.Subject is null;
             if (subjectIsNull)
             {
                 // Do not know the declared type of the expectation.

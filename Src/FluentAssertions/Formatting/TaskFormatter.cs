@@ -15,9 +15,7 @@ namespace FluentAssertions.Formatting
 
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var task = value as Task;
-
-            if (!ReferenceEquals(task, null))
+            if (value is Task task)
             {
                 return $"{formatChild("type", task.GetType())} {{Status={task.Status}}}";
             }

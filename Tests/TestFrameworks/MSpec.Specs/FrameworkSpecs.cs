@@ -12,6 +12,6 @@ namespace MSpec.Specs
         It should_fail = () => Exception.Should().NotBeNull().And.BeAssignableTo<Exception>();
         It should_have_a_specific_reason = () => Exception.GetType().FullName.Should().ContainEquivalentOf("Machine.Specifications.SpecificationException");
 
-        static Exception Exception;
+        private static Exception Exception;
     }
 }

@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <RootNamespace>MSTestV2.Specs</RootNamespace>
     <AssemblyName>MSTestV2.Specs</AssemblyName>
+    <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />

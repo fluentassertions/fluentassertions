@@ -18,7 +18,7 @@ namespace FluentAssertions.Xml
         {
             string outerXml = ((XmlNode)value).OuterXml;
 
-            int maxLength = 20;
+            const int maxLength = 20;
 
             if (outerXml.Length > maxLength)
             {

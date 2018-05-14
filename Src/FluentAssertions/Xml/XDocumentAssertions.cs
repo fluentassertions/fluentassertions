@@ -79,7 +79,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because, params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(!(Subject is null))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
 

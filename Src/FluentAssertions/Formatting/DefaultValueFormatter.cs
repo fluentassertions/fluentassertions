@@ -52,7 +52,7 @@ namespace FluentAssertions.Formatting
 
         private static bool HasDefaultToStringImplementation(object value)
         {
-            return ReferenceEquals(value.ToString(), null) || value.ToString().Equals(value.GetType().ToString());
+            return value.ToString() is null || value.ToString().Equals(value.GetType().ToString());
         }
 
         private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)

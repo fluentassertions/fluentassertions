@@ -54,7 +54,7 @@ namespace FluentAssertions.Equivalency
 
                 Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-                Expression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
+                MethodCallExpression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
                 ConstantExpression subjectAsArray =
                     Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Subject));
 
@@ -81,7 +81,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
             bool conditionMet = AssertionScope.Current
-                .ForCondition(!ReferenceEquals(subject, null))
+                .ForCondition(!(subject is null))
                 .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
 
             if (conditionMet)

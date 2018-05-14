@@ -20,7 +20,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentNullException>())
                 .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace FluentAssertions.Net45.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentNullException>())
                 .Should().ThrowExactly<ArgumentNullException>();
         }
 
@@ -58,7 +58,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
                 .Should().Throw<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.SucceedAsync())
+                .Awaiting(x => x.SucceedAsync())
                 .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
                 .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.SucceedAsync())
+                .Awaiting(x => x.SucceedAsync())
                 .Should().NotThrow();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -144,7 +144,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
                 .Should().NotThrow();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await asyncObject.SucceedAsync())
+                .Awaiting(x => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace FluentAssertions.Net45.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
                 .Should().NotThrow<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------

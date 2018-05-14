@@ -123,8 +123,10 @@ namespace FluentAssertions
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
             var stream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Binder = new SimpleBinder(subject.GetType());
+            var binaryFormatter = new BinaryFormatter
+            {
+                Binder = new SimpleBinder(subject.GetType())
+            };
 
             binaryFormatter.Serialize(stream, subject);
             stream.Position = 0;

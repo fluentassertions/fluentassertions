@@ -25,7 +25,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NullableNumericAssertions<T>> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(!(Subject is null))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -60,7 +60,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, null))
+                .ForCondition(Subject is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 

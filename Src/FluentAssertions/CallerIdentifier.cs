@@ -102,7 +102,7 @@ namespace FluentAssertions
             {
                 using (StreamReader reader = new StreamReader(File.OpenRead(fileName)))
                 {
-                    string line = null;
+                    string line;
                     int currentLine = 1;
 
                     while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)

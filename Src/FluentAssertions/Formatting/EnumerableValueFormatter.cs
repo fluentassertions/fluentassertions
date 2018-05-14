@@ -28,7 +28,7 @@ namespace FluentAssertions.Formatting
             {
                 string postfix = "";
 
-                int maxItems = 32;
+                const int maxItems = 32;
                 if (enumerable.Count > maxItems)
                 {
                     postfix = $", …{enumerable.Count - maxItems} more…";

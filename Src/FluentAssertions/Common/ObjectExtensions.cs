@@ -6,17 +6,17 @@ namespace FluentAssertions.Common
     {
         public static bool IsSameOrEqualTo(this object actual, object expected)
         {
-            if (ReferenceEquals(actual, null) && ReferenceEquals(expected, null))
+            if (actual is null && expected is null)
             {
                 return true;
             }
 
-            if (ReferenceEquals(actual, null))
+            if (actual is null)
             {
                 return false;
             }
 
-            if (ReferenceEquals(expected, null))
+            if (expected is null)
             {
                 return false;
             }

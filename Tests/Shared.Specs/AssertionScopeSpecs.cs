@@ -7,7 +7,9 @@ using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
+#pragma warning disable RCS1110 // Declare type inside namespace.
 public class AssertionScopeSpecsWithoutNamespace
+#pragma warning restore RCS1110 // Declare type inside namespace.
 {
 #if NET45 || NET47 || NETCOREAPP2_0
     [Fact]

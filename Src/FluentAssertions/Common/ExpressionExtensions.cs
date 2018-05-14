@@ -12,7 +12,7 @@ namespace FluentAssertions.Common
     {
         public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (ReferenceEquals(expression, null))
+            if (expression is null)
             {
                 throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
             }
@@ -22,14 +22,12 @@ namespace FluentAssertions.Common
 
             if (memberInfo != null)
             {
-                var propertyInfo = memberInfo as PropertyInfo;
-                if (propertyInfo != null)
+                if (memberInfo is PropertyInfo propertyInfo)
                 {
                     return SelectedMemberInfo.Create(propertyInfo);
                 }
 
-                var fieldInfo = memberInfo as FieldInfo;
-                if (fieldInfo != null)
+                if (memberInfo is FieldInfo fieldInfo)
                 {
                     return SelectedMemberInfo.Create(fieldInfo);
                 }
@@ -42,7 +40,7 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (ReferenceEquals(expression, null))
+            if (expression is null)
             {
                 throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
             }
@@ -50,9 +48,7 @@ namespace FluentAssertions.Common
             var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                              AttemptToGetMemberInfoFromMemberExpression(expression);
 
-            var propertyInfo = memberInfo as PropertyInfo;
-
-            if (propertyInfo == null)
+            if (!(memberInfo is PropertyInfo propertyInfo))
             {
                 throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
                     nameof(expression));
@@ -64,8 +60,7 @@ namespace FluentAssertions.Common
         private static MemberInfo AttemptToGetMemberInfoFromMemberExpression<T, TValue>(
             Expression<Func<T, TValue>> expression)
         {
-            var memberExpression = expression.Body as MemberExpression;
-            if (memberExpression != null)
+            if (expression.Body is MemberExpression memberExpression)
             {
                 return memberExpression.Member;
             }
@@ -75,8 +70,7 @@ namespace FluentAssertions.Common
 
         private static MemberInfo AttemptToGetMemberInfoFromCastExpression<T, TValue>(Expression<Func<T, TValue>> expression)
         {
-            var castExpression = expression.Body as UnaryExpression;
-            if (castExpression != null)
+            if (expression.Body is UnaryExpression castExpression)
             {
                 return ((MemberExpression)castExpression.Operand).Member;
             }

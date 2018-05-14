@@ -155,12 +155,12 @@ namespace FluentAssertions.Common
         /// </returns>
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
-            IEnumerable<PropertyInfo> properties =
+            List<PropertyInfo> properties =
                 type.GetProperties(PublicMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
 
-            return properties.Count() > 1
+            return properties.Count > 1
                 ? properties.SingleOrDefault(p => p.PropertyType == preferredType)
                 : properties.SingleOrDefault();
         }
@@ -173,12 +173,12 @@ namespace FluentAssertions.Common
         /// </returns>
         public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
         {
-            IEnumerable<FieldInfo> properties =
+            List<FieldInfo> properties =
                 type.GetFields(PublicMembersFlag)
                     .Where(pi => pi.Name == fieldName)
                     .ToList();
 
-            return properties.Count() > 1
+            return properties.Count > 1
                 ? properties.SingleOrDefault(p => p.FieldType == preferredType)
                 : properties.SingleOrDefault();
         }
@@ -272,17 +272,17 @@ namespace FluentAssertions.Common
             return typeToReflect.GetTypeInfo().IsInterface;
         }
 
-        private static IEnumerable<Type> GetInterfaces(Type type)
+        private static Type[] GetInterfaces(Type type)
         {
             return type.GetInterfaces();
         }
 
-        private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
+        private static PropertyInfo[] GetPublicProperties(Type type)
         {
             return type.GetProperties(PublicMembersFlag);
         }
 
-        private static IEnumerable<FieldInfo> GetPublicFields(Type type)
+        private static FieldInfo[] GetPublicFields(Type type)
         {
             return type.GetFields(PublicMembersFlag);
         }

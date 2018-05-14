@@ -3,6 +3,7 @@
     <TargetFramework>net451</TargetFramework>
     <RootNamespace>NSpec.Specs</RootNamespace>
     <AssemblyName>NSpec.Specs</AssemblyName>
+    <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />

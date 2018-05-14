@@ -34,7 +34,7 @@ namespace FluentAssertions.Formatting
                 return "max time span";
             }
 
-            IEnumerable<string> fragments = GetNonZeroFragments(timeSpan);
+            List<string> fragments = GetNonZeroFragments(timeSpan);
 
             if (!fragments.Any())
             {
@@ -43,7 +43,7 @@ namespace FluentAssertions.Formatting
 
             string sign = (timeSpan.Ticks >= 0) ? "" : "-";
 
-            if (fragments.Count() == 1)
+            if (fragments.Count == 1)
             {
                 return sign + fragments.Single();
             }
@@ -53,7 +53,7 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static IEnumerable<string> GetNonZeroFragments(TimeSpan timeSpan)
+        private static List<string> GetNonZeroFragments(TimeSpan timeSpan)
         {
             TimeSpan absoluteTimespan = timeSpan.Duration();
 

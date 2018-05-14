@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator,
             IEquivalencyAssertionOptions config)
         {
-            if (!ReferenceEquals(context.Expectation, null) && !ReferenceEquals(context.Subject, null)
+            if (!(context.Expectation is null) && !(context.Subject is null)
                 && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))
             {
                 Type expectationType = context.Expectation.GetType();

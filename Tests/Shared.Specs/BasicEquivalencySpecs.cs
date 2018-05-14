@@ -3986,7 +3986,7 @@ namespace FluentAssertions.Specs
 
         public override int GetHashCode()
         {
-            return (Code?.GetHashCode() ?? 0);
+            return Code?.GetHashCode() ?? 0;
         }
 
         public static bool operator ==(CustomerType a, CustomerType b)
@@ -4166,7 +4166,7 @@ namespace FluentAssertions.Specs
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return false;
             }

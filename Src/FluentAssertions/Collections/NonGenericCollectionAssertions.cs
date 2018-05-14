@@ -36,7 +36,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -66,7 +66,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -96,7 +96,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -126,7 +126,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -156,7 +156,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -186,7 +186,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -222,7 +222,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -246,8 +246,7 @@ namespace FluentAssertions.Collections
 
         private int GetMostLocalCount()
         {
-            ICollection castSubject = Subject as ICollection;
-            if (castSubject != null)
+            if (Subject is ICollection castSubject)
             {
                 return castSubject.Count;
             }
@@ -272,9 +271,9 @@ namespace FluentAssertions.Collections
         public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected is IEnumerable)
+            if (expected is IEnumerable enumerable)
             {
-                return base.Contain((IEnumerable)expected, because, becauseArgs);
+                return base.Contain(enumerable, because, becauseArgs);
             }
 
             return base.Contain(new[] { expected }, because, becauseArgs);
@@ -295,9 +294,9 @@ namespace FluentAssertions.Collections
         public AndConstraint<NonGenericCollectionAssertions> NotContain(object unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (unexpected is IEnumerable)
+            if (unexpected is IEnumerable enumerable)
             {
-                return base.NotContain((IEnumerable)unexpected, because, becauseArgs);
+                return base.NotContain(enumerable, because, becauseArgs);
             }
 
             return base.NotContain(new[] { unexpected }, because, becauseArgs);

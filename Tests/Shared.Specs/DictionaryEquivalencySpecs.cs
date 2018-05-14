@@ -268,7 +268,7 @@ namespace FluentAssertions.Specs
 
             public bool Equals(SomeBaseKeyClass other)
             {
-                if (object.ReferenceEquals(other, null))
+                if (other is null)
                 {
                     return false;
                 }
