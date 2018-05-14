@@ -28,13 +28,13 @@ namespace FluentAssertions.Specialized
         /// If the execution runs into an exeption, then this will rethrow it.
         /// </summary>
         /// <param name="condition">Condition to check on the current elapsed time.</param>
-        /// <param name="result">The expected result when polling is stopped.</param>
+        /// <param name="expectedResult">Polling stops when condition returns the expected result.</param>
         /// <param name="rate">The rate at which the condition is re-checked.</param>
-        private void PollUntil(Func<TimeSpan, bool> condition, bool result, TimeSpan rate)
+        private void PollUntil(Func<TimeSpan, bool> condition, bool expectedResult, TimeSpan rate)
         {
             while (execution.IsRunning)
             {
-                if (condition(execution.ElapsedTime) == result)
+                if (condition(execution.ElapsedTime) == expectedResult)
                 {
                     break;
                 }
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specialized
         public void BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) <= 0;
-            PollUntil(condition, result: false, rate: maxDuration);
+            PollUntil(condition, expectedResult: false, rate: maxDuration);
             Execute.Assertion
                 .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
@@ -87,7 +87,7 @@ namespace FluentAssertions.Specialized
         public void BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(maxDuration) < 0;
-            PollUntil(condition, result: false, rate: maxDuration);
+            PollUntil(condition, expectedResult: false, rate: maxDuration);
             Execute.Assertion
                 .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specialized
         public void BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) >= 0;
-            PollUntil(condition, result: true, rate: minDuration);
+            PollUntil(condition, expectedResult: true, rate: minDuration);
             Execute.Assertion
                 .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specialized
         public void BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             Func<TimeSpan, bool> condition = duration => duration.CompareTo(minDuration) > 0;
-            PollUntil(condition, result: true, rate: minDuration);
+            PollUntil(condition, expectedResult: true, rate: minDuration);
             Execute.Assertion
                 .ForCondition(condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
@@ -164,11 +164,16 @@ namespace FluentAssertions.Specialized
         {
             var minimumValue = expectedDuration - precision;
             var maximumValue = expectedDuration + precision;
-            
-            PollUntil(condition: elapsed => elapsed.CompareTo(maximumValue) < 0, result: false, rate: maximumValue);
+
+            Func<TimeSpan, bool> maxCondition = (elapsed) => elapsed <= maximumValue;
+            Func<TimeSpan, bool> minCondition = (elapsed) => elapsed >= minimumValue;
+
+            // for polling we only use max condition, we don't want poll to stop if
+            // elapsed time didn't even get to the acceptable range
+            PollUntil(maxCondition, expectedResult: false, rate: maximumValue);
 
             Execute.Assertion
-                .ForCondition((execution.ElapsedTime >= minimumValue) && (execution.ElapsedTime <= maximumValue))
+                .ForCondition(minCondition(execution.ElapsedTime) && maxCondition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " + execution.ActionDescription + " should be within {0} from {1}{reason}, but it required {2}.",
                     precision, expectedDuration, execution.ElapsedTime);
