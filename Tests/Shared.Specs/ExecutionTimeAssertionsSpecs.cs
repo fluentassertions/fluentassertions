@@ -571,6 +571,34 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>().WithMessage("Let's say somebody called the wrong method.");
         }
+
+        [Fact]
+        public void Stopwatch_is_not_stopped_after_first_execution_time_assertion()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action someAction = () =>
+            {
+                Thread.Sleep(300);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => {
+                // I know it's not meant to be used like this,
+                // but since you can, it should still give consistent results
+                Specialized.ExecutionTime time = someAction.ExecutionTime();
+                time.Should().BeGreaterThan(100.Milliseconds());
+                time.Should().BeGreaterThan(200.Milliseconds());
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
         #endregion
 
         internal class SleepingClass
