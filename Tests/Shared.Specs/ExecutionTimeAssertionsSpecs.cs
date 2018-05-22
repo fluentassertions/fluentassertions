@@ -113,7 +113,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less or equal to 0.100s, but it required*");
+                "*action should be less or equal to 0.100s, but it required more than*");
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required*");
+                "*action should be less than 0.100s, but it required more than*");
         }
         #endregion
 
