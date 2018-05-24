@@ -556,10 +556,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action someAction = () =>
-            {
-                throw new ArgumentException("Let's say somebody called the wrong method.");
-            };
+            Action someAction = () => throw new ArgumentException("Let's say somebody called the wrong method.");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -578,15 +575,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Action someAction = () =>
-            {
-                Thread.Sleep(300);
-            };
+            Action someAction = () => Thread.Sleep(300);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => {
+            Action act = () =>
+            {
                 // I know it's not meant to be used like this,
                 // but since you can, it should still give consistent results
                 Specialized.ExecutionTime time = someAction.ExecutionTime();
