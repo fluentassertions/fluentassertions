@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSpec.Specs", "Tests\TestFr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net47.Specs", "Tests\Net47.Specs\Net47.Specs.csproj", "{1E4EFB8D-FB8B-4EF2-83FC-B42D28CD99A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore13.Specs", "Tests\NetCore13.Specs\NetCore13.Specs.csproj", "{EE7509BF-A011-4D04-A91F-5AE0F92E5AB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard13.Specs", "Tests\NetStandard13.Specs\NetStandard13.Specs.csproj", "{EE7509BF-A011-4D04-A91F-5AE0F92E5AB5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D} = {34E3713D-C02F-4868-BBE7-47DAD2C7F03D}
 	EndProjectSection

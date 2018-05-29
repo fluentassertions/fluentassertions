@@ -85,7 +85,7 @@ Task("Run-Unit-Tests")
     XUnit2("./Tests/Net45.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/Net47.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration debug");
-    DotNetCoreTool("./Tests/NetCore13.Specs/NetCore13.Specs.csproj", "xunit", "-configuration debug");
+    DotNetCoreTool("./Tests/NetStandard13.Specs/NetStandard13.Specs.csproj", "xunit", "-configuration debug");
     DotNetCoreTool("./Tests/NetCore20.Specs/NetCore.Specs20.csproj", "xunit", "-configuration debug");
 
     DotNetCoreTest("./Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
