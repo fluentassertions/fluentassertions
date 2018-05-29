@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>FluentAssertions.NetCore13.Specs</AssemblyName>
-    <RootNamespace>FluentAssertions.NetCore13.Specs</RootNamespace>
+    <AssemblyName>FluentAssertions.NetStandard13.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.NetStandard13.Specs</RootNamespace>
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
