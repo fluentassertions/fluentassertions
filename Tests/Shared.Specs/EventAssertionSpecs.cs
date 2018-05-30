@@ -680,64 +680,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NETCOREAPP2_0 && DEBUG
-#warning Skipping two GC tests for .NET Core 2.0 TFM in debug build. See https://github.com/dotnet/coreclr/issues/12847 for details.
-#else
-        [Fact]
-        public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-            var referenceToSubject = new WeakReference(subject);
-            using (subject.Monitor())
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                subject = null;
-            }
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            referenceToSubject.IsAlive.Should().BeFalse();
-        }
-
-        [Fact]
-        public void
-            When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-            var referenceToSubject = new WeakReference(subject);
-
-            using (subject.Monitor())
-            {
-                subject.RaiseEventWithSender();
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                subject = null;
-            }
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            referenceToSubject.IsAlive.Should().BeFalse();
-        }
-#endif
-
         #endregion
 
         #region Metadata
