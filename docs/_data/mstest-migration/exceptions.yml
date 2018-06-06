@@ -9,8 +9,8 @@
     public void MyTest()
     {
         Action act = () => func();
-    
-        act.ShouldThrowExactly<InvalidOperationException>();
+
+        act.Should().ThrowExactly<InvalidOperationException>();
     }
 
   old-message: |
@@ -26,17 +26,17 @@
 
 - old: |
     Action act = () => func();
-    
+
     // MSTest V2
     Assert.ThrowsException<InvalidOperationException>(act);
 
   new: |
     Action act = () => func();
-    
-    act.ShouldThrowExactly<InvalidOperationException>();
+
+    act.Should().ThrowExactly<InvalidOperationException>();
 
   old-message: |
-    Assert.ThrowsException failed. Threw exception InvalidCastException, but exception ArgumentNullException was expected. 
+    Assert.ThrowsException failed. Threw exception InvalidCastException, but exception ArgumentNullException was expected.
     Exception Message: Specified cast is not valid.
     Stack Trace:    at UnitTests2.ExceptionTests.<>c.<Snippet01v2_Old>b__2_0() in C:\Path\To\UnitTests\ExceptionTests.cs:line 44
        at UnitTests2.ExceptionTests.<>c__DisplayClass2_0.<Snippet01v2_Old>b__1() in C:\Path\To\UnitTests\ExceptionTests.cs:line 47
@@ -63,8 +63,8 @@
     public void MyTest()
     {
         Action act = () => func();
-    
-        act.ShouldThrow<InvalidOperationException>();
+
+        act.Should().Throw<InvalidOperationException>();
     }
 
   old-message: |
@@ -96,17 +96,17 @@
     public void MyTest()
     {
         Action act = () => func();
-    
-        act.ShouldThrowExactly<InvalidOperationException>()
+
+        act.Should().ThrowExactly<InvalidOperationException>()
             .WithMessage(errorMessage);
     }
 
   old-message: |
-    Expected string to be 
-    "expectedMessage" with a length of 15, but 
+    Expected string to be
+    "expectedMessage" with a length of 15, but
     "actualMessage" has a length of 13.
 
   new-message: |
-    Expected exception message to match the equivalent of 
-    "expectedMessage", but 
+    Expected exception message to match the equivalent of
+    "expectedMessage", but
     "actualMessage" does not.
