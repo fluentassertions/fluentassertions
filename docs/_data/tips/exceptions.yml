@@ -1,12 +1,12 @@
 - old: |
     Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
-    
+
     act.Should().ThrowExactly<InvalidOperationException>()
         .Which.Message.Should().Contain("errorCode1");
 
   new: |
     Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
-    
+
     // using wildcards
     act.Should().ThrowExactly<InvalidOperationException>()
         .WithMessage("*errorCode1*");
@@ -15,19 +15,19 @@
     Expected string "Problems, errorCode2 and more Problems" to contain "errorCode1".
 
   new-message: |
-    Expected exception message to match the equivalent of 
-    "*errorCode1*", but 
+    Expected exception message to match the equivalent of
+    "*errorCode1*", but
     "Problems, errorCode2 and more Problems" does not.
-    
+
 - old: |
     Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
-    
+
     act.Should().Throw<Exception>()
         .Which.Message.Should().Contain("errorCode1");
 
   new: |
     Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
-    
+
     // using wildcards
     act.Should().Throw<Exception>()
         .WithMessage("*errorCode1*");
@@ -36,7 +36,42 @@
     Expected string "Problems, errorCode2 and more Problems" to contain "errorCode1".
 
   new-message: |
-    Expected exception message to match the equivalent of 
-    "*errorCode1*", but 
+    Expected exception message to match the equivalent of
+    "*errorCode1*", but
     "Problems, errorCode2 and more Problems" does not.
-    
+
+- old: |
+    Action act = () => throw new Exception("Problems, errorCode2 and more Problems", new InvalidOperationException());
+
+    act.Should().Throw<Exception>()
+        .Which.InnerException.Should().BeAssignableTo<ArgumentException>();
+
+  new: |
+    Action act = () => throw new Exception("Problems, errorCode2 and more Problems", new InvalidOperationException());
+
+    act.Should().Throw<Exception>()
+        .WithInnerException<ArgumentException>();
+
+  old-message: |
+    Expected action to be assignable to System.ArgumentException, but System.InvalidOperationException is not.
+
+  new-message: |
+    Expected inner System.ArgumentException, but found System.InvalidOperationException with message "Operation is not valid due to the current state of the object."
+
+- old: |
+    Action act = () => throw new Exception("Problems, errorCode2 and more Problems", new ArgumentNullException());
+
+    act.Should().Throw<Exception>()
+        .Which.InnerException.Should().BeOfType<ArgumentException>();
+
+  new: |
+    Action act = () => throw new Exception("Problems, errorCode2 and more Problems", new ArgumentNullException());
+
+    act.Should().Throw<Exception>()
+        .WithInnerExceptionExactly<ArgumentException>();
+
+  old-message: |
+    Expected type to be System.ArgumentException, but found System.ArgumentNullException.
+
+  new-message: |
+    Expected inner System.ArgumentException, but found System.ArgumentNullException with message "Value cannot be null."
