@@ -1,15 +1,15 @@
 - old: |
-    Action act = () => func();
+    Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
     
-    act.ShouldThrowExactly<InvalidOperationException>()
-        .Which.Message.Should().Contain("expectedMessage");
+    act.Should().ThrowExactly<InvalidOperationException>()
+        .Which.Message.Should().Contain("errorCode1");
 
   new: |
-    Action act = () => func();
+    Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
     
     // using wildcards
-    act.ShouldThrowExactly<InvalidOperationException>()
-        .WithMessage("*expectedMessage*");
+    act.Should().ThrowExactly<InvalidOperationException>()
+        .WithMessage("*errorCode1*");
 
   old-message: |
     Expected string "Problems, errorCode2 and more Problems" to contain "errorCode1".
@@ -18,3 +18,25 @@
     Expected exception message to match the equivalent of 
     "*errorCode1*", but 
     "Problems, errorCode2 and more Problems" does not.
+    
+- old: |
+    Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
+    
+    act.Should().Throw<Exception>()
+        .Which.Message.Should().Contain("errorCode1");
+
+  new: |
+    Action act = () => throw new InvalidOperationException("Problems, errorCode2 and more Problems");
+    
+    // using wildcards
+    act.Should().Throw<Exception>()
+        .WithMessage("*errorCode1*");
+
+  old-message: |
+    Expected string "Problems, errorCode2 and more Problems" to contain "errorCode1".
+
+  new-message: |
+    Expected exception message to match the equivalent of 
+    "*errorCode1*", but 
+    "Problems, errorCode2 and more Problems" does not.
+    
