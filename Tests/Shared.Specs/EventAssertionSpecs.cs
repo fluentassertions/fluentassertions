@@ -9,7 +9,7 @@ using Xunit;
 using Xunit.Sdk;
 
 // ReSharper disable AccessToDisposedClosure
-#if NET45 || NET47 || NETSTANDARD2_0
+#if NET45 || NET47 || NETCOREAPP2_0
 using System.Reflection;
 using System.Reflection.Emit;
 

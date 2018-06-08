@@ -1,11 +1,10 @@
-﻿#if NET45 || NET47 || NETSTANDARD2_0
+﻿#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace FluentAssertions.Common
 {
@@ -33,7 +32,7 @@ namespace FluentAssertions.Common
 
         private static bool IsDynamic(Assembly assembly)
         {
-            return (assembly is AssemblyBuilder) ||
+            return (assembly.GetType().FullName  == "System.Reflection.Emit.AssemblyBuilder") ||
                    (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
         }
 

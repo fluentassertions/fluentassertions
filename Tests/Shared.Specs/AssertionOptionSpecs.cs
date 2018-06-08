@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47
+﻿#if NET45 || NET47 || NETCOREAPP2_0
 
 using System;
 using System.Linq;
