@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NET45 || NET47 || NETCOREAPP2_0
+
+using System;
 using System.ComponentModel;
 using System.Linq;
 
@@ -8,12 +10,8 @@ using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-// ReSharper disable AccessToDisposedClosure
-#if NET45 || NET47 || NETCOREAPP2_0
 using System.Reflection;
 using System.Reflection.Emit;
-
-#endif
 
 namespace FluentAssertions.Specs
 {
@@ -745,7 +743,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NET45 || NET47 || NETSTANDARD2_0
+#if NET45 || NET47
 
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()
@@ -823,6 +821,7 @@ namespace FluentAssertions.Specs
         }
 
 #endif
+
 
         [Fact]
         public void When_event_exists_on_class_but_not_on_monitored_interface_it_should_not_allow_monitoring_it()
@@ -958,3 +957,5 @@ namespace FluentAssertions.Specs
         }
     }
 }
+
+#endif

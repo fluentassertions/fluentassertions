@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NET45 || NET47 || NETCOREAPP2_0
+
+using System;
 using System.Reflection;
 
 namespace FluentAssertions.Events
@@ -83,3 +85,5 @@ namespace FluentAssertions.Events
         }
     }
 }
+
+#endif
