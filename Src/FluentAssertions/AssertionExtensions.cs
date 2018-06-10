@@ -629,6 +629,8 @@ namespace FluentAssertions
             return new AsyncFunctionAssertions(action, extractor);
         }
 
+#if NET45 || NET47 || NETCOREAPP2_0
+
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
@@ -642,6 +644,8 @@ namespace FluentAssertions
         {
             return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
         }
+
+#endif
 
         /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.

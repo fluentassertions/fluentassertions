@@ -1,3 +1,5 @@
+#if NET45 || NET47 || NETCOREAPP2_0
+
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -121,3 +123,5 @@ namespace FluentAssertions.Events
         }
     }
 }
+
+#endif

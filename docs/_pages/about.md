@@ -39,7 +39,7 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Standard 1.3, 1.6 and 2.0. Because of that it supports the following minimum platforms.
+Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Core 2.0, .NET Standard 1.3, 1.6 and 2.0. Because of that it supports the following minimum platforms.
 *   .NET Core 1.0 and 2.0
 *   .NET Framework 4.5
 *   Mono, Xamarin.iOS 10.0, Xamarin.Mac 3.0 and Xamarin.Android 7.0
