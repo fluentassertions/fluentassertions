@@ -1,18 +1,50 @@
-﻿#if NET45 || NET47 || NETCOREAPP2_0
+﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
+using FluentAssertions.Equivalency;
+using Xunit;
 
-using System;
+#if NET45 || NET47 || NETCOREAPP2_0
 using System.Linq;
 using System.Net;
 using Chill;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
-using Xunit;
 using Xunit.Sdk;
+#endif
 
 namespace FluentAssertions.Specs
 {
-    namespace AssertionOptionsSpecs
+    public class AssertionOptionsSpecs
     {
+        [Fact]
+        public void When_concurrently_getting_equality_strategy_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type type = typeof(IEnumerable);
+            IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => Parallel.For(
+                0,
+                10_000,
+                new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = 8
+                },
+                e => equivalencyAssertionOptions.GetEqualityStrategy(type)
+            );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+#if NET45 || NET47 || NETCOREAPP2_0
         public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
@@ -260,7 +292,6 @@ namespace FluentAssertions.Specs
                 return true;
             }
         }
+#endif
     }
 }
-
-#endif

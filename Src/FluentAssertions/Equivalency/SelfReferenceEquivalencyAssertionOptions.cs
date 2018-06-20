@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
-        private readonly Dictionary<Type, bool> hasValueSemanticsMap = new Dictionary<Type, bool>();
+        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
 
         private readonly List<Type> referenceTypes = new List<Type>();
         private readonly List<Type> valueTypes = new List<Type>();
@@ -176,11 +177,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    if(!hasValueSemanticsMap.TryGetValue(type, out bool hasValueSemantics))
-                    {
-                        hasValueSemantics = type.HasValueSemantics();
-                        hasValueSemanticsMap[type] = hasValueSemantics;
-                    }
+                    bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
 
                     if (hasValueSemantics)
                     {
