@@ -34,7 +34,7 @@ We think this is both a useful migration guide and a convincing argument for swi
 
 If you see something missing, please consider submitting a pull request.
 
-{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="Assert"            examples=site.data.mstest-migration.assert %}
-{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="CollectionAssert"  examples=site.data.mstest-migration.collectionAssert %}
-{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="StringAssert"      examples=site.data.mstest-migration.stringAssert %}
-{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" caption="Exceptions"        examples=site.data.mstest-migration.exceptions %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="Assert"            examples=site.data.mstest-migration.assert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="CollectionAssert"  examples=site.data.mstest-migration.collectionAssert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="StringAssert"      examples=site.data.mstest-migration.stringAssert %}
+{% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="Exceptions"        examples=site.data.mstest-migration.exceptions %}

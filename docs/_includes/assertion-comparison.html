@@ -1,7 +1,8 @@
 ### {{ include.caption }}
 
+{% assign idName = {{include.caption | replace: " ", "-"}} %}
 {% for example in include.examples %}
-<table class="code-table">
+<table class="code-table" id="{{ include.idPrefix }}{{ idName }}-{{ forloop.index }}">
 <thead>
 <tr>
 	<th>
