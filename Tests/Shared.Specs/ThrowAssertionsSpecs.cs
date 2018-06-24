@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs
 
                 testSubject.Invoking(x => x.Do()).Should().Throw<Exception>();
 
-                throw new XunitException("Should().Throw() dit not throw");
+                throw new XunitException("Should().Throw() did not throw");
             }
             catch (XunitException ex)
             {
@@ -64,7 +64,7 @@ namespace FluentAssertions.Specs
 
                 act.Should().Throw<Exception>();
 
-                throw new XunitException("Should().Throw() dit not throw");
+                throw new XunitException("Should().Throw() did not throw");
             }
             catch (XunitException ex)
             {
