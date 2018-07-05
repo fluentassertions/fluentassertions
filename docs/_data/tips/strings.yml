@@ -95,3 +95,15 @@
 
   new-message: |
     Expected string with length 4, but found string "Actual" with length 6.
+
+- old: |
+    actual.Should().BeNull().And.BeEmpty();
+
+  new: |
+    actual.Should().BeNullOrEmpty();
+
+  old-message: |
+    Expected actual to be <null>, but found "Actual".
+
+  new-message: |
+    Expected actual to be <null> or empty, but found "Actual".
