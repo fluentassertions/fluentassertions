@@ -1,6 +1,6 @@
 using System;
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1
 using System.Runtime.Serialization;
 #endif
 
@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     /// <summary>
     /// Represents the default exception in case no test framework is configured.
     /// </summary>
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1
     [Serializable]
 #endif
 
@@ -20,7 +20,7 @@ namespace FluentAssertions.Execution
         {
         }
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1
         protected AssertionFailedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
