@@ -11,6 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
-    <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.6.1" />
+    <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.7.0" />
   </ItemGroup>
 </Project>
