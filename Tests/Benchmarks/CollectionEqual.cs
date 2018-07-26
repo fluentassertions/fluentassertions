@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using FluentAssertions;
 using FluentAssertions.Common;
 
