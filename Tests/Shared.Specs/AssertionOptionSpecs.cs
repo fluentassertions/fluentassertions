@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions.Equivalency;
 using Xunit;
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP2_1
 using System.Linq;
 using System.Net;
 using Chill;
@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP2_1
         public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
             protected override void Dispose(bool disposing)

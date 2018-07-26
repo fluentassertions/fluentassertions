@@ -1,4 +1,4 @@
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP2_1
 
 using System;
 using System.Collections;

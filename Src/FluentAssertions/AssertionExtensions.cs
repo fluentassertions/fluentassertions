@@ -629,7 +629,7 @@ namespace FluentAssertions
             return new AsyncFunctionAssertions(action, extractor);
         }
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP2_1
 
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.
