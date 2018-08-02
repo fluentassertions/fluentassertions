@@ -2464,7 +2464,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 10), TimeSpan.Zero);
             TimeSpan expectation = TimeSpan.FromHours(3);
 
             //-----------------------------------------------------------------------------------------------------------

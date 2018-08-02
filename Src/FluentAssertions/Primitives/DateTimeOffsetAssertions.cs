@@ -710,7 +710,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Offset == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Second);
+                .FailWith("but it was {0}.", Subject.Value.Offset);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
