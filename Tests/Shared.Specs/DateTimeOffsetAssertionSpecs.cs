@@ -2477,9 +2477,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected the offset of the date to be 3h, but it was 0.");
+                .WithMessage("Expected the offset of the date to be 3h, but it was default.");
 #else
-                .WithMessage("Expected the offset of subject to be 3h, but it was 0.");
+                .WithMessage("Expected the offset of subject to be 3h, but it was default.");
 #endif
         }
 
