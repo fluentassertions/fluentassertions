@@ -87,7 +87,9 @@ public AndConstraint<DirectoryInfoAssertions> ContainFileInAllSubdirectories(
 
 Whatever you pass into its constructor will be used to overwrite the default `{context}` passed to `FailWith`.
 
-    `.FailWith("Expected {context:directory} to contain {0}{reason}, but found     {1}.",`
+```csharp
+    .FailWith("Expected {context:directory} to contain {0}{reason}, but found     {1}.",
+```
 
 So in this case, our nicely created `ContainFile` extension method will display the directory that it used to assert that file existed. You can do a lot more advanced stuff if you want. Just check out the code that is used by the structural equivalency API.
 
