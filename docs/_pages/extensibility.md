@@ -139,7 +139,7 @@ You can easily override this by using the `ComparingByValue<T>` options for indi
 
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => options
-    .ComparingByValue<DirectoryInfo`());
+    .ComparingByValue<DirectoryInfo>());
 ```
 
 Similarly, you can force comparing objects that do override `Equals` by their properties using `ComparingByMembers<T>`.
