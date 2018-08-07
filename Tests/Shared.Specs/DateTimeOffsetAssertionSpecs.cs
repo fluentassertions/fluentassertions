@@ -2464,7 +2464,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 10), TimeSpan.Zero);
             TimeSpan expectation = TimeSpan.FromHours(3);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2477,9 +2477,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected the offset of the date to be 3h, but it was 0.");
+                .WithMessage("Expected the offset of the date to be 3h, but it was default.");
 #else
-                .WithMessage("Expected the offset of subject to be 3h, but it was 0.");
+                .WithMessage("Expected the offset of subject to be 3h, but it was default.");
 #endif
         }
 
