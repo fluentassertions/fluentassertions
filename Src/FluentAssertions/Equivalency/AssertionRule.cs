@@ -50,7 +50,7 @@ namespace FluentAssertions.Equivalency
                     AssertionScope.Current
                         .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                         .FailWith("Expected " + context.SelectedMemberDescription + " from expectation to be a {0}{reason}, but found a {1}.",
-                            typeof(TSubject), context.SelectedMemberInfo.MemberType);
+                            typeof(TSubject), context.Expectation?.GetType());
 
                 if (subjectIsValidType && expectationIsValidType)
                 {

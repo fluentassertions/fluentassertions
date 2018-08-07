@@ -553,7 +553,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_multiple_asertion_rules_are_added_they_should_be_evaluated_last_to_first()
+        public void When_multiple_assertion_rules_are_added_they_should_be_evaluated_last_to_first()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
