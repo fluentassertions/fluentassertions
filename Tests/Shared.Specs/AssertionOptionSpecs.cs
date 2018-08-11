@@ -14,37 +14,30 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    public class AssertionOptionsSpecs
+    namespace AssertionOptionsSpecs
     {
-        [Fact]
-        public void When_concurrently_getting_equality_strategy_it_should_not_throw()
+#if NET45 || NET47 || NETCOREAPP2_0
+        [Collection("Equivalency")]
+        public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyAssertionOptions, Action>
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            Type type = typeof(IEnumerable);
-            IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => Parallel.For(
-                0,
-                10_000,
-                new ParallelOptions
+            public When_concurrently_getting_equality_strategy()
+            {
+                When(() =>
                 {
-                    MaxDegreeOfParallelism = 8
-                },
-                e => equivalencyAssertionOptions.GetEqualityStrategy(type)
-            );
+                    IEquivalencyAssertionOptions  equivalencyAssertionOptions = new EquivalencyAssertionOptions();
+                    return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
+                        e => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
+                    );
+                });
+            }
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().NotThrow();
+            [Fact]
+            public void It_should_not_throw()
+            {
+                Result.Should().NotThrow();
+            }
         }
 
-#if NET45 || NET47 || NETCOREAPP2_0
         public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
