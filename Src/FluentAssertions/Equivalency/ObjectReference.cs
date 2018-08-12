@@ -16,7 +16,12 @@ namespace FluentAssertions.Equivalency
         public ObjectReference(object @object, string path, bool? isComplexType = null)
         {
             this.@object = @object;
-            this.path = path.ToLower().Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+
+            this.path = path
+                .ToLower()
+                .Replace("][", "].[")
+                .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+
             this.isComplexType = isComplexType;
         }
 
