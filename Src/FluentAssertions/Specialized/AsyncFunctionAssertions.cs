@@ -73,15 +73,12 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                while (exception is AggregateException)
-                {
-                    exception = exception.InnerException;
-                }
+                Exception nonAggregateException = GetFirstNonAggregateException(exception);
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        exception.GetType(), exception.Message);
+                        nonAggregateException.GetType(), nonAggregateException.ToString());
             }
         }
 
@@ -104,20 +101,28 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                while (exception is AggregateException)
-                {
-                    exception = exception.InnerException;
-                }
+                Exception nonAggregateException = GetFirstNonAggregateException(exception);
 
-                if (exception != null)
+                if (nonAggregateException != null)
                 {
                     Execute.Assertion
-                        .ForCondition(!(exception is TException))
+                        .ForCondition(!(nonAggregateException is TException))
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                            typeof(TException), exception.Message);
+                            typeof(TException), nonAggregateException.ToString());
                 }
             }
+        }
+
+        private static Exception GetFirstNonAggregateException(Exception exception)
+        {
+            Exception nonAggregateException = exception;
+            while (nonAggregateException is AggregateException)
+            {
+                nonAggregateException = nonAggregateException.InnerException;
+            }
+
+            return nonAggregateException;
         }
 
         private Exception InvokeSubjectWithInterception()
