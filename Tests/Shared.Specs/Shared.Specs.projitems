@@ -21,7 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)CollectionEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComparableSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigurationSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CustomAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetValueFormatterSpecs.cs" />

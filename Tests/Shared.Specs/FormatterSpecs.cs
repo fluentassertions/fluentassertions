@@ -9,6 +9,11 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
+    // Due to the tests that call Configuration.Current
+    [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
+    public class FormatterSpecsDefinition { }
+
+    [Collection("FormatterSpecs")]
     public class FormatterSpecs
     {
         [Fact]

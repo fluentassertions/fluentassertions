@@ -12,8 +12,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [Collection("Equivalency")]
-
     public class BasicEquivalencySpecs
     {
         public enum LocalOtherType : byte
