@@ -73,12 +73,12 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                var deepestException = GetDeepestException(exception);
+                Exception nonAggregateException = GetFirstNonAggregateException(exception);
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        deepestException.GetType(), deepestException);
+                        nonAggregateException.GetType(), nonAggregateException.ToString());
             }
         }
 
@@ -101,28 +101,28 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                var deepestException = GetDeepestException(exception);
+                Exception nonAggregateException = GetFirstNonAggregateException(exception);
 
-                if (deepestException != null)
+                if (nonAggregateException != null)
                 {
                     Execute.Assertion
-                        .ForCondition(!(deepestException is TException))
+                        .ForCondition(!(nonAggregateException is TException))
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                            typeof(TException), deepestException);
+                            typeof(TException), nonAggregateException.ToString());
                 }
             }
         }
 
-        private static Exception GetDeepestException(Exception exception)
+        private static Exception GetFirstNonAggregateException(Exception exception)
         {
-            var deepestException = exception;
-            while (deepestException is AggregateException)
+            Exception nonAggregateException = exception;
+            while (nonAggregateException is AggregateException)
             {
-                deepestException = deepestException.InnerException;
+                nonAggregateException = nonAggregateException.InnerException;
             }
 
-            return deepestException;
+            return nonAggregateException;
         }
 
         private Exception InvokeSubjectWithInterception()
