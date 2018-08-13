@@ -10,7 +10,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [Collection("Equivalency")]
     public class DictionaryEquivalencySpecs
     {
         private class NonGenericDictionary : IDictionary
