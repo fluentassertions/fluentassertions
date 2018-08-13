@@ -73,15 +73,12 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                while (exception is AggregateException)
-                {
-                    exception = exception.InnerException;
-                }
+                var deepestException = GetDeepestException(exception);
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        exception.GetType(), exception.Message);
+                        deepestException.GetType(), deepestException);
             }
         }
 
@@ -104,20 +101,28 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                while (exception is AggregateException)
-                {
-                    exception = exception.InnerException;
-                }
+                var deepestException = GetDeepestException(exception);
 
-                if (exception != null)
+                if (deepestException != null)
                 {
                     Execute.Assertion
-                        .ForCondition(!(exception is TException))
+                        .ForCondition(!(deepestException is TException))
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                            typeof(TException), exception.Message);
+                            typeof(TException), deepestException);
                 }
             }
+        }
+
+        private static Exception GetDeepestException(Exception exception)
+        {
+            var deepestException = exception;
+            while (deepestException is AggregateException)
+            {
+                deepestException = deepestException.InnerException;
+            }
+
+            return deepestException;
         }
 
         private Exception InvokeSubjectWithInterception()
