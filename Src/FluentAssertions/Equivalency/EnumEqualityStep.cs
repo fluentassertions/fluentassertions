@@ -43,7 +43,10 @@ namespace FluentAssertions.Equivalency
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Because, context.BecauseArgs);
+                    string subject = context.Subject.ToString();
+                    string expected = context.Expectation.ToString();
+
+                    subject.Should().Be(expected, context.Because, context.BecauseArgs);
                     break;
 
                 default:

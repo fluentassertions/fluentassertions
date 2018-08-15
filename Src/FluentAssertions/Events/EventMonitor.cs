@@ -118,8 +118,7 @@ namespace FluentAssertions.Events
 
         public IEventRecorder GetEventRecorder(string eventName)
         {
-            IEventRecorder recorder;
-            if (!recorderMap.TryGetValue(eventName, out recorder))
+            if (!recorderMap.TryGetValue(eventName, out IEventRecorder recorder))
             {
                 throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
             }

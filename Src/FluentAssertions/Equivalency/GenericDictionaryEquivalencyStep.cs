@@ -81,11 +81,12 @@ namespace FluentAssertions.Equivalency
             Type expectedDictionaryType = GetIDictionaryInterface(expectedType);
             Type expectedKeyType = GetDictionaryKeyType(expectedDictionaryType);
 
-            Type[] subjectDictionaryInterfaces = GetIDictionaryInterfaces(subject.GetType());
+            Type subjectType = subject.GetType();
+            Type[] subjectDictionaryInterfaces = GetIDictionaryInterfaces(subjectType);
             if (!subjectDictionaryInterfaces.Any())
             {
                 AssertionScope.Current.FailWith(
-                    "Expected {context:subject} to be a {0}, but found a {1}.", expectedDictionaryType, subject.GetType());
+                    "Expected {context:subject} to be a {0}, but found a {1}.", expectedDictionaryType, subjectType);
 
                 return false;
             }
@@ -129,15 +130,16 @@ namespace FluentAssertions.Equivalency
             string methodName =
                 ExpressionExtensions.GetMethodName(() => AssertSameLength<object, object, object, object>(null, null));
 
-            Type[] typeArguments = GetDictionaryTypeArguments(subject.GetType())
-                .Concat(GetDictionaryTypeArguments(expectationType))
-                .ToArray();
+            Type subjectType = subject.GetType();
+            Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
+            Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
+            Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
 
             MethodCallExpression assertSameLength = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
                 methodName,
                 typeArguments,
-                Expression.Constant(subject, GetIDictionaryInterface(subject.GetType())),
+                Expression.Constant(subject, GetIDictionaryInterface(subjectType)),
                 Expression.Constant(expectation, GetIDictionaryInterface(expectationType)));
 
             return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
@@ -226,16 +228,19 @@ namespace FluentAssertions.Equivalency
                 ExpressionExtensions.GetMethodName(
                     () => AssertDictionaryEquivalence<object, object, object, object>(null, null, null, null, null));
 
+            Type subjectType = context.Subject.GetType();
+            Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
+            Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
+            Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
+
             MethodCallExpression assertDictionaryEquivalence = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
                 methodName,
-                GetDictionaryTypeArguments(context.Subject.GetType())
-                    .Concat(GetDictionaryTypeArguments(expectationType))
-                    .ToArray(),
+                typeArguments,
                 Expression.Constant(context),
                 Expression.Constant(parent),
                 Expression.Constant(config),
-                Expression.Constant(context.Subject, GetIDictionaryInterface(context.Subject.GetType())),
+                Expression.Constant(context.Subject, GetIDictionaryInterface(subjectType)),
                 Expression.Constant(context.Expectation, GetIDictionaryInterface(expectationType)));
 
             Expression.Lambda(assertDictionaryEquivalence).Compile().DynamicInvoke();
@@ -251,17 +256,15 @@ namespace FluentAssertions.Equivalency
         {
             foreach (TExpectedKey key in expectation.Keys)
             {
-                TSubjectValue subjectValue;
-
-                if (subject.TryGetValue(key, out subjectValue))
+                if (subject.TryGetValue(key, out TSubjectValue subjectValue))
                 {
                     if (config.IsRecursive)
                     {
-                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subjectValue, expectation[key]));
                     }
                     else
                     {
-                        subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
+                        subjectValue.Should().Be(expectation[key], context.Because, context.BecauseArgs);
                     }
                 }
                 else

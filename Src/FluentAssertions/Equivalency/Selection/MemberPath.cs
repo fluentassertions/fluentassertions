@@ -23,7 +23,9 @@ namespace FluentAssertions.Equivalency.Selection
 
         private bool IsChild(string candidate)
         {
-            return Segmentize(candidate).Take(segments.Count).SequenceEqual(segments);
+            string[] candidateSegments = Segmentize(candidate);
+
+            return candidateSegments.Take(segments.Count).SequenceEqual(segments);
         }
 
         private bool IsParent(string candidate)

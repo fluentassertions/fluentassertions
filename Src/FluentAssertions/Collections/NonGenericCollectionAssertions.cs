@@ -365,7 +365,8 @@ namespace FluentAssertions.Collections
                 Tracer = options.TraceWriter
             };
 
-            new EquivalencyValidator(options).AssertEquality(context);
+            var equivalencyValidator = new EquivalencyValidator(options);
+            equivalencyValidator.AssertEquality(context);
         }
     }
 }

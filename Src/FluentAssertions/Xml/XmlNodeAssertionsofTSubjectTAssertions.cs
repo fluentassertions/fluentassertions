@@ -44,7 +44,8 @@ namespace FluentAssertions.Xml
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
             using (XmlNodeReader expectedReader = new XmlNodeReader(expected))
             {
-                new XmlReaderValidator(subjectReader, expectedReader, because, reasonArgs).Validate(true);
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, reasonArgs);
+                xmlReaderValidator.Validate(true);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)(this));
@@ -78,7 +79,8 @@ namespace FluentAssertions.Xml
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
             using (XmlNodeReader unexpectedReader = new XmlNodeReader(unexpected))
             {
-                new XmlReaderValidator(subjectReader, unexpectedReader, because, reasonArgs).Validate(false);
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, reasonArgs);
+                xmlReaderValidator.Validate(false);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

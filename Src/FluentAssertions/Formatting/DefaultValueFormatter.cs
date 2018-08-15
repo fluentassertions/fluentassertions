@@ -52,7 +52,9 @@ namespace FluentAssertions.Formatting
 
         private static bool HasDefaultToStringImplementation(object value)
         {
-            return value.ToString() is null || value.ToString().Equals(value.GetType().ToString());
+            string str = value.ToString();
+
+            return str is null || str.Equals(value.GetType().ToString());
         }
 
         private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)
@@ -72,7 +74,8 @@ namespace FluentAssertions.Formatting
             IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
-                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, context, formatChild));
+                string propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, context, formatChild);
+                builder.AppendLine(propertyValueText);
             }
 
             builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('}');

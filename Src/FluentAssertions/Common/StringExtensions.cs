@@ -38,8 +38,9 @@ namespace FluentAssertions.Common
         public static string IndexedSegmentAt(this string value, int index)
         {
             int length = Math.Min(value.Length - index, 3);
+            string formattedString = Formatter.ToString(value.Substring(index, length));
 
-            return $"{Formatter.ToString(value.Substring(index, length))} (index {index})".Replace("{", "{{").Replace("}", "}}");
+            return $"{formattedString} (index {index})".Replace("{", "{{").Replace("}", "}}");
         }
 
         /// <summary>

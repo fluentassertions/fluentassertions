@@ -95,7 +95,8 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params Func<T, object>[] args)
         {
-            return FailWith(message, args.Select(a => a(subject)).ToArray());
+            object[] mappedArguments = args.Select(a => a(subject)).ToArray();
+            return FailWith(message, mappedArguments);
         }
 
         /// <summary>

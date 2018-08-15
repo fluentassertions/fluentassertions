@@ -29,7 +29,7 @@ namespace FluentAssertions.Execution
                 // For .NET Standard < 2.0, we need to attempt to load the assembly
                 try
                 {
-                    assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0,0,0,0)});
+                    assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0, 0, 0, 0) });
                     return assembly != null;
                 }
                 catch

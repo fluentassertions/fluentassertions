@@ -1050,10 +1050,12 @@ namespace FluentAssertions.Types
         public AndConstraint<Type> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(accessModifier == Subject.GetCSharpAccessModifier())
+            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+            Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type " + Subject.Name + " to be {0}{reason}, but it is {1}.",
-                    accessModifier, Subject.GetCSharpAccessModifier());
+                    accessModifier, subjectAccessModifier);
 
             return new AndConstraint<Type>(Subject);
         }

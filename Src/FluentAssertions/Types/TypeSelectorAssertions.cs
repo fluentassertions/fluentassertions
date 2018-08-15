@@ -287,7 +287,8 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
-            return string.Join(Environment.NewLine, types.Select(GetDescriptionFor).ToArray());
+            string[] descriptions = types.Select(GetDescriptionFor).ToArray();
+            return string.Join(Environment.NewLine, descriptions);
         }
 
         private static string GetDescriptionFor(Type type)

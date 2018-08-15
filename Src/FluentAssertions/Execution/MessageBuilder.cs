@@ -77,7 +77,10 @@ namespace FluentAssertions.Execution
             return Regex.Replace(message, pattern, match =>
             {
                 string key = match.Groups["key"].Value;
-                return contextData.AsStringOrDefault(key)?.Replace("{", "{{").Replace("}", "}}") ?? match.Groups["default"].Value;
+                string contextualTags = contextData.AsStringOrDefault(key);
+                string contextualTagsSubstituted = contextualTags?.Replace("{", "{{").Replace("}", "}}");
+
+                return contextualTagsSubstituted ?? match.Groups["default"].Value;
             });
         }
 
