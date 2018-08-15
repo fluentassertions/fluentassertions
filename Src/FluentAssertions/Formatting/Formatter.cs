@@ -185,7 +185,9 @@ namespace FluentAssertions.Formatting
             {
                 pathStack.Push(path);
 
-                return !tracker.IsCyclicReference(new ObjectReference(value, GetFullPath()));
+                string fullPath = GetFullPath();
+                var reference = new ObjectReference(value, fullPath);
+                return !tracker.IsCyclicReference(reference);
             }
 
             private string GetFullPath() => string.Join(".", pathStack.Reverse());

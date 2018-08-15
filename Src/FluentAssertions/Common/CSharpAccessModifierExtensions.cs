@@ -67,27 +67,29 @@ namespace FluentAssertions.Common
 
         internal static CSharpAccessModifier GetCSharpAccessModifier(this Type type)
         {
-            if (type.GetTypeInfo().IsNestedPrivate)
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsNestedPrivate)
             {
                 return CSharpAccessModifier.Private;
             }
 
-            if (type.GetTypeInfo().IsNestedFamily)
+            if (typeInfo.IsNestedFamily)
             {
                 return CSharpAccessModifier.Protected;
             }
 
-            if (type.GetTypeInfo().IsNestedAssembly || (type.GetTypeInfo().IsClass && type.GetTypeInfo().IsNotPublic))
+            if (typeInfo.IsNestedAssembly || typeInfo.IsClass && typeInfo.IsNotPublic)
             {
                 return CSharpAccessModifier.Internal;
             }
 
-            if (type.GetTypeInfo().IsPublic || type.GetTypeInfo().IsNestedPublic)
+            if (typeInfo.IsPublic || typeInfo.IsNestedPublic)
             {
                 return CSharpAccessModifier.Public;
             }
 
-            if (type.GetTypeInfo().IsNestedFamORAssem)
+            if (typeInfo.IsNestedFamORAssem)
             {
                 return CSharpAccessModifier.ProtectedInternal;
             }

@@ -159,7 +159,15 @@ namespace FluentAssertions.Execution
         public AssertionScope WithExpectation(string message, params object[] args)
         {
             var localReason = reason;
-            expectation = () => new MessageBuilder(useLineBreaks).Build(message, args, localReason != null ? localReason() : "", contextData, GetIdentifier(), fallbackIdentifier);
+            expectation = () =>
+            {
+                var messageBuilder = new MessageBuilder(useLineBreaks);
+                string reason = localReason != null ? localReason() : "";
+                string identifier = GetIdentifier();
+
+                return messageBuilder.Build(message, args, reason, contextData, identifier, fallbackIdentifier);
+            };
+
             return this;
         }
 
@@ -215,7 +223,10 @@ namespace FluentAssertions.Execution
             {
                 if (evaluateCondition && !Succeeded)
                 {
-                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason != null ? reason() : "", contextData, GetIdentifier(), fallbackIdentifier);
+                    string localReason = reason != null ? reason() : "";
+                    var messageBuilder = new MessageBuilder(useLineBreaks);
+                    string identifier = GetIdentifier();
+                    string result = messageBuilder.Build(message, args, localReason, contextData, identifier, fallbackIdentifier);
 
                     if (expectation != null)
                     {

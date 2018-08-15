@@ -40,24 +40,30 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator,
             IEquivalencyAssertionOptions config)
         {
-            if (!(context.Expectation is null) && !(context.Subject is null)
-                && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))
+            if ((context.Expectation is null) || (context.Subject is null))
             {
-                Type expectationType = context.Expectation.GetType();
-
-                object convertedSubject;
-                if (TryChangeType(context.Subject, expectationType, out convertedSubject))
-                {
-                    context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
-
-                    var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
-
-                    structuralEqualityValidator.AssertEqualityUsing(newContext);
-                    return true;
-                }
-
-                context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
+                return false;
             }
+
+            Type subjectType = context.Subject.GetType();
+            Type expectationType = context.Expectation.GetType();
+
+            if (subjectType.IsSameOrInherits(expectationType))
+            {
+                return false;
+            }
+
+            if (TryChangeType(context.Subject, expectationType, out object convertedSubject))
+            {
+                context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
+
+                var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
+
+                structuralEqualityValidator.AssertEqualityUsing(newContext);
+                return true;
+            }
+
+            context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
 
             return false;
         }

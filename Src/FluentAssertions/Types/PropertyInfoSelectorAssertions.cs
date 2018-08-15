@@ -204,7 +204,8 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
         {
-            return string.Join(Environment.NewLine, properties.Select(PropertyInfoAssertions.GetDescriptionFor).ToArray());
+            string[] descriptions = properties.Select(PropertyInfoAssertions.GetDescriptionFor).ToArray();
+            return string.Join(Environment.NewLine, descriptions);
         }
 
         /// <summary>

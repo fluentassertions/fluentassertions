@@ -68,7 +68,8 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(
             Expression<Func<TExpectation, object>> expression)
         {
-            orderingRules.Add(new PathBasedOrderingRule(expression.GetMemberPath()));
+            string expressionMemberPath = expression.GetMemberPath();
+            orderingRules.Add(new PathBasedOrderingRule(expressionMemberPath));
             return this;
         }
 

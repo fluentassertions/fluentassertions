@@ -21,7 +21,10 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            return (context.UseLineBreaks ? Environment.NewLine : "") + "\"" + value.ToString().Escape() + "\"";
+            string prefix = context.UseLineBreaks ? Environment.NewLine : "";
+            string escapedString = value.ToString().Escape();
+
+            return prefix + "\"" + escapedString + "\"";
         }
     }
 }

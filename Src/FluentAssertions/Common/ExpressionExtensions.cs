@@ -144,7 +144,9 @@ namespace FluentAssertions.Common
                 }
             }
 
-            return string.Join(".", segments.AsEnumerable().Reverse().ToArray()).Replace(".[", "[");
+            string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
+            string segmentPath = string.Join(".", reversedSegments);
+            return segmentPath.Replace(".[", "[");
         }
 
         internal static string GetMethodName(Expression<Action> action)

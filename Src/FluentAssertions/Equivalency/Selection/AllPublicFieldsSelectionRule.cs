@@ -13,9 +13,11 @@ namespace FluentAssertions.Equivalency.Selection
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
         {
-            return
-                selectedMembers.Union(
-                    config.GetExpectationType(context).GetNonPrivateFields().Select(SelectedMemberInfo.Create));
+            IEnumerable<SelectedMemberInfo> selectedNonPrivateFields = config.GetExpectationType(context)
+                .GetNonPrivateFields()
+                .Select(SelectedMemberInfo.Create);
+
+            return selectedMembers.Union(selectedNonPrivateFields);
         }
 
         /// <summary>

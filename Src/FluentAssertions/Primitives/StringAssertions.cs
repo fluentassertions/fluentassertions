@@ -36,7 +36,8 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
-            new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs).Validate();
+            var stringEqualityValidator = new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            stringEqualityValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -137,7 +138,8 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
-            new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs).Validate();
+            var stringWildcardMatchingValidator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs);
+            stringWildcardMatchingValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -336,7 +338,8 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
             }
 
-            new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs).Validate();
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            stringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -365,7 +368,8 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
-            new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs).Validate();
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs);
+            negatedStringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -395,7 +399,8 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
             }
 
-            new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs).Validate();
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            stringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -424,7 +429,8 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
-            new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs).Validate();
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            negatedStringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }

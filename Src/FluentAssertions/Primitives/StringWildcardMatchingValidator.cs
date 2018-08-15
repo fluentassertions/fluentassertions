@@ -31,7 +31,10 @@ namespace FluentAssertions.Primitives
             {
                 var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
-                return Regex.IsMatch(CleanNewLines(subject), ConvertWildcardToRegEx(CleanNewLines(expected)), options | RegexOptions.Singleline);
+                string input = CleanNewLines(subject);
+                string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
+
+                return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
             }
         }
 
