@@ -928,7 +928,6 @@ namespace FluentAssertions.Specs
             {
                 [new SomeDerivedKeyClass(1)] = "hello",
                 [new SomeDerivedKeyClass(2)] = "hello"
-
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -990,7 +989,6 @@ namespace FluentAssertions.Specs
             {
                 [new SomeDerivedKeyClass(1)] = "hello",
                 [new SomeDerivedKeyClass(2)] = "hello"
-
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1251,6 +1249,5 @@ namespace FluentAssertions.Specs
                 .WhenTypeIs<double>()
             );
         }
-
     }
 }

@@ -822,7 +822,6 @@ namespace FluentAssertions.Specs
 
 #endif
 
-
         [Fact]
         public void When_event_exists_on_class_but_not_on_monitored_interface_it_should_not_allow_monitoring_it()
         {
