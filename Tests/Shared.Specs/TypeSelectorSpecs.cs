@@ -30,9 +30,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            types.Should()
-                .HaveCount(1)
-                .And.Contain(typeof(ClassDerivedFromSomeBaseClass));
+            types.Should().ContainSingle()
+                .Which.Should().Be(typeof(ClassDerivedFromSomeBaseClass));
         }
 
         [Fact]
@@ -52,9 +51,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            types.ToArray().Should()
-                .HaveCount(1)
-                .And.Contain(typeof(ClassDerivedFromSomeGenericBaseClass));
+            types.ToArray().Should().ContainSingle()
+                .Which.Should().Be(typeof(ClassDerivedFromSomeGenericBaseClass));
         }
 
         [Fact]
@@ -209,9 +207,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            types.Should()
-                .HaveCount(1)
-                .And.Contain(typeof(SomeOtherClass));
+            types.Should().ContainSingle()
+                .Which.Should().Be(typeof(SomeOtherClass));
         }
 
         [Fact]
@@ -302,9 +299,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            types.Should()
-                .HaveCount(1)
-                .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
+            types.Should().ContainSingle()
+                .Which.Should().Be(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
         [Fact]
