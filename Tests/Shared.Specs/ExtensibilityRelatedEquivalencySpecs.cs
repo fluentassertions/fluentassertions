@@ -468,13 +468,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var actual = new SimpleWithNullable
             {
-                nullableIntegerProperty = 1,
-                strProperty = "I haz a string!"
+                NullableIntegerProperty = 1,
+                StringProperty = "I haz a string!"
             };
 
             var expected = new SimpleWithNullable
             {
-                strProperty = "I haz a string!"
+                StringProperty = "I haz a string!"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -486,9 +486,9 @@ namespace FluentAssertions.Specs
 
         internal class SimpleWithNullable
         {
-            public long? nullableIntegerProperty { get; set; }
+            public long? NullableIntegerProperty { get; set; }
 
-            public string strProperty { get; set; }
+            public string StringProperty { get; set; }
         }
 
         [Fact]

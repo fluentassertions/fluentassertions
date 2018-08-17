@@ -4013,8 +4013,7 @@ namespace FluentAssertions.Specs
 
         public override bool Equals(object obj)
         {
-            var other = obj as CustomerType;
-            return (other != null) && (Code.Equals(other.Code));
+            return (obj is CustomerType other) && Code.Equals(other.Code);
         }
 
         public override int GetHashCode()
@@ -4029,7 +4028,7 @@ namespace FluentAssertions.Specs
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if ((a is null) || (b is null))
             {
                 return false;
             }

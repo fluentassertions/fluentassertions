@@ -131,7 +131,7 @@ namespace FluentAssertions.Specs
 
             public override bool Equals(object obj)
             {
-                return obj is MyChildObject && ((MyChildObject)obj).Id == Id;
+                return obj is MyChildObject other && other.Id == Id;
             }
 
             public override int GetHashCode()
