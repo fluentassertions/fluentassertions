@@ -13,8 +13,6 @@ namespace FluentAssertions.Formatting
     {
         #region Private Definitions
 
-        private const int MaxDepth = 15;
-
         private static readonly List<IValueFormatter> customFormatters = new List<IValueFormatter>();
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
@@ -115,7 +113,7 @@ namespace FluentAssertions.Formatting
                 {
                     return $"{{Cyclic reference to type {childValue.GetType()} detected}}";
                 }
-                else if (graph.Depth > MaxDepth)
+                else if (graph.Depth > 5)
                 {
                     return "{Maximum recursion depth was reached…}";
                 }
@@ -198,6 +196,11 @@ namespace FluentAssertions.Formatting
             }
 
             public int Depth => (pathStack.Count - 1);
+
+            public override string ToString()
+            {
+                return String.Join(".", pathStack.Reverse().ToArray());
+            }
         }
     }
 }

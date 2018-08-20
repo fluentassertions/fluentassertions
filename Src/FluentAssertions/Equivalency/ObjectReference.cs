@@ -64,7 +64,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return $"{{\"{path}\", {@object}}}";
+            return $"{{\"{string.Join(".", path)}\", {@object}}}";
         }
 
         public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().OverridesEquals());
