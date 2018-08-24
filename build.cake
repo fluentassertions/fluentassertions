@@ -1,8 +1,8 @@
-﻿#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta5-build3769"
+﻿#tool "nuget:?package=xunit.runner.console&version=2.4.0"
 #tool "nuget:?package=nspec&version=1.0.13"
 #tool "nuget:?package=nspec&version=2.0.1"
 #tool "nuget:?package=nspec&version=3.1.0"
-#tool "nuget:?package=nunit.runners&version=2.6.6"
+#tool "nuget:?package=nunit.runners&version=2.7.0"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
@@ -85,14 +85,14 @@ Task("Run-Unit-Tests")
 {
     XUnit2("./Tests/Net45.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     XUnit2("./Tests/Net47.Specs/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
-    DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration debug");
-    DotNetCoreTool("./Tests/NetStandard13.Specs/NetStandard13.Specs.csproj", "xunit", "-configuration debug");
-    DotNetCoreTool("./Tests/NetCore20.Specs/NetCore20.Specs.csproj", "xunit", "-configuration debug");
+    DotNetCoreTest("./Tests/NetCore.Specs/NetCore.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
+    DotNetCoreTest("./Tests/NetStandard13.Specs/NetStandard13.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
+    DotNetCoreTest("./Tests/NetCore20.Specs/NetCore20.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
 
     DotNetCoreTest("./Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/NUnit3.Specs/NUnit3.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
-    DotNetCoreTool("./Tests/TestFrameworks/XUnit2.Specs/XUnit2.Specs.csproj", "xunit", "-configuration debug");
+    DotNetCoreTest("./Tests/TestFrameworks/XUnit2.Specs/XUnit2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     XUnit2("./Tests/TestFrameworks/XUnit.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new XUnit2Settings { });
     NUnit("./Tests/TestFrameworks/NUnit2.Net45.Specs/**/bin/Debug/**/*.Specs.dll", new NUnitSettings { NoResults = true });
 
