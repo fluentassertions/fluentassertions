@@ -14,6 +14,17 @@ namespace FluentAssertions.Specs
 {
     public class CollectionEquivalencySpecs
     {
+        public interface IInterface
+        {
+            int InterfaceProperty { get; set; }
+        }
+
+        public class MyClass : IInterface
+        {
+            public int InterfaceProperty { get; set; }
+            public int ClassProperty { get; set; }
+        }
+
         public class SubDummy
         {
             public SubDummy(int id)
@@ -179,6 +190,66 @@ namespace FluentAssertions.Specs
             {
                 innerRoles[userId] = roles.ToList();
             }
+        }
+
+        [Fact]
+        public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_interface_members()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 42 } };
+            var expected = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 1337 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_expectation_is_an_array_of_anonymous_types_it_should_respect_runtime_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[] { new { A = 1, B = 2}, new { A = 1, B = 2 } };
+            var expected = new object[] { new { A = 1 }, new { B = 2 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_expectation_is_an_ienumerable_of_anonymous_types_it_should_respect_runtime_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[] { new { A = 1, B = 2 }, new { A = 1, B = 2 } };
+            IEnumerable expected = new object[] { new { A = 1 }, new { B = 2 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
         }
 
         [Fact]
