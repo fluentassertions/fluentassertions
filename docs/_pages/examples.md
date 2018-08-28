@@ -38,7 +38,7 @@ var recipe = new RecipeBuilder()
 Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
 action
                     .Should().Throw<RuleViolationException>()
-                    .WithMessage("change the unit of an existing ingredient", ComparisonMode.Substring)
+                    .WithMessage("*change the unit of an existing ingredient*")
                     .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
 ```
 
