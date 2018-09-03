@@ -14,6 +14,17 @@ namespace FluentAssertions.Specs
 {
     public class CollectionEquivalencySpecs
     {
+        public interface IInterface
+        {
+            int InterfaceProperty { get; set; }
+        }
+
+        public class MyClass : IInterface
+        {
+            public int InterfaceProperty { get; set; }
+            public int ClassProperty { get; set; }
+        }
+
         public class SubDummy
         {
             public SubDummy(int id)
@@ -179,6 +190,94 @@ namespace FluentAssertions.Specs
             {
                 innerRoles[userId] = roles.ToList();
             }
+        }
+
+        [Fact]
+        public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_runtime_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 42 } };
+            var expected = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 1337 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
+                which discards the compile time type.");
+        }
+
+        [Fact]
+        public void When_the_expectation_has_fewer_dimensions_than_a_multi_dimensional_subject_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object objectA = new object();
+            object objectB = new object();
+
+            var actual = new object[][] { new object[] { objectA, objectB } };
+            var expected = actual[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
+                which cannot distinguish an array of objects from an element which is an array of objects.");
+        }
+
+        [Fact]
+        public void When_the_expectation_has_fewer_dimensions_than_a_one_dimensional_subject_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object objectA = new object();
+
+            var actual = new object[] { objectA };
+            var expected = actual[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
+                which treats a single object as an element of a list.");
+        }
+
+        [Fact]
+        public void When_the_expectation_is_an_array_of_anonymous_types_it_should_respect_runtime_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[] { new { A = 1, B = 2 }, new { A = 1, B = 2 } };
+            var expected = new object[] { new { A = 1 }, new { B = 2 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
         }
 
         [Fact]
