@@ -66,7 +66,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3.");
+                "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3, differs near \"C\" (index 2).");
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2.");
+                "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2, differs near \"B\" (index 1).");
         }
 
         [Fact]
@@ -1904,7 +1904,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3.");
+                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
         }
 
         [Fact]

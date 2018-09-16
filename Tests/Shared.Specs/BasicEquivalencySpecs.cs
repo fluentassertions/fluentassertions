@@ -644,7 +644,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected member Member1 to be*""different"" with a length of 9, but*"""" has a length of 0.*");
+                @"Expected member Member1 to be*""different"" with a length of 9, but*"""" has a length of 0*");
         }
 
         [Fact]
