@@ -37,9 +37,22 @@ namespace FluentAssertions.Primitives
             if (!equalLength)
             {
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
-                if(indexOfMismatch == -1)
+
+                // If there is no difference it means that subject and expected have common prefix
+                // and the first difference is after just that prefix.
+                if (indexOfMismatch == -1)
                 {
-                    indexOfMismatch = string.IsNullOrEmpty(subject) ? 0 : subject.Length - 1;
+                    if(subject.Length < expected.Length)
+                    {
+                        // If subject is shorter, we point at its last character
+                        indexOfMismatch = Math.Max(0, subject.Length-1);
+                    }
+                    else
+                    {
+                        // If subject is longer we point at first character after expected
+                        indexOfMismatch = Math.Max(0, expected.Length);
+                    }
+                    
                 }
 
                 mismatchSegment = subject.IndexedSegmentAt(indexOfMismatch);
