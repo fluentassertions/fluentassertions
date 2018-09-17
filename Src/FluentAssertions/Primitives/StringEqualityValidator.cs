@@ -33,30 +33,7 @@ namespace FluentAssertions.Primitives
             // segment can be moved directly to FailWith's argument
             bool equalLength = subject.Length == expected.Length;
 
-            string mismatchSegment = "";
-            if (!equalLength)
-            {
-                int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
-
-                // If there is no difference it means that subject and expected have common prefix
-                // and the first difference is after just that prefix.
-                if (indexOfMismatch == -1)
-                {
-                    if(subject.Length < expected.Length)
-                    {
-                        // If subject is shorter, we point at its last character
-                        indexOfMismatch = Math.Max(0, subject.Length-1);
-                    }
-                    else
-                    {
-                        // If subject is longer we point at first character after expected
-                        indexOfMismatch = Math.Max(0, expected.Length);
-                    }
-                    
-                }
-
-                mismatchSegment = subject.IndexedSegmentAt(indexOfMismatch);
-            }
+            string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths(equalLength);
 
             return assertion
                 .ForCondition(equalLength)
@@ -64,6 +41,35 @@ namespace FluentAssertions.Primitives
                     ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment +  ".",
                     expected, expected.Length, subject, subject.Length)
                 .SourceSucceeded;
+        }
+
+        private string GetMismatchSegmentForStringsOfDifferentLengths(bool equalLength)
+        {
+            if (equalLength)
+            {
+                return "";
+            }
+
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+
+            // If there is no difference it means that subject and expected have common prefix
+            // and the first difference is after just that prefix.
+            if (indexOfMismatch == -1)
+            {
+                if (subject.Length < expected.Length)
+                {
+                    // If subject is shorter, we point at its last character
+                    indexOfMismatch = Math.Max(0, subject.Length - 1);
+                }
+                else
+                {
+                    // If subject is longer we point at first character after expected
+                    indexOfMismatch = Math.Max(0, expected.Length);
+                }
+            }
+
+            string mismatchSegment = subject.IndexedSegmentAt(indexOfMismatch);
+            return mismatchSegment;
         }
 
         protected override void ValidateAgainstMismatch()
