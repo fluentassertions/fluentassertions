@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Xunit;
 using Xunit.Sdk;
-
 using FakeItEasy;
-
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
@@ -895,6 +894,62 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).Should().NotThrow();
         }
+
+        private static void ThrowUntil(Stopwatch watch, int throwTime)
+        {
+                if(watch.ElapsedMilliseconds <= throwTime)
+                    throw new ArgumentException("An exception was forced");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = A.Fake<IFoo>();
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100;
+            var pollInterval = 10;
+
+            void ThrowLongerThanWaitTime() => ThrowUntil(watch, waitTime + waitTime / 2);
+
+            A.CallTo(() => foo.Do()).Invokes(ThrowLongerThanWaitTime);
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => foo.Invoking(f => f.Do())
+                                     .Should().NotThrow(waitTime, pollInterval, "we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .Should().Throw<XunitException>()
+                         .Where(e => e.Message.Contains(
+					 "Did not expect any exception after 100 milliseconds because we passed valid " +
+					 "arguments, but found FakeItEasy.UserCallbackException")); }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = A.Fake<IFoo>();
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100;
+            var pollInterval = 10;
+
+            void ThrowShorterThanWaitTime() => ThrowUntil(watch, waitTime / 2);
+
+            A.CallTo(() => foo.Do()).Invokes(ThrowShorterThanWaitTime);
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            foo.Invoking(f => f.Do()).Should().NotThrow(waitTime, pollInterval);
+        }
+
     }
 
     #endregion
