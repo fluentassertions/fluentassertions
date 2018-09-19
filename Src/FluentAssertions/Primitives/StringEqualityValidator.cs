@@ -70,7 +70,7 @@ namespace FluentAssertions.Primitives
                 {
                     // If subject is longer we are sure that subject starts with expected
                     // and we point at first character after expected.
-                    indexOfMismatch = Math.Max(0, expected.Length);
+                    indexOfMismatch = expected.Length;
                 }
             }
 
