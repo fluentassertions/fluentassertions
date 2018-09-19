@@ -889,7 +889,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_all_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
+        public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -900,12 +900,43 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().AllBeEquivalentTo(1);
-
+            
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
             ////-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
                 "Expected item[1] to be 1, but found 2.*Expected item[2] to be 1, but found 3*");
+        }
+
+        [Fact]
+        public void When_some_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const int N = 100000;
+            var subject = new List<int>(N) {1};
+            for (int i = 1; i < N; i++)
+            {
+                subject.Add(2);
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+            {
+                try { subject.Should().AllBeEquivalentTo(1); }
+                catch (Exception)
+                {
+                    // ignored, we only care about execution time
+                }
+            };
+
+            ////-----------------------------------------------------------------------------------------------------------
+            //// Assert
+            ////-----------------------------------------------------------------------------------------------------------
+            action.ExecutionTime().Should().BeLessThan(100.Seconds());
         }
 
         [Fact]
