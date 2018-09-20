@@ -127,6 +127,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
+            act();
             failReasonCalled.Should().BeFalse(" fail reason function cannot be called for scope that successful");
         }
 
