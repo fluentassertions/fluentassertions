@@ -65,8 +65,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3.");
+            act.Should().Throw<XunitException>().WithMessage("*index 2*");
         }
 
         [Fact]
@@ -80,8 +79,35 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2.");
+            act.Should().Throw<XunitException>().WithMessage("*index 1*");
+        }
+
+        [Fact]
+        public void When_the_expected_string_is_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().Be("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("*index 0*");
+        }
+
+        [Fact]
+        public void When_the_subject_string_is_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "".Should().Be("ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("*index 0*");
         }
 
         [Fact]
@@ -1904,7 +1930,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3.");
+                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
         }
 
         [Fact]
