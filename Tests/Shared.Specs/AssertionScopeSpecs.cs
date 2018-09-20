@@ -104,6 +104,61 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_lazy_version_is_not_disposed_it_should_not_execute_fail_reason_function()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            bool failReasonCalled = false;
+            AssertionScope.Current
+                .ForCondition(true)
+                .FailWith(() =>
+                {
+                    failReasonCalled = true;
+                    return new FailReason("Failure");
+                });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            failReasonCalled.Should().BeFalse(" fail reason function cannot be called for scope that successful");
+        }
+
+        [Fact]
+        public void When_lazy_version_is_disposed_it_should_throw_any_failures_and_properly_format_using_args()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+
+            AssertionScope.Current.FailWith(() => new FailReason("Failure{0}", 1));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            try
+            {
+                act();
+            }
+            catch (Exception exception)
+            {
+                exception.Message.Should().StartWith("Failure1");
+            }
+        }
+
+        [Fact]
         public void When_multiple_scopes_are_nested_it_should_throw_all_failures_from_the_outer_scope()
         {
             //-----------------------------------------------------------------------------------------------------------
