@@ -198,6 +198,12 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a
+        /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>.
+        /// <paramref name="failReasonFunc"/> will not be called unless the assertion is not met.
+        /// </summary>
+        /// <param name="failReasonFunc">Function returning <see cref="FailReason"/> object on demand. Called only when the assertion is not met.</param>
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
             try
