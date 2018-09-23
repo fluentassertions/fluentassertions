@@ -62,22 +62,27 @@ namespace FluentAssertions.Equivalency
             unmatchedSubjectIndexes = new List<int>(subjects.Length);
             unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
 
-            foreach (int index in Enumerable.Range(0, expectations.Length))
+            if (OrderingRules.IsOrderingStrictFor(context))
             {
-                T expectation = expectations[index];
+                foreach (int index in Enumerable.Range(0, expectations.Length))
+                {
+                    T expectation = expectations[index];
 
-                if (!OrderingRules.IsOrderingStrictFor(context))
-                {
-                    using (context.TraceBlock(path => $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
-                    {
-                        LooselyMatchAgainst(subjects, expectation, index);
-                    }
-                }
-                else
-                {
                     using (context.TraceBlock(path => $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
                     {
                         StrictlyMatchAgainst(subjects, expectation, index);
+                    }
+                }
+            }
+            else
+            {
+                foreach (int index in Enumerable.Range(0, expectations.Length))
+                {
+                    T expectation = expectations[index];
+                    
+                    using (context.TraceBlock(path => $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
+                    {
+                        LooselyMatchAgainst(subjects, expectation, index);
                     }
                 }
             }
