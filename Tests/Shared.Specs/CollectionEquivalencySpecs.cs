@@ -909,6 +909,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = Enumerable.Repeat(2, 11);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().AllBeEquivalentTo(1);
+
+            ////-----------------------------------------------------------------------------------------------------------
+            //// Assert
+            ////-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().Which
+                .Message.Should().Contain("item[9] to be 1, but found 2")
+                .And.NotContain("item[10]");
+        }
+
+        [Fact]
         public void When_some_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -936,7 +957,7 @@ namespace FluentAssertions.Specs
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
             ////-----------------------------------------------------------------------------------------------------------
-            action.ExecutionTime().Should().BeLessThan(100.Seconds());
+            action.ExecutionTime().Should().BeLessThan(1.Seconds());
         }
 
         [Fact]

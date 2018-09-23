@@ -64,13 +64,23 @@ namespace FluentAssertions.Equivalency
 
             if (OrderingRules.IsOrderingStrictFor(context))
             {
+                int failedCount = 0;
                 foreach (int index in Enumerable.Range(0, expectations.Length))
                 {
                     T expectation = expectations[index];
 
                     using (context.TraceBlock(path => $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
                     {
-                        StrictlyMatchAgainst(subjects, expectation, index);
+                        bool succeed = StrictlyMatchAgainst(subjects, expectation, index);
+                        if(!succeed)
+                        {
+                            failedCount++;
+                            if(failedCount >= 10)
+                            {
+                                //trace;
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -142,11 +152,19 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private void StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
+        private bool StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
         {
             using (var scope = new AssertionScope())
             {
-                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
+                object subject = subjects[expectationIndex];
+                string indexString = expectationIndex.ToString();
+                var equivalencyValidationContext = context
+                    .CreateForCollectionItem(indexString, subject, expectation);
+
+                parent.AssertEqualityUsing(equivalencyValidationContext);
+
+                bool failed = scope.AnyFailures();
+                return !failed;
             }
         }
     }
