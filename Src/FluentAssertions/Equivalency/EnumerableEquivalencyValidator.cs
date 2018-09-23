@@ -74,10 +74,11 @@ namespace FluentAssertions.Equivalency
                         bool succeed = StrictlyMatchAgainst(subjects, expectation, index);
                         if(!succeed)
                         {
+                            const int limit = 10;
                             failedCount++;
                             if(failedCount >= 10)
                             {
-                                //trace;
+                                context.TraceSingle(path => $"Fail failing strict order comparison of collection after {limit} items failed at {path}");
                                 break;
                             }
                         }
