@@ -11,6 +11,8 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class EnumerableEquivalencyValidator
     {
+        private const int FailedItemsFastFailThreshold = 10;
+
         #region Private Definitions
 
         private readonly IEquivalencyValidator parent;
@@ -64,37 +66,49 @@ namespace FluentAssertions.Equivalency
 
             if (OrderingRules.IsOrderingStrictFor(context))
             {
-                int failedCount = 0;
-                foreach (int index in Enumerable.Range(0, expectations.Length))
-                {
-                    T expectation = expectations[index];
+                AssertElementGraphEquivalencyWithStrictOrdering(subjects, expectations);
+            }
+            else
+            {
+                AssertElementGraphEquivalencyWithLooseOrdering(subjects, expectations);
+            }
+        }
 
-                    using (context.TraceBlock(path => $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+        private void AssertElementGraphEquivalencyWithStrictOrdering<T>(object[] subjects, T[] expectations)
+        {
+            int failedCount = 0;
+            foreach (int index in Enumerable.Range(0, expectations.Length))
+            {
+                T expectation = expectations[index];
+
+                using (context.TraceBlock(path =>
+                    $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+                {
+                    bool succeed = StrictlyMatchAgainst(subjects, expectation, index);
+                    if (!succeed)
                     {
-                        bool succeed = StrictlyMatchAgainst(subjects, expectation, index);
-                        if(!succeed)
+                        failedCount++;
+                        if (failedCount >= 10)
                         {
-                            const int limit = 10;
-                            failedCount++;
-                            if(failedCount >= 10)
-                            {
-                                context.TraceSingle(path => $"Fail failing strict order comparison of collection after {limit} items failed at {path}");
-                                break;
-                            }
+                            context.TraceSingle(path =>
+                                $"Fail failing strict order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                            break;
                         }
                     }
                 }
             }
-            else
+        }
+
+        private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
+        {
+            foreach (int index in Enumerable.Range(0, expectations.Length))
             {
-                foreach (int index in Enumerable.Range(0, expectations.Length))
+                T expectation = expectations[index];
+
+                using (context.TraceBlock(path =>
+                    $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
                 {
-                    T expectation = expectations[index];
-                    
-                    using (context.TraceBlock(path => $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
-                    {
-                        LooselyMatchAgainst(subjects, expectation, index);
-                    }
+                    LooselyMatchAgainst(subjects, expectation, index);
                 }
             }
         }
