@@ -88,7 +88,7 @@ namespace FluentAssertions.Equivalency
                     if (!succeed)
                     {
                         failedCount++;
-                        if (failedCount >= 10)
+                        if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
                                 $"Fail failing strict order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
@@ -101,6 +101,7 @@ namespace FluentAssertions.Equivalency
 
         private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
         {
+            int failedCount = 0;
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
                 T expectation = expectations[index];
@@ -108,19 +109,28 @@ namespace FluentAssertions.Equivalency
                 using (context.TraceBlock(path =>
                     $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
                 {
-                    LooselyMatchAgainst(subjects, expectation, index);
+                    bool succeed = LooselyMatchAgainst(subjects, expectation, index);
+                    if (!succeed)
+                    {
+                        failedCount++;
+                        if (failedCount >= FailedItemsFastFailThreshold)
+                        {
+                            context.TraceSingle(path =>
+                                $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                            break;
+                        }
+                    }
                 }
             }
         }
 
         private List<int> unmatchedSubjectIndexes;
 
-        private void LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
+        private bool LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
             int index = 0;
             GetTraceMessage getMessage = path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]";
-            int count = subjects.Count;
             int indexToBeRemoved = -1;
 
             for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
@@ -155,6 +165,8 @@ namespace FluentAssertions.Equivalency
             {
                 AssertionScope.Current.AddPreFormattedFailure(failure);
             }
+
+            return indexToBeRemoved != -1;
         }
 
         private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)

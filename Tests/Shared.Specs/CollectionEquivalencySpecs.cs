@@ -325,6 +325,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_collection_of_same_count_does_not_match_it_should_include_at_most_10_items_in_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const int commonLength = 11;
+            var subject = new int[commonLength] { 0, 1, 2, 2, 4, 5, 6, 7, 8, 9, 10 };
+            var expectation = Enumerable.Repeat(20, commonLength).ToArray();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().Which
+                .Message.Should().Contain("[9]").And.NotContain("[10]");
+        }
+
+        [Fact]
         public void When_a_nullable_collection_does_not_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
