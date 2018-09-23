@@ -139,7 +139,10 @@ namespace FluentAssertions.Equivalency
 
         private void StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
         {
-            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
+            using (var scope = new AssertionScope())
+            {
+                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
+            }
         }
     }
 }
