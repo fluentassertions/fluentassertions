@@ -63,8 +63,7 @@ namespace FluentAssertions.Equivalency
 
             Execute.Assertion
                 .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
-                .FailWith("Expected enum to be {0}{reason}, but found {1}.",
-                    expectationName, subjectsName);
+                .FailWith($"Expected enum to be {expectationName}{{reason}}, but found {subjectsName}.");
         }
 
         private static void HandleByName(IEquivalencyValidationContext context)
@@ -80,8 +79,7 @@ namespace FluentAssertions.Equivalency
 
             Execute.Assertion
                 .ForCondition(subject == expected)
-                .FailWith("Expected enum to be {0}{reason}, but found {1}.",
-                    expectationName, subjectsName);
+                .FailWith($"Expected enum to be {expectationName}{{reason}}, but found {subjectsName}.");
         }
 
         private static string EnumDescription(object o, decimal? v)
