@@ -55,9 +55,8 @@ namespace FluentAssertions.Equivalency
 
         private static void HandleByValue(IEquivalencyValidationContext context)
         {
-            decimal? subjectsUnderlyingValue = (context.Subject != null) ? Convert.ToDecimal(context.Subject) : (decimal?)null;
-            decimal? expectationsUnderlyingValue =
-                (context.Expectation != null) ? Convert.ToDecimal(context.Expectation) : (decimal?)null;
+            decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
+            decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
 
             string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
             string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
@@ -73,25 +72,41 @@ namespace FluentAssertions.Equivalency
             string subject = context.Subject.ToString();
             string expected = context.Expectation.ToString();
 
-            subject.Should().Be(expected, context.Because, context.BecauseArgs);
+            decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
+            decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+
+            string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
+            string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
+
+            Execute.Assertion
+                .ForCondition(subject == expected)
+                .FailWith("Expected enum to be {0}{reason}, but found {1}.",
+                    expectationName, subjectsName);
         }
 
         private static string EnumDescription(object o, decimal? v)
         {
+            string PrintDecimal(decimal? x) => x?.ToString(CultureInfo.InvariantCulture);
+
             if (o == null || v == null)
             {
                 return "null";
             }
 
-            if (o?.GetType().GetTypeInfo().IsEnum == true)
+            if (o.GetType().GetTypeInfo().IsEnum)
             {
                 string typePart = o.GetType().Name;
                 string namePart = Enum.GetName(o.GetType(), o);
-                string valuePart = v?.ToString(CultureInfo.InvariantCulture) ?? "?";
+                string valuePart = PrintDecimal(v) ?? "?";
                 return $"{typePart}.{namePart}({valuePart})";
             }
 
-            return v.Value.ToString(CultureInfo.InvariantCulture);
+            return PrintDecimal(v);
+        }
+
+        private static decimal? ExtractDecimal(object o)
+        {
+            return o != null ? Convert.ToDecimal(o) : (decimal?)null;
         }
     }
 }
