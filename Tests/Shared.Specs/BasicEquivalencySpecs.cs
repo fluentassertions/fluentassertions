@@ -3532,11 +3532,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected value to be*3*, but found*0*");
-#else
-                .WithMessage("Expected EnumOne.One to be*3*, but found*0*");
-#endif
+                .WithMessage("Expected *EnumOne.Two(3)*but*EnumOne.One(0)*");
         }
 
         [Fact]

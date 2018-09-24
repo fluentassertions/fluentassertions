@@ -51,14 +51,15 @@ namespace FluentAssertions.Specs
         public void When_both_enums_are_large_and_not_equal_it_should_throw()
         {
             // Arrange
-            var enumOne = EnumLong.Int64LessOne;
-            var enumTwo = EnumULong.UInt64Max;
+            var subjectEnum = EnumLong.Int64LessOne;
+            var expectedEnum = EnumULong.UInt64Max;
 
             // Act
-            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expectedEnum, "comparing enums should throw");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected enum to be \"EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max})\" because comparing enums should throw, but found \"EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})\"*");
         }
     }
 }
