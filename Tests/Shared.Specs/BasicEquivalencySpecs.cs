@@ -3562,7 +3562,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.One };
-            var expectation = new ClassWithEnumThree { Enum = EnumeThree.ValueZero };
+            var expectation = new ClassWithEnumThree { Enum = EnumThree.ValueZero };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3582,7 +3582,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
-            var expectation = new ClassWithEnumFour { Enum = EnumFour.Three };
+            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3846,7 +3846,7 @@ namespace FluentAssertions.Specs
         Two = 3
     }
 
-    internal enum EnumeThree
+    internal enum EnumThree
     {
         ValueZero = 0,
         Two = 3
@@ -3879,7 +3879,7 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithEnumThree
     {
-        public EnumeThree Enum { get; set; }
+        public EnumThree Enum { get; set; }
     }
 
     internal class ClassWithEnumFour
