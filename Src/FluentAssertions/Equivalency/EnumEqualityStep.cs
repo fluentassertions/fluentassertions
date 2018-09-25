@@ -58,12 +58,15 @@ namespace FluentAssertions.Equivalency
             decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
             decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
 
-            string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
-            string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
-
             Execute.Assertion
                 .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
-                .FailWith($"Expected enum to be {expectationName} by value{{reason}}, but found {subjectsName}.");
+                .FailWith(() =>
+                {
+                    string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
+
+                    return new FailReason($"Expected enum to be {expectationName} by value{{reason}}, but found {subjectsName}.");
+                });
         }
 
         private static void HandleByName(IEquivalencyValidationContext context)
@@ -71,15 +74,18 @@ namespace FluentAssertions.Equivalency
             string subject = context.Subject.ToString();
             string expected = context.Expectation.ToString();
 
-            decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
-            decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
-
-            string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
-            string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
-
             Execute.Assertion
                 .ForCondition(subject == expected)
-                .FailWith($"Expected enum to be {expectationName} by name{{reason}}, but found {subjectsName}.");
+                .FailWith(() =>
+                {
+                    decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
+                    decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+
+                    string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
+                    return new FailReason(
+                            $"Expected enum to be {expectationName} by name{{reason}}, but found {subjectsName}.");
+                });
         }
 
         private static string EnumDescription(object o, decimal? v)
