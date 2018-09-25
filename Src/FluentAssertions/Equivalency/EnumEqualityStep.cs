@@ -84,7 +84,7 @@ namespace FluentAssertions.Equivalency
 
         private static string EnumDescription(object o, decimal? v)
         {
-            string PrintDecimal(decimal? x) => x?.ToString(CultureInfo.InvariantCulture);
+            string PrintDecimal(decimal x) => x.ToString(CultureInfo.InvariantCulture);
 
             if (o == null || v == null)
             {
@@ -95,11 +95,11 @@ namespace FluentAssertions.Equivalency
             {
                 string typePart = o.GetType().Name;
                 string namePart = Enum.GetName(o.GetType(), o);
-                string valuePart = PrintDecimal(v) ?? "?";
+                string valuePart = PrintDecimal(v.Value) ?? "?";
                 return $"{typePart}.{namePart}({valuePart})";
             }
 
-            return PrintDecimal(v);
+            return PrintDecimal(v.Value);
         }
 
         private static decimal? ExtractDecimal(object o)
