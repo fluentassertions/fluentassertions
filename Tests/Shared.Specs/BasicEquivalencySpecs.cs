@@ -3612,7 +3612,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected enum to be EnumFour.Three(3), but found EnumOne.Two(3)*");
+            act.Should().Throw<XunitException>().WithMessage("Expected enum to be EnumFour.Three(3) by name, but found EnumOne.Two(3)*");
         }
 
         [Fact]
