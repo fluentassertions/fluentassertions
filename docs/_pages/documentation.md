@@ -980,6 +980,19 @@ With trace:
   }
   ```
 
+  By default, the trace is displayed only when an assertion fails as part of the message.
+  If the trace is needed for the successful assertion you can catch it like this:
+
+  ```csharp
+object object1 = [...];
+object object2 = [...];
+var traceWriter = new StringBuilderTraceWriter();            
+object1.Should().BeEquivalentTo(object2, opts => opts.WithTracing(traceWriter));             
+string trace = traceWriter.ToString();
+  ```
+
+Alternatively, you could write your own implementation of `ITraceWriter` for special purposes e.g. writing to a file.
+
 ### Global Configuration ###
 Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale.
 This is where the static class `AssertionOptions` comes into play.
