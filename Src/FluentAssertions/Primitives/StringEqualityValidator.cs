@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
@@ -27,29 +28,23 @@ namespace FluentAssertions.Primitives
 
         protected override bool ValidateAgainstLengthDifferences()
         {
-            // Logic is a little bit convoluted because I want to avoid calculation
-            // of mismatch segment in case of equalLength == true for performance reason.
-            // If lazy version of FailWith would be introduced, calculation of mismatch
-            // segment can be moved directly to FailWith's argument
-            bool equalLength = subject.Length == expected.Length;
-
-            string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths(equalLength);
-
             return assertion
-                .ForCondition(equalLength)
-                .FailWith(
-                    ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment +  ".",
-                    expected, expected.Length, subject, subject.Length)
-                .SourceSucceeded;
+                .ForCondition(subject.Length == expected.Length)
+                .FailWith(() =>
+                    {
+                        string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
+
+                        string message = ExpectationDescription +
+                                         "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
+
+                        return new FailReason(message, expected, expected.Length, subject, subject.Length);
+                        
+                    }
+               ).SourceSucceeded; ;
         }
 
-        private string GetMismatchSegmentForStringsOfDifferentLengths(bool equalLength)
+        private string GetMismatchSegmentForStringsOfDifferentLengths()
         {
-            if (equalLength)
-            {
-                return "";
-            }
-
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
 
             // If there is no difference it means that either
