@@ -154,7 +154,7 @@ namespace FluentAssertions.Execution
         /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
         /// expectation.
         /// </remarks>
-        ///  <param name="expectation">The format string that represents the failure message.</param>
+        ///  <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string message, params object[] args)
         {
@@ -201,6 +201,40 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Sets the failure message when the assertion is not met, or completes the failure message set to a
         /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>.
+        /// <paramref name="failReasonFunc"/> will not be called unless the assertion is not met.
+        /// </summary>
+        /// <param name="failReasonFunc">Function returning <see cref="FailReason"/> object on demand. Called only when the assertion is not met.</param>
+        public Continuation FailWith(Func<FailReason> failReasonFunc)
+        {
+            try
+            {
+                if (evaluateCondition && !Succeeded)
+                {
+                    string localReason = reason != null ? reason() : "";
+                    var messageBuilder = new MessageBuilder(useLineBreaks);
+                    string identifier = GetIdentifier();
+                    var failReason = failReasonFunc();
+                    string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+
+                    if (expectation != null)
+                    {
+                        result = expectation() + result;
+                    }
+
+                    assertionStrategy.HandleFailure(result.Capitalize());
+                }
+
+                return new Continuation(this, Succeeded);
+            }
+            finally
+            {
+                Succeeded = false;
+            }
+        }
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a
+        /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>.
         /// </summary>
         /// <remarks>
         /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
@@ -219,29 +253,7 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public Continuation FailWith(string message, params object[] args)
         {
-            try
-            {
-                if (evaluateCondition && !Succeeded)
-                {
-                    string localReason = reason != null ? reason() : "";
-                    var messageBuilder = new MessageBuilder(useLineBreaks);
-                    string identifier = GetIdentifier();
-                    string result = messageBuilder.Build(message, args, localReason, contextData, identifier, fallbackIdentifier);
-
-                    if (expectation != null)
-                    {
-                        result = expectation() + result;
-                    }
-
-                    assertionStrategy.HandleFailure(result.Capitalize());
-                }
-
-                return new Continuation(this, Succeeded);
-            }
-            finally
-            {
-                Succeeded = false;
-            }
+            return FailWith(() => new FailReason(message, args));
         }
 
         private string GetIdentifier()
