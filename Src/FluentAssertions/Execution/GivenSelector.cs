@@ -12,17 +12,17 @@ namespace FluentAssertions.Execution
         #region Private Definitions
 
         private readonly T subject;
-        private readonly bool evaluateCondition;
-        private readonly AssertionScope parentScope;
+        private readonly bool predecessorSucceeded;
+        private readonly AssertionScope predecessor;
 
         #endregion
 
-        public GivenSelector(Func<T> selector, bool evaluateCondition, AssertionScope parentScope)
+        public GivenSelector(Func<T> selector, bool predecessorSucceeded, AssertionScope predecessor)
         {
-            this.evaluateCondition = evaluateCondition;
-            this.parentScope = parentScope;
+            this.predecessorSucceeded = predecessorSucceeded;
+            this.predecessor = predecessor;
 
-            subject = evaluateCondition ? selector() : default(T);
+            subject = predecessorSucceeded ? selector() : default(T);
         }
 
         /// <summary>
@@ -37,10 +37,7 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<T> ForCondition(Func<T, bool> predicate)
         {
-            if (evaluateCondition)
-            {
-                parentScope.ForCondition(predicate(subject));
-            }
+            predecessor.ForCondition(predicate(subject));
 
             return this;
         }
@@ -57,7 +54,7 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
         {
-            return new GivenSelector<TOut>(() => selector(subject), evaluateCondition, parentScope);
+            return new GivenSelector<TOut>(() => selector(subject), predecessorSucceeded, predecessor);
         }
 
         /// <summary>
@@ -121,15 +118,24 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params object[] args)
         {
-            bool succeeded = parentScope.Succeeded;
+            bool succeeded = predecessorSucceeded;
 
-            if (evaluateCondition)
+            if (predecessorSucceeded)
             {
-                Continuation continuation = parentScope.FailWith(message, args);
+                Continuation continuation = predecessor.FailWith(message, args);
                 succeeded = continuation.SourceSucceeded;
             }
 
             return new ContinuationOfGiven<T>(this, succeeded);
+        }
+
+        /// <summary>
+        /// Clears the expectation set by <see cref="WithExpectation"/>.
+        /// </summary>
+        public ContinuationOfGiven<T> ClearExpectation()
+        {
+            predecessor.ClearExpectation();
+            return new ContinuationOfGiven<T>(this, predecessorSucceeded);
         }
     }
 }

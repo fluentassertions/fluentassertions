@@ -386,7 +386,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Year);
+                .FailWith(", but found {0}.", Subject.Value.Year)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -438,7 +440,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Month == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Month);
+                .FailWith(", but found {0}.", Subject.Value.Month)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -464,7 +468,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Month != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.");
+                .FailWith(", but it was.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -490,7 +496,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Day == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Day);
+                .FailWith(", but found {0}.", Subject.Value.Day)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -516,7 +524,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Day != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.");
+                .FailWith(", but it was.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -542,7 +552,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Hour == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Hour);
+                .FailWith(", but found {0}.", Subject.Value.Hour)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -568,8 +580,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.", unexpected,
-                    Subject.Value.Hour);
+                .FailWith(", but it was.", unexpected, Subject.Value.Hour)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -596,7 +609,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Minute == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Minute);
+                .FailWith(", but found {0}.", Subject.Value.Minute)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -623,8 +638,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.", unexpected,
-                    Subject.Value.Minute);
+                .FailWith(", but it was.", unexpected, Subject.Value.Minute)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -651,7 +667,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Second == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Second);
+                .FailWith(", but found {0}.", Subject.Value.Second)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -678,7 +696,8 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Second != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.");
+                .FailWith(", but it was.")
+                .Then.ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -768,7 +787,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Date == expectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {1}.", expectedDate, Subject.Value);
+                .FailWith(", but found {1}.", expectedDate, Subject.Value)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -797,7 +818,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Date != unexpectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but it was.");
+                .FailWith(", but it was.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -888,7 +911,9 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ForCondition(Subject.Value.Kind == expectedKind)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(", but found {0}.", Subject.Value.Kind);
+                .FailWith(", but found {0}.", Subject.Value.Kind)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
