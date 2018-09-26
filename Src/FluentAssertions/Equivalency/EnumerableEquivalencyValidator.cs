@@ -11,6 +11,8 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class EnumerableEquivalencyValidator
     {
+        private const int FailedItemsFastFailThreshold = 10;
+
         #region Private Definitions
 
         private readonly IEquivalencyValidator parent;
@@ -62,22 +64,61 @@ namespace FluentAssertions.Equivalency
             unmatchedSubjectIndexes = new List<int>(subjects.Length);
             unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
 
+            if (OrderingRules.IsOrderingStrictFor(context))
+            {
+                AssertElementGraphEquivalencyWithStrictOrdering(subjects, expectations);
+            }
+            else
+            {
+                AssertElementGraphEquivalencyWithLooseOrdering(subjects, expectations);
+            }
+        }
+
+        private void AssertElementGraphEquivalencyWithStrictOrdering<T>(object[] subjects, T[] expectations)
+        {
+            int failedCount = 0;
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
                 T expectation = expectations[index];
 
-                if (!OrderingRules.IsOrderingStrictFor(context))
+                using (context.TraceBlock(path =>
+                    $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
                 {
-                    using (context.TraceBlock(path => $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
+                    bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
+                    if (!succeeded)
                     {
-                        LooselyMatchAgainst(subjects, expectation, index);
+                        failedCount++;
+                        if (failedCount >= FailedItemsFastFailThreshold)
+                        {
+                            context.TraceSingle(path =>
+                                $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {path}");
+                            break;
+                        }
                     }
                 }
-                else
+            }
+        }
+
+        private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
+        {
+            int failedCount = 0;
+            foreach (int index in Enumerable.Range(0, expectations.Length))
+            {
+                T expectation = expectations[index];
+
+                using (context.TraceBlock(path =>
+                    $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
                 {
-                    using (context.TraceBlock(path => $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+                    bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
+                    if (!succeeded)
                     {
-                        StrictlyMatchAgainst(subjects, expectation, index);
+                        failedCount++;
+                        if (failedCount >= FailedItemsFastFailThreshold)
+                        {
+                            context.TraceSingle(path =>
+                                $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                            break;
+                        }
                     }
                 }
             }
@@ -85,12 +126,11 @@ namespace FluentAssertions.Equivalency
 
         private List<int> unmatchedSubjectIndexes;
 
-        private void LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
+        private bool LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
             int index = 0;
             GetTraceMessage getMessage = path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]";
-            int count = subjects.Count;
             int indexToBeRemoved = -1;
 
             for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
@@ -125,6 +165,8 @@ namespace FluentAssertions.Equivalency
             {
                 AssertionScope.Current.AddPreFormattedFailure(failure);
             }
+
+            return indexToBeRemoved != -1;
         }
 
         private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
@@ -137,9 +179,20 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private void StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
+        private bool StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
         {
-            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
+            using (var scope = new AssertionScope())
+            {
+                object subject = subjects[expectationIndex];
+                string indexString = expectationIndex.ToString();
+                IEquivalencyValidationContext equivalencyValidationContext =
+                    context.CreateForCollectionItem(indexString, subject, expectation);
+
+                parent.AssertEqualityUsing(equivalencyValidationContext);
+
+                bool failed = scope.HasFailures();
+                return !failed;
+            }
         }
     }
 }

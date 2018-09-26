@@ -325,6 +325,29 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_collection_of_same_count_does_not_match_it_should_include_at_most_10_items_in_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const int commonLength = 11;
+            // Subjects contains different values, because we want to distinguish them in the assertion message
+            var subject = new int[commonLength] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var expectation = Enumerable.Repeat(20, commonLength).ToArray();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().Which
+                .Message.Should().Contain("[9]").And.NotContain("[10]");
+        }
+
+        [Fact]
         public void When_a_nullable_collection_does_not_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -889,7 +912,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_all_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
+        public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -900,12 +923,64 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().AllBeEquivalentTo(1);
-
+            
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
             ////-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
                 "Expected item[1] to be 1, but found 2.*Expected item[2] to be 1, but found 3*");
+        }
+
+        [Fact]
+        public void When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = Enumerable.Repeat(2, 11);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().AllBeEquivalentTo(1);
+
+            ////-----------------------------------------------------------------------------------------------------------
+            //// Assert
+            ////-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().Which
+                .Message.Should().Contain("item[9] to be 1, but found 2")
+                .And.NotContain("item[10]");
+        }
+
+        [Fact]
+        public void When_some_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const int N = 100000;
+            var subject = new List<int>(N) {1};
+            for (int i = 1; i < N; i++)
+            {
+                subject.Add(2);
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+            {
+                try { subject.Should().AllBeEquivalentTo(1); }
+                catch (Exception)
+                {
+                    // ignored, we only care about execution time
+                }
+            };
+
+            ////-----------------------------------------------------------------------------------------------------------
+            //// Assert
+            ////-----------------------------------------------------------------------------------------------------------
+            action.ExecutionTime().Should().BeLessThan(1.Seconds());
         }
 
         [Fact]

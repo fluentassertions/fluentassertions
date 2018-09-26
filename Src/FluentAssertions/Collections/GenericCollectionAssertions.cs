@@ -331,12 +331,22 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public void AllBeEquivalentTo<TExpectation>(TExpectation expectation,
-            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+            string because = "",
             params object[] becauseArgs)
         {
             TExpectation[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 
-            BeEquivalentTo(repeatedExpectation, config, because, becauseArgs);
+            // Because we have just manually created the collection based on single element
+            // we are sure that we can force strict ordering, because ordering does not matter in terms
+            // of correctness. On the other hand we do not want to change ordering rules for nested objects
+            // in case user needs to use them. Strict ordering improves algorithmic complexity
+            // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
+            // execution times.
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> forceStringOrderingConfig =
+                x => config(x).WithStrictOrderingFor(s => s.SelectedMemberPath == "");
+
+            BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
 
         private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
