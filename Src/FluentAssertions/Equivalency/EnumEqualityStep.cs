@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
                     string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
                     string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected enum to be {expectationName} by value{{reason}}, but found {subjectsName}.");
+                    return new FailReason($"Expected enum to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
                 });
         }
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Equivalency
                     string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
                     string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
                     return new FailReason(
-                            $"Expected enum to be {expectationName} by name{{reason}}, but found {subjectsName}.");
+                            $"Expected enum to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
                 });
         }
 

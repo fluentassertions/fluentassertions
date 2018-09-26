@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"Expected enum to be EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})*");
+                .WithMessage($"Expected enum to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})*");
         }
     }
 }
