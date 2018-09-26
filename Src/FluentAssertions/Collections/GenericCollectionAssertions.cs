@@ -338,7 +338,7 @@ namespace FluentAssertions.Collections
             TExpectation[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 
             // Because we have just manually created the collection based on single element
-            // we are sure that we can force string ordering, because ordering does not matter in terms
+            // we are sure that we can force strict ordering, because ordering does not matter in terms
             // of correctness. On the other hand we do not want to change ordering rules for nested objects
             // in case user needs to use them. Strict ordering improves algorithmic complexity
             // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable

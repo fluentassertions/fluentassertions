@@ -284,7 +284,7 @@ namespace FluentAssertions.Execution
             return assertionStrategy.DiscardFailures().ToArray();
         }
 
-        public bool AnyFailures()
+        public bool HasFailures()
         {
             return assertionStrategy.FailureMessages.Any();
         }

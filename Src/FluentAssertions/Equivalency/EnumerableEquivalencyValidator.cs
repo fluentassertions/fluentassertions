@@ -84,8 +84,8 @@ namespace FluentAssertions.Equivalency
                 using (context.TraceBlock(path =>
                     $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
                 {
-                    bool succeed = StrictlyMatchAgainst(subjects, expectation, index);
-                    if (!succeed)
+                    bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
+                    if (!succeeded)
                     {
                         failedCount++;
                         if (failedCount >= FailedItemsFastFailThreshold)
@@ -109,8 +109,8 @@ namespace FluentAssertions.Equivalency
                 using (context.TraceBlock(path =>
                     $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
                 {
-                    bool succeed = LooselyMatchAgainst(subjects, expectation, index);
-                    if (!succeed)
+                    bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
+                    if (!succeeded)
                     {
                         failedCount++;
                         if (failedCount >= FailedItemsFastFailThreshold)
@@ -185,12 +185,12 @@ namespace FluentAssertions.Equivalency
             {
                 object subject = subjects[expectationIndex];
                 string indexString = expectationIndex.ToString();
-                var equivalencyValidationContext = context
-                    .CreateForCollectionItem(indexString, subject, expectation);
+                IEquivalencyValidationContext equivalencyValidationContext =
+                    context.CreateForCollectionItem(indexString, subject, expectation);
 
                 parent.AssertEqualityUsing(equivalencyValidationContext);
 
-                bool failed = scope.AnyFailures();
+                bool failed = scope.HasFailures();
                 return !failed;
             }
         }
