@@ -1218,6 +1218,46 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_comparing_against_a_non_generic_collection_it_should_treat_it_as_unordered_collection_of_objects()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<Type> actual = new List<Type> { typeof(int), typeof(string) };
+            IEnumerable expectation = new List<Type> { typeof(string), typeof(int) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_comparing_against_a_non_generic_collection_it_should_treat_it_as_collection_of_objects()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<Type> actual = new List<Type> { typeof(int), typeof(string) };
+            IEnumerable expectation = new List<Type> { typeof(string), typeof(int) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeEquivalentTo(expectation, o => o.WithStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected*item[0]*String*Int32*item[1]*Int32*String*");
+        }
+
+        [Fact]
         public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1555,7 +1595,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*29*but*contains 23 item(s) less than*");
+                .WithMessage("Expected*not-a-multi-dimensional-array*but found {1, 2, 3, 4, 5, 6}*");
         }
 
         [Fact]
@@ -1651,13 +1691,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var actual = new[,]
+            var expectation = new[,]
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 }
             };
 
-            var expectation = new[]
+            var actual = new[]
             {
                 1, 2
             };
@@ -1672,9 +1712,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected subject*2 item(s)*but*contains 4 item(s) more than*");
+                .WithMessage("Expected array*2 dimension(s)*but it has 1*");
 #else
-                .WithMessage("Expected actual*2 item(s)*but*contains 4 item(s) more than*");
+                .WithMessage("Expected actual*2 dimension(s)*but it has 1*");
 #endif
         }
 
