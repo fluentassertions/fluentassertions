@@ -91,7 +91,7 @@ namespace FluentAssertions.Equivalency
                         if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
-                                $"Fail failing strict order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                                $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {path}");
                             break;
                         }
                     }
