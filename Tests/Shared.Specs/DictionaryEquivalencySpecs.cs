@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using FluentAssertions.Equivalency;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Sdk;
@@ -473,6 +474,29 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
+        }
+
+        [Fact]
+        public void
+            When_a_non_generic_dictionary_is_decided_to_be_equivalent_to_expected_trace_is_still_written()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object object1 = new NonGenericDictionary { ["greeting"] = "hello" };
+            object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
+            var traceWriter = new StringBuilderTraceWriter();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes().WithTracing(traceWriter));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            string trace = traceWriter.ToString();
+            trace.Should().Contain("Recursing into dictionary item greeting at root");
         }
 
         [Fact]

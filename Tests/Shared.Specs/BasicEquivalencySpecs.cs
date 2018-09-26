@@ -506,7 +506,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_nummer_values_are_convertible_it_should_treat_them_as_equivalent()
+        public void When_number_values_are_convertible_it_should_treat_them_as_equivalent()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -526,7 +526,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo(expected, x => x.WithTracing());
+            Action act = () => actual.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
