@@ -79,7 +79,7 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.Protected;
             }
 
-            if (typeInfo.IsNestedAssembly || typeInfo.IsClass && typeInfo.IsNotPublic)
+            if (typeInfo.IsNestedAssembly || (typeInfo.IsClass && typeInfo.IsNotPublic))
             {
                 return CSharpAccessModifier.Internal;
             }

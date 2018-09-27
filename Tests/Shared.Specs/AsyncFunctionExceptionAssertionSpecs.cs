@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Net45.Specs
+namespace FluentAssertions.Specs
 {
     public class AsyncFunctionExceptionAssertionSpecs
     {

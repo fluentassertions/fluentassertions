@@ -1,9 +1,8 @@
 ﻿using System;
-using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Net45.Specs
+namespace FluentAssertions.Specs
 {
     public class ExtensibilitySpecs
     {
@@ -13,7 +12,7 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var myClient = new Customer
+            var myClient = new MyCustomer
             {
                 Active = false
             };
@@ -35,24 +34,24 @@ namespace FluentAssertions.Net45.Specs
         }
     }
 
-    public class Customer
+    public class MyCustomer
     {
         public bool Active { get; set; }
     }
 
-    public static class CustomerExtensions
+    public static class MyCustomerExtensions
     {
-        public static CustomerAssertions Should(this Customer customer)
+        public static MyCustomerAssertions Should(this MyCustomer customer)
         {
-            return new CustomerAssertions(customer);
+            return new MyCustomerAssertions(customer);
         }
     }
 
-    public class CustomerAssertions
+    public class MyCustomerAssertions
     {
-        private readonly Customer customer;
+        private readonly MyCustomer customer;
 
-        public CustomerAssertions(Customer customer)
+        public MyCustomerAssertions(MyCustomer customer)
         {
             this.customer = customer;
         }
