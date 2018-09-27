@@ -79,5 +79,49 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage($"Expected enum to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})*");
         }
+
+        [Fact]
+        public void When_subject_is_null_and_enum_has_some_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object subject = null;
+            object expectedEnum = EnumULong.UInt64Max;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Action act = () => subject.Should().BeEquivalentTo(expectedEnum, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected enum to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by name because comparing enums should throw, but found null*");
+        }
+
+        [Fact]
+        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object subjectEnum = EnumULong.UInt64Max;
+            object expected = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expected, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be <null>, but found UInt64Max*");
+        }
     }
 }

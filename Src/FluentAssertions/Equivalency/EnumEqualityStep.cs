@@ -71,7 +71,7 @@ namespace FluentAssertions.Equivalency
 
         private static void HandleByName(IEquivalencyValidationContext context)
         {
-            string subject = context.Subject.ToString();
+            string subject = context.Subject?.ToString();
             string expected = context.Expectation.ToString();
 
             Execute.Assertion
