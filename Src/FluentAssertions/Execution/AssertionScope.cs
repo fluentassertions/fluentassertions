@@ -237,7 +237,6 @@ namespace FluentAssertions.Execution
             return assertionStrategy.FailureMessages.Any();
         }
 
-
         /// <summary>
         /// Gets data associated with the current scope and identified by <paramref name="key"/>.
         /// </summary>

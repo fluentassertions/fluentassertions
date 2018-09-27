@@ -38,9 +38,8 @@ namespace FluentAssertions.Primitives
                                          "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
                         return new FailReason(message, expected, expected.Length, subject, subject.Length);
-                        
                     }
-               ).SourceSucceeded; ;
+               ).SourceSucceeded;
         }
 
         private string GetMismatchSegmentForStringsOfDifferentLengths()
