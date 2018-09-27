@@ -62,8 +62,8 @@ namespace FluentAssertions.Equivalency
                 .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
                 .FailWith(() =>
                 {
-                    string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
+                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
 
                     return new FailReason($"Expected enum to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
                 });
@@ -81,17 +81,15 @@ namespace FluentAssertions.Equivalency
                     decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
                     decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
 
-                    string subjectsName = EnumDescription(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = EnumDescription(context.Expectation, expectationsUnderlyingValue);
+                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
                     return new FailReason(
                             $"Expected enum to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
                 });
         }
 
-        private static string EnumDescription(object o, decimal? v)
+        private static string GetDisplayNameForEnumComparison(object o, decimal? v)
         {
-            string PrintDecimal(decimal x) => x.ToString(CultureInfo.InvariantCulture);
-
             if (o == null || v == null)
             {
                 return "null";
@@ -101,11 +99,11 @@ namespace FluentAssertions.Equivalency
             {
                 string typePart = o.GetType().Name;
                 string namePart = Enum.GetName(o.GetType(), o);
-                string valuePart = PrintDecimal(v.Value) ?? "?";
+                string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
                 return $"{typePart}.{namePart}({valuePart})";
             }
 
-            return PrintDecimal(v.Value);
+            return v.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         private static decimal? ExtractDecimal(object o)
