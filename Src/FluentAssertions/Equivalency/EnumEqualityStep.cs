@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
                     string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected enum to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                    return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
                 });
         }
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Equivalency
                     string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
                     return new FailReason(
-                            $"Expected enum to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                            $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
                 });
         }
 
