@@ -184,7 +184,9 @@ namespace FluentAssertions.Equivalency
                 .FailWith("but has additional key(s) {0}", keyDifference.AdditionalKeys)
                 .Then
                 .ForCondition(!hasMissingKeys || !hasAdditionalKeys)
-                .FailWith("but it misses key(s) {0} and has additional key(s) {1}", keyDifference.MissingKeys, keyDifference.AdditionalKeys);
+                .FailWith("but it misses key(s) {0} and has additional key(s) {1}", keyDifference.MissingKeys, keyDifference.AdditionalKeys)
+                .Then
+                .ClearExpectation();
         }
 
         private static KeyDifference<TSubjectKey, TExpectedKey> CalculateKeyDifference<TSubjectKey, TSubjectValue, TExpectedKey,

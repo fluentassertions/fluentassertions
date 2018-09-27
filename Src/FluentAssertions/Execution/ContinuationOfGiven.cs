@@ -7,21 +7,20 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private readonly GivenSelector<TSubject> parent;
         private readonly bool succeeded;
 
         #endregion
 
         public ContinuationOfGiven(GivenSelector<TSubject> parent, bool succeeded)
         {
-            this.parent = parent;
+            Then = parent;
             this.succeeded = succeeded;
         }
 
         /// <summary>
         /// Continuous the assertion chain if the previous assertion was successful.
         /// </summary>
-        public GivenSelector<TSubject> Then => parent;
+        public GivenSelector<TSubject> Then { get; }
 
         /// <summary>
         /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith"/> to return a boolean.

@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency
                 .AssertCollectionHasNotTooManyItems(subject, expectation);
         }
 
-        public static Continuation AssertEitherCollectionIsNotEmpty<T>(this AssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
+        public static Continuation AssertEitherCollectionIsNotEmpty<T>(this IAssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
         {
             return scope
                 .ForCondition((subject.Count > 0) || (expectation.Count == 0))
@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
                     Environment.NewLine);
         }
 
-        public static Continuation AssertCollectionHasEnoughItems<T>(this AssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
+        public static Continuation AssertCollectionHasEnoughItems<T>(this IAssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
         {
             return scope
                 .ForCondition(subject.Count >= expectation.Count)
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
                     Environment.NewLine);
         }
 
-        public static Continuation AssertCollectionHasNotTooManyItems<T>(this AssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
+        public static Continuation AssertCollectionHasNotTooManyItems<T>(this IAssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
         {
             return scope
                 .ForCondition(subject.Count <= expectation.Count)

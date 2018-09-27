@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -246,7 +246,7 @@ namespace FluentAssertions.Collections
 
             ICollection<TExpected> expectedItems = expectation.ConvertOrCastToCollection<TExpected>();
 
-            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+            IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
             {
                 assertion.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expectedItems);
@@ -1371,7 +1371,9 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => PredecessorOf(successor, subject))
                 .ForCondition(predecessor => predecessor.IsSameOrEqualTo(expectation))
-                .FailWith("but found {0}.", predecessor => predecessor);
+                .FailWith("but found {0}.", predecessor => predecessor)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

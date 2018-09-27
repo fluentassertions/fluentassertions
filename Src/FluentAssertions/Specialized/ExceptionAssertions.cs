@@ -63,7 +63,7 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string because = "",
             params object[] becauseArgs)
         {
-            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
+            IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())
