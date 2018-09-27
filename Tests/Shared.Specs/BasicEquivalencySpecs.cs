@@ -3532,11 +3532,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected value to be*3*, but found*0*");
-#else
-                .WithMessage("Expected EnumOne.One to be*3*, but found*0*");
-#endif
+                .WithMessage("Expected *EnumOne.Two(3)*but*EnumOne.One(0)*");
         }
 
         [Fact]
@@ -3566,7 +3562,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.One };
-            var expectation = new ClassWithEnumThree { Enum = EnumeThree.ValueZero };
+            var expectation = new ClassWithEnumThree { Enum = EnumThree.ValueZero };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3586,7 +3582,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
-            var expectation = new ClassWithEnumThree { Enum = EnumeThree.Two };
+            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3597,6 +3593,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_but_comparing_by_name_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
+            var expectation = new ClassWithEnumFour { Enum = EnumFour.Three };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three(3) by name, but found EnumOne.Two(3)*");
         }
 
         [Fact]
@@ -3830,10 +3846,15 @@ namespace FluentAssertions.Specs
         Two = 3
     }
 
-    internal enum EnumeThree
+    internal enum EnumThree
     {
         ValueZero = 0,
         Two = 3
+    }
+
+    internal enum EnumFour
+    {
+        Three = 3
     }
 
     internal class ClassWithEnumCharOne
@@ -3858,7 +3879,12 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithEnumThree
     {
-        public EnumeThree Enum { get; set; }
+        public EnumThree Enum { get; set; }
+    }
+
+    internal class ClassWithEnumFour
+    {
+        public EnumFour Enum { get; set; }
     }
 
     internal class ClassWithNoMembers

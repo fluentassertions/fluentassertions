@@ -1,7 +1,9 @@
 #region
 
 using System;
+using System.Globalization;
 using System.Reflection;
+using FluentAssertions.Execution;
 
 #endregion
 
@@ -36,17 +38,11 @@ namespace FluentAssertions.Equivalency
             switch (config.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    decimal? subjectsUnderlyingValue = (context.Subject != null) ? Convert.ToDecimal(context.Subject) : (decimal?)null;
-                    decimal? expectationsUnderlyingValue = (context.Expectation != null) ? Convert.ToDecimal(context.Expectation) : (decimal?)null;
-
-                    subjectsUnderlyingValue.Should().Be(expectationsUnderlyingValue, context.Because, context.BecauseArgs);
+                    HandleByValue(context);
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    string subject = context.Subject.ToString();
-                    string expected = context.Expectation.ToString();
-
-                    subject.Should().Be(expected, context.Because, context.BecauseArgs);
+                    HandleByName(context);
                     break;
 
                 default:
@@ -55,6 +51,64 @@ namespace FluentAssertions.Equivalency
             }
 
             return true;
+        }
+
+        private static void HandleByValue(IEquivalencyValidationContext context)
+        {
+            decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
+            decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+
+            Execute.Assertion
+                .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
+                .FailWith(() =>
+                {
+                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+
+                    return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                });
+        }
+
+        private static void HandleByName(IEquivalencyValidationContext context)
+        {
+            string subject = context.Subject?.ToString();
+            string expected = context.Expectation.ToString();
+
+            Execute.Assertion
+                .ForCondition(subject == expected)
+                .FailWith(() =>
+                {
+                    decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
+                    decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+
+                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    return new FailReason(
+                            $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                });
+        }
+
+        private static string GetDisplayNameForEnumComparison(object o, decimal? v)
+        {
+            if (o == null || v == null)
+            {
+                return "null";
+            }
+
+            if (o.GetType().GetTypeInfo().IsEnum)
+            {
+                string typePart = o.GetType().Name;
+                string namePart = Enum.GetName(o.GetType(), o);
+                string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
+                return $"{typePart}.{namePart}({valuePart})";
+            }
+
+            return v.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private static decimal? ExtractDecimal(object o)
+        {
+            return o != null ? Convert.ToDecimal(o) : (decimal?)null;
         }
     }
 }
