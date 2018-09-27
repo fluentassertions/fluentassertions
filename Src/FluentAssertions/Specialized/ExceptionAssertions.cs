@@ -47,11 +47,10 @@ namespace FluentAssertions.Specialized
         protected override string Identifier => "exception";
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
-        ///   depending on the specified matching mode.
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
         /// </summary>
-        /// <param name = "expectedMessage">
-        ///   The expected message of the exception.
+        /// <param name = "expectedWildcardPattern">
+        ///   The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
         /// <param name = "because">
         ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
@@ -60,16 +59,16 @@ namespace FluentAssertions.Specialized
         /// <param name = "becauseArgs">
         ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
         /// </param>
-        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string because = "",
+        public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
         {
             IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())
-                .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
+                .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, because, becauseArgs);
+            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
 
             return this;
         }
