@@ -78,12 +78,29 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                Exception nonAggregateException = GetFirstNonAggregateException(exception);
+                NotThrow(exception, because, becauseArgs);
+            }
+        }
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        nonAggregateException.GetType(), nonAggregateException.ToString());
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task NotThrowAsync(string because = "", params object[] becauseArgs)
+        {
+            try
+            {
+                await Task.Run(Subject);
+            }
+            catch (Exception exception)
+            {
+                NotThrow(exception, because, becauseArgs);
             }
         }
 
@@ -106,16 +123,54 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                Exception nonAggregateException = GetFirstNonAggregateException(exception);
+                NotThrow<TException>(exception, because, becauseArgs);
+            }
+        }
 
-                if (nonAggregateException != null)
-                {
-                    Execute.Assertion
-                        .ForCondition(!(nonAggregateException is TException))
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                            typeof(TException), nonAggregateException.ToString());
-                }
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            try
+            {
+                await Task.Run(Subject);
+            }
+            catch (Exception exception)
+            {
+                NotThrow<TException>(exception, because, becauseArgs);
+            }
+        }
+
+        private static void NotThrow(Exception exception, string because, object[] becauseArgs)
+        {
+            Exception nonAggregateException = GetFirstNonAggregateException(exception);
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
+                    nonAggregateException.GetType(), nonAggregateException.ToString());
+        }
+
+        private static void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        {
+            Exception nonAggregateException = GetFirstNonAggregateException(exception);
+
+            if (nonAggregateException != null)
+            {
+                Execute.Assertion
+                    .ForCondition(!(nonAggregateException is TException))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
+                        typeof(TException), nonAggregateException.ToString());
             }
         }
 
