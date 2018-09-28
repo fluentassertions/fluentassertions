@@ -714,6 +714,8 @@ Talking about the `async` keyword, you can also verify that an asynchronously ex
 
 ```csharp
 Func<Task> act = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+await act.Should().ThrowAsync<InvalidOperationException>();
+await act.Should().NotThrowAsync();
 act.Should().Throw<InvalidOperationException>();
 act.Should().NotThrow();
 ```
