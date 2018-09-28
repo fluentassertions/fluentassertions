@@ -40,19 +40,24 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Exception exception = InvokeSubjectWithInterception();
-            var exceptions = extractor.OfType<TException>(exception);
+            return Throw<TException>(exception, because, becauseArgs);
+        }
 
-            Execute.Assertion
-                .ForCondition(exception != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
-
-            Execute.Assertion
-                .ForCondition(exceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
-
-            return new ExceptionAssertions<TException>(exceptions);
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            Exception exception = await InvokeSubjectWithInterceptionAsync();
+            return Throw<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -125,28 +130,61 @@ namespace FluentAssertions.Specialized
             return nonAggregateException;
         }
 
+        private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
+            where TException : Exception
+        {
+            var exceptions = extractor.OfType<TException>(exception);
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
+
+            Execute.Assertion
+                .ForCondition(exceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
+
+            return new ExceptionAssertions<TException>(exceptions);
+        }
+
         private Exception InvokeSubjectWithInterception()
         {
-            Exception actualException = null;
-
             try
             {
                 Task.Run(Subject).Wait();
             }
             catch (Exception exception)
             {
-                var ar = exception as AggregateException;
-                if (ar?.InnerException is AggregateException)
-                {
-                    actualException = ar.InnerException;
-                }
-                else
-                {
-                    actualException = exception;
-                }
+                return InterceptException(exception);
             }
 
-            return actualException;
+            return null;
+        }
+
+        private async Task<Exception> InvokeSubjectWithInterceptionAsync()
+        {
+            try
+            {
+                await Task.Run(Subject);
+            }
+            catch (Exception exception)
+            {
+                return InterceptException(exception);
+            }
+
+            return null;
+        }
+
+        private Exception InterceptException(Exception exception)
+        {
+            var ar = exception as AggregateException;
+            if (ar?.InnerException is AggregateException)
+            {
+                return ar.InnerException;
+            }
+
+            return exception;
         }
     }
 }
