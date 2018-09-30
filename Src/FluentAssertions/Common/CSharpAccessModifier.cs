@@ -7,6 +7,7 @@
         Protected,
         Internal,
         ProtectedInternal,
-        InvalidForCSharp
+        InvalidForCSharp,
+        PrivateProtected,
     }
 }

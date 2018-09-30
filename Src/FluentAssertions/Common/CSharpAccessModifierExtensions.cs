@@ -32,6 +32,11 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.ProtectedInternal;
             }
 
+            if (methodBase.IsFamilyAndAssembly)
+            {
+                return CSharpAccessModifier.PrivateProtected;
+            }
+
             return CSharpAccessModifier.InvalidForCSharp;
         }
 
@@ -60,6 +65,11 @@ namespace FluentAssertions.Common
             if (fieldInfo.IsFamilyOrAssembly)
             {
                 return CSharpAccessModifier.ProtectedInternal;
+            }
+
+            if(fieldInfo.IsFamilyAndAssembly)
+            {
+                return CSharpAccessModifier.PrivateProtected;
             }
 
             return CSharpAccessModifier.InvalidForCSharp;

@@ -329,6 +329,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_a_private_protected_member_is_private_protected_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateProtectedMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.PrivateProtected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_asserting_a_private_member_is_protected_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -556,6 +576,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_a_private_member_is_not_private_protected_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.PrivateProtected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_asserting_a_private_member_is_not_private_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -642,6 +682,27 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_asserting_a_private_protected_member_is_not_private_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetPrivateProtectedSet");
+            MethodInfo setMethod = propertyInfo.SetMethod;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                setMethod.Should().NotHaveAccessModifier(CSharpAccessModifier.Private);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+        
         [Fact]
         public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
         {
@@ -766,9 +827,13 @@ namespace FluentAssertions.Specs
 
         protected string ProtectedSetProperty { private get; set; }
 
+        public string PublicGetPrivateProtectedSet { get; private protected set; }
+
         internal string InternalMethod() { return null; }
 
         protected internal void ProtectedInternalMethod() { }
+
+        private protected void PrivateProtectedMethod() { }
     }
 
     #endregion

@@ -5,6 +5,7 @@
     <RootNamespace>FluentAssertions.NetStandard13.Specs</RootNamespace>
     <DefineConstants>NETSTANDARD1_3</DefineConstants>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="4.8.0" />

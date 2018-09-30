@@ -1442,21 +1442,24 @@ namespace FluentAssertions.Specs
                 "protected",
                 "internal",
                 "protected-internal",
-                "private");
+                "private",
+                "private-protected");
 
             var expected = new ClassWithAllAccessModifiersForMembers(
                 "public",
                 "protected",
                 "ignored-internal",
                 "ignored-protected-internal",
-                "private");
+                "private",
+                "ignore-private-protected");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
-                                        ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal)));
+                                        ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal) ||
+                                        ctx.WhichGetterHas(CSharpAccessModifier.PrivateProtected)));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1475,14 +1478,16 @@ namespace FluentAssertions.Specs
                 "protected",
                 "internal",
                 "protected-internal",
-                "private");
+                "private",
+                "private-protected");
 
             var expected = new ClassWithAllAccessModifiersForMembers(
                 "public",
                 "protected",
                 "ignored-internal",
                 "ignored-protected-internal",
-                "ignored-private");
+                "ignored-private",
+                "ignore-private-protected");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1490,7 +1495,8 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
-                                        ctx.WhichSetterHas(CSharpAccessModifier.Private)));
+                                        ctx.WhichSetterHas(CSharpAccessModifier.Private) ||
+                                        ctx.WhichSetterHas(CSharpAccessModifier.PrivateProtected)));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4184,6 +4190,7 @@ namespace FluentAssertions.Specs
         internal string InternalField;
         protected internal string ProtectedInternalField;
         private string PrivateField;
+        private protected string PrivateProtectedField;
 
         public string PublicProperty { get; set; }
         public string ReadOnlyProperty { get; private set; }
@@ -4193,14 +4200,17 @@ namespace FluentAssertions.Specs
         protected internal string ProtectedInternalProperty { get; set; }
         private string PrivateProperty { get; set; }
 
+        private protected string PrivateProtectedProperty { get; set; }
+
         public ClassWithAllAccessModifiersForMembers(string publicValue, string protectedValue, string internalValue,
-            string protectedInternalValue, string privateValue)
+            string protectedInternalValue, string privateValue, string privateProtectedValue)
         {
             PublicField = publicValue;
             ProtectedField = protectedValue;
             InternalField = internalValue;
             ProtectedInternalField = protectedInternalValue;
             PrivateField = privateValue;
+            PrivateProtectedField = privateProtectedValue;
 
             PublicProperty = publicValue;
             ReadOnlyProperty = privateValue;
@@ -4209,6 +4219,7 @@ namespace FluentAssertions.Specs
             InternalProperty = internalValue;
             ProtectedInternalProperty = protectedInternalValue;
             PrivateProperty = privateValue;
+            PrivateProtectedProperty = privateProtectedValue;
         }
     }
 
