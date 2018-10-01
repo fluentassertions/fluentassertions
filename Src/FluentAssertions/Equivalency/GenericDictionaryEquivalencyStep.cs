@@ -44,9 +44,17 @@ namespace FluentAssertions.Equivalency
             Type expectationType = config.GetExpectationType(context);
 
             return AssertImplementsOnlyOneDictionaryInterface(context.Expectation)
+                   && AssertSubjectIsNotNull(context.Subject)
                    && AssertExpectationIsNotNull(context.Subject, context.Expectation)
                    && AssertIsCompatiblyTypedDictionary(expectationType, context.Subject)
                    && AssertSameLength(context.Subject, expectationType, context.Expectation);
+        }
+
+        private static bool AssertSubjectIsNotNull(object subject)
+        {
+            return AssertionScope.Current
+                .ForCondition(!(subject is null))
+                .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
