@@ -4,6 +4,7 @@
     <AssemblyName>FluentAssertions.NetCore20.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore20.Specs</RootNamespace>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Chill" Version="3.2.0" />

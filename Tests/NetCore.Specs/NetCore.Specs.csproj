@@ -4,6 +4,7 @@
     <AssemblyName>FluentAssertions.NetCore.Specs</AssemblyName>
     <RootNamespace>FluentAssertions.NetCore.Specs</RootNamespace>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="4.8.0" />
