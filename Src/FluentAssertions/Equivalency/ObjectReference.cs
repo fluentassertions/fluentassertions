@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -10,18 +9,13 @@ namespace FluentAssertions.Equivalency
     internal class ObjectReference
     {
         private readonly object @object;
-        private readonly string[] path;
+        private readonly string path;
         private readonly bool? isComplexType;
 
         public ObjectReference(object @object, string path, bool? isComplexType = null)
         {
             this.@object = @object;
-
-            this.path = path
-                .ToLower()
-                .Replace("][", "].[")
-                .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
+            this.path = path;
             this.isComplexType = isComplexType;
         }
 
@@ -42,9 +36,22 @@ namespace FluentAssertions.Equivalency
             return ReferenceEquals(@object, other.@object) && IsParentOf(other);
         }
 
+        string[] pathElements;
+
+        string[] GetPathElements() => pathElements
+            ?? (pathElements = path.ToLowerInvariant().Replace("][", "].[").Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries));
+
         private bool IsParentOf(ObjectReference other)
         {
-            return (other.path.Length > path.Length) && other.path.Take(path.Length).SequenceEqual(path);
+            string[] path = GetPathElements(), otherPath = other.GetPathElements();
+
+            if (otherPath.Length <= path.Length)
+                return false;
+
+            for (int i = 0; i < path.Length; i++)
+                if (path[i] != otherPath[i])
+                    return false;
+            return true;
         }
 
         /// <summary>
@@ -56,15 +63,12 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (@object.GetHashCode() * 397) ^ path.GetHashCode();
-            }
+            return System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(@object);
         }
 
         public override string ToString()
         {
-            return $"{{\"{string.Join(".", path)}\", {@object}}}";
+            return $"{{\"{path}\", {@object}}}";
         }
 
         public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().OverridesEquals());

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -36,14 +35,16 @@ namespace FluentAssertions.Equivalency
         {
             Type expectedType = config.GetExpectationType(context);
 
-            var interfaceTypes = GetIEnumerableInterfaces(expectedType)
-                .Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
-                .ToList();
+            var interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
-            AssertionScope.Current
-                .ForCondition(interfaceTypes.Count == 1)
-                .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
-                          "to use for asserting the equivalency of the collection. ", interfaceTypes);
+            if (interfaceTypes.Length != 1)
+            {
+                AssertionScope.Current
+                    .ForCondition(interfaceTypes.Length == 1)
+                    .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
+                              "to use for asserting the equivalency of the collection. ",
+                              interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">").ToList());
+            }
 
             if (AssertSubjectIsCollection(context.Expectation, context.Subject))
             {
@@ -55,20 +56,11 @@ namespace FluentAssertions.Equivalency
 
                 Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-                MethodCallExpression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
-                ConstantExpression subjectAsArray =
-                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Subject));
-
-                MethodCallExpression executeExpression = Expression.Call(
-                    Expression.Constant(validator),
-                    ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null, null)),
-                    new[] {typeOfEnumeration},
-                    subjectAsArray,
-                    expectationAsArray);
+                var subjectAsArray = EnumerableEquivalencyStep.ToArray(context.Subject);
 
                 try
                 {
-                    Expression.Lambda(executeExpression).Compile().DynamicInvoke();
+                    HandleMethod.MakeGenericMethod(typeOfEnumeration).Invoke(null, new[] { validator, subjectAsArray, context.Expectation });
                 }
                 catch (TargetInvocationException e)
                 {
@@ -79,9 +71,15 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
+        private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
+            (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
+
+        private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
+            => validator.Execute(subject, expectation?.ToArray());
+
         private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
-            bool conditionMet = AssertionScope.Current
+            bool conditionMet = subject != null || AssertionScope.Current
                 .ForCondition(!(subject is null))
                 .FailWith("Expected {context:subject} not to be {0}.", new object[] {null});
 
@@ -119,15 +117,6 @@ namespace FluentAssertions.Equivalency
             Type interfaceType = GetIEnumerableInterfaces(enumerableType).Single();
 
             return interfaceType.GetGenericArguments().Single();
-        }
-
-        private static MethodCallExpression ToArray(object value, Type typeOfEnumeration)
-        {
-            return Expression.Call(
-                typeof(Enumerable),
-                "ToArray",
-                new[] {typeOfEnumeration},
-                Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }
 }

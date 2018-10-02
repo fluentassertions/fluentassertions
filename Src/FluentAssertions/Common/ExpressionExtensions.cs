@@ -158,10 +158,5 @@ namespace FluentAssertions.Common
 
             return new MemberPath(declaringType, segmentPath.Replace(".[", "["));
         }
-
-        internal static string GetMethodName(Expression<Action> action)
-        {
-            return ((MethodCallExpression)action.Body).Method.Name;
-        }
     }
 }

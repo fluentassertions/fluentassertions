@@ -1,9 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -52,14 +51,14 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSubjectIsNotNull(object subject)
         {
-            return AssertionScope.Current
+            return subject != null || AssertionScope.Current
                 .ForCondition(!(subject is null))
                 .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
         {
-            return AssertionScope.Current
+            return expectation != null || AssertionScope.Current
                 .ForCondition(!(expectation is null))
                 .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
         }
@@ -135,22 +134,17 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type expectationType, object expectation)
         {
-            string methodName =
-                ExpressionExtensions.GetMethodName(() => AssertSameLength<object, object, object, object>(null, null));
+            if(subject is ICollection subjectCollection
+                && expectation is ICollection expectationCollection
+                && subjectCollection.Count == expectationCollection.Count)
+                return true;
 
             Type subjectType = subject.GetType();
             Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
             Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
             Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
 
-            MethodCallExpression assertSameLength = Expression.Call(
-                typeof(GenericDictionaryEquivalencyStep),
-                methodName,
-                typeArguments,
-                Expression.Constant(subject, GetIDictionaryInterface(subjectType)),
-                Expression.Constant(expectation, GetIDictionaryInterface(expectationType)));
-
-            return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
+            return (bool)AssertSameLengthMethod.MakeGenericMethod(typeArguments).Invoke(null, new[] { subject, expectation });
         }
 
         private static Type[] GetDictionaryTypeArguments(Type type)
@@ -164,6 +158,9 @@ namespace FluentAssertions.Equivalency
         {
             return GetIDictionaryInterfaces(expectedType).Single();
         }
+
+        private static readonly MethodInfo AssertSameLengthMethod = new Func<IDictionary<object, object>, IDictionary<object, object>, bool>
+            (AssertSameLength).GetMethodInfo().GetGenericMethodDefinition();
 
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
@@ -233,28 +230,16 @@ namespace FluentAssertions.Equivalency
             IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             Type expectationType = config.GetExpectationType(context);
-
-            string methodName =
-                ExpressionExtensions.GetMethodName(
-                    () => AssertDictionaryEquivalence<object, object, object, object>(null, null, null, null, null));
-
             Type subjectType = context.Subject.GetType();
             Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
             Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
             Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
 
-            MethodCallExpression assertDictionaryEquivalence = Expression.Call(
-                typeof(GenericDictionaryEquivalencyStep),
-                methodName,
-                typeArguments,
-                Expression.Constant(context),
-                Expression.Constant(parent),
-                Expression.Constant(config),
-                Expression.Constant(context.Subject, GetIDictionaryInterface(subjectType)),
-                Expression.Constant(context.Expectation, GetIDictionaryInterface(expectationType)));
-
-            Expression.Lambda(assertDictionaryEquivalence).Compile().DynamicInvoke();
+            AssertDictionaryEquivalenceMethod.MakeGenericMethod(typeArguments).Invoke(null, new[] { context, parent, config, context.Subject, context.Expectation });
         }
+
+        private static readonly MethodInfo AssertDictionaryEquivalenceMethod = new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions, IDictionary<object, object>, IDictionary<object, object>>
+            (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
 
         private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             EquivalencyValidationContext context,
