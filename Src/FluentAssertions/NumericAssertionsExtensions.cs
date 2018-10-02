@@ -713,6 +713,47 @@ namespace FluentAssertions
 
         /// <summary>
         /// Asserts a floating point value approximates another value as close as possible.
+        /// Does not throw if null subject value approximates null <paramref name="expectedValue"/> value.
+        /// </summary>
+        /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+        /// <param name="expectedValue">
+        /// The expected value to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of which the two values may differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
+        public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
+            float? expectedValue, float precision, string because = "",
+            params object[] becauseArgs)
+        {
+            if (parent.Subject == null && expectedValue == null)
+            {
+                return new AndConstraint<NullableNumericAssertions<float>>(parent);
+            }
+
+            bool succeeded = Execute.Assertion
+                .ForCondition(expectedValue != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+
+            if (succeeded)
+            {
+                // ReSharper disable once PossibleInvalidOperationException
+                parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
+            }
+
+            return new AndConstraint<NullableNumericAssertions<float>>(parent);
+        }
+
+        /// <summary>
+        /// Asserts a floating point value approximates another value as close as possible.
         /// </summary>
         /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
         /// <param name="expectedValue">
@@ -777,6 +818,47 @@ namespace FluentAssertions
 
         /// <summary>
         /// Asserts a double value approximates another value as close as possible.
+        /// Does not throw if null subject value approximates null <paramref name="expectedValue"/> value.
+        /// </summary>
+        /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+        /// <param name="expectedValue">
+        /// The expected value to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of which the two values may differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
+        public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
+            double? expectedValue, double precision, string because = "",
+            params object[] becauseArgs)
+        {
+            if(parent.Subject == null && expectedValue == null)
+            {
+                return new AndConstraint<NullableNumericAssertions<double>>(parent);
+            }
+
+            bool succeeded = Execute.Assertion
+                .ForCondition(expectedValue != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+
+            if (succeeded)
+            {
+                // ReSharper disable once PossibleInvalidOperationException
+                parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
+            }
+
+            return new AndConstraint<NullableNumericAssertions<double>>(parent);
+        }
+
+        /// <summary>
+        /// Asserts a double value approximates another value as close as possible.
         /// </summary>
         /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
         /// <param name="expectedValue">
@@ -835,6 +917,47 @@ namespace FluentAssertions
 
             var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
+
+            return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
+        }
+
+        /// <summary>
+        /// Asserts a decimal value approximates another value as close as possible.
+        /// Does not throw if null subject value approximates null <paramref name="expectedValue"/> value.
+        /// </summary>
+        /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+        /// <param name="expectedValue">
+        /// The expected value to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of which the two values may differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
+        public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
+            decimal? expectedValue, decimal precision, string because = "",
+            params object[] becauseArgs)
+        {
+            if (parent.Subject == null && expectedValue == null)
+            {
+                return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
+            }
+
+            bool succeeded = Execute.Assertion
+                .ForCondition(expectedValue != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+
+            if (succeeded)
+            {
+                // ReSharper disable once PossibleInvalidOperationException
+                parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
+            }
 
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
