@@ -785,11 +785,7 @@ namespace FluentAssertions
         {
             float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference <= precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
-                    parent.Subject, expectedValue, precision, actualDifference);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -890,11 +886,7 @@ namespace FluentAssertions
         {
             double actualDifference = Math.Abs(expectedValue - (double)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference <= precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
-                    parent.Subject, expectedValue, precision, actualDifference);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -995,13 +987,21 @@ namespace FluentAssertions
         {
             decimal actualDifference = Math.Abs(expectedValue - (decimal)parent.Subject);
 
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+
+            return new AndConstraint<NumericAssertions<decimal>>(parent);
+        }
+
+        private static void FailIfDifferenceOutsidePrecision<T>(
+            bool differenceWithinPrecision,
+            NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
+            string because, object[] becauseArgs) where T:struct
+        {
             Execute.Assertion
-                .ForCondition(actualDifference <= precision)
+                .ForCondition(differenceWithinPrecision)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
                     parent.Subject, expectedValue, precision, actualDifference);
-
-            return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
 
         #endregion
@@ -1063,11 +1063,7 @@ namespace FluentAssertions
         {
             float actualDifference = Math.Abs(unexpectedValue - (float)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference > precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
-                    parent.Subject, unexpectedValue, precision, actualDifference);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -1127,11 +1123,7 @@ namespace FluentAssertions
         {
             double actualDifference = Math.Abs(unexpectedValue - (double)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference > precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
-                    parent.Subject, unexpectedValue, precision, actualDifference);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -1191,13 +1183,21 @@ namespace FluentAssertions
         {
             decimal actualDifference = Math.Abs(unexpectedValue - (decimal)parent.Subject);
 
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+
+            return new AndConstraint<NumericAssertions<decimal>>(parent);
+        }
+
+        private static void FailIfDifferenceWithinPrecision<T>(
+            NumericAssertions<T> parent, bool differenceOutsidePrecision,
+            T unexpectedValue, T precision, T actualDifference,
+            string because, object[] becauseArgs) where T : struct
+        {
             Execute.Assertion
-                .ForCondition(actualDifference > precision)
+                .ForCondition(differenceOutsidePrecision)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
                     parent.Subject, unexpectedValue, precision, actualDifference);
-
-            return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
 
         #endregion
