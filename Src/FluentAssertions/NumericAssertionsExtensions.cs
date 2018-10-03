@@ -9,6 +9,8 @@ namespace FluentAssertions
     /// </summary>
     public static class NumericAssertionsExtensions
     {
+
+        #region BeCloseTo
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
         /// </summary>
@@ -343,6 +345,10 @@ namespace FluentAssertions
 
             return new AndConstraint<NumericAssertions<ulong>>(parent);
         }
+
+        #endregion
+
+        #region NotBeCloseTo
 
         /// <summary>
         /// Asserts an integral value is not within another value by a specified value.
@@ -679,6 +685,10 @@ namespace FluentAssertions
             return new AndConstraint<NumericAssertions<ulong>>(parent);
         }
 
+        #endregion
+
+        #region BeApproximately
+
         /// <summary>
         /// Asserts a floating point value approximates another value as close as possible.
         /// </summary>
@@ -994,6 +1004,10 @@ namespace FluentAssertions
             return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
 
+        #endregion
+
+        #region NotBeApproximately
+
         /// <summary>
         /// Asserts a floating point value does not approximate another value by a given amount.
         /// </summary>
@@ -1185,6 +1199,8 @@ namespace FluentAssertions
 
             return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
+
+        #endregion
 
         private static long GetMinValue(long value, ulong delta)
         {
