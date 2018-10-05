@@ -9,6 +9,8 @@ namespace FluentAssertions
     /// </summary>
     public static class NumericAssertionsExtensions
     {
+
+        #region BeCloseTo
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
         /// </summary>
@@ -43,11 +45,7 @@ namespace FluentAssertions
                 maxValue = sbyte.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<sbyte>>(parent);
         }
@@ -86,11 +84,7 @@ namespace FluentAssertions
                 maxValue = byte.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<byte>>(parent);
         }
@@ -129,11 +123,7 @@ namespace FluentAssertions
                 maxValue = short.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<short>>(parent);
         }
@@ -172,11 +162,7 @@ namespace FluentAssertions
                 maxValue = ushort.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<ushort>>(parent);
         }
@@ -215,11 +201,7 @@ namespace FluentAssertions
                 maxValue = int.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<int>>(parent);
         }
@@ -258,11 +240,7 @@ namespace FluentAssertions
                 maxValue = uint.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<uint>>(parent);
         }
@@ -292,11 +270,7 @@ namespace FluentAssertions
             long minValue = GetMinValue(nearbyValue, delta);
             long maxValue = GetMaxValue(nearbyValue, delta);
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<long>>(parent);
         }
@@ -335,14 +309,25 @@ namespace FluentAssertions
                 maxValue = ulong.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(minValue <= actualValue && actualValue <= maxValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, nearbyValue, actualValue);
+            FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<ulong>>(parent);
         }
+
+        private static void FailIfValueOutsideBounds<TValue, TDelta>(bool valueWithinBounds,
+            TValue nearbyValue, TDelta delta, TValue actualValue,
+            string because, object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(valueWithinBounds)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
+                    delta, nearbyValue, actualValue);
+        }
+
+        #endregion
+
+        #region NotBeCloseTo
 
         /// <summary>
         /// Asserts an integral value is not within another value by a specified value.
@@ -378,11 +363,7 @@ namespace FluentAssertions
                 maxValue = sbyte.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<sbyte>>(parent);
         }
@@ -421,11 +402,7 @@ namespace FluentAssertions
                 maxValue = byte.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<byte>>(parent);
         }
@@ -464,11 +441,7 @@ namespace FluentAssertions
                 maxValue = short.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<short>>(parent);
         }
@@ -507,11 +480,7 @@ namespace FluentAssertions
                 maxValue = ushort.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<ushort>>(parent);
         }
@@ -550,11 +519,7 @@ namespace FluentAssertions
                 maxValue = int.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<int>>(parent);
         }
@@ -593,11 +558,7 @@ namespace FluentAssertions
                 maxValue = uint.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<uint>>(parent);
         }
@@ -627,11 +588,7 @@ namespace FluentAssertions
             long minValue = GetMinValue(distantValue, delta);
             long maxValue = GetMaxValue(distantValue, delta);
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<long>>(parent);
         }
@@ -670,14 +627,26 @@ namespace FluentAssertions
                 maxValue = ulong.MaxValue;
             }
 
-            Execute.Assertion
-                .ForCondition(!(minValue <= actualValue && actualValue <= maxValue))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
-                    delta, distantValue, actualValue);
+            FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<ulong>>(parent);
         }
+
+        private static void FailIfValueInsideBounds<TValue, TDelta>(
+            bool valueOutsideBounds,
+            TValue distantValue, TDelta delta, TValue actualValue,
+            string because, object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(valueOutsideBounds)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
+                    delta, distantValue, actualValue);
+        }
+
+        #endregion
+
+        #region BeApproximately
 
         /// <summary>
         /// Asserts a floating point value approximates another value as close as possible.
@@ -775,11 +744,7 @@ namespace FluentAssertions
         {
             float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference <= precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
-                    parent.Subject, expectedValue, precision, actualDifference);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -880,11 +845,7 @@ namespace FluentAssertions
         {
             double actualDifference = Math.Abs(expectedValue - (double)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference <= precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
-                    parent.Subject, expectedValue, precision, actualDifference);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -985,14 +946,26 @@ namespace FluentAssertions
         {
             decimal actualDifference = Math.Abs(expectedValue - (decimal)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference <= precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
-                    parent.Subject, expectedValue, precision, actualDifference);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
+
+        private static void FailIfDifferenceOutsidePrecision<T>(
+            bool differenceWithinPrecision,
+            NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
+            string because, object[] becauseArgs) where T:struct
+        {
+            Execute.Assertion
+                .ForCondition(differenceWithinPrecision)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
+                    parent.Subject, expectedValue, precision, actualDifference);
+        }
+
+        #endregion
+
+        #region NotBeApproximately
 
         /// <summary>
         /// Asserts a floating point value does not approximate another value by a given amount.
@@ -1049,11 +1022,7 @@ namespace FluentAssertions
         {
             float actualDifference = Math.Abs(unexpectedValue - (float)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference > precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
-                    parent.Subject, unexpectedValue, precision, actualDifference);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -1113,11 +1082,7 @@ namespace FluentAssertions
         {
             double actualDifference = Math.Abs(unexpectedValue - (double)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference > precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
-                    parent.Subject, unexpectedValue, precision, actualDifference);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -1177,14 +1142,24 @@ namespace FluentAssertions
         {
             decimal actualDifference = Math.Abs(unexpectedValue - (decimal)parent.Subject);
 
-            Execute.Assertion
-                .ForCondition(actualDifference > precision)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
-                    parent.Subject, unexpectedValue, precision, actualDifference);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<decimal>>(parent);
         }
+
+        private static void FailIfDifferenceWithinPrecision<T>(
+            NumericAssertions<T> parent, bool differenceOutsidePrecision,
+            T unexpectedValue, T precision, T actualDifference,
+            string because, object[] becauseArgs) where T : struct
+        {
+            Execute.Assertion
+                .ForCondition(differenceOutsidePrecision)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
+                    parent.Subject, unexpectedValue, precision, actualDifference);
+        }
+
+        #endregion
 
         private static long GetMinValue(long value, ulong delta)
         {
