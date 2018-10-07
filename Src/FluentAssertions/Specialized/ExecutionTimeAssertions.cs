@@ -220,6 +220,11 @@ namespace FluentAssertions.Specialized
         {
         }
 
+        public ExecutionTime(Func<Task> action)
+            : this(action, "the action")
+        {
+        }
+
         protected ExecutionTime(Action action, string actionDescription)
         {
             ActionDescription = actionDescription;
@@ -233,6 +238,38 @@ namespace FluentAssertions.Specialized
                 {
                     stopwatch.Start();
                     action();
+                }
+                catch (Exception exception)
+                {
+                    Exception = exception;
+                }
+                finally
+                {
+                    // ensures that we stop the stopwatch even on exceptions
+                    stopwatch.Stop();
+                    IsRunning = false;
+                }
+            });
+        }
+
+        /// <remarks>
+        /// This constructor is almost exact copy of the one accepting <see cref="Action"/>.
+        /// The original constructor shall stay in place in order to keep backward-compatibility
+        /// and to avoid unnecessary wrapping action in <see cref="Task"/>.
+        /// </remarks>
+        protected ExecutionTime(Func<Task> action, string actionDescription)
+        {
+            ActionDescription = actionDescription;
+            stopwatch = new Stopwatch();
+            IsRunning = true;
+            Task = Task.Run(async () =>
+            {
+                // move stopwatch as close to action start as possible
+                // so that we have to get correct time readings
+                try
+                {
+                    stopwatch.Start();
+                    await action();
                 }
                 catch (Exception exception)
                 {
