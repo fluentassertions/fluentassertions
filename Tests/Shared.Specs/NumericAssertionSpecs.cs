@@ -2056,9 +2056,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to not approximate*3.5* +/-*0.001*, but it was <null>.");
+            act.Should().NotThrow();
         }
 
         #endregion

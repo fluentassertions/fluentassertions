@@ -1188,13 +1188,53 @@ namespace FluentAssertions
             decimal unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(parent.Subject != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was <null>.", unexpectedValue, precision);
+            if (parent.Subject != null)
+            {
+                var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
+                NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
+            }
 
-            var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
-            NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
+            return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
+        }
+
+        /// <summary>
+        /// Asserts a decimal value does not approximate another value by a given amount.
+        /// Throws if both subject and <paramref name="unexpectedValue"/> are null.
+        /// </summary>
+        /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+        /// <param name="unexpectedValue">
+        /// The unexpected value to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The minimum exclusive amount of which the two values should differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
+        public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
+            decimal? unexpectedValue, decimal precision, string because = "",
+            params object[] becauseArgs)
+        {
+            if (parent.Subject == null && unexpectedValue != null ||
+                parent.Subject != null && unexpectedValue == null)
+            {
+                return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
+            }
+
+            bool succeeded = Execute.Assertion
+                .ForCondition(parent.Subject != null && unexpectedValue != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+
+            if (succeeded)
+            {
+                // ReSharper disable once PossibleInvalidOperationException
+                parent.NotBeApproximately(unexpectedValue.Value, precision, because, becauseArgs);
+            }
 
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
