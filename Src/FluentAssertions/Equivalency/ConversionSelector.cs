@@ -14,24 +14,24 @@ namespace FluentAssertions.Equivalency
     {
         private List<Func<IMemberInfo, bool>> inclusions = new List<Func<IMemberInfo, bool>>();
         private List<Func<IMemberInfo, bool>> exclusions = new List<Func<IMemberInfo, bool>>();
-        private StringBuilder description = new StringBuilder();
+        private StringBuilder descriptionBuilder = new StringBuilder();
 
         public void IncludeAll()
         {
             inclusions.Add(_ => true);
-            description.Append("Try conversion of all members. ");
+            descriptionBuilder.Append("Try conversion of all members. ");
         }
 
         public void Include(Expression<Func<IMemberInfo, bool>> predicate)
         {
             inclusions.Add(predicate.Compile());
-            description.Append("Try conversion of member ").Append(predicate.Body).Append(". ");
+            descriptionBuilder.Append("Try conversion of member ").Append(predicate.Body).Append(". ");
         }
 
         public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
         {
             exclusions.Add(predicate.Compile());
-            description.Append("Do not convert member ").Append(predicate.Body).Append(". ");
+            descriptionBuilder.Append("Do not convert member ").Append(predicate.Body).Append(". ");
         }
 
         public bool RequiresConversion(IMemberInfo info)
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            string result = description.ToString();
+            string result = descriptionBuilder.ToString();
             return (result.Length > 0) ? result : "Without automatic conversion.";
         }
 
@@ -51,7 +51,7 @@ namespace FluentAssertions.Equivalency
             {
                 inclusions = new List<Func<IMemberInfo, bool>>(inclusions),
                 exclusions = new List<Func<IMemberInfo, bool>>(exclusions),
-                description = description
+                descriptionBuilder = new StringBuilder(descriptionBuilder.ToString())
             };
         }
     }
