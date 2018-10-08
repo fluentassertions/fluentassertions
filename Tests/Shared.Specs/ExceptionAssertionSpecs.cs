@@ -919,7 +919,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => foo.Invoking(f => f.Do())
-                                     .Should().NotThrow(waitTime, pollInterval, "we passed valid arguments");
+                                     .Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -947,7 +947,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            foo.Invoking(f => f.Do()).Should().NotThrow(waitTime, pollInterval);
+            foo.Invoking(f => f.Do()).Should().NotThrowAfter(waitTime, pollInterval);
         }
 
     }

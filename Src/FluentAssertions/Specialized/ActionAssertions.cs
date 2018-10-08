@@ -119,12 +119,12 @@ namespace FluentAssertions.Specialized
         /// after a specified amount of time.
         /// </summary>
         /// <remarks>
-        /// The <see cref="Action"/> is invoced. If it raises an exception,
+        /// The <see cref="Action"/> is invoked. If it raises an exception,
         /// the invocation is repeated until it either stops raising any exceptions
         /// or the specified wait time is exceeded.
         /// </remarks>
         /// <param name="waitTime">
-        /// The time in milliseconds after which the <see cref="Action"/> should habe stopped throwing any exception.
+        /// The time in milliseconds after which the <see cref="Action"/> should have stopped throwing any exception.
         /// </param>
         /// <param name="pollInterval">
         /// The time between subsequent invocations of the <see cref="Action"/>.
@@ -137,7 +137,7 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public void NotThrow(int waitTime, int pollInterval, string because = "", params object[] becauseArgs)
+        public void NotThrowAfter(int waitTime, int pollInterval, string because = "", params object[] becauseArgs)
         {
             FailIfSubjectIsAsyncVoid();
 
