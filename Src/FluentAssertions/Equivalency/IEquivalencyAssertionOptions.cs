@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
+        IEnumerable<IEquivalencyStep> GetUserEquivalencySteps(ConversionSelector conversionSelector);
 
         /// <summary>
         /// Gets a value indicating whether the runtime type of the expectation should be used rather than the declared type.
