@@ -2689,7 +2689,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*");
+                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*Without automatic conversion*");
         }
 
         [Fact]
