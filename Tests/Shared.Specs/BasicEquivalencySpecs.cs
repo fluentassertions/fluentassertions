@@ -2581,10 +2581,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            string exceptionMessage = act.Should().Throw<XunitException>().Which.Message;
-            exceptionMessage.Should().Match("Expected*<1973-09-20>*\"1973-09-20\"*", "{0} field is of mismatched type", nameof(expectation.Birthdate));
-            exceptionMessage.Should().Match("*Try conversion of all members*", "conversion description should be present");
-            exceptionMessage.Should().NotMatch("*Try conversion of all members*Try conversion of all members*", "conversion description should not be duplicated");
+            act.Should().Throw<XunitException>().Which.Message
+                .Should().Match("Expected*<1973-09-20>*\"1973-09-20\"*", "{0} field is of mismatched type", nameof(expectation.Birthdate))
+                .And.Subject.Should().Match("*Try conversion of all members*", "conversion description should be present")
+                .And.Subject.Should().NotMatch("*Try conversion of all members*Try conversion of all members*", "conversion description should not be duplicated");
         }
 
         [Fact]
