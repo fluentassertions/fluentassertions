@@ -39,9 +39,9 @@ namespace FluentAssertions.Equivalency
 
         public ConversionSelector ConversionSelector => inner.ConversionSelector;
 
-        public IEnumerable<IEquivalencyStep> UserEquivalencySteps
+        public IEnumerable<IEquivalencyStep> GetUserEquivalencySteps(ConversionSelector conversionSelector)
         {
-            get { return inner.UserEquivalencySteps.Select(step => new CollectionMemberAssertionRuleDecorator(step)).ToArray(); }
+            return inner.GetUserEquivalencySteps(conversionSelector).Select(step => new CollectionMemberAssertionRuleDecorator(step)).ToArray();
         }
 
         public bool IsRecursive => inner.IsRecursive;
