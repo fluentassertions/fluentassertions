@@ -3,7 +3,7 @@
 #tool "nuget:?package=nspec&version=2.0.1"
 #tool "nuget:?package=nspec&version=3.1.0"
 #tool "nuget:?package=nunit.runners&version=2.7.0"
-#tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=GitVersion.CommandLine&version=4.0.0"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
