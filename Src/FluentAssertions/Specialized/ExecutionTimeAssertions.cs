@@ -25,7 +25,7 @@ namespace FluentAssertions.Specialized
 
         /// <summary>
         /// Checks the executing action if it satisfies a condition.
-        /// If the execution runs into an exeption, then this will rethrow it.
+        /// If the execution runs into an exception, then this will rethrow it.
         /// </summary>
         /// <param name="condition">Condition to check on the current elapsed time.</param>
         /// <param name="expectedResult">Polling stops when condition returns the expected result.</param>
