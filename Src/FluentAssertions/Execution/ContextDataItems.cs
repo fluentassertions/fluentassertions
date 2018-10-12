@@ -60,7 +60,7 @@ namespace FluentAssertions.Execution
         public T Get<T>(string key)
         {
             DataItem item = items.SingleOrDefault(i => i.Key == key);
-            return (T)((item != null) ? item.Value : default(T));
+            return (T)(item?.Value ?? default(T));
         }
 
         internal class DataItem
