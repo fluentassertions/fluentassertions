@@ -860,7 +860,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 eventSource.RaiseEventWithSenderAndPropertyName("theProperty");
 
-                utcNow = utcNow.AddHours(1);
+                utcNow += 1.Hours();
 
                 eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
@@ -872,7 +872,7 @@ namespace FluentAssertions.Specs
                     new
                     {
                         EventName = "PropertyChanged",
-                        TimestampUtc = utcNow.Subtract(1.Hours()),
+                        TimestampUtc = utcNow - 1.Hours(),
                         Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
                     },
                     new
