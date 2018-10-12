@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Xunit;
 using Xunit.Sdk;
 using FakeItEasy;
-using FluentAssertions.Primitives;
+using FluentAssertions.Extensions;
 
 namespace FluentAssertions.Specs
 {
@@ -888,66 +888,130 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var foo = A.Fake<IFoo>();
-
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).Should().NotThrow();
         }
 
-        private static void ThrowUntil(Stopwatch watch, int throwTime)
-        {
-                if(watch.ElapsedMilliseconds <= throwTime)
-                    throw new ArgumentException("An exception was forced");
-        }
-
+        #pragma warning disable CS1998
         [Fact]
-        public void When_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
+        public void NotThrowAfter_when_subject_is_async_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
-            var watch = Stopwatch.StartNew();
-            var waitTime = 100;
-            var pollInterval = 10;
+            Action someAsyncAction = async () => { };
 
-            void ThrowLongerThanWaitTime() => ThrowUntil(watch, waitTime + waitTime / 2);
-
-            A.CallTo(() => foo.Do()).Invokes(ThrowLongerThanWaitTime);
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => foo.Invoking(f => f.Do())
-                                     .Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+            Action action = () =>
+                someAsyncAction.Should().NotThrowAfter(1.Milliseconds(), 1.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action
-                .Should().Throw<XunitException>()
-                         .Where(e => e.Message.Contains(
-					 "Did not expect any exception after 100 milliseconds because we passed valid " +
-					 "arguments, but found FakeItEasy.UserCallbackException")); }
+            action.Should().Throw<InvalidOperationException>()
+                .WithMessage("Cannot use action assertions on an async void method.*");
+        }
+        #pragma warning restore CS1998
 
         [Fact]
-        public void When_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
+        public void NotThrowAfter_when_waitTime_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
+            var waitTime = -1.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+            Action someAction = () => { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                someAction.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of waitTime must be positive*");
+        }
+
+        [Fact]
+        public void NotThrowAfter_when_pollInterval_is_negative_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = 10.Milliseconds();
+            var pollInterval = -1.Milliseconds();
+            Action someAction = () => { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                someAction.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of pollInterval must be positive*");
+        }
+
+        [Fact]
+        public void NotThrowAfter_when_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 100;
-            var pollInterval = 10;
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
 
-            void ThrowShorterThanWaitTime() => ThrowUntil(watch, waitTime / 2);
+            Action ThrowLongerThanWaitTime = () =>
+                {
+                    if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                        throw new ArgumentException("An exception was forced");
+                };
 
-            A.CallTo(() => foo.Do()).Invokes(ThrowShorterThanWaitTime);
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                ThrowLongerThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                         .WithMessage("Did not expect any exception after 0.100s because we passed valid arguments*");
+        }
+
+        [Fact]
+        public void NotThrowAfter_when_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Action ThrowShorterThanWaitTime = () =>
+                {
+                    if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                        throw new ArgumentException("An exception was forced");
+                };
+
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            foo.Invoking(f => f.Do()).Should().NotThrowAfter(waitTime, pollInterval);
+            ThrowShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
         }
 
     }

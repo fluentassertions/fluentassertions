@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+using System.Threading;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -124,7 +124,7 @@ namespace FluentAssertions.Specialized
         /// or the specified wait time is exceeded.
         /// </remarks>
         /// <param name="waitTime">
-        /// The time in milliseconds after which the <see cref="Action"/> should have stopped throwing any exception.
+        /// The time after which the <see cref="Action"/> should have stopped throwing any exception.
         /// </param>
         /// <param name="pollInterval">
         /// The time between subsequent invocations of the <see cref="Action"/>.
@@ -137,29 +137,32 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public void NotThrowAfter(int waitTime, int pollInterval, string because = "", params object[] becauseArgs)
+        public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             FailIfSubjectIsAsyncVoid();
 
-            if(waitTime < 0 || pollInterval < 0)
-                throw new ArgumentOutOfRangeException("The values of waitTime and pollInterval must be positive.");
+            if(waitTime < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be positive.");
+
+            if(pollInterval < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be positive.");
 
             var watch = Stopwatch.StartNew();
-            long invocationEndTime = -1;
+            TimeSpan? invocationEndTime = null;
             Exception exception = null;
 
-            while (invocationEndTime < waitTime)
+            while (invocationEndTime is null || invocationEndTime < waitTime)
             {
                 exception = InvokeSubjectWithInterception();
                 if (exception is null)
                     return;
 
-                Task.Delay(pollInterval).Wait();
-                invocationEndTime = watch.ElapsedMilliseconds;
+                Thread.Sleep(pollInterval);
+                invocationEndTime = watch.Elapsed;
             }
             Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Did not expect any exception after {0} milliseconds{reason}, but found {1}.", waitTime, exception);
+                        .FailWith("Did not expect any exception after {0}{reason}, but found {1}.", waitTime, exception);
         }
 
         private Exception InvokeSubjectWithInterception()
