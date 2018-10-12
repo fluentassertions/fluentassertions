@@ -17,7 +17,7 @@ namespace FluentAssertions.Execution
             Type assertionHelperType = assembly.GetType("Gallio.Framework.Assertions.AssertionHelper");
             Type testContextType = assembly.GetType("Gallio.Framework.TestContext");
 
-            if ((assertionFailureBuilderType == null) || (assertionHelperType == null) || (testContextType == null))
+            if ((assertionFailureBuilderType is null) || (assertionHelperType is null) || (testContextType is null))
             {
                 throw new Exception(string.Format(
                     "Failed to create the assertion exception for the current test framework: \"{0}\"",

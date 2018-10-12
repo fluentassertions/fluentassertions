@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency
     {
         public static SelectedMemberInfo Create(PropertyInfo propertyInfo)
         {
-            if (propertyInfo == null || propertyInfo.IsIndexer())
+            if (propertyInfo is null || propertyInfo.IsIndexer())
             {
                 return null;
             }
@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
 
         public static SelectedMemberInfo Create(FieldInfo fieldInfo)
         {
-            if (fieldInfo == null)
+            if (fieldInfo is null)
             {
                 return null;
             }

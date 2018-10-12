@@ -185,7 +185,7 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has a root element if the element name is <null>*");
@@ -208,12 +208,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string because, params object[] becauseArgs)
         {
-            if (Subject == null)
+            if (Subject is null)
             {
                 throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
             }
 
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has a root element if the element name is <null>*");
@@ -271,7 +271,7 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");
@@ -297,12 +297,12 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected, string because,
             params object[] becauseArgs)
         {
-            if (Subject == null)
+            if (Subject is null)
             {
                 throw new InvalidOperationException("Cannot assert the document has an element if the document itself is <null>.");
             }
 
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");

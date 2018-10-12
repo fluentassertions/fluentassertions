@@ -63,7 +63,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
-            if (countPredicate == null)
+            if (countPredicate is null)
             {
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
@@ -305,7 +305,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
-            if (expectation == null)
+            if (expectation is null)
             {
                 return base.StartWith(null, because, becauseArgs);
             }
@@ -334,7 +334,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> StartWith<TExpected>(
             IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
-            if (expectation == null)
+            if (expectation is null)
             {
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
@@ -359,7 +359,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
-            if (expectation == null)
+            if (expectation is null)
             {
                 return base.EndWith(null, because, becauseArgs);
             }
@@ -388,7 +388,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> EndWith<TExpected>(
             IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
-            if (expectation == null)
+            if (expectation is null)
             {
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }

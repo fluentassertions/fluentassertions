@@ -247,7 +247,7 @@ namespace FluentAssertions.Collections
                 return;
             }
 
-            if (expectation == null)
+            if (expectation is null)
             {
                 throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
             }
@@ -289,7 +289,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collections not to be equal{reason}, but found <null>.");
             }
 
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare collection with <null>.");
             }
@@ -490,7 +490,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
             }
@@ -706,7 +706,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Contain(IEnumerable expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot verify containment against a <null> collection");
             }
@@ -786,7 +786,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot verify ordered containment against a <null> collection.");
             }
@@ -1050,7 +1050,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
-            if (expectedSuperset == null)
+            if (expectedSuperset is null)
             {
                 throw new ArgumentNullException(nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
             }
@@ -1135,7 +1135,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection == null)
+            if (otherCollection is null)
             {
                 throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
             }
@@ -1176,7 +1176,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection == null)
+            if (otherCollection is null)
             {
                 throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
             }
@@ -1271,7 +1271,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContain(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify non-containment against a <null> collection");
             }
@@ -1338,7 +1338,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> IntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection == null)
+            if (otherCollection is null)
             {
                 throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
             }
@@ -1380,7 +1380,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotIntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection == null)
+            if (otherCollection is null)
             {
                 throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
             }

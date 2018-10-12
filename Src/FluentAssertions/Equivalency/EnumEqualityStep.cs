@@ -90,7 +90,7 @@ namespace FluentAssertions.Equivalency
 
         private static string GetDisplayNameForEnumComparison(object o, decimal? v)
         {
-            if (o == null || v == null)
+            if (o is null || v is null)
             {
                 return "null";
             }

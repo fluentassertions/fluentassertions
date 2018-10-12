@@ -11,7 +11,7 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType(ExceptionFullName);
-            if (exceptionType == null)
+            if (exceptionType is null)
             {
                 throw new Exception(string.Format(
                     "Failed to create the assertion exception for the current test framework: \"{0}, {1}\"",

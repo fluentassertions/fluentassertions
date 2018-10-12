@@ -199,7 +199,7 @@ namespace FluentAssertions.Common
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
                 where HasNonPrivateGetter(propertyInfo)
                 where !propertyInfo.IsIndexer()
-                where filter == null || filter.Contains(propertyInfo.Name)
+                where filter is null || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();

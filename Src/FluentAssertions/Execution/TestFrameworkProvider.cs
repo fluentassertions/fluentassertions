@@ -32,7 +32,7 @@ namespace FluentAssertions.Execution
 
         public static void Throw(string message)
         {
-            if (testFramework == null)
+            if (testFramework is null)
             {
                 testFramework = DetectFramework();
             }

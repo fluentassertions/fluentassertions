@@ -42,7 +42,7 @@ namespace FluentAssertions
 
         private static bool IsDynamic(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType == null;
+            return frame.GetMethod().DeclaringType is null;
         }
 
         private static bool IsCurrentAssembly(StackFrame frame)
