@@ -973,7 +973,7 @@ namespace FluentAssertions.Specs
             var waitTime = 100.Milliseconds();
             var pollInterval = 10.Milliseconds();
 
-            Action ThrowLongerThanWaitTime = () =>
+            Action throwLongerThanWaitTime = () =>
                 {
                     if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
                         throw new ArgumentException("An exception was forced");
@@ -983,13 +983,13 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                ThrowLongerThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+                throwLongerThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                         .WithMessage("Did not expect any exception after 0.100s because we passed valid arguments*");
+                         .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
         }
 
         [Fact]
@@ -1002,16 +1002,23 @@ namespace FluentAssertions.Specs
             var waitTime = 100.Milliseconds();
             var pollInterval = 10.Milliseconds();
 
-            Action ThrowShorterThanWaitTime = () =>
+            Action throwShorterThanWaitTime = () =>
                 {
                     if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
                         throw new ArgumentException("An exception was forced");
                 };
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            ThrowShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+
+            Action act = () => throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+
+            act.Should().NotThrow();
         }
 
     }

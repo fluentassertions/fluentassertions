@@ -162,7 +162,7 @@ namespace FluentAssertions.Specialized
             }
             Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Did not expect any exception after {0}{reason}, but found {1}.", waitTime, exception);
+                        .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
         }
 
         private Exception InvokeSubjectWithInterception()
