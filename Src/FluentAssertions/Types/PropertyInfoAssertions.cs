@@ -215,7 +215,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected PropertyInfo returns <typeparamref name="TReturn"/>.
+        /// Asserts that the selected property returns <typeparamref name="TReturn"/>.
         /// </summary>
         /// <typeparam name="TReturn">The expected return type.</typeparam>
         /// <param name="because">
@@ -252,7 +252,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected PropertyInfo does not return <typeparamref name="TReturn"/>.
+        /// Asserts that the selected property does not return <typeparamref name="TReturn"/>.
         /// </summary>
         /// <typeparam name="TReturn">The unexpected return type.</typeparam>
         /// <param name="because">

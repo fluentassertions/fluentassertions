@@ -104,7 +104,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo returns void.
+        /// Asserts that the selected method returns void.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -124,7 +124,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo returns <paramref name="returnType"/>.
+        /// Asserts that the selected method returns <paramref name="returnType"/>.
         /// </summary>
         /// <param name="returnType">The expected return type.</param>
         /// <param name="because">
@@ -145,7 +145,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo returns <typeparamref name="TReturn"/>.
+        /// Asserts that the selected method returns <typeparamref name="TReturn"/>.
         /// </summary>
         /// <typeparam name="TReturn">The expected return type.</typeparam>
         /// <param name="because">
@@ -161,7 +161,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo does not return void.
+        /// Asserts that the selected method does not return void.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -181,7 +181,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo does not return <paramref name="returnType"/>.
+        /// Asserts that the selected method does not return <paramref name="returnType"/>.
         /// </summary>
         /// <param name="returnType">The unexpected return type.</param>
         /// <param name="because">
@@ -202,7 +202,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodInfo does not return <typeparamref name="TReturn"/>.
+        /// Asserts that the selected method does not return <typeparamref name="TReturn"/>.
         /// </summary>
         /// <typeparam name="TReturn">The unexpected return type.</typeparam>
         /// <param name="because">
