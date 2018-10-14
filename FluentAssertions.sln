@@ -171,6 +171,6 @@ Global
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj
+		StartupItem = Src\FluentAssertions\FluentAssertions.csproj
 	EndGlobalSection
 EndGlobal
