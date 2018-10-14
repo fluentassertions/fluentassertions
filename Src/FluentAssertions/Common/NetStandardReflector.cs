@@ -51,7 +51,7 @@ namespace FluentAssertions.Common
         {
             try
             {
-                return (assembly != null) ? assembly.GetExportedTypes() : new Type[0];
+                return assembly?.GetExportedTypes() ?? new Type[0];
             }
             catch (ReflectionTypeLoadException ex)
             {

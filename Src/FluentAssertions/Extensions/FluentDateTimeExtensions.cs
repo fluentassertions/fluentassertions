@@ -223,7 +223,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime Before(this TimeSpan timeDifference, DateTime sourceDateTime)
         {
-            return sourceDateTime.Subtract(timeDifference);
+            return sourceDateTime - timeDifference;
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime After(this TimeSpan timeDifference, DateTime sourceDateTime)
         {
-            return sourceDateTime.Add(timeDifference);
+            return sourceDateTime + timeDifference;
         }
 
         /// <summary>
