@@ -147,22 +147,25 @@ namespace FluentAssertions.Specialized
             if(pollInterval < TimeSpan.Zero)
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be positive.");
 
-            var watch = Stopwatch.StartNew();
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
 
-            while (invocationEndTime is null || invocationEndTime < waitTime)
-            {
-                exception = InvokeSubjectWithInterception();
-                if (exception is null)
-                    return;
+            var watch = Stopwatch.StartNew();
 
-                Thread.Sleep(pollInterval);
-                invocationEndTime = watch.Elapsed;
-            }
-            Execute.Assertion
+            using(var waiter = new ManualResetEvent(false)) {
+                while (invocationEndTime is null || invocationEndTime < waitTime)
+                {
+                    exception = InvokeSubjectWithInterception();
+                    if (exception is null)
+                        return;
+
+                    waiter.WaitOne(pollInterval);
+                    invocationEndTime = watch.Elapsed;
+                }
+                Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+            }
         }
 
         private Exception InvokeSubjectWithInterception()
