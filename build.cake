@@ -47,12 +47,18 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-	DotNetCoreRestore();
+	DotNetCoreRestore(new DotNetCoreRestoreSettings
+	{
+		NoCache = true,
+		ConfigFile = "./nuget.config",
+		Verbosity = DotNetCoreVerbosity.Normal
+	});
 
     NuGetRestore("./FluentAssertions.sln", new NuGetRestoreSettings 
 	{ 
 		NoCache = true,
-		Verbosity = NuGetVerbosity.Detailed,
+		ConfigFile = "./nuget.config",
+		Verbosity = NuGetVerbosity.Normal,
 		ToolPath = "./build/nuget.exe"
 	});
 });
