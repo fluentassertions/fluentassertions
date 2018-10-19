@@ -1666,7 +1666,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_nullable_float_has_no_value_and_should_not_approximate_it_should_throw()
+        public void When_a_nullable_float_has_no_value_and_should_not_approximate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1682,9 +1682,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to not approximate*3.14* +/-*0.001*, but it was <null>.");
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -1890,9 +1888,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to not approximate*3.14* +/-*0.001*, but it was <null>.");
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -2060,9 +2056,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to not approximate*3.5* +/-*0.001*, but it was <null>.");
+            act.Should().NotThrow();
         }
 
         #endregion
