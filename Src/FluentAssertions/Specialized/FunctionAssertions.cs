@@ -59,27 +59,33 @@ namespace FluentAssertions.Specialized
         //    return Throw<TException>(exception, because, becauseArgs);
         //}
 
-        ///// <summary>
-        ///// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
-        ///// </summary>
-        ///// <param name="because">
-        ///// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        ///// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        ///// </param>
-        ///// <param name="becauseArgs">
-        ///// Zero or more objects to format using the placeholders in <see cref="because" />.
-        ///// </param>
-        //public void NotThrow(string because = "", params object[] becauseArgs)
-        //{
-        //    try
-        //    {
-        //        Task.Run(Subject).Wait();
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        NotThrow(exception, because, becauseArgs);
-        //    }
-        //}
+        /// <summary>
+        /// Asserts that the current <see cref="Func{T}"/> does not throw any exception.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
+        {
+            try
+            {
+                T result = Subject();
+                return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
+            }
+            catch (Exception exception)
+            {
+                NotThrow(exception, because, becauseArgs);
+            }
+
+            // Return null is not necessary
+            // C# compiler just could not induce that NotThrow always throws
+            // and complained about "not all paths" returning value
+            return null;
+        }
 
         ///// <summary>
         ///// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
@@ -149,15 +155,15 @@ namespace FluentAssertions.Specialized
         //    }
         //}
 
-        //private static void NotThrow(Exception exception, string because, object[] becauseArgs)
-        //{
-        //    Exception nonAggregateException = GetFirstNonAggregateException(exception);
+        private static void NotThrow(Exception exception, string because, object[] becauseArgs)
+        {
+            Exception nonAggregateException = GetFirstNonAggregateException(exception);
 
-        //    Execute.Assertion
-        //        .BecauseOf(because, becauseArgs)
-        //        .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-        //            nonAggregateException.GetType(), nonAggregateException.ToString());
-        //}
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
+                    nonAggregateException.GetType(), nonAggregateException.ToString());
+        }
 
         //private static void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
         //{
@@ -173,16 +179,16 @@ namespace FluentAssertions.Specialized
         //    }
         //}
 
-        //private static Exception GetFirstNonAggregateException(Exception exception)
-        //{
-        //    Exception nonAggregateException = exception;
-        //    while (nonAggregateException is AggregateException)
-        //    {
-        //        nonAggregateException = nonAggregateException.InnerException;
-        //    }
+        private static Exception GetFirstNonAggregateException(Exception exception)
+        {
+            Exception nonAggregateException = exception;
+            while (nonAggregateException is AggregateException)
+            {
+                nonAggregateException = nonAggregateException.InnerException;
+            }
 
-        //    return nonAggregateException;
-        //}
+            return nonAggregateException;
+        }
 
         private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception

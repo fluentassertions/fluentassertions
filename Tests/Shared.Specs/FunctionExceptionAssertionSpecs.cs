@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -60,6 +59,40 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*InvalidCastException*that's what I said*but*no exception*");
+        }
+
+        [Fact]
+        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => throw new ArgumentNullException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => f.Should().NotThrow("that's what he {0}", "told me");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
+        }
+
+        [Fact]
+        public void When_subject_does_throw_exception_and_that_was_not_expected_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            f.Should().NotThrow().Which.Should().Be(12);
         }
 
         //[Fact]
@@ -127,26 +160,7 @@ namespace FluentAssertions.Specs
         //        .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
         //}
 
-        //[Fact]
-        //public void When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
-        //{
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Arrange
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    var asyncObject = new AsyncClass();
 
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Act
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    Action action = () => asyncObject
-        //        .Awaiting(x => x.SucceedAsync())
-        //        .Should().NotThrow();
-
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Assert
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    action.Should().NotThrow();
-        //}
 
         //[Fact]
         //public async Task When_async_method_does_not_throw_async_exception_and_that_was_expected_it_should_succeed()
