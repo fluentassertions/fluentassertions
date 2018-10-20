@@ -463,7 +463,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that a collection of objects contains an object equivalent to another object.
+        /// Asserts that a collection of objects contains at least one object equivalent to another object.
         /// </summary>
         /// <remarks>
         /// Objects within the collection are equivalent to the expected object when both object graphs have equally named properties with the same
@@ -478,14 +478,14 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> ContainEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
-            return ContainEquivalentTo(expectation, config => config, because, becauseArgs);
+            return ContainEquivalentOf(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that a collection of objects contains an object equivalent to another object.
+        /// Asserts that a collection of objects contains at least one object equivalent to another object.
         /// </summary>
         /// <remarks>
         /// Objects within the collection are equivalent to the expected object when both object graphs have equally named properties with the same
@@ -506,7 +506,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> ContainEquivalentTo<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
+        public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
             if(ReferenceEquals(Subject, null))
@@ -539,13 +539,15 @@ namespace FluentAssertions.Collections
                     string[] failures = scope.Discard();
 
                     if (!failures.Any())
+                    {
                         return new AndConstraint<TAssertions>((TAssertions)this);
+                    }
                 }
             }
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected collection {0} to contain equivalent to {1}.", Subject, expectation);
+                .FailWith("Expected {context:collection} {0} to contain equivalent to {1}.", Subject, expectation);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

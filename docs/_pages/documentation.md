@@ -462,7 +462,7 @@ collection.Should().NotContainNulls();
 collection.Should().NotContain(x => x > 10);
 
 object boxedValue = 2;
-collection.Should().ContainEquivalentTo(boxedValue); // Compared by object equivalence
+collection.Should().ContainEquivalentOf(boxedValue); // Compared by object equivalence
 
 const int successor = 5;
 const int predecessor = 5;

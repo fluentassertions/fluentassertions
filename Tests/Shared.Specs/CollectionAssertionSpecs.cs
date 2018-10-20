@@ -2336,7 +2336,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Contain Equivalent To
+        #region Contain Equivalent Of
 
         [Fact]
         public void When_collection_contains_object_equal_to_another_it_should_succeed()
@@ -2350,7 +2350,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainEquivalentTo(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -2365,7 +2365,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainEquivalentTo(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -2374,13 +2374,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            char[] list = ("abc123ab").ToCharArray();
+            char[] collection = ("abc123ab").ToCharArray();
             char item = 'c';
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            list.Should().ContainEquivalentTo(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -2395,7 +2395,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainEquivalentTo(item); ;
+            Action act = () => collection.Should().ContainEquivalentOf(item); ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2409,24 +2409,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable actual = null;
+            IEnumerable collection = null;
             int expectation = 1;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                actual.Should().ContainEquivalentTo(expectation, "because we want to test the behaviour with a null subject");
+                collection.Should().ContainEquivalentOf(expectation, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
                 "Expected collection to contain equivalent to 1 because we want to test the behaviour with a null subject, but found <null>.");
-#else
-                "Expected actual to contain equivalent to 1 because we want to test the behaviour with a null subject, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -2435,13 +2431,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new[] { 1, 2, 3, (int?)null };
+            IEnumerable collection = new[] { 1, 2, 3, (int?)null };
             int? item = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().ContainEquivalentTo(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2461,7 +2457,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainEquivalentTo(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2475,13 +2471,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new int[0];
+            IEnumerable collection = new int[0];
             int item = 1;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().ContainEquivalentTo(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2513,7 +2509,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().ContainEquivalentTo(item);
+            Action act = () => subject.Should().ContainEquivalentOf(item);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2527,7 +2523,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new []
+            IEnumerable collection = new []
             {
                 new Customer
                 {
@@ -2545,7 +2541,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            subject.Should().ContainEquivalentTo(item, options => options.Including(x => x.Name));
+            collection.Should().ContainEquivalentOf(item, options => options.Including(x => x.Name));
         }
 
         [Fact]
@@ -2560,8 +2556,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            2.Should().Equals(boxedValue);
-            collection.Should().ContainEquivalentTo(boxedValue);
+            collection.Should().ContainEquivalentOf(boxedValue);
         }
 
         #endregion
