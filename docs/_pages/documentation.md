@@ -484,6 +484,8 @@ collection.Should().NotBeAscendingInOrder();
 collection.Should().NotBeDescendingInOrder();
 ```
 
+The `collection.Should().ContainEquivalentOf(boxedValue)` asserts that a collection contains at least one object that is equivalent to the expected object. The comparison is governed by the same rules and options as the [Object graph comparison](#object-graph-comparison).
+
 Those last two methods can be used to assert a collection contains items in ascending or descending order.
 For simple types that might be fine, but for more complex types, it requires you to implement `IComparable`, something that doesn't make a whole lot of sense in all cases.
 That's why we offer overloads that take an expression.
