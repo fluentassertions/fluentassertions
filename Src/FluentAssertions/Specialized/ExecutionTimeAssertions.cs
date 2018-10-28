@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using FluentAssertions.Execution;
 using System.Threading.Tasks;
-using System.Threading;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FakeItEasy;
 using Xunit;
 using Xunit.Sdk;
-
-using FakeItEasy;
-
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
 {

@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;

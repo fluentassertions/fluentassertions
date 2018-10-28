@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FluentAssertions.Formatting
+﻿namespace FluentAssertions.Formatting
 {
     public class NullValueFormatter : IValueFormatter
     {

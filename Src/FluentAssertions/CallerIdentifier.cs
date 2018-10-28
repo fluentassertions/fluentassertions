@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions
 {

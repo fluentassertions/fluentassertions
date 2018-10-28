@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common

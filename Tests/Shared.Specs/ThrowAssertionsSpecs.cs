@@ -1,8 +1,7 @@
 ﻿using System;
+using FakeItEasy;
 using Xunit;
 using Xunit.Sdk;
-
-using FakeItEasy;
 
 namespace FluentAssertions.Specs
 {

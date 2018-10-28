@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace FluentAssertions.Equivalency
 {
     internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
