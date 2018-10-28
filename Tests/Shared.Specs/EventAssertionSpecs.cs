@@ -18,7 +18,7 @@ namespace FluentAssertions.Specs
     [Collection("EventMonitoring")]
     public class EventAssertionSpecs
     {
-        #region ShouldRaise
+#region ShouldRaise
 
         [Fact]
         public void When_asserting_an_event_that_doesnt_exist_it_should_throw()
@@ -442,9 +442,9 @@ namespace FluentAssertions.Specs
             }
         }
 
-        #endregion
+#endregion
 
-        #region Should(Not)RaisePropertyChanged events
+#region Should(Not)RaisePropertyChanged events
 
         [Fact]
         public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
@@ -633,9 +633,9 @@ namespace FluentAssertions.Specs
             }
         }
 
-        #endregion
+#endregion
 
-        #region Precondition Checks
+#region Precondition Checks
 
         [Fact]
         public void When_monitoring_a_null_object_it_should_throw()
@@ -678,9 +678,9 @@ namespace FluentAssertions.Specs
             }
         }
 
-        #endregion
+#endregion
 
-        #region Metadata
+#region Metadata
 
         [Fact]
         public void When_monitoring_an_object_it_should_monitor_all_the_events_it_exposes()
@@ -885,7 +885,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        #endregion
+#endregion
 
         public class ClassThatRaisesEventsItself : IEventRaisingInterface
         {

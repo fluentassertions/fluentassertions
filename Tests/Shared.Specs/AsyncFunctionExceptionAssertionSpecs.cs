@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -284,7 +283,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentException>();
-                
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

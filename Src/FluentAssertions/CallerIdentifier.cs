@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions
 {
@@ -66,7 +64,7 @@ namespace FluentAssertions
 
             if ((line != null) && (column != 0) && (line.Length > 0))
             {
-                string statement = line.Substring(Math.Min(column - 1, line.Length -1));
+                string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
 
                 logger(statement);
 

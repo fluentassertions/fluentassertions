@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-
 using FluentAssertions.Types;
-using System.Collections.Generic;
 
 namespace FluentAssertions
 {

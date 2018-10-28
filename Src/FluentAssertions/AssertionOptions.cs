@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
 #endregion

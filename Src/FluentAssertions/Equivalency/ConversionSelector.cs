@@ -51,7 +51,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            if(inclusions.Count == 0 && exclusions.Count == 0)
+            if (inclusions.Count == 0 && exclusions.Count == 0)
             {
                 return "Without automatic conversion.";
             }

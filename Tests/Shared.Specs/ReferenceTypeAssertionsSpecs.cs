@@ -1,8 +1,5 @@
 ﻿using System;
-
-using FluentAssertions.Common;
 using FluentAssertions.Extensions;
-using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 

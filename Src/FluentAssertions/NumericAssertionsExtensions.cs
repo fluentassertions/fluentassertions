@@ -803,7 +803,7 @@ namespace FluentAssertions
             double? expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            if(parent.Subject == null && expectedValue == null)
+            if (parent.Subject == null && expectedValue == null)
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
             }
@@ -954,7 +954,7 @@ namespace FluentAssertions
         private static void FailIfDifferenceOutsidePrecision<T>(
             bool differenceWithinPrecision,
             NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T:struct
+            string because, object[] becauseArgs) where T : struct
         {
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
@@ -988,7 +988,7 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            if(parent.Subject != null)
+            if (parent.Subject != null)
             {
                 var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);

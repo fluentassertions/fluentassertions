@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives

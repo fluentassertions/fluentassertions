@@ -970,7 +970,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                try { subject.Should().AllBeEquivalentTo(1); }
+                try
+                {
+                    subject.Should().AllBeEquivalentTo(1);
+                }
                 catch
                 {
                     // ignored, we only care about execution time

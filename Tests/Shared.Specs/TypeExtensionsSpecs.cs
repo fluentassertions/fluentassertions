@@ -1,8 +1,6 @@
-using System.Xml.Linq;
-using System.Reflection;
 using System;
 using System.Linq;
-
+using System.Reflection;
 using FluentAssertions.Common;
 using Xunit;
 

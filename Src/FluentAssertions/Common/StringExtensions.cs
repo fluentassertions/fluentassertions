@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -84,7 +83,7 @@ namespace FluentAssertions.Common
         /// </remarks>
         public static string Combine(this string @this, string other, string separator = ".")
         {
-            if(@this.Length == 0)
+            if (@this.Length == 0)
             {
                 return (other.Length != 0) ? other : string.Empty;
             }
