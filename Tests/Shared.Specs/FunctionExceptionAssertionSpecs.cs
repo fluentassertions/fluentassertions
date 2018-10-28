@@ -7,6 +7,7 @@ namespace FluentAssertions.Specs
 {
     public class FunctionExceptionAssertionSpecs
     {
+        #region Throw
         [Fact]
         public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
@@ -62,7 +63,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
+        public void When_subject_throw_exception_and_that_was_not_expected_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -80,9 +81,11 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
         }
+        #endregion
 
+        #region NotThrow
         [Fact]
-        public void When_subject_does_throw_exception_and_that_was_not_expected_it_should_fail()
+        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -94,6 +97,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             f.Should().NotThrow().Which.Should().Be(12);
         }
+
+        #endregion
 
         //[Fact]
         //public void When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()

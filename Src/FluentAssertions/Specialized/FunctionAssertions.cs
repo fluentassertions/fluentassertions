@@ -79,12 +79,9 @@ namespace FluentAssertions.Specialized
             catch (Exception exception)
             {
                 NotThrow(exception, because, becauseArgs);
-            }
+                return null;
 
-            // Return null is not necessary
-            // C# compiler just could not induce that NotThrow always throws
-            // and complained about "not all paths" returning value
-            return null;
+            }
         }
 
         ///// <summary>
@@ -213,13 +210,12 @@ namespace FluentAssertions.Specialized
             try
             {
                 Subject();
+                return null;
             }
             catch (Exception exception)
             {
                 return InterceptException(exception);
             }
-
-            return null;
         }
 
         //private async Task<Exception> InvokeSubjectWithInterceptionAsync()
