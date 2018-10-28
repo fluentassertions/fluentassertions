@@ -702,7 +702,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
-        
+
         [Fact]
         public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
         {

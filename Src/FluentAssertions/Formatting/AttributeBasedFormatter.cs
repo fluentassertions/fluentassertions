@@ -39,7 +39,7 @@ namespace FluentAssertions.Formatting
         {
             MethodInfo method = GetFormatter(value);
 
-            object[] parameters = new[]{ value };
+            object[] parameters = new[] { value };
 
             return (string)method.Invoke(null, parameters);
         }

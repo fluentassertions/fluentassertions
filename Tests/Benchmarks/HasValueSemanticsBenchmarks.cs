@@ -20,7 +20,7 @@ namespace Benchmarks
         public bool HasValueSemantics_AnonymousType() => new { }.GetType().HasValueSemantics();
 
         [Benchmark]
-        public bool HasValueSemantics_KeyValuePair() => typeof(KeyValuePair<int,int>).HasValueSemantics();
+        public bool HasValueSemantics_KeyValuePair() => typeof(KeyValuePair<int, int>).HasValueSemantics();
 
         [Benchmark]
         public bool HasValueSemantics_ValueTuple() => typeof((int, int)).HasValueSemantics();

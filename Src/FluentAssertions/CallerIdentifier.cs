@@ -66,7 +66,7 @@ namespace FluentAssertions
 
             if ((line != null) && (column != 0) && (line.Length > 0))
             {
-                string statement = line.Substring(Math.Min(column - 1, line.Length -1));
+                string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
 
                 logger(statement);
 

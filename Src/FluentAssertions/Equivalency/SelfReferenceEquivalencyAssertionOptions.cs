@@ -127,7 +127,7 @@ namespace FluentAssertions.Equivalency
         ///     Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.GetUserEquivalencySteps(ConversionSelector convertionSelector) =>
-            userEquivalencySteps.Concat(new[] {new TryConversionStep(convertionSelector) });
+            userEquivalencySteps.Concat(new[] { new TryConversionStep(convertionSelector) });
 
         public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
 

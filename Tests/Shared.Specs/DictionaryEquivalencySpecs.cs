@@ -381,7 +381,6 @@ namespace FluentAssertions.Specs
         // #930
         public void When_a_dictionary_is_compared_to_null_it_should_not_throw_a_NullReferenceException()
         {
-            
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------

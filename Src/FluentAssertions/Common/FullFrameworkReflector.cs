@@ -32,7 +32,7 @@ namespace FluentAssertions.Common
 
         private static bool IsDynamic(Assembly assembly)
         {
-            return (assembly.GetType().FullName  == "System.Reflection.Emit.AssemblyBuilder") ||
+            return (assembly.GetType().FullName == "System.Reflection.Emit.AssemblyBuilder") ||
                    (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
         }
 

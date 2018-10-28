@@ -746,7 +746,7 @@ namespace FluentAssertions.Specs
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
             }
-                catch (Exception exc)
+            catch (Exception exc)
             {
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");

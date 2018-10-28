@@ -3353,7 +3353,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var instance1 = new SelfReturningEnumerable();
             var instance2 = new SelfReturningEnumerable();
-            var actual = new List<SelfReturningEnumerable> {instance1, instance2};
+            var actual = new List<SelfReturningEnumerable> { instance1, instance2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3594,7 +3594,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
-            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two};
+            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

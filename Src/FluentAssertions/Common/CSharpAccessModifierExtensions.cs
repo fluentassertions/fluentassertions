@@ -67,7 +67,7 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.ProtectedInternal;
             }
 
-            if(fieldInfo.IsFamilyAndAssembly)
+            if (fieldInfo.IsFamilyAndAssembly)
             {
                 return CSharpAccessModifier.PrivateProtected;
             }
