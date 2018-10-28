@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,7 +8,7 @@ namespace FluentAssertions.Specs
     {
         #region Throw
         [Fact]
-        public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
+        public void When_subject_throws_the_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -23,7 +22,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throws_the_expected_exception_it_should_succeed()
+        public void When_subject_throws_subclass_of_the_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -75,7 +74,84 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*InvalidCastException*that's what I said*but*no exception*");
         }
-        
+
+        #endregion
+
+        #region ThrowExactly
+        [Fact]
+        public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => throw new ArgumentNullException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            f.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void When_subject_throws_subclass_of_the_expected_exact_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => throw new ArgumentNullException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => f.Should().ThrowExactly<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*ArgumentException*but*ArgumentNullException*");
+        }
+
+        [Fact]
+        public void When_subject_does_not_throw_expected_exact_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => throw new ArgumentNullException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => f.Should().ThrowExactly<InvalidCastException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*InvalidCastException*but*ArgumentNullException*");
+        }
+
+        [Fact]
+        public void When_subject_does_not_throw_any_exception_when_expected_exact_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => f.Should().ThrowExactly<InvalidCastException>("that's what I {0}", "said");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*InvalidCastException*that's what I said*but*no exception*");
+        }
+
         #endregion
 
         #region NotThrow

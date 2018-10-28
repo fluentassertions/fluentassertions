@@ -43,6 +43,24 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="Func{T}"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            var exceptionAssertions = Throw<TException>(because, becauseArgs);
+            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
+            return exceptionAssertions;
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="Func{T}"/> does not throw any exception.
         /// </summary>
         /// <param name="because">
@@ -155,20 +173,6 @@ namespace FluentAssertions.Specialized
                 return InterceptException(exception);
             }
         }
-
-        //private async Task<Exception> InvokeSubjectWithInterceptionAsync()
-        //{
-        //    try
-        //    {
-        //        await Task.Run(Subject);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        return InterceptException(exception);
-        //    }
-
-        //    return null;
-        //}
 
         private Exception InterceptException(Exception exception)
         {
