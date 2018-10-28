@@ -61,6 +61,23 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*InvalidCastException*that's what I said*but*no exception*");
         }
+        
+        #endregion
+
+        #region NotThrow
+        [Fact]
+        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            f.Should().NotThrow().Which.Should().Be(12);
+        }
 
         [Fact]
         public void When_subject_throw_exception_and_that_was_not_expected_it_should_fail()
@@ -80,22 +97,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
-        }
-        #endregion
-
-        #region NotThrow
-        [Fact]
-        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            Func<int> f = () => 12;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            f.Should().NotThrow().Which.Should().Be(12);
         }
 
         #endregion
@@ -164,27 +165,7 @@ namespace FluentAssertions.Specs
         //    action.Should().Throw<XunitException>()
         //        .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
         //}
-
-
-
-        //[Fact]
-        //public async Task When_async_method_does_not_throw_async_exception_and_that_was_expected_it_should_succeed()
-        //{
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Arrange
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    var asyncObject = new AsyncClass();
-
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Act
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    Func<Task> action = async () => await asyncObject.SucceedAsync();
-
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Assert
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    await action.Should().NotThrowAsync();
-        //}
+        
 
         //[Fact]
         //public async Task When_subject_throws_subclass_of_expected_async_exception_it_should_succeed()
@@ -242,28 +223,6 @@ namespace FluentAssertions.Specs
         //    // Assert
         //    //-----------------------------------------------------------------------------------------------------------
         //    await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
-        //}
-
-        //[Fact]
-        //public void When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
-        //{
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Arrange
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    var asyncObject = new AsyncClass();
-
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Act
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    Action action = () => asyncObject
-        //        .Awaiting(x => x.ThrowAsync<ArgumentException>())
-        //        .Should().NotThrow();
-
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    // Assert
-        //    //-----------------------------------------------------------------------------------------------------------
-        //    action.Should().Throw<XunitException>()
-        //        .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
         //}
 
         //[Fact]
