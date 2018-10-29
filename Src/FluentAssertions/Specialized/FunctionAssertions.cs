@@ -9,7 +9,7 @@ namespace FluentAssertions.Specialized
     /// <summary>
     /// Contains a number of methods to assert that a synchronous function yields the expected result.
     /// </summary>
-    [DebuggerNonUserCode]
+    //[DebuggerNonUserCode]
     public class FunctionAssertions<T>
     {
         private readonly IExtractExceptions extractor;
@@ -170,19 +170,8 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                return InterceptException(exception);
+                return exception;
             }
-        }
-
-        private Exception InterceptException(Exception exception)
-        {
-            var ar = exception as AggregateException;
-            if (ar?.InnerException is AggregateException)
-            {
-                return ar.InnerException;
-            }
-
-            return exception;
         }
     }
 }
