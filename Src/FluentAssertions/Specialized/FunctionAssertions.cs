@@ -146,12 +146,12 @@ namespace FluentAssertions.Specialized
         private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
-            var exceptions = extractor.OfType<TException>(exception);
-
             Execute.Assertion
                 .ForCondition(exception != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
+
+            var exceptions = extractor.OfType<TException>(exception);
 
             Execute.Assertion
                 .ForCondition(exceptions.Any())
