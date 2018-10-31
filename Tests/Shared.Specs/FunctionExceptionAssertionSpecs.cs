@@ -8,7 +8,7 @@ namespace FluentAssertions.Specs
     {
         #region Throw
         [Fact]
-        public void When_subject_throws_the_expected_exception_it_should_succeed()
+        public void When_function_throws_the_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -22,7 +22,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throws_subclass_of_the_expected_exception_it_should_succeed()
+        public void When_function_throws_subclass_of_the_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_expected_exception_it_should_fail()
+        public void When_function_does_not_throw_expected_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_expected_exception_but_throws_aggregate_it_should_fail_with_inner_exception()
+        public void When_function_does_not_throw_expected_exception_but_throws_aggregate_it_should_fail_with_inner_exception()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_throw_expected_exception_but_in_aggregate_it_should_succeed()
+        public void When_function_does_throw_expected_exception_but_in_aggregate_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
+        public void When_function_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -115,7 +115,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_throw_expected_exception_but_in_aggregate_in_aggregate_it_should_succeed()
+        public void When_function_does_throw_expected_exception_but_in_aggregate_in_aggregate_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_any_exception_it_should_fail()
+        public void When_function_does_not_throw_any_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
 
         #region ThrowExactly
         [Fact]
-        public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
+        public void When_function_throws_the_expected_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -171,7 +171,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throws_subclass_of_the_expected_exact_exception_it_should_fail()
+        public void When_function_throws_subclass_of_the_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_expected_exact_exception_it_should_fail()
+        public void When_function_does_not_throw_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -211,7 +211,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_not_throw_any_exception_when_expected_exact_it_should_fail()
+        public void When_function_does_not_throw_any_exception_when_expected_exact_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -234,7 +234,7 @@ namespace FluentAssertions.Specs
 
         #region NotThrow
         [Fact]
-        public void When_subject_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
+        public void When_function_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -248,7 +248,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throw_exception_and_that_was_not_expected_it_should_fail()
+        public void When_function_throw_exception_and_that_was_not_expected_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -268,7 +268,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throw_aggregate_exception_and_that_was_not_expected_it_should_fail_with_inner_exception_in_message()
+        public void When_function_throw_aggregate_exception_and_that_was_not_expected_it_should_fail_with_inner_exception_in_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
+        public void When_function_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -311,7 +311,7 @@ namespace FluentAssertions.Specs
 
         #region NotThrow<T>
         [Fact]
-        public void When_subject_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
+        public void When_function_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -326,7 +326,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_does_throw_exception_and_that_exception_was_not_expected_it_should_fail()
+        public void When_function_does_throw_exception_and_that_exception_was_not_expected_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -346,7 +346,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throw_one_exception_but_other_was_not_expected_it_should_succeed()
+        public void When_function_throw_one_exception_but_other_was_not_expected_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

@@ -9,7 +9,7 @@ namespace FluentAssertions.Specialized
     /// <summary>
     /// Contains a number of methods to assert that a synchronous function yields the expected result.
     /// </summary>
-    //[DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     public class FunctionAssertions<T>
     {
         private readonly IExtractExceptions extractor;
