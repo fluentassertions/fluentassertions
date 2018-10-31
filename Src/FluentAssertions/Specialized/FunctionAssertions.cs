@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
 {
@@ -10,7 +11,7 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that a synchronous function yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class FunctionAssertions<T>
+    public class FunctionAssertions<T> : ReferenceTypeAssertions<Func<T>, FunctionAssertions<T>>
     {
         private readonly IExtractExceptions extractor;
 
@@ -20,10 +21,7 @@ namespace FluentAssertions.Specialized
             Subject = subject;
         }
 
-        /// <summary>
-        /// Gets the <see cref="Func{T}"/> that is being asserted.
-        /// </summary>
-        public Func<T> Subject { get; }
+        protected override string Identifier => "function";
 
         /// <summary>
         /// Asserts that the current <see cref="Func{T}"/> throws an exception of type <typeparamref name="TException"/>.
