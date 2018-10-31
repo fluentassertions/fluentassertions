@@ -72,45 +72,6 @@ namespace FluentAssertions.Types
             return BeAssignableTo(typeof(T), because, becauseArgs);
         }
 
-        bool CheckIfAssignableToOpenGeneric(Type definition)
-        {
-            // The CLR type system does not consider anything to be assignable to an open generic type.
-            // For the purposes of test assertions, the user probably means that the subject type is
-            // assignable to any generic type based on the given generic type definition.
-
-            if (definition.GetTypeInfo().IsInterface)
-            {
-                // check subject and its interfaces against definition
-                TypeInfo subjectInfo = Subject.GetTypeInfo();
-                if (subjectInfo.IsInterface && subjectInfo.IsGenericType &&
-                    subjectInfo.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
-                {
-                    return true;
-                }
-                foreach (TypeInfo iface in subjectInfo.ImplementedInterfaces.Select(i => i.GetTypeInfo()))
-                {
-                    if (iface.IsGenericType && iface.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                // check subject and its base types against definition
-                for (TypeInfo baseType = Subject.GetTypeInfo(); baseType != null;
-                        baseType = baseType.BaseType?.GetTypeInfo())
-                {
-                    if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Asserts than an instance of the subject type is assignable variable of given <paramref name="type"/>.
         /// </summary>
@@ -120,18 +81,18 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
-            bool condition;
+            bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                condition = CheckIfAssignableToOpenGeneric(type);
+                isAssignable = IsAssignableToOpenGeneric(type);
             }
             else
             {
-                condition = type.IsAssignableFrom(Subject);
+                isAssignable = type.IsAssignableFrom(Subject);
             }
 
             Execute.Assertion
-                .ForCondition(condition)
+                .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Identifier + "} {0} to be assignable to {1}{reason}, but it is not.",
@@ -139,6 +100,55 @@ namespace FluentAssertions.Types
                     type);
 
             return new AndConstraint<TypeAssertions>(this);
+        }
+
+        bool IsAssignableToOpenGeneric(Type definition)
+        {
+            // The CLR type system does not consider anything to be assignable to an open generic type.
+            // For the purposes of test assertions, the user probably means that the subject type is
+            // assignable to any generic type based on the given generic type definition.
+
+            if (definition.GetTypeInfo().IsInterface)
+            {
+                return IsImplementationOfOpenGeneric(definition);
+            }
+            else
+            {
+                return IsDerivedFromOpenGeneric(definition);
+            }
+        }
+
+        bool IsImplementationOfOpenGeneric(Type definition)
+        {
+            // check subject against definition
+            TypeInfo subjectInfo = Subject.GetTypeInfo();
+            if (subjectInfo.IsInterface && subjectInfo.IsGenericType &&
+                subjectInfo.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+            {
+                return true;
+            }
+
+            // check subject's interfaces against definition
+            return subjectInfo.ImplementedInterfaces
+                .Select(i => i.GetTypeInfo())
+                .Where(i => i.IsGenericType)
+                .Select(i => i.GetGenericTypeDefinition())
+                .Any(d => d.IsSameOrEqualTo(definition));
+        }
+
+        bool IsDerivedFromOpenGeneric(Type definition)
+        {
+            // check subject and its base types against definition
+            for (TypeInfo baseType = Subject.GetTypeInfo(); baseType != null;
+                    baseType = baseType.BaseType?.GetTypeInfo())
+            {
+                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -162,18 +172,18 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
-            bool condition;
+            bool isNotAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                condition = !CheckIfAssignableToOpenGeneric(type);
+                isNotAssignable = !IsAssignableToOpenGeneric(type);
             }
             else
             {
-                condition = !type.IsAssignableFrom(Subject);
+                isNotAssignable = !type.IsAssignableFrom(Subject);
             }
 
             Execute.Assertion
-                .ForCondition(condition)
+                .ForCondition(isNotAssignable)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Identifier + "} {0} to not be assignable to {1}{reason}, but it is.",
