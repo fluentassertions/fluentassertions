@@ -114,7 +114,7 @@ namespace FluentAssertions.Types
             }
             else
             {
-                return IsDerivedFromOpenGeneric(definition);
+                return Subject.IsSameOrEqualTo(definition) || IsDerivedFromOpenGeneric(definition);
             }
         }
 
@@ -138,6 +138,12 @@ namespace FluentAssertions.Types
 
         bool IsDerivedFromOpenGeneric(Type definition)
         {
+            if (Subject.IsSameOrEqualTo(definition))
+            {
+                // do not consider a type to be derived from itself
+                return false;
+            }
+
             // check subject and its base types against definition
             for (TypeInfo baseType = Subject.GetTypeInfo(); baseType != null;
                     baseType = baseType.BaseType?.GetTypeInfo())
@@ -540,7 +546,17 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
-            Execute.Assertion.ForCondition(Subject.GetTypeInfo().IsSubclassOf(baseType))
+            bool isDerivedFrom;
+            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isDerivedFrom = IsDerivedFromOpenGeneric(baseType);
+            }
+            else
+            {
+                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
+            }
+
+            Execute.Assertion.ForCondition(isDerivedFrom)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be derived from {1}{reason}, but it is not.", Subject, baseType);
 
@@ -574,8 +590,18 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
+            bool isNotDerivedFrom;
+            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isNotDerivedFrom = !IsDerivedFromOpenGeneric(baseType);
+            }
+            else
+            {
+                isNotDerivedFrom = !Subject.GetTypeInfo().IsSubclassOf(baseType);
+            }
+
             Execute.Assertion
-                .ForCondition(!Subject.GetTypeInfo().IsSubclassOf(baseType))
+                .ForCondition(isNotDerivedFrom)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} not to be derived from {1}{reason}, but it is.", Subject, baseType);
 
