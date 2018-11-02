@@ -102,7 +102,7 @@ namespace FluentAssertions.Types
             return new AndConstraint<TypeAssertions>(this);
         }
 
-        bool IsAssignableToOpenGeneric(Type definition)
+        private bool IsAssignableToOpenGeneric(Type definition)
         {
             // The CLR type system does not consider anything to be assignable to an open generic type.
             // For the purposes of test assertions, the user probably means that the subject type is
@@ -118,7 +118,7 @@ namespace FluentAssertions.Types
             }
         }
 
-        bool IsImplementationOfOpenGeneric(Type definition)
+        private bool IsImplementationOfOpenGeneric(Type definition)
         {
             // check subject against definition
             TypeInfo subjectInfo = Subject.GetTypeInfo();
@@ -136,7 +136,7 @@ namespace FluentAssertions.Types
                 .Any(d => d.IsSameOrEqualTo(definition));
         }
 
-        bool IsDerivedFromOpenGeneric(Type definition)
+        private bool IsDerivedFromOpenGeneric(Type definition)
         {
             if (Subject.IsSameOrEqualTo(definition))
             {
@@ -178,18 +178,18 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
-            bool isNotAssignable;
+            bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isNotAssignable = !IsAssignableToOpenGeneric(type);
+                isAssignable = IsAssignableToOpenGeneric(type);
             }
             else
             {
-                isNotAssignable = !type.IsAssignableFrom(Subject);
+                isAssignable = type.IsAssignableFrom(Subject);
             }
 
             Execute.Assertion
-                .ForCondition(isNotAssignable)
+                .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Identifier + "} {0} to not be assignable to {1}{reason}, but it is.",
@@ -590,18 +590,18 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
-            bool isNotDerivedFrom;
+            bool isDerivedFrom;
             if (baseType.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isNotDerivedFrom = !IsDerivedFromOpenGeneric(baseType);
+                isDerivedFrom = IsDerivedFromOpenGeneric(baseType);
             }
             else
             {
-                isNotDerivedFrom = !Subject.GetTypeInfo().IsSubclassOf(baseType);
+                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
             }
 
             Execute.Assertion
-                .ForCondition(isNotDerivedFrom)
+                .ForCondition(!isDerivedFrom)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} not to be derived from {1}{reason}, but it is.", Subject, baseType);
 
