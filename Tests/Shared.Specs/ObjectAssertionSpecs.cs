@@ -647,6 +647,20 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_implemented_open_generic_interface_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new System.Collections.Generic.List<string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(System.Collections.Generic.IList<>));
+        }
+
+        [Fact]
         public void When_an_unrelated_type_instance_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -795,6 +809,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IDisposable)}*failure message*{typeof(DummyImplementingClass)} is*");
+        }
+
+        [Fact]
+        public void When_an_implemented_open_generic_interface_type_instance_and_asserting_not_assignable_it_should_fail_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new System.Collections.Generic.List<string>();
+            Action act = () => someObject.Should().NotBeAssignableTo(typeof(System.Collections.Generic.IList<>), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*not be assignable to {typeof(System.Collections.Generic.IList<>)}*failure message*{typeof(System.Collections.Generic.List<string>)} is*");
         }
 
         [Fact]

@@ -84,7 +84,7 @@ namespace FluentAssertions.Types
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isAssignable = IsAssignableToOpenGeneric(type);
+                isAssignable = Subject.IsAssignableToOpenGeneric(type);
             }
             else
             {
@@ -100,61 +100,6 @@ namespace FluentAssertions.Types
                     type);
 
             return new AndConstraint<TypeAssertions>(this);
-        }
-
-        private bool IsAssignableToOpenGeneric(Type definition)
-        {
-            // The CLR type system does not consider anything to be assignable to an open generic type.
-            // For the purposes of test assertions, the user probably means that the subject type is
-            // assignable to any generic type based on the given generic type definition.
-
-            if (definition.GetTypeInfo().IsInterface)
-            {
-                return IsImplementationOfOpenGeneric(definition);
-            }
-            else
-            {
-                return Subject.IsSameOrEqualTo(definition) || IsDerivedFromOpenGeneric(definition);
-            }
-        }
-
-        private bool IsImplementationOfOpenGeneric(Type definition)
-        {
-            // check subject against definition
-            TypeInfo subjectInfo = Subject.GetTypeInfo();
-            if (subjectInfo.IsInterface && subjectInfo.IsGenericType &&
-                subjectInfo.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
-            {
-                return true;
-            }
-
-            // check subject's interfaces against definition
-            return subjectInfo.ImplementedInterfaces
-                .Select(i => i.GetTypeInfo())
-                .Where(i => i.IsGenericType)
-                .Select(i => i.GetGenericTypeDefinition())
-                .Any(d => d.IsSameOrEqualTo(definition));
-        }
-
-        private bool IsDerivedFromOpenGeneric(Type definition)
-        {
-            if (Subject.IsSameOrEqualTo(definition))
-            {
-                // do not consider a type to be derived from itself
-                return false;
-            }
-
-            // check subject and its base types against definition
-            for (TypeInfo baseType = Subject.GetTypeInfo(); baseType != null;
-                    baseType = baseType.BaseType?.GetTypeInfo())
-            {
-                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -181,7 +126,7 @@ namespace FluentAssertions.Types
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isAssignable = IsAssignableToOpenGeneric(type);
+                isAssignable = Subject.IsAssignableToOpenGeneric(type);
             }
             else
             {
@@ -549,7 +494,7 @@ namespace FluentAssertions.Types
             bool isDerivedFrom;
             if (baseType.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isDerivedFrom = IsDerivedFromOpenGeneric(baseType);
+                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
             }
             else
             {
@@ -593,7 +538,7 @@ namespace FluentAssertions.Types
             bool isDerivedFrom;
             if (baseType.GetTypeInfo().IsGenericTypeDefinition)
             {
-                isDerivedFrom = IsDerivedFromOpenGeneric(baseType);
+                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
             }
             else
             {
