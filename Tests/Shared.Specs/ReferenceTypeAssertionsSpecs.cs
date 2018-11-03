@@ -118,17 +118,17 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_object_is_an_open_generic_of_the_expected_type_it_should_not_throw()
+        public void When_object_is_of_the_expected_open_generic_type_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var openGeneric = new System.Collections.Generic.List<string>();
+            var aList = new System.Collections.Generic.List<string>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => openGeneric.Should().BeOfType(typeof(System.Collections.Generic.List<>));
+            Action action = () => aList.Should().BeOfType(typeof(System.Collections.Generic.List<>));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -218,6 +218,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected type not to be [" + typeof(string).AssemblyQualifiedName + "], but it is.");
+        }
+
+        [Fact]
+        public void When_object_is_of_the_unexpected_open_generic_type_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var aList = new System.Collections.Generic.List<string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => aList.Should().NotBeOfType(typeof(System.Collections.Generic.List<>));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be [" + typeof(System.Collections.Generic.List<>).AssemblyQualifiedName + "], but it is.");
         }
 
         [Fact]
