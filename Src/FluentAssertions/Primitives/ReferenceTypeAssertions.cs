@@ -179,9 +179,9 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the object is not of the specified type <paramref name="expectedType"/>.
+        /// Asserts that the object is not of the specified type <paramref name="unexpectedType"/>.
         /// </summary>
-        /// <param name="expectedType">
+        /// <param name="unexpectedType">
         /// The type that the subject is not supposed to be of.
         /// </param>
         /// <param name="because">
@@ -191,22 +191,22 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", expectedType);
+                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
 
             Type subjectType = Subject.GetType();
-            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            if (unexpectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
             {
-                subjectType.GetGenericTypeDefinition().Should().NotBe(expectedType, because, becauseArgs);
+                subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
             }
             else
             {
-                subjectType.Should().NotBe(expectedType, because, becauseArgs);
+                subjectType.Should().NotBe(unexpectedType, because, becauseArgs);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

@@ -110,7 +110,7 @@ namespace FluentAssertions.Numeric
         /// <summary>
         /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
         /// <param name="because">
@@ -120,12 +120,12 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) != Equal)
+                .ForCondition(Subject.CompareTo(unexpected) != Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", expected);
+                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
