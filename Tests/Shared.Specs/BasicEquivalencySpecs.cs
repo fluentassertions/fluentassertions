@@ -2789,13 +2789,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>().Which.Message
+            act.Should().Throw<XunitException>().Which.Message
                 // Checking exception message exactly is against general guidelines
                 // but in that case it was done on purpose, so that we have at least single
                 // test confirming that whole mechanism of gathering description from
                 // equivalency steps works.
-                .Should().Be("Expected member Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5).\r\n\nWith configuration:\n- Use declared types and members\r\n- Compare enums by value\r\n- Match member by name (or throw)\r\n- Without automatic conversion.\r\n- Be strict about the order of items in byte arrays\r\n");
+                .Should().MatchRegex(@"^Expected member Level\.Text to be ""Level2"", but ""Level1"" differs near ""1"" \(index 5\)\.[\r\n]+With configuration:[\r\n]+\- Use declared types and members[\r\n]+\- Compare enums by value[\r\n]+\- Match member by name \(or throw\)[\r\n]+\- Without automatic conversion\.[\r\n]+\- Be strict about the order of items in byte arrays[\r\n]+$");
         }
 
         [Fact]
