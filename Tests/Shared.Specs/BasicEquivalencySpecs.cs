@@ -1192,6 +1192,51 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_including_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var b1 = new ClassThatHidesBaseClassProperty();
+            var b2 = new ClassThatHidesBaseClassProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            b1.Should().BeEquivalentTo(b2, config => config.Including(b => b.Property));
+        }
+
+        [Fact]
+        public void When_excluding_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var b1 = new ClassThatHidesBaseClassProperty();
+            var b2 = new ClassThatHidesBaseClassProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected member Property*-*-*-*-*but*");
+        }
+
+        class ClassWithGuidProperty
+        {
+            public string Property { get; set; } = Guid.NewGuid().ToString();
+        }
+
+        class ClassThatHidesBaseClassProperty: ClassWithGuidProperty
+        {
+            public new string[] Property { get; set; }
+        }
+
+        [Fact]
         public void When_a_property_is_an_indexer_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------

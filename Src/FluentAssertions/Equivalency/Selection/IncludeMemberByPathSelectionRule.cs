@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
@@ -9,12 +10,12 @@ namespace FluentAssertions.Equivalency.Selection
     /// </summary>
     internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
     {
-        private readonly MemberPath pathToInclude;
+        private readonly MemberPath memberToInclude;
 
-        public IncludeMemberByPathSelectionRule(string pathToInclude)
-            : base(pathToInclude)
+        public IncludeMemberByPathSelectionRule(MemberPath pathToInclude)
+            : base(pathToInclude.ToString())
         {
-            this.pathToInclude = new MemberPath(pathToInclude);
+            memberToInclude = pathToInclude;
         }
 
         public override bool IncludesMembers => true;
@@ -24,7 +25,9 @@ namespace FluentAssertions.Equivalency.Selection
         {
             var matchingMembers =
                 from member in context.RuntimeType.GetNonPrivateMembers()
-                where pathToInclude.IsParentOrChildOf(currentPath.Combine(member.Name))
+                let memberPath = currentPath.Combine(member.Name)
+                where memberToInclude.IsSameAs(memberPath, member.DeclaringType) ||
+                    memberToInclude.IsParentOrChildOf(memberPath)
                 select member;
 
             return selectedMembers.Concat(matchingMembers).ToArray();
@@ -32,7 +35,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override string ToString()
         {
-            return "Include member root." + pathToInclude;
+            return "Include member root." + memberToInclude;
         }
     }
 }

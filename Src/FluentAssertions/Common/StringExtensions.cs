@@ -7,15 +7,6 @@ namespace FluentAssertions.Common
     {
         /// <summary>
         /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
-        /// string anymore, including the exact casing.
-        /// </summary>
-        public static int IndexOfFirstMismatch(this string value, string expected)
-        {
-            return IndexOfFirstMismatch(value, expected, StringComparison.CurrentCulture);
-        }
-
-        /// <summary>
-        /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
         /// string anymore, accounting for the specified <paramref name="stringComparison"/>.
         /// </summary>
         public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
