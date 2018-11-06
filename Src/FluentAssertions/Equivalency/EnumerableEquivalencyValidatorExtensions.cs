@@ -6,17 +6,6 @@ namespace FluentAssertions.Equivalency
 {
     internal static class EnumerableEquivalencyValidatorExtensions
     {
-        public static Continuation AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
-        {
-            return AssertionScope.Current
-                .WithExpectation("Expected {context:subject} to be a collection with {0} item(s){reason}", expectation.Count)
-                .AssertEitherCollectionIsNotEmpty(subject, expectation)
-                .Then
-                .AssertCollectionHasEnoughItems(subject, expectation)
-                .Then
-                .AssertCollectionHasNotTooManyItems(subject, expectation);
-        }
-
         public static Continuation AssertEitherCollectionIsNotEmpty<T>(this IAssertionScope scope, ICollection<object> subject, ICollection<T> expectation)
         {
             return scope
