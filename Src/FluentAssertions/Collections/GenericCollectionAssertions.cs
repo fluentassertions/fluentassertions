@@ -254,7 +254,7 @@ namespace FluentAssertions.Collections
                     ? unordered.OrderBy(keySelector, comparer)
                     : unordered.OrderByDescending(keySelector, comparer);
 
-                var orderString = propertyExpression.GetMemberPath();
+                string orderString = propertyExpression.GetMemberPath().ToString();
                 orderString = orderString == "\"\"" ? string.Empty : " by " + orderString;
 
                 Execute.Assertion
