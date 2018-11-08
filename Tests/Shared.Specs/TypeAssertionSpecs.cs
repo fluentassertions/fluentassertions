@@ -484,6 +484,73 @@ namespace FluentAssertions.Specs
                 .WithMessage($"*{typeof(DummyImplementingClass)} to be assignable to {typeof(DateTime)}*failure message*");
         }
 
+        [Fact]
+        public void When_constructed_of_open_generic_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(IDummyInterface<IDummyInterface>).Should().BeAssignableTo(typeof(IDummyInterface<>));
+        }
+
+        [Fact]
+        public void When_implementation_of_open_generic_interface_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(ClassWithGenericBaseType).Should().BeAssignableTo(typeof(IDummyInterface<>));
+        }
+
+        [Fact]
+        public void When_derived_of_open_generic_class_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(ClassWithGenericBaseType).Should().BeAssignableTo(typeof(DummyBaseType<>));
+        }
+
+        [Fact]
+        public void When_unrelated_to_open_generic_interface_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(IDummyInterface);
+            Action act = () => someType.Should().BeAssignableTo(typeof(IDummyInterface<>), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*{typeof(IDummyInterface)} to be assignable to {typeof(IDummyInterface<>)}*failure message*");
+        }
+
+        [Fact]
+        public void When_unrelated_to_open_generic_type_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(ClassWithAttribute);
+            Action act = () => someType.Should().BeAssignableTo(typeof(DummyBaseType<>), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*{typeof(ClassWithAttribute)} to be assignable to {typeof(DummyBaseType<>)}*failure message*");
+        }
+        
+        [Fact]
+        public void When_asserting_an_open_generic_class_is_assignable_to_itself_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));        }
+
         #endregion
 
         #region NotBeAssignableTo
@@ -596,6 +663,56 @@ namespace FluentAssertions.Specs
             typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DateTime));
         }
 
+        [Fact]
+        public void When_unrelated_to_open_generic_interface_and_asserting_not_assignable_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(ClassWithAttribute).Should().NotBeAssignableTo(typeof(IDummyInterface<>));
+        }
+
+        [Fact]
+        public void When_unrelated_to_open_generic_class_and_asserting_not_assignable_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(ClassWithAttribute).Should().NotBeAssignableTo(typeof(DummyBaseType<>));
+        }
+
+        [Fact]
+        public void When_implementation_of_open_generic_interface_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(ClassWithGenericBaseType);
+            Action act = () => someType.Should().NotBeAssignableTo(typeof(IDummyInterface<>), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*{typeof(ClassWithGenericBaseType)} to not be assignable to {typeof(IDummyInterface<>)}*failure message*");
+        }
+
+        [Fact]
+        public void When_derived_from_open_generic_class_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(ClassWithGenericBaseType);
+            Action act = () => someType.Should().NotBeAssignableTo(typeof(IDummyInterface<>), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*{typeof(ClassWithGenericBaseType)} to not be assignable to {typeof(IDummyInterface<>)}*failure message*");
+        }
+
         #endregion
 
         #region BeDerivedFrom
@@ -661,6 +778,68 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must not be an interface Type.*Parameter name: baseType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_is_derived_from_an_open_generic_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(DummyBaseType<ClassWithGenericBaseType>);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().BeDerivedFrom(typeof(DummyBaseType<>));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_is_derived_from_an_open_generic_base_class_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithGenericBaseType);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().BeDerivedFrom(typeof(DummyBaseType<>));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_is_derived_from_an_unrelated_open_generic_class_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().BeDerivedFrom(typeof(DummyBaseType<>), "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type {typeof(ClassWithMembers)} to be derived from " +
+                             $"{typeof(DummyBaseType<>)} because we want to test the error message, but it is not.");
         }
 
         #endregion
@@ -752,6 +931,68 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must not be an interface Type.*Parameter name: baseType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_is_not_derived_from_an_unrelated_open_generic_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotBeDerivedFrom(typeof(DummyBaseType<>));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_open_generic_type_is_not_derived_from_itself_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(DummyBaseType<>);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotBeDerivedFrom(typeof(DummyBaseType<>));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_is_not_derived_from_its_open_generic_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(DummyBaseType<ClassWithGenericBaseType>);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotBeDerivedFrom(typeof(DummyBaseType<>), "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type*{typeof(DummyBaseType<ClassWithGenericBaseType>)}*not to be derived from*" +
+                             $"{typeof(DummyBaseType<>)}*because we want to test the error message*but it is.");
         }
 
         #endregion
@@ -4508,11 +4749,23 @@ namespace FluentAssertions.Specs
     {
     }
 
-    public class ClassThatImplementsInterface : IDummyInterface
+    public interface IDummyInterface<T>
+    {
+    }
+
+    public class ClassThatImplementsInterface : IDummyInterface, IDummyInterface<IDummyInterface>
     {
     }
 
     public class ClassThatDoesNotImplementInterface
+    {
+    }
+
+    public class DummyBaseType<T> : IDummyInterface<IDummyInterface>
+    {
+    }
+
+    public class ClassWithGenericBaseType : DummyBaseType<ClassWithGenericBaseType>
     {
     }
 

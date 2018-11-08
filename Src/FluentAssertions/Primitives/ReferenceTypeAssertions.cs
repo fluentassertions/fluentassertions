@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -198,7 +199,15 @@ namespace FluentAssertions.Primitives
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", expectedType);
 
-            Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
+            Type subjectType = Subject.GetType();
+            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            {
+                subjectType.GetGenericTypeDefinition().Should().NotBe(expectedType, because, becauseArgs);
+            }
+            else
+            {
+                subjectType.Should().NotBe(expectedType, because, becauseArgs);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -238,8 +247,18 @@ namespace FluentAssertions.Primitives
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
 
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject.GetType());
+            }
+
             Execute.Assertion
-                .ForCondition(type.IsAssignableFrom(Subject.GetType()))
+                .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.",
@@ -276,8 +295,18 @@ namespace FluentAssertions.Primitives
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
 
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject.GetType());
+            }
+
             Execute.Assertion
-                .ForCondition(!type.IsAssignableFrom(Subject.GetType()))
+                .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to not be assignable to {0}{reason}, but {1} is.",
