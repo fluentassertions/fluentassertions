@@ -896,7 +896,7 @@ namespace FluentAssertions.Specs
 
         #pragma warning disable CS1998
         [Fact]
-        public void NotThrowAfter_when_subject_is_async_it_should_not_throw()
+        public void NotThrowAfter_when_subject_is_async_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
