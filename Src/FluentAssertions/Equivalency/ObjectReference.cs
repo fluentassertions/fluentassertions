@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -11,6 +12,7 @@ namespace FluentAssertions.Equivalency
         private readonly object @object;
         private readonly string path;
         private readonly bool? isComplexType;
+        private string[] pathElements;
 
         public ObjectReference(object @object, string path, bool? isComplexType = null)
         {
@@ -36,22 +38,14 @@ namespace FluentAssertions.Equivalency
             return ReferenceEquals(@object, other.@object) && IsParentOf(other);
         }
 
-        string[] pathElements;
-
-        string[] GetPathElements() => pathElements
+        private string[] GetPathElements() => pathElements
             ?? (pathElements = path.ToLowerInvariant().Replace("][", "].[").Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries));
 
         private bool IsParentOf(ObjectReference other)
         {
-            string[] path = GetPathElements(), otherPath = other.GetPathElements();
-
-            if (otherPath.Length <= path.Length)
-                return false;
-
-            for (int i = 0; i < path.Length; i++)
-                if (path[i] != otherPath[i])
-                    return false;
-            return true;
+            string[] path = GetPathElements();
+            string[] otherPath = other.GetPathElements();
+            return (otherPath.Length > path.Length) && otherPath.Take(path.Length).SequenceEqual(path);
         }
 
         /// <summary>

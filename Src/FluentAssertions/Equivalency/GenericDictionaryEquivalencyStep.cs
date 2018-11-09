@@ -13,6 +13,12 @@ namespace FluentAssertions.Equivalency
     /// </remarks>
     public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
+        private static readonly MethodInfo AssertSameLengthMethod = new Func<IDictionary<object, object>, IDictionary<object, object>, bool>
+            (AssertSameLength).GetMethodInfo().GetGenericMethodDefinition();
+
+        private static readonly MethodInfo AssertDictionaryEquivalenceMethod = new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions, IDictionary<object, object>, IDictionary<object, object>>
+            (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
+
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type expectationType = config.GetExpectationType(context);
@@ -51,14 +57,14 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSubjectIsNotNull(object subject)
         {
-            return subject != null || AssertionScope.Current
+            return AssertionScope.Current
                 .ForCondition(!(subject is null))
                 .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
         {
-            return expectation != null || AssertionScope.Current
+            return AssertionScope.Current
                 .ForCondition(!(expectation is null))
                 .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
         }
@@ -159,9 +165,6 @@ namespace FluentAssertions.Equivalency
             return GetIDictionaryInterfaces(expectedType).Single();
         }
 
-        private static readonly MethodInfo AssertSameLengthMethod = new Func<IDictionary<object, object>, IDictionary<object, object>, bool>
-            (AssertSameLength).GetMethodInfo().GetGenericMethodDefinition();
-
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
             where TExpectedKey : TSubjectKey
@@ -237,9 +240,6 @@ namespace FluentAssertions.Equivalency
 
             AssertDictionaryEquivalenceMethod.MakeGenericMethod(typeArguments).Invoke(null, new[] { context, parent, config, context.Subject, context.Expectation });
         }
-
-        private static readonly MethodInfo AssertDictionaryEquivalenceMethod = new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions, IDictionary<object, object>, IDictionary<object, object>>
-            (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
 
         private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             EquivalencyValidationContext context,

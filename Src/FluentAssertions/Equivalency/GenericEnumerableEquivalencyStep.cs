@@ -10,6 +10,9 @@ namespace FluentAssertions.Equivalency
 {
     public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
+        private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
+            (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
+
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
         /// </summary>
@@ -37,14 +40,11 @@ namespace FluentAssertions.Equivalency
 
             var interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
-            if (interfaceTypes.Length != 1)
-            {
-                AssertionScope.Current
-                    .ForCondition(interfaceTypes.Length == 1)
-                    .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
-                              "to use for asserting the equivalency of the collection. ",
-                              interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">").ToList());
-            }
+            AssertionScope.Current
+                .ForCondition(interfaceTypes.Length == 1)
+                .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
+                    "to use for asserting the equivalency of the collection. ",
+                    interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
             if (AssertSubjectIsCollection(context.Expectation, context.Subject))
             {
@@ -71,15 +71,12 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
-            (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
-
         private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
             => validator.Execute(subject, expectation?.ToArray());
 
         private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
-            bool conditionMet = subject != null || AssertionScope.Current
+            bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
                 .FailWith("Expected {context:subject} not to be {0}.", new object[] {null});
 
