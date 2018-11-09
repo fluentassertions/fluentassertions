@@ -937,7 +937,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of waitTime must be positive*");
+                .WithMessage("* value of waitTime must be non-negative*");
         }
 
         [Fact]
@@ -960,7 +960,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of pollInterval must be positive*");
+                .WithMessage("* value of pollInterval must be non-negative*");
         }
 
         [Fact]

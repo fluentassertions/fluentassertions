@@ -142,17 +142,18 @@ namespace FluentAssertions.Specialized
             FailIfSubjectIsAsyncVoid();
 
             if(waitTime < TimeSpan.Zero)
-                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
 
             if(pollInterval < TimeSpan.Zero)
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
 
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
 
             var watch = Stopwatch.StartNew();
 
-            using(var waiter = new ManualResetEvent(false)) {
+            using(var waiter = new ManualResetEvent(false))
+            {
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
                     exception = InvokeSubjectWithInterception();
