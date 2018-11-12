@@ -249,6 +249,16 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IReadOnlyDictionary{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> ShouldReadOnlyDictionary<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
         /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
         /// current <see cref="DateTime"/>.
         /// </summary>

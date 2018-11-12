@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("FluentAssertions")]
@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("5.0.1.0")]
-[assembly: AssemblyFileVersion("5.0.1.0")]
+[assembly: AssemblyVersion("5.5.1.0")]
+[assembly: AssemblyFileVersion("5.5.1.0")]
 
-[assembly: AssemblyInformationalVersion("5.0.1-FixDogfoodingIssues.1+31.Branch.FixDogfoodingIssues.Sha.b5ae1579b92eb1b76f74c6ed3c49cf67a2eeb542")]
+[assembly: AssemblyInformationalVersion("5.5.1-read-only-dictionary.1+2.Branch.read_only_dictionary.Sha.ad5aa058d3bfd09ce1a8bcf7e8f1affd84745de3")]
