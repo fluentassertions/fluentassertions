@@ -635,7 +635,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain {1}{reason}, but not found.", Subject, expected);
 
-            return new StringContainmentConstraints(this, expected, "contain", StringComparison.Ordinal);
+            return new StringContainmentConstraints(Subject, expected, "contain", StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -667,7 +667,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}, but not found.", Subject, expected);
 
-            return new StringContainmentConstraints(this, expected, "contain equivalent of", StringComparison.CurrentCultureIgnoreCase);
+            return new StringContainmentConstraints(Subject, expected, "contain equivalent of", StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <summary>

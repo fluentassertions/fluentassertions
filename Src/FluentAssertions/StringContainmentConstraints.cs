@@ -10,9 +10,8 @@ namespace FluentAssertions
         private readonly StringComparison comparison;
         private int? occurrences;
 
-        public StringContainmentConstraints(StringAssertions parentConstraint, string expected, string containmentMode,
-            StringComparison comparison) :
-            base(parentConstraint.Subject)
+        public StringContainmentConstraints(string subject, string expected, string containmentMode, StringComparison comparison)
+            : base(subject)
         {
             this.comparison = comparison;
             Expected = expected;
@@ -46,29 +45,23 @@ namespace FluentAssertions
             "less than",
             (occuredTimes, expectedTimes) => occuredTimes < expectedTimes);
 
-        internal int Occurrences
+        internal int Occurrences => (occurrences ?? (occurrences = CountOccurrences())).Value;
+
+        private int CountOccurrences()
         {
-            get
+            string actual = Subject ?? "";
+            string substring = Expected ?? "";
+
+            int count = 0;
+            int index = 0;
+
+            while ((index = actual.IndexOf(substring, index, comparison)) >= 0)
             {
-                if (!occurrences.HasValue)
-                {
-                    string actual = Subject ?? "";
-                    string substring = Expected ?? "";
-
-                    int count = 0;
-                    int index = 0;
-
-                    while ((index = actual.IndexOf(substring, index, comparison)) >= 0)
-                    {
-                        index += substring.Length;
-                        count++;
-                    }
-
-                    occurrences = count;
-                }
-
-                return occurrences.Value;
+                index += substring.Length;
+                count++;
             }
+
+            return count;
         }
 
         public AndConstraint<StringContainmentConstraints> Once(string because = "", params object[] becauseArgs) =>
