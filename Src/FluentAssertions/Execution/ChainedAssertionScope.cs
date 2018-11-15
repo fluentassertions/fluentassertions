@@ -62,7 +62,9 @@ namespace FluentAssertions.Execution
 
         public Continuation ClearExpectation()
         {
-            return predecessor.ClearExpectation();
+            predecessor.ClearExpectation();
+
+            return new Continuation(predecessor, predecessorSucceeded);
         }
 
         public IAssertionScope WithExpectation(string message, params object[] args)

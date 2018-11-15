@@ -583,6 +583,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var items = new[]
+            {
+                new int[0],
+                new int[] { 42 }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            items.Should().BeEquivalentTo(
+                new int[] { 42 },
+                new int[0]
+            );
+        }
+
+        [Fact]
         public void
             When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw
             ()
