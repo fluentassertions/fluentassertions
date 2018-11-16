@@ -643,6 +643,16 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
+        /// current <see><cref>System.Func{Task{T}}</cref></see>.
+        /// </summary>
+        [Pure]
+        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        {
+            return new AsyncFunctionAssertions(action, extractor);
+        }
+
+        /// <summary>
         /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
         /// current <see cref="System.Func{T}"/> .
         /// </summary>
@@ -651,6 +661,7 @@ namespace FluentAssertions
         {
             return new FunctionAssertions<T>(func, extractor);
         }
+        
 
 #if NET45 || NET47 || NETCOREAPP2_0
 
