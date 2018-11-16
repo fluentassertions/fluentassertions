@@ -25,8 +25,8 @@ namespace FluentAssertions.Equivalency.Selection
         {
             var matchingMembers =
                 from member in context.RuntimeType.GetNonPrivateMembers()
-                let memberPath = currentPath.Combine(member.Name)
-                where memberToInclude.IsSameAs(memberPath, member.DeclaringType) ||
+                let memberPath = new MemberPath(member.DeclaringType, currentPath.Combine(member.Name))
+                where memberToInclude.IsSameAs(memberPath) ||
                     memberToInclude.IsParentOrChildOf(memberPath)
                 select member;
 
