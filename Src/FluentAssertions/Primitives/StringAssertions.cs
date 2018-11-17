@@ -746,7 +746,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that a string does not contain another (fragment of a) string.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The (fragment of a) string that the current string should not contain.
         /// </param>
         /// <param name="because">
@@ -756,23 +756,23 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotContain(string expected, string because = "",
+        public AndConstraint<StringAssertions> NotContain(string unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (unexpected == null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(unexpected), "Cannot assert string containment against <null>.");
             }
 
-            if (expected.Length == 0)
+            if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(unexpected));
             }
 
             Execute.Assertion
-                .ForCondition(!Contains(Subject, expected, StringComparison.Ordinal))
+                .ForCondition(!Contains(Subject, unexpected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, expected);
+                .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
