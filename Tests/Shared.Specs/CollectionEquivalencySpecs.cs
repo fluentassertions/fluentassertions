@@ -303,6 +303,56 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_byte_array_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
+
+            var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*item[0]*6*1*");
+        }
+
+        [Fact]
+        public void When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                bytes = new byte[] { 1, 2, 3, 4, 5, 6 }
+            };
+
+            var expectation = new
+            {
+                bytes = new byte[] { 6, 5, 4, 3, 2, 1 }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*item[0]*6*1*");
+        }
+
+        [Fact]
         public void When_a_collection_does_not_match_it_should_include_items_in_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1077,6 +1127,54 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_unordered_collection_must_be_strict_using_a_predicate_and_order_was_reset_to_not_strict_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options =>
+                options
+                    .WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection"))
+                    .WithoutStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1129,6 +1227,56 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_unordered_collection_must_be_strict_using_an_expression_and_order_is_reset_to_not_strict_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action =
+                () =>
+                    subject.Should().BeEquivalentTo(expectation,
+                        options => options
+                            .WithStrictOrderingFor(s => s.UnorderedCollection)
+                            .WithoutStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1173,6 +1321,56 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 1, 2 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 2, 1 }
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+                .WithStrictOrdering()
+                .WithoutStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection"))
+                .WithStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*Expected item[0].UnorderedCollection[0] to be 2, but found 1.*Expected item[0].UnorderedCollection[1] to be 1, but found 2*");
         }
 
         [Fact]
@@ -2588,6 +2786,114 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
+        }
+
+        [Fact]
+        public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_strict_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                }
+            };
+
+            var expectation = new Collection<Customer>
+            {
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                },
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(
+                expectation,
+                options => options
+                    .WithStrictOrdering()
+                    .WithoutStrictOrdering()
+                    .WithStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
+        }
+
+        [Fact]
+        public void
+            When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed
+            ()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                }
+            };
+
+            var expectation = new Collection<Customer>
+            {
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                },
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, x => x.WithStrictOrdering().WithoutStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
         }
 
         [Fact]

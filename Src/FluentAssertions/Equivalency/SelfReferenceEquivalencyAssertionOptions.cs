@@ -435,6 +435,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithStrictOrdering()
         {
+            orderingRules.Clear();
             orderingRules.Add(new MatchAllOrderingRule());
             return (TSelf)this;
         }
@@ -446,6 +447,15 @@ namespace FluentAssertions.Equivalency
         public TSelf WithStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate));
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        ///     Causes all collections to be compared ignoring the order in which the items appear in the expectation.
+        /// </summary>
+        public TSelf WithoutStrictOrdering()
+        {
+            orderingRules.Clear();
             return (TSelf)this;
         }
 
