@@ -50,7 +50,7 @@ namespace FluentAssertions.Equivalency
         {
             return GetEnumerator();
         }
-        
+
         public void Add(IOrderingRule rule)
         {
             rules.Add(rule);
