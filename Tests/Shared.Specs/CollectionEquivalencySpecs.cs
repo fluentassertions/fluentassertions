@@ -303,7 +303,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_byte_array_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+        public void When_a_byte_array_does_not_match_strictly_and_order_is_not_strict_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -320,12 +320,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[0]*6*1*");
+            action.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+        public void When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -348,8 +347,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[0]*6*1*");
+            action.Should().NotThrow();
         }
 
         [Fact]
