@@ -451,11 +451,13 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///     Causes all collections to be compared ignoring the order in which the items appear in the expectation.
+        ///     Causes all collections - except bytes - to be compared ignoring the order in which the items appear in the expectation.
+        ///     To ignore the order of bytes use <seealso cref="WithoutStrictOrderingForBytes"/>.
         /// </summary>
         public TSelf WithoutStrictOrdering()
         {
             orderingRules.Clear();
+            orderingRules.Add(new ByteArrayOrderingRule());
             return (TSelf)this;
         }
 
@@ -470,6 +472,19 @@ namespace FluentAssertions.Equivalency
                 Invert = true
             });
 
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        ///     Causes collections of bytes to be be compared ignoring the order in which the bytes appear in the expectation.
+        /// </summary>
+        public TSelf WithoutStrictOrderingForBytes()
+        {
+            foreach(var byteArrayOrderingRule in orderingRules.OfType<ByteArrayOrderingRule>().ToList())
+            {
+                orderingRules.Remove(byteArrayOrderingRule);
+            }
+            
             return (TSelf)this;
         }
 
