@@ -114,6 +114,7 @@ namespace FluentAssertions.Specialized
             }
         }
 
+#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
         /// <summary>
         /// Asserts that the current <see cref="Action"/> stops throwing any exception
         /// after a specified amount of time.
@@ -165,6 +166,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 	}
+#endif
 
         private Exception InvokeSubjectWithInterception()
         {
