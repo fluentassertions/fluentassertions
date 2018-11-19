@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using System.Threading;
 using FluentAssertions.Common;
 
 #endregion
@@ -132,7 +131,7 @@ namespace FluentAssertions.Execution
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);
-                string reason = localReason != null ? localReason() : "";
+                string reason = localReason?.Invoke() ?? "";
                 string identifier = GetIdentifier();
 
                 return messageBuilder.Build(message, args, reason, contextData, identifier, fallbackIdentifier);
@@ -166,7 +165,7 @@ namespace FluentAssertions.Execution
             {
                 if (!succeeded.HasValue || !succeeded.Value)
                 {
-                    string localReason = reason != null ? reason() : "";
+                    string localReason = reason?.Invoke() ?? "";
                     var messageBuilder = new MessageBuilder(useLineBreaks);
                     string identifier = GetIdentifier();
                     var failReason = failReasonFunc();

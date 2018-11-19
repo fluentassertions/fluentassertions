@@ -88,14 +88,14 @@ namespace FluentAssertions.Equivalency
             return sameDimensions;
         }
 
-        private static bool HaveSameRank(object expectation, Array subject)
+        private static bool HaveSameRank(object subject, Array expectation)
         {
-            var expectationAsArray = (Array)expectation;
+            var subjectAsArray = (Array)subject;
 
             return AssertionScope.Current
-                .ForCondition(subject.Rank == expectationAsArray.Rank)
-                .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectationAsArray.Rank,
-                    subject.Rank);
+                .ForCondition(subjectAsArray.Rank == expectation.Rank)
+                .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank,
+                    subjectAsArray.Rank);
         }
     }
 

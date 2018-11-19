@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Net40.Specs
+namespace FluentAssertions.Specs
 {
     public class AggregateExceptionAssertionSpecs
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FluentAssertions.Execution;
 using System.Linq;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {

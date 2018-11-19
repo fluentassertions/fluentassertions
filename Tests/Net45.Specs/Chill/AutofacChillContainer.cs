@@ -1,8 +1,6 @@
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
-using Chill;
-using System;
 
 namespace Chill.Autofac
 {

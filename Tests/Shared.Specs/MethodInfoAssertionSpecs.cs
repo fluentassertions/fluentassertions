@@ -1,9 +1,9 @@
-﻿using FluentAssertions.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 

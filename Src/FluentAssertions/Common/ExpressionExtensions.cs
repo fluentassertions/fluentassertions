@@ -5,10 +5,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Common
 {
-    public static class ExpressionExtensions
+    internal static class ExpressionExtensions
     {
         public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
@@ -79,9 +80,12 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Gets a dotted path of property names representing the property expression. E.g. Parent.Child.Sibling.Name.
+        /// Gets a dotted path of property names representing the property expression, including the declaring type.
         /// </summary>
-        public static string GetMemberPath<TDeclaringType, TPropertyType>(
+        /// <example>
+        /// E.g. Parent.Child.Sibling.Name.
+        /// </example>
+        public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
             this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
             if (expression == null)
@@ -90,6 +94,7 @@ namespace FluentAssertions.Common
             }
 
             var segments = new List<string>();
+            var declaringTypes = new List<Type>();
             Expression node = expression;
 
             var unsupportedExpressionMessage = $"Expression <{expression.Body}> cannot be used to select a member.";
@@ -113,6 +118,7 @@ namespace FluentAssertions.Common
                         node = memberExpression.Expression;
 
                         segments.Add(memberExpression.Member.Name);
+                        declaringTypes.Add(memberExpression.Member.DeclaringType);
                         break;
 
                     case ExpressionType.ArrayIndex:
@@ -144,9 +150,13 @@ namespace FluentAssertions.Common
                 }
             }
 
+            // If any members were accessed in the expression, the first one found is the last member.
+            Type declaringType = declaringTypes.FirstOrDefault( ) ?? typeof(TDeclaringType);
+
             string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
             string segmentPath = string.Join(".", reversedSegments);
-            return segmentPath.Replace(".[", "[");
+
+            return new MemberPath(declaringType, segmentPath.Replace(".[", "["));
         }
 
         internal static string GetMethodName(Expression<Action> action)

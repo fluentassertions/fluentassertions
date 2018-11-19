@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -178,9 +179,9 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the object is not of the specified type <paramref name="expectedType"/>.
+        /// Asserts that the object is not of the specified type <paramref name="unexpectedType"/>.
         /// </summary>
-        /// <param name="expectedType">
+        /// <param name="unexpectedType">
         /// The type that the subject is not supposed to be of.
         /// </param>
         /// <param name="because">
@@ -190,15 +191,23 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", expectedType);
+                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
 
-            Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
+            Type subjectType = Subject.GetType();
+            if (unexpectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            {
+                subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
+            }
+            else
+            {
+                subjectType.Should().NotBe(unexpectedType, because, becauseArgs);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -238,8 +247,18 @@ namespace FluentAssertions.Primitives
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
 
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject.GetType());
+            }
+
             Execute.Assertion
-                .ForCondition(type.IsAssignableFrom(Subject.GetType()))
+                .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.",
@@ -276,8 +295,18 @@ namespace FluentAssertions.Primitives
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
 
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject.GetType());
+            }
+
             Execute.Assertion
-                .ForCondition(!type.IsAssignableFrom(Subject.GetType()))
+                .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to not be assignable to {0}{reason}, but {1} is.",

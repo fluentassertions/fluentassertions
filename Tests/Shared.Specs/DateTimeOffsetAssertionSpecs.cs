@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions.Common;
 using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -355,7 +354,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).AddDays(2);
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -404,9 +403,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var specificDate = 1.May(2008).At(6, 32);
 
-            var dateWithFiveHourOffset = new DateTimeOffset(specificDate.Add(-5.Hours()), -5.Hours());
+            var dateWithFiveHourOffset = new DateTimeOffset(specificDate - 5.Hours(), -5.Hours());
 
-            var dateWithSixHourOffset = new DateTimeOffset(specificDate.Add(-6.Hours()), -6.Hours());
+            var dateWithSixHourOffset = new DateTimeOffset(specificDate - 6.Hours(), -6.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -926,7 +925,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = DateTimeOffset.MinValue.Add(50.Milliseconds());
+            DateTimeOffset time = DateTimeOffset.MinValue + 50.Milliseconds();
             DateTimeOffset nearbyTime = DateTimeOffset.MinValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -946,7 +945,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = DateTimeOffset.MinValue.Add(50.Milliseconds());
+            DateTimeOffset time = DateTimeOffset.MinValue + 50.Milliseconds();
             DateTimeOffset nearbyTime = DateTimeOffset.MinValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -971,7 +970,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = DateTimeOffset.MaxValue.Add(-50.Milliseconds());
+            DateTimeOffset time = DateTimeOffset.MaxValue - 50.Milliseconds();
             DateTimeOffset nearbyTime = DateTimeOffset.MaxValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -991,7 +990,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = DateTimeOffset.MaxValue.Add(-50.Milliseconds());
+            DateTimeOffset time = DateTimeOffset.MaxValue - 50.Milliseconds();
             DateTimeOffset nearbyTime = DateTimeOffset.MaxValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1019,7 +1018,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset earlierDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero).AddMinutes(5);
+            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1039,7 +1038,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset earlierDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero).AddMinutes(5);
+            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2749,7 +2748,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(2.October(2009), 0.Hours());
-            DateTimeOffset subject = target.AddDays(-1);
+            DateTimeOffset subject = target - 1.Days();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2774,7 +2773,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(2.October(2009));
-            DateTimeOffset subject = target.AddHours(-25);
+            DateTimeOffset subject = target - 25.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2789,7 +2788,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(2.October(2009), 0.Hours());
-            DateTimeOffset subject = target.AddHours(-23);
+            DateTimeOffset subject = target - 23.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2814,7 +2813,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(2.October(2009));
-            DateTimeOffset subject = target.AddHours(-24);
+            DateTimeOffset subject = target - 24.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2870,7 +2869,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(10.April(2010).At(12, 0), 0.Hours());
-            DateTimeOffset subject = target.AddHours(-50).AddSeconds(-1);
+            DateTimeOffset subject = target - 50.Hours() - 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2897,7 +2896,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(10.April(2010));
-            DateTimeOffset subject = target.AddDays(-1);
+            DateTimeOffset subject = target - 1.Days();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2912,7 +2911,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(10.April(2010));
-            DateTimeOffset subject = target.AddHours(-23);
+            DateTimeOffset subject = target - 23.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2955,7 +2954,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(1.January(1).At(12, 0, 30), 1.Hours());
-            DateTimeOffset subject = target.AddSeconds(30);
+            DateTimeOffset subject = target + 30.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2981,7 +2980,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTimeOffset(1.January(1).At(12, 0, 30));
-            DateTimeOffset subject = target.AddSeconds(20);
+            DateTimeOffset subject = target + 20.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2997,7 +2996,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset yesterday = new DateTime(2016, 06, 04).AddDays(-1);
+            DateTimeOffset yesterday = new DateTime(2016, 06, 03);
             DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -3028,7 +3027,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(value.AddDays(1), value.AddHours(4));
+            Action action = () => value.Should().BeOneOf(value + 1.Days(), value + 4.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3052,16 +3051,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(new[] { value.AddDays(1), value.AddMonths(1) }, "because it's true");
+            Action action = () => value.Should().BeOneOf(new[] { value + 1.Days(), value + 2.Days() }, "because it's true");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                "Expected the date and time to be one of {<2017-01-01 +1h>, <2017-01-31 +1h>} because it's true, but it was <2016-12-31 +1h>.");
+                "Expected the date and time to be one of {<2017-01-01 +1h>, <2017-01-02 +1h>} because it's true, but it was <2016-12-31 +1h>.");
 #else
-                "Expected value to be one of {<2017-01-01 +1h>, <2017-01-31 +1h>} because it's true, but it was <2016-12-31 +1h>.");
+                "Expected value to be one of {<2017-01-01 +1h>, <2017-01-02 +1h>} because it's true, but it was <2016-12-31 +1h>.");
 #endif
         }
 

@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -1189,6 +1189,51 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_including_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var b1 = new ClassThatHidesBaseClassProperty();
+            var b2 = new ClassThatHidesBaseClassProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            b1.Should().BeEquivalentTo(b2, config => config.Including(b => b.Property));
+        }
+
+        [Fact]
+        public void When_excluding_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var b1 = new ClassThatHidesBaseClassProperty();
+            var b2 = new ClassThatHidesBaseClassProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("Expected member Property*-*-*-*-*but*");
+        }
+
+        class ClassWithGuidProperty
+        {
+            public string Property { get; set; } = Guid.NewGuid().ToString();
+        }
+
+        class ClassThatHidesBaseClassProperty: ClassWithGuidProperty
+        {
+            public new string[] Property { get; set; }
         }
 
         [Fact]
@@ -2581,7 +2626,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected*<1973-09-20>*\"1973-09-20\"*");
+            act.Should().Throw<XunitException>().Which.Message
+                .Should().Match("Expected*<1973-09-20>*\"1973-09-20\"*", "{0} field is of mismatched type", nameof(expectation.Birthdate))
+                .And.Subject.Should().Match("*Try conversion of all members*", "conversion description should be present")
+                .And.Subject.Should().NotMatch("*Try conversion of all members*Try conversion of all members*", "conversion description should not be duplicated");
         }
 
         [Fact]
@@ -2686,7 +2734,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*");
+                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*Without automatic conversion*");
         }
 
         [Fact]
@@ -2786,10 +2834,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected member Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)*");
+            act.Should().Throw<XunitException>().Which.Message
+                // Checking exception message exactly is against general guidelines
+                // but in that case it was done on purpose, so that we have at least single
+                // test confirming that whole mechanism of gathering description from
+                // equivalency steps works.
+                .Should().MatchRegex(@"^Expected member Level\.Text to be ""Level2"", but ""Level1"" differs near ""1"" \(index 5\)\.[\r\n]+With configuration:[\r\n]+\- Use declared types and members[\r\n]+\- Compare enums by value[\r\n]+\- Match member by name \(or throw\)[\r\n]+\- Without automatic conversion\.[\r\n]+\- Be strict about the order of items in byte arrays[\r\n]+$");
         }
 
         [Fact]
@@ -3347,7 +3397,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var instance1 = new SelfReturningEnumerable();
             var instance2 = new SelfReturningEnumerable();
-            var actual = new List<SelfReturningEnumerable> {instance1, instance2};
+            var actual = new List<SelfReturningEnumerable> { instance1, instance2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3588,7 +3638,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
-            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two};
+            var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

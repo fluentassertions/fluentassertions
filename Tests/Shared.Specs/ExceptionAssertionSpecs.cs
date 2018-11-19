@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Xunit;
 using Xunit.Sdk;
-using FakeItEasy;
-using FluentAssertions.Extensions;
+
+using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
 namespace FluentAssertions.Specs
 {
@@ -23,7 +23,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
                 throw new XunitException("This point should not be reached.");
             }
@@ -32,7 +32,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Match("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
+                ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.ArgumentNullException.");
             }
         }
 
@@ -58,8 +58,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some message"));
+            Does testSubject = Does.Throw(new InvalidOperationException("some message"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -73,8 +72,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some"));
+            Does testSubject = Does.Throw(new InvalidOperationException("some"));
 
             try
             {
@@ -104,8 +102,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("expected message"));
+            Does testSubject = Does.Throw(new InvalidOperationException("expected message"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -125,8 +122,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("OxpectOd message"));
+            Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -149,8 +145,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("Expected Message"));
+            Does testSubject = Does.Throw(new InvalidOperationException("Expected Message"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -170,8 +165,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("OxpectOd message"));
+            Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -194,8 +188,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = A.Fake<IFoo>();
-            A.CallTo(() => subjectThatThrows.Do()).Throws(new InvalidOperationException("message1"));
+            Does subjectThatThrows = Does.Throw(new InvalidOperationException("message1"));
 
             try
             {
@@ -225,8 +218,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = A.Fake<IFoo>();
-            A.CallTo(() => subjectThatThrows.Do()).Throws(new InvalidOperationException(""));
+            Does subjectThatThrows = Does.Throw(new InvalidOperationException(""));
 
             try
             {
@@ -256,9 +248,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = A.Fake<IFoo>();
-            A.CallTo(() => subjectThatThrows.Do(A<string>.Ignored))
-                .Throws(new ArgumentNullException("someParam", "message2"));
+            Does subjectThatThrows = Does.Throw(new ArgumentNullException("someParam", "message2"));
 
             try
             {
@@ -290,12 +280,12 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
                 //-----------------------------------------------------------------------------------------------------------
-                IFoo testSubject = A.Fake<IFoo>();
+                Does testSubject = Does.NotThrow();
 
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>("because {0} should do that", "IFoo.Do");
+                testSubject.Invoking(x => x.Do()).Should().Throw<Exception>("because {0} should do that", "Does.Do");
 
                 throw new XunitException("This point should not be reached");
             }
@@ -305,7 +295,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected a <System.Exception> to be thrown because IFoo.Do should do that, but no exception was thrown.");
+                    "Expected a <System.Exception> to be thrown because Does.Do should do that, but no exception was thrown.");
             }
         }
 
@@ -317,8 +307,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var actualException = new ArgumentException();
 
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(actualException);
+            Does testSubject = Does.Throw(actualException);
 
             try
             {
@@ -327,7 +316,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
-                    .Should().Throw<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
+                    .Should().Throw<InvalidOperationException>("because {0} should throw that one", "Does.Do");
 
                 throw new XunitException("This point should not be reached");
             }
@@ -337,7 +326,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should throw that one, but found a <System.ArgumentException>:");
+                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found a <System.ArgumentException>:");
 
                 ex.Message.Should().Contain(actualException.Message);
             }
@@ -349,9 +338,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = A.Fake<IFoo>();
-            A.CallTo(() => subjectThatThrows.Do(A<string>.Ignored))
-                .Throws(new Exception("message with {}"));
+            Does subjectThatThrows = Does.Throw(new Exception("message with {}"));
 
             try
             {
@@ -381,10 +368,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do())
-                .Throws(new AggregateException("Outer Message",
-                    new Exception("Inner Message")));
+            Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -410,8 +394,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new ArgumentException()));
+            Does testSubject = Does.Throw(new Exception("", new ArgumentException()));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -529,8 +512,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var innerException = new NullReferenceException();
 
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", innerException));
+            Does testSubject = Does.Throw(new Exception("", innerException));
 
             try
             {
@@ -540,7 +522,7 @@ namespace FluentAssertions.Specs
                 testSubject
                     .Invoking(x => x.Do())
                     .Should().Throw<Exception>()
-                    .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
+                    .WithInnerException<ArgumentException>("because {0} should do just that", "Does.Do");
 
                 throw new XunitException("This point should not be reached");
             }
@@ -550,7 +532,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().StartWith(
-                    "Expected inner System.ArgumentException because IFoo.Do should do just that, but found System.NullReferenceException");
+                    "Expected inner System.ArgumentException because Does.Do should do just that, but found System.NullReferenceException");
 
                 exc.Message.Should().Contain(innerException.Message);
             }
@@ -561,8 +543,7 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
+                Does testSubject = Does.Throw<Exception>();
 
                 testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
                     .WithInnerException<InvalidOperationException>();
@@ -583,18 +564,17 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
+                Does testSubject = Does.Throw<Exception>();
 
                 testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
-                    .WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                    .WithInnerException<InvalidOperationException>("because {0} should do that", "Does.Do");
 
                 throw new XunitException("This point should not be reached");
             }
             catch (XunitException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner System.InvalidOperationException because IFoo.Do should do that, but the thrown exception has no inner exception.");
+                    "Expected inner System.InvalidOperationException because Does.Do should do that, but the thrown exception has no inner exception.");
             }
         }
 
@@ -627,8 +607,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             const string SomeParamNameValue = "param";
-            var target = A.Fake<IFoo>();
-            A.CallTo(() => target.Do()).Throws(new ExceptionWithProperties(SomeParamNameValue));
+            Does target = Does.Throw(new ExceptionWithProperties(SomeParamNameValue));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -647,9 +626,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(
-                new InvalidOperationException("message", new ArgumentException("inner message")));
+            Does testSubject = Does.Throw(new InvalidOperationException("message", new ArgumentException("inner message")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -745,7 +722,7 @@ namespace FluentAssertions.Specs
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
             }
-                catch (Exception exc)
+            catch (Exception exc)
             {
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
@@ -776,9 +753,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do())
-                .Throws(new AggregateException(new Exception(), new Exception()));
+            Does testSubject = Does.Throw(new AggregateException(new Exception(), new Exception()));
             Action throwingMethod = testSubject.Do;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -825,8 +800,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
-            A.CallTo(() => foo.Do()).Throws(new ArgumentException("An exception was forced"));
+            Does foo = Does.Throw(new ArgumentException("An exception was forced"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -849,8 +823,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
-            A.CallTo(() => foo.Do()).Throws(new ArgumentException());
+            Does foo = Does.Throw<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -864,8 +837,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
-            A.CallTo(() => foo.Do()).Throws(new ArgumentException("An exception was forced"));
+            Does foo = Does.Throw(new ArgumentException("An exception was forced"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -887,7 +859,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = A.Fake<IFoo>();
+            Does foo = Does.NotThrow();
+
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -1039,11 +1012,47 @@ namespace FluentAssertions.Specs
         }
     }
 
-    public interface IFoo
+    public abstract class Does
     {
-        void Do();
+        public abstract void Do();
 
-        void Do(string someParam);
+        public abstract void Do(string someParam);
+
+        public static Does Throw<TException>(TException exception)
+            where TException : Exception
+        {
+            return new DoesThrow<TException>(exception);
+        }
+
+        public static Does Throw<TException>()
+            where TException : Exception, new()
+        {
+            return Throw(new TException());
+        }
+
+        public static Does NotThrow() => new DoesNotThrow();
+
+        private class DoesThrow<TException> : Does
+            where TException : Exception
+        {
+            private readonly TException exception;
+
+            public DoesThrow(TException exception)
+            {
+                this.exception = exception;
+            }
+
+            public override void Do() => throw exception;
+
+            public override void Do(string someParam) => throw exception;
+        }
+
+        private class DoesNotThrow : Does
+        {
+            public override void Do() { }
+
+            public override void Do(string someParam) { }
+        }
     }
 
     internal class ExceptionWithProperties : Exception

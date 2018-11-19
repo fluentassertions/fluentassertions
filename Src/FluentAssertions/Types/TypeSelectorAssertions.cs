@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-
-using FluentAssertions.Execution;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
 {

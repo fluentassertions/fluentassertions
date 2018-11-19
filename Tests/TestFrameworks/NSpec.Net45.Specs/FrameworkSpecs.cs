@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using NSpec;
 
 namespace NSpec.Specs
 {

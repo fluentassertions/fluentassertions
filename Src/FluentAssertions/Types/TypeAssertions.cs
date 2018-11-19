@@ -81,8 +81,18 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject);
+            }
+
             Execute.Assertion
-                .ForCondition(type.IsAssignableFrom(Subject))
+                .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Identifier + "} {0} to be assignable to {1}{reason}, but it is not.",
@@ -113,8 +123,18 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
+            bool isAssignable;
+            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isAssignable = Subject.IsAssignableToOpenGeneric(type);
+            }
+            else
+            {
+                isAssignable = type.IsAssignableFrom(Subject);
+            }
+
             Execute.Assertion
-                .ForCondition(!type.IsAssignableFrom(Subject))
+                .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Identifier + "} {0} to not be assignable to {1}{reason}, but it is.",
@@ -139,8 +159,8 @@ namespace FluentAssertions.Types
                 return "";
             }
 
-            string expectedType = (expected != null) ? expected.FullName : "<null>";
-            string actualType = (actual != null) ? actual.FullName : "<null>";
+            string expectedType = expected?.FullName ?? "<null>";
+            string actualType = actual?.FullName ?? "<null>";
 
             if (expectedType == actualType)
             {
@@ -471,7 +491,17 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
-            Execute.Assertion.ForCondition(Subject.GetTypeInfo().IsSubclassOf(baseType))
+            bool isDerivedFrom;
+            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
+            }
+            else
+            {
+                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
+            }
+
+            Execute.Assertion.ForCondition(isDerivedFrom)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be derived from {1}{reason}, but it is not.", Subject, baseType);
 
@@ -505,8 +535,18 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
+            bool isDerivedFrom;
+            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            {
+                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
+            }
+            else
+            {
+                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
+            }
+
             Execute.Assertion
-                .ForCondition(!Subject.GetTypeInfo().IsSubclassOf(baseType))
+                .ForCondition(!isDerivedFrom)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} not to be derived from {1}{reason}, but it is.", Subject, baseType);
 
@@ -1224,7 +1264,7 @@ namespace FluentAssertions.Types
             var typeInfo = Subject.GetTypeInfo();
             if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
             {
-               throw new InvalidOperationException($"{Subject} must be a class.");
+                throw new InvalidOperationException($"{Subject} must be a class.");
             }
         }
     }

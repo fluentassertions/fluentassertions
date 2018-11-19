@@ -52,8 +52,7 @@ namespace FluentAssertions.Equivalency
             object expected = context.Expectation;
             object subject = context.Subject;
 
-            bool onlyOneNull = ((expected == null) && (subject != null)) ||
-                               ((expected != null) && (subject == null));
+            bool onlyOneNull = (expected is null) ^ (subject is null);
 
             if (onlyOneNull)
             {

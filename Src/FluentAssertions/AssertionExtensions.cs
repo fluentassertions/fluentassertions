@@ -55,14 +55,27 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Provides methods for asserting the execution time of a method or property.
+        /// Provides methods for asserting the execution time of an action.
         /// </summary>
-        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+        /// <param name="action">An action to measure the execution time of.</param>
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Action action)
+        {
+            return new ExecutionTime(action);
+        }
+
+        /// <summary>
+        /// Provides methods for asserting the execution time of an async action.
+        /// </summary>
+        /// <param name="action">An async action to measure the execution time of.</param>
+        /// <returns>
+        /// Returns an object for asserting that the execution time matches certain conditions.
+        /// </returns>
+        [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
+        public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
             return new ExecutionTime(action);
         }
@@ -621,13 +634,34 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Func{T}"/> .
+        /// current <see cref="System.Func{Task}"/> .
         /// </summary>
         [Pure]
         public static AsyncFunctionAssertions Should(this Func<Task> action)
         {
             return new AsyncFunctionAssertions(action, extractor);
         }
+
+        /// <summary>
+        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
+        /// current <see><cref>System.Func{Task{T}}</cref></see>.
+        /// </summary>
+        [Pure]
+        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        {
+            return new AsyncFunctionAssertions(action, extractor);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="System.Func{T}"/> .
+        /// </summary>
+        [Pure]
+        public static FunctionAssertions<T> Should<T>(this Func<T> func)
+        {
+            return new FunctionAssertions<T>(func, extractor);
+        }
+        
 
 #if NET45 || NET47 || NETCOREAPP2_0
 

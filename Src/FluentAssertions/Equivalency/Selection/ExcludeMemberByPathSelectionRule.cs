@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
@@ -9,23 +10,25 @@ namespace FluentAssertions.Equivalency.Selection
     /// </summary>
     internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
     {
-        private readonly string pathToExclude;
+        private readonly MemberPath memberToExclude;
 
-        public ExcludeMemberByPathSelectionRule(string pathToExclude)
-            : base(pathToExclude)
+        public ExcludeMemberByPathSelectionRule(MemberPath pathToExclude)
+            : base(pathToExclude.ToString())
         {
-            this.pathToExclude = pathToExclude;
+            this.memberToExclude = pathToExclude;
         }
 
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
             string currentPath, IMemberInfo context)
         {
-            return selectedMembers.Where(memberInfo => currentPath.Combine(memberInfo.Name) != pathToExclude).ToArray();
+            return selectedMembers
+                .Where(memberInfo => !memberToExclude.IsSameAs(new MemberPath(memberInfo.DeclaringType, currentPath.Combine(memberInfo.Name))))
+                .ToArray();
         }
 
         public override string ToString()
         {
-            return "Exclude member root." + pathToExclude;
+            return "Exclude member root." + memberToExclude;
         }
     }
 }

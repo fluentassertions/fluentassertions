@@ -77,11 +77,12 @@ namespace FluentAssertions.Equivalency
             includeProperties = defaults.IncludeProperties;
             includeFields = defaults.IncludeFields;
 
+            ConversionSelector = defaults.ConversionSelector.Clone();
+
             selectionRules.AddRange(defaults.SelectionRules);
-            userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
+            userEquivalencySteps.AddRange(defaults.GetUserEquivalencySteps(ConversionSelector));
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
-            ConversionSelector = defaults.ConversionSelector.Clone();
 
             getDefaultEqualityStrategy = defaults.GetEqualityStrategy;
             TraceWriter = defaults.TraceWriter;
@@ -125,8 +126,8 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         ///     Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps =>
-            userEquivalencySteps.Concat(new[] { new TryConversionStep(ConversionSelector) });
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.GetUserEquivalencySteps(ConversionSelector convertionSelector) =>
+            userEquivalencySteps.Concat(new[] { new TryConversionStep(convertionSelector) });
 
         public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
 

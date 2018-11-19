@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
+using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
@@ -137,7 +138,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dateTime = DateTime.MinValue.AddMinutes(1);
+            var dateTime = DateTime.MinValue + 1.Minutes();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

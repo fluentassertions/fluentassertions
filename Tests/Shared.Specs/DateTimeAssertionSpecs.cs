@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -397,7 +395,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTime? nullableDateTimeB = new DateTime(2016, 06, 04).AddDays(2);
+            DateTime? nullableDateTimeB = new DateTime(2016, 06, 06);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -923,7 +921,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = DateTime.MinValue.Add(50.Milliseconds());
+            DateTime time = DateTime.MinValue + 50.Milliseconds();
             DateTime nearbyTime = DateTime.MinValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -943,7 +941,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = DateTime.MinValue.Add(50.Milliseconds());
+            DateTime time = DateTime.MinValue + 50.Milliseconds();
             DateTime nearbyTime = DateTime.MinValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -968,7 +966,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = DateTime.MaxValue.Add(-50.Milliseconds());
+            DateTime time = DateTime.MaxValue - 50.Milliseconds();
             DateTime nearbyTime = DateTime.MaxValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -988,7 +986,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = DateTime.MaxValue.Add(-50.Milliseconds());
+            DateTime time = DateTime.MaxValue - 50.Milliseconds();
             DateTime nearbyTime = DateTime.MaxValue;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1017,7 +1015,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime earlierDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04), DateTimeKind.Unspecified);
-            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04).AddMinutes(5), DateTimeKind.Utc);
+            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04, 0, 5, 0), DateTimeKind.Utc);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1037,7 +1035,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime earlierDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04), DateTimeKind.Unspecified);
-            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04).AddMinutes(5), DateTimeKind.Utc);
+            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04, 0, 5, 0), DateTimeKind.Utc);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1535,7 +1533,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected the date and time to be on or after <2016-06-05>, but found <2016-06-04>." );
+                .WithMessage("Expected the date and time to be on or after <2016-06-05>, but found <2016-06-04>.");
 #else
                 .WithMessage("Expected subject to be on or after <2016-06-05>, but found <2016-06-04>.");
 #endif
@@ -2671,7 +2669,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2009, 10, 2);
-            DateTime subject = target.AddDays(-1);
+            DateTime subject = target - 1.Days();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2692,7 +2690,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2009, 10, 2);
-            DateTime subject = target.AddHours(-25);
+            DateTime subject = target - 25.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2707,7 +2705,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2009, 10, 2);
-            DateTime subject = target.AddHours(-23);
+            DateTime subject = target - 23.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2728,7 +2726,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2009, 10, 2);
-            DateTime subject = target.AddHours(-24);
+            DateTime subject = target - 24.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2780,7 +2778,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2010, 4, 10, 12, 0, 0);
-            DateTime subject = target.AddHours(-50).AddSeconds(-1);
+            DateTime subject = target - 50.Hours() - 1.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2802,7 +2800,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2010, 4, 10);
-            DateTime subject = target.AddDays(-1);
+            DateTime subject = target - 1.Days();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2817,7 +2815,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(2010, 4, 10);
-            DateTime subject = target.AddHours(-23);
+            DateTime subject = target - 23.Hours();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2860,7 +2858,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(1, 1, 1, 12, 0, 30);
-            DateTime subject = target.AddSeconds(30);
+            DateTime subject = target + 30.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2882,7 +2880,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var target = new DateTime(1, 1, 1, 12, 0, 30);
-            DateTime subject = target.AddSeconds(20);
+            DateTime subject = target + 20.Seconds();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2929,7 +2927,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(value.AddDays(1), value.AddMilliseconds(1));
+            Action action = () => value.Should().BeOneOf(value + 1.Days(), value + 1.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2953,7 +2951,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(new[] { value.AddDays(1), value.AddMilliseconds(1) }, "because it's true");
+            Action action = () => value.Should().BeOneOf(new[] { value + 1.Days(), value + 1.Milliseconds() }, "because it's true");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

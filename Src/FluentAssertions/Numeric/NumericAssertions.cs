@@ -366,9 +366,9 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
-        /// Asserts that the object is not of the specified type <paramref name="expectedType"/>.
+        /// Asserts that the object is not of the specified type <paramref name="unexpectedType"/>.
         /// </summary>
-        /// <param name="expectedType">
+        /// <param name="unexpectedType">
         /// The type that the subject is not supposed to be of.
         /// </param>
         /// <param name="because">
@@ -378,9 +378,9 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> NotBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<NumericAssertions<T>> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
-            Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
+            Subject.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }

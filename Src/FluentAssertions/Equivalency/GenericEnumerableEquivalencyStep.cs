@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -61,7 +62,7 @@ namespace FluentAssertions.Equivalency
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null, null)),
-                    new[] { typeOfEnumeration },
+                    new[] {typeOfEnumeration},
                     subjectAsArray,
                     expectationAsArray);
 
@@ -82,16 +83,21 @@ namespace FluentAssertions.Equivalency
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
+                .FailWith("Expected {context:subject} not to be {0}.", new object[] {null});
 
             if (conditionMet)
             {
                 conditionMet = AssertionScope.Current
-                    .ForCondition(IsGenericCollection(subject.GetType()))
-                    .FailWith("Expected {context:Subject} to be {0}, but found {1}.", expectation, subject);
+                    .ForCondition(IsCollection(subject.GetType()))
+                    .FailWith("Expected {context:subject} to be a collection, but it was a {0}", subject.GetType());
             }
 
             return conditionMet;
+        }
+
+        private static bool IsCollection(Type type)
+        {
+            return !typeof(string).IsAssignableFrom(type) && typeof(IEnumerable).IsAssignableFrom(type);
         }
 
         private static bool IsGenericCollection(Type type)
@@ -120,7 +126,7 @@ namespace FluentAssertions.Equivalency
             return Expression.Call(
                 typeof(Enumerable),
                 "ToArray",
-                new[] { typeOfEnumeration },
+                new[] {typeOfEnumeration},
                 Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }

@@ -455,5 +455,60 @@ namespace FluentAssertions.Common
                    || openType == typeof(ValueTuple<,,,,,,>)
                    || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
         }
+
+        internal static bool IsAssignableToOpenGeneric(this Type type, Type definition)
+        {
+            // The CLR type system does not consider anything to be assignable to an open generic type.
+            // For the purposes of test assertions, the user probably means that the subject type is
+            // assignable to any generic type based on the given generic type definition.
+
+            if (definition.GetTypeInfo().IsInterface)
+            {
+                return type.IsImplementationOfOpenGeneric(definition);
+            }
+            else
+            {
+                return type.IsSameOrEqualTo(definition) || type.IsDerivedFromOpenGeneric(definition);
+            }
+        }
+
+        internal static bool IsImplementationOfOpenGeneric(this Type type, Type definition)
+        {
+            // check subject against definition
+            TypeInfo subjectInfo = type.GetTypeInfo();
+            if (subjectInfo.IsInterface && subjectInfo.IsGenericType &&
+                subjectInfo.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+            {
+                return true;
+            }
+
+            // check subject's interfaces against definition
+            return subjectInfo.ImplementedInterfaces
+                .Select(i => i.GetTypeInfo())
+                .Where(i => i.IsGenericType)
+                .Select(i => i.GetGenericTypeDefinition())
+                .Any(d => d.IsSameOrEqualTo(definition));
+        }
+
+        internal static bool IsDerivedFromOpenGeneric(this Type type, Type definition)
+        {
+            if (type.IsSameOrEqualTo(definition))
+            {
+                // do not consider a type to be derived from itself
+                return false;
+            }
+
+            // check subject and its base types against definition
+            for (TypeInfo baseType = type.GetTypeInfo(); baseType != null;
+                    baseType = baseType.BaseType?.GetTypeInfo())
+            {
+                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

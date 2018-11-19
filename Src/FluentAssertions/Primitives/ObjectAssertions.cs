@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Xml.Serialization;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -12,7 +9,6 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="object"/> is in the expected state.
     /// </summary>
-    [DebuggerNonUserCode]
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
         public ObjectAssertions(object value)

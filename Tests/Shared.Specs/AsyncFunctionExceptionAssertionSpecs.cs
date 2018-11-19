@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -191,6 +190,36 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_function_of_task_int_in_async_method_throws_the_expected_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Func<Task<int>> f = () => asyncObject.ThrowTaskIntAsync<ArgumentNullException>(true);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            f.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void When_function_of_task_int_in_async_method_throws_not_excepted_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+            Func<Task<int>> f = () => asyncObject.ThrowTaskIntAsync<InvalidOperationException>(true);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            f.Should().NotThrow<ArgumentNullException>();
+        }
+
+        [Fact]
         public async Task When_subject_throws_subclass_of_expected_async_exact_exception_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -284,7 +313,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentException>();
-                
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -530,6 +558,17 @@ namespace FluentAssertions.Specs
         public Task IncompleteTask()
         {
             return new TaskCompletionSource<bool>().Task;
+        }
+
+        public async Task<int> ThrowTaskIntAsync<TException>(bool throwException)
+            where TException : Exception, new()
+        {
+            if (throwException)
+            {
+                throw new TException();
+            }
+
+            return await Task.FromResult(123);
         }
     }
 }

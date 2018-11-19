@@ -2,8 +2,6 @@
 using Xunit;
 using Xunit.Sdk;
 
-using FakeItEasy;
-
 namespace FluentAssertions.Specs
 {
     public class ThrowAssertionsSpecs
@@ -14,8 +12,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException());
+            Does testSubject = Does.Throw<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -42,7 +39,7 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
+                Does testSubject = Does.NotThrow();
 
                 testSubject.Invoking(x => x.Do()).Should().Throw<Exception>();
 

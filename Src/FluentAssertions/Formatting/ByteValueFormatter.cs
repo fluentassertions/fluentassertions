@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-
-namespace FluentAssertions.Formatting
+﻿namespace FluentAssertions.Formatting
 {
     public class ByteValueFormatter : IValueFormatter
     {
