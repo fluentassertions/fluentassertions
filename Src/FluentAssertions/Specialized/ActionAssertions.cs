@@ -114,7 +114,7 @@ namespace FluentAssertions.Specialized
             }
         }
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD_1_6
         /// <summary>
         /// Asserts that the current <see cref="Action"/> stops throwing any exception
         /// after a specified amount of time.
@@ -156,8 +156,9 @@ namespace FluentAssertions.Specialized
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
                 exception = InvokeSubjectWithInterception();
-                if (exception is null)
+                if (exception is null) {
                     return;
+		}
 
                 Thread.Sleep(pollInterval);
                 invocationEndTime = watch.Elapsed;
