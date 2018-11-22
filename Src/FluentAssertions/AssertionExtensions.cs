@@ -689,7 +689,6 @@ namespace FluentAssertions
             return new FunctionAssertions<T>(func, extractor);
         }
 
-
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
         /// <summary>

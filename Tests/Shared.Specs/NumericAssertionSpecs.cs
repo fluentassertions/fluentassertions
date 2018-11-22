@@ -7,7 +7,6 @@ namespace FluentAssertions.Specs
     /// <summary>
     /// Summary description for CustomAssertionSpecs
     /// </summary>
-
     public class NumericAssertionSpecs
     {
         #region Positive / Negative

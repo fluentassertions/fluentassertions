@@ -140,7 +140,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type expectationType, object expectation)
         {
-            if(subject is ICollection subjectCollection
+            if (subject is ICollection subjectCollection
                 && expectation is ICollection expectationCollection
                 && subjectCollection.Count == expectationCollection.Count)
                 return true;
