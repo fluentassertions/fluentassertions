@@ -78,7 +78,7 @@ namespace FluentAssertions.Execution
             private set => current = value;
         }
 
-        public IAssertionScope UsingLineBreaks
+        public AssertionScope UsingLineBreaks
         {
             get
             {
@@ -92,7 +92,7 @@ namespace FluentAssertions.Execution
             get => succeeded.HasValue && succeeded.Value;
         }
 
-        public IAssertionScope BecauseOf(string because, params object[] becauseArgs)
+        public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
             reason = () =>
             {
@@ -125,7 +125,7 @@ namespace FluentAssertions.Execution
         /// </remarks>
         ///  <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
-        public IAssertionScope WithExpectation(string message, params object[] args)
+        public AssertionScope WithExpectation(string message, params object[] args)
         {
             var localReason = reason;
             expectation = () =>
@@ -152,7 +152,7 @@ namespace FluentAssertions.Execution
             return new GivenSelector<T>(selector, !succeeded.HasValue || succeeded.Value, this);
         }
 
-        public IAssertionScope ForCondition(bool condition)
+        public AssertionScope ForCondition(bool condition)
         {
             succeeded = condition;
 
@@ -266,10 +266,24 @@ namespace FluentAssertions.Execution
             }
         }
 
-        public IAssertionScope WithDefaultIdentifier(string identifier)
+        public AssertionScope WithDefaultIdentifier(string identifier)
         {
             fallbackIdentifier = identifier;
             return this;
         }
+
+        #region Explicit Implementation to support the interface
+
+        IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
+
+        IAssertionScope IAssertionScope.BecauseOf(string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
+
+        IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args) => WithExpectation(message, args);
+
+        IAssertionScope IAssertionScope.WithDefaultIdentifier(string identifier) => WithDefaultIdentifier(identifier);
+
+        IAssertionScope IAssertionScope.UsingLineBreaks => UsingLineBreaks;
+
+        #endregion
     }
 }

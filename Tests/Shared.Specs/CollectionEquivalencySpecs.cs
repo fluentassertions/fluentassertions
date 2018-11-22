@@ -720,6 +720,24 @@ namespace FluentAssertions.Specs
                 .WithMessage("*Customers[0].Name*John*Jane*");
         }
 
+
+        [Fact]
+        public void When_the_subject_is_a_non_generic_collection_it_should_still_work()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object item = new object();
+            object[] array = new[] { item };
+            IList readOnlyList = ArrayList.ReadOnly(array);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            readOnlyList.Should().BeEquivalentTo(array);
+        }
+
         [Fact]
         public void
             When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw
@@ -756,7 +774,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*member Customers to be {*Customer*{*Age*38*, but*Jane, John*");
+                    "Expected*Customers*collection*String*");
         }
 
         [Fact]
@@ -1815,30 +1833,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject not to be <null>*");
-        }
-
-        [Fact]
-        public void When_the_expectation_is_not_a_multi_dimensional_array_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var actual = new[,]
-            {
-                { 1, 2, 3 },
-                { 4, 5, 6 }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo("not-a-multi-dimensional-array");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected*not-a-multi-dimensional-array*but found {1, 2, 3, 4, 5, 6}*");
         }
 
         [Fact]
