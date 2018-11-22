@@ -28,9 +28,10 @@ namespace FluentAssertions.Equivalency
 
                 do
                 {
-                    object subject = ((Array)context.Subject).GetValue(digit.Indices);
-                    string listOfIndices = string.Join(",", digit.Indices);
-                    object expectation = expectationAsArray.GetValue(digit.Indices);
+                    int[] indices = digit.GetIndices();
+                    object subject = ((Array)context.Subject).GetValue(indices);
+                    string listOfIndices = string.Join(",", indices);
+                    object expectation = expectationAsArray.GetValue(indices);
                     IEquivalencyValidationContext itemContext = context.CreateForCollectionItem(
                         listOfIndices,
                         subject,
@@ -111,21 +112,18 @@ namespace FluentAssertions.Equivalency
             this.nextDigit = nextDigit;
         }
 
-        public int[] Indices
+        public int[] GetIndices()
         {
-            get
+            var indices = new List<int>();
+
+            Digit digit = this;
+            while (digit != null)
             {
-                var indices = new List<int>();
-
-                Digit digit = this;
-                while (digit != null)
-                {
-                    indices.Add(digit.index);
-                    digit = digit.nextDigit;
-                }
-
-                return indices.ToArray();
+                indices.Add(digit.index);
+                digit = digit.nextDigit;
             }
+
+            return indices.ToArray();
         }
 
         public bool Increment()

@@ -14,28 +14,27 @@ namespace FluentAssertions.Primitives
 
         protected override void ValidateAgainstMismatch()
         {
-            if (!IsMatch && !Negate)
+            bool isMatch = IsMatch();
+
+            if (!isMatch && !Negate)
             {
                 assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
             }
 
-            if (IsMatch && Negate)
+            if (isMatch && Negate)
             {
                 assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
             }
         }
 
-        private bool IsMatch
+        private bool IsMatch()
         {
-            get
-            {
-                var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+            var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
-                string input = CleanNewLines(subject);
-                string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
+            string input = CleanNewLines(subject);
+            string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
 
-                return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
-            }
+            return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
         }
 
         private string ConvertWildcardToRegEx(string wildcardExpression)
