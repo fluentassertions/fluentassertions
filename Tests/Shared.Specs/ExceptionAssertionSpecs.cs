@@ -870,7 +870,7 @@ namespace FluentAssertions.Specs
 #if !NETSTANDARD1_3 && !NETSTANDARD_1_6
         #pragma warning disable CS1998
         [Fact]
-        public void NotThrowAfter_when_subject_is_async_it_should_throw()
+        public void When_subject_is_async_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -892,7 +892,7 @@ namespace FluentAssertions.Specs
         #pragma warning restore CS1998
 
         [Fact]
-        public void NotThrowAfter_when_waitTime_is_negative_it_should_throw()
+        public void When_wait_time_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -915,7 +915,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void NotThrowAfter_when_pollInterval_is_negative_it_should_throw()
+        public void When_poll_interval_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -938,7 +938,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void NotThrowAfter_when_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
+        public void When_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -967,7 +967,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void NotThrowAfter_when_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
+        public void When_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
