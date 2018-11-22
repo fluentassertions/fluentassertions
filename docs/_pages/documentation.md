@@ -926,7 +926,20 @@ You can even tell FA to use strict ordering only for a particular collection or 
 orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
 ```
 
-**Notice:** For performance reasons, collections of bytes are compared in exact order.
+And you can tell FA to generally use strict ordering but ignore it for a particular collection or dictionary member:
+
+```csharp
+orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrdering().WithoutStrictOrderingFor(s => s.Products));
+```
+
+In case you chose to use strict ordering by default you can still configure non-strict ordering in specific tests:
+```csharp
+AssertionOptions.AssertEquivalencyUsing(options => options.WithStrictOrdering());
+
+orderDto.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
+```
+
+**Notice:** For performance reasons, collections of bytes are compared in exact order. This is even true when applying `WithoutStrictOrdering()`.
 
 ### Diagnostics
 `Should().BeEquivalentTo` is a very powerful feature, and one of the unique selling points of Fluent Assertions. But sometimes it can be a bit overwhelming, especially if some assertion fails under unexpected conditions. To help you understand how Fluent Assertions compared two (collections of) object graphs, the failure message will always include the relevant configuration settings:
