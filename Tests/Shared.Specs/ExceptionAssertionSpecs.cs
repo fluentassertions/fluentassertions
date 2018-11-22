@@ -950,7 +950,9 @@ namespace FluentAssertions.Specs
             Action throwLongerThanWaitTime = () =>
                 {
                     if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                    {
                         throw new ArgumentException("An exception was forced");
+                    }
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -979,7 +981,9 @@ namespace FluentAssertions.Specs
             Action throwShorterThanWaitTime = () =>
                 {
                     if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                    {
                         throw new ArgumentException("An exception was forced");
+                    }
                 };
 
             //-----------------------------------------------------------------------------------------------------------

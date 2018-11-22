@@ -142,13 +142,17 @@ namespace FluentAssertions.Specialized
         {
             FailIfSubjectIsAsyncVoid();
 
-            if(waitTime < TimeSpan.Zero)
+            if (waitTime < TimeSpan.Zero)
+            {
                 throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
+            }
 
-            if(pollInterval < TimeSpan.Zero)
+            if (pollInterval < TimeSpan.Zero)
+            {
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
+            }
 
-            
+
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
             var watch = Stopwatch.StartNew();
@@ -156,9 +160,10 @@ namespace FluentAssertions.Specialized
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
                 exception = InvokeSubjectWithInterception();
-                if (exception is null) {
+                if (exception is null)
+                {
                     return;
-		}
+                }
 
                 Thread.Sleep(pollInterval);
                 invocationEndTime = watch.Elapsed;
