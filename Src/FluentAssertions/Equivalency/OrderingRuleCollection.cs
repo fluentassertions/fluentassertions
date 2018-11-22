@@ -56,12 +56,7 @@ namespace FluentAssertions.Equivalency
             rules.Add(rule);
         }
 
-        public void Remove(IOrderingRule rule)
-        {
-            rules.Remove(rule);
-        }
-
-        public void Clear()
+        internal void Clear()
         {
             rules.Clear();
         }

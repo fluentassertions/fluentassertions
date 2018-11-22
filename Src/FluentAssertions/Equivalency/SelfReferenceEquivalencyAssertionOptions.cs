@@ -476,19 +476,6 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///     Causes collections of bytes to be be compared ignoring the order in which the bytes appear in the expectation.
-        /// </summary>
-        public TSelf WithoutStrictOrderingForBytes()
-        {
-            foreach(var byteArrayOrderingRule in orderingRules.OfType<ByteArrayOrderingRule>().ToList())
-            {
-                orderingRules.Remove(byteArrayOrderingRule);
-            }
-            
-            return (TSelf)this;
-        }
-
-        /// <summary>
         ///     Causes to compare Enum properties using the result of their ToString method.
         /// </summary>
         /// <remarks>
