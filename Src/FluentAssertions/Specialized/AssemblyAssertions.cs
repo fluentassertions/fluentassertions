@@ -93,7 +93,7 @@ namespace FluentAssertions.Reflection
         /// <param name="namespace">The namespace of the class.</param>
         /// <param name="name">The name of the class.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
         {

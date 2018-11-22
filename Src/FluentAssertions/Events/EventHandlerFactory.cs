@@ -7,13 +7,13 @@ using System.Reflection.Emit;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    ///   Static methods that aid in generic event subscription
+    /// Static methods that aid in generic event subscription
     /// </summary>
     internal static class EventHandlerFactory
     {
         /// <summary>
-        ///   Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
-        ///   when invoked.
+        /// Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
+        /// when invoked.
         /// </summary>
         public static Delegate GenerateHandler(Type eventSignature, IEventRecorder recorder)
         {
@@ -80,7 +80,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Finds the Return Type of a Delegate.
+        /// Finds the Return Type of a Delegate.
         /// </summary>
         private static Type GetDelegateReturnType(Type d)
         {
@@ -89,7 +89,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns an Array of Types that make up a delegate's parameter signature.
+        /// Returns an Array of Types that make up a delegate's parameter signature.
         /// </summary>
         private static Type[] GetDelegateParameterTypes(Type d)
         {
@@ -107,7 +107,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns an array of types appended with an EventRecorder reference at the beginning.
+        /// Returns an array of types appended with an EventRecorder reference at the beginning.
         /// </summary>
         private static Type[] AppendParameterListThisReference(Type[] parameters)
         {
@@ -124,7 +124,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns T/F Dependent on a Type Being a Delegate.
+        /// Returns T/F Dependent on a Type Being a Delegate.
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
@@ -139,7 +139,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns the MethodInfo for the Delegate's "Invoke" Method.
+        /// Returns the MethodInfo for the Delegate's "Invoke" Method.
         /// </summary>
         private static MethodInfo DelegateInvokeMethod(Type d)
         {

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    ///   Records raised events for one event on one object
+    /// Records raised events for one event on one object
     /// </summary>
     public interface IEventRecorder : IEnumerable<RecordedEvent>, IDisposable
     {
         /// <summary>
-        ///   Store information about a raised event
+        /// Store information about a raised event
         /// </summary>
         /// <param name = "parameters">Parameters the event was raised with</param>
         void RecordEvent(params object[] parameters);
@@ -20,12 +20,12 @@ namespace FluentAssertions.Events
         void Reset();
 
         /// <summary>
-        ///   The object events are recorded from
+        /// The object events are recorded from
         /// </summary>
         object EventObject { get; }
 
         /// <summary>
-        ///   The name of the event that's recorded
+        /// The name of the event that's recorded
         /// </summary>
         string EventName { get; }
 

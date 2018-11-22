@@ -8,8 +8,8 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency
 {
     /// <remarks>
-    ///     I think (but did not try) this would have been easier using 'dynamic' but that is
-    ///     precluded by some of the PCL targets.
+    /// I think (but did not try) this would have been easier using 'dynamic' but that is
+    /// precluded by some of the PCL targets.
     /// </remarks>
     public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {

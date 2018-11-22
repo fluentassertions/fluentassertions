@@ -11,7 +11,7 @@ using System.Reflection;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    ///   Records activity for a single event.
+    /// Records activity for a single event.
     /// </summary>
     [DebuggerNonUserCode]
     public class EventRecorder : IEventRecorder
@@ -35,7 +35,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   The object events are recorded from
+        /// The object events are recorded from
         /// </summary>
         public object EventObject
         {
@@ -75,7 +75,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Enumerate raised events
+        /// Enumerate raised events
         /// </summary>
         public IEnumerator<RecordedEvent> GetEnumerator()
         {
@@ -86,7 +86,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Enumerate raised events
+        /// Enumerate raised events
         /// </summary>
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
@@ -98,7 +98,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Called by the auto-generated IL, to record information about a raised event.
+        /// Called by the auto-generated IL, to record information about a raised event.
         /// </summary>
         public void RecordEvent(params object[] parameters)
         {
@@ -109,7 +109,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Resets recorder to clear records of events raised so far.
+        /// Resets recorder to clear records of events raised so far.
         /// </summary>
         public void Reset()
         {

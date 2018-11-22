@@ -148,7 +148,7 @@ namespace FluentAssertions.Specs
         }
 
         /// <summary>
-        ///     FakeItEasy can probably handle this in a couple lines, but then it would not be portable.
+        /// FakeItEasy can probably handle this in a couple lines, but then it would not be portable.
         /// </summary>
         private class ClassWithTwoDictionaryImplementations : Dictionary<int, object>, IDictionary<string, object>
         {

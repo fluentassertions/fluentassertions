@@ -7,7 +7,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions
 {
     /// <summary>
-    ///     Tries to extract the name of the variable or invocation on which the assertion is executed.
+    /// Tries to extract the name of the variable or invocation on which the assertion is executed.
     /// </summary>
     public static class CallerIdentifier
     {
