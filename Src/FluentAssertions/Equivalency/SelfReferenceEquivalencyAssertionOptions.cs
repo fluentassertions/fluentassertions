@@ -452,7 +452,6 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         ///     Causes all collections - except bytes - to be compared ignoring the order in which the items appear in the expectation.
-        ///     To ignore the order of bytes use <seealso cref="WithoutStrictOrderingForBytes"/>.
         /// </summary>
         public TSelf WithoutStrictOrdering()
         {
