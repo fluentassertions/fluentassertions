@@ -529,7 +529,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to contain a single item because more is not allowed, but found <null>.");
         }

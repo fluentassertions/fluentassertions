@@ -2180,7 +2180,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-
             MethodInfo[] methodInfo =
                 typeof(StringCollectionAssertions).GetMethods(
                     BindingFlags.Public | BindingFlags.Instance);
