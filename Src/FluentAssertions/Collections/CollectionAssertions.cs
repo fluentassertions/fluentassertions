@@ -509,7 +509,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
-            if(ReferenceEquals(Subject, null))
+            if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -521,6 +521,8 @@ namespace FluentAssertions.Collections
 
             using (var scope = new AssertionScope())
             {
+                scope.AddReportable("configuration", options.ToString());
+
                 foreach (object actualItem in actualItems)
                 {
                     var context = new EquivalencyValidationContext
@@ -543,11 +545,11 @@ namespace FluentAssertions.Collections
                         return new AndConstraint<TAssertions>((TAssertions)this);
                     }
                 }
-            }
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to contain equivalent to {1}.", Subject, expectation);
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to contain equivalent to {1}.", Subject, expectation);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

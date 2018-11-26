@@ -2400,7 +2400,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to 4.");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to 4.*");
         }
 
         [Fact]
@@ -2462,7 +2462,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to <null>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to <null>.*");
         }
 
         [Fact]
@@ -2482,7 +2482,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {empty} to contain equivalent to 1.");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {empty} to contain equivalent to 1.*");
         }
 
         [Fact]
