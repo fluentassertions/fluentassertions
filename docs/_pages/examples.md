@@ -39,7 +39,7 @@ Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
 action
                     .Should().Throw<RuleViolationException>()
                     .WithMessage("*change the unit of an existing ingredient*")
-                    .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
+                    .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuantity);
 ```
 
 One neat feature is the ability to chain a specific assertion on top of an assertion that acts on a collection or graph of objects.
