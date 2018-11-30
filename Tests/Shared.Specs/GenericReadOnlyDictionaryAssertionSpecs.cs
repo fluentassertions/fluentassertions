@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().BeSameAs(referenceToDictionary);
+            dictionary.Should().BeSameAs(referenceToDictionary);
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            someDictionary.ShouldReadOnlyDictionary().BeNull();
+            someDictionary.Should().BeNull();
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotBeNull();
+            dictionary.Should().NotBeNull();
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someDictionary.ShouldReadOnlyDictionary().BeNull("because {0} is valid", "null");
+            Action act = () => someDictionary.Should().BeNull("because {0} is valid", "null");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -94,7 +94,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            someDictionary.ShouldReadOnlyDictionary().NotBeNull();
+            someDictionary.Should().NotBeNull();
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someDictionary.ShouldReadOnlyDictionary().NotBeNull("because {0} should not", "someDictionary");
+            Action act = () => someDictionary.Should().NotBeNull("because {0} should not", "someDictionary");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCount(3);
+            dictionary.Should().HaveCount(3);
         }
 
         [Fact]
@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCount(4);
+            Action act = () => dictionary.Should().HaveCount(4);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -185,7 +185,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().HaveCount(4, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().HaveCount(4, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -210,7 +210,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCount(c => c >= 3);
+            dictionary.Should().HaveCount(c => c >= 3);
         }
 
         [Fact]
@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCount(c => c >= 4, "a minimum of 4 is required");
+            Action act = () => dictionary.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCount(null);
+            Action act = () => dictionary.Should().HaveCount(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCount(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCount(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -323,7 +323,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotHaveCount(2);
+            dictionary.Should().NotHaveCount(2);
         }
 
         [Fact]
@@ -342,7 +342,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotHaveCount(3);
+            Action act = () => dictionary.Should().NotHaveCount(3);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -366,7 +366,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().NotHaveCount(3, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotHaveCount(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -414,7 +414,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCountGreaterThan(2);
+            dictionary.Should().HaveCountGreaterThan(2);
         }
 
         [Fact]
@@ -433,7 +433,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterThan(3);
+            Action act = () => dictionary.Should().HaveCountGreaterThan(3);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -457,7 +457,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -477,7 +477,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -505,7 +505,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCountGreaterOrEqualTo(3);
+            dictionary.Should().HaveCountGreaterOrEqualTo(3);
         }
 
         [Fact]
@@ -524,7 +524,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterOrEqualTo(4);
+            Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(4);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -548,7 +548,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterOrEqualTo(4, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().HaveCountGreaterOrEqualTo(4, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -568,7 +568,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -596,7 +596,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCountLessThan(4);
+            dictionary.Should().HaveCountLessThan(4);
         }
 
         [Fact]
@@ -615,7 +615,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessThan(3);
+            Action act = () => dictionary.Should().HaveCountLessThan(3);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -639,7 +639,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -659,7 +659,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -687,7 +687,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().HaveCountLessOrEqualTo(3);
+            dictionary.Should().HaveCountLessOrEqualTo(3);
         }
 
         [Fact]
@@ -706,7 +706,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessOrEqualTo(2);
+            Action act = () => dictionary.Should().HaveCountLessOrEqualTo(2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -730,7 +730,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessOrEqualTo(2, "because we want to test the failure {0}", "message");
+            Action action = () => dictionary.Should().HaveCountLessOrEqualTo(2, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -750,7 +750,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -773,7 +773,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().BeEmpty();
+            dictionary.Should().BeEmpty();
         }
 
         [Fact]
@@ -790,7 +790,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().BeEmpty();
+            Action act = () => dictionary.Should().BeEmpty();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -812,7 +812,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().BeEmpty("because we want to test the failure {0}", "message");
+            Action act = () => dictionary.Should().BeEmpty("because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -835,7 +835,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotBeEmpty();
+            dictionary.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -849,7 +849,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            trackingDictionary.ShouldReadOnlyDictionary().NotBeEmpty();
+            trackingDictionary.Should().NotBeEmpty();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -868,7 +868,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotBeEmpty();
+            Action act = () => dictionary.Should().NotBeEmpty();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -887,7 +887,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotBeEmpty("because we want to test the failure {0}", "message");
+            Action act = () => dictionary.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -907,7 +907,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().BeEmpty("because we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().BeEmpty("because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -927,7 +927,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotBeEmpty("because we want to test the behaviour with a null subject");
+            Action act = () => dictionary.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -960,7 +960,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2);
+            dictionary1.Should().Equal(dictionary2);
         }
 
         [Fact]
@@ -983,7 +983,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2);
+            dictionary1.Should().Equal(dictionary2);
         }
 
         [Fact]
@@ -1006,7 +1006,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2, "because we want to test the failure {0}", "message");
+            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1040,7 +1040,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2, "because we want to test the failure {0}", "message");
+            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1073,7 +1073,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2, "because we want to test the failure {0}", "message");
+            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1102,7 +1102,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1131,7 +1131,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1156,7 +1156,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Equal(dictionary2);
+            Action act = () => dictionary1.Should().Equal(dictionary2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1189,7 +1189,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2);
+            dictionary1.Should().NotEqual(dictionary2);
         }
 
         [Fact]
@@ -1212,7 +1212,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2);
+            dictionary1.Should().NotEqual(dictionary2);
         }
 
         [Fact]
@@ -1235,7 +1235,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2);
+            Action act = () => dictionary1.Should().NotEqual(dictionary2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1264,7 +1264,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2, "because we want to test the failure {0}", "message");
+            Action act = () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1290,7 +1290,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1316,7 +1316,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1342,7 +1342,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => dictionary1.ShouldReadOnlyDictionary().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
+                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1370,7 +1370,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().ContainKey(1);
+            dictionary.Should().ContainKey(1);
         }
 
         [Fact]
@@ -1392,9 +1392,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().ContainKey("One");
-            dictionary.ShouldReadOnlyDictionary().ContainKey("ONE");
-            dictionary.ShouldReadOnlyDictionary().ContainKey("one");
+            dictionary.Should().ContainKey("One");
+            dictionary.Should().ContainKey("ONE");
+            dictionary.Should().ContainKey("one");
         }
 
         [Fact]
@@ -1412,7 +1412,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().ContainKeys(2, 1);
+            dictionary.Should().ContainKeys(2, 1);
         }
 
         [Fact]
@@ -1430,7 +1430,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainKey(3, "because {0}", "we do");
+            Action act = () => dictionary.Should().ContainKey(3, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1453,7 +1453,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainKey("Key").WhichValue.Should().Be(4);
+            Action act = () => dictionary.Should().ContainKey("Key").WhichValue.Should().Be(4);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1511,7 +1511,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+            Action act = () => dictionary.Should().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1535,7 +1535,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainKeys(new int[0]);
+            Action act = () => dictionary.Should().ContainKeys(new int[0]);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1559,7 +1559,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainKey(4);
+            Action act = () => dictionary.Should().NotContainKey(4);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1582,7 +1582,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainKeys(3, 4);
+            Action act = () => dictionary.Should().NotContainKeys(3, 4);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1605,7 +1605,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainKey(1, "because we {0} like it", "don't");
+            Action act = () => dictionary.Should().NotContainKey(1, "because we {0} like it", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1625,7 +1625,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary()
+            Action act = () => dictionary.Should()
                 .NotContainKey(1, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1650,7 +1650,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContainKeys(new[] { 2, 3 }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1674,7 +1674,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainKeys(new int[0]);
+            Action act = () => dictionary.Should().NotContainKeys(new int[0]);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1702,7 +1702,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValue("One");
+            Action act = () => dictionary.Should().ContainValue("One");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1724,7 +1724,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValue(null);
+            Action act = () => dictionary.Should().ContainValue(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1751,7 +1751,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+            Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1778,7 +1778,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    dictionary.ShouldReadOnlyDictionary()
+                    dictionary.Should()
                         .ContainValue(new MyClass { SomeProperty = 0 })
                         .Which.Should()
                         .BeSameAs(myClass);
@@ -1804,7 +1804,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValues("Two", "One");
+            Action act = () => dictionary.Should().ContainValues("Two", "One");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1827,7 +1827,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValue("Three", "because {0}", "we do");
+            Action act = () => dictionary.Should().ContainValue("Three", "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1851,7 +1851,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+            Action act = () => dictionary.Should().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1875,7 +1875,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().ContainValues(new string[0]);
+            Action act = () => dictionary.Should().ContainValues(new string[0]);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1899,7 +1899,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainValue("Three");
+            Action act = () => dictionary.Should().NotContainValue("Three");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1922,7 +1922,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainValue("One", "because we {0} like it", "don't");
+            Action act = () => dictionary.Should().NotContainValue("One", "because we {0} like it", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1942,7 +1942,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary()
+            Action act = () => dictionary.Should()
                 .NotContainValue("One", "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1967,7 +1967,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainValues("Three", "Four");
+            Action act = () => dictionary.Should().NotContainValues("Three", "Four");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1990,7 +1990,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2014,7 +2014,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContainValues(new string[0]);
+            Action act = () => dictionary.Should().NotContainValues(new string[0]);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2047,7 +2047,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs);
+            dictionary.Should().Contain(keyValuePairs);
         }
 
         [Fact]
@@ -2070,7 +2070,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().Contain(expectedKeyValuePair1, expectedKeyValuePair2);
+            dictionary.Should().Contain(expectedKeyValuePair1, expectedKeyValuePair2);
         }
 
         [Fact]
@@ -2093,7 +2093,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs);
+            dictionary.Should().NotContain(keyValuePairs);
         }
 
         [Fact]
@@ -2114,7 +2114,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(unexpectedKeyValuePair1, unexpectedKeyValuePair2);
+            dictionary.Should().NotContain(unexpectedKeyValuePair1, unexpectedKeyValuePair2);
         }
 
         [Fact]
@@ -2137,7 +2137,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs);
+            dictionary.Should().NotContain(keyValuePairs);
         }
 
         [Fact]
@@ -2161,7 +2161,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs);
+            dictionary.Should().Contain(keyValuePairs);
         }
 
         [Fact]
@@ -2185,7 +2185,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs);
+            dictionary.Should().NotContain(keyValuePairs);
         }
 
         [Fact]
@@ -2209,7 +2209,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs);
+            dictionary.Should().NotContain(keyValuePairs);
         }
 
         [Fact]
@@ -2233,7 +2233,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2263,7 +2263,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2292,7 +2292,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2323,7 +2323,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2352,7 +2352,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2382,7 +2382,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2407,7 +2407,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(keyValuePairs,
+            Action act = () => dictionary.Should().Contain(keyValuePairs,
                 "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2433,7 +2433,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
+            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2458,7 +2458,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2483,7 +2483,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(keyValuePairs,
+            Action act = () => dictionary.Should().NotContain(keyValuePairs,
                 "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2509,7 +2509,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
+            Action act = () => dictionary1.Should().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2534,7 +2534,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldReadOnlyDictionary().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            Action act = () => dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2558,7 +2558,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().Contain(1, "One");
+            dictionary.Should().Contain(1, "One");
         }
 
         [Fact]
@@ -2575,7 +2575,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().Contain(1, null);
+            dictionary.Should().Contain(1, null);
         }
 
         [Fact]
@@ -2598,7 +2598,7 @@ namespace FluentAssertions.Specs
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(2, "Two")
             };
-            dictionary.ShouldReadOnlyDictionary().Contain(items);
+            dictionary.Should().Contain(items);
         }
 
         [Fact]
@@ -2617,7 +2617,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             var item = new KeyValuePair<int, string>(1, "One");
-            dictionary.ShouldReadOnlyDictionary().Contain(item);
+            dictionary.Should().Contain(item);
         }
 
         [Fact]
@@ -2636,7 +2636,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var item = new KeyValuePair<int, string>(1, "Two");
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(item, "we put it {0}", "there");
+            Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2666,7 +2666,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(items, "we put them {0}", "there");
+            Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2690,7 +2690,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(1, "Two", "we put it {0}", "there");
+            Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2714,7 +2714,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(3, "Two", "we put it {0}", "there");
+            Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2734,7 +2734,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().Contain(1, "One",
+            Action act = () => dictionary.Should().Contain(1, "One",
                 "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2759,7 +2759,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(3, "Three");
+            dictionary.Should().NotContain(3, "Three");
         }
 
         [Fact]
@@ -2777,7 +2777,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary().NotContain(2, "Three");
+            dictionary.Should().NotContain(2, "Three");
         }
 
         [Fact]
@@ -2794,7 +2794,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => dictionary.ShouldReadOnlyDictionary().NotContain(1, "other");
+            Action action = () => dictionary.Should().NotContain(1, "other");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2822,7 +2822,7 @@ namespace FluentAssertions.Specs
                 new KeyValuePair<int, string>(3, "Three"),
                 new KeyValuePair<int, string>(4, "Four")
             };
-            dictionary.ShouldReadOnlyDictionary().NotContain(items);
+            dictionary.Should().NotContain(items);
         }
 
         [Fact]
@@ -2841,7 +2841,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             var item = new KeyValuePair<int, string>(3, "Three");
-            dictionary.ShouldReadOnlyDictionary().NotContain(item);
+            dictionary.Should().NotContain(item);
         }
 
         [Fact]
@@ -2860,7 +2860,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var item = new KeyValuePair<int, string>(1, "One");
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(item, "we put it {0}", "there");
+            Action act = () => dictionary.Should().NotContain(item, "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2889,7 +2889,7 @@ namespace FluentAssertions.Specs
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(2, "Two")
             };
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(items, "we did not put them {0}", "there");
+            Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2913,7 +2913,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(1, "One", "we did not put it {0}", "there");
+            Action act = () => dictionary.Should().NotContain(1, "One", "we did not put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2933,7 +2933,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.ShouldReadOnlyDictionary().NotContain(1, "One",
+            Action act = () => dictionary.Should().NotContain(1, "One",
                 "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2962,7 +2962,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dictionary.ShouldReadOnlyDictionary()
+            dictionary.Should()
                 .HaveCount(2)
                 .And.ContainKey(1)
                 .And.ContainValue("Two");

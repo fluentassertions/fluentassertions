@@ -243,19 +243,9 @@ namespace FluentAssertions
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> actualValue)
         {
             return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="GenericReadOnlyDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
-        /// current <see cref="IReadOnlyDictionary{TKey, TValue}"/>.
-        /// </summary>
-        [Pure]
-        public static GenericReadOnlyDictionaryAssertions<TKey, TValue> ShouldReadOnlyDictionary<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> actualValue)
-        {
-            return new GenericReadOnlyDictionaryAssertions<TKey, TValue>(actualValue);
         }
 
         /// <summary>

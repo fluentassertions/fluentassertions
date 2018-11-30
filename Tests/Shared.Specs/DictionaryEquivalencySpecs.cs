@@ -374,7 +374,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected item[0]*Value3*Value2*");
+            act.Should().Throw<XunitException>().WithMessage("Expected pair[Key2][0]*Value3*Value2*");
         }
 
         [Fact]
@@ -579,7 +579,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*implements multiple dictionary types.  It is not known which type should be use for equivalence*System.Collections.Generic.IDictionary`2[System.Int32,System.Object]*");
         }
 
         [Fact]

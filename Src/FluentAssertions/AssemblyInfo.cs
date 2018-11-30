@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("5.5.1.0")]
-[assembly: AssemblyFileVersion("5.5.1.0")]
+[assembly: AssemblyVersion("5.4.3.0")]
+[assembly: AssemblyFileVersion("5.4.3.0")]
 
-[assembly: AssemblyInformationalVersion("5.5.1-read-only-dictionary.1+2.Branch.read_only_dictionary.Sha.ad5aa058d3bfd09ce1a8bcf7e8f1affd84745de3")]
+[assembly: AssemblyInformationalVersion("5.4.3-read-only-dictionary.1+50.Branch.read_only_dictionary.Sha.3a59f77edaebe44420b0818d5a4802a5537d5af5")]

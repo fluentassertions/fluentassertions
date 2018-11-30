@@ -145,7 +145,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                "Expected dictionary not to be <null> because someDictionary should not.");
+                "Expected collection not to be <null> because someDictionary should not.");
 #else
                 "Expected someDictionary not to be <null> because someDictionary should not.");
 #endif

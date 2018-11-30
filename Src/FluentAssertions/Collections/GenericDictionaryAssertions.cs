@@ -15,9 +15,9 @@ namespace FluentAssertions.Collections
     /// </summary>
     [DebuggerNonUserCode]
     public class GenericDictionaryAssertions<TKey, TValue> :
-        ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
+        ReferenceTypeAssertions<IReadOnlyDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
+        public GenericDictionaryAssertions(IReadOnlyDictionary<TKey, TValue> dictionary)
         {
             if (dictionary != null)
             {
@@ -325,7 +325,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected,
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IReadOnlyDictionary<TKey, TValue> expected,
             string because = "", params object[] becauseArgs)
         {
             if (Subject is null)
@@ -384,7 +384,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected,
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IReadOnlyDictionary<TKey, TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
             if (Subject is null)
