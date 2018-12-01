@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("5.4.3.0")]
 [assembly: AssemblyFileVersion("5.4.3.0")]
 
-[assembly: AssemblyInformationalVersion("5.4.3-read-only-dictionary.1+50.Branch.read_only_dictionary.Sha.3a59f77edaebe44420b0818d5a4802a5537d5af5")]
+[assembly: AssemblyInformationalVersion("5.4.3-read-only-dictionary.1+51.Branch.read_only_dictionary.Sha.094254c63264fd80a6a471de8eb4fc8ecb5d55d6")]
