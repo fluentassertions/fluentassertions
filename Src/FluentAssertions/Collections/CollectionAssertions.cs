@@ -513,7 +513,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain equivalent to {0}{reason}, but found <null>.", expectation);
+                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
             }
 
             IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
@@ -548,7 +548,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent to {1}.", Subject, expectation);
+                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}.", Subject, expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

@@ -2339,7 +2339,7 @@ namespace FluentAssertions.Specs
         #region Contain Equivalent Of
 
         [Fact]
-        public void When_collection_contains_object_equal_to_another_it_should_succeed()
+        public void When_collection_contains_object_equal_of_another_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2354,7 +2354,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collection_contains_object_equivalent_to_another_it_should_succeed()
+        public void When_collection_contains_object_equivalent_of_another_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2400,11 +2400,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {\"a\", \"b\", \"c\"} to contain equivalent to \"C\".*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {\"a\", \"b\", \"c\"} to contain equivalent of \"C\".*");
         }
 
         [Fact]
-        public void When_collection_does_not_contain_object_equivalent_to_another_it_should_throw()
+        public void When_collection_does_not_contain_object_equivalent_of_another_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2420,7 +2420,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to 4.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of 4.*");
         }
 
         [Fact]
@@ -2442,7 +2442,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain equivalent to 1 because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to contain equivalent of 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
@@ -2482,7 +2482,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent to <null>.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of <null>.*");
         }
 
         [Fact]
@@ -2502,7 +2502,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {empty} to contain equivalent to 1.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {empty} to contain equivalent of 1.*");
         }
 
         [Fact]
@@ -2565,7 +2565,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collection_contains_object_equivalent_to_boxed_object_it_should_succeed()
+        public void When_collection_contains_object_equivalent_of_boxed_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
