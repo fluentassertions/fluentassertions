@@ -57,6 +57,21 @@ namespace FluentAssertions.Specs
             dictionary.Should().BeOfType<DictionaryNotImplementingIReadOnlyDictionary<int, string>>();
         }
 
+        [Fact]
+        public void When_a_dictionary_does_not_implement_the_read_only_interface_it_should_have_dictionary_assertions()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().NotContainKey(0, "Dictionaries not implementing IReadOnlyDictionary<TKey, TValue> "
+                + "should be supported at least until Fluent Assertions 6.0.");
+        }
+
         #endregion
 
         #region Be Null
@@ -3147,69 +3162,38 @@ namespace FluentAssertions.Specs
 
     internal class DictionaryNotImplementingIReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private readonly Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
 
-        public ICollection<TKey> Keys => throw new NotImplementedException();
+        public TValue this[TKey key] { get => dictionary[key]; set => throw new NotImplementedException(); }
 
-        public ICollection<TValue> Values => throw new NotImplementedException();
+        public ICollection<TKey> Keys => dictionary.Keys;
 
-        public int Count => throw new NotImplementedException();
+        public ICollection<TValue> Values => dictionary.Values;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public int Count => dictionary.Count;
 
-        public void Add(TKey key, TValue value)
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsReadOnly => ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).IsReadOnly;
 
-        public void Add(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
+        public void Add(TKey key, TValue value) => throw new NotImplementedException();
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+        public void Add(KeyValuePair<TKey, TValue> item) => throw new NotImplementedException();
 
-        public bool Contains(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
+        public void Clear() => throw new NotImplementedException();
 
-        public bool ContainsKey(TKey key)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Contains(KeyValuePair<TKey, TValue> item) => dictionary.Contains(item);
 
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
+        public bool ContainsKey(TKey key) => dictionary.ContainsKey(key);
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => throw new NotImplementedException();
 
-        public bool Remove(TKey key)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => dictionary.GetEnumerator();
 
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Remove(TKey key) => throw new NotImplementedException();
 
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Remove(KeyValuePair<TKey, TValue> item) => throw new NotImplementedException();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public bool TryGetValue(TKey key, out TValue value) => dictionary.TryGetValue(key, out value);
+
+        IEnumerator IEnumerable.GetEnumerator() => dictionary.GetEnumerator();
     }
 }
