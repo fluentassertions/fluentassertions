@@ -56,6 +56,11 @@ namespace FluentAssertions.Equivalency
             rules.Add(rule);
         }
 
+        internal void Clear()
+        {
+            rules.Clear();
+        }
+
         /// <summary>
         /// Determines whether the rules in this collection dictate strict ordering during the equivalency assertion on
         /// the collection pointed to by <paramref name="memberInfo"/>.
