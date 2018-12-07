@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 using System.Threading;
+#endif
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -114,7 +116,7 @@ namespace FluentAssertions.Specialized
             }
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD_1_6
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
         /// <summary>
         /// Asserts that the current <see cref="Action"/> stops throwing any exception
         /// after a specified amount of time.
