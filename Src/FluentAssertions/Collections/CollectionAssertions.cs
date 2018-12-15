@@ -535,6 +535,98 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that a collection of objects contains at least one object equivalent to another object.
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to the expected object when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "",
+            params object[] becauseArgs)
+        {
+            return ContainEquivalentOf(expectation, config => config, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a collection of objects contains at least one object equivalent to another object.
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to the expected object when both object graphs have equally named properties with the same
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another
+        /// and the result is equal.
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
+                EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
+            }
+
+            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            IEnumerable<object> actualItems = Subject.Cast<object>();
+
+            using (var scope = new AssertionScope())
+            {
+                scope.AddReportable("configuration", options.ToString());
+
+                foreach (object actualItem in actualItems)
+                {
+                    var context = new EquivalencyValidationContext
+                    {
+                        Subject = actualItem,
+                        Expectation = expectation,
+                        CompileTimeType = typeof(TExpectation),
+                        Because = because,
+                        BecauseArgs = becauseArgs,
+                        Tracer = options.TraceWriter,
+                    };
+
+                    var equivalencyValidator = new EquivalencyValidator(options);
+                    equivalencyValidator.AssertEquality(context);
+
+                    string[] failures = scope.Discard();
+
+                    if (!failures.Any())
+                    {
+                        return new AndConstraint<TAssertions>((TAssertions)this);
+                    }
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}.", Subject, expectation);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="T" />.
         /// </summary>
         /// <param name="because">
