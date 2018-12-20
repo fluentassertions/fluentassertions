@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -83,7 +85,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             await action.Should().ThrowAsync<ArgumentException>();
-
         }
 
         [Fact]
@@ -236,7 +237,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            (await testAction.Should().ThrowAsync<XunitException>()).WithMessage("*ArgumentException*ABCDE*ArgumentNullException*");
+            (await testAction.Should().ThrowAsync<XunitException>())
+                .WithMessage("*ArgumentException*ABCDE*ArgumentNullException*");
         }
 
         [Fact]
@@ -540,6 +542,245 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<InvalidOperationException>("*async*void*");
         }
+
+        #region NotThrowAfter
+
+        [Fact]
+        public void When_wait_time_is_negative_for_async_func_executed_with_wait_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = -1.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someFunc.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of waitTime must be non-negative*");
+        }
+
+        [Fact]
+        public void When_poll_interval_is_negative_for_async_func_executed_with_wait_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = 10.Milliseconds();
+            var pollInterval = -1.Milliseconds();
+
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someFunc.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of pollInterval must be non-negative*");
+        }
+
+        [Fact]
+        public void
+            When_no_exception_should_be_thrown_for_async_func_executed_with_wait_after_wait_time_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Func<Task> throwLongerThanWaitTime = async () =>
+            {
+                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Delay(0);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => throwLongerThanWaitTime.Should()
+                .NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_for_async_func_executed_with_wait_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Func<Task> throwShorterThanWaitTime = async () =>
+            {
+                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+                await Task.Delay(0);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act =  () => throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+
+            act.Should().NotThrow();
+        }
+
+        #endregion
+
+        #region NotThrowAfterAsync
+        [Fact]
+        public void When_wait_time_is_negative_for_async_func_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = -1.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = async () =>
+                await someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of waitTime must be non-negative*");
+        }
+
+        [Fact]
+        public void When_poll_interval_is_negative_for_async_func_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = 10.Milliseconds();
+            var pollInterval = -1.Milliseconds();
+
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = async () =>
+                await someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of pollInterval must be non-negative*");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_for_async_func_after_wait_time_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Func<Task> throwLongerThanWaitTime = async () =>
+            {
+                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Delay(0);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> action = async () =>
+                await throwLongerThanWaitTime.Should()
+                    .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Func<Task> throwShorterThanWaitTime = async () =>
+            {
+                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Delay(0);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Func<Task> act = async () =>
+                await throwShorterThanWaitTime.Should().NotThrowAfterAsync(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+
+            act.Should().NotThrow();
+        }
+
+        #endregion
     }
 
     internal class AsyncClass

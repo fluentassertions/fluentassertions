@@ -138,7 +138,7 @@ namespace FluentAssertions.Specialized
         /// after a specified amount of time.
         /// </summary>
         /// <remarks>
-        /// The <see cref="Action"/> is invoked. If it raises an exception,
+        /// The <see cref="Func{T}"/> is invoked. If it raises an exception,
         /// the invocation is repeated until it either stops raising any exceptions
         /// or the specified wait time is exceeded.
         /// </remarks>
