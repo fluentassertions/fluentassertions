@@ -34,32 +34,16 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        public static string Escape(this string value, bool escapePlaceholders = false)
-        {
-            value = value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r");
-            if (escapePlaceholders)
-            {
-                value = value.Replace("{", "{{").Replace("}", "}}");
-            }
-
-            return value;
-        }
+        public static string EscapePlaceholders(this string value) =>
+            value.Replace("{", "{{").Replace("}", "}}");
 
         /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        internal static string Unescape(this string value, bool escapePlaceholders = false)
-        {
-            value = value.Replace("\\\"", "\"").Replace(@"\n", "\n").Replace(@"\r", "\r");
-            if (escapePlaceholders)
-            {
-                value = value.Replace("{{", "{").Replace("}}", "}");
-            }
-
-            return value;
-        }
+        internal static string UnescapePlaceholders(this string value) =>
+            value.Replace("{{", "{").Replace("}}", "}");
 
         public static bool IsNullOrEmpty(this string value)
         {
@@ -92,6 +76,11 @@ namespace FluentAssertions.Common
         /// </summary>
         public static string Capitalize(this string @this)
         {
+            if (@this.Length == 0)
+            {
+                return @this;
+            }
+
             char[] charArray = @this.ToCharArray();
             charArray[0] = char.ToUpper(charArray[0]);
             return new string(charArray);
