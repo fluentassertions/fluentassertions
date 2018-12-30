@@ -3256,7 +3256,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeAscendingInOrder();
+            collection.Should().NotBeInAscendingOrder();
         }
 
         [Fact]
@@ -3270,7 +3270,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeAscendingInOrder(Comparer<object>.Default);
+            collection.Should().NotBeInAscendingOrder(Comparer<object>.Default);
         }
 
         [Fact]
@@ -3284,7 +3284,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeAscendingInOrder("because numbers are not ordered");
+            Action action = () => collection.Should().NotBeInAscendingOrder("because numbers are not ordered");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3305,7 +3305,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeAscendingInOrder(Comparer<object>.Default, "because numbers are not ordered");
+            Action action = () => collection.Should().NotBeInAscendingOrder(Comparer<object>.Default, "because numbers are not ordered");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3396,7 +3396,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeDescendingInOrder();
+            collection.Should().NotBeInDescendingOrder();
         }
 
         [Fact]
@@ -3410,7 +3410,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeDescendingInOrder(Comparer<object>.Default);
+            collection.Should().NotBeInDescendingOrder(Comparer<object>.Default);
         }
 
         [Fact]
@@ -3424,7 +3424,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeDescendingInOrder("because numbers are not ordered");
+            Action action = () => collection.Should().NotBeInDescendingOrder("because numbers are not ordered");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3445,7 +3445,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeDescendingInOrder(Comparer<object>.Default, "because numbers are not ordered");
+            Action action = () => collection.Should().NotBeInDescendingOrder(Comparer<object>.Default, "because numbers are not ordered");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
