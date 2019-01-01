@@ -252,7 +252,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public async Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public 
+	    Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -264,9 +265,10 @@ namespace FluentAssertions.Specialized
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-	    await assertionTask();
+	    return assertionTask();
 
-	    async Task assertionTask() {
+	    async Task assertionTask()
+	    {
 		TimeSpan? invocationEndTime = null;
 		Exception exception = null;
 		var watch = Stopwatch.StartNew();
@@ -278,6 +280,7 @@ namespace FluentAssertions.Specialized
 		    {
 			return;
 		    }
+		    
 		    await Task.Delay(pollInterval);
 		    invocationEndTime = watch.Elapsed;
 		}
