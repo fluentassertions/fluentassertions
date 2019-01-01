@@ -601,12 +601,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 100.Milliseconds();
+            var waitTime = 2.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -624,7 +624,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
         [Fact]
@@ -634,12 +634,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 100.Milliseconds();
+            var waitTime = 2.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 2)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -719,12 +719,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 100.Milliseconds();
+            var waitTime = 2.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -743,7 +743,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
         [Fact]
@@ -753,12 +753,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 100.Milliseconds();
+            var waitTime = 2.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 2)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
