@@ -693,6 +693,14 @@ Action act = () => subject.Foo("Hello");
 act.Should().NotThrow<InvalidOperationException>();
 ```
 
+Sometimes you may want to retry an assertion until it either succeeds or a given time elapses. For instance, you could be testing a network service which should become available after a certain time, say, 10 seconds:
+```csharp
+Action act = () => service.IsReady().Should().BeTrue();
+act.Should().NotThrowAfter(10.Seconds(), 100.Milliseconds());
+```
+The second argument of `NotThrowAfter` specifies the time that should pass before `act` is executed again after an execution which threw an exception.
+
+
 If the method you are testing returns an `IEnumerable` or `IEnumerable<T>` and it uses the `yield` keyword to construct that collection, just calling the method will not cause the effect you expected because the real work is not done until you actually iterate over that collection. You can use the `Enumerating()` extension method to force enumerating the collection like this.
 
 ```csharp
@@ -728,6 +736,25 @@ act.Should().Throw<ArgumentException>();
 ```
 
 Both give you the same results, so it's just a matter of personal preference.
+
+As for synchronous methods, you can also check that an asynchronously executed method executes successfully after a given wait time using `NotThrowAfter`:
+
+```csharp
+Stopwatch watch = Stopwatch.StartNew();
+Func<Task> act = async () =>
+            {
+                if (watch.ElapsedMilliseconds <= 1000)
+                {
+                    throw new ArgumentException("The wait time has not yet elapsed.");
+                }
+
+                await Task.CompletedTask;
+            };
+
+act.Should().Throw<ArgumentException>();
+await act.Should().NotThrowAfterAsync(2.Seconds(), 100.Milliseconds());
+act.Should().NotThrowAfter(2.Seconds(), 100.Milliseconds());
+```
 
 ## Object graph comparison ##
 
