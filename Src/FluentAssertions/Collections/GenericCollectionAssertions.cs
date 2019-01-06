@@ -413,6 +413,11 @@ namespace FluentAssertions.Collections
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
+                if(! unordered.Any())
+                {
+                    return new AndConstraint<GenericCollectionAssertions<T>>(this);
+                }
+
                 IOrderedEnumerable<T> expectation = ConvertToOrderedEnumerable(
                     propertyExpression,
                     comparer,
