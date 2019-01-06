@@ -634,12 +634,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 2.Seconds();
+            var waitTime = 6.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 2)
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -753,12 +753,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var watch = Stopwatch.StartNew();
-            var waitTime = 2.Seconds();
+            var waitTime = 6.Seconds();
             var pollInterval = 10.Milliseconds();
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 2)
+                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
                 {
                     throw new ArgumentException("An exception was forced");
                 }
