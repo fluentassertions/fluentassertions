@@ -868,7 +868,7 @@ namespace FluentAssertions.Specs
         }
 
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETCOREAPP1_1
-        #pragma warning disable CS1998
+#pragma warning disable CS1998
         [Fact]
         public void When_subject_is_async_it_should_throw()
         {
@@ -889,7 +889,7 @@ namespace FluentAssertions.Specs
             action.Should().Throw<InvalidOperationException>()
                 .WithMessage("Cannot use action assertions on an async void method.*");
         }
-        #pragma warning restore CS1998
+#pragma warning restore CS1998
 
         [Fact]
         public void When_wait_time_is_negative_it_should_throw()
@@ -948,12 +948,12 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             Action throwLongerThanWaitTime = () =>
+            {
+                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
                 {
-                    if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
-                };
+                    throw new ArgumentException("An exception was forced");
+                }
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -979,23 +979,21 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             Action throwShorterThanWaitTime = () =>
+            {
+                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
                 {
-                    if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
-                };
+                    throw new ArgumentException("An exception was forced");
+                }
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-
             Action act = () => throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-
             act.Should().NotThrow();
         }
 #endif // NotThrowAfter tests

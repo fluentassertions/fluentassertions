@@ -209,7 +209,6 @@ namespace FluentAssertions.Specialized
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
             var watch = Stopwatch.StartNew();
@@ -252,8 +251,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public 
-	    Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public
+        Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -265,30 +264,31 @@ namespace FluentAssertions.Specialized
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-	    return assertionTask();
+            return assertionTask();
 
-	    async Task assertionTask()
-	    {
-		TimeSpan? invocationEndTime = null;
-		Exception exception = null;
-		var watch = Stopwatch.StartNew();
+            async Task assertionTask()
+            {
+                TimeSpan? invocationEndTime = null;
+                Exception exception = null;
+                var watch = Stopwatch.StartNew();
 
-		while (invocationEndTime is null || invocationEndTime < waitTime)
-		{
-		    exception = await InvokeSubjectWithInterceptionAsync();
-		    if (exception is null)
-		    {
-			return;
-		    }
-		    
-		    await Task.Delay(pollInterval);
-		    invocationEndTime = watch.Elapsed;
-		}
-		Execute.Assertion
-		    .BecauseOf(because, becauseArgs)
-		    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-	    }
-	}
+                while (invocationEndTime is null || invocationEndTime < waitTime)
+                {
+                    exception = await InvokeSubjectWithInterceptionAsync();
+                    if (exception is null)
+                    {
+                        return;
+                    }
+
+                    await Task.Delay(pollInterval);
+                    invocationEndTime = watch.Elapsed;
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+            }
+        }
 
         private static Exception GetFirstNonAggregateException(Exception exception)
         {

@@ -389,13 +389,14 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             Func<int> throwLongerThanWaitTime = () =>
+            {
+                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
                 {
-                    if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
-                    return 0;
-                };
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                return 0;
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -421,24 +422,23 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             Func<int> throwShorterThanWaitTime = () =>
+            {
+                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
                 {
-                    if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
-                    return 0;
-                };
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                return 0;
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-
             Action act = () => throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-
             act.Should().NotThrow();
         }
 #endif // NotThrowAfter tests
