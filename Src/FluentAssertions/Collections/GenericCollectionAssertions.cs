@@ -413,7 +413,7 @@ namespace FluentAssertions.Collections
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
-                if(! unordered.Any())
+                if (!unordered.Any())
                 {
                     return new AndConstraint<GenericCollectionAssertions<T>>(this);
                 }
@@ -427,7 +427,7 @@ namespace FluentAssertions.Collections
                 string orderString = GetExpressionOrderString(propertyExpression);
 
                 Execute.Assertion
-                    .ForCondition(! unordered.SequenceEqual(expectation))
+                    .ForCondition(!unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
                     .FailWith("Expected {context:collection} {0} to not be ordered{1}{reason} and not result in {2}.",
                         Subject, orderString, expectation);

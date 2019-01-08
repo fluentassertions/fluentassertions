@@ -934,7 +934,7 @@ namespace FluentAssertions.Collections
         [Obsolete("Use NotBeInAscendingOrder instead")]
         public AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeAscendingInOrder(Comparer<object>.Default, because, becauseArgs);
+            return NotBeInAscendingOrder(Comparer<object>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -1006,7 +1006,7 @@ namespace FluentAssertions.Collections
         [Obsolete("Use NotBeInDescendingOrder instead")]
         public AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeDescendingInOrder(Comparer<object>.Default, because, becauseArgs);
+            return NotBeInDescendingOrder(Comparer<object>.Default, because, becauseArgs);
         }
 
         /// <summary>
