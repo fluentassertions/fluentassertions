@@ -168,7 +168,6 @@ namespace FluentAssertions.Specialized
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
             var watch = Stopwatch.StartNew();
@@ -184,10 +183,11 @@ namespace FluentAssertions.Specialized
                 Thread.Sleep(pollInterval);
                 invocationEndTime = watch.Elapsed;
             }
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-	}
+        }
 #endif
 
         private static Exception GetFirstNonAggregateException(Exception exception)

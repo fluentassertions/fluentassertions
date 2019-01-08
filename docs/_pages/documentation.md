@@ -742,14 +742,14 @@ As for synchronous methods, you can also check that an asynchronously executed m
 ```csharp
 Stopwatch watch = Stopwatch.StartNew();
 Func<Task> act = async () =>
-            {
-                if (watch.ElapsedMilliseconds <= 1000)
-                {
-                    throw new ArgumentException("The wait time has not yet elapsed.");
-                }
+{
+    if (watch.ElapsedMilliseconds <= 1000)
+    {
+        throw new ArgumentException("The wait time has not yet elapsed.");
+    }
 
-                await Task.CompletedTask;
-            };
+    await Task.CompletedTask;
+};
 
 act.Should().Throw<ArgumentException>();
 await act.Should().NotThrowAfterAsync(2.Seconds(), 100.Milliseconds());
