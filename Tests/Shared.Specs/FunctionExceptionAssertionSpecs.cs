@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specialized;
 using Xunit;
 using Xunit.Sdk;
 
@@ -440,6 +441,38 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_after_wait_time_the_func_result_should_be_returned()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var watch = Stopwatch.StartNew();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Func<int> throwShorterThanWaitTime = () =>
+            {
+                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                return 42;
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            AndWhichConstraint<FunctionAssertions<int>, int> act =
+                throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Subject.Should().Be(42);
         }
 #endif // NotThrowAfter tests
         #endregion

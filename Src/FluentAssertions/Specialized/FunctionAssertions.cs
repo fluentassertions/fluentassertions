@@ -81,7 +81,6 @@ namespace FluentAssertions.Specialized
             {
                 NotThrow(exception, because, becauseArgs);
                 return null;
-
             }
         }
 
@@ -156,7 +155,7 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -174,10 +173,14 @@ namespace FluentAssertions.Specialized
 
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
-                exception = InvokeSubjectWithInterception();
-                if (exception is null)
+                try
                 {
-                    return;
+                     T result = Subject();
+                     return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
+                }
+                catch (Exception e)
+                {
+                    exception = e;
                 }
 
                 Thread.Sleep(pollInterval);
@@ -187,6 +190,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+            return null; // never reached
         }
 #endif
 
