@@ -126,7 +126,7 @@ namespace FluentAssertions.Execution
 
         private bool StartsWithBlank(string text)
         {
-            return (text.Length > 0) && blanks.Any(blank => text[0] == blank);
+            return (text.Length > 0) && blanks.Contains(text[0]);
         }
     }
 }
