@@ -4,6 +4,8 @@ main:
     url: /about/
   - title: "Documentation"
     url: /documentation/
+  - title: "Github"
+    url: https://github.com/fluentassertions/fluentassertions
 
 sidebar:
   - title: About
