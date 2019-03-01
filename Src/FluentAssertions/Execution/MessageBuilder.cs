@@ -33,13 +33,13 @@ namespace FluentAssertions.Execution
         {
             message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
 
-            message = SubstituteIdentifier(message, identifier?.Escape(true), fallbackIdentifier);
+            message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
 
             message = SubstituteContextualTags(message, contextData);
 
             message = FormatArgumentPlaceholders(message, messageArgs);
 
-            return message.Unescape();
+            return message;
         }
 
         private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)

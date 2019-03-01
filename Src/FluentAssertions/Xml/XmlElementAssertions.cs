@@ -215,7 +215,7 @@ namespace FluentAssertions.Xml
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected XML element {0} to have child element \"" +
-                    expectedFormattedName.Escape(escapePlaceholders: true) + "\"{reason}" +
+                    expectedFormattedName.EscapePlaceholders() + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);

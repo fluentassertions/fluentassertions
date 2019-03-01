@@ -25,7 +25,7 @@ namespace FluentAssertions.Xml
                 outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "…";
             }
 
-            return outerXml.Escape(escapePlaceholders: true);
+            return outerXml.EscapePlaceholders();
         }
     }
 }
