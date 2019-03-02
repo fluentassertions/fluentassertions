@@ -346,6 +346,56 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_assertion_fails_on_BeOfType_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    var item = string.Empty;
+                    item.Should().BeOfType<int>();
+                    item.Should().BeOfType<long>();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                "Expected type to be System.Int32, but found System.String.*" +
+                "Expected type to be System.Int64, but found System.String.");
+        }
+
+        [Fact]
+        public void When_an_assertion_fails_on_BeAssignableTo_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    var item = string.Empty;
+                    item.Should().BeAssignableTo<int>();
+                    item.Should().BeAssignableTo<long>();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                "Expected * to be assignable to System.Int32, but System.String is not.*" +
+                "Expected * to be assignable to System.Int64, but System.String is not.");
+        }
+
+        [Fact]
         public void When_parentheses_are_used_in_the_because_arguments_it_should_render_them_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
