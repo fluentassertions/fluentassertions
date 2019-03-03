@@ -1128,6 +1128,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_an_object_is_not_binary_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1154,6 +1155,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_an_object_is_binary_serializable_but_not_deserializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1314,6 +1316,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_an_object_is_not_xml_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1427,6 +1430,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_an_object_is_not_data_contract_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------

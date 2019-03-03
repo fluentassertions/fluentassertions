@@ -1,4 +1,6 @@
-﻿using System;
+﻿// from https://github.com/xunit/samples.xunit/blob/master/UseCulture/UseCultureAttribute.cs
+
+using System;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
@@ -40,8 +42,13 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
     /// <param name="uiCulture">The name of the UI culture.</param>
     public UseCultureAttribute(string culture, string uiCulture)
     {
+#if NET45 || NET47 || NETCOREAPP2_0
         this.culture = new Lazy<CultureInfo>(() => new CultureInfo(culture, false));
         this.uiCulture = new Lazy<CultureInfo>(() => new CultureInfo(uiCulture, false));
+#else
+        this.culture = new Lazy<CultureInfo>(() => new CultureInfo(culture));
+        this.uiCulture = new Lazy<CultureInfo>(() => new CultureInfo(uiCulture));
+#endif
     }
 
     /// <summary>
@@ -62,6 +69,7 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
     /// <param name="methodUnderTest">The method under test</param>
     public override void Before(MethodInfo methodUnderTest)
     {
+#if NET45 || NET47 || NETCOREAPP2_0
         originalCulture = Thread.CurrentThread.CurrentCulture;
         originalUICulture = Thread.CurrentThread.CurrentUICulture;
 
@@ -70,6 +78,10 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
 
         CultureInfo.CurrentCulture.ClearCachedData();
         CultureInfo.CurrentUICulture.ClearCachedData();
+#else
+        originalCulture = CultureInfo.CurrentCulture;
+        originalUICulture = CultureInfo.CurrentUICulture;
+#endif
     }
 
     /// <summary>
@@ -79,10 +91,15 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
     /// <param name="methodUnderTest">The method under test</param>
     public override void After(MethodInfo methodUnderTest)
     {
+#if NET45 || NET47 || NETCOREAPP2_0
         Thread.CurrentThread.CurrentCulture = originalCulture;
         Thread.CurrentThread.CurrentUICulture = originalUICulture;
 
         CultureInfo.CurrentCulture.ClearCachedData();
         CultureInfo.CurrentUICulture.ClearCachedData();
+#else
+        CultureInfo.CurrentCulture = originalCulture;
+        CultureInfo.CurrentUICulture = originalUICulture;
+#endif
     }
 }

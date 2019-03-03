@@ -807,6 +807,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_asserting_collections_not_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -877,6 +878,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [UseCulture("en-us")]
         public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
