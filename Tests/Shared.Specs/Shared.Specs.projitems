@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvariantCultureCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InvariantCultureFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionOptionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
@@ -64,7 +66,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TypeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSelectorSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UseCultureAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XDocumentAssertionSpecs.cs" />

@@ -8,6 +8,7 @@ using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
 namespace FluentAssertions.Specs
 {
+    [Collection("Invariant Culture Collection")]
     public class ExceptionAssertionSpecs
     {
         [Fact]
@@ -243,7 +244,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

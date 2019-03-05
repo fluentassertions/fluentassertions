@@ -8,6 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
+    [Collection("Invariant Culture Collection")]
     public class GenericDictionaryAssertionSpecs
     {
         // If you try to implement support for IReadOnlyDictionary, these tests should still succeed.
@@ -1161,7 +1162,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_dictionaries_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1346,7 +1346,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_dictionaries_not_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2490,7 +2489,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2567,7 +2565,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

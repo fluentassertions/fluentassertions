@@ -9,6 +9,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
+    [Collection("Invariant Culture Collection")]
     public class TypeAssertionSpecs
     {
         #region Be
@@ -760,7 +761,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_a_type_is_derived_from_an_interface_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -914,7 +914,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_a_type_is_not_derived_from_an_interface_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -2247,7 +2246,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_a_type_implements_a_NonInterface_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -2339,7 +2337,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [UseCulture("en-us")]
         public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
