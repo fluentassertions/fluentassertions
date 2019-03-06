@@ -1631,8 +1631,8 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(x.GetType().GetTypeInfo())))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+                .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1673,10 +1673,15 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => expectedType == x.GetType()))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+                .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private static Type GetType(object o)
+        {
+            return o is Type t ? t : o.GetType();
         }
 
         /// <summary>
