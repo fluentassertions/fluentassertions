@@ -12,8 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InvariantCultureCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)InvariantCultureFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionOptionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />

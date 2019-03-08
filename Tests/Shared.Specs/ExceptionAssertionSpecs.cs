@@ -8,7 +8,6 @@ using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
 namespace FluentAssertions.Specs
 {
-    [Collection("Invariant Culture Collection")]
     public class ExceptionAssertionSpecs
     {
         [Fact]

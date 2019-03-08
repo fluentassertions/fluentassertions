@@ -8,7 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [Collection("Invariant Culture Collection")]
     public class GenericDictionaryAssertionSpecs
     {
         // If you try to implement support for IReadOnlyDictionary, these tests should still succeed.

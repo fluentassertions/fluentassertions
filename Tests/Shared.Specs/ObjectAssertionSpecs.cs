@@ -11,7 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [Collection("Invariant Culture Collection")]
     public class ObjectAssertionSpecs
     {
         #region Be / NotBe
