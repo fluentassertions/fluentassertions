@@ -5124,6 +5124,68 @@ namespace FluentAssertions.Specs
                 "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
         }
 
+        [Fact]
+        public void When_collection_is_of_matching_types_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new Type[] { typeof(Exception), typeof(ArgumentException) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeAssignableTo<Exception>();
+        }
+
+        [Fact]
+        public void When_collection_of_types_contains_one_type_that_does_not_match_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new Type[] { typeof(int), typeof(string), typeof(int) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
+        }
+
+        [Fact]
+        public void When_collection_of_types_and_objects_are_all_of_matching_types_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { typeof(int), 2, typeof(int) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeAssignableTo<int>();
+        }
+
+        [Fact]
+        public void When_collection_of_different_types_and_objects_are_all_assignable_to_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { typeof(Exception), new ArgumentException() };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeAssignableTo<Exception>();
+        }
+
         #endregion
 
         #region ShouldAllBeOfType
@@ -5180,6 +5242,54 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
+        }
+
+        [Fact]
+        public void When_collection_of_types_match_expected_type_exactly_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new Type[] { typeof(int), typeof(int), typeof(int) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeOfType<int>();
+        }
+        
+        [Fact]
+        public void When_collection_of_types_and_objects_match_type_excactly_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { typeof(ArgumentException), new ArgumentException() };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public void When_collection_of_types_and_objects_do_not_match_type_excactly_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { typeof(Exception), new ArgumentException() };
+
+            // -----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeOfType<ArgumentException>();
+
+            // -----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected type to be \"System.ArgumentException\", but found \"[System.Exception, System.ArgumentException]\".");
         }
 
         #endregion
