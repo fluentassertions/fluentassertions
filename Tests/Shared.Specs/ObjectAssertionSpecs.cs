@@ -1444,9 +1444,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("because we need to store it on disk") &&
-                    ex.Message.Contains("EnumMemberAttribute"));
+                .WithMessage("*we need to store it on disk*EnumMemberAttribute*");
         }
 
         [Fact]
