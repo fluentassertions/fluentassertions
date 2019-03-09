@@ -1150,7 +1150,7 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
-                    ex.Message.Contains("marked as serializable"));
+                    ex.Message.Contains(subject.GetType().FullName));
         }
 
         [Fact]
@@ -1177,7 +1177,7 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("constructor to deserialize"));
+                    ex.Message.Contains(subject.GetType().FullName));
         }
 
         [Fact]
@@ -1336,7 +1336,7 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
-                    ex.Message.Contains("Only public types can be processed"));
+                    ex.Message.Contains(subject.GetType().FullName));
         }
 
         [Fact]
@@ -1444,8 +1444,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("Ensure that the necessary enum values are present and are marked with EnumMemberAttribute attribute if the type has DataContractAttribute attribute"));
+                .WithMessage("*we need to store it on disk*EnumMemberAttribute*");
         }
 
         [Fact]
