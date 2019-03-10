@@ -427,8 +427,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected <{0}> because we want to test the failure message, but found <null>.",
-                    new DateTime(2016, 06, 04).ToString("yyyy-MM-dd")));
+                .WithMessage("Expected <2016-06-04> because we want to test the failure message, but found <null>.");
         }
 
         #endregion
@@ -2740,8 +2739,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime target = DateTime.Parse("0001/1/1 12:55");
-            DateTime subject = DateTime.Parse("0001/1/1 12:36");
+            DateTime target = 1.January(0001).At(12, 55);
+            DateTime subject = 1.January(0001).At(12, 36);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2762,8 +2761,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime target = DateTime.Parse("0001/1/1 12:55:00");
-            DateTime subject = DateTime.Parse("0001/1/1 12:53:30");
+            DateTime target = 1.January(0001).At(12, 55);
+            DateTime subject = 1.January(0001).At(12, 53, 30);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert

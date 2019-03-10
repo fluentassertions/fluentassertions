@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
@@ -1375,12 +1376,12 @@ namespace FluentAssertions.Specs
 
             public void ReadXml(XmlReader reader)
             {
-                BirthDay = DateTime.Parse(reader.ReadElementContentAsString());
+                BirthDay = DateTime.Parse(reader.ReadElementContentAsString(), CultureInfo.InvariantCulture);
             }
 
             public void WriteXml(XmlWriter writer)
             {
-                writer.WriteString(BirthDay.ToString());
+                writer.WriteString(BirthDay.ToString(CultureInfo.InvariantCulture));
             }
         }
 

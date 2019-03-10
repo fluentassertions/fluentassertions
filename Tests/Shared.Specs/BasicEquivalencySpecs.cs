@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -139,12 +140,12 @@ namespace FluentAssertions.Specs
             // would hit the recursion-depth limit if structural equivalence were attempted.
             var date1 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
             var date2 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
             //-----------------------------------------------------------------------------------------------------------
