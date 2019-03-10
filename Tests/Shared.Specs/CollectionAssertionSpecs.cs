@@ -1647,8 +1647,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.*: expectation");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot compare collection with <null>.*")
+                .And.ParamName.Should().Be("expectation");
         }
 
         [Fact]
@@ -1973,8 +1974,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.*: unexpected");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot compare collection with <null>.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]
@@ -2309,7 +2311,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot verify inequivalence against a <null> collection.*");
+                .WithMessage("Cannot verify inequivalence against a <null> collection.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]

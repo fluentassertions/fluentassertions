@@ -776,8 +776,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Expression <d.GetType()> cannot be used to select a member.*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Expression <d.GetType()> cannot be used to select a member.*")
+                .And.ParamName.Should().Be("expression");
         }
 
         [Fact]

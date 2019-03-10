@@ -777,7 +777,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*: baseType");
+                .WithMessage("Must not be an interface Type.*")
+                .And.ParamName.Should().Be("baseType");
         }
 
         [Fact]
@@ -930,7 +931,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*: baseType");
+                .WithMessage("Must not be an interface Type.*")
+                .And.ParamName.Should().Be("baseType");
         }
 
         [Fact]
@@ -2262,7 +2264,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*: interfaceType");
+                .WithMessage("Must be an interface Type.*")
+                .And.ParamName.Should().Be("interfaceType");
         }
 
         #endregion
@@ -2353,7 +2356,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*: interfaceType");
+                .WithMessage("Must be an interface Type.*")
+                .And.ParamName.Should().Be("interfaceType");
         }
 
         #endregion

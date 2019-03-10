@@ -1146,11 +1146,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
-                    ex.Message.Contains(subject.GetType().FullName));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable because we need to store it on disk, but serialization failed with:*UnserializableClass*");
         }
 
         [Fact]
@@ -1173,11 +1170,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains(subject.GetType().FullName));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable, but serialization failed with:*BinarySerializableClassMissingDeserializationConstructor*");
         }
 
         [Fact]
@@ -1200,11 +1194,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("member Name to be"));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
         }
 
         [Fact]
@@ -1332,11 +1323,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
-                    ex.Message.Contains(subject.GetType().FullName));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
         }
 
         [Fact]
@@ -1359,11 +1347,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("member Name to be"));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
         }
 
         internal class NonPublicClass
@@ -1467,11 +1452,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .Where(ex =>
-                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("member Name to be"));
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
         }
 
         [Fact]
