@@ -2827,8 +2827,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset target = DateTimeOffset.Parse("0001/1/1 12:55 +0:00");
-            DateTimeOffset subject = DateTimeOffset.Parse("0001/1/1 12:36 +0:00");
+            DateTimeOffset target = 1.January(0001).At(12, 55).ToDateTimeOffset();
+            DateTimeOffset subject = 1.January(0001).At(12, 36).ToDateTimeOffset();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2853,8 +2853,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset target = DateTimeOffset.Parse("0001/1/1 12:55:00");
-            DateTimeOffset subject = DateTimeOffset.Parse("0001/1/1 12:53:30");
+            DateTimeOffset target = 1.January(0001).At(12, 55).ToDateTimeOffset();
+            DateTimeOffset subject = 1.January(0001).At(12, 53, 30).ToDateTimeOffset();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert

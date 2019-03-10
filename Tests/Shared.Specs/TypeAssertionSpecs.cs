@@ -542,14 +542,15 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage($"*{typeof(ClassWithAttribute)} to be assignable to {typeof(DummyBaseType<>)}*failure message*");
         }
-        
+
         [Fact]
         public void When_asserting_an_open_generic_class_is_assignable_to_itself_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));        }
+            typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));
+        }
 
         #endregion
 
@@ -777,7 +778,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*: baseType");
+                .WithMessage("Must not be an interface Type.*")
+                .And.ParamName.Should().Be("baseType");
         }
 
         [Fact]
@@ -930,7 +932,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*: baseType");
+                .WithMessage("Must not be an interface Type.*")
+                .And.ParamName.Should().Be("baseType");
         }
 
         [Fact]
@@ -2262,7 +2265,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*: interfaceType");
+                .WithMessage("Must be an interface Type.*")
+                .And.ParamName.Should().Be("interfaceType");
         }
 
         #endregion
@@ -2353,7 +2357,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*: interfaceType");
+                .WithMessage("Must be an interface Type.*")
+                .And.ParamName.Should().Be("interfaceType");
         }
 
         #endregion

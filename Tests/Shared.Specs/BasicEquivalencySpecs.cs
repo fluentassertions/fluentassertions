@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -139,12 +140,12 @@ namespace FluentAssertions.Specs
             // would hit the recursion-depth limit if structural equivalence were attempted.
             var date1 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
             var date2 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -776,8 +777,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Expression <d.GetType()> cannot be used to select a member.*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Expression <d.GetType()> cannot be used to select a member.*")
+                .And.ParamName.Should().Be("expression");
         }
 
         [Fact]
@@ -1231,7 +1233,7 @@ namespace FluentAssertions.Specs
             public string Property { get; set; } = Guid.NewGuid().ToString();
         }
 
-        class ClassThatHidesBaseClassProperty: ClassWithGuidProperty
+        class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
         }

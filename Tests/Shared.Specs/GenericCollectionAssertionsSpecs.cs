@@ -953,7 +953,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert collection ordering without specifying a property*propertyExpression*");
+                .WithMessage("Cannot assert collection ordering without specifying a property*")
+                .And.ParamName.Should().Be("propertyExpression");
         }
 
         [Fact]
@@ -973,7 +974,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert collection ordering without specifying a comparer*comparer*");
+                .WithMessage("Cannot assert collection ordering without specifying a comparer*")
+                .And.ParamName.Should().Be("comparer");
         }
 
         [Fact]

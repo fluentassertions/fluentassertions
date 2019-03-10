@@ -1647,8 +1647,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.*: expectation");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot compare collection with <null>.*")
+                .And.ParamName.Should().Be("expectation");
         }
 
         [Fact]
@@ -1973,8 +1974,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.*: unexpected");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot compare collection with <null>.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]
@@ -2309,7 +2311,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot verify inequivalence against a <null> collection.*");
+                .WithMessage("Cannot verify inequivalence against a <null> collection.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]
@@ -2415,7 +2418,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainEquivalentOf(item); ;
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -2511,7 +2514,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new []
+            IEnumerable subject = new[]
             {
                 new Customer
                 {
@@ -2543,7 +2546,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new []
+            IEnumerable collection = new[]
             {
                 new Customer
                 {
@@ -5257,7 +5260,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             collection.Should().AllBeOfType<int>();
         }
-        
+
         [Fact]
         public void When_collection_of_types_and_objects_match_type_excactly_it_should_succeed()
         {

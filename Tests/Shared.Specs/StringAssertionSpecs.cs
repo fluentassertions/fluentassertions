@@ -747,7 +747,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-               .WithMessage("Cannot match string against <null>.*");
+               .WithMessage("Cannot match string against <null>.*")
+               .And.ParamName.Should().Be("regularExpression");
         }
 
         [Fact]
@@ -863,7 +864,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-               .WithMessage("Cannot match string against <null>.*");
+               .WithMessage("Cannot match string against <null>.*")
+               .And.ParamName.Should().Be("regularExpression");
         }
 
         [Fact]
@@ -1828,7 +1830,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*");
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -1844,7 +1847,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -2011,9 +2015,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2027,9 +2031,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2173,9 +2177,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2189,9 +2193,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2361,9 +2365,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]
@@ -2377,9 +2381,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         #endregion
@@ -2397,9 +2401,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2413,9 +2417,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2553,9 +2557,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2569,9 +2573,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -2808,7 +2812,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*");
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -2824,7 +2829,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("expected");
         }
 
         #endregion
@@ -3278,8 +3284,5 @@ namespace FluentAssertions.Specs
             var ending = string.IsNullOrEmpty(because) ? "." : string.Format(" because {0}.", because);
             return msg + ending;
         }
-
-        private const string _nullCollectionMessagePattern = "Cannot*containment*null*";
-        private const string _emptyCollectionMessagePattern = "Cannot*containment*empty*";
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Globalization;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -122,7 +122,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(dateTime.ToString("<yyyy-MM-dd HH:mm:ss.fff>"));
+            result.Should().Be("<2012-05-01 20:15:30.318>");
         }
 
         [Theory]
@@ -147,7 +147,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var formatter = new DateTimeOffsetValueFormatter();
-            var value = DateTime.Parse(actual);
+            var value = DateTime.Parse(actual, CultureInfo.InvariantCulture);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -182,7 +182,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var formatter = new DateTimeOffsetValueFormatter();
-            var value = DateTimeOffset.Parse(actual);
+            var value = DateTimeOffset.Parse(actual, CultureInfo.InvariantCulture);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
