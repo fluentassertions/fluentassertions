@@ -542,14 +542,15 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage($"*{typeof(ClassWithAttribute)} to be assignable to {typeof(DummyBaseType<>)}*failure message*");
         }
-        
+
         [Fact]
         public void When_asserting_an_open_generic_class_is_assignable_to_itself_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));        }
+            typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));
+        }
 
         #endregion
 

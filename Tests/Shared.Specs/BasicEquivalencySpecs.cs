@@ -1233,7 +1233,7 @@ namespace FluentAssertions.Specs
             public string Property { get; set; } = Guid.NewGuid().ToString();
         }
 
-        class ClassThatHidesBaseClassProperty: ClassWithGuidProperty
+        class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
         }
