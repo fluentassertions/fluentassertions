@@ -206,6 +206,17 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public async Task When_function_of_task_int_returns_value_result_can_be_asserted()
+        {
+            // Arrange/Act
+            Func<Task<int>> func = () => Task.FromResult(42);
+
+            // Assert
+            func.Should().NotThrow().Which.Should().Be(42);
+            (await func.Should().NotThrowAsync()).Which.Should().Be(42);
+        }
+
+        [Fact]
         public void When_function_of_task_int_in_async_method_throws_not_excepted_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -221,7 +232,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public async Task When_subject_throws_subclass_of_expected_async_exact_exception_it_should_throw()
+        public async Task When_action_throws_subclass_of_expected_async_exact_exception_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -232,6 +243,27 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentNullException>();
+            Func<Task> testAction = async () => await action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            (await testAction.Should().ThrowAsync<XunitException>())
+                .WithMessage("*ArgumentException*ABCDE*ArgumentNullException*");
+        }
+
+        [Fact]
+        public async Task When_func_throws_subclass_of_expected_async_exact_exception_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task<int>> action = async () => await asyncObject.ThrowTaskIntAsync<ArgumentNullException>(true);
             Func<Task> testAction = async () => await action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -789,7 +821,7 @@ namespace FluentAssertions.Specs
 
         public async Task SucceedAsync()
         {
-            await Task.FromResult(0);
+            await Task.FromResult(42);
         }
 
         public Task IncompleteTask()

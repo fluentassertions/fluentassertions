@@ -8,14 +8,14 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Specialized
 {
     /// <summary>
-    /// Contains a number of methods to assert that an asynchronous function yields the expected result.
+    /// Contains a number of methods to assert that an asynchronous action method yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class AsyncFunctionAssertions<T>
+    public class AsyncActionAssertions
     {
         private readonly IExtractExceptions extractor;
 
-        public AsyncFunctionAssertions(Func<Task<T>> subject, IExtractExceptions extractor)
+        public AsyncActionAssertions(Func<Task> subject, IExtractExceptions extractor)
         {
             this.extractor = extractor;
             Subject = subject;
@@ -24,7 +24,7 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Gets the <see cref="Func{Task}"/> that is being asserted.
         /// </summary>
-        public Func<Task<T>> Subject { get; private set; }
+        public Func<Task> Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
@@ -70,19 +70,15 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<AsyncFunctionAssertions<T>, T> NotThrow(
-            string because = "",
-            params object[] becauseArgs)
+        public void NotThrow(string because = "", params object[] becauseArgs)
         {
             try
             {
-                T result = Task.Run(Subject).Result;
-                return new AndWhichConstraint<AsyncFunctionAssertions<T>, T>(this, result);
+                Task.Run(Subject).Wait();
             }
             catch (Exception exception)
             {
                 NotThrow(exception, because, becauseArgs);
-                return null;
             }
         }
 
@@ -96,17 +92,15 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public async Task<AndWhichConstraint<AsyncFunctionAssertions<T>, T>> NotThrowAsync(string because = "", params object[] becauseArgs)
+        public async Task NotThrowAsync(string because = "", params object[] becauseArgs)
         {
             try
             {
-                T result = await Task.Run(Subject);
-                return new AndWhichConstraint<AsyncFunctionAssertions<T>, T>(this, result);
+                await Task.Run(Subject);
             }
             catch (Exception exception)
             {
                 NotThrow(exception, because, becauseArgs);
-                return null;
             }
         }
 
@@ -154,59 +148,6 @@ namespace FluentAssertions.Specialized
             {
                 NotThrow<TException>(exception, because, becauseArgs);
             }
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="Func{Task}"/> throws the exact exception (and not a derived exception type).
-        /// </summary>
-        /// <param name="asyncFunctionAssertions">A reference to the method or property.</param>
-        /// <typeparam name="TException">
-        /// The type of the exception it should throw.
-        /// </typeparam>
-        /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <returns>
-        /// Returns an object that allows asserting additional members of the thrown exception.
-        /// </returns>
-        public ExceptionAssertions<TException> ThrowExactly<TException>(
-            string because = "",
-            params object[] becauseArgs)
-            where TException : Exception
-        {
-            var exceptionAssertions = this.Throw<TException>(because, becauseArgs);
-            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
-            return exceptionAssertions;
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="Func{Task}"/> throws the exact exception (and not a derived exception type).
-        /// </summary>
-        /// <typeparam name="TException">
-        /// The type of the exception it should throw.
-        /// </typeparam>
-        /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <returns>
-        /// Returns an object that allows asserting additional members of the thrown exception.
-        /// </returns>
-        public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(
-            string because = "",
-            params object[] becauseArgs)
-            where TException : Exception
-        {
-            var exceptionAssertions = await this.ThrowAsync<TException>(because, becauseArgs);
-            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
-            return exceptionAssertions;
         }
 
         private static void NotThrow(Exception exception, string because, object[] becauseArgs)

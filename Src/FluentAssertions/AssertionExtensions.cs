@@ -637,9 +637,9 @@ namespace FluentAssertions
         /// current <see cref="System.Func{Task}"/> .
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should(this Func<Task> action)
+        public static AsyncActionAssertions Should(this Func<Task> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new AsyncActionAssertions(action, extractor);
         }
 
         /// <summary>
@@ -647,9 +647,9 @@ namespace FluentAssertions
         /// current <see><cref>System.Func{Task{T}}</cref></see>.
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        public static AsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new AsyncFunctionAssertions<T>(action, extractor);
         }
 
         /// <summary>

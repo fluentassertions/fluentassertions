@@ -28,7 +28,9 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ThrowExactly<TException>(this ActionAssertions actionAssertions, string because = "",
+        public static ExceptionAssertions<TException> ThrowExactly<TException>(
+            this ActionAssertions actionAssertions,
+            string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
@@ -54,7 +56,9 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ThrowExactly<TException>(this AsyncFunctionAssertions asyncActionAssertions, string because = "",
+        public static ExceptionAssertions<TException> ThrowExactly<TException>(
+            this AsyncActionAssertions asyncActionAssertions,
+            string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
@@ -80,7 +84,9 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(this AsyncFunctionAssertions asyncActionAssertions, string because = "",
+        public static async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(
+            this AsyncActionAssertions asyncActionAssertions,
+            string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
