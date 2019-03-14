@@ -27,6 +27,11 @@ namespace FluentAssertions.Specialized
         public Func<Task<T>> Subject { get; private set; }
 
         /// <summary>
+        /// Gets the result of the <see cref="Func{Task}"/>.
+        /// </summary>
+        public T Result => this.Subject().Result;
+
+        /// <summary>
         /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
@@ -347,6 +352,28 @@ namespace FluentAssertions.Specialized
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
             }
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Func{T}"/> will complete within specified time range.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndWhichConstraint<AsyncFunctionAssertions<T>, T> CompleteWithin(TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        {
+            var task = Task.Run(Subject);
+            var completed = task.Wait(timeSpan);
+            Execute.Assertion
+                .ForCondition(completed)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            return new AndWhichConstraint<AsyncFunctionAssertions<T>, T>(this, task.Result);
         }
 
         private static Exception GetFirstNonAggregateException(Exception exception)
