@@ -300,11 +300,34 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void CompleteWithin(TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        public void CompleteWithin(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             var completed = Task.Run(Subject).Wait(timeSpan);
             Execute.Assertion
                 .ForCondition(completed)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Func{T}"/> will complete within specified time range.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task CompleteWithinAsync(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        {
+            var delayTask = Task.Delay(timeSpan);
+            var subjectTask = Task.Run(Subject);
+            var completedTask = await Task.WhenAny(subjectTask, delayTask);
+            Execute.Assertion
+                .ForCondition(completedTask.Equals(subjectTask))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
         }
