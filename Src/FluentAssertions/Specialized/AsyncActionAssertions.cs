@@ -39,8 +39,8 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
-            Exception exception = InvokeSubjectWithInterception();
-            return Throw<TException>(exception, because, becauseArgs);
+            var result = InvokeSubjectWithInterception();
+            return Throw<TException>(result.exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace FluentAssertions.Specialized
         public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
-            Exception exception = await InvokeSubjectWithInterceptionAsync();
-            return Throw<TException>(exception, because, becauseArgs);
+            var result = await InvokeSubjectWithInterceptionAsync();
+            return Throw<TException>(result.exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -215,7 +215,8 @@ namespace FluentAssertions.Specialized
 
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
-                exception = InvokeSubjectWithInterception();
+                var result = InvokeSubjectWithInterception();
+                exception = result.exception;
                 if (exception is null)
                 {
                     return;
@@ -274,7 +275,8 @@ namespace FluentAssertions.Specialized
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    exception = await InvokeSubjectWithInterceptionAsync();
+                    var result = await InvokeSubjectWithInterceptionAsync();
+                    exception = result.exception;
                     if (exception is null)
                     {
                         return;
@@ -293,6 +295,7 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Asserts that the current <see cref="Func{T}"/> will complete within specified time range.
         /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -313,6 +316,7 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Asserts that the current <see cref="Func{T}"/> will complete within specified time range.
         /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -330,6 +334,52 @@ namespace FluentAssertions.Specialized
                 .ForCondition(completedTask.Equals(subjectTask))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public ExceptionAssertions<TException> ThrowWithin<TException>(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            var result = InvokeSubjectWithInterception(timeSpan);
+            Execute.Assertion
+                .ForCondition(result.completed)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to throw within {0}{reason}.", timeSpan);
+            return Throw<TException>(result.exception, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task<ExceptionAssertions<TException>> ThrowWithinAsync<TException>(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            var result = await InvokeSubjectWithInterceptionAsync(timeSpan);
+            Execute.Assertion
+                .ForCondition(result.completed)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to throw within {0}{reason}.", timeSpan);
+            return Throw<TException>(result.exception, because, becauseArgs);
         }
 
         private static Exception GetFirstNonAggregateException(Exception exception)
@@ -361,32 +411,56 @@ namespace FluentAssertions.Specialized
             return new ExceptionAssertions<TException>(exceptions);
         }
 
-        private Exception InvokeSubjectWithInterception()
+        private (bool completed, Exception exception) InvokeSubjectWithInterception(TimeSpan? timeout = null)
         {
             try
             {
-                Task.Run(Subject).Wait();
+                if (timeout.HasValue)
+                {
+                    var completed = Task.Run(Subject).Wait(timeout.Value);
+                    return (completed, null);
+                }
+                else
+                {
+                    Task.Run(Subject).Wait();
+                    return (true, null);
+                }
             }
             catch (Exception exception)
             {
-                return InterceptException(exception);
+                return (true, InterceptException(exception));
             }
-
-            return null;
         }
 
-        private async Task<Exception> InvokeSubjectWithInterceptionAsync()
+        private async Task<(bool completed, Exception exception)> InvokeSubjectWithInterceptionAsync(TimeSpan? timeout = null)
         {
             try
             {
-                await Task.Run(Subject);
+                if (timeout.HasValue)
+                {
+                    var delayTask = Task.Delay(timeout.Value);
+                    var subjectTask = Task.Run(Subject);
+                    var completedTask = await Task.WhenAny(subjectTask, delayTask);
+                    var completed = completedTask.Equals(subjectTask);
+                    if (completed)
+                    {
+                        return (true, completedTask.Exception);
+                    }
+                    else
+                    {
+                        return (false, null);
+                    }
+                }
+                else
+                {
+                    await Task.Run(Subject);
+                    return (true, null);
+                }
             }
             catch (Exception exception)
             {
-                return InterceptException(exception);
+                return (true, InterceptException(exception));
             }
-
-            return null;
         }
 
         private Exception InterceptException(Exception exception)

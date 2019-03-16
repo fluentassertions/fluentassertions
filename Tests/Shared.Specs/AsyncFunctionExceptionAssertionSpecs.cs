@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_completes_fast_it_should_succeed()
+        public void When_async_action_completes_fast_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -212,7 +212,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_completes_slow_it_should_fail()
+        public void When_async_action_completes_slow_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -233,7 +233,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_completes_fast_async_it_should_succeed()
+        public void When_async_action_completes_fast_async_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_completes_slow_async_it_should_fail()
+        public void When_async_action_completes_slow_async_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -267,6 +267,90 @@ namespace FluentAssertions.Specs
             Func<Task> action = () => asyncObject
                 .Awaiting(x => x.DelayAsync(200.Milliseconds()))
                 .Should().CompleteWithinAsync(10.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_async_action_throws_fast_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsync<InvalidOperationException>())
+                .Should().ThrowWithin<InvalidOperationException>(200.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_action_throws_slow_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.SlowThrowAsync<InvalidOperationException>(200.Milliseconds()))
+                .Should().ThrowWithin<InvalidOperationException>(10.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_async_action_throws_fast_async_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> action = () => asyncObject
+                .Awaiting(x => x.ThrowAsync<InvalidOperationException>())
+                .Should().ThrowWithinAsync<InvalidOperationException>(200.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_action_throws_slow_async_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> action = () => asyncObject
+                .Awaiting(x => x.SlowThrowAsync<InvalidOperationException>(200.Milliseconds()))
+                .Should().ThrowWithinAsync<InvalidOperationException>(10.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -316,7 +400,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_int_completes_fast_it_should_succeed()
+        public void When_async_function_completes_fast_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -336,7 +420,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_int_completes_slow_it_should_fail()
+        public void When_async_function_completes_slow_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -356,7 +440,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_int_completes_fast_async_it_should_succeed()
+        public void When_async_function_completes_fast_async_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -378,7 +462,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_int_completes_slow_async_it_should_fail()
+        public void When_async_function_completes_slow_async_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -390,6 +474,87 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Func<Task<int>> func = () => asyncObject.SlowReturnAsync(200.Milliseconds(), 42);
             Func<Task> action = () => func.Should().CompleteWithinAsync(10.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_async_function_throws_fast_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task<int>> func = () => asyncObject.ThrowTaskIntAsync<InvalidOperationException>(true);
+            Action action = () => func.Should().ThrowWithin<InvalidOperationException>(200.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_function_throws_slow_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task<int>> func = () => asyncObject.SlowThrowTaskIntAsync<InvalidOperationException>(200.Milliseconds(), true);
+            Action action = () => func.Should().ThrowWithin<InvalidOperationException>(10.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_async_function_throws_fast_async_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task<int>> func = () => asyncObject.ThrowTaskIntAsync<InvalidOperationException>(true);
+            Func<Task> action = async () =>
+                await func.Should().ThrowWithinAsync<InvalidOperationException>(200.Milliseconds());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_function_throws_slow_async_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task<int>> func = () => asyncObject.SlowThrowTaskIntAsync<InvalidOperationException>(200.Milliseconds(), true);
+            Func<Task> action = () => func.Should().ThrowWithinAsync<InvalidOperationException>(10.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1006,6 +1171,13 @@ namespace FluentAssertions.Specs
             return await Task.FromResult(value);
         }
 
+        public async Task<int> SlowThrowAsync<TException>(TimeSpan timeSpan)
+            where TException : Exception, new()
+        {
+            await Task.Delay(timeSpan);
+            throw new TException();
+        }
+
         public Task IncompleteTask()
         {
             return new TaskCompletionSource<bool>().Task;
@@ -1014,6 +1186,18 @@ namespace FluentAssertions.Specs
         public async Task<int> ThrowTaskIntAsync<TException>(bool throwException)
             where TException : Exception, new()
         {
+            if (throwException)
+            {
+                throw new TException();
+            }
+
+            return await Task.FromResult(123);
+        }
+
+        public async Task<int> SlowThrowTaskIntAsync<TException>(TimeSpan timeSpan, bool throwException)
+            where TException : Exception, new()
+        {
+            await Task.Delay(timeSpan);
             if (throwException)
             {
                 throw new TException();
