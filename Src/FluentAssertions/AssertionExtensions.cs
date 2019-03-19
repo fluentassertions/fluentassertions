@@ -25,6 +25,8 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static partial class AssertionExtensions
     {
+        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="ActionAssertions"/>
@@ -662,9 +664,9 @@ namespace FluentAssertions
         /// current <see cref="System.Func{Task}"/> .
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should(this Func<Task> action)
+        public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new NonGenericAsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor, new TaskTimer());
         }
 
         /// <summary>
@@ -672,9 +674,9 @@ namespace FluentAssertions
         /// current <see><cref>System.Func{Task{T}}</cref></see>.
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action.ExecuteInDefaultSynchronizationContext, extractor, new TaskTimer());
         }
 
         /// <summary>

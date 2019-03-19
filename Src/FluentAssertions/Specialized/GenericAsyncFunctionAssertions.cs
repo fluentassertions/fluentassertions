@@ -1,0 +1,82 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions.Common;
+using FluentAssertions.Execution;
+
+namespace FluentAssertions.Specialized
+{
+    public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions
+    {
+        private readonly Func<Task<TResult>> subject;
+        private readonly ITimer timer;
+
+        public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, ITimer timer) : base(
+            subject, extractor)
+        {
+            this.subject = subject;
+            this.timer = timer;
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Task{T}"/> will complete within specified time.
+        /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>> CompleteWithin(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        {
+            Task<TResult> task = subject();
+            bool completed = timer.Wait(task, timeSpan);
+
+            Execute.Assertion
+                .ForCondition(completed)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>(this, task);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Task{T}"/> will complete within the specified time.
+        /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>> CompleteWithinAsync(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        {
+            using (var timeoutCancellationTokenSource = new CancellationTokenSource())
+            {
+                Task<TResult> task = subject();
+
+                Task completedTask =
+                    await Task.WhenAny(task, timer.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+
+                if (completedTask == task)
+                {
+                    timeoutCancellationTokenSource.Cancel();
+                    await completedTask;
+                }
+
+                Execute.Assertion
+                    .ForCondition(completedTask == task)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>(this, task);
+            }
+        }
+    }
+}
