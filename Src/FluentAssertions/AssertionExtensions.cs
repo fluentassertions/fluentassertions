@@ -653,6 +653,26 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="TaskAssertions"/> object that can be used to assert the
+        /// current <see cref="Task"/> .
+        /// </summary>
+        [Pure]
+        public static TaskAssertions Should(this Task task)
+        {
+            return new TaskAssertions(task);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TaskOfTAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="Task{T}"/>.
+        /// </summary>
+        [Pure]
+        public static TaskOfTAssertions<T> Should<T>(this Task<T> task)
+        {
+            return new TaskOfTAssertions<T>(task);
+        }
+
+        /// <summary>
         /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
         /// current <see cref="System.Func{T}"/> .
         /// </summary>

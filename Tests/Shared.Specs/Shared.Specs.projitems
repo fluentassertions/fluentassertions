@@ -58,6 +58,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskOfTAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThrowAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanFormatterSpecs.cs" />
