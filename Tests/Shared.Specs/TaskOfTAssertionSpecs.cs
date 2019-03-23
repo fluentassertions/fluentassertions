@@ -12,12 +12,20 @@ namespace FluentAssertions.Specs
         public void When_task_completes_fast_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange/Act
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new TestingTimer();
+            var testTask = new TaskCompletionSource<int>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                this.DelayedReturn(10.Milliseconds(), 42)
-                .Should().CompleteWithin(200.Milliseconds())
+                testTask.Task
+                .Should(timer).CompleteWithin(100.Milliseconds())
                 .And.Result.Should().Be(42);
+            testTask.SetResult(42);
+            timer.CompletesBeforeTimeout();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -29,11 +37,18 @@ namespace FluentAssertions.Specs
         public void When_task_completes_slow_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange/Act
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new TestingTimer();
+            var testTask = new TaskCompletionSource<int>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                this.DelayedReturn(200.Milliseconds(), 42)
-                .Should().CompleteWithin(10.Milliseconds());
+                testTask.Task
+                .Should(timer).CompleteWithin(100.Milliseconds());
+            timer.RunsIntoTimeout();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -45,12 +60,20 @@ namespace FluentAssertions.Specs
         public void When_task_completes_fast_async_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange/Act
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new TestingTimer();
+            var testTask = new TaskCompletionSource<int>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<Task> action = async () =>
-                (await this.DelayedReturn(10.Milliseconds(), 42)
-                .Should().CompleteWithinAsync(200.Milliseconds()))
+                (await testTask.Task
+                .Should(timer).CompleteWithinAsync(100.Milliseconds()))
                 .And.Result.Should().Be(42);
+            testTask.SetResult(42);
+            timer.CompletesBeforeTimeout();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -62,22 +85,23 @@ namespace FluentAssertions.Specs
         public void When_task_completes_slow_async_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
-            // Arrange/Act
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new TestingTimer();
+            var testTask = new TaskCompletionSource<int>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<Task> action = () =>
-                this.DelayedReturn(200.Milliseconds(), 42)
-                .Should().CompleteWithinAsync(10.Milliseconds());
+                testTask.Task
+                .Should(timer).CompleteWithinAsync(100.Milliseconds());
+            timer.RunsIntoTimeout();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>();
-        }
-
-        private async Task<T> DelayedReturn<T>(TimeSpan delay, T result)
-        {
-            await Task.Delay(delay);
-            return result;
         }
     }
 }

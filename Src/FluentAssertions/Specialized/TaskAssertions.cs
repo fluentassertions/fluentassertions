@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -11,9 +12,12 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class TaskAssertions
     {
-        public TaskAssertions(Task subject)
+        private readonly ITimer timer;
+
+        public TaskAssertions(Task subject, ITimer timer)
         {
             Subject = subject;
+            this.timer = timer;
         }
 
         /// <summary>
@@ -35,7 +39,7 @@ namespace FluentAssertions.Specialized
         public void CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            var completed = Subject.Wait(timeSpan);
+            var completed = this.timer.Wait(Subject, timeSpan);
             Execute.Assertion
                 .ForCondition(completed)
                 .BecauseOf(because, becauseArgs)
@@ -56,7 +60,7 @@ namespace FluentAssertions.Specialized
         public async Task CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            var delayTask = Task.Delay(timeSpan);
+            var delayTask = this.timer.DelayAsync(timeSpan);
             var completedTask = await Task.WhenAny(Subject, delayTask);
             Execute.Assertion
                 .ForCondition(completedTask.Equals(Subject))

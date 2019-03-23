@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
@@ -659,7 +660,7 @@ namespace FluentAssertions
         [Pure]
         public static TaskAssertions Should(this Task task)
         {
-            return new TaskAssertions(task);
+            return new TaskAssertions(task, new TaskTimer());
         }
 
         /// <summary>
@@ -669,7 +670,7 @@ namespace FluentAssertions
         [Pure]
         public static TaskOfTAssertions<T> Should<T>(this Task<T> task)
         {
-            return new TaskOfTAssertions<T>(task);
+            return new TaskOfTAssertions<T>(task, new TaskTimer());
         }
 
         /// <summary>
