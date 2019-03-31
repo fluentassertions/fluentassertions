@@ -786,7 +786,7 @@ orderDto.Should().BeEquivalentTo(order, options =>
 
 ### Value Types ###
 
-To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as on object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
+To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
 
 You can easily override this by using the `ComparingByValue<T>` or `ComparingByMembers<T>` options for individual assertions:
 
@@ -799,7 +799,7 @@ Or  do the same using the global options:
 
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => options
-    .ComparingByValue<DirectoryInfo`());
+    .ComparingByValue<DirectoryInfo>());
 ```
 
 ### Auto-Conversion ###
