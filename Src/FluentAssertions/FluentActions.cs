@@ -11,7 +11,7 @@ namespace FluentAssertions
     /// Contains static methods to help with exception assertions on actions.
     /// </summary>
     [DebuggerNonUserCode]
-    public static class FluentAction
+    public static class FluentActions
     {
         /// <summary>
         /// Invokes the specified action so that you can chain it with ShouldThrow, etc.

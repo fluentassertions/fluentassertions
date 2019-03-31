@@ -761,20 +761,20 @@ await act.Should().NotThrowAfterAsync(2.Seconds(), 100.Milliseconds());
 act.Should().NotThrowAfter(2.Seconds(), 100.Milliseconds());
 ```
 
-If you prefer single-statement assertions, consider using the `FluentAction` static class, which has `Invoking`, `Awaiting`, and `Enumerating` methods:
+If you prefer single-statement assertions, consider using the `FluentActions` static class, which has `Invoking`, `Awaiting`, and `Enumerating` methods:
 
 ```csharp
-FluentAction.Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException();
+FluentActions.Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException>();
 ```
 
 To make it even more concise:
 
 ```csharp
-using static FluentAssertions.FluentAction;
+using static FluentAssertions.FluentActions;
 
 ...
 
-Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException();
+Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException>();
 ```
 
 ## Object graph comparison ##

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using static FluentAssertions.FluentAction;
+using static FluentAssertions.FluentActions;
 
 namespace FluentAssertions.Specs
 {
-    public class FluentActionSpecs
+    public class FluentActionsSpecs
     {
         [Fact]
         public void Invoking_works_with_action()
