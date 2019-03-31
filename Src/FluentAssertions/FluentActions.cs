@@ -14,25 +14,25 @@ namespace FluentAssertions
     public static class FluentActions
     {
         /// <summary>
-        /// Invokes the specified action so that you can chain it with ShouldThrow, etc.
+        /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
         public static Action Invoking(Action action) => action;
 
         /// <summary>
-        /// Invokes the specified action so that you can chain it with ShouldThrow, etc.
+        /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
         public static Func<T> Invoking<T>(Func<T> func) => func;
 
         /// <summary>
-        /// Invokes the specified action so that you can chain it with ShouldThrow, etc.
+        /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
         public static Func<Task> Awaiting(Func<Task> action) => action;
 
         /// <summary>
-        /// Invokes the specified action so that you can chain it with ShouldThrow, etc.
+        /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
         public static Func<Task<T>> Awaiting<T>(Func<Task<T>> func) => func;
