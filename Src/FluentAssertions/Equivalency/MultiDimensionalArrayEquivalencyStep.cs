@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
                         subject,
                         expectation);
 
-                    parent.AssertEqualityUsing(itemContext);
+                    parent.RecursivelyAssertEquality(itemContext);
                 }
                 while (digit.Increment());
             }

@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency
 
                 if (nestedContext != null)
                 {
-                    parent.AssertEqualityUsing(nestedContext);
+                    parent.RecursivelyAssertEquality(nestedContext);
                 }
             }
         }

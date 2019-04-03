@@ -1,16 +1,16 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Linq;
 using FluentAssertions.Common;
-
-#endregion
 
 namespace FluentAssertions.Execution
 {
     /// <summary>
     /// Represents an implicit or explicit scope within which multiple assertions can be collected.
     /// </summary>
+    /// <remarks>
+    /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
+    /// using <c>async</c> or <c>await</c>.
+    /// </remarks>
     public class AssertionScope : IAssertionScope
     {
         #region Private Definitions
@@ -140,6 +140,12 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        internal void TrackComparands(object subject, object expectation)
+        {
+            contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
+            contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
+        }
+
         public Continuation ClearExpectation()
         {
             expectation = null;
@@ -212,9 +218,12 @@ namespace FluentAssertions.Execution
             assertionStrategy.HandleFailure(formattedFailureMessage);
         }
 
+        /// <summary>
+        /// Tracks a keyed object in the current scope that is excluded from the failure message in case an assertion fails.
+        /// </summary>
         public void AddNonReportable(string key, object value)
         {
-            contextData.Add(key, value, Reportability.Hidden);
+            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
         }
 
         /// <summary>
@@ -223,7 +232,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void AddReportable(string key, string value)
         {
-            contextData.Add(key, value, Reportability.Reportable);
+            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
         }
 
         public string[] Discard()

@@ -255,7 +255,7 @@ namespace FluentAssertions.Equivalency
                 {
                     if (config.IsRecursive)
                     {
-                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subjectValue, expectation[key]));
+                        parent.RecursivelyAssertEquality(context.CreateForDictionaryItem(key, subjectValue, expectation[key]));
                     }
                     else
                     {

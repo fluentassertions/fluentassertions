@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
                         if (config.IsRecursive)
                         {
                             context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
-                            parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                            parent.RecursivelyAssertEquality(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
                         }
                         else
                         {
