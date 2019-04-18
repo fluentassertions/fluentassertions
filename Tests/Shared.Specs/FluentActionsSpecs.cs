@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            Awaiting(async () => await ThrowsAsync()).Should().Throw<InvalidOperationException>();
+            Awaiting(() => ThrowsAsync()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            Awaiting(async () => await ThrowsAsync(0)).Should().Throw<InvalidOperationException>();
+            Awaiting(() => ThrowsAsync(0)).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
