@@ -780,7 +780,8 @@ namespace FluentAssertions.Specs
         public async Task ThrowAsync<TException>()
             where TException : Exception, new()
         {
-            await Task.Factory.StartNew(() => throw new TException());
+            await Task.Yield();
+            throw new TException();
         }
 
         public async Task SucceedAsync()
@@ -793,15 +794,17 @@ namespace FluentAssertions.Specs
             return new TaskCompletionSource<bool>().Task;
         }
 
-        public Task<int> ThrowTaskIntAsync<TException>(bool throwException)
+        public async Task<int> ThrowTaskIntAsync<TException>(bool throwException)
             where TException : Exception, new()
         {
+            await Task.Yield();
+
             if (throwException)
             {
                 throw new TException();
             }
 
-            return Task.FromResult(123);
+            return 123;
         }
     }
 }
