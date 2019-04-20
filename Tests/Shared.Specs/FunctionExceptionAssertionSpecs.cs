@@ -455,7 +455,7 @@ namespace FluentAssertions.Specs
 
             Func<int> throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= (waitTime.TotalMilliseconds / 2).Milliseconds())
                 {
                     throw new ArgumentException("An exception was forced");
                 }
