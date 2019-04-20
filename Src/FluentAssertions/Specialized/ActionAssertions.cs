@@ -166,8 +166,8 @@ namespace FluentAssertions.Specialized
                     return;
                 }
 
-                Thread.Sleep(pollInterval);
                 invocationEndTime = watch.Elapsed;
+                Thread.Sleep(pollInterval);
             }
 
             Execute.Assertion
