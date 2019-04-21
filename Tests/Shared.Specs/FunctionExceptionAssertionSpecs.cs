@@ -3,12 +3,20 @@ using System.Diagnostics;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
     public class FunctionExceptionAssertionSpecs
     {
+        private readonly ITestOutputHelper outputHelper;
+
+        public FunctionExceptionAssertionSpecs(ITestOutputHelper outputHelper)
+        {
+            this.outputHelper = outputHelper;
+        }
+
         [Fact]
         public void Function_Assertions_should_expose_subject()
         {
@@ -393,9 +401,11 @@ namespace FluentAssertions.Specs
             {
                 if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
                 {
+                    outputHelper.WriteLine($"Still throwing at {watch.Elapsed.TotalMilliseconds} ms");
                     throw new ArgumentException("An exception was forced");
                 }
 
+                outputHelper.WriteLine($"Not throwing anymore at {watch.Elapsed.TotalMilliseconds} ms");
                 return 0;
             };
 
@@ -426,8 +436,11 @@ namespace FluentAssertions.Specs
             {
                 if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
                 {
+                    outputHelper.WriteLine($"Still throwing at {watch.Elapsed.TotalMilliseconds} ms");
                     throw new ArgumentException("An exception was forced");
                 }
+
+                outputHelper.WriteLine($"Not throwing anymore at {watch.Elapsed.TotalMilliseconds} ms");
 
                 return 0;
             };
@@ -457,8 +470,12 @@ namespace FluentAssertions.Specs
             {
                 if (watch.Elapsed <= (waitTime.TotalMilliseconds / 2).Milliseconds())
                 {
+                    outputHelper.WriteLine($"Still throwing at {watch.Elapsed.TotalMilliseconds} ms");
+
                     throw new ArgumentException("An exception was forced");
                 }
+
+                outputHelper.WriteLine($"Not throwing anymore at {watch.Elapsed.TotalMilliseconds} ms");
 
                 return 42;
             };

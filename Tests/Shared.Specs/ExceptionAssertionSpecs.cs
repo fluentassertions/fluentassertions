@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
@@ -10,6 +11,13 @@ namespace FluentAssertions.Specs
 {
     public class ExceptionAssertionSpecs
     {
+        private readonly ITestOutputHelper testOutput;
+
+        public ExceptionAssertionSpecs(ITestOutputHelper testOutput)
+        {
+            this.testOutput = testOutput;
+        }
+
         [Fact]
         public void ThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_throw()
         {
@@ -949,9 +957,14 @@ namespace FluentAssertions.Specs
 
             Action throwLongerThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime + (waitTime.TotalMilliseconds / 2).Milliseconds())
                 {
+                    testOutput.WriteLine($"Still throwing at {watch.Elapsed.TotalMilliseconds} ms");
                     throw new ArgumentException("An exception was forced");
+                }
+                else
+                {
+                    testOutput.WriteLine($"Not throwing at {watch.Elapsed.TotalMilliseconds} ms");
                 }
             };
 
