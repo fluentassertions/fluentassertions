@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
 using Xunit;
@@ -329,6 +330,36 @@ namespace FluentAssertions.Specs
                 .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
         }
 
+        [Fact]
+        public void When_an_assertion_fails_on_NotThrow_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> throwingFunction = () => throw new Exception();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    throwingFunction.Should().NotThrow()
+                        .And.BeNull();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*Did not expect any exception*" +
+                    "*to be <null>*"
+                );
+        }
+
         #endregion
 
         #region NotThrowAfter
@@ -473,6 +504,38 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Subject.Should().Be(42);
+        }
+
+        [Fact]
+        public void When_an_assertion_fails_on_NotThrowAfter_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = TimeSpan.Zero;
+            var pollInterval = TimeSpan.Zero;
+            Func<int> throwingFunction = () => throw new Exception();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
+                        .And.BeNull();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*Did not expect any exceptions after*" +
+                    "*to be <null>*"
+                );
         }
 #endif // NotThrowAfter tests
         #endregion
