@@ -606,7 +606,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -639,7 +639,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
+                if (watch.Elapsed <= waitTime.Divide(12))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -720,7 +720,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -753,7 +753,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
+                if (watch.Elapsed <= waitTime.Divide(12))
                 {
                     throw new ArgumentException("An exception was forced");
                 }

@@ -65,6 +65,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)TypeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSelectorSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XDocumentAssertionSpecs.cs" />
