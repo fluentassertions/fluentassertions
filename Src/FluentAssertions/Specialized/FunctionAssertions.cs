@@ -80,7 +80,7 @@ namespace FluentAssertions.Specialized
             catch (Exception exception)
             {
                 NotThrow(exception, because, becauseArgs);
-                return null;
+                return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
             }
         }
 
@@ -175,8 +175,8 @@ namespace FluentAssertions.Specialized
             {
                 try
                 {
-                     T result = Subject();
-                     return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
+                    T result = Subject();
+                    return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
                 }
                 catch (Exception e)
                 {
@@ -191,7 +191,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
-            return null; // never reached
+            return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
         }
 #endif
 

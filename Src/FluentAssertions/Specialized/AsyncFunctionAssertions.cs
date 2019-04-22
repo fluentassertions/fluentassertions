@@ -324,13 +324,12 @@ namespace FluentAssertions.Specialized
             try
             {
                 Task.Run(Subject).Wait();
+                return null;
             }
             catch (Exception exception)
             {
                 return InterceptException(exception);
             }
-
-            return null;
         }
 
         private async Task<Exception> InvokeSubjectWithInterceptionAsync()
@@ -338,13 +337,12 @@ namespace FluentAssertions.Specialized
             try
             {
                 await Task.Run(Subject);
+                return null;
             }
             catch (Exception exception)
             {
                 return InterceptException(exception);
             }
-
-            return null;
         }
 
         private Exception InterceptException(Exception exception)
