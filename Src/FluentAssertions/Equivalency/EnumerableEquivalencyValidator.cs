@@ -185,7 +185,7 @@ namespace FluentAssertions.Equivalency
         {
             using (var scope = new AssertionScope())
             {
-                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subject, expectation));
+                parent.RecursivelyAssertEquality(context.CreateForCollectionItem(expectationIndex.ToString(), subject, expectation));
 
                 return scope.Discard();
             }
@@ -200,7 +200,7 @@ namespace FluentAssertions.Equivalency
                 IEquivalencyValidationContext equivalencyValidationContext =
                     context.CreateForCollectionItem(indexString, subject, expectation);
 
-                parent.AssertEqualityUsing(equivalencyValidationContext);
+                parent.RecursivelyAssertEquality(equivalencyValidationContext);
 
                 bool failed = scope.HasFailures();
                 return !failed;

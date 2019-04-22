@@ -31,11 +31,10 @@ namespace FluentAssertions.Equivalency
             using (var scope = new AssertionScope())
             {
                 scope.AddReportable("configuration", config.ToString());
-                scope.AddNonReportable("objects", new CyclicReferenceDetector(config.CyclicReferenceHandling));
 
                 scope.BecauseOf(context.Because, context.BecauseArgs);
 
-                AssertEqualityUsing(context);
+                RecursivelyAssertEquality(context);
 
                 if (context.Tracer != null)
                 {
@@ -44,12 +43,65 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private bool IsComplexType(object @object)
+        public void RecursivelyAssertEquality(IEquivalencyValidationContext context)
         {
-            if (@object == null)
-                return false;
+            if (ShouldCompareMembersThisDeep(context.SelectedMemberPath))
+            {
+                UpdateScopeWithReportableContext(context);
 
-            Type type = @object.GetType();
+                if (!IsCyclicReference(context))
+                {
+                    RunStepsUntilEquivalencyIsProven(context);
+                }
+            }
+        }
+
+        private bool ShouldCompareMembersThisDeep(string selectedMemberPath)
+        {
+            const char memberSeparator = '.';
+            var depth = selectedMemberPath.Count(chr => chr == memberSeparator);
+            bool shouldRecurse = config.AllowInfiniteRecursion || depth < MaxDepth;
+
+            if (!shouldRecurse)
+            {
+                AssertionScope.Current.FailWith("The maximum recursion depth was reached.  ");
+            }
+
+            return shouldRecurse;
+        }
+
+        private static void UpdateScopeWithReportableContext(IEquivalencyValidationContext context)
+        {
+            if (context.SelectedMemberDescription.Length > 0)
+            {
+                AssertionScope.Current.Context = context.SelectedMemberDescription;
+            }
+
+            AssertionScope.Current.TrackComparands(context.Subject, context.Expectation);
+        }
+
+        private bool IsCyclicReference(IEquivalencyValidationContext context)
+        {
+            var objectTracker = AssertionScope.Current.Get<CyclicReferenceDetector>("cyclic_reference_detector");
+            if (objectTracker is null)
+            {
+                objectTracker = new CyclicReferenceDetector(config.CyclicReferenceHandling);
+                AssertionScope.Current.AddNonReportable("cyclic_reference_detector", objectTracker);
+            }
+
+            bool isComplexType = IsComplexType(context.Expectation);
+
+            return objectTracker.IsCyclicReference(new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType));
+        }
+
+        private bool IsComplexType(object expectation)
+        {
+            if (expectation is null)
+            {
+                return false;
+            }
+
+            Type type = expectation.GetType();
 
             if (!isComplexTypeMap.TryGetValue(type, out bool isComplexType))
             {
@@ -60,71 +112,17 @@ namespace FluentAssertions.Equivalency
             return isComplexType;
         }
 
-        public void AssertEqualityUsing(IEquivalencyValidationContext context)
+        private void RunStepsUntilEquivalencyIsProven(IEquivalencyValidationContext context)
         {
-            if (ContinueRecursion(context.SelectedMemberPath))
+            foreach (var step in AssertionOptions.EquivalencySteps)
             {
-                AssertionScope scope = AssertionScope.Current;
-                scope.Context = (context.SelectedMemberDescription.Length == 0) ? scope.Context : context.SelectedMemberDescription;
-                scope.AddNonReportable("subject", context.Subject);
-                scope.AddNonReportable("expectation", context.Expectation);
-
-                var objectTracker = scope.Get<CyclicReferenceDetector>("objects");
-
-                bool isComplexType = IsComplexType(context.Expectation);
-                var objectReference = new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType);
-
-                if (!objectTracker.IsCyclicReference(objectReference))
+                if (step.CanHandle(context, config) && step.Handle(context, this, config))
                 {
-                    bool wasHandled = false;
-
-                    foreach (var step in AssertionOptions.EquivalencySteps)
-                    {
-                        if (step.CanHandle(context, config))
-                        {
-                            if (step.Handle(context, this, config))
-                            {
-                                wasHandled = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!wasHandled)
-                    {
-                        Execute.Assertion.FailWith(
-                            "No IEquivalencyStep was found to handle the context.  " +
-                            "This is likely a bug in Fluent Assertions.");
-                    }
+                    return;
                 }
             }
-        }
 
-        private bool ContinueRecursion(string memberAccessPath)
-        {
-            if (config.AllowInfiniteRecursion || !HasReachedMaximumRecursionDepth(memberAccessPath))
-            {
-                return true;
-            }
-
-            AssertionScope.Current.FailWith(
-                "The maximum recursion depth was reached.  " +
-                "The maximum recursion depth limitation prevents stack overflow from " +
-                "occurring when certain types of cycles exist in the object graph " +
-                "or the object graph's depth is very high or infinite.  " +
-                "This limitation may be disabled using the config parameter." +
-                Environment.NewLine + Environment.NewLine +
-                "The member access chain when max depth was hit was: " +
-                memberAccessPath);
-
-            return false;
-        }
-
-        private static bool HasReachedMaximumRecursionDepth(string propertyPath)
-        {
-            int depth = propertyPath.Count(chr => chr == '.');
-
-            return (depth >= MaxDepth);
+            throw new NotImplementedException($"No {nameof(IEquivalencyStep)} was found to handle the context. ");
         }
     }
 }

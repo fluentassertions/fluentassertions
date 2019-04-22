@@ -59,7 +59,7 @@ namespace FluentAssertions.Equivalency
 
                 var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
 
-                structuralEqualityValidator.AssertEqualityUsing(newContext);
+                structuralEqualityValidator.RecursivelyAssertEquality(newContext);
                 return true;
             }
 
