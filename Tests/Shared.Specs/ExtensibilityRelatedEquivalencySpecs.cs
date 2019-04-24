@@ -570,7 +570,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, opts => opts
-                .Using(new AlwaysFailAssertionRule())
+                .Using(new AlwaysFailOnDateTimesAssertionRule())
                 .Using(new RelaxingDateTimeAssertionRule()));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -580,11 +580,16 @@ namespace FluentAssertions.Specs
                 "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
-        internal class AlwaysFailAssertionRule : IAssertionRule
+        internal class AlwaysFailOnDateTimesAssertionRule : IAssertionRule
         {
             public bool AssertEquality(IEquivalencyValidationContext context)
             {
-                throw new Exception("Failed");
+                if (context.Expectation is DateTime)
+                {
+                    throw new Exception("Failed");
+                }
+
+                return false;
             }
         }
 
@@ -627,6 +632,37 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow(
                 "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
+        }
+
+        [Fact]
+        public void When_using_a_nested_equivalency_api_in_a_custom_assertion_rule_it_should_honor_the_rule()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithSomeFieldsAndProperties
+            {
+                Property1 = "value1",
+                Property2 = "value2"
+            };
+
+            var expectation = new ClassWithSomeFieldsAndProperties
+            {
+                Property1 = "value1",
+                Property2 = "value3"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
+                .Using<ClassWithSomeFieldsAndProperties>(ctx => ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions=> nestedOptions.Excluding(x => x.Property2)))
+                .WhenTypeIs<ClassWithSomeFieldsAndProperties>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
         }
 
         #endregion

@@ -1,5 +1,6 @@
 namespace FluentAssertions.Equivalency
 {
+    // REFACTOR: Should be removed in a future breaking change since it is replaced by IEquivalencyStep
     public interface IAssertionRule
     {
         /// <summary>
