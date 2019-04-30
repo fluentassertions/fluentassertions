@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using JetBrains.Annotations;
 
 namespace FluentAssertions
@@ -30,7 +31,7 @@ namespace FluentAssertions
         /// </summary>
         [Pure]
         public static Func<Task> Awaiting(Func<Task> action) => action;
-
+         
         /// <summary>
         /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>

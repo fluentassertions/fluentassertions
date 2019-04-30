@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6
 using System.Threading;
-#endif
+#endif 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-
+  
 namespace FluentAssertions.Specialized
 {
     /// <summary>

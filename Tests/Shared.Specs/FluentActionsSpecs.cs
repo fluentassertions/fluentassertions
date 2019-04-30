@@ -35,7 +35,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Awaiting(() => ThrowsAsync()).Should().Throw<InvalidOperationException>();
         }
-
+         
         [Fact]
         public void Awaiting_works_with_func()
         {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -52,15 +52,15 @@ namespace FluentAssertions.Specialized
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
+        /// </param> 
         public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Exception exception = await InvokeSubjectWithInterceptionAsync();
             return Throw<TException>(exception, because, becauseArgs);
         }
-
-        /// <summary>
+ 
+        /// <summary>    
         /// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
         /// </summary>
         /// <param name="because">
@@ -74,7 +74,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
             }
             catch (Exception exception)
             {
@@ -96,7 +96,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -119,14 +119,14 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
             }
             catch (Exception exception)
             {
                 NotThrow<TException>(exception, because, becauseArgs);
             }
-        }
-
+        } 
+          
         /// <summary>
         /// Asserts that the current <see cref="Func{Task}"/> does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
@@ -142,7 +142,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -323,7 +323,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
                 return null;
             }
             catch (Exception exception)
@@ -336,7 +336,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
                 return null;
             }
             catch (Exception exception)

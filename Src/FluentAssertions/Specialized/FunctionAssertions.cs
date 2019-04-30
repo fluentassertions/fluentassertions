@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions.Common;
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6
 using System.Threading;
 #endif
@@ -84,7 +85,7 @@ namespace FluentAssertions.Specialized
             }
         }
 
-        /// <summary>
+        /// <summary> 
         /// Asserts that the current <see cref="Func{T}"/> does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">

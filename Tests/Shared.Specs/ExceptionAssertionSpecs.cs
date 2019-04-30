@@ -960,7 +960,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
                 throwLongerThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
-
+         
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -1019,7 +1019,7 @@ namespace FluentAssertions.Specs
         public abstract void Do();
 
         public abstract void Do(string someParam);
-
+         
         public static Does Throw<TException>(TException exception)
             where TException : Exception
         {
