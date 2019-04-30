@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -74,7 +73,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
             }
             catch (Exception exception)
             {
@@ -96,7 +95,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -119,7 +118,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
             }
             catch (Exception exception)
             {
@@ -142,7 +141,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -323,7 +322,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().Wait();
                 return null;
             }
             catch (Exception exception)
@@ -336,7 +335,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
                 return null;
             }
             catch (Exception exception)
