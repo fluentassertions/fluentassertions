@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
@@ -592,6 +593,20 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<bool> func = () => Task.Delay(0).Wait(0);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            func.Should().NotThrow();
         }
 
         #endregion
