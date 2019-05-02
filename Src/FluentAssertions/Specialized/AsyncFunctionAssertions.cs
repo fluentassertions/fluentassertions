@@ -73,7 +73,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Subject().Wait();
+                Subject().GetAwaiter().GetResult();
             }
             catch (Exception exception)
             {
@@ -118,7 +118,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Subject().Wait();
+                Subject().GetAwaiter().GetResult();
             }
             catch (Exception exception)
             {
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Subject().Wait();
+                Subject().GetAwaiter().GetResult();
                 return null;
             }
             catch (Exception exception)
