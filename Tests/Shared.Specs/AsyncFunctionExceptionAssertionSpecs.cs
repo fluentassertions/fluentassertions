@@ -374,7 +374,7 @@ namespace FluentAssertions.Specs
             Func<Task> task = async () =>
             {
                 await Task.Delay(100);
-                throw new InvalidOperationException();
+                throw new AggregateException(new InvalidOperationException());
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -423,7 +423,7 @@ namespace FluentAssertions.Specs
             Func<Task> task = async () =>
             {
                 await Task.Delay(100);
-                throw new ArgumentException();
+                throw new AggregateException(new ArgumentException());
             };
 
             //-----------------------------------------------------------------------------------------------------------
