@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
 
                 scope.BecauseOf(context.Because, context.BecauseArgs);
 
-                RecursivelyAssertEquality(context);
+                AssertEqualityUsing(context);
 
                 if (context.Tracer != null)
                 {
@@ -43,7 +43,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        public void RecursivelyAssertEquality(IEquivalencyValidationContext context)
+        public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
             if (ShouldCompareMembersThisDeep(context.SelectedMemberPath))
             {
