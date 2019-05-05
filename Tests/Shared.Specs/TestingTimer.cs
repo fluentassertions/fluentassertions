@@ -18,7 +18,7 @@ namespace FluentAssertions.Specs
 
         bool ITimer.Wait(Task task, TimeSpan timeout)
         {
-            Signal.Task.Wait();
+            Signal.Task.GetAwaiter().GetResult();
             return Signal.Task.Result;
         }
 
