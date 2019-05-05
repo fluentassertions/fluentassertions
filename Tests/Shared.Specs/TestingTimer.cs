@@ -7,7 +7,7 @@ namespace FluentAssertions.Specs
     /// <summary>
     /// Implementation of <see cref="ITimer"/> for testing purposes only.
     /// </summary>
-    public class TestingTimer : ITimer
+    internal class TestingTimer : ITimer
     {
         private TaskCompletionSource<bool> Signal { get; } = new TaskCompletionSource<bool>();
 

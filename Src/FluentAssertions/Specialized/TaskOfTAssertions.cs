@@ -31,7 +31,7 @@ namespace FluentAssertions.Specialized
         public T Result => this.Subject.Result;
 
         /// <summary>
-        /// Asserts that the current <see cref="Task{T}"/> will complete within specified time range.
+        /// Asserts that the current <see cref="Task{T}"/> will complete within specified time.
         /// </summary>
         /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">
@@ -54,7 +54,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Task{T}"/> will complete within specified time range.
+        /// Asserts that the current <see cref="Task{T}"/> will complete within specified time.
         /// </summary>
         /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">

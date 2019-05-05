@@ -26,7 +26,7 @@ namespace FluentAssertions.Specialized
         public Task Subject { get; private set; }
 
         /// <summary>
-        /// Asserts that the current <see cref="Task"/> will complete within specified time range.
+        /// Asserts that the current <see cref="Task"/> will complete within specified time.
         /// </summary>
         /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">
@@ -47,7 +47,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Task"/> will complete within specified time range.
+        /// Asserts that the current <see cref="Task"/> will complete within specified time.
         /// </summary>
         /// <param name="timeSpan">The allowed time span for the operation.</param>
         /// <param name="because">

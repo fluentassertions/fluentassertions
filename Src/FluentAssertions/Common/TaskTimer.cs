@@ -15,7 +15,10 @@ namespace FluentAssertions.Common
 
         public bool Wait(Task task, TimeSpan timeout)
         {
-            return task.Wait(timeout);
+            using (NoSynchronizationContextScope.Enter())
+            {
+                return task.Wait(timeout);
+            }
         }
     }
 }
