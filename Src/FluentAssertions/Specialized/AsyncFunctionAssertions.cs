@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -81,7 +80,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                T result = Task.Run(Subject).Result;
+                T result = Subject().GetAwaiter().GetResult();
                 return new AndWhichConstraint<AsyncFunctionAssertions<T>, T>(this, result);
             }
             catch (Exception exception)
@@ -105,7 +104,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                T result = await Task.Run(Subject);
+                T result = await Subject();
                 return new AndWhichConstraint<AsyncFunctionAssertions<T>, T>(this, result);
             }
             catch (Exception exception)
@@ -130,7 +129,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().GetAwaiter().GetResult();
             }
             catch (Exception exception)
             {
@@ -153,7 +152,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -492,7 +491,7 @@ namespace FluentAssertions.Specialized
                 }
                 else
                 {
-                    Task.Run(Subject).Wait();
+                    Subject().GetAwaiter().GetResult();
                     return (true, null);
                 }
             }
@@ -509,7 +508,7 @@ namespace FluentAssertions.Specialized
                 if (timeout.HasValue)
                 {
                     var delayTask = Task.Delay(timeout.Value);
-                    var subjectTask = Task.Run(Subject);
+                    var subjectTask = Subject();
                     var completedTask = await Task.WhenAny(subjectTask, delayTask);
                     var completed = completedTask.Equals(subjectTask);
                     if (completed)
@@ -523,7 +522,7 @@ namespace FluentAssertions.Specialized
                 }
                 else
                 {
-                    await Task.Run(Subject);
+                    await Subject();
                     return (true, null);
                 }
             }

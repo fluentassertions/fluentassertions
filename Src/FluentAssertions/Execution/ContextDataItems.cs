@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
@@ -22,7 +21,7 @@ namespace FluentAssertions.Execution
             DataItem item = items.SingleOrDefault(i => i.Key == key);
             if (item != null)
             {
-                if ((key == "subject") || (key == "expectation"))
+                if (item.RequiresFormatting)
                 {
                     return Formatter.ToString(item.Value);
                 }
@@ -41,12 +40,7 @@ namespace FluentAssertions.Execution
             }
         }
 
-        public void Add(string key, object value, Reportability reportability)
-        {
-            Add(new DataItem(key, value, reportability));
-        }
-
-        private void Add(DataItem item)
+        public void Add(DataItem item)
         {
             var existingItem = items.SingleOrDefault(i => i.Key == item.Key);
             if (existingItem != null)
@@ -65,25 +59,26 @@ namespace FluentAssertions.Execution
 
         internal class DataItem
         {
-            private readonly Reportability reportability;
-
-            public DataItem(string key, object value, Reportability reportability)
+            public DataItem(string key, object value, bool reportable, bool requiresFormatting)
             {
                 Key = key;
                 Value = value;
-                this.reportability = reportability;
+                Reportable = reportable;
+                RequiresFormatting = requiresFormatting;
             }
 
-            public string Key { get; private set; }
+            public string Key { get; }
 
-            public object Value { get; private set; }
+            public object Value { get; }
 
-            public bool Reportable => reportability == Reportability.Reportable;
+            public bool Reportable { get; }
+
+            public bool RequiresFormatting { get; }
 
             public DataItem Clone()
             {
                 object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
-                return new DataItem(Key, value, reportability);
+                return new DataItem(Key, value, Reportable, RequiresFormatting);
             }
         }
     }

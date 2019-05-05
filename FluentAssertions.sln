@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Tests\Default.testsettings = Tests\Default.testsettings
-		Src\FluentAssertions.nuspec = Src\FluentAssertions.nuspec
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
 		.nuget\nuget.config = .nuget\nuget.config
 		README.md = README.md
@@ -62,7 +61,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchma
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
 		Tests\Shared.Specs\Shared.Specs.projitems*{442c9b50-6f91-4cba-8d4e-b470e5cc3d5f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

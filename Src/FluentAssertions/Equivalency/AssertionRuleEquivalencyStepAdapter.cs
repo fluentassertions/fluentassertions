@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return !context.IsRoot;
+            return true;
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)

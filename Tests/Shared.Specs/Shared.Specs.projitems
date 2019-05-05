@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncActionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncFunctionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluentActionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FunctionExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)TypeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSelectorSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XDocumentAssertionSpecs.cs" />

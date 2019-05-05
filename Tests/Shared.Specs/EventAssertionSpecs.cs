@@ -886,9 +886,28 @@ namespace FluentAssertions.Specs
             }
         }
 
+        [Fact]
+        public void When_monitoring_interface_with_inherited_event_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = (IInheritsEventRaisingInterface)new ClassThatRaisesEventsItself();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => eventSource.Monitor();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow<InvalidOperationException>();
+        }
+
         #endregion
 
-        public class ClassThatRaisesEventsItself : IEventRaisingInterface
+        public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
         {
             public event PropertyChangedEventHandler PropertyChanged;
 
@@ -926,6 +945,8 @@ namespace FluentAssertions.Specs
         {
             event EventHandler Interface2Event;
         }
+
+        public interface IInheritsEventRaisingInterface : IEventRaisingInterface { }
 
         public class EventRaisingClass : INotifyPropertyChanged
         {

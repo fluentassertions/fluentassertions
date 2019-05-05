@@ -111,9 +111,10 @@ Task("Pack")
     .IsDependentOn("GitVersion")
     .Does(() => 
     {
-      NuGetPack("./src/FluentAssertions.nuspec", new NuGetPackSettings {
+      DotNetCorePack("./src/FluentAssertions/FluentAssertions.csproj", new DotNetCorePackSettings {
         OutputDirectory = "./Artifacts",
-        Version = gitVersion.NuGetVersionV2
+        Configuration = "Release",
+        ArgumentCustomization = args => args.Append("/p:PackageVersion=" + gitVersion.NuGetVersionV2)
       });  
     });
 

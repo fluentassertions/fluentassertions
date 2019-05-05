@@ -746,17 +746,17 @@ namespace FluentAssertions.Specs
     {
         public async Task PublicAsyncDoNothing()
         {
-            await Task.Factory.StartNew(() => { });
+            await Task.Yield();
         }
 
         internal async Task InternalAsyncDoNothing()
         {
-            await Task.Factory.StartNew(() => { });
+            await Task.Yield();
         }
 
         protected async Task ProtectedAsyncDoNothing()
         {
-            await Task.Factory.StartNew(() => { });
+            await Task.Yield();
         }
     }
 
