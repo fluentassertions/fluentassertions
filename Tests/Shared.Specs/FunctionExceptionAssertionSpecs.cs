@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
 using Xunit;
@@ -329,6 +331,36 @@ namespace FluentAssertions.Specs
                 .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
         }
 
+        [Fact]
+        public void When_an_assertion_fails_on_NotThrow_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> throwingFunction = () => throw new Exception();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    throwingFunction.Should().NotThrow()
+                        .And.BeNull();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*Did not expect any exception*" +
+                    "*to be <null>*"
+                );
+        }
+
         #endregion
 
         #region NotThrowAfter
@@ -391,7 +423,7 @@ namespace FluentAssertions.Specs
 
             Func<int> throwLongerThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -424,7 +456,7 @@ namespace FluentAssertions.Specs
 
             Func<int> throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime.Divide(2))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -455,7 +487,7 @@ namespace FluentAssertions.Specs
 
             Func<int> throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime.Divide(2))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -473,6 +505,38 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Subject.Should().Be(42);
+        }
+
+        [Fact]
+        public void When_an_assertion_fails_on_NotThrowAfter_succeeding_message_should_be_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = TimeSpan.Zero;
+            var pollInterval = TimeSpan.Zero;
+            Func<int> throwingFunction = () => throw new Exception();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
+                        .And.BeNull();
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*Did not expect any exceptions after*" +
+                    "*to be <null>*"
+                );
         }
 #endif // NotThrowAfter tests
         #endregion
@@ -529,6 +593,20 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<bool> func = () => Task.Delay(0).Wait(0);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            func.Should().NotThrow();
         }
 
         #endregion

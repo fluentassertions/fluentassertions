@@ -82,7 +82,7 @@ namespace FluentAssertions.Events
                 throw new InvalidOperationException("Cannot monitor events on garbage-collected object");
             }
 
-            EventInfo[] events = typeDefiningEventsToMonitor.GetEvents();
+            EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
             if (!events.Any())
             {
                 throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
@@ -92,6 +92,19 @@ namespace FluentAssertions.Events
             {
                 AttachEventHandler(eventInfo, utcNow);
             }
+        }
+
+        private EventInfo[] GetPublicEvents(Type type)
+        {
+            if (!type.IsInterface)
+            {
+                return type.GetEvents();
+            }
+
+            return new[] { type }
+                .Concat(type.GetInterfaces())
+                .SelectMany(i => i.GetEvents())
+                .ToArray();
         }
 
         public void Dispose()

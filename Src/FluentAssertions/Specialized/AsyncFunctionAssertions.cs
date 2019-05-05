@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -74,7 +73,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().GetAwaiter().GetResult();
             }
             catch (Exception exception)
             {
@@ -96,7 +95,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -119,7 +118,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().GetAwaiter().GetResult();
             }
             catch (Exception exception)
             {
@@ -142,7 +141,7 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -323,28 +322,26 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task.Run(Subject).Wait();
+                Subject().GetAwaiter().GetResult();
+                return null;
             }
             catch (Exception exception)
             {
                 return InterceptException(exception);
             }
-
-            return null;
         }
 
         private async Task<Exception> InvokeSubjectWithInterceptionAsync()
         {
             try
             {
-                await Task.Run(Subject);
+                await Subject();
+                return null;
             }
             catch (Exception exception)
             {
                 return InterceptException(exception);
             }
-
-            return null;
         }
 
         private Exception InterceptException(Exception exception)

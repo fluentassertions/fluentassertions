@@ -78,7 +78,7 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new ExecutionTime(action);
+            return new ExecutionTime(action.ExecuteInDefaultSynchronizationContext);
         }
 
         /// <summary>
@@ -640,7 +640,7 @@ namespace FluentAssertions
         [Pure]
         public static AsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
         }
 
         /// <summary>
@@ -650,7 +650,7 @@ namespace FluentAssertions
         [Pure]
         public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
         }
 
         /// <summary>

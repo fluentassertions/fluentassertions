@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public async void When_async_method_throws_async_expected_exception_it_should_succeed()
+        public async Task When_async_method_throws_async_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentException>();
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.SucceedAsync();
+            Func<Task> action = () => asyncObject.SucceedAsync();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -182,7 +182,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentNullException>();
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentNullException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -231,8 +231,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentNullException>();
-            Func<Task> testAction = async () => await action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentNullException>();
+            Func<Task> testAction = () => action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentException>();
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -314,7 +314,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () => await asyncObject.ThrowAsync<ArgumentException>();
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -374,7 +374,7 @@ namespace FluentAssertions.Specs
             Func<Task> task = async () =>
             {
                 await Task.Delay(100);
-                throw new InvalidOperationException();
+                throw new AggregateException(new InvalidOperationException());
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -383,6 +383,30 @@ namespace FluentAssertions.Specs
             Action action = () => task
                 .Should().Throw<AggregateException>()
                 .WithInnerException<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_method_throws_aggregate_exception_containing_expected_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> task = async () =>
+            {
+                await Task.Delay(100);
+                throw new AggregateException(new InvalidOperationException());
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => task
+                .Should().Throw<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -423,7 +447,7 @@ namespace FluentAssertions.Specs
             Func<Task> task = async () =>
             {
                 await Task.Delay(100);
-                throw new ArgumentException();
+                throw new AggregateException(new ArgumentException());
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -555,7 +579,7 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             var asyncObject = new AsyncClass();
-            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -579,7 +603,7 @@ namespace FluentAssertions.Specs
             var pollInterval = -1.Milliseconds();
 
             var asyncObject = new AsyncClass();
-            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -606,7 +630,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -639,7 +663,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
+                if (watch.Elapsed <= waitTime.Divide(12))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -670,13 +694,12 @@ namespace FluentAssertions.Specs
             var pollInterval = 10.Milliseconds();
 
             var asyncObject = new AsyncClass();
-            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> act = async () =>
-                await someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
+            Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -695,13 +718,12 @@ namespace FluentAssertions.Specs
             var pollInterval = -1.Milliseconds();
 
             var asyncObject = new AsyncClass();
-            Func<Task> someFunc = async () => await asyncObject.SucceedAsync();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> act = async () =>
-                await someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
+            Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -722,7 +744,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds * 1.5)
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -733,9 +755,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = async () =>
-                await throwLongerThanWaitTime.Should()
-                    .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
+            Func<Task> action = () => throwLongerThanWaitTime.Should()
+                .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -756,7 +777,7 @@ namespace FluentAssertions.Specs
 
             Func<Task> throwShorterThanWaitTime = async () =>
             {
-                if (watch.ElapsedMilliseconds <= waitTime.TotalMilliseconds / 12)
+                if (watch.Elapsed <= waitTime.Divide(12))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -767,8 +788,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> act = async () =>
-                await throwShorterThanWaitTime.Should().NotThrowAfterAsync(waitTime, pollInterval);
+            Func<Task> act = () => throwShorterThanWaitTime.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -784,7 +804,8 @@ namespace FluentAssertions.Specs
         public async Task ThrowAsync<TException>()
             where TException : Exception, new()
         {
-            await Task.Factory.StartNew(() => throw new TException());
+            await Task.Yield();
+            throw new TException();
         }
 
         public async Task SucceedAsync()
@@ -800,12 +821,14 @@ namespace FluentAssertions.Specs
         public async Task<int> ThrowTaskIntAsync<TException>(bool throwException)
             where TException : Exception, new()
         {
+            await Task.Yield();
+
             if (throwException)
             {
                 throw new TException();
             }
 
-            return await Task.FromResult(123);
+            return 123;
         }
     }
 }

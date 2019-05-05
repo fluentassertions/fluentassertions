@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
@@ -832,6 +833,20 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => Task.Delay(0).Wait(0);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -949,7 +964,7 @@ namespace FluentAssertions.Specs
 
             Action throwLongerThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime + (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -980,7 +995,7 @@ namespace FluentAssertions.Specs
 
             Action throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= (waitTime.Milliseconds / 2).Milliseconds())
+                if (watch.Elapsed <= waitTime.Divide(2))
                 {
                     throw new ArgumentException("An exception was forced");
                 }

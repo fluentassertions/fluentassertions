@@ -186,7 +186,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            Func<Task> someAction = async () => await Task.Delay(TimeSpan.FromMilliseconds(150));
+            Func<Task> someAction = () => Task.Delay(TimeSpan.FromMilliseconds(150));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -227,7 +227,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
-            Func<Task> someAction = async () => await Task.Delay(TimeSpan.FromMilliseconds(100));
+            Func<Task> someAction = () => Task.Delay(TimeSpan.FromMilliseconds(100));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
