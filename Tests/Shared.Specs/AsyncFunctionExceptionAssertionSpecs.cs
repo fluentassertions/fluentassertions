@@ -32,6 +32,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_subject_throws_aggregate_exception_and_not_expected_exact_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsync<AggregateException>())
+                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.Threading.AggregateException.");
+        }
+
+        [Fact]
         public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
