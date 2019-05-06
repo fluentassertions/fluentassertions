@@ -264,6 +264,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public async Task When_subject_throws_aggregate_exception_instead_of_exact_exception_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> action = () => asyncObject.ThrowAsync<AggregateException>();
+            Func<Task> testAction = () => action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            (await testAction.Should().ThrowAsync<XunitException>())
+                .WithMessage("*ArgumentException*ABCDE*AggregateException*");
+        }
+
+        [Fact]
         public async Task When_subject_throws_expected_async_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
