@@ -195,6 +195,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_function_throws_aggregrate_exception_with_inner_exception_of_the_expected_exact_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> f = () => throw new AggregateException(new ArgumentException());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => f.Should().ThrowExactly<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected*ArgumentException*but*AggregateException*");
+        }
+
+        [Fact]
         public void When_function_throws_subclass_of_the_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
