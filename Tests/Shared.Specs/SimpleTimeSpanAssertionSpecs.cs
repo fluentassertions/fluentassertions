@@ -41,6 +41,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_null_value_to_be_positive_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BePositive("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be positive because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be positive because we want to test the failure message, but found <null>.");
+#endif
+        }
+
+        [Fact]
         public void When_asserting_negative_value_to_be_positive_it_should_fail_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -95,6 +119,30 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_null_value_to_be_negative_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BeNegative("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be negative because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be negative because we want to test the failure message, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -157,6 +205,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_null_value_to_be_equal_to_different_value_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().Be(expected, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected 1s because we want to test the failure message, but found <null>.");
+        }
+
+        [Fact]
         public void When_asserting_value_to_be_equal_to_different_value_it_should_fail_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -189,6 +258,21 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             actual.Should().NotBe(unexpected);
+        }
+
+        [Fact]
+        public void When_asserting_null_value_to_be_not_equal_to_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            nullTimeSpan.Should().NotBe(expected);
         }
 
         [Fact]
@@ -266,6 +350,31 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_null_value_to_be_greater_than_other_value_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be greater than 1s because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be greater than 1s because we want to test the failure message, but found <null>.");
+#endif
+        }
+
+        [Fact]
         public void When_asserting_value_to_be_greater_than_same_value_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -321,6 +430,31 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             actual.Should().BeGreaterOrEqualTo(smaller);
+        }
+
+        [Fact]
+        public void When_asserting_null_value_to_be_greater_or_equal_to_other_value_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BeGreaterOrEqualTo(expected, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be greater or equal to 1s because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be greater or equal to 1s because we want to test the failure message, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -417,6 +551,31 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_null_value_to_be_less_than_other_value_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BeLessThan(expected, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be less than 1s because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be less than 1s because we want to test the failure message, but found <null>.");
+#endif
+        }
+
+        [Fact]
         public void When_asserting_value_to_be_less_than_same_value_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -472,6 +631,31 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             actual.Should().BeLessOrEqualTo(greater);
+        }
+
+        [Fact]
+        public void When_asserting_null_value_to_be_less_or_equal_to_other_value_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            TimeSpan? nullTimeSpan = null;
+            TimeSpan expected = 1.Seconds();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullTimeSpan.Should().BeLessOrEqualTo(expected, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected time to be less or equal to 1s because we want to test the failure message, but found <null>.");
+#else
+                "Expected nullTimeSpan to be less or equal to 1s because we want to test the failure message, but found <null>.");
+#endif
         }
 
         [Fact]
