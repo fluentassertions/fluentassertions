@@ -357,9 +357,9 @@ namespace FluentAssertions.Collections
         /// The element inspectors, which inspect each element in turn. The
         /// total number of element inspectors must exactly match the number of elements in the collection.
         /// </param>
-        public void SatisfyRespectively(params Action<T>[] elementInspectors)
+        public AndConstraint<GenericCollectionAssertions<T>> SatisfyRespectively(params Action<T>[] elementInspectors)
         {
-            SatisfyRespectively(elementInspectors, string.Empty);
+            return SatisfyRespectively(elementInspectors, string.Empty);
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericCollectionAssertions<T>> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
         {
             if (expected is null)
             {
@@ -403,23 +403,11 @@ namespace FluentAssertions.Collections
 
             int elementsCount = Subject.Count();
             int inspectorsCount = elementInspectors.Count;
-            if (elementsCount != inspectorsCount)
-            {
-                if (inspectorsCount == 1)
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to satisfy an inspector{reason}, but collection has length of {0}.",
-                            elementsCount);
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to satisfy all {0} inspectors{reason}, but collection has length of {1}.",
-                            inspectorsCount, elementsCount);
-                }
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(elementsCount == inspectorsCount)
+                .FailWith("Expected {context:collection} to contain exactly {0} items, but it contains {1} items",
+                    inspectorsCount, elementsCount);
 
             string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
 
@@ -432,6 +420,8 @@ namespace FluentAssertions.Collections
                     .BecauseOf(because, becauseArgs)
                     .FailWith(failureMessage);
             }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }
 
         private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)

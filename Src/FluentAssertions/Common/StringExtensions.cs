@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -95,7 +94,8 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static string IndentLines(this string @this)
         {
-            return string.Join(Environment.NewLine,Regex.Split(@this, "\r\n|\r|\n").Select(x => $"\t{x}"));
+            return string.Join(Environment.NewLine,
+                @this.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
         }
 
         public static string RemoveNewLines(this string @this)

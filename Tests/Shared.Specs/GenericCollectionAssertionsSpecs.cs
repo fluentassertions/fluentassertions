@@ -1442,30 +1442,29 @@ namespace FluentAssertions.Specs
 );
         }
 
-        [Theory]
-        [InlineData(1, "Expected collection to satisfy an inspector")]
-        [InlineData(2, "Expected collection to satisfy all 2 inspectors")]
-        public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw(
-            int inspectorsCount,
-            string expectedMessageBeginning)
+        [Fact]
+        public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var collection = new[]{1, 2, 3};
-            Action<int>[] inspectors = Enumerable.Repeat<Action<int>>(thing => thing.Should().Be(1), inspectorsCount).ToArray();
-            string expectedMessage = $"{expectedMessageBeginning} because we want to test the failure message, but collection has length of 3.";
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().SatisfyRespectively(inspectors,
-                "because we want to test the failure {0}", "message");
+            Action act = () => collection.Should().SatisfyRespectively(
+                new Action<int>[]
+                {
+                    value => value.Should().Be(1),
+                    value => value.Should().Be(2)
+                }, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to contain exactly 2 items, but it contains 3 items");
         }
         #endregion
     }
