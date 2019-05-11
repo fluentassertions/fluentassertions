@@ -26,8 +26,8 @@ namespace FluentAssertions
     public static partial class AssertionExtensions
     {
         /// <summary>
-        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow
-        /// overloads.
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="ActionAssertions"/>
         /// </summary>
         [Pure]
         public static Action Invoking<T>(this T subject, Action<T> action)
@@ -35,8 +35,32 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
+        /// </summary>
+        [Pure]
+        public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
+        {
+            return () => action(subject);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
+        {
+            return () => action(subject);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, Task<TResult>> action)
         {
             return () => action(subject);
         }
@@ -662,7 +686,7 @@ namespace FluentAssertions
         {
             return new FunctionAssertions<T>(func, extractor);
         }
-        
+
 
 #if NET45 || NET47 || NETCOREAPP2_0
 
