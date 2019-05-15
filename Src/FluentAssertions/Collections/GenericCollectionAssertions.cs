@@ -349,6 +349,114 @@ namespace FluentAssertions.Collections
             BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
 
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements, which meet
+        /// the criteria provided by the element inspectors.
+        /// </summary>
+        /// <param name="elementInspectors">
+        /// The element inspectors, which inspect each element in turn. The
+        /// total number of element inspectors must exactly match the number of elements in the collection.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> SatisfyRespectively(params Action<T>[] elementInspectors)
+        {
+            return SatisfyRespectively(elementInspectors, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements, which meet
+        /// the criteria provided by the element inspectors.
+        /// </summary>
+        /// <param name="expected">
+        /// The element inspectors, which inspect each element in turn. The
+        /// total number of element inspectors must exactly match the number of elements in the collection.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
+        {
+            if (expected is null)
+            {
+                throw new ArgumentNullException(nameof(expected), "Cannot verify against a <null> collection of inspectors");
+            }
+
+            ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
+            if (!elementInspectors.Any())
+            {
+                throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
+                .ForCondition(!(Subject is null))
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(Subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
+            int elementsCount = Subject.Count();
+            int inspectorsCount = elementInspectors.Count;
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(elementsCount == inspectorsCount)
+                .FailWith("Expected {context:collection} to contain exactly {0} items, but it contains {1} items",
+                    inspectorsCount, elementsCount);
+
+            string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+
+            if (failuresFromInspectors.Any())
+            {
+                string failureMessage = "Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:"
+                    + Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(failureMessage);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+        {
+            string[] collectionFailures;
+            using (var collectionScope = new AssertionScope())
+            {
+                int index = 0;
+                foreach ((T element, Action<T> inspector) in Subject.Zip(elementInspectors, (element, inspector) => (element, inspector)))
+                {
+                    string[] inspectorFailures;
+                    using (var itemScope = new AssertionScope())
+                    {
+                        inspector(element);
+                        inspectorFailures = itemScope.Discard();
+                    }
+
+                    if (inspectorFailures.Length > 0)
+                    {
+                        // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
+                        string failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+                        // FailWith formatting is not used because of extra quotes being added.
+                        Execute.Assertion
+                            .FailWith($"At index {index}:{Environment.NewLine}{failures}");
+                    }
+
+                    index++;
+                }
+
+                collectionFailures = collectionScope.Discard();
+            }
+
+            return collectionFailures;
+        }
+
         private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
         {
             if (enumerable == null)

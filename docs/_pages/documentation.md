@@ -533,6 +533,28 @@ collection.Should().AllBeOfType<DerivedType>();
 collection.Should().AllBeEquivalentTo(referenceObject);
 ```
 
+In case if you need to perform individual assertions on all elements of a collection, you can assert each element separately in the following manner:
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+};
+collection.Should().SatisfyRespectively(
+    first =>
+    {
+        first.Id.Should().Be(1);
+        first.Name.Should().StartWith("J");
+        first.Attributes.Should().NotBeNull();
+    },
+    second =>
+    {
+        second.Id.Should().Be(2);
+        second.Name.Should().EndWith("e");
+        second.Attributes.Should().NotBeEmpty();
+    });
+```
+
 ## Dictionaries ##
 
 You can apply Fluent Assertions to your generic dictionaries as well.
