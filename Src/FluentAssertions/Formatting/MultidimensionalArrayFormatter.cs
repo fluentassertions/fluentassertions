@@ -26,7 +26,7 @@ namespace FluentAssertions.Formatting
         {
             var arr = (Array)value;
 
-            if (arr.Length <= 0)
+            if (arr.Length == 0)
             {
                 return "{empty}";
             }
@@ -34,26 +34,6 @@ namespace FluentAssertions.Formatting
             var sb = new StringBuilder();
 
             var indecies = Enumerable.Range(0, arr.Rank).Select(dimention => arr.GetLowerBound(dimention)).ToArray();
-
-            bool IsFirstIteration(int index, int dimention)
-            {
-                return index == arr.GetLowerBound(dimention);
-            }
-
-            bool IsMostInnerLoop(int index)
-            {
-                return index == arr.Rank - 1;
-            }
-
-            bool IsLastIteration(int index, int dimention)
-            {
-                return index >= arr.GetUpperBound(dimention);
-            }
-
-            bool IsNotLastIteration(int index, int dimention)
-            {
-                return !IsLastIteration(index, dimention);
-            }
 
             var currentLoopIndex = 0;
             var enumerator = arr.GetEnumerator();
@@ -63,16 +43,16 @@ namespace FluentAssertions.Formatting
             {
                 var loopValue = indecies[currentLoopIndex];
 
-                if (IsFirstIteration(loopValue, currentLoopIndex))
+                if (IsFirstIteration(arr, loopValue, currentLoopIndex))
                 {
                     sb.Append("{");
                 }
 
-                if (IsMostInnerLoop(currentLoopIndex))
+                if (IsMostInnerLoop(arr, currentLoopIndex))
                 {
                     enumerator.MoveNext();
                     sb.Append(formatChild(string.Join("-", indecies), enumerator.Current));
-                    if (IsNotLastIteration(loopValue, currentLoopIndex))
+                    if (IsNotLastIteration(arr, loopValue, currentLoopIndex))
                         sb.Append(", ");
                     ++indecies[currentLoopIndex];       // Increment loop variable
                 }
@@ -82,7 +62,7 @@ namespace FluentAssertions.Formatting
                     continue;
                 }
 
-                while (IsLastIteration(loopValue, currentLoopIndex))
+                while (IsLastIteration(arr, loopValue, currentLoopIndex))
                 {
                     sb.Append("}");
                     indecies[currentLoopIndex] = arr.GetLowerBound(currentLoopIndex);       // Reset current loop's variable to start value
@@ -93,13 +73,33 @@ namespace FluentAssertions.Formatting
 
                     // update loopValue and loopMaxValue
                     loopValue = indecies[currentLoopIndex];
-                    if (IsNotLastIteration(loopValue, currentLoopIndex))
+                    if (IsNotLastIteration(arr, loopValue, currentLoopIndex))
                         sb.Append(", ");
                     ++indecies[currentLoopIndex];       // Increment outer's loop variable
                 }
             }
 
             return sb.ToString();
+        }
+
+        private bool IsFirstIteration(Array arr, int index, int dimention)
+        {
+            return index == arr.GetLowerBound(dimention);
+        }
+
+        private bool IsMostInnerLoop(Array arr, int index)
+        {
+            return index == arr.Rank - 1;
+        }
+
+        private bool IsLastIteration(Array arr, int index, int dimention)
+        {
+            return index >= arr.GetUpperBound(dimention);
+        }
+
+        private bool IsNotLastIteration(Array arr, int index, int dimention)
+        {
+            return !IsLastIteration(arr, index, dimention);
         }
     }
 }
