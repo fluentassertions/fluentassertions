@@ -941,6 +941,25 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Not Throw
+        [Fact]
+        public void When_subject_is_null_when_an_exception_should_not_be_thrown_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().NotThrow("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
 
         [Fact]
         public void When_a_specific_exception_should_not_be_thrown_but_it_was_it_should_throw()
@@ -1027,6 +1046,27 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_null_when_it_should_not_throw_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().NotThrowAfter(0.Milliseconds(), 0.Milliseconds(),
+                "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
 #pragma warning disable CS1998

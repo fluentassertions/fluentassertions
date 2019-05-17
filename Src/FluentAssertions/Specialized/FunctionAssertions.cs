@@ -48,6 +48,11 @@ namespace FluentAssertions.Specialized
         /// </param>
         public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
             try
             {
                 T result = Subject();
@@ -94,6 +99,11 @@ namespace FluentAssertions.Specialized
             {
                 throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
             }
+
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
             TimeSpan? invocationEndTime = null;
             Exception exception = null;

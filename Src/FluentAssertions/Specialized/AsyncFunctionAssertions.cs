@@ -32,9 +32,11 @@ namespace FluentAssertions.Specialized
 
         protected override string Identifier => "async function";
 
+        private protected override bool CanHandleAsync => true;
+
         protected override void InvokeSubject()
         {
-            Subject().GetAwaiter().GetResult();
+            Subject.ExecuteInDefaultSynchronizationContext().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -57,9 +59,14 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TException : Exception
         {
-            Exception exception = await InvokeSubjectWithInterceptionAsync();
-
             Type expectedType = typeof(TException);
+
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
+
+            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -85,7 +92,12 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TException : Exception
         {
-            Exception exception = await InvokeSubjectWithInterceptionAsync();
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
+
+            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
             return Throw<TException>(exception, because, becauseArgs);
         }
 
@@ -101,9 +113,14 @@ namespace FluentAssertions.Specialized
         /// </param>
         public async Task NotThrowAsync(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
             try
             {
-                await Subject();
+                await Subject.ExecuteInDefaultSynchronizationContext();
             }
             catch (Exception exception)
             {
@@ -124,9 +141,14 @@ namespace FluentAssertions.Specialized
         public async Task NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
             try
             {
-                await Subject();
+                await Subject.ExecuteInDefaultSynchronizationContext();
             }
             catch (Exception exception)
             {
@@ -170,6 +192,13 @@ namespace FluentAssertions.Specialized
                     $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
+
+            Func<Task> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
+
             return assertionTask();
 
             async Task assertionTask()
@@ -180,7 +209,7 @@ namespace FluentAssertions.Specialized
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    exception = await InvokeSubjectWithInterceptionAsync();
+                    exception = await InvokeWithInterceptionAsync(wrappedSubject);
                     if (exception is null)
                     {
                         return;
@@ -196,11 +225,11 @@ namespace FluentAssertions.Specialized
             }
         }
 
-        private async Task<Exception> InvokeSubjectWithInterceptionAsync()
+        private static async Task<Exception> InvokeWithInterceptionAsync(Func<Task> action)
         {
             try
             {
-                await Subject();
+                await action();
                 return null;
             }
             catch (Exception exception)

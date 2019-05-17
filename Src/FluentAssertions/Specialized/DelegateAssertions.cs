@@ -33,6 +33,8 @@ namespace FluentAssertions.Specialized
         /// </summary>
         public new TDelegate Subject { get; }
 
+        private protected virtual bool CanHandleAsync => false;
+
         /// <summary>
         /// Asserts that the current <see cref="Delegate" /> throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
@@ -46,8 +48,12 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
-            FailIfSubjectIsAsyncVoid();
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
+            FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             return Throw<TException>(exception, because, becauseArgs);
         }
@@ -65,6 +71,11 @@ namespace FluentAssertions.Specialized
         public void NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
+
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             NotThrow<TException>(exception, because, becauseArgs);
@@ -82,6 +93,11 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void NotThrow(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             NotThrow(exception, because, becauseArgs);
@@ -107,8 +123,12 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TException : Exception
         {
-            FailIfSubjectIsAsyncVoid();
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
+            FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
 
             Type expectedType = typeof(TException);
@@ -148,8 +168,12 @@ namespace FluentAssertions.Specialized
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
         public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
-            FailIfSubjectIsAsyncVoid();
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
+            FailIfSubjectIsAsyncVoid();
             if (waitTime < TimeSpan.Zero)
             {
                 throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
@@ -240,7 +264,7 @@ namespace FluentAssertions.Specialized
 
         private void FailIfSubjectIsAsyncVoid()
         {
-            if (Subject.GetMethodInfo().HasAttribute<AsyncStateMachineAttribute>())
+            if (!CanHandleAsync && Subject.GetMethodInfo().HasAttribute<AsyncStateMachineAttribute>())
             {
                 throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
             }
