@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(x => x.ThrowAsync<AggregateException>())
+                .Awaiting(x => x.ThrowAggregateExceptionAsync<ArgumentException>())
                 .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> action = () => asyncObject.ThrowAsync<AggregateException>();
+            Func<Task> action = () => asyncObject.ThrowAggregateExceptionAsync<ArgumentException>();
             Func<Task> testAction = () => action.Should().ThrowExactlyAsync<ArgumentException>("ABCDE");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -849,6 +849,12 @@ namespace FluentAssertions.Specs
         {
             await Task.Yield();
             throw new TException();
+        }
+
+        public async Task ThrowAggregateExceptionAsync<TException>() where TException : Exception, new()
+        {
+            await Task.Yield();
+            throw new AggregateException(new TException());
         }
 
         public async Task SucceedAsync()
