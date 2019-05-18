@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.Threading.AggregateException.");
+                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
         }
 
         [Fact]

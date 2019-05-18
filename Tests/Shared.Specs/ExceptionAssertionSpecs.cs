@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.Threading.AggregateException.");
+                ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.AggregateException.");
             }
         }
 
