@@ -364,7 +364,6 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region NotThrowAfter
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETCOREAPP1_1
         [Fact]
         public void When_wait_time_is_negative_it_should_throw()
         {
@@ -538,7 +537,6 @@ namespace FluentAssertions.Specs
                     "*to be <null>*"
                 );
         }
-#endif // NotThrowAfter tests
         #endregion
         #region NotThrow<T>
         [Fact]

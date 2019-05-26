@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-using System.Threading;
-#endif
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -116,7 +114,6 @@ namespace FluentAssertions.Specialized
             }
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
         /// <summary>
         /// Asserts that the current <see cref="Action"/> stops throwing any exception
         /// after a specified amount of time.
@@ -167,14 +164,13 @@ namespace FluentAssertions.Specialized
                 }
 
                 invocationEndTime = watch.Elapsed;
-                Thread.Sleep(pollInterval);
+                Task.Delay(pollInterval).GetAwaiter().GetResult();
             }
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
         }
-#endif
 
         private Exception InvokeSubjectWithInterception()
         {
