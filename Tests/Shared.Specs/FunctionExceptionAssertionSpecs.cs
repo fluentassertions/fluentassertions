@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
@@ -11,6 +12,103 @@ namespace FluentAssertions.Specs
 {
     public class FunctionExceptionAssertionSpecs
     {
+        [Fact]
+        public void When_method_throws_an_empty_AggregateException_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> act = () => throw new AggregateException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act2 = () => act.Should().NotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act2.Should().Throw<XunitException>();
+        }
+
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_wrapped_it_should_succeed<T>(Func<int> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act/Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<T>();
+        }
+
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_not_wrapped_it_should_fail<T>(Func<int> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act2 = () => action.Should().NotThrow<T>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act2.Should().Throw<XunitException>();
+        }
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+
+        public static IEnumerable<object[]> AggregateExceptionTestData()
+        {
+            var tasks = new Func<int>[]
+            {
+                AggregateExceptionWithLeftNestedException,
+                AggregateExceptionWithRightNestedException
+            };
+
+            var types = new Exception[]
+            {
+                new AggregateException(),
+                new ArgumentNullException(),
+                new InvalidOperationException()
+            };
+
+            foreach (var task in tasks)
+            {
+                foreach (var type in types)
+                {
+                    yield return new object[] { task, type };
+                }
+            }
+
+            yield return new object[] { (Func<int>)EmptyAggregateException, new AggregateException() };
+        }
+
+        private static int AggregateExceptionWithLeftNestedException()
+        {
+            var ex1 = new AggregateException(new InvalidOperationException());
+            var ex2 = new ArgumentNullException();
+            var wrapped = new AggregateException(ex1, ex2);
+
+            throw wrapped;
+        }
+
+        private static int AggregateExceptionWithRightNestedException()
+        {
+            var ex1 = new ArgumentNullException();
+            var ex2 = new AggregateException(new InvalidOperationException());
+            var wrapped = new AggregateException(ex1, ex2);
+
+            throw wrapped;
+        }
+
+        private static int EmptyAggregateException()
+        {
+            throw new AggregateException();
+        }
+
         [Fact]
         public void Function_Assertions_should_expose_subject()
         {

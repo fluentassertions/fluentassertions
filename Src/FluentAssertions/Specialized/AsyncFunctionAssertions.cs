@@ -151,25 +151,22 @@ namespace FluentAssertions.Specialized
 
         private static void NotThrow(Exception exception, string because, object[] becauseArgs)
         {
-            Exception nonAggregateException = GetFirstNonAggregateException(exception);
-
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                    nonAggregateException.GetType(), nonAggregateException.ToString());
+                    exception.GetType(), exception.ToString());
         }
 
-        private static void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        private void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
         {
-            Exception nonAggregateException = GetFirstNonAggregateException(exception);
+            var exceptions = extractor.OfType<TException>(exception);
 
-            if (nonAggregateException != null)
+            if (exceptions.Any())
             {
                 Execute.Assertion
-                    .ForCondition(!(nonAggregateException is TException))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                        typeof(TException), nonAggregateException.ToString());
+                        typeof(TException), exceptions.First().ToString());
             }
         }
 
@@ -289,17 +286,6 @@ namespace FluentAssertions.Specialized
             }
         }
 
-        private static Exception GetFirstNonAggregateException(Exception exception)
-        {
-            Exception nonAggregateException = exception;
-            while (nonAggregateException is AggregateException)
-            {
-                nonAggregateException = nonAggregateException.InnerException;
-            }
-
-            return nonAggregateException;
-        }
-
         private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
@@ -327,7 +313,7 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                return InterceptException(exception);
+                return exception;
             }
         }
 
@@ -340,19 +326,8 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                return InterceptException(exception);
+                return exception;
             }
-        }
-
-        private Exception InterceptException(Exception exception)
-        {
-            var ar = exception as AggregateException;
-            if (ar?.InnerException is AggregateException)
-            {
-                return ar.InnerException;
-            }
-
-            return exception;
         }
     }
 }

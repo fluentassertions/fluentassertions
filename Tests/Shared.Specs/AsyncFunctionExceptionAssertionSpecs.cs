@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
@@ -9,6 +10,160 @@ namespace FluentAssertions.Specs
 {
     public class AsyncFunctionExceptionAssertionSpecs
     {
+        [Fact]
+        public void When_method_throws_an_empty_AggregateException_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act2 = () => act.Should().NotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act2.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public async Task When_async_method_throws_an_empty_AggregateException_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act2 = () => act.Should().NotThrowAsync();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act2.Should().ThrowAsync<XunitException>();
+        }
+
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_wrapped_it_should_succeed<T>(Func<Task> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act/Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<T>();
+        }
+
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public async Task When_the_expected_exception_is_wrapped_async_it_should_succeed<T>(Func<Task> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act/Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await action.Should().ThrowAsync<T>();
+        }
+
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_not_wrapped_it_should_fail<T>(Func<Task> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act2 = () => action.Should().NotThrow<T>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act2.Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public async Task When_the_expected_exception_is_not_wrapped_async_it_should_fail<T>(Func<Task> action, T _)
+            where T : Exception
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act2 = () => action.Should().NotThrowAsync<T>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act2.Should().ThrowAsync<XunitException>();
+        }
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+
+        public static IEnumerable<object[]> AggregateExceptionTestData()
+        {
+            var tasks = new Func<Task>[]
+            {
+                AggregateExceptionWithLeftNestedException,
+                AggregateExceptionWithRightNestedException
+            };
+
+            var types = new Exception[]
+            {
+                new AggregateException(),
+                new ArgumentNullException(),
+                new InvalidOperationException()
+            };
+
+            foreach (var task in tasks)
+            {
+                foreach (var type in types)
+                {
+                    yield return new object[] { task, type };
+                }
+            }
+
+            yield return new object[] { (Func<Task>)EmptyAggregateException, new AggregateException() };
+        }
+
+        private static Task AggregateExceptionWithLeftNestedException()
+        {
+            var ex1 = new AggregateException(new InvalidOperationException());
+            var ex2 = new ArgumentNullException();
+            var wrapped = new AggregateException(ex1, ex2);
+
+            return FromException(wrapped);
+        }
+
+        private static Task AggregateExceptionWithRightNestedException()
+        {
+            var ex1 = new ArgumentNullException();
+            var ex2 = new AggregateException(new InvalidOperationException());
+            var wrapped = new AggregateException(ex1, ex2);
+
+            return FromException(wrapped);
+        }
+
+        private static Task EmptyAggregateException()
+        {
+            return FromException(new AggregateException());
+        }
+
+        private static Task FromException(AggregateException exception)
+        {
+#if NET45
+            var tcs = new TaskCompletionSource<int>();
+            tcs.SetException(exception);
+            return tcs.Task;
+#else
+            return Task.FromException(exception);
+#endif
+        }
+
         [Fact]
         public void When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()
         {
