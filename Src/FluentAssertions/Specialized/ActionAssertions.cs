@@ -40,24 +40,8 @@ namespace FluentAssertions.Specialized
         {
             FailIfSubjectIsAsyncVoid();
 
-            Exception actualException = InvokeSubjectWithInterception();
-            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
-
-            Execute.Assertion
-                .ForCondition(actualException != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
-
-            Execute.Assertion
-                .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
-                    typeof(TException), actualException.GetType(),
-                    Environment.NewLine,
-                    actualException);
-
-            return new ExceptionAssertions<TException>(expectedExceptions);
+            Exception exception = InvokeSubjectWithInterception();
+            return Throw<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -74,18 +58,8 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             FailIfSubjectIsAsyncVoid();
-
-            Exception actualException = InvokeSubjectWithInterception();
-
-            if (actualException != null)
-            {
-                IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
-
-                Execute.Assertion
-                    .ForCondition(!expectedExceptions.Any())
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), actualException);
-            }
+            Exception exception = InvokeSubjectWithInterception();
+            NotThrow<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -108,9 +82,7 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+                NotThrow(exception, because, becauseArgs);
             }
         }
 
@@ -170,6 +142,45 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+        }
+
+        protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
+            where TException : Exception
+        {
+            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(exception);
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
+
+            Execute.Assertion
+                .ForCondition(expectedExceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
+                    typeof(TException), exception.GetType(),
+                    Environment.NewLine,
+                    exception);
+
+            return new ExceptionAssertions<TException>(expectedExceptions);
+        }
+
+        protected void NotThrow(Exception exception, string because, object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+        }
+
+        protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        {
+            var exceptions = extractor.OfType<TException>(exception);
+            Execute.Assertion
+                .ForCondition(!exceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
+
         }
 
         private Exception InvokeSubjectWithInterception()
