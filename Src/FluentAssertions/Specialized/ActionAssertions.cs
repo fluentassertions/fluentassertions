@@ -147,7 +147,7 @@ namespace FluentAssertions.Specialized
         protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
-            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(exception);
+            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(exception).ToArray();
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -159,7 +159,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected a <{0}> to be thrown{reason}, but found <{1}>: {3}.",
-                    typeof(TException), exception.GetType(),
+                    typeof(TException), exception?.GetType(),
                     Environment.NewLine,
                     exception);
 
