@@ -158,7 +158,7 @@ namespace FluentAssertions.Specialized
                 .ForCondition(expectedExceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {3}.",
+                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {2}{3}.",
                     typeof(TException), exception?.GetType(),
                     Environment.NewLine,
                     exception);
