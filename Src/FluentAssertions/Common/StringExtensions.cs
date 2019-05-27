@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -84,6 +85,17 @@ namespace FluentAssertions.Common
             char[] charArray = @this.ToCharArray();
             charArray[0] = char.ToUpper(charArray[0]);
             return new string(charArray);
+        }
+
+        /// <summary>
+        /// Appends tab character at the beginning of each line in a string.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static string IndentLines(this string @this)
+        {
+            return string.Join(Environment.NewLine,
+                @this.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
         }
 
         public static string RemoveNewLines(this string @this)

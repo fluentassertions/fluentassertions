@@ -37,6 +37,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be positive{reason}, but found <null>.");
+
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be positive{reason}, but found {0}.", Subject.Value);
@@ -56,6 +61,11 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be negative{reason}, but found <null>.");
+
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) < 0)
                 .BecauseOf(because, becauseArgs)
@@ -79,6 +89,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but found <null>.", expected);
+
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -101,7 +116,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Value.CompareTo(unexpected) != 0)
+                .ForCondition(!Subject.HasValue || Subject.Value.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}.", unexpected);
 
@@ -122,6 +137,11 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be less than {0}{reason}, but found <null>.", expected);
+
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
@@ -145,6 +165,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be less or equal to {0}{reason}, but found <null>.", expected);
+
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be less or equal to {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -166,6 +191,11 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be greater than {0}{reason}, but found <null>.", expected);
+
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
@@ -189,6 +219,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
             params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:time} to be greater or equal to {0}{reason}, but found <null>.", expected);
+
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
