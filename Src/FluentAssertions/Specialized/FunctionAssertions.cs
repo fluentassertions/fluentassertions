@@ -55,9 +55,18 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
-            var exceptionAssertions = Throw<TException>(because, becauseArgs);
-            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
-            return exceptionAssertions;
+            Exception exception = InvokeSubjectWithInterception();
+
+            Type expectedType = typeof(TException);
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
+
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
         }
 
         /// <summary>

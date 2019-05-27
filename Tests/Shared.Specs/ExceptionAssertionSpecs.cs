@@ -135,6 +135,32 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void ThrowExactly_when_subject_throws_aggregate_exception_instead_of_expected_exception_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => throw new AggregateException(new ArgumentException());
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
+
+                throw new XunitException("This point should not be reached.");
+            }
+            catch (XunitException ex)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.AggregateException.");
+            }
+        }
+
+        [Fact]
         public void ThrowExactly_when_subject_throws_expected_exception_it_should_not_do_anything()
         {
             //-----------------------------------------------------------------------------------------------------------
