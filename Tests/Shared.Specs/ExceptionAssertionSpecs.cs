@@ -1132,6 +1132,8 @@ namespace FluentAssertions.Specs
 
         public abstract void Do(string someParam);
 
+        public abstract int Return();
+
         public static Does Throw<TException>(TException exception)
             where TException : Exception
         {
@@ -1159,6 +1161,8 @@ namespace FluentAssertions.Specs
             public override void Do() => throw exception;
 
             public override void Do(string someParam) => throw exception;
+
+            public override int Return() => throw exception;
         }
 
         private class DoesNotThrow : Does
@@ -1166,6 +1170,8 @@ namespace FluentAssertions.Specs
             public override void Do() { }
 
             public override void Do(string someParam) { }
+
+            public override int Return() => 42;
         }
     }
 

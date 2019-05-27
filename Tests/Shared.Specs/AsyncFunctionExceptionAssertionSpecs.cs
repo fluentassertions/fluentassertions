@@ -521,6 +521,49 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => asyncObject.ReturnTaskInt())
+                .Should().NotThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowTaskIntAsync<ArgumentException>(true))
+                .Should().NotThrow<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect System.ArgumentException, but found one*");
+        }
+
+        [Fact]
         public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -966,6 +1009,11 @@ namespace FluentAssertions.Specs
         public async Task SucceedAsync()
         {
             await Task.FromResult(0);
+        }
+
+        public Task<int> ReturnTaskInt()
+        {
+            return Task.FromResult(0);
         }
 
         public Task IncompleteTask()
