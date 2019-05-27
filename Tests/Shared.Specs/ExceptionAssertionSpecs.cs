@@ -424,7 +424,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found a <System.ArgumentException>:");
+                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found <System.ArgumentException>:");
 
                 ex.Message.Should().Contain(actualException.Message);
             }

@@ -289,7 +289,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but no exception was thrown*");
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
         }
 
         [Fact]
@@ -311,7 +311,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
         }
 
         [Fact]
@@ -462,7 +462,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
+                .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
         [Fact]
@@ -545,7 +545,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect System.ArgumentException, but found one*");
+                .WithMessage("Did not expect System.ArgumentException, but found*");
         }
 
         [Fact]
