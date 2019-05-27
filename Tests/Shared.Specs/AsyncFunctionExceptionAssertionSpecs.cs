@@ -588,7 +588,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect System.ArgumentException, but found one*");
+                .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
 
         [Fact]
