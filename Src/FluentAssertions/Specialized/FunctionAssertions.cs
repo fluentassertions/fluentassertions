@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-using System.Threading;
-#endif
+using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -128,7 +126,6 @@ namespace FluentAssertions.Specialized
             }
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
         /// <summary>
         /// Asserts that the current <see cref="Func{T}"/> stops throwing any exception
         /// after a specified amount of time.
@@ -181,7 +178,7 @@ namespace FluentAssertions.Specialized
                 }
 
                 invocationEndTime = watch.Elapsed;
-                Thread.Sleep(pollInterval);
+                Task.Delay(pollInterval).GetAwaiter().GetResult();
             }
 
             Execute.Assertion
@@ -190,7 +187,6 @@ namespace FluentAssertions.Specialized
 
             return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
         }
-#endif
 
         private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception

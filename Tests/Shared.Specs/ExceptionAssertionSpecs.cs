@@ -979,7 +979,6 @@ namespace FluentAssertions.Specs
             foo.Invoking(f => f.Do()).Should().NotThrow();
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETCOREAPP1_1
 #pragma warning disable CS1998
         [Fact]
         public void When_subject_is_async_it_should_throw()
@@ -1108,7 +1107,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
-#endif // NotThrowAfter tests
 
     }
 
