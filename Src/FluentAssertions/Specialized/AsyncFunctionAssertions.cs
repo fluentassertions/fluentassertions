@@ -52,7 +52,8 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
+        public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "",
+            params object[] becauseArgs)
             where TException : Exception
         {
             Exception exception = await InvokeSubjectWithInterceptionAsync();
@@ -202,7 +203,8 @@ namespace FluentAssertions.Specialized
 
             if (pollInterval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(pollInterval),
+                    $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
             TimeSpan? invocationEndTime = null;
@@ -216,9 +218,11 @@ namespace FluentAssertions.Specialized
                 {
                     return;
                 }
+
                 Task.Delay(pollInterval).Wait();
                 invocationEndTime = watch.Elapsed;
             }
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
@@ -248,7 +252,7 @@ namespace FluentAssertions.Specialized
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
         public
-        Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+            Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -257,7 +261,8 @@ namespace FluentAssertions.Specialized
 
             if (pollInterval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(pollInterval),
+                    $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
             return assertionTask();
@@ -289,7 +294,7 @@ namespace FluentAssertions.Specialized
         private ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
-            var exceptions = extractor.OfType<TException>(exception);
+            var exceptions = extractor.OfType<TException>(exception).ToArray();
 
             Execute.Assertion
                 .ForCondition(exception != null)
