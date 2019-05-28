@@ -48,6 +48,22 @@ namespace FluentAssertions.Specs
             await act2.Should().ThrowAsync<XunitException>();
         }
 
+        [Fact]
+        public async Task When_async_method_throws_an_Exception_it_should_provide_the_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+            Func<Task> act2 = () => throw new AggregateException("That was wrong as well.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act & Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
+            await act2.Should().ThrowAsync<AggregateException>().WithMessage("That was wrong as well.");
+        }
+
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
