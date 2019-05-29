@@ -25,7 +25,7 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if !NET45 && !NET47 && !NETSTANDARD2_0 && !NETCOREAPP2_0
+#if !NET45 && !NET47 && !NETSTANDARD2_0 && !NETCOREAPP2_0 &&!NETCOREAPP3_0
                 // For .NET Standard < 2.0, we need to attempt to load the assembly
                 try
                 {

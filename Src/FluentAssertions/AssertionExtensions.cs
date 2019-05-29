@@ -690,7 +690,7 @@ namespace FluentAssertions
         }
 
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP3_0
 
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.

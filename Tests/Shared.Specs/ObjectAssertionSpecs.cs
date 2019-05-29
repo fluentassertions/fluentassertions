@@ -1077,7 +1077,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP3_0
 
         #region BeBinarySerializable
 

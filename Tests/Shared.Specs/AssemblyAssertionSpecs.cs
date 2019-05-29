@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETCOREAPP2_0
+﻿#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP3_0
 
 using System;
 using System.Reflection;
