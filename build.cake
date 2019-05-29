@@ -73,7 +73,7 @@ Task("Build")
       // Use MSBuild
       MSBuild("./FluentAssertions.sln", settings => {
 		settings.ToolPath = String.IsNullOrEmpty(toolpath) ? settings.ToolPath : toolpath;
-		settings.ToolVersion = MSBuildToolVersion.VS2017;
+		settings.ToolVersion = MSBuildToolVersion.VS2019;
         settings.PlatformTarget = PlatformTarget.MSIL;
 		settings.SetConfiguration(configuration);
 	  });
@@ -94,6 +94,7 @@ Task("Run-Unit-Tests")
     DotNetCoreTest("./Tests/NetCore.Specs/NetCore.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/NetStandard13.Specs/NetStandard13.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/NetCore20.Specs/NetCore20.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
+    DotNetCoreTest("./Tests/NetCore30.Specs/NetCore30.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
 
     DotNetCoreTest("./Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
     DotNetCoreTest("./Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj", new DotNetCoreTestSettings { Configuration = "Debug" });
