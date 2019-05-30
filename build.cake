@@ -50,6 +50,7 @@ Task("Restore-NuGet-Packages")
 	DotNetCoreRestore(new DotNetCoreRestoreSettings
 	{
 		NoCache = true,
+        ConfigFile = "./nuget.config",
 		Verbosity = DotNetCoreVerbosity.Normal
 	});
 });
@@ -59,8 +60,7 @@ Task("Build")
 	.IsDependentOn("GitVersion")
     .Does(() =>
 {
-      // Use MSBuild
-    DotNetCoreBuild("./FluentAssertions.sln", new  DotNetCoreBuildSettings
+     DotNetCoreBuild("./FluentAssertions.sln", new  DotNetCoreBuildSettings
      {
          Configuration = configuration,
      });
