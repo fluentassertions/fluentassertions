@@ -26,7 +26,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
+        /// Asserts that the current delegate throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// Asserts that the current delegate does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> does not throw any exception.
+        /// Asserts that the current delegate does not throw any exception.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -87,19 +87,19 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> stops throwing any exception
+        /// Asserts that the current delegate stops throwing any exception
         /// after a specified amount of time.
         /// </summary>
         /// <remarks>
-        /// The <see cref="Action"/> is invoked. If it raises an exception,
+        /// The delegate is invoked. If it raises an exception,
         /// the invocation is repeated until it either stops raising any exceptions
         /// or the specified wait time is exceeded.
         /// </remarks>
         /// <param name="waitTime">
-        /// The time after which the <see cref="Action"/> should have stopped throwing any exception.
+        /// The time after which the delegate should have stopped throwing any exception.
         /// </param>
         /// <param name="pollInterval">
-        /// The time between subsequent invocations of the <see cref="Action"/>.
+        /// The time between subsequent invocations of the delegate.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
