@@ -177,8 +177,8 @@ namespace FluentAssertions.Specialized
                     exception = e;
                 }
 
-                invocationEndTime = watch.Elapsed;
                 Task.Delay(pollInterval).GetAwaiter().GetResult();
+                invocationEndTime = watch.Elapsed;
             }
 
             Execute.Assertion
