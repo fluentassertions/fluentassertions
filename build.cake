@@ -50,16 +50,7 @@ Task("Restore-NuGet-Packages")
 	DotNetCoreRestore(new DotNetCoreRestoreSettings
 	{
 		NoCache = true,
-		ConfigFile = "./nuget.config",
 		Verbosity = DotNetCoreVerbosity.Normal
-	});
-
-    NuGetRestore("./FluentAssertions.sln", new NuGetRestoreSettings 
-	{ 
-		NoCache = true,
-		ConfigFile = "./nuget.config",
-		Verbosity = NuGetVerbosity.Normal,
-		ToolPath = "./build/nuget.exe"
 	});
 });
 
@@ -68,22 +59,11 @@ Task("Build")
 	.IsDependentOn("GitVersion")
     .Does(() =>
 {
-    if(IsRunningOnWindows())
-    {
       // Use MSBuild
-      MSBuild("./FluentAssertions.sln", settings => {
-		settings.ToolPath = String.IsNullOrEmpty(toolpath) ? settings.ToolPath : toolpath;
-		settings.ToolVersion = MSBuildToolVersion.VS2017;
-        settings.PlatformTarget = PlatformTarget.MSIL;
-		settings.SetConfiguration(configuration);
-	  });
-    }
-    else
-    {
-      // Use XBuild
-      XBuild("./FluentAssertions.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
+    DotNetCoreBuild("./FluentAssertions.sln", new  DotNetCoreBuildSettings
+     {
+         Configuration = configuration,
+     });
 });
 
 Task("Run-Unit-Tests")
