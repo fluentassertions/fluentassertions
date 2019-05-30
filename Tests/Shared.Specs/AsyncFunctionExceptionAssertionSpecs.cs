@@ -48,6 +48,34 @@ namespace FluentAssertions.Specs
             await act2.Should().ThrowAsync<XunitException>();
         }
 
+        [Fact]
+        public async Task When_async_method_throws_a_nested_AggregateException_it_should_provide_the_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act & Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
+        }
+
+        [Fact]
+        public async Task When_async_method_throws_a_flat_AggregateException_it_should_provide_the_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException("That was wrong as well.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act & Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act.Should().ThrowAsync<AggregateException>().WithMessage("That was wrong as well.");
+        }
+
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
