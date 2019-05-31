@@ -15,6 +15,10 @@ namespace FluentAssertions.Primitives
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
     {
+        protected ReferenceTypeAssertions()
+        {
+        }
+
         protected ReferenceTypeAssertions(TSubject subject)
         {
             Subject = subject;
@@ -23,7 +27,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public TSubject Subject { get; }
+        public TSubject Subject { get; protected set; }
 
         /// <summary>
         /// Asserts that the current object has not been initialized yet.
