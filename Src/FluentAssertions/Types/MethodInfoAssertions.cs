@@ -12,6 +12,10 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
     {
+        public MethodInfoAssertions() : this(default)
+        {
+        }
+
         public MethodInfoAssertions(MethodInfo methodInfo) : base(methodInfo)
         {
         }
