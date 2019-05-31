@@ -10,8 +10,7 @@ namespace FluentAssertions.Types
     /// Contains a number of methods to assert that a <see cref="MethodInfo"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class MethodInfoAssertions :
-        MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
+    public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
     {
         public MethodInfoAssertions(MethodInfo methodInfo) : base(methodInfo)
         {

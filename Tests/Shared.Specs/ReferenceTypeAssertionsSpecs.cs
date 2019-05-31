@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using FluentAssertions.Extensions;
 using FluentAssertions.Primitives;
 using Xunit;
@@ -15,7 +14,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ReferenceTypeAssertions<,>); // if you know the type
+            Type type = typeof(ReferenceTypeAssertions<,>);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert

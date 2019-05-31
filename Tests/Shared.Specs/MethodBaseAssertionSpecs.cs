@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
 
@@ -8,6 +9,20 @@ namespace FluentAssertions.Specs
 {
     public class MethodBaseAssertionSpecs
     {
+        [Fact]
+        public void Should_have_parameterless_constructor()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(MethodBaseAssertions<,>);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            type.Should().HaveDefaultConstructor();
+        }
+
         #region Return
 
         [Fact]
