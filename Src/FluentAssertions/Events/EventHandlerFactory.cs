@@ -72,7 +72,7 @@ namespace FluentAssertions.Events
             ilGen.Emit(OpCodes.Ldloc_0);
 
             // Call the handler
-            ilGen.EmitCall(OpCodes.Call, methodToCall, null);
+            ilGen.EmitCall(OpCodes.Callvirt, methodToCall, null);
 
             ilGen.Emit(OpCodes.Ret);
 
