@@ -23,7 +23,7 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static partial class AssertionExtensions
+    public static class AssertionExtensions
     {
         private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
 
