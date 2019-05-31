@@ -19,7 +19,7 @@ namespace FluentAssertions.Events
         private readonly IMonitor<T> monitor;
         private const string PropertyChangedEventName = "PropertyChanged";
 
-        protected internal EventAssertions(IMonitor<T> monitor)
+        protected internal EventAssertions(IMonitor<T> monitor) : base(monitor.Subject)
         {
             this.monitor = monitor;
         }

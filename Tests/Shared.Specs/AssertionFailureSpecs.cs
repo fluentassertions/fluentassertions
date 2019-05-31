@@ -107,6 +107,10 @@ namespace FluentAssertions.Specs
             {
                 get { return "test"; }
             }
+
+            public AssertionsTestSubClass() : base(null)
+            {
+            }
         }
     }
 }

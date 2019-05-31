@@ -14,9 +14,8 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XAttributeAssertions" /> class.
         /// </summary>
-        public XAttributeAssertions(XAttribute attribute)
+        public XAttributeAssertions(XAttribute attribute) : base(attribute)
         {
-            Subject = attribute;
         }
 
         /// <summary>

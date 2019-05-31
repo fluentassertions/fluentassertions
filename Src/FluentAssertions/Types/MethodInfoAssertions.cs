@@ -13,9 +13,8 @@ namespace FluentAssertions.Types
     public class MethodInfoAssertions :
         MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
     {
-        public MethodInfoAssertions(MethodInfo methodInfo)
+        public MethodInfoAssertions(MethodInfo methodInfo) : base(methodInfo)
         {
-            Subject = methodInfo;
         }
 
         /// <summary>

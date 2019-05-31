@@ -16,7 +16,7 @@ namespace FluentAssertions.Specialized
     {
         private readonly IExtractExceptions extractor;
 
-        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
+        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : base(@delegate)
         {
             this.extractor = extractor;
             Subject = @delegate;

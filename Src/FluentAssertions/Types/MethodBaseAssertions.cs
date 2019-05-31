@@ -14,6 +14,10 @@ namespace FluentAssertions.Types
         where TSubject : MethodBase
         where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
     {
+        protected MethodBaseAssertions(TSubject subject) : base(subject)
+        {
+        }
+
         /// <summary>
         /// Asserts that the selected member has the specified C# <paramref name="accessModifier"/>.
         /// </summary>

@@ -11,14 +11,19 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that a reference type object is in the expected state.
     /// </summary>
-    [DebuggerNonUserCode]
+    //[DebuggerNonUserCode]
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
     {
+        protected ReferenceTypeAssertions(TSubject subject)
+        {
+            Subject = subject;
+        }
+
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public TSubject Subject { get; protected set; }
+        public TSubject Subject { get; }
 
         /// <summary>
         /// Asserts that the current object has not been initialized yet.

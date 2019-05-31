@@ -17,6 +17,10 @@ namespace FluentAssertions.Collections
         where TSubject : IEnumerable
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
     {
+        protected CollectionAssertions(TSubject subject) : base(subject)
+        {
+        }
+
         /// <summary>
         /// Asserts that the collection does not contain any items.
         /// </summary>
