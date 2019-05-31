@@ -219,7 +219,7 @@ namespace FluentAssertions.Specialized
                     return;
                 }
 
-                Task.Delay(pollInterval).Wait();
+                Task.Delay(pollInterval).GetAwaiter().GetResult();
                 invocationEndTime = watch.Elapsed;
             }
 

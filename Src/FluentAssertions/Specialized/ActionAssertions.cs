@@ -163,8 +163,8 @@ namespace FluentAssertions.Specialized
                     return;
                 }
 
-                invocationEndTime = watch.Elapsed;
                 Task.Delay(pollInterval).GetAwaiter().GetResult();
+                invocationEndTime = watch.Elapsed;
             }
 
             Execute.Assertion
