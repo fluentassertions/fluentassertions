@@ -21,6 +21,8 @@ namespace FluentAssertions.Specialized
         /// </summary>
         public new Func<Task> Subject { get; }
 
+        protected override string Identifier => "async function";
+
         protected override void InvokeSubject()
         {
             Subject().GetAwaiter().GetResult();

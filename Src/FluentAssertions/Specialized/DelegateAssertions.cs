@@ -222,10 +222,5 @@ namespace FluentAssertions.Specialized
                 throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
             }
         }
-
-        /// <summary>
-        /// Returns the type of the subject the assertion applies on.
-        /// </summary>
-        protected override string Identifier => "action";
     }
 }
