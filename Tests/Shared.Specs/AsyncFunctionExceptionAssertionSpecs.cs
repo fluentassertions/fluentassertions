@@ -48,6 +48,34 @@ namespace FluentAssertions.Specs
             await act2.Should().ThrowAsync<XunitException>();
         }
 
+        [Fact]
+        public async Task When_async_method_throws_a_nested_AggregateException_it_should_provide_the_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act & Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
+        }
+
+        [Fact]
+        public async Task When_async_method_throws_a_flat_AggregateException_it_should_provide_the_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> act = () => throw new AggregateException("That was wrong as well.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act & Assert
+            //-----------------------------------------------------------------------------------------------------------
+            await act.Should().ThrowAsync<AggregateException>().WithMessage("That was wrong as well.");
+        }
+
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
@@ -261,7 +289,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but no exception was thrown*");
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
         }
 
         [Fact]
@@ -283,7 +311,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
         }
 
         [Fact]
@@ -434,7 +462,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
+                .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
         [Fact]
@@ -517,7 +545,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect System.ArgumentException, but found one*");
+                .WithMessage("Did not expect System.ArgumentException, but found*");
         }
 
         [Fact]
@@ -560,7 +588,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect System.ArgumentException, but found one*");
+                .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
 
         [Fact]

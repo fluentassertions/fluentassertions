@@ -59,8 +59,7 @@ Task("Build")
 	.IsDependentOn("GitVersion")
     .Does(() =>
 {
-      // Use MSBuild
-    DotNetCoreBuild("./FluentAssertions.sln", new  DotNetCoreBuildSettings
+     DotNetCoreBuild("./FluentAssertions.sln", new  DotNetCoreBuildSettings
      {
          Configuration = configuration,
      });
