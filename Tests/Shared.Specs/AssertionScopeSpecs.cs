@@ -11,7 +11,7 @@ using Xunit.Sdk;
 public class AssertionScopeSpecsWithoutNamespace
 #pragma warning restore RCS1110 // Declare type inside namespace.
 {
-#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP3_0
+#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()
     {

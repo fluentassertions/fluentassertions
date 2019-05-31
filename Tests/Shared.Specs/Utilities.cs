@@ -2,7 +2,10 @@
 
 namespace FluentAssertions.Specs
 {
-    public static class Utilities
+    /// <summary>
+    /// Implements extensions to <see cref="TimeSpan"/> available in .NET Core 2, but not in .NET Framework.
+    /// </summary>
+    public static class Utilities // TODO Rename to TimeSpanExtensions?
     {
 #if NET45 || NET47 || NETCOREAPP1_1
         public static TimeSpan Multiply(this TimeSpan timeSpan, double factor)

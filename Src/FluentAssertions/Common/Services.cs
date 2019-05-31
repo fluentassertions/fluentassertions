@@ -63,15 +63,15 @@ namespace FluentAssertions.Common
 
         public static void ResetToDefaults()
         {
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP3_0
-            reflector = new FullFrameworkReflector();
-            configurationStore = new AppSettingsConfigurationStore();
+#if NETSTANDARD1_3
+            reflector = new NullReflector();
+            configurationStore = new NullConfigurationStore();
 #elif NETSTANDARD1_6
             reflector = new NetStandardReflector();
             configurationStore = new NullConfigurationStore();
 #else
-            reflector = new NullReflector();
-            configurationStore = new NullConfigurationStore();
+            reflector = new FullFrameworkReflector();
+            configurationStore = new AppSettingsConfigurationStore();
 #endif
 
             throwException = TestFrameworkProvider.Throw;

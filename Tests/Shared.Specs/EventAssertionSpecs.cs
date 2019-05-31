@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETCOREAPP2_0 || NETCOREAPP3_0
+﻿#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
 using System;
 using System.ComponentModel;
@@ -744,7 +744,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NET45 || NET47
+#if NET45 || NET47 // TODO Why this is not available in e.g. core2?
 
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()

@@ -19,7 +19,7 @@ namespace FluentAssertions.Reflection
             Subject = assembly;
         }
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP3_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.
