@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
+        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
         {
             ["gallio"] = new GallioTestFramework(),
             ["mspec"] = new MSpecFramework(),
@@ -51,20 +51,20 @@ namespace FluentAssertions.Execution
         private static ITestFramework AttemptToDetectUsingAppSetting()
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
-            if (!string.IsNullOrEmpty(frameworkName) && frameworks.ContainsKey(frameworkName.ToLower()))
+            if (string.IsNullOrEmpty(frameworkName)
+                || !frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
-                ITestFramework framework = frameworks[frameworkName.ToLower()];
-                if (!framework.IsAvailable)
-                {
-                    throw new Exception(
-                        "FluentAssertions was configured to use " + frameworkName +
-                        " but the required test framework assembly could not be found");
-                }
-
-                return framework;
+                return null;
             }
 
-            return null;
+            if (!framework.IsAvailable)
+            {
+                throw new Exception(
+                    "FluentAssertions was configured to use " + frameworkName +
+                    " but the required test framework assembly could not be found");
+            }
+
+            return framework;
         }
 
         private static ITestFramework AttemptToDetectUsingDynamicScanning()

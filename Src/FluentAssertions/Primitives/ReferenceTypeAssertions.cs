@@ -123,11 +123,9 @@ namespace FluentAssertions.Primitives
         {
             BeOfType(typeof(T), because, becauseArgs);
 
-            T typedSubject = default(T);
-            if (Subject is T)
-            {
-                typedSubject = (T)(object)Subject;
-            }
+            T typedSubject = (Subject is T type)
+                ? type
+                : default(T);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
@@ -235,11 +233,9 @@ namespace FluentAssertions.Primitives
                     typeof(T),
                     Subject.GetType());
 
-            T typedSubject = default(T);
-            if (Subject is T)
-            {
-                typedSubject = (T)(object)Subject;
-            }
+            T typedSubject = (Subject is T type)
+                ? type
+                : default(T);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
