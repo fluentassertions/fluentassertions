@@ -82,7 +82,25 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current delegate stops throwing any exception
+        /// Asserts that the current <see cref="Delegate"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            var exceptionAssertions = Throw<TException>(because, becauseArgs);
+            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
+            return exceptionAssertions;
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Delegate"/> stops throwing any exception
         /// after a specified amount of time.
         /// </summary>
         /// <remarks>
