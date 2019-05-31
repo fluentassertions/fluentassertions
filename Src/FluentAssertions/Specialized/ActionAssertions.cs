@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-using System.Threading;
-#endif
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -28,7 +26,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
+        /// Asserts that the current delegate throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -42,28 +40,12 @@ namespace FluentAssertions.Specialized
         {
             FailIfSubjectIsAsyncVoid();
 
-            Exception actualException = InvokeSubjectWithInterception();
-            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
-
-            Execute.Assertion
-                .ForCondition(actualException != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
-
-            Execute.Assertion
-                .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
-                    typeof(TException), actualException.GetType(),
-                    Environment.NewLine,
-                    actualException);
-
-            return new ExceptionAssertions<TException>(expectedExceptions);
+            Exception exception = InvokeSubjectWithInterception();
+            return Throw<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// Asserts that the current delegate does not throw an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -76,22 +58,12 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             FailIfSubjectIsAsyncVoid();
-
-            Exception actualException = InvokeSubjectWithInterception();
-
-            if (actualException != null)
-            {
-                IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
-
-                Execute.Assertion
-                    .ForCondition(!expectedExceptions.Any())
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), actualException);
-            }
+            Exception exception = InvokeSubjectWithInterception();
+            NotThrow<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> throws the exact exception (and not a derived exception type).
+        /// Asserts that the current delegate throws the exact exception (and not a derived exception type).
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
@@ -127,7 +99,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> does not throw any exception.
+        /// Asserts that the current delegate does not throw any exception.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -146,27 +118,24 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+                NotThrow(exception, because, becauseArgs);
             }
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
         /// <summary>
-        /// Asserts that the current <see cref="Action"/> stops throwing any exception
+        /// Asserts that the current delegate stops throwing any exception
         /// after a specified amount of time.
         /// </summary>
         /// <remarks>
-        /// The <see cref="Action"/> is invoked. If it raises an exception,
+        /// The delegate is invoked. If it raises an exception,
         /// the invocation is repeated until it either stops raising any exceptions
         /// or the specified wait time is exceeded.
         /// </remarks>
         /// <param name="waitTime">
-        /// The time after which the <see cref="Action"/> should have stopped throwing any exception.
+        /// The time after which the delegate should have stopped throwing any exception.
         /// </param>
         /// <param name="pollInterval">
-        /// The time between subsequent invocations of the <see cref="Action"/>.
+        /// The time between subsequent invocations of the delegate.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -202,15 +171,53 @@ namespace FluentAssertions.Specialized
                     return;
                 }
 
+                Task.Delay(pollInterval).GetAwaiter().GetResult();
                 invocationEndTime = watch.Elapsed;
-                Thread.Sleep(pollInterval);
             }
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
         }
-#endif
+
+        protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
+            where TException : Exception
+        {
+            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(exception).ToArray();
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
+
+            Execute.Assertion
+                .ForCondition(expectedExceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {2}{3}.",
+                    typeof(TException), exception?.GetType(),
+                    Environment.NewLine,
+                    exception);
+
+            return new ExceptionAssertions<TException>(expectedExceptions);
+        }
+
+        protected void NotThrow(Exception exception, string because, object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+        }
+
+        protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        {
+            var exceptions = extractor.OfType<TException>(exception);
+            Execute.Assertion
+                .ForCondition(!exceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
+
+        }
 
         private Exception InvokeSubjectWithInterception()
         {

@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionOptionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskOfTAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestingTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThrowAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanFormatterSpecs.cs" />

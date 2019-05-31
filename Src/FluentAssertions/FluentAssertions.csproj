@@ -25,6 +25,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/master/Src/FluentAssertions.png</PackageIconUrl>
     <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions/releases/</PackageReleaseNotes>
     <Copyright>Copyright Dennis Doomen 2010-2019</Copyright>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
     <DefineConstants>NET45</DefineConstants>

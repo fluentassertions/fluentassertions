@@ -80,6 +80,17 @@ function MD5HashFile([string] $filePath)
     }
 }
 
+Write-Host "Ensuring .NET Core is installed"
+
+$minVersion = "3.0.100-preview5-011568"
+$version = . dotnet --version
+Write-Host "Found .NET Core SDK version $version"
+
+if ($version -lt $minVersion) {
+    Write-Host "Need at least .NET Core $minVersion"
+    .\dotnet-install.ps1 -channel current -version $minVersion
+}
+
 Write-Host "Preparing to run build script..."
 
 if(!$PSScriptRoot){

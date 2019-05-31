@@ -450,7 +450,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found a <System.ArgumentException>:");
+                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found <System.ArgumentException>:");
 
                 ex.Message.Should().Contain(actualException.Message);
             }
@@ -1005,7 +1005,6 @@ namespace FluentAssertions.Specs
             foo.Invoking(f => f.Do()).Should().NotThrow();
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETCOREAPP1_1
 #pragma warning disable CS1998
         [Fact]
         public void When_subject_is_async_it_should_throw()
@@ -1134,7 +1133,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
-#endif // NotThrowAfter tests
 
     }
 
@@ -1157,6 +1155,8 @@ namespace FluentAssertions.Specs
         public abstract void Do();
 
         public abstract void Do(string someParam);
+
+        public abstract int Return();
 
         public static Does Throw<TException>(TException exception)
             where TException : Exception
@@ -1185,6 +1185,8 @@ namespace FluentAssertions.Specs
             public override void Do() => throw exception;
 
             public override void Do(string someParam) => throw exception;
+
+            public override int Return() => throw exception;
         }
 
         private class DoesNotThrow : Does
@@ -1192,6 +1194,8 @@ namespace FluentAssertions.Specs
             public override void Do() { }
 
             public override void Do(string someParam) { }
+
+            public override int Return() => 42;
         }
     }
 

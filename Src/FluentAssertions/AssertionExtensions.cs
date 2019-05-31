@@ -25,9 +25,11 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static partial class AssertionExtensions
     {
+        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+
         /// <summary>
-        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow
-        /// overloads.
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="ActionAssertions"/>
         /// </summary>
         [Pure]
         public static Action Invoking<T>(this T subject, Action<T> action)
@@ -35,8 +37,32 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
+        /// </summary>
+        [Pure]
+        public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
+        {
+            return () => action(subject);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
+        {
+            return () => action(subject);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, Task<TResult>> action)
         {
             return () => action(subject);
         }
@@ -638,9 +664,9 @@ namespace FluentAssertions
         /// current <see cref="System.Func{Task}"/> .
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should(this Func<Task> action)
+        public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new NonGenericAsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor, new TaskTimer());
         }
 
         /// <summary>
@@ -648,9 +674,9 @@ namespace FluentAssertions
         /// current <see><cref>System.Func{Task{T}}</cref></see>.
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new AsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action.ExecuteInDefaultSynchronizationContext, extractor, new TaskTimer());
         }
 
         /// <summary>
@@ -662,7 +688,7 @@ namespace FluentAssertions
         {
             return new FunctionAssertions<T>(func, extractor);
         }
-        
+
 
 #if NET45 || NET47 || NETCOREAPP2_0
 
@@ -693,6 +719,29 @@ namespace FluentAssertions
         public static TTo As<TTo>(this object subject)
         {
             return subject is TTo ? (TTo)subject : default(TTo);
+        }
+
+        /// <summary>
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// </summary>
+        /// <param name = "expectedWildcardPattern">
+        ///   The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
+        public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
+            this Task<ExceptionAssertions<TException>> task,
+            string expectedWildcardPattern,
+            string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+        {
+            return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
     }
 }
