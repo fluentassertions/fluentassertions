@@ -19,9 +19,8 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public TypeAssertions(Type type)
+        public TypeAssertions(Type type) : base(type)
         {
-            Subject = type;
         }
 
         /// <summary>

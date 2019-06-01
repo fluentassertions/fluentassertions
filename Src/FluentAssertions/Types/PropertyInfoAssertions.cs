@@ -13,9 +13,8 @@ namespace FluentAssertions.Types
     public class PropertyInfoAssertions :
         MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
     {
-        public PropertyInfoAssertions(PropertyInfo propertyInfo)
+        public PropertyInfoAssertions(PropertyInfo propertyInfo) : base(propertyInfo)
         {
-            Subject = propertyInfo;
         }
 
         /// <summary>

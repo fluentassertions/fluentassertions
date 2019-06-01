@@ -17,12 +17,8 @@ namespace FluentAssertions.Collections
     public class GenericDictionaryAssertions<TKey, TValue> :
         ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
+        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary) : base(dictionary)
         {
-            if (dictionary != null)
-            {
-                Subject = dictionary;
-            }
         }
 
         #region HaveCount

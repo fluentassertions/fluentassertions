@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
+using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
 
@@ -11,6 +12,20 @@ namespace FluentAssertions.Specs
 {
     public class MethodInfoAssertionSpecs
     {
+        [Fact]
+        public void Should_have_parameterless_constructor()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(MethodInfoAssertions);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            type.Should().HaveDefaultConstructor();
+        }
+
         #region BeVirtual
 
         [Fact]

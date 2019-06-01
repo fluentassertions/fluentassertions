@@ -11,9 +11,8 @@ namespace FluentAssertions.Primitives
     /// </summary>
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
-        public ObjectAssertions(object value)
+        public ObjectAssertions(object value) : base(value)
         {
-            Subject = value;
         }
 
         /// <summary>
