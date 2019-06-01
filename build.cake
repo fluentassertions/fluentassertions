@@ -50,6 +50,7 @@ Task("Restore-NuGet-Packages")
 	DotNetCoreRestore(new DotNetCoreRestoreSettings
 	{
 		NoCache = true,
+		ConfigFile = "./nuget.config",
 		Verbosity = DotNetCoreVerbosity.Normal
 	});
 });

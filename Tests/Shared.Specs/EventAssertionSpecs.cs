@@ -744,7 +744,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NET45 || NET47 // TODO Why this is not available in e.g. core2?
+#if NET45 || NET47 // DefineDynamicAssembly is obsolete in .NET Core
 
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()
