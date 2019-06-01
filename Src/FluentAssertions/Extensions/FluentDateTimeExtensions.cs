@@ -244,9 +244,30 @@ namespace FluentAssertions.Extensions
         }
 
         /// <summary>
+        /// Gets the nanoseconds component of the date represented by the current <see cref="DateTimeOffset" /> structure.
+        /// </summary>
+        public static int Nanosecond(this DateTimeOffset self)
+        {
+            return self.Ticks.Ticks().Nanoseconds();
+        }
+
+        /// <summary>
         /// Returns a new <see cref="DateTime" /> that adds the specified number of nanoseconds to the value of this instance.
         /// </summary>
         public static DateTime AddNanoseconds(this DateTime self, long nanoseconds)
+        {
+            if (nanoseconds == 0)
+            {
+                return self;
+            }
+
+            return self + nanoseconds.Nanoseconds();
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTimeOffset" /> that adds the specified number of nanoseconds to the value of this instance.
+        /// </summary>
+        public static DateTimeOffset AddNanoseconds(this DateTimeOffset self, long nanoseconds)
         {
             if (nanoseconds == 0)
             {
@@ -265,9 +286,30 @@ namespace FluentAssertions.Extensions
         }
 
         /// <summary>
+        /// Gets the microseconds component of the date represented by the current <see cref="DateTimeOffset" /> structure.
+        /// </summary>
+        public static int Microsecond(this DateTimeOffset self)
+        {
+            return self.Ticks.Ticks().Microseconds();
+        }
+
+        /// <summary>
         /// Returns a new <see cref="DateTime" /> that adds the specified number of microseconds to the value of this instance.
         /// </summary>
         public static DateTime AddMicroseconds(this DateTime self, long microseconds)
+        {
+            if (microseconds == 0)
+            {
+                return self;
+            }
+
+            return self + microseconds.Microseconds();
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTimeOffset" /> that adds the specified number of microseconds to the value of this instance.
+        /// </summary>
+        public static DateTimeOffset AddMicroseconds(this DateTimeOffset self, long microseconds)
         {
             if (microseconds == 0)
             {

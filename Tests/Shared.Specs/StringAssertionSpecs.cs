@@ -1131,13 +1131,28 @@ namespace FluentAssertions.Specs
         #region End With
 
         [Fact]
-        public void When_asserting_string_ends_with_the_same_value_it_should_not_throw()
+        public void When_asserting_string_ends_with_a_suffix_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             string actual = "ABC";
             string expectedSuffix = "BC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().EndWith(expectedSuffix);
+        }
+
+        [Fact]
+        public void When_asserting_string_ends_with_the_same_value_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedSuffix = "ABC";
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1576,13 +1591,28 @@ namespace FluentAssertions.Specs
         #region End With Equivalent
 
         [Fact]
-        public void When_end_of_string_differs_by_case_only_it_should_not_throw()
+        public void When_suffix_of_string_differs_by_case_only_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             string actual = "ABC";
             string expectedSuffix = "bC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().EndWithEquivalent(expectedSuffix);
+        }
+
+        [Fact]
+        public void When_end_of_string_differs_by_case_only_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedSuffix = "AbC";
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
