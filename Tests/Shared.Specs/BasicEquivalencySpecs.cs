@@ -3392,6 +3392,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void
+            When_asserting_inequivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            ()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
+                    options => options.AllowingInfiniteRecursion());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_an_enumerable_collection_returns_itself_it_should_detect_the_cyclic_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
