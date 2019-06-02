@@ -3344,7 +3344,7 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
         [Fact]
         public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
         {

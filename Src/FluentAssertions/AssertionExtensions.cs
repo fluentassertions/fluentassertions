@@ -23,7 +23,7 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static partial class AssertionExtensions
+    public static class AssertionExtensions
     {
         private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
 
@@ -690,7 +690,7 @@ namespace FluentAssertions
         }
 
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.

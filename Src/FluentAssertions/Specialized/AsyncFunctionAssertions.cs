@@ -9,12 +9,9 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an asynchronous method yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class AsyncFunctionAssertions : ActionAssertions
+    public class AsyncFunctionAssertions : DelegateAssertions<Func<Task>>
     {
-        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : base(() =>
-        {
-            subject().GetAwaiter().GetResult();
-        }, extractor)
+        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : base(subject, extractor)
         {
             Subject = subject;
         }
@@ -23,6 +20,13 @@ namespace FluentAssertions.Specialized
         /// Gets the <see cref="Func{Task}"/> that is being asserted.
         /// </summary>
         public new Func<Task> Subject { get; }
+
+        protected override string Identifier => "async function";
+
+        protected override void InvokeSubject()
+        {
+            Subject().GetAwaiter().GetResult();
+        }
 
         /// <summary>
         /// Asserts that the current <see cref="Func{Task}"/> throws the exact exception (and not a derived exception type).

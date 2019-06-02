@@ -39,7 +39,10 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Core 2.0, .NET Standard 1.3, 1.6 and 2.0. Because of that it supports the following minimum platforms.
+Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Core 2.0, .NET Standard 1.3, 1.6 and 2.0.
+.NET Core 3.0 is supported through .NET 2.0 target, tested with Preview 5.
+
+Because of that Fluent Assertions supports the following minimum platforms.
 *   .NET Core 1.0 and 2.0
 *   .NET Framework 4.5
 *   Mono, Xamarin.iOS 10.0, Xamarin.Mac 3.0 and Xamarin.Android 7.0
@@ -48,7 +51,7 @@ Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET 
 Fluent Assertions supports the following unit test frameworks:
 
 *   MSTest (Visual Studio 2010, 2012 Update 2, 2013 and 2015)
-*   MSTest2 (Visual Studio 2017)
+*   MSTest2 (Visual Studio 2017, Visual Studio 2019)
 *   [NUnit](http://www.nunit.org/)
 *   [XUnit](http://xunit.codeplex.com/)
 *   [XUnit2](https://github.com/xunit/xunit/releases)
@@ -79,6 +82,7 @@ The version numbers of Fluent Assertions releases comply to the [Semantic Versio
 
 ## What do you need to compile the solution?
 
-* Visual Studio 2017 or Jetbrains Rider and Build Tools 2017
+* Visual Studio 2019 or Jetbrains Rider and Build Tools 2017
 * Windows 10
-* .NET Core SDK 2.0 (Preview 2>)
+* .NET Core SDK 2.0
+* .NET Core SDK 3.0

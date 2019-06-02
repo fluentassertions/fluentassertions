@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETCOREAPP2_0
+﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
 using System;
 using System.ComponentModel;
@@ -19,7 +19,7 @@ namespace FluentAssertions.Events
         private readonly IMonitor<T> monitor;
         private const string PropertyChangedEventName = "PropertyChanged";
 
-        protected internal EventAssertions(IMonitor<T> monitor)
+        protected internal EventAssertions(IMonitor<T> monitor) : base(monitor.Subject)
         {
             this.monitor = monitor;
         }

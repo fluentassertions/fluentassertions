@@ -66,7 +66,7 @@ namespace FluentAssertions.Common
 
             if (other.Length == 0)
             {
-                return (@this.Length != 0) ? @this : string.Empty;
+                return @this;
             }
 
             return @this + separator + other;
@@ -95,7 +95,7 @@ namespace FluentAssertions.Common
         public static string IndentLines(this string @this)
         {
             return string.Join(Environment.NewLine,
-                @this.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
+                @this.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
         }
 
         public static string RemoveNewLines(this string @this)

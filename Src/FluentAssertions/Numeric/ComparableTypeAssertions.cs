@@ -14,9 +14,8 @@ namespace FluentAssertions.Numeric
     {
         private const int Equal = 0;
 
-        public ComparableTypeAssertions(IComparable<T> value)
+        public ComparableTypeAssertions(IComparable<T> value) : base(value)
         {
-            Subject = value;
         }
 
         /// <summary>

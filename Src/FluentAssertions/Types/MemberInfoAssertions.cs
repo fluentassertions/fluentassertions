@@ -18,6 +18,14 @@ namespace FluentAssertions.Types
         where TSubject : MemberInfo
         where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
     {
+        protected MemberInfoAssertions() : this(null)
+        {
+        }
+
+        protected MemberInfoAssertions(TSubject subject) : base(subject)
+        {
+        }
+
         /// <summary>
         /// Asserts that the selected member is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>

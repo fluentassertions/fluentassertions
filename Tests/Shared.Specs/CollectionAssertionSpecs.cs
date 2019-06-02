@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Collections;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,6 +10,20 @@ namespace FluentAssertions.Specs
 {
     public class CollectionAssertionSpecs
     {
+        [Fact]
+        public void Should_have_parameterless_constructor()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(CollectionAssertions<,>);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            type.Should().HaveDefaultConstructor();
+        }
+
         #region Be Null
 
         [Fact]

@@ -16,9 +16,8 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XElementAssertions" /> class.
         /// </summary>
-        public XElementAssertions(XElement xElement)
+        public XElementAssertions(XElement xElement) : base(xElement)
         {
-            Subject = xElement;
         }
 
         /// <summary>

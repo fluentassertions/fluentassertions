@@ -15,12 +15,8 @@ namespace FluentAssertions.Collections
     public class SelfReferencingCollectionAssertions<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
         where TAssertions : SelfReferencingCollectionAssertions<T, TAssertions>
     {
-        public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue)
+        public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
         {
-            if (actualValue != null)
-            {
-                Subject = actualValue;
-            }
         }
 
         /// <summary>

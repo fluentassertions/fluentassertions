@@ -66,11 +66,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestingTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThrowAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeSpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeSelectorSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XAttributeFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XDocumentAssertionSpecs.cs" />

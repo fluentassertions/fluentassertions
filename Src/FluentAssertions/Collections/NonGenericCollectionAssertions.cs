@@ -14,12 +14,8 @@ namespace FluentAssertions.Collections
     [DebuggerNonUserCode]
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
-        public NonGenericCollectionAssertions(IEnumerable collection)
+        public NonGenericCollectionAssertions(IEnumerable collection) : base(collection)
         {
-            if (collection != null)
-            {
-                Subject = collection;
-            }
         }
 
         /// <summary>

@@ -689,7 +689,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("*Did not expect System.InvalidOperationException because it was so fast, but found one with message*custom message*");
+                .WithMessage("*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException with message*custom message*");
         }
 
         [Fact]
