@@ -82,7 +82,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Delegate" /> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
+        /// Asserts that the current <see cref="Delegate"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
