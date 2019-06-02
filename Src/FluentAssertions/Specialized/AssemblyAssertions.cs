@@ -18,7 +18,7 @@ namespace FluentAssertions.Reflection
         {
         }
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0 // TODO :: Should be able to remove based on: https://github.com/dotnet/corefx/issues/1784#issuecomment-218803619
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.

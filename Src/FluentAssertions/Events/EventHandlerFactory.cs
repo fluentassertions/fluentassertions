@@ -1,4 +1,4 @@
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
 using System;
 using System.Reflection;
@@ -72,7 +72,7 @@ namespace FluentAssertions.Events
             ilGen.Emit(OpCodes.Ldloc_0);
 
             // Call the handler
-            ilGen.EmitCall(OpCodes.Call, methodToCall, null);
+            ilGen.EmitCall(OpCodes.Callvirt, methodToCall, null);
 
             ilGen.Emit(OpCodes.Ret);
 

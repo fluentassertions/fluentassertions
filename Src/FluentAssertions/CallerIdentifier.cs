@@ -13,7 +13,8 @@ namespace FluentAssertions
     {
         public static Action<string> logger = str => { };
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
+
         public static string DetermineCallerIdentity()
         {
             string caller = null;

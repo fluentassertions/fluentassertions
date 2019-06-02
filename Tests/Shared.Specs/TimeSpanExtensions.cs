@@ -1,10 +1,14 @@
-﻿using System;
+﻿#if NET45 || NET47 || NETCOREAPP1_1
+
+using System;
 
 namespace FluentAssertions.Specs
 {
-    public static class Utilities
+    /// <summary>
+    /// Implements extensions to <see cref="TimeSpan"/> available in .NET Core 2, but not in .NET Framework.
+    /// </summary>
+    public static class TimeSpanExtensions
     {
-#if NET45 || NET47 || NETCOREAPP1_1
         public static TimeSpan Multiply(this TimeSpan timeSpan, double factor)
         {
             if (double.IsNaN(factor))
@@ -38,6 +42,6 @@ namespace FluentAssertions.Specs
 
             return TimeSpan.FromTicks((long)ticks);
         }
-#endif
     }
 }
+#endif

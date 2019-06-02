@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
 using System.Diagnostics;
 using System.Xml;
