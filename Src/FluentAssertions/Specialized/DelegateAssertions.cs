@@ -84,6 +84,9 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Asserts that the current <see cref="Delegate"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
         /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should throw.
+        /// </typeparam>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -91,12 +94,27 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
+        /// <returns>
+        /// Returns an object that allows asserting additional members of the thrown exception.
+        /// </returns>
+        public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "",
+            params object[] becauseArgs)
             where TException : Exception
         {
-            var exceptionAssertions = Throw<TException>(because, becauseArgs);
-            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
-            return exceptionAssertions;
+            FailIfSubjectIsAsyncVoid();
+
+            Exception exception = InvokeSubjectWithInterception();
+
+            Type expectedType = typeof(TException);
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
+
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
         }
 
         /// <summary>

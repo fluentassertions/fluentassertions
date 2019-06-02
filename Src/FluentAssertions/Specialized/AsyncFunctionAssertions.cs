@@ -29,6 +29,40 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
+        /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should throw.
+        /// </typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        /// <returns>
+        /// Returns an object that allows asserting additional members of the thrown exception.
+        /// </returns>
+        public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+        {
+            Exception exception = await InvokeSubjectWithInterceptionAsync();
+
+            Type expectedType = typeof(TException);
+
+            Execute.Assertion
+                .ForCondition(exception != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
+
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
         /// </summary>
         /// <param name="because">
@@ -89,31 +123,6 @@ namespace FluentAssertions.Specialized
             {
                 NotThrow<TException>(exception, because, becauseArgs);
             }
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="Func{Task}"/> throws the exact exception (and not a derived exception type).
-        /// </summary>
-        /// <typeparam name="TException">
-        /// The type of the exception it should throw.
-        /// </typeparam>
-        /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <returns>
-        /// Returns an object that allows asserting additional members of the thrown exception.
-        /// </returns>
-        public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "",
-            params object[] becauseArgs)
-            where TException : Exception
-        {
-            var exceptionAssertions = await ThrowAsync<TException>(because, becauseArgs);
-            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
-            return exceptionAssertions;
         }
 
         /// <summary>

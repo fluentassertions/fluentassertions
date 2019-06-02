@@ -742,9 +742,6 @@ In other words, if you're expecting a certain exception to be (not) thrown, and 
 So throwing an `ApplicationException` when an `Exception` was expected will not fail the assertion.
 However, if you really want to be explicit about the exact type of exception, you can use `ThrowExactly` and `WithInnerExceptionExactly`.
 
-.NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword.
-All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
-
 Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
 
 ```csharp
@@ -798,6 +795,14 @@ using static FluentAssertions.FluentActions;
 
 Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException>();
 ```
+
+### Automatic AggregateException unwrapping ###
+
+.NET 4.0 and later includes the `AggregateException` type. This exception type is typically thrown by methods which return either `Task` or `Task<TResult>` and are executed synchronously, instead of using `async` and `await`. This type contains a collection of inner exceptions which are aggregated. 
+
+Methods such as `Throw<TException>`, `ThrowAsync<TException>`, `NotThrow<TException>` and `NotThrowAsync<TException>` described above will also work for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
+
+However, the `ThrowExactly<TException>` and `ThrowExactlyAsync<TException>` methods will only work for exceptions that aren't aggregated. If you are asserting that an exception type other than `AggregateException` is thrown, an `AggregateException` must not be thrown, even if it contains an inner exception of the asserted type. 
 
 ## Object graph comparison ##
 
