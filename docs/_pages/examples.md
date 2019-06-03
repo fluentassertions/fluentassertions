@@ -22,7 +22,7 @@ To verify that a collection contains a specified number of elements and that all
 
 ```c#
 IEnumerable numbers = new[] { 1, 2, 3 };
-numbers.Should().HaveCount(4, "because we thought we put four items in the collection"))
+numbers.Should().HaveCount(4, "because we thought we put four items in the collection");
 ```
 
 The nice thing about the second failing example is that it will throw an exception with the message
