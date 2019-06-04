@@ -17,11 +17,11 @@ namespace FluentAssertions.Formatting
         #endregion
 
         /// <summary>
-        ///   Determines whether this instance can handle the specified value.
+        /// Determines whether this instance can handle the specified value.
         /// </summary>
         /// <param name = "value">The value.</param>
         /// <returns>
-        ///   <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
         public bool CanHandle(object value)
         {

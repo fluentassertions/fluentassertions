@@ -7,7 +7,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions
 {
     /// <summary>
-    ///   Provides extension methods for monitoring and querying events.
+    /// Provides extension methods for monitoring and querying events.
     /// </summary>
     public static class EventRaisingExtensions
     {

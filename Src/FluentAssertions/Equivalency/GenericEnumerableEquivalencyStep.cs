@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:subject} not to be {0}.", new object[] {null});
+                .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
 
             if (conditionMet)
             {

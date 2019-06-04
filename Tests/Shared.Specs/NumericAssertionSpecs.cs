@@ -7,7 +7,6 @@ namespace FluentAssertions.Specs
     /// <summary>
     /// Summary description for CustomAssertionSpecs
     /// </summary>
-
     public class NumericAssertionSpecs
     {
         #region Positive / Negative
@@ -2102,7 +2101,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected value to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but *3.5011* differed by*0.0011*");
         }

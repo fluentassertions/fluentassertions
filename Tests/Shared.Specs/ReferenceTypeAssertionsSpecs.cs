@@ -551,7 +551,7 @@ namespace FluentAssertions.Specs
     internal class ClassWithCustomEqualMethod
     {
         /// <summary>
-        ///   Initializes a new instance of the <see cref = "T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref = "T:System.Object" /> class.
         /// </summary>
         public ClassWithCustomEqualMethod(int key)
         {
@@ -606,10 +606,10 @@ namespace FluentAssertions.Specs
         }
 
         /// <summary>
-        ///   Returns a <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
+        /// Returns a <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
         /// </summary>
         /// <returns>
-        ///   A <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
+        /// A <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override string ToString()

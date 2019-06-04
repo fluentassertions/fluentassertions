@@ -8,8 +8,8 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency
 {
     /// <remarks>
-    ///     I think (but did not try) this would have been easier using 'dynamic' but that is
-    ///     precluded by some of the PCL targets.
+    /// I think (but did not try) this would have been easier using 'dynamic' but that is
+    /// precluded by some of the PCL targets.
     /// </remarks>
     public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
@@ -140,7 +140,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type expectationType, object expectation)
         {
-            if(subject is ICollection subjectCollection
+            if (subject is ICollection subjectCollection
                 && expectation is ICollection expectationCollection
                 && subjectCollection.Count == expectationCollection.Count)
                 return true;

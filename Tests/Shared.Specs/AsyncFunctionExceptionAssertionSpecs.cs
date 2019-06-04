@@ -442,7 +442,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            (await testAction.Should().ThrowAsync<XunitException>())
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*ArgumentException*ABCDE*ArgumentNullException*");
         }
 
@@ -463,7 +463,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            (await testAction.Should().ThrowAsync<XunitException>())
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*ArgumentException*ABCDE*AggregateException*");
         }
 

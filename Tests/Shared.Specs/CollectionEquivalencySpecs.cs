@@ -699,7 +699,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("*Customers[0].Name*John*Jane*");
         }
 
-
         [Fact]
         public void When_the_subject_is_a_non_generic_collection_it_should_still_work()
         {
@@ -709,7 +708,6 @@ namespace FluentAssertions.Specs
             object item = new object();
             object[] array = new[] { item };
             IList readOnlyList = ArrayList.ReadOnly(array);
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert

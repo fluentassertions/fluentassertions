@@ -17,10 +17,10 @@ namespace FluentAssertions.Common
             PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         /// <summary>
-        ///     Determines whether the specified method has been annotated with a specific attribute.
+        /// Determines whether the specified method has been annotated with a specific attribute.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
         /// </returns>
         public static bool HasAttribute<TAttribute>(this MemberInfo method)
             where TAttribute : Attribute
@@ -77,8 +77,8 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
-        ///     member.
+        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
+        /// member.
         /// </summary>
         public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
         {
@@ -94,7 +94,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     NOTE: This method does not give the expected results with open generics
+        /// NOTE: This method does not give the expected results with open generics
         /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
@@ -136,10 +136,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds a member by its case-sensitive name.
+        /// Finds a member by its case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such member exists.
+        /// Returns <c>null</c> if no such member exists.
         /// </returns>
         public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
         {
@@ -148,10 +148,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds the property by a case-sensitive name.
+        /// Finds the property by a case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such property exists.
+        /// Returns <c>null</c> if no such property exists.
         /// </returns>
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
@@ -166,10 +166,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds the field by a case-sensitive name.
+        /// Finds the field by a case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such property exists.
+        /// Returns <c>null</c> if no such property exists.
         /// </returns>
         public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
         {

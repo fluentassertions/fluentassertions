@@ -13,7 +13,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Specialized
 {
     /// <summary>
-    ///   Contains a number of methods to assert that an <see cref = "Exception" /> is in the correct state.
+    /// Contains a number of methods to assert that an <see cref = "Exception" /> is in the correct state.
     /// </summary>
     [DebuggerNonUserCode]
     public class ExceptionAssertions<TException> :
@@ -31,12 +31,12 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        ///   Gets the exception object of the exception thrown.
+        /// Gets the exception object of the exception thrown.
         /// </summary>
         public TException And => SingleSubject;
 
         /// <summary>
-        ///   Gets the exception object of the exception thrown.
+        /// Gets the exception object of the exception thrown.
         /// </summary>
         public TException Which => And;
 
@@ -46,17 +46,17 @@ namespace FluentAssertions.Specialized
         protected override string Identifier => "exception";
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
         /// </summary>
         /// <param name = "expectedWildcardPattern">
-        ///   The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
         /// <param name = "because">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
-        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name = "becauseArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
@@ -73,7 +73,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
+        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
@@ -132,17 +132,17 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        ///   Asserts that the exception matches a particular condition.
+        /// Asserts that the exception matches a particular condition.
         /// </summary>
         /// <param name = "exceptionExpression">
-        ///   The condition that the exception must match.
+        /// The condition that the exception must match.
         /// </param>
         /// <param name = "because">
-        ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        ///   start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
+        /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name = "becauseArgs">
-        ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string because = "", params object[] becauseArgs)

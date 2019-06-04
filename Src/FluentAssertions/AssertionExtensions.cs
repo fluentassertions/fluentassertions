@@ -689,11 +689,10 @@ namespace FluentAssertions
             return new FunctionAssertions<T>(func, extractor);
         }
 
-
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
         /// <summary>
-        ///   Starts monitoring <paramref name="eventSource"/> for its events.
+        /// Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
         /// <param name="eventSource">The object for which to monitor the events.</param>
         /// <param name="utcNow">
@@ -722,17 +721,17 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
         /// </summary>
         /// <param name = "expectedWildcardPattern">
-        ///   The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
         /// <param name = "because">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
-        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name = "becauseArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,
