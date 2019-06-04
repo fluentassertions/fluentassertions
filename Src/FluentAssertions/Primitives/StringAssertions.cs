@@ -236,7 +236,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            if (regularExpression == null)
+            if (regularExpression is null)
             {
                 throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
             }
@@ -282,7 +282,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            if (regularExpression == null)
+            if (regularExpression is null)
             {
                 throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
             }
@@ -327,7 +327,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare start of string with <null>.");
             }
@@ -357,7 +357,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
             }
@@ -388,7 +388,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare string start equivalence with <null>.");
             }
@@ -418,7 +418,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
             }
@@ -448,7 +448,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare string end with <null>.");
             }
@@ -458,7 +458,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -494,7 +494,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
             }
@@ -504,7 +504,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -533,7 +533,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare string end equivalence with <null>.");
             }
@@ -543,7 +543,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -579,7 +579,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
             }
@@ -589,7 +589,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -619,7 +619,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
             }
@@ -651,7 +651,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
             }
@@ -758,7 +758,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> NotContain(string unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot assert string containment against <null>.");
             }
@@ -1028,7 +1028,7 @@ namespace FluentAssertions.Primitives
 
         private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
         {
-            if (values == null)
+            if (values is null)
             {
                 throw new ArgumentNullException(nameof(values), "Cannot assert string containment of values in null collection");
             }

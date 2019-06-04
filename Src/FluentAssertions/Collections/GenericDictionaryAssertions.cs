@@ -218,7 +218,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
             string because = "", params object[] becauseArgs)
         {
-            if (countPredicate == null)
+            if (countPredicate is null)
             {
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
             }
@@ -331,7 +331,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
             }
@@ -390,7 +390,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
             }
 
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot compare dictionary with <null>.");
             }
@@ -539,7 +539,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot verify key containment against a <null> collection of keys");
             }
@@ -642,7 +642,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
             }
@@ -743,7 +743,7 @@ namespace FluentAssertions.Collections
         private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot verify value containment against a <null> collection of values");
             }
@@ -860,7 +860,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
+            if (unexpected is null)
             {
                 throw new ArgumentNullException(nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
             }
@@ -930,7 +930,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
             }
@@ -1085,7 +1085,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items), "Cannot compare dictionary with <null>.");
             }

@@ -200,7 +200,7 @@ namespace FluentAssertions.Specialized
         protected void NotThrow(Exception exception, string because, object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(exception == null)
+                .ForCondition(exception is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
         }

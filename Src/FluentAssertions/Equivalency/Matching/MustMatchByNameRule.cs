@@ -19,18 +19,18 @@ namespace FluentAssertions.Equivalency.Matching
                     .FindProperty(expectedMember.Name, expectedMember.MemberType));
             }
 
-            if ((compareeSelectedMemberInfoInfo == null) && config.IncludeFields)
+            if ((compareeSelectedMemberInfoInfo is null) && config.IncludeFields)
             {
                 compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(subject.GetType()
                     .FindField(expectedMember.Name, expectedMember.MemberType));
             }
 
-            if ((compareeSelectedMemberInfoInfo == null) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
+            if ((compareeSelectedMemberInfoInfo is null) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
             {
                 compareeSelectedMemberInfoInfo = expectedMember;
             }
 
-            if (compareeSelectedMemberInfoInfo == null)
+            if (compareeSelectedMemberInfoInfo is null)
             {
                 string path = (memberPath.Length > 0) ? memberPath + "." : "member ";
 

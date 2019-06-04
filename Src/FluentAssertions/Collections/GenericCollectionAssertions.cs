@@ -238,7 +238,7 @@ namespace FluentAssertions.Collections
         private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction, string because, object[] args)
         {
-            if (comparer == null)
+            if (comparer is null)
             {
                 throw new ArgumentNullException(nameof(comparer),
                     "Cannot assert collection ordering without specifying a comparer.");
@@ -269,7 +269,7 @@ namespace FluentAssertions.Collections
 
         private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because, object[] args)
         {
-            if (propertyExpression == null)
+            if (propertyExpression is null)
             {
                 throw new ArgumentNullException(nameof(propertyExpression),
                     "Cannot assert collection ordering without specifying a property.");
@@ -459,7 +459,7 @@ namespace FluentAssertions.Collections
 
         private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
         {
-            if (enumerable == null)
+            if (enumerable is null)
             {
                 return Enumerable.Empty<TExpectation>();
             }

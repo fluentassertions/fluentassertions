@@ -32,7 +32,7 @@ namespace FluentAssertions.Common
             {
                 lock (lockable)
                 {
-                    if (configuration == null)
+                    if (configuration is null)
                     {
                         configuration = new Configuration(ConfigurationStore);
                     }

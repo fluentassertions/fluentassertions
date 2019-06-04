@@ -702,7 +702,7 @@ namespace FluentAssertions
             float? expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && expectedValue == null)
+            if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
             }
@@ -803,7 +803,7 @@ namespace FluentAssertions
             double? expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && expectedValue == null)
+            if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
             }
@@ -904,7 +904,7 @@ namespace FluentAssertions
             decimal? expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && expectedValue == null)
+            if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
             }
@@ -1019,8 +1019,7 @@ namespace FluentAssertions
             float? unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && unexpectedValue != null ||
-                parent.Subject != null && unexpectedValue == null)
+            if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
             }
@@ -1119,8 +1118,7 @@ namespace FluentAssertions
             double? unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && unexpectedValue != null ||
-                parent.Subject != null && unexpectedValue == null)
+            if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
             }
@@ -1219,8 +1217,7 @@ namespace FluentAssertions
             decimal? unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            if (parent.Subject == null && unexpectedValue != null ||
-                parent.Subject != null && unexpectedValue == null)
+            if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
             }

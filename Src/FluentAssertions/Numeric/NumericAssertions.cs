@@ -20,7 +20,7 @@ namespace FluentAssertions.Numeric
             if (!(value is null))
             {
                 Subject = value as IComparable;
-                if (Subject == null)
+                if (Subject is null)
                 {
                     throw new InvalidOperationException("This class only supports types implementing IComparable.");
                 }

@@ -44,7 +44,7 @@ namespace FluentAssertions.Primitives
 
         private string CleanNewLines(string input)
         {
-            if (input == null)
+            if (input is null)
             {
                 return null;
             }

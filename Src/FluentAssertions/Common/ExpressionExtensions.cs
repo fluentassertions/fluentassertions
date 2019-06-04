@@ -88,7 +88,7 @@ namespace FluentAssertions.Common
         public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
             this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
-            if (expression == null)
+            if (expression is null)
             {
                 throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
             }

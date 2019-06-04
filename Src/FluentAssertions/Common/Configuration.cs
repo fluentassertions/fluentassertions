@@ -83,7 +83,7 @@ namespace FluentAssertions.Common
         {
             get
             {
-                if (valueFormatterAssembly == null)
+                if (valueFormatterAssembly is null)
                 {
                     string assemblyName = store.GetSetting("valueFormattersAssembly");
                     if (!string.IsNullOrEmpty(assemblyName))

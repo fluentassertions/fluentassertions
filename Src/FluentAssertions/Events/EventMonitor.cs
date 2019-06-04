@@ -19,7 +19,7 @@ namespace FluentAssertions.Events
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
-            if (eventSource == null)
+            if (eventSource is null)
             {
                 throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
             }
@@ -77,7 +77,7 @@ namespace FluentAssertions.Events
 
         private void Attach(Type typeDefiningEventsToMonitor, Func<DateTime> utcNow)
         {
-            if (subject.Target == null)
+            if (subject.Target is null)
             {
                 throw new InvalidOperationException("Cannot monitor events on garbage-collected object");
             }

@@ -46,7 +46,7 @@ namespace FluentAssertions.Xml
                 assertion.FailWith(validationResult.FormatString, validationResult.FormatParams);
             }
 
-            if (!expectedEquivalence && validationResult == null)
+            if (!expectedEquivalence && validationResult is null)
             {
                 assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
             }
@@ -166,7 +166,7 @@ namespace FluentAssertions.Xml
                     ea => ea.NamespaceUri == subjectAttribute.NamespaceUri
                     && ea.LocalName == subjectAttribute.LocalName);
 
-                if (expectedAttribute == null)
+                if (expectedAttribute is null)
                 {
                     return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
                         subjectAttribute.QualifiedName, GetCurrentLocation());

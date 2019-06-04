@@ -359,7 +359,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
             where T : TSubject
         {
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate), "Cannot match an object against a <null> predicate.");
             }

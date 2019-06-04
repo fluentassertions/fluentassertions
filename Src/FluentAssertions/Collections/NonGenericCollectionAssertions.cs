@@ -212,7 +212,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<NonGenericCollectionAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
-            if (countPredicate == null)
+            if (countPredicate is null)
             {
                 throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
             }
