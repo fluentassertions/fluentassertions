@@ -816,6 +816,13 @@ You may assert the structural equality of two object graphs with `Should().BeEqu
 orderDto.Should().BeEquivalentTo(order);
 ```
 
+Additionally you can check the inequality of two objects with `Should().NotBeEquivalentTo()`:
+```csharp
+orderDto.Should().NotBeEquivalentTo(order);
+```
+
+All options described in the following sections are available for both `BeEquivalentTo` and `NotBeEquivalentTo`.
+
 ### Recursion ###
 
 The comparison is recursive by default.
