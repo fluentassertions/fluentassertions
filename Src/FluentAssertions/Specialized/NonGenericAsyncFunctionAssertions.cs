@@ -8,12 +8,17 @@ namespace FluentAssertions.Specialized
 {
     public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions
     {
-        private readonly ITimer timer;
+        private readonly IClock clock;
 
-        public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, ITimer timer) : base(subject,
-            extractor)
+        public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : this(subject,
+            extractor, new Clock())
         {
-            this.timer = timer;
+        }
+
+        public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock) : base(subject,
+            extractor, clock)
+        {
+            this.clock = clock;
         }
 
         /// <summary>
@@ -31,7 +36,7 @@ namespace FluentAssertions.Specialized
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Task task = Subject();
-            bool completed = timer.Wait(task, timeSpan);
+            bool completed = clock.Wait(task, timeSpan);
 
             Execute.Assertion
                 .ForCondition(completed)
@@ -60,7 +65,7 @@ namespace FluentAssertions.Specialized
             Task task = Subject();
 
             Task completedTask =
-                await Task.WhenAny(task, timer.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+                await Task.WhenAny(task, clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
 
             if (completedTask == task)
             {

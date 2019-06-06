@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -11,8 +13,15 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class AsyncFunctionAssertions : DelegateAssertions<Func<Task>>
     {
-        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : base(subject, extractor)
+        private readonly IClock clock;
+
+        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
         {
+        }
+
+        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
+        {
+            this.clock = clock;
             Subject = subject;
         }
 
@@ -167,7 +176,7 @@ namespace FluentAssertions.Specialized
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
-                var watch = Stopwatch.StartNew();
+                var timer = clock.StartTimer();
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
@@ -177,8 +186,8 @@ namespace FluentAssertions.Specialized
                         return;
                     }
 
-                    await Task.Delay(pollInterval);
-                    invocationEndTime = watch.Elapsed;
+                    await clock.DelayAsync(pollInterval, CancellationToken.None);
+                    invocationEndTime = timer.Elapsed;
                 }
 
                 Execute.Assertion
