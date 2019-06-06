@@ -858,6 +858,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Services.ResetToDefaults();
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
 
             var subject = new SomeClassWithCustomFormatter
             {
