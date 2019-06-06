@@ -15,9 +15,15 @@ namespace FluentAssertions.Specialized
     public abstract class DelegateAssertions<TDelegate> : ReferenceTypeAssertions<Delegate, DelegateAssertions<TDelegate>> where TDelegate : Delegate
     {
         private readonly IExtractExceptions extractor;
+        private readonly IClock clock;
 
-        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : base(@delegate)
+        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : this(@delegate, extractor, new Clock())
         {
+        }
+
+        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock) : base(@delegate)
+        {
+            this.clock = clock;
             this.extractor = extractor;
             Subject = @delegate;
         }
@@ -156,7 +162,7 @@ namespace FluentAssertions.Specialized
 
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
-            var watch = Stopwatch.StartNew();
+            var timer = clock.StartTimer();
 
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
@@ -166,8 +172,8 @@ namespace FluentAssertions.Specialized
                     return;
                 }
 
-                Task.Delay(pollInterval).GetAwaiter().GetResult();
-                invocationEndTime = watch.Elapsed;
+                clock.Delay(pollInterval);
+                invocationEndTime = timer.Elapsed;
             }
 
             Execute.Assertion

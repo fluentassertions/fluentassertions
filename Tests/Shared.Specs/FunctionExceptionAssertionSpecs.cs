@@ -534,13 +534,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var watch = Stopwatch.StartNew();
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
             var waitTime = 100.Milliseconds();
             var pollInterval = 10.Milliseconds();
 
             Func<int> throwLongerThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime.Multiply(1.5))
+                if (timer.Elapsed <= waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -552,7 +553,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                throwLongerThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+                throwLongerThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -567,13 +568,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var watch = Stopwatch.StartNew();
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
             var waitTime = 100.Milliseconds();
             var pollInterval = 10.Milliseconds();
 
             Func<int> throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime.Divide(2))
+                if (timer.Elapsed <= waitTime.Divide(2))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -584,7 +586,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+            Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -598,13 +600,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var watch = Stopwatch.StartNew();
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
             var waitTime = 100.Milliseconds();
             var pollInterval = 10.Milliseconds();
 
             Func<int> throwShorterThanWaitTime = () =>
             {
-                if (watch.Elapsed <= waitTime.Divide(2))
+                if (timer.Elapsed <= waitTime.Divide(2))
                 {
                     throw new ArgumentException("An exception was forced");
                 }
@@ -616,7 +619,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             AndWhichConstraint<FunctionAssertions<int>, int> act =
-                throwShorterThanWaitTime.Should().NotThrowAfter(waitTime, pollInterval);
+                throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

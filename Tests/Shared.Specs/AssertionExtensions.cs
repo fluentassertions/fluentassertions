@@ -9,18 +9,24 @@ namespace FluentAssertions.Specs
     {
         private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
 
-        public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action, ITimer timer)
+        public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action, IClock clock)
         {
-            return new NonGenericAsyncFunctionAssertions(action, extractor, timer);
+            return new NonGenericAsyncFunctionAssertions(action, extractor, clock);
         }
 
-        /// <summary>
-        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
-        /// current <see><cref>System.Func{Task{T}}</cref></see>.
-        /// </summary>
-        public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action, ITimer timer)
+        public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action, IClock clock)
         {
-            return new GenericAsyncFunctionAssertions<T>(action, extractor, timer);
+            return new GenericAsyncFunctionAssertions<T>(action, extractor, clock);
+        }
+
+        public static ActionAssertions Should(this Action action, IClock clock)
+        {
+            return new ActionAssertions(action, extractor, clock);
+        }
+
+        public static FunctionAssertions<T> Should<T>(this Func<T> func, IClock clock)
+        {
+            return new FunctionAssertions<T>(func, extractor, clock);
         }
     }
 }

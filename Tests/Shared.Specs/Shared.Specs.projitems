@@ -64,7 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)StringAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskOfTAssertionSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestingTimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FakeClock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThrowAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanExtensions.cs" />
