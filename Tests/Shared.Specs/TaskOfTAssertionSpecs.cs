@@ -25,7 +25,7 @@ namespace FluentAssertions.Specs
                 Func<Task<int>> func = () => taskFactory.Task;
 
                 func.Should(timer).CompleteWithin(100.Milliseconds())
-                    .Which.Result.Should().Be(42);
+                    .Which.Should().Be(42);
             };
 
             taskFactory.SetResult(42);
@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
                 Func<Task<int>> func = () => taskFactory.Task;
 
                 (await func.Should(timer).CompleteWithinAsync(100.Milliseconds()))
-                    .Which.Result.Should().Be(42);
+                    .Which.Should().Be(42);
             };
 
             taskFactory.SetResult(42);
