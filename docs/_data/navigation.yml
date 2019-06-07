@@ -4,6 +4,8 @@ main:
     url: /about/
   - title: "Documentation"
     url: /documentation/
+  - title: "Releases"
+    url: /releases/
   - title: "Github"
     url: https://github.com/fluentassertions/fluentassertions
 
@@ -19,6 +21,8 @@ sidebar:
         url: /about/#who-is-behind-this-project
       - title: Versioning
         url: /about/#versioning
+      - title: Releases
+        url: /releases/
       - title: Building the code
         url: /about/#what-do-you-need-to-compile-the-solution
 
