@@ -33,7 +33,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>> CompleteWithin(
+        public AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Task<TResult> task = subject();
@@ -44,7 +44,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>(this, task);
+            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, task.Result);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>> CompleteWithinAsync(
+        public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             using (var timeoutCancellationTokenSource = new CancellationTokenSource())
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specialized
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
-                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, Task<TResult>>(this, task);
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, task.Result);
             }
         }
     }

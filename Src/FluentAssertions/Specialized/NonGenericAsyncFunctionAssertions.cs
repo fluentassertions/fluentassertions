@@ -32,7 +32,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<AsyncFunctionAssertions, Task> CompleteWithin(
+        public AndConstraint<AsyncFunctionAssertions> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Task task = Subject();
@@ -43,7 +43,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
-            return new AndWhichConstraint<AsyncFunctionAssertions, Task>(this, task);
+            return new AndConstraint<AsyncFunctionAssertions>(this);
         }
 
         /// <summary>
@@ -57,28 +57,29 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public async Task<AndWhichConstraint<AsyncFunctionAssertions, Task>> CompleteWithinAsync(
+        public async Task<AndConstraint<AsyncFunctionAssertions>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            var timeoutCancellationTokenSource = new CancellationTokenSource();
-
-            Task task = Subject();
-
-            Task completedTask =
-                await Task.WhenAny(task, clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
-
-            if (completedTask == task)
+            using (var timeoutCancellationTokenSource = new CancellationTokenSource())
             {
-                timeoutCancellationTokenSource.Cancel();
-                await completedTask;
+                Task task = Subject();
+
+                Task completedTask =
+                    await Task.WhenAny(task, clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+
+                if (completedTask == task)
+                {
+                    timeoutCancellationTokenSource.Cancel();
+                    await completedTask;
+                }
+
+                Execute.Assertion
+                    .ForCondition(completedTask == task)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+                return new AndConstraint<AsyncFunctionAssertions>(this);
             }
-
-            Execute.Assertion
-                .ForCondition(completedTask == task)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-
-            return new AndWhichConstraint<AsyncFunctionAssertions, Task>(this, task);
         }
     }
 }
