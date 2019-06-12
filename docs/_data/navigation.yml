@@ -3,7 +3,7 @@ main:
   - title: "About"
     url: /about/
   - title: "Documentation"
-    url: /documentation/
+    url: /introduction/
   - title: "Releases"
     url: /releases/
   - title: "Github"
@@ -14,7 +14,7 @@ sidebar:
     url: /about/
     children:
       - title: Why
-        url: /about/#why
+        url: /about
       - title: Frameworks and libraries
         url: /about/#supported-frameworks-and-libraries
       - title: Who
@@ -31,12 +31,48 @@ sidebar:
   - title: Documentation
     url: /documentation/
     children:
+      - title: Getting Started
+        url: /introduction
+      - title: Detecting Test Frameworks
+        url: /introduction/#detecting-test-frameworks
       - title: Subject Identification
-        url: /documentation/#subject-identification
-      - title: Object Graph Equivalency
-        url: /documentation/#object-graph-comparison
-      - title: Grouping Assertions
-        url: /documentation/#assertion-scope
+        url: /introduction/#subject-identification
+      - title: Assertion Scopes
+        url: /introduction/#assertion-scopes
+      - title: Basic Assertions
+        url: /basicassertions
+      - title: Nullable Types
+        url: /nullabletypes
+      - title: Booleans
+        url: /booleans
+      - title: Strings
+        url: /strings
+      - title: Numeric Types & IComparable
+        url: /numerictypes
+      - title: Dates & Times
+        url: /datetimespans
+      - title: Collections
+        url: /collections
+      - title: Dictionaries
+        url: /dictionaries
+      - title: Guids
+        url: /guids
+      - title: Enums
+        url: /enums
+      - title: Exceptions
+        url: /exceptions
+      - title: Object graph comparison
+        url: /objectgraphs
+      - title: Event Monitoring
+        url: /eventmonitoring
+      - title: Type, Method, and Property assertions
+        url: /typesandmethods
+      - title: Assembly References
+        url: /assemblies
+      - title: XML
+        url: /xml
+      - title: Execution Time
+        url: /executiontime
 
   - title: Extensibility
     url: /extensibility/
