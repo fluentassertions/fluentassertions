@@ -3,7 +3,7 @@ main:
   - title: "About"
     url: /about/
   - title: "Documentation"
-    url: /introduction/
+    url: /introduction
   - title: "Releases"
     url: /releases/
   - title: "Github"
