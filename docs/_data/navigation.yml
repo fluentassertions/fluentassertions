@@ -22,14 +22,14 @@ sidebar:
       - title: Versioning
         url: /about/#versioning
       - title: Releases
-        url: /releases/
+        url: /releases
       - title: Building the code
         url: /about/#what-do-you-need-to-compile-the-solution
 
   - title: Examples
-    url: /examples/
+    url: /examples
   - title: Documentation
-    url: /documentation/
+    url: /introduction
     children:
       - title: Getting Started
         url: /introduction
@@ -75,7 +75,7 @@ sidebar:
         url: /executiontime
 
   - title: Extensibility
-    url: /extensibility/
+    url: /extensibility
     children:
       - title: Custom Extensions
         url: /extensibility/#building-your-own-extensions
@@ -87,7 +87,7 @@ sidebar:
         url: /extensibility/#to-be-or-not-to-be-a-value-type
 
   - title: Tips & Tricks
-    url: /tips/
+    url: /tips
     children:
       - title: General Tips
         url: /tips/#general-tips
