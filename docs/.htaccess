@@ -1,0 +1,11 @@
+---
+---
+
+RewriteEngine On
+RewriteBase /
+
+{% for page in site.pages %}
+  {% for link in page.old %}
+   RewriteRule ^{{ link }} {{ page.permalink }} [R=301,L]
+  {% endfor %}
+{% endfor %}

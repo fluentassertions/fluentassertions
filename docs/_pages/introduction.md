@@ -3,6 +3,10 @@ title: Introduction
 permalink: /introduction
 layout: single
 classes: wide
+old:
+  - /examples
+  - /documentation
+  - /documentation.html
 sidebar:
   nav: "sidebar"
 ---

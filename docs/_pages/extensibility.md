@@ -3,6 +3,8 @@ title: Extensibility
 permalink: /extensibility/
 toc: true
 layout: single
+old: 
+  - /extensibility.html
 sidebar:
   nav: "sidebar"
 

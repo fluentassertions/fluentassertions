@@ -16,29 +16,27 @@ sidebar:
       - title: Why
         url: /about
       - title: Frameworks and libraries
-        url: /about/#supported-frameworks-and-libraries
+        url: /about#supported-frameworks-and-libraries
       - title: Who
-        url: /about/#who-is-behind-this-project
+        url: /about#who-is-behind-this-project
       - title: Versioning
-        url: /about/#versioning
+        url: /about#versioning
       - title: Releases
         url: /releases
       - title: Building the code
-        url: /about/#what-do-you-need-to-compile-the-solution
+        url: /about#what-do-you-need-to-compile-the-solution
 
-  - title: Examples
-    url: /examples
   - title: Documentation
     url: /introduction
     children:
       - title: Getting Started
         url: /introduction
       - title: Detecting Test Frameworks
-        url: /introduction/#detecting-test-frameworks
+        url: /introduction#detecting-test-frameworks
       - title: Subject Identification
-        url: /introduction/#subject-identification
+        url: /introduction#subject-identification
       - title: Assertion Scopes
-        url: /introduction/#assertion-scopes
+        url: /introduction#assertion-scopes
       - title: Basic Assertions
         url: /basicassertions
       - title: Nullable Types
