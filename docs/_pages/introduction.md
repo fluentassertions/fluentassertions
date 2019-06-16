@@ -3,7 +3,7 @@ title: Introduction
 permalink: /introduction
 layout: single
 classes: wide
-old:
+redirect_from:
   - /examples
   - /documentation
   - /documentation.html
