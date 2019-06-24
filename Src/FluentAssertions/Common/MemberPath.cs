@@ -27,7 +27,7 @@ namespace FluentAssertions.Common
 
         public bool IsSameAs(MemberPath candidate)
         {
-            if (candidate.declaringType != declaringType)
+            if (!candidate.declaringType.IsSameOrInherits(declaringType))
             {
                 return false;
             }
