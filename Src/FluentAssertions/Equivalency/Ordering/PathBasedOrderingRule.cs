@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         public override string ToString()
         {
-            return "Be strict about the order of collection items when path is " + path;
+            return string.Format(Resources.Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat, path);
         }
     }
 }

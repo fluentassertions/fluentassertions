@@ -43,7 +43,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML attribute to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.Xml_ExpectedXmlAttributeToBeXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -75,7 +75,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML attribute to be {0}{reason}.", unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlAttributeToBeXFormat, unexpected);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -105,7 +105,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML attribute '{0}' to have value {1}{reason}, but found {2}.",
+                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
                     Subject.Name, expected, Subject.Value);
 
             return new AndConstraint<XAttributeAssertions>(this);

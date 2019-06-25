@@ -10,10 +10,10 @@ namespace FluentAssertions.Equivalency
         {
             return scope
                 .ForCondition((subject.Count > 0) || (expectation.Count == 0))
-                .FailWith(", but found an empty collection.")
+                .FailWith(Resources.Collection_CommaButFoundEmptyCollection)
                 .Then
                 .ForCondition((subject.Count == 0) || (expectation.Count > 0))
-                .FailWith(", but {0}{2}contains {1} item(s).",
+                .FailWith(Resources.Collection_CommaButXZContainsYItemsFormat,
                     subject,
                     subject.Count,
                     Environment.NewLine);
@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency
         {
             return scope
                 .ForCondition(subject.Count >= expectation.Count)
-                .FailWith(", but {0}{3}contains {1} item(s) less than{3}{2}.",
+                .FailWith(Resources.Collection_CommaButXWContainsYItemsLessThanWZFormat,
                     subject,
                     expectation.Count - subject.Count,
                     expectation,
@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
         {
             return scope
                 .ForCondition(subject.Count <= expectation.Count)
-                .FailWith(", but {0}{3}contains {1} item(s) more than{3}{2}.",
+                .FailWith(Resources.Collection_CommaButXWContainsYItemsMoreThanWZFormat,
                     subject,
                     subject.Count - expectation.Count,
                     expectation,

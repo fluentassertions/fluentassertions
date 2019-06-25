@@ -49,13 +49,13 @@ namespace FluentAssertions.Equivalency
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected a collection, but {context:Subject} is <null>.");
+                .FailWith(Resources.Collection_ExpectedACollectionButSubjectIsNull);
 
             if (conditionMet)
             {
                 conditionMet = AssertionScope.Current
                 .ForCondition(IsCollection(subject.GetType()))
-                .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
+                .FailWith(Resources.Collection_ExpectedACollectionBuSubjectIsNotCollectionType);
             }
 
             return conditionMet;

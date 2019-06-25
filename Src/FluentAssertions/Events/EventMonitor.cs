@@ -21,7 +21,7 @@ namespace FluentAssertions.Events
         {
             if (eventSource is null)
             {
-                throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
+                throw new ArgumentNullException(nameof(eventSource), Resources.Event_CannotMonitorEventsOfNullObject);
             }
 
             subject = new WeakReference(eventSource);
@@ -79,13 +79,13 @@ namespace FluentAssertions.Events
         {
             if (subject.Target is null)
             {
-                throw new InvalidOperationException("Cannot monitor events on garbage-collected object");
+                throw new InvalidOperationException(Resources.Event_CannotMonitorEventsOnGarbageCollectedObject);
             }
 
             EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
             if (!events.Any())
             {
-                throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
+                throw new InvalidOperationException(string.Format(Resources.Event_TypeXDoesNotExposeAnyEventFormat, typeDefiningEventsToMonitor.Name));
             }
 
             foreach (var eventInfo in events)
@@ -133,7 +133,7 @@ namespace FluentAssertions.Events
         {
             if (!recorderMap.TryGetValue(eventName, out IEventRecorder recorder))
             {
-                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
+                throw new InvalidOperationException(string.Format(Resources.Event_NotMonitoringAnyEventsNamedXFormat, eventName));
             }
 
             return recorder;

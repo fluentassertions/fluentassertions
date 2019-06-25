@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
         {
             this.predicate = predicate.Compile();
             this.action = action;
-            description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
+            description = string.Format(Resources.Assertion_InvokeActionXWhenYFormat, typeof(TSubject).Name, predicate.Body);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
                 bool subjectIsValidType =
                     AssertionScope.Current
                         .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith("Expected " + context.SelectedMemberDescription + " from subject to be a {0}{reason}, but found a {1}.",
+                        .FailWith(Resources.Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat, context.SelectedMemberDescription,
                             typeof(TSubject), context.Subject?.GetType());
 
                 bool expectationIsNull = context.Expectation is null;
@@ -49,7 +49,7 @@ namespace FluentAssertions.Equivalency
                 bool expectationIsValidType =
                     AssertionScope.Current
                         .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith("Expected " + context.SelectedMemberDescription + " from expectation to be a {0}{reason}, but found a {1}.",
+                        .FailWith(Resources.Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat, context.SelectedMemberDescription,
                             typeof(TSubject), context.Expectation?.GetType());
 
                 if (subjectIsValidType && expectationIsValidType)

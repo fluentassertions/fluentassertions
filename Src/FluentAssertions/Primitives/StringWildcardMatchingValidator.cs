@@ -18,12 +18,14 @@ namespace FluentAssertions.Primitives
 
             if (!isMatch && !Negate)
             {
-                assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+                assertion.FailWith(ExpectationDescription + Resources.String_ButYDoesNotFormat,
+                    expected, subject);
             }
 
             if (isMatch && Negate)
             {
-                assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+                assertion.FailWith(ExpectationDescription + Resources.String_ButYMatchesFormat,
+                    expected, subject);
             }
         }
 
@@ -56,13 +58,22 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                var builder = new StringBuilder();
-                builder.Append(Negate ? "Did not expect " : "Expected ");
-                builder.Append("{context:string}");
-                builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
-                builder.Append(" {0}{reason}, ");
+                if (Negate && IgnoreCase)
+                {
+                    return Resources.String_DidNotExpectStringToMatchEquivalentOfXFormat;
+                }
 
-                return builder.ToString();
+                if (Negate)
+                {
+                    return Resources.String_DidNotExpectStringToMatchXFormat;
+                }
+
+                if (IgnoreCase)
+                {
+                    return Resources.String_ExpectedStringToMatchEquivalentOfXFormat;
+                }
+
+                return Resources.String_ExpectedStringToMatchXFormat;
             }
         }
 

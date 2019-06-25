@@ -32,10 +32,15 @@ namespace FluentAssertions.Equivalency.Matching
 
             if (compareeSelectedMemberInfoInfo is null)
             {
-                string path = (memberPath.Length > 0) ? memberPath + "." : "member ";
-
-                Execute.Assertion.FailWith(
-                    "Expectation has " + path + expectedMember.Name + " that the other object does not have.");
+                if (memberPath.Length > 0)
+                {
+                    Execute.Assertion.FailWith(Resources.Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat,
+                        memberPath, expectedMember.Name);
+                }
+                else
+                {
+                    Execute.Assertion.FailWith(Resources.Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat, expectedMember.Name);
+                }
             }
 
             return compareeSelectedMemberInfoInfo;
@@ -49,7 +54,7 @@ namespace FluentAssertions.Equivalency.Matching
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Match member by name (or throw)";
+            return Resources.MatchMemberByNameOrThrow;
         }
     }
 }

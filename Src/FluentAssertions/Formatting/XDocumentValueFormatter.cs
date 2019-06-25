@@ -21,7 +21,7 @@ namespace FluentAssertions.Formatting
 
         private string FormatDocumentWithoutRoot()
         {
-            return "[XML document without root element]";
+            return Resources.Xml_FormatDocumentWithoutRoot;
         }
     }
 }

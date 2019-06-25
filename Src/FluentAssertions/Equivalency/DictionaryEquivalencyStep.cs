@@ -39,12 +39,12 @@ namespace FluentAssertions.Equivalency
                     {
                         if (config.IsRecursive)
                         {
-                            context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
+                            context.TraceSingle(path => string.Format(Resources.Dictionary_RecursingIntoDictionaryItemXAtYFormat, key, path));
                             parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
                         }
                         else
                         {
-                            context.TraceSingle(path => $"Comparing dictionary item {key} at {path} between subject and expectation");
+                            context.TraceSingle(path => string.Format(Resources.Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat, key, path));
                             subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
                         }
                     }
@@ -65,21 +65,21 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(((expectation is null) && (subject is null)) || (expectation != null))
-                .FailWith("Expected {context:subject} to be {0}, but found {1}.", null, subject);
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeXFormat + Resources.Common_CommaButFoundYFormat, null, subject);
         }
 
         private static bool AssertIsDictionary(IDictionary subject)
         {
             return AssertionScope.Current
                 .ForCondition(subject != null)
-                .FailWith("Expected {context:subject} to be a dictionary, but it is not.");
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeDictionaryButIsNot);
         }
 
         private static bool AssertSameLength(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
                 .ForCondition((expectation is null) || (subject.Keys.Count == expectation.Keys.Count))
-                .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat,
                     expectation?.Keys.Count, subject?.Keys.Count);
         }
     }

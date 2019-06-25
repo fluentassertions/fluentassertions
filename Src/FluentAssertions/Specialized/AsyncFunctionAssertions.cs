@@ -64,7 +64,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(exception != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+                .FailWith(Resources.Exception_ExpectedXFormat + Resources.Exception_CommaButNoExceptionWasThrown,
+                    expectedType);
 
             exception.Should().BeOfType(expectedType, because, becauseArgs);
 
@@ -161,13 +162,14 @@ namespace FluentAssertions.Specialized
         {
             if (waitTime < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(waitTime),
+                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(waitTime)));
             }
 
             if (pollInterval < TimeSpan.Zero)
             {
                 throw new ArgumentOutOfRangeException(nameof(pollInterval),
-                    $"The value of {nameof(pollInterval)} must be non-negative.");
+                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(pollInterval)));
             }
 
             return assertionTask();
@@ -192,7 +194,8 @@ namespace FluentAssertions.Specialized
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+                    .FailWith(Resources.TimeSpan_DidNotExpectAnyExceptionsAfterXFormat + Resources.Common_CommaButFoundYFormat,
+                        waitTime, exception);
             }
         }
 

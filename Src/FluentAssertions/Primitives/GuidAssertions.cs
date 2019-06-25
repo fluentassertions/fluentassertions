@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
+                .FailWith(Resources.Guid_ExpectedGuidToBeEmpty + Resources.Common_CommaButFoundXFormat, Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -57,7 +57,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:Guid} to be empty{reason}.");
+                .FailWith(Resources.Guid_DidNotExpectGuidToBeEmpty);
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -99,7 +99,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Equals(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.Guid_ExpectedGuidToBeXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -120,7 +120,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);
+                .FailWith(Resources.Guid_DidNotExpectGuidToBeXFormat, Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }

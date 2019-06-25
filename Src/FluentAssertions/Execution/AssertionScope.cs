@@ -103,7 +103,8 @@ namespace FluentAssertions.Execution
                 }
                 catch (FormatException formatException)
                 {
-                    return $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+                    return string.Format(Resources.Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat,
+                        because, Environment.NewLine, formatException.StackTrace);
                 }
             };
             return this;

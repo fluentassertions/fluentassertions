@@ -43,7 +43,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
+                .FailWith(Resources.DateTime_ExpectedDateToBeXFormat + Resources.Common_CommaButItWasYFormat,
                     expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -66,7 +66,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
+                .FailWith(Resources.DateTime_DidNotExpectDateToBeXFormat + Resources.Common_CommaButItWas,
+                    unexpected);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -133,9 +134,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
-                    precision,
-                    nearbyTime, Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_ExpectedDateToBeWithinXFromYFormat + Resources.Common_CommaButItWasZFormat,
+                    precision, nearbyTime, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -200,10 +200,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
-                    precision,
-                    distantTime, Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat,
+                    precision, distantTime, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -225,8 +223,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_ExpectedDateToBeBeforeXFormat + Resources.Common_CommaButItWasYFormat,
+                    expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -265,8 +263,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_ExpectedDateToBeOnOrBeforeXFormat + Resources.Common_CommaButItWasYFormat,
+                    expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -305,8 +303,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_ExpectedDateToBeAfterXFormat + Resources.Common_CommaButItWasYFormat,
+                    expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -345,8 +343,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                .FailWith(Resources.DateTime_ExpectedDateToBeOnOrAfterXFormat + Resources.Common_CommaButItWasYFormat,
+                    expected, Subject ?? default(DateTimeOffset?));
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -383,14 +381,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheYearPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Year);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Year);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -409,14 +408,15 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the year part of {context:the date} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheYearPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Year != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -436,14 +436,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheMonthPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Month == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Month);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Month);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -462,14 +463,15 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Month != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -489,14 +491,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheDayPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Day == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Day);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Day);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -515,14 +518,15 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheDayPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Day != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -542,14 +546,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheHourPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Hour == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Hour);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Hour);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -568,14 +573,15 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheHourPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -595,14 +601,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheMinutePartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Minute == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Minute);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Minute);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -622,14 +629,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -649,14 +657,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheSecondsPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Second == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Second);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Second);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -676,14 +685,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Second != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -703,14 +713,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheOffsetOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Offset == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value.Offset);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value.Offset);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -730,14 +741,15 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheOffsetOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Offset != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -820,14 +832,15 @@ namespace FluentAssertions.Primitives
             var expectedDate = expected.Date;
 
             Execute.Assertion
-                .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
+                .WithExpectation(Resources.DateTime_ExpectedTheDatePartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    expectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.", expectedDate)
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset, expectedDate)
                 .Then
                 .ForCondition(Subject.Value.Date == expectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was {0}.", Subject.Value);
+                .FailWith(Resources.Common_ButItWasXFormat, Subject.Value);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -849,14 +862,15 @@ namespace FluentAssertions.Primitives
             var unexpectedDate = unexpected.Date;
 
             Execute.Assertion
-                .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheDatePartOfDateToBeXFormat + Resources.Common_CommaSpace,
+                    unexpectedDate)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but found a <null> DateTimeOffset.")
+                .FailWith(Resources.DateTime_ButFoundANullDateTimeOffset)
                 .Then
                 .ForCondition(Subject.Value.Date != unexpectedDate)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("but it was.");
+                .FailWith(Resources.Common_ButItWas);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
@@ -919,7 +933,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be one of {0}{reason}, but it was {1}.", validValues, Subject);
+                .FailWith(Resources.DateTime_ExpectedDateToBeOneOfXFormat + Resources.Common_CommaButItWasYFormat,
+                    validValues, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }

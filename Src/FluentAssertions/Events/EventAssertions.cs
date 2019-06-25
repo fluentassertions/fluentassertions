@@ -50,7 +50,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", monitor.Subject, eventName);
+                    .FailWith(Resources.Event_ExpectedObjectXToRaiseEventYButItDidNotFormat, monitor.Subject, eventName);
             }
 
             return eventRecorder;
@@ -81,7 +81,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", monitor.Subject, eventName);
+                    .FailWith(Resources.Event_ExpectedObjectXToNotRaiseEventYButItDidFormat, monitor.Subject, eventName);
             }
         }
 
@@ -114,7 +114,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
+                    .FailWith(Resources.Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat,
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
 
@@ -150,7 +150,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
+                    .FailWith(Resources.Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat,
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
         }

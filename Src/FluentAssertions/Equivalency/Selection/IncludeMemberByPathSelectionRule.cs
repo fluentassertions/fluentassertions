@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override string ToString()
         {
-            return "Include member root." + memberToInclude;
+            return string.Format(Resources.IncludeMemberRootDotXFormat, memberToInclude);
         }
     }
 }

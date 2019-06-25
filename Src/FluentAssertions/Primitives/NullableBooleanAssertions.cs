@@ -29,7 +29,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a value{reason}.");
+                .FailWith(Resources.Object_ExpectedAValue);
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }
@@ -64,7 +64,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
+                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundXFormat, Subject);
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }
@@ -100,7 +100,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.Object_ExpectedXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -120,7 +120,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || Subject.Value)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", false, Subject);
+                .FailWith(Resources.Bool_ExpectedNullableBoolNotToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                    false, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -140,7 +141,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || !Subject.Value)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", true, Subject);
+                .FailWith(Resources.Bool_ExpectedNullableBoolNotToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                    true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }

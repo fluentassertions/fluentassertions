@@ -66,9 +66,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} before {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat + Resources.DateTime_CommaButFoundANullDateTime,
+                    subject, predicate.DisplayText, timeSpan, target);
 
             if (success)
             {
@@ -78,10 +77,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
+                        .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat + Resources.Common_CommaButItDiffersItem4Format,
+                            subject, predicate.DisplayText, timeSpan, target, actual);
                 }
             }
 
@@ -107,9 +104,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} after {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat + Resources.DateTime_CommaButFoundANullDateTime,
+                    subject, predicate.DisplayText, timeSpan, target);
 
             if (success)
             {
@@ -119,10 +115,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} after {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
+                        .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat + Resources.Common_CommaButItDiffersItem4Format,
+                            subject, predicate.DisplayText, timeSpan, target, actual);
                 }
             }
 

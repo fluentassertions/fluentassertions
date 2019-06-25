@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         public override string ToString()
         {
-            return "Always be strict about the collection order";
+            return Resources.Collection_AlwaysBeStrictAboutCollectionOrder;
         }
     }
 }

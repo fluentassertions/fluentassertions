@@ -321,7 +321,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(valueWithinBounds)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
+                .FailWith(Resources.Numeric_ExpectedValueToBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
                     delta, nearbyValue, actualValue);
         }
 
@@ -640,7 +640,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(valueOutsideBounds)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
+                .FailWith(Resources.Numeric_DidNotExpectValueToBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
                     delta, distantValue, actualValue);
         }
 
@@ -672,7 +672,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, Resources.Common_NullKeyword);
 
             var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
@@ -710,7 +711,8 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -773,7 +775,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, Resources.Common_NullKeyword);
 
             var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
@@ -811,7 +814,8 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -874,7 +878,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, Resources.Common_NullKeyword);
 
             var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
@@ -912,7 +917,8 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                    expectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -959,7 +965,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat,
                     parent.Subject, expectedValue, precision, actualDifference);
         }
 
@@ -1027,7 +1033,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1126,7 +1132,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1225,7 +1231,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1272,7 +1278,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat,
                     parent.Subject, unexpectedValue, precision, actualDifference);
         }
 

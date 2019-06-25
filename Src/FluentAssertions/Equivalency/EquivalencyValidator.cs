@@ -64,7 +64,7 @@ namespace FluentAssertions.Equivalency
 
             if (!shouldRecurse)
             {
-                AssertionScope.Current.FailWith("The maximum recursion depth was reached.  ");
+                AssertionScope.Current.FailWith(Resources.Equivalency_MaximumRecursionDepthWasReached);
             }
 
             return shouldRecurse;
@@ -122,7 +122,7 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            throw new NotImplementedException($"No {nameof(IEquivalencyStep)} was found to handle the context. ");
+            throw new NotImplementedException(string.Format(Resources.Equivalency_NoXWasFoundToHandleTheContextFormat, nameof(IEquivalencyStep)));
         }
     }
 }

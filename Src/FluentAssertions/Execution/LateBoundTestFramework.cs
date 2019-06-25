@@ -14,7 +14,7 @@ namespace FluentAssertions.Execution
             if (exceptionType is null)
             {
                 throw new Exception(string.Format(
-                    "Failed to create the assertion exception for the current test framework: \"{0}, {1}\"",
+                    Resources.TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat,
                     ExceptionFullName, assembly.FullName));
             }
 

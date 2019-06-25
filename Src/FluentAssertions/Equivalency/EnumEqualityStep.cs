@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
                     break;
 
                 default:
-                    throw new InvalidOperationException(string.Format("Do not know how to handle {0}",
+                    throw new InvalidOperationException(string.Format(Resources.Enum_DoNotKnowHowToHandleXFormat,
                         config.EnumEquivalencyHandling));
             }
 
@@ -65,7 +65,8 @@ namespace FluentAssertions.Equivalency
                     string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                    return new FailReason(Resources.Enum_ExpectedEnumToEqualXByValueFormat + Resources.Common_CommaButFoundYFormat,
+                        expectationName, subjectsName);
                 });
         }
 
@@ -83,8 +84,8 @@ namespace FluentAssertions.Equivalency
 
                     string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
-                    return new FailReason(
-                            $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                    return new FailReason(Resources.Enum_ExpectedEnumToEqualXByNameFormat + Resources.Common_CommaButFoundYFormat,
+                        expectationName, subjectsName);
                 });
         }
 

@@ -42,15 +42,12 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(nonVirtualProperties);
-
             Execute.Assertion
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat,
+                    Environment.NewLine, GetDescriptionsFor(nonVirtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -69,15 +66,12 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(virtualProperties);
-
             Execute.Assertion
                 .ForCondition(!virtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat,
+                    Environment.NewLine, GetDescriptionsFor(virtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -96,15 +90,11 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(readOnlyProperties);
-
             Execute.Assertion
                 .ForCondition(!readOnlyProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat,
+                    Environment.NewLine, GetDescriptionsFor(readOnlyProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -149,15 +139,12 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-            string failureMessage =
-                "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(propertiesWithoutAttribute);
-
             Execute.Assertion
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat,
+                    typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(propertiesWithoutAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -177,15 +164,12 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-            string failureMessage =
-                "Expected all selected properties not to be decorated with {0}{reason}, but the following properties are:" +
-                Environment.NewLine +
-                GetDescriptionsFor(propertiesWithAttribute);
-
             Execute.Assertion
                 .ForCondition(!propertiesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingPropertiesAreYZFormat,
+                    typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(propertiesWithAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }

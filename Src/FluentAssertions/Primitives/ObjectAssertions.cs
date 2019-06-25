@@ -31,8 +31,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
-                .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", expected,
-                    Subject);
+                .FailWith(Resources.Object_ExpectedObjectToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -53,7 +53,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
+                .FailWith(Resources.Object_DidNotExpectObjectToBeEqualToXFormat, unexpected);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -186,7 +186,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} not to be equivalent to {0}, but they are.", unexpected);
+                .FailWith(Resources.Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat, unexpected);
         }
 
         /// <summary>
@@ -206,14 +206,14 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedFlag.GetType())
+                .FailWith(Resources.Object_ExpectedTypeToBeXFormat + Resources.Common_CommaButFoundNull, expectedFlag.GetType())
                 .Then
                 .ForCondition(Subject.GetType() == expectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", expectedFlag.GetType(), Subject.GetType())
+                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat, expectedFlag.GetType(), Subject.GetType())
                 .Then
                 .Given(() => Subject as Enum)
                 .ForCondition(@enum => @enum.HasFlag(expectedFlag))
-                .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", _ => expectedFlag, @enum => @enum);
+                .FailWith(Resources.Enum_EnumWasExpectedToHaveFlagXButFoundYFormat, _ => expectedFlag, @enum => @enum);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -235,14 +235,14 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", unexpectedFlag.GetType())
+                .FailWith(Resources.Object_ExpectedTypeToBeXFormat + Resources.Common_CommaButFoundNull, unexpectedFlag.GetType())
                 .Then
                 .ForCondition(Subject.GetType() == unexpectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", unexpectedFlag.GetType(), Subject.GetType())
+                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat, unexpectedFlag.GetType(), Subject.GetType())
                 .Then
                 .Given(() => Subject as Enum)
                 .ForCondition(@enum => !@enum.HasFlag(unexpectedFlag))
-                .FailWith("Did not expect the enum to have flag {0}{reason}.", unexpectedFlag);
+                .FailWith(Resources.Enum_DidNotExpectTheEnumToHaveFlagXFormat, unexpectedFlag);
 
             return new AndConstraint<ObjectAssertions>(this);
         }

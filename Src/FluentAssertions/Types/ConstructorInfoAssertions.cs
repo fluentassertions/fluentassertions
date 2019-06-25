@@ -19,7 +19,7 @@ namespace FluentAssertions.Types
 
         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
         {
-            return string.Format("{0}({1})",
+            return string.Format(Resources.Constructor_DescriptionFormat,
                 constructorInfo.DeclaringType, GetParameterString(constructorInfo));
         }
 

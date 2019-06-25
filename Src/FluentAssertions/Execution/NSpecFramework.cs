@@ -36,7 +36,7 @@ namespace FluentAssertions.Execution
             Type exceptionType = assembly.GetType("NSpec.Domain.AssertionException");
             if (exceptionType is null)
             {
-                throw new Exception("Failed to create the NSpec assertion type");
+                throw new Exception(Resources.Assertion_FailedToCreateNSpecAssertionType);
             }
 
             throw (Exception)Activator.CreateInstance(exceptionType, message);

@@ -17,8 +17,9 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
-                return "Expected {context:string} that does not " + predicateDescription + " ";
+                return IgnoreCase
+                    ? Resources.String_ExpectedStringThatDoesNotStartWithEquivalentOf
+                    : Resources.String_ExpectedStringThatDoesNotStartWith;
             }
         }
 
@@ -36,7 +37,7 @@ namespace FluentAssertions.Primitives
             bool isMatch = subject.StartsWith(expected, stringComparison);
             if (isMatch)
             {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
+                assertion.FailWith(ExpectationDescription + Resources.String_XFormat + Resources.Common_CommaButFoundYFormat,
                     expected, subject);
             }
         }

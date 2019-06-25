@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             if (index?.Any() == true)
             {
-                throw new TargetParameterCountException("Parameter count mismatch.");
+                throw new TargetParameterCountException(Resources.Equivalency_ParameterCountMismatch);
             }
 
             return fieldInfo.GetValue(obj);

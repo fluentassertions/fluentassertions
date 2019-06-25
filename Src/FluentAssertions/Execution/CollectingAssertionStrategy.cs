@@ -40,7 +40,7 @@ namespace FluentAssertions.Execution
                 {
                     foreach (KeyValuePair<string, object> pair in context)
                     {
-                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                        builder.AppendFormat(Resources.Formatter_XWithYColonXZFormat, Environment.NewLine, pair.Key, pair.Value);
                     }
                 }
 

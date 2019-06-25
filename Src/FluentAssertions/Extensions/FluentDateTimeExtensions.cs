@@ -145,12 +145,12 @@ namespace FluentAssertions.Extensions
         {
             if (microseconds < 0 || microseconds > 999)
             {
-                throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
+                throw new ArgumentOutOfRangeException(nameof(microseconds), Resources.DateTime_ValidValuesAreBetween0And999);
             }
 
             if (nanoseconds < 0 || nanoseconds > 999)
             {
-                throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
+                throw new ArgumentOutOfRangeException(nameof(nanoseconds), Resources.DateTime_ValidValuesAreBetween0And999);
             }
 
             var value = new DateTime(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds);
@@ -176,12 +176,12 @@ namespace FluentAssertions.Extensions
         {
             if (microseconds < 0 || microseconds > 999)
             {
-                throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
+                throw new ArgumentOutOfRangeException(nameof(microseconds), Resources.DateTime_ValidValuesAreBetween0And999);
             }
 
             if (nanoseconds < 0 || nanoseconds > 999)
             {
-                throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
+                throw new ArgumentOutOfRangeException(nameof(nanoseconds), Resources.DateTime_ValidValuesAreBetween0And999);
             }
 
             var value = new DateTimeOffset(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds, date.Offset);

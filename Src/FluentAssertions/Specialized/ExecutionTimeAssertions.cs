@@ -76,11 +76,11 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be less or equal to {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    maxDuration,
-                    elapsed);
+                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat
+                    + (isRunning
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                    execution.ActionDescription, maxDuration, elapsed);
         }
 
         /// <summary>
@@ -104,11 +104,11 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be less than {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    maxDuration,
-                    elapsed);
+                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeLessThanYFormat
+                    + (isRunning
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                    execution.ActionDescription, maxDuration, elapsed);
         }
 
         /// <summary>
@@ -132,11 +132,11 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be greater or equal to {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    minDuration,
-                    elapsed);
+                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat
+                    + (isRunning
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                    execution.ActionDescription, minDuration, elapsed);
         }
 
         /// <summary>
@@ -160,11 +160,11 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be greater than {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    minDuration,
-                    elapsed);
+                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat
+                    + (isRunning
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                    execution.ActionDescription, minDuration, elapsed);
         }
 
         /// <summary>
@@ -199,12 +199,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + execution.ActionDescription +
-                          " should be within {0} from {1}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{2}.",
-                    precision,
-                    expectedDuration,
-                    elapsed);
+                .FailWith(isRunning
+                    ? Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat
+                    : Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat,
+                    execution.ActionDescription, precision, expectedDuration, elapsed);
         }
     }
 

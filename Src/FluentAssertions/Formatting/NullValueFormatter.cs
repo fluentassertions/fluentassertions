@@ -17,7 +17,7 @@
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            return "<null>";
+            return Resources.Common_NullKeyword;
         }
     }
 }

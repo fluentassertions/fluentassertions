@@ -65,8 +65,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time) to be " + predicate.DisplayText +
-                          " {0} before {1}{reason}, but found a <null> DateTime.", timeSpan, target);
+                .FailWith(Resources.DateTime_ExpectedDateToBeXYBeforeZFormat + Resources.DateTime_CommaButFoundANullDateTime,
+                    predicate.DisplayText, timeSpan, target);
 
             if (success)
             {
@@ -76,9 +76,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:the date and time} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but {0} differs {3}.", subject, timeSpan, target, actual);
+                        .FailWith(Resources.DateTime_ExpectedDateToBeXYBeforeZFormat + Resources.Common_CommaButItem3DiffersItem4Format,
+                            predicate.DisplayText, timeSpan, target, subject, actual);
                 }
             }
 
@@ -103,8 +102,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be " + predicate.DisplayText +
-                          " {0} after {1}{reason}, but found a <null> DateTime.", timeSpan, target);
+                .FailWith(Resources.DateTime_ExpectedDateToBeXYAfterZFormat + Resources.DateTime_CommaButFoundANullDateTime,
+                    predicate.DisplayText, timeSpan, target);
 
             if (success)
             {
@@ -114,10 +113,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:the date and time} to be " + predicate.DisplayText +
-                            " {0} after {1}{reason}, but {2} differs {3}.",
-                            timeSpan, target, subject, actual);
+                        .FailWith(Resources.DateTime_ExpectedDateToBeXYAfterZFormat + Resources.Common_CommaButItem3DiffersItem4Format,
+                            predicate.DisplayText, timeSpan, target, subject, actual);
                 }
             }
 

@@ -27,21 +27,21 @@ namespace FluentAssertions.Equivalency
 
         public void IncludeAll()
         {
-            inclusions.Add(new ConversionSelectorRule(_ => true, "Try conversion of all members. "));
+            inclusions.Add(new ConversionSelectorRule(_ => true, Resources.Conversion_TryConversionOfAllMembersSpace));
         }
 
         public void Include(Expression<Func<IMemberInfo, bool>> predicate)
         {
             inclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
-                $"Try conversion of member {predicate.Body}. "));
+                string.Format(Resources.Conversion_TryConversionOfMemberXSpaceFormat, predicate.Body)));
         }
 
         public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
         {
             exclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
-                $"Do not convert member {predicate.Body}."));
+                string.Format(Resources.Conversion_DoNotConvertMemberXFormat, predicate.Body)));
         }
 
         public bool RequiresConversion(IMemberInfo info)
@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         {
             if (inclusions.Count == 0 && exclusions.Count == 0)
             {
-                return "Without automatic conversion.";
+                return Resources.Conversion_WithoutAutomaticConversion;
             }
 
             StringBuilder descriptionBuilder = new StringBuilder();

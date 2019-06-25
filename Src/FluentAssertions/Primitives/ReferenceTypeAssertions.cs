@@ -45,7 +45,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to be <null>{reason}, but found {0}.", Subject);
+                .FailWith(Resources.RefType_ExpectedContextToBeNullButFoundXFormat, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -66,7 +66,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} not to be <null>{reason}.");
+                .FailWith(Resources.RefType_ExpectedContextNotToBeNull);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -89,7 +89,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(ReferenceEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.RefType_ExpectedContextToReferToXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -112,7 +112,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+                .FailWith(Resources.Object_DidNotExpectContextToReferToXFormat, unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -158,7 +158,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} to be {0}{reason}, but found <null>.", expectedType);
+                .FailWith(Resources.RefType_ExpectedContextToBeXFormat + Resources.Common_CommaButFoundNull, expectedType);
 
             Type subjectType = Subject.GetType();
             if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
@@ -210,7 +210,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
+                .FailWith(Resources.RefType_ExpectedContextNotToBeXFormat + Resources.Common_CommaButFoundNull, unexpectedType);
 
             Type subjectType = Subject.GetType();
             if (unexpectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
@@ -238,7 +238,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject is T)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.",
+                .FailWith(Resources.RefType_ExpectedContextToBeAssignableToXButYIsNotFormat,
                     typeof(T),
                     Subject.GetType());
 
@@ -262,7 +262,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith(Resources.RefType_ExpectedContextNotToBeXFormat + Resources.Common_CommaButFoundNull, type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
@@ -278,7 +278,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.",
+                .FailWith(Resources.RefType_ExpectedContextToBeAssignableToXButYIsNotFormat,
                     type,
                     Subject.GetType());
 
@@ -310,7 +310,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith(Resources.RefType_ExpectedContextNotToBeXFormat + Resources.Common_CommaButFoundNull, type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
@@ -326,7 +326,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to not be assignable to {0}{reason}, but {1} is.",
+                .FailWith(Resources.RefType_ExpectedContextToNotBeAssignableXToButYIsFormat,
                     type,
                     Subject.GetType());
 
@@ -361,14 +361,14 @@ namespace FluentAssertions.Primitives
         {
             if (predicate is null)
             {
-                throw new ArgumentNullException(nameof(predicate), "Cannot match an object against a <null> predicate.");
+                throw new ArgumentNullException(nameof(predicate), Resources.Expression_CannotMatchObjectAgainstNullPredicate);
             }
 
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T)Subject))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context:object} to match {1}{reason}, but found {0}.", Subject, predicate.Body);
+                .FailWith(Resources.RefType_ExpectedObjectToMatchY + Resources.Common_CommaButFoundXFormat, Subject, predicate.Body);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

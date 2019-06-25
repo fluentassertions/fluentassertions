@@ -51,7 +51,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.InnerText == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have value {1}{reason}, but found {2}.",
+                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
                     Subject.Name, expected, Subject.InnerText);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -129,16 +129,13 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected XML element to have attribute {0}"
-                    + " with value {1}{reason}, but found no such attribute in {2}",
+                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat,
                     expectedFormattedName, expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected XML attribute {0} to have value {1}{reason}, but found {2}.",
+                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
                     expectedFormattedName, expectedValue, attribute.Value);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -214,9 +211,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" +
-                    expectedFormattedName.EscapePlaceholders() + "\"{reason}" +
-                        ", but no such child element was found.", Subject);
+                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveChildElementYFormat + Resources.Xml_CommaButNoSuchChildElementWasFound,
+                    Subject, expectedFormattedName.EscapePlaceholders());
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
         }

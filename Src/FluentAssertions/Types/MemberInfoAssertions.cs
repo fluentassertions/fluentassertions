@@ -79,16 +79,13 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to be decorated with {2}{{reason}}, but that attribute was not found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
-
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
             Execute.Assertion
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.MemberInfo_ExpectedXYToBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasFound,
+                    Identifier, SubjectDescription, typeof(TAttribute));
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
         }
@@ -112,16 +109,13 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to not be decorated with {2}{{reason}}, but that attribute was found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
-
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
             Execute.Assertion
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasFound,
+                    Identifier, SubjectDescription, typeof(TAttribute));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -132,7 +126,7 @@ namespace FluentAssertions.Types
         {
             get
             {
-                return string.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
+                return string.Format(Resources.MemberInfo_SubjectDescriptionFormat, Subject.DeclaringType, Subject.Name);
             }
         }
     }

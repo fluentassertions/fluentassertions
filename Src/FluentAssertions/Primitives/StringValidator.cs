@@ -51,7 +51,8 @@ namespace FluentAssertions.Primitives
         {
             if ((expected is null) ^ (subject is null))
             {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+                assertion.FailWith(ExpectationDescription + Resources.String_XFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, subject);
                 return false;
             }
 

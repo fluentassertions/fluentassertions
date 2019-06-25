@@ -19,10 +19,10 @@ namespace FluentAssertions.Primitives
         {
             return assertion
                 .ForCondition(!((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode)))
-                .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
+                .FailWith(ExpectationDescription + Resources.String_XButItMissesSomeExtraWhitespaceAtTheEndFormat, expected)
                 .Then
                 .ForCondition(!((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode)))
-                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected)
+                .FailWith(ExpectationDescription + Resources.String_XButItHasUnexpectedWhitespaceAtTheEndFormat, expected)
                 .SourceSucceeded;
         }
 
@@ -34,10 +34,9 @@ namespace FluentAssertions.Primitives
                     {
                         string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
 
-                        string message = ExpectationDescription +
-                                         "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
-
-                        return new FailReason(message, expected, expected.Length, subject, subject.Length);
+                        return new FailReason(
+                            ExpectationDescription + Resources.String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format,
+                            expected, expected.Length, subject, subject.Length, mismatchSegment);
                     }
                ).SourceSucceeded;
         }
@@ -76,9 +75,8 @@ namespace FluentAssertions.Primitives
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
             if (indexOfMismatch != -1)
             {
-                assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    expected, subject);
+                assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
+                    expected, subject, subject.IndexedSegmentAt(indexOfMismatch));
             }
         }
 
@@ -86,8 +84,9 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                string predicateDescription = IgnoreCase ? "be equivalent to" : "be";
-                return "Expected {context:string} to " + predicateDescription + " ";
+                return IgnoreCase
+                    ? Resources.String_ExpectedStringToBeEquivalentTo
+                    : Resources.String_ExpectedStringToBe;
             }
         }
 

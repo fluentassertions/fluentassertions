@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override string ToString()
         {
-            return "Exclude member root." + memberToExclude;
+            return string.Format(Resources.Member_ExcludeMemberRootXDotFormat, memberToExclude);
         }
     }
 }

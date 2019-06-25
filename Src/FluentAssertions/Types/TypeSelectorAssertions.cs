@@ -48,8 +48,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to be decorated with {0}{reason}," +
-                    " but the attribute was not found on the following types:{1}{2}.",
+                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutAttribute));
@@ -82,8 +81,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
-                    " but no matching attribute was found on the following types:{2}{3}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -112,8 +111,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to be decorated with or inherit {0}{reason}," +
-                    " but the attribute was not found on the following types:{1}{2}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutAttribute));
@@ -146,8 +145,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to be decorated with or inherit {0} that matches {1}{reason}," +
-                    " but no matching attribute was found on the following types:{2}{3}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNotFoundOnTypesZWFormat,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -176,8 +175,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to not be decorated with {0}{reason}," +
-                    " but the attribute was found on the following types:{1}{2}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithAttribute));
@@ -210,8 +209,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
-                    " but a matching attribute was found on the following types:{2}{3}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -240,8 +239,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to not be decorated with or inherit {0}{reason}," +
-                    " but the attribute was found on the following types:{1}{2}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithAttribute));
@@ -274,8 +273,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to not be decorated with or inherit {0} that matches {1}{reason}," +
-                    " but a matching attribute was found on the following types:{2}{3}.",
+                .FailWith(
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,

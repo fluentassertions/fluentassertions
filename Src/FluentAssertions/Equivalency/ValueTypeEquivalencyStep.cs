@@ -20,10 +20,11 @@ namespace FluentAssertions.Equivalency
             {
                 context.TraceSingle(path =>
                 {
-                    string strategyName = (strategy == EqualityStrategy.Equals)
-                        ? "Equals must be used" : "object overrides Equals";
+                    string strategyForm = strategy == EqualityStrategy.Equals
+                        ? Resources.ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat
+                        : Resources.ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat;
 
-                    return $"Treating {path} as a value type because {strategyName}.";
+                    return string.Format(strategyForm, path);
                 });
             }
 

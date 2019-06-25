@@ -43,7 +43,7 @@ namespace FluentAssertions.Equivalency.Selection
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Include member when " + description;
+            return string.Format(Resources.IncludeMemberWhenXFormat, description);
         }
     }
 }

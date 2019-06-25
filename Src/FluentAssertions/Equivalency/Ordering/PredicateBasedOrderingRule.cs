@@ -33,7 +33,9 @@ namespace FluentAssertions.Equivalency.Ordering
 
         public override string ToString()
         {
-            return $"Be {(Invert ? "not strict" : "strict")} about the order of collections when {description}";
+            return Invert
+                ? string.Format(Resources.Collection_BeNotStrictAboutCollectionsOrderWhenXFormat, description)
+                : string.Format(Resources.Collection_BeStrictAboutCollectionsOrderWhenXFormat, description);
         }
     }
 }

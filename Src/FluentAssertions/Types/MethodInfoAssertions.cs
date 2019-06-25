@@ -33,14 +33,11 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoAssertions> BeVirtual(
             string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " +
-                                    SubjectDescription +
-                                    " to be virtual{reason}, but it is not virtual.";
-
             Execute.Assertion
                 .ForCondition(!Subject.IsNonVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Method_ExpectedMethodXToBeVirtualFormat + Resources.Common_CommaButItIsNot,
+                    SubjectDescription);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -57,12 +54,11 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " + SubjectDescription + " not to be virtual{reason}, but it is.";
-
             Execute.Assertion
                 .ForCondition(Subject.IsNonVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Method_ExpectedMethodXNotToBeVirtualFormat + Resources.Common_CommaButItIs,
+                    SubjectDescription);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -75,14 +71,11 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " +
-                        SubjectDescription +
-                        " to be async{reason}, but it is not.";
-
             Execute.Assertion
                 .ForCondition(Subject.IsAsync())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Method_ExpectedMethodXToBeAsyncFormat + Resources.Common_CommaButItIsNot,
+                    SubjectDescription);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -95,12 +88,11 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<MethodInfoAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " + SubjectDescription + " not to be async{reason}, but it is.";
-
             Execute.Assertion
                 .ForCondition(!Subject.IsAsync())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Method_ExpectedMethodXNotToBeAsyncFormat + Resources.Common_CommaButItIs,
+                    SubjectDescription);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -119,8 +111,8 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(typeof(void) == Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " to be void{reason}, but it is {0}.",
-                    Subject.ReturnType.FullName);
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXToBeVoidFormat + Resources.Common_CommaButItIsXFormat,
+                    Subject.Name, Subject.ReturnType.FullName);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
@@ -140,8 +132,8 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(returnType == Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " to be {0}{reason}, but it is {1}.",
-                    returnType, Subject.ReturnType.FullName);
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXToBeYFormat + Resources.Common_CommaButFoundZFormat,
+                    Subject.Name, returnType, Subject.ReturnType.FullName);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
@@ -177,7 +169,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(typeof(void) != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " not to be void{reason}, but it is.");
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat + Resources.Common_CommaButItIs,
+                    Subject.Name);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
@@ -198,7 +191,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(returnType != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " not to be {0}{reason}, but it is.", returnType);
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXNotToBeYFormat + Resources.Common_CommaButItIs,
+                    Subject.Name, returnType);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
@@ -223,7 +217,7 @@ namespace FluentAssertions.Types
         {
             string returnTypeName = method.ReturnType.Name;
 
-            return string.Format("{0} {1}.{2}", returnTypeName,
+            return string.Format(Resources.MethodInfo_DescriptionFormat, returnTypeName,
                 method.DeclaringType, method.Name);
         }
 

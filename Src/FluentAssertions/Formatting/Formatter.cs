@@ -80,7 +80,8 @@ namespace FluentAssertions.Formatting
                 if (isReentry)
                 {
                     throw new InvalidOperationException(
-                        $"Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children");
+                        string.Format(Resources.Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat,
+                            nameof(FormatChild), nameof(IValueFormatter)));
                 }
 
                 isReentry = true;
@@ -107,16 +108,16 @@ namespace FluentAssertions.Formatting
             {
                 if (string.IsNullOrEmpty(path))
                 {
-                    throw new ArgumentNullException(nameof(path), "Formatting a child value requires a path");
+                    throw new ArgumentNullException(nameof(path), Resources.Formatter_FormattingChildValueRequiresPath);
                 }
 
                 if (!graph.TryPush(path, childValue))
                 {
-                    return $"{{Cyclic reference to type {childValue.GetType()} detected}}";
+                    return string.Format(Resources.Formatter_CyclicReferenceToTypeXDetectedFormat, childValue.GetType());
                 }
                 else if (graph.Depth > 5)
                 {
-                    return "{Maximum recursion depth was reached…}";
+                    return Resources.Formatter_MaxRecursionDepthWasReached;
                 }
                 else
                 {

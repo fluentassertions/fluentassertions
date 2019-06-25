@@ -38,13 +38,13 @@ namespace FluentAssertions.Formatting
             var exception = (AggregateException)value;
             if (exception.InnerExceptions.Count == 1)
             {
-                return "(aggregated) " + formatChild("inner", exception.InnerException);
+                return Resources.Formatter_Aggregated + formatChild("inner", exception.InnerException);
             }
             else
             {
                 var builder = new StringBuilder();
 
-                builder.AppendFormat("{0} (aggregated) exceptions:\n", exception.InnerExceptions.Count);
+                builder.AppendFormat(Resources.Formatter_XAggregatedExceptionsYFormat, exception.InnerExceptions.Count, Environment.NewLine);
 
                 foreach (Exception innerException in exception.InnerExceptions)
                 {

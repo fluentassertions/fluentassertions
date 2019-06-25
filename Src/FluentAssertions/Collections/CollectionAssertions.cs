@@ -39,13 +39,13 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to be empty{reason}, ")
+                .WithExpectation(Resources.Collection_ExpectedCollectionNotToBeEmptyComma)
                 .ForCondition(!ReferenceEquals(Subject, null))
-                .FailWith("but found {0}.", Subject)
+                .FailWith(Resources.Common_ButFoundXFormat, Subject)
                 .Then
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(collection => !collection.Any())
-                .FailWith("but found {0}.", collection => collection);
+                .FailWith(Resources.Common_ButFoundXFormat, collection => collection);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -66,7 +66,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to be empty{reason}, but found {0}.", Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToBeEmpty + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -74,7 +74,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(enumerable.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} not to be empty{reason}.");
+                .FailWith(Resources.Collection_ExpectedCollectionNotToBeEmpty);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -96,7 +96,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion.ForCondition(nullOrEmpty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:collection} to be null or empty{reason}, but found {0}.",
+                    Resources.Collection_ExpectedCollectionNotToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
                     Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -134,7 +134,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             IEnumerable<object> groupWithMultipleItems = Subject.Cast<object>()
@@ -148,14 +148,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items{reason}, but items {0} are not unique.",
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemsXAreNotUniqueFormat,
                             groupWithMultipleItems);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemXIsNotUniqueFormat,
                             groupWithMultipleItems.First());
                 }
             }
@@ -179,7 +179,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButCollectionIsNull);
             }
 
             int[] indices = Subject
@@ -195,13 +195,13 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found several at indices {0}.", indices);
+                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundSeveralAtXFormat, indices);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found one at index {0}.", indices[0]);
+                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundOneAtIndexXFormat, indices[0]);
                 }
             }
 
@@ -249,7 +249,7 @@ namespace FluentAssertions.Collections
 
             if (expectation is null)
             {
-                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(expectation), Resources.Collection_CannotCompareCollectionWithNull);
             }
 
             ICollection<TExpected> expectedItems = expectation.ConvertOrCastToCollection<TExpected>();
@@ -257,11 +257,11 @@ namespace FluentAssertions.Collections
             IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
             {
-                assertion.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expectedItems);
+                assertion.FailWith(Resources.Collection_ExpectedCollectionToBeEqualToXFormat + Resources.Common_CommaButFoundNull, expectedItems);
             }
 
             assertion
-                .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToBeEqualToXCommaFormat, expectedItems)
                 .Given(() => Subject.ConvertOrCastToCollection<TActual>())
                 .AssertCollectionsHaveSameCount(expectedItems.Count)
                 .Then
@@ -286,19 +286,19 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected collections not to be equal{reason}, but found <null>.");
+                    .FailWith(Resources.Collection_ExpectedCollectionsNotToBeEqual + Resources.Common_CommaButFoundNull);
             }
 
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare collection with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.Collection_CannotCompareCollectionWithNull);
             }
 
             if (ReferenceEquals(Subject, unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
+                    .FailWith(Resources.Collection_ExpectedCollectionsNotToBeEqual + Resources.Common_CommaButBothReferenceSameObject);
             }
 
             ICollection<object> actualItems = Subject.ConvertOrCastToCollection<object>();
@@ -307,7 +307,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualItems);
+                    .FailWith(Resources.Collection_DidNotExpectCollectionsXAndYToBeEqualFormat, unexpected, actualitems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -492,21 +492,21 @@ namespace FluentAssertions.Collections
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.Collection_CannotVerifyInequivalenceAgainstANullCollection);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToBeEquivalent + Resources.Common_CommaButFoundNull);
             }
 
             if (ReferenceEquals(Subject, unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} not to be equivalent with collection {1}{reason}, but they both reference the same object.",
+                    .FailWith(Resources.Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat + Resources.Common_CommaButBothReferenceSameObject,
                         Subject,
                         unexpected);
             }
@@ -521,7 +521,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(missingItems.Count > 0)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
+                    .FailWith(Resources.Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat, Subject,
                         unexpected);
             }
 
@@ -536,7 +536,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(failures.Length > 0)
-                .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
+                .FailWith(Resources.Collection_ExpectedCollectionXNotToBeEquivalentToYFormat, Subject,
                     unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -593,7 +593,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainEquivalentOfXFormat + Resources.Common_CommaButFoundNull, expectation);
             }
 
             IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
@@ -628,7 +628,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}.", Subject, expectation);
+                    .FailWith(Resources.Collection_ExpectedCollectionXToContainEquivalentOfYFormat, Subject, expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -650,7 +650,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat + Resources.Common_CommaButFoundNull,
                         typeof(T));
             }
 
@@ -662,7 +662,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            "Expected {context:collection} to contain only items of type {0}{reason}, but item {1} at index {2} is of type {3}.",
+                            Resources.Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat,
                             typeof(T), item, index, item.GetType());
                 }
 
@@ -708,13 +708,13 @@ namespace FluentAssertions.Collections
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify containment against a <null> collection");
+                throw new ArgumentNullException(nameof(expected), Resources.Collection_CannotVerifyContainmentAgainstNullCollection);
             }
 
             ICollection<object> expectedObjects = expected.ConvertOrCastToCollection<object>();
             if (!expectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify containment against an empty collection",
+                throw new ArgumentException(Resources.Collection_CannotVerifyContainmentAgainstEmptyCollection,
                     nameof(expected));
             }
 
@@ -722,7 +722,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             if (expected is string)
@@ -731,7 +731,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
+                        .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat, Subject, expected);
                 }
             }
             else
@@ -743,14 +743,14 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.", Subject,
+                            .FailWith(Resources.Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat, Subject,
                                 expected, missingItems);
                     }
                     else
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject,
+                            .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat, Subject,
                                 expected.Cast<object>().First());
                     }
                 }
@@ -788,14 +788,14 @@ namespace FluentAssertions.Collections
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify ordered containment against a <null> collection.");
+                throw new ArgumentNullException(nameof(expected), Resources.Collection_CannotVerifyOrderedContainmentAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXInOrderFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             IList<object> expectedItems = expected.ConvertOrCastToList<object>();
@@ -814,7 +814,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            "Expected {context:collection} {0} to contain items {1} in order{reason}, but {2} (index {3}) did not appear (in the right order).",
+                            Resources.Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat,
                             Subject, expected, expectedItem, index);
                 }
             }
@@ -899,14 +899,15 @@ namespace FluentAssertions.Collections
         private AndConstraint<TAssertions> BeInOrder(
             IComparer<object> comparer, SortOrder expectedOrder, string because = "", params object[] becauseArgs)
         {
-            string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
-
             if (ReferenceEquals(Subject, null))
             {
+                string failWithFirstPart = (expectedOrder == SortOrder.Ascending)
+                    ? Resources.Collection_ExpectedCollectionToContainItemsInAscendingOrder
+                    : Resources.Collection_ExpectedCollectionToContainItemsInDescendingOrder;
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.",
-                        Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             IList<object> actualItems = Subject.ConvertOrCastToList<object>();
@@ -920,8 +921,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actualItems[index].IsSameOrEqualTo(orderedItems[index]))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain items in " + sortOrder +
-                              " order{reason}, but found {0} where item at index {1} is in wrong order.",
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFormat,
                         Subject, index);
             }
 
@@ -1004,15 +1004,15 @@ namespace FluentAssertions.Collections
         /// </summary>
         private AndConstraint<TAssertions> NotBeInOrder(IComparer<object> comparer, SortOrder order, string because = "", params object[] becauseArgs)
         {
-            string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
+            string failWithFirstPart = (order == SortOrder.Ascending)
+                ? Resources.Collection_ExpectedCollectionToContainItemsInAscendingOrder
+                : Resources.Collection_ExpectedCollectionToContainItemsInDescendingOrder;
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.",
-                        Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
@@ -1028,9 +1028,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found {0}.",
-                        Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1052,14 +1050,14 @@ namespace FluentAssertions.Collections
         {
             if (expectedSuperset is null)
             {
-                throw new ArgumentNullException(nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
+                throw new ArgumentNullException(nameof(expectedSuperset), Resources.Collection_CannotVerifySubsetAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to be a subset of {0}{reason}, but found {1}.", expectedSuperset,
+                    .FailWith(Resources.Collection_ExpectedCollectionToBeSubsetOfXFormat + Resources.Common_CommaButFoundYFormat, expectedSuperset,
                         Subject);
             }
 
@@ -1073,7 +1071,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:collection} to be a subset of {0}{reason}, but items {1} are not part of the superset.",
+                        Resources.Collection_ExpectedCollectionToBeSubsetOfXFormat + Resources.Collection_CommaButItemsYAreNotPartOfSupersetFormat,
                         expectedSuperset, excessItems);
             }
 
@@ -1097,13 +1095,13 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Cannot assert a <null> collection against a subset.");
+                .FailWith(Resources.Collection_CannotAssertNullAgainstSubset);
 
             if (ReferenceEquals(Subject, unexpectedSuperset))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}, but they both reference the same object.",
+                    .FailWith(Resources.Collection_DidNotExpectCollectionXToBeSubsetOfYFormat + Resources.Common_CommaButBothReferenceSameObject,
                         Subject,
                         unexpectedSuperset);
             }
@@ -1115,7 +1113,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}.", actualItems, expectedItems);
+                    .FailWith(Resources.Collection_DidNotExpectCollectionXToBeSubsetOfYFormat, actualItems, expectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1137,14 +1135,14 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection is null)
             {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), Resources.Collection_CannotVerifyCountAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to have the same count as {0}{reason}, but found {1}.",
+                    .FailWith(Resources.Collection_ExpectedCollectionToHaveSameCountAsXFormat + Resources.Common_CommaButFoundYFormat,
                         otherCollection,
                         Subject);
             }
@@ -1157,7 +1155,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expectedCount)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToHaveXItemsFormat + Resources.Common_CommaButFoundYFormat, expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1178,14 +1176,14 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection is null)
             {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), Resources.Collection_CannotVerifyCountAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not have the same count as {0}{reason}, but found {1}.",
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotHaveSameCountAsXFormat,
                         otherCollection,
                         Subject);
             }
@@ -1194,7 +1192,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                    .FailWith(Resources.Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat + Resources.Common_CommaButBothReferenceSameObject,
                         Subject,
                         otherCollection);
             }
@@ -1207,7 +1205,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount != expectedCount)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to not have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToNotHaveXItemsFormat + Resources.Common_CommaButFoundYFormat, expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1232,7 +1230,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to have element at index {0}{reason}, but found {1}.", index, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToHaveElementAtIndexXFormat + Resources.Common_CommaButFoundYFormat, index, Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -1245,13 +1243,13 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(element))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
+                    .FailWith(Resources.Collection_ExpectedXAtIndexYFormat + Resources.Common_CommaButFoundZFormat, element, index, actual);
             }
             else
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
+                    .FailWith(Resources.Collection_ExpectedXAtIndexYButFoundNoElementFormat, element, index);
             }
 
             return new AndWhichConstraint<TAssertions, object>((TAssertions)this, actual);
@@ -1273,13 +1271,13 @@ namespace FluentAssertions.Collections
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify non-containment against a <null> collection");
+                throw new ArgumentNullException(nameof(unexpected), Resources.Collection_CannotVerifyNonContainmentAgainstNull);
             }
 
             ICollection<object> unexpectedObjects = unexpected.ConvertOrCastToCollection<object>();
             if (!unexpectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify non-containment against an empty collection",
+                throw new ArgumentException(Resources.Collection_CannotVerifyNonContainmentAgainstEmptyCollection,
                     nameof(unexpected));
             }
 
@@ -1287,7 +1285,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotXContainFormat + Resources.Common_CommaButFoundNull, unexpected);
             }
 
             if (unexpected is string)
@@ -1296,7 +1294,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+                        .FailWith(Resources.Collection_ExpectedCollectionXToNotContainYDotFormat, Subject, unexpected);
                 }
             }
             else
@@ -1308,14 +1306,14 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
+                            .FailWith(Resources.Collection_ExpectedCollectionXToNotContainYFormat + Resources.Common_CommaButFoundZFormat, Subject,
                                 unexpected, foundItems);
                     }
                     else
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                            .FailWith(Resources.Collection_ExpectedCollectionXToNotContainElementYFormat, Subject,
                                 unexpectedObjects.First());
                     }
                 }
@@ -1340,14 +1338,14 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection is null)
             {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), Resources.Collection_CannotVerifyIntersectionAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection,
+                    .FailWith(Resources.Collection_ExpectedCollectionToIntersectWithXFormat + Resources.Common_CommaButFoundYFormat, otherCollection,
                         Subject);
             }
 
@@ -1359,7 +1357,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items.",
+                        Resources.Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat,
                         otherCollection, Subject);
             }
 
@@ -1382,14 +1380,14 @@ namespace FluentAssertions.Collections
         {
             if (otherCollection is null)
             {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
+                throw new ArgumentNullException(nameof(otherCollection), Resources.Collection_CannotVerifyIntersectionAgainstNull);
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection,
+                    .FailWith(Resources.Collection_DidNotExpectCollectionToIntersectWithXFormat + Resources.Common_CommaButFoundYFormat, otherCollection,
                         Subject);
             }
 
@@ -1397,7 +1395,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
+                    .FailWith(Resources.Collection_DidNotExpectCollectionXToIntersectWithYFormat + Resources.Common_CommaButBothReferenceSameObject,
                         Subject,
                         otherCollection);
             }
@@ -1410,7 +1408,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
+                        Resources.Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat,
                         otherCollection, sharedItems);
             }
 
@@ -1441,7 +1439,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithXFormat, expected)
                 .Given(() => actualItems)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1454,7 +1452,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithXFormat, expected)
                 .Given(() => actualItems)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1487,7 +1485,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithXFormat, expected)
                 .Given(() => actual)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1505,7 +1503,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithXFormat, expected)
                 .Given(() => actual)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1533,17 +1531,17 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to have {0} precede {1}{reason}, ", expectation, successor)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveXPrecedeYFormat, expectation, successor)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.Any())
-                .FailWith("but the collection is empty.")
+                .FailWith(Resources.Collection_ButTheCollectionIsEmpty)
                 .Then
                 .ForCondition(subject => HasPredecessor(successor, subject))
-                .FailWith("but found nothing.")
+                .FailWith(Resources.Common_ButFoundNothing)
                 .Then
                 .Given(subject => PredecessorOf(successor, subject))
                 .ForCondition(predecessor => predecessor.IsSameOrEqualTo(expectation))
-                .FailWith("but found {0}.", predecessor => predecessor)
+                .FailWith(Resources.Common_ButFoundXFormat, predecessor => predecessor)
                 .Then
                 .ClearExpectation();
 
@@ -1576,17 +1574,17 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to have {0} succeed {1}{reason}, ", expectation, predecessor)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveXSucceedYFormat, expectation, predecessor)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.Any())
-                .FailWith("but the collection is empty.")
+                .FailWith(Resources.Collection_ButTheCollectionIsEmpty)
                 .Then
                 .ForCondition(subject => HasSuccessor(predecessor, subject))
-                .FailWith("but found nothing.")
+                .FailWith(Resources.Common_ButFoundNothing)
                 .Then
                 .Given(subject => SuccessorOf(predecessor, subject))
                 .ForCondition(successor => successor.IsSameOrEqualTo(expectation))
-                .FailWith("but found {0}.", successor => successor);
+                .FailWith(Resources.Common_ButFoundXFormat, successor => successor);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1634,13 +1632,13 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .WithExpectation(Resources.Collection_ExpectedTypeToBeXFormat, expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.All(x => x != null))
-                .FailWith("but found a null element.")
+                .FailWith(Resources.Common_ButFoundANullElement)
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith(Resources.Common_ButFoundXFormat, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1676,13 +1674,13 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .WithExpectation(Resources.Collection_ExpectedTypeToBeXFormat, expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.All(x => x != null))
-                .FailWith("but found a null element.")
+                .FailWith(Resources.Common_ButFoundANullElement)
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith(Resources.Common_ButFoundXFormat, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

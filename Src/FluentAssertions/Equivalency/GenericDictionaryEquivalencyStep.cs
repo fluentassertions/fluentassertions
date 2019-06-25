@@ -59,14 +59,14 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
+                .FailWith(Resources.Collection_ExpectedSubjectNotToBeXFormat, new object[] { null });
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
         {
             return AssertionScope.Current
                 .ForCondition(!(expectation is null))
-                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeXFormat + Resources.Common_CommaButFoundYFormat, null, subject);
         }
 
         private static bool AssertImplementsOnlyOneDictionaryInterface(object expectation)
@@ -79,10 +79,7 @@ namespace FluentAssertions.Equivalency
             }
 
             AssertionScope.Current.FailWith(
-                string.Format(
-                    "{{context:Expectation}} implements multiple dictionary types.  "
-                    + "It is not known which type should be use for equivalence.{0}"
-                    + "The following IDictionary interfaces are implemented: {1}",
+                string.Format(Resources.Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat,
                     Environment.NewLine,
                     string.Join(", ", (IEnumerable<Type>)interfaces)));
 
@@ -98,8 +95,8 @@ namespace FluentAssertions.Equivalency
             Type[] subjectDictionaryInterfaces = GetIDictionaryInterfaces(subjectType);
             if (!subjectDictionaryInterfaces.Any())
             {
-                AssertionScope.Current.FailWith(
-                    "Expected {context:subject} to be a {0}, but found a {1}.", expectedDictionaryType, subjectType);
+                AssertionScope.Current.FailWith(Resources.Dictionary_ExpectedSubjectToBeAXFormat + Resources.Common_CommaButFoundYFormat,
+                    expectedDictionaryType, subjectType);
 
                 return false;
             }
@@ -110,8 +107,7 @@ namespace FluentAssertions.Equivalency
             if (suitableDictionaryInterfaces.Length > 1)
             {
                 // SMELL: Code could be written to handle this better, but is it really worth the effort?
-                AssertionScope.Current.FailWith(
-                    "The subject implements multiple IDictionary interfaces. ");
+                AssertionScope.Current.FailWith(Resources.Dictionary_SubjectImplementsMultipleIDictionaryInterfaces);
 
                 return false;
             }
@@ -119,10 +115,7 @@ namespace FluentAssertions.Equivalency
             if (!suitableDictionaryInterfaces.Any())
             {
                 AssertionScope.Current.FailWith(
-                    string.Format(
-                        "The {{context:subject}} dictionary has keys of type {0}; "
-                        + "however, the expectation is not keyed with any compatible types.{1}"
-                        + "The subject implements: {2}",
+                    string.Format(Resources.Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat,
                         expectedKeyType,
                         Environment.NewLine,
                         string.Join(",", (IEnumerable<Type>)subjectDictionaryInterfaces)));
@@ -184,15 +177,15 @@ namespace FluentAssertions.Equivalency
             bool hasAdditionalKeys = keyDifference.AdditionalKeys.Any();
 
             return Execute.Assertion
-                .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s), ", expectation.Count)
+                .WithExpectation(Resources.Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat, expectation.Count)
                 .ForCondition(!hasMissingKeys || hasAdditionalKeys)
-                .FailWith("but it misses key(s) {0}", keyDifference.MissingKeys)
+                .FailWith(Resources.Dictionary_ButItMissesKeysXFormat, keyDifference.MissingKeys)
                 .Then
                 .ForCondition(hasMissingKeys || !hasAdditionalKeys)
-                .FailWith("but has additional key(s) {0}", keyDifference.AdditionalKeys)
+                .FailWith(Resources.Dictionary_ButHasAdditionalKeysXFormat, keyDifference.AdditionalKeys)
                 .Then
                 .ForCondition(!hasMissingKeys || !hasAdditionalKeys)
-                .FailWith("but it misses key(s) {0} and has additional key(s) {1}", keyDifference.MissingKeys, keyDifference.AdditionalKeys)
+                .FailWith(Resources.Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat, keyDifference.MissingKeys, keyDifference.AdditionalKeys)
                 .Then
                 .ClearExpectation();
         }
@@ -264,7 +257,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    AssertionScope.Current.FailWith("Expected {context:subject} to contain key {0}.", key);
+                    AssertionScope.Current.FailWith(Resources.Dictionary_ExpectedSubjectToContainKeyXFormat, key);
                 }
             }
         }

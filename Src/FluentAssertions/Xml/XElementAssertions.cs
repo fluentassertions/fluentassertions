@@ -49,7 +49,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(XNode.DeepEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.Xml_ExpectedXmlElementToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, Subject);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -83,7 +84,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((Subject is null && !(unexpected is null)) || !XNode.DeepEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
+                .FailWith(Resources.Xml_ExpectedXmlElementNotToBeXFormat, unexpected);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -181,7 +182,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element '{0}' to have value {1}{reason}, but found {2}.",
+                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
                     Subject.Name, expected, Subject.Value);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -250,15 +251,14 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected XML element to have attribute \"" + expectedText + "\" with value {0}{reason}, but found no such attribute in {1}",
-                    expectedValue, Subject);
+                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat,
+                    expectedText, expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected XML attribute \"" + expectedText + "\" to have value {0}{reason}, but found {1}.", expectedValue, attribute.Value);
+                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                    expectedText, expectedValue, attribute.Value);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -318,8 +318,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().EscapePlaceholders() + "\"{reason}" +
-                        ", but no such child element was found.", Subject);
+                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveChildElementYFormat + Resources.Xml_CommaButNoSuchChildElementWasFound,
+                    Subject, expected.ToString().EscapePlaceholders());
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
         }

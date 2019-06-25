@@ -33,7 +33,7 @@ namespace FluentAssertions.Formatting
         {
             if (value.GetType() == typeof(object))
             {
-                return string.Format("System.Object (HashCode={0})", value.GetHashCode());
+                return string.Format(Resources.Formatter_SystemObjectHashCodeXFormat, value.GetHashCode());
             }
 
             string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
@@ -92,13 +92,11 @@ namespace FluentAssertions.Formatting
             }
             catch (Exception ex)
             {
-                propertyValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
+                propertyValue = string.Format(Resources.Formatter_MemberXThrewAnExceptionYFormat, selectedMemberInfo.Name, ex.Message);
             }
 
-            return string.Format("{0}{1} = {2}",
-                CreateWhitespaceForLevel(context.Depth + 1),
-                selectedMemberInfo.Name,
-                formatChild(selectedMemberInfo.Name, propertyValue));
+            return
+                $"{CreateWhitespaceForLevel(context.Depth + 1)}{selectedMemberInfo.Name} = {formatChild(selectedMemberInfo.Name, propertyValue)}";
         }
 
         private static string CreateWhitespaceForLevel(int level)

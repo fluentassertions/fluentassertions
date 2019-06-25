@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency.Selection
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Include all non-private properties";
+            return Resources.IncludeAllNonPrivateProperties;
         }
     }
 }

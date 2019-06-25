@@ -21,7 +21,7 @@ namespace FluentAssertions.Formatting
             }
             else
             {
-                return "<null>";
+                return Resources.Common_NullKeyword;
             }
         }
     }

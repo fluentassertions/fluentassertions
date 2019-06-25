@@ -18,8 +18,9 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
-                return "Expected {context:string} to " + predicateDescription + " ";
+                return IgnoreCase
+                    ? Resources.String_ExpectedStringToStartWithEquivalentOf
+                    : Resources.String_ExpectedStringToStartWith;
             }
         }
 
@@ -36,7 +37,8 @@ namespace FluentAssertions.Primitives
         {
             return assertion
                 .ForCondition(subject.Length >= expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject)
+                .FailWith(ExpectationDescription + Resources.String_XButYIsTooShortFormat,
+                    expected, subject)
                 .SourceSucceeded;
         }
 
@@ -47,9 +49,8 @@ namespace FluentAssertions.Primitives
             {
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
-                assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    expected, subject);
+                assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
+                    expected, subject, subject.IndexedSegmentAt(indexOfMismatch));
             }
         }
     }

@@ -70,7 +70,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+                .FailWith(Resources.String_ExpectedStringToBeOneOfXFormat + Resources.Common_CommaButFoundYFormat,
+                    validValues, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -117,7 +118,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
+                .FailWith(Resources.String_ExpectedStringNotToBeXFormat, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -238,14 +239,15 @@ namespace FluentAssertions.Primitives
         {
             if (regularExpression is null)
             {
-                throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
+                throw new ArgumentNullException(nameof(regularExpression), Resources.String_CannotMatchStringAgainstNull);
             }
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
+                .FailWith(Resources.String_ExpectedStringToMatchRegexXFormat + Resources.Common_CommaButItWasNull,
+                    regularExpression);
 
             bool isMatch = false;
             try
@@ -255,14 +257,15 @@ namespace FluentAssertions.Primitives
             catch (ArgumentException)
             {
                 Execute.Assertion
-                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
+                    .FailWith(Resources.String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat, regularExpression);
             }
 
             Execute.Assertion
                 .ForCondition(isMatch)
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+                .FailWith(Resources.String_ExpectedStringToMatchRegexXFormat + Resources.String_CommaButYDoesNotMatchFormat,
+                    regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -284,14 +287,15 @@ namespace FluentAssertions.Primitives
         {
             if (regularExpression is null)
             {
-                throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
+                throw new ArgumentNullException(nameof(regularExpression), Resources.String_CannotMatchStringAgainstNull);
             }
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
+                .FailWith(Resources.String_ExpectedStringToNotMatchRegexXFormat + Resources.Common_CommaButItWasNull,
+                    regularExpression);
 
             bool isMatch = false;
             try
@@ -300,7 +304,7 @@ namespace FluentAssertions.Primitives
             }
             catch (ArgumentException)
             {
-                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                Execute.Assertion.FailWith(Resources.String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat,
                     regularExpression);
             }
 
@@ -308,7 +312,8 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!isMatch)
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
-                .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+                .FailWith(Resources.String_DidNotExpectStringToMatchRegexXButYMatchesFormat,
+                    regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -329,12 +334,12 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotCompareStartOfStringWithNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotCompareStartOfStringWithEmptyString, nameof(expected));
             }
 
             var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
@@ -359,12 +364,12 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStartOfStringWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareStartOfStringWithEmptyString, nameof(unexpected));
             }
 
             var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs);
@@ -390,12 +395,12 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string start equivalence with <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotCompareStringStartEquivalenceWithNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotCompareStringStartEquivalenceWithEmptyString, nameof(expected));
             }
 
             var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
@@ -420,12 +425,12 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStartOfStringWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareStartOfStringWithEmptyString, nameof(unexpected));
             }
 
             var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
@@ -450,32 +455,35 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string end with <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotCompareStringEndWithNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotCompareStringEndWithEmptyString, nameof(expected));
             }
 
             if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+                    .FailWith(Resources.String_ExpectedStringXToEndWithYFormat,
+                        Subject, expected);
             }
 
             if (Subject.Length < expected.Length)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
+                    .FailWith(Resources.String_ExpectedStringToEndWithXButYIsTooShortFormat,
+                        expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+                .FailWith(Resources.String_ExpectedStringXToEndWithYFormat,
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -496,25 +504,27 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStringEndWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareStringEndWithEmptyString, nameof(unexpected));
             }
 
             if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with {1}, but found {0}.", Subject, unexpected);
+                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithXFormat + Resources.Common_CommaButFoundYFormat,
+                        unexpected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
+                .FailWith(Resources.String_ExpectedStringXNotToEndWithYFormat,
+                    Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -535,32 +545,35 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string end equivalence with <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotCompareStringEndEquivalenceWithNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotCompareStringEndEquivalenceWithEmptyString, nameof(expected));
             }
 
             if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                    .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                        expected, Subject);
             }
 
             if (Subject.Length < expected.Length)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
+                    .FailWith(Resources.String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat,
+                        expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -581,25 +594,27 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStringEndWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareStringEndWithEmptyString, nameof(unexpected));
             }
 
             if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat + Resources.Common_CommaButFoundYFormat,
+                        unexpected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+                .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                    unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -621,18 +636,19 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotAssertStringContainmentAgainstNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotAssertStringContainmentAgainstAnEmptyString, nameof(expected));
             }
 
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
+                .FailWith(Resources.String_ExpectedStringXToContainYFormat,
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -653,18 +669,19 @@ namespace FluentAssertions.Primitives
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(expected), Resources.String_CannotAssertStringContainmentAgainstNull);
             }
 
             if (expected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+                throw new ArgumentException(Resources.String_CannotAssertStringContainmentAgainstAnEmptyString, nameof(expected));
             }
 
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to contain equivalent of {0}{reason} but found {1}.", expected, Subject);
+                .FailWith(Resources.String_ExpectedStringToContainEquivalentOfXButFoundYFormat,
+                    expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -690,7 +707,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(values.All(v => Contains(Subject, v, StringComparison.Ordinal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain the strings: {1}{reason}.", Subject, missing);
+                .FailWith(Resources.String_ExpectedStringXToContainTheStringsYFormat, Subject, missing);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -726,7 +743,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(values.Any(v => Contains(Subject, v, StringComparison.Ordinal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values.ToArray());
+                .FailWith(Resources.String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat,
+                    Subject, values.ToArray());
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -760,18 +778,19 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot assert string containment against <null>.");
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotAssertStringContainmentAgainstNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotAssertStringContainmentAgainstAnEmptyString, nameof(unexpected));
             }
 
             Execute.Assertion
                 .ForCondition(!Contains(Subject, unexpected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, unexpected);
+                .FailWith(Resources.String_DidNotExpectStringXToContainYFormat,
+                    Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -800,7 +819,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(matches != values.Count())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
+                .FailWith(Resources.String_DidNotExpectStringXToContainAllOfTheStringsYFormat,
+                    Subject, values);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -840,7 +860,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!matches.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
+                .FailWith(Resources.String_DidNotExpectStringXToContainAnyOfTheStringsYFormat, Subject, matches);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -874,7 +894,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
+                .FailWith(Resources.String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat,
+                    unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -899,7 +920,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be empty{reason}, but found {0}.", Subject);
+                .FailWith(Resources.String_ExpectedStringToBeEmpty + Resources.Common_CommaButFoundXFormat,
+                    Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -919,7 +941,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Length > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} to be empty{reason}.");
+                .FailWith(Resources.String_DidNotExpectStringToBeEmpty);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -940,7 +962,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Length == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
+                .FailWith(Resources.String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat,
                     expected, Subject, Subject.Length);
 
             return new AndConstraint<StringAssertions>(this);
@@ -961,7 +983,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} not to be <null> or empty{reason}, but found {0}.", Subject);
+                .FailWith(Resources.String_ExpectedStringNotToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
+                    Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -981,7 +1004,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be <null> or empty{reason}, but found {0}.", Subject);
+                .FailWith(Resources.String_ExpectedStringToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
+                    Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1001,7 +1025,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} not to be <null> or whitespace{reason}, but found {0}.", Subject);
+                .FailWith(Resources.String_ExpectedStringNotToBeNullOrWhitespace + Resources.Common_CommaButFoundXFormat,
+                    Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1021,7 +1046,8 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be <null> or whitespace{reason}, but found {0}.", Subject);
+                .FailWith(Resources.String_ExpectedStringToBeNullOrWhitespace + Resources.Common_CommaButFoundXFormat,
+                    Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -1030,12 +1056,12 @@ namespace FluentAssertions.Primitives
         {
             if (values is null)
             {
-                throw new ArgumentNullException(nameof(values), "Cannot assert string containment of values in null collection");
+                throw new ArgumentNullException(nameof(values), Resources.String_CannotAssertStringContainmentOfValuesInNullCollection);
             }
 
             if (!values.Any())
             {
-                throw new ArgumentException("Cannot assert string containment of values in empty collection", nameof(values));
+                throw new ArgumentException(Resources.String_CannotAssertStringContainmentOfValuesInEmptyCollection, nameof(values));
             }
         }
 

@@ -30,14 +30,11 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> BeVirtual(
             string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected property " +
-                                    GetDescriptionFor(Subject) +
-                                    " to be virtual{reason}, but it is not.";
-
             Execute.Assertion
                 .ForCondition(Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Property_ExpectedPropertyXToBeVirtual + Resources.Common_CommaButItIsNot,
+                    GetDescriptionFor(Subject));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -54,12 +51,11 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected property " + GetDescriptionFor(Subject) + " not to be virtual{reason}, but it is.";
-
             Execute.Assertion
                 .ForCondition(!Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.Property_ExpectedPropertyXNotToBeVirtual + Resources.Common_CommaButItIs,
+                    GetDescriptionFor(Subject));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -80,8 +76,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} to have a setter{reason}.",
+                .FailWith(Resources.Property_ExpectedPropertyXToHaveASetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -123,8 +118,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} not to have a setter{reason}.",
+                .FailWith(Resources.Property_ExpectedPropertyXNotToHaveASetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -144,7 +138,8 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
+                .FailWith(Resources.Property_ExpectedPropertyXToHaveAGetterFormat + Resources.Common_CommaButItDoesNot,
+                    Subject.Name);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -185,8 +180,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} not to have a getter{reason}.",
+                .FailWith(Resources.Property_ExpectedPropertyXNotToHaveAGetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -208,7 +202,8 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.", propertyType, Subject.PropertyType);
+                .FailWith(Resources.Property_ExpectedTypeOfPropertyXToBeYFormat + Resources.Common_CommaButItIsZFormat,
+                    Subject.Name, propertyType, Subject.PropertyType);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -245,7 +240,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
+                .FailWith(Resources.Property_ExpectedTypeOfPropertyXNotToBeYFormat + Resources.Common_CommaButItIs,
+                    Subject.Name, propertyType);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -269,8 +265,7 @@ namespace FluentAssertions.Types
         internal static string GetDescriptionFor(PropertyInfo property)
         {
             string propTypeName = property.PropertyType.Name;
-            return string.Format("{0} {1}.{2}", propTypeName,
-                property.DeclaringType, property.Name);
+            return string.Format(Resources.Property_GetDescriptionFormat, propTypeName, property.DeclaringType, property.Name);
         }
 
         internal override string SubjectDescription => GetDescriptionFor(Subject);

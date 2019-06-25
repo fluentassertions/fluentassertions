@@ -42,8 +42,7 @@ namespace FluentAssertions.Equivalency
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Length == 1)
-                .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
-                    "to use for asserting the equivalency of the collection. ",
+                .FailWith(() => new FailReason(Resources.Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat,
                     interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
             if (AssertSubjectIsCollection(context.Expectation, context.Subject))
@@ -78,13 +77,13 @@ namespace FluentAssertions.Equivalency
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
+                .FailWith(Resources.Collection_ExpectedSubjectNotToBeXFormat, new object[] { null });
 
             if (conditionMet)
             {
                 conditionMet = AssertionScope.Current
                     .ForCondition(IsCollection(subject.GetType()))
-                    .FailWith("Expected {context:subject} to be a collection, but it was a {0}", subject.GetType());
+                    .FailWith(Resources.Collection_ExpectedSubjectToBeACollectionButItWasXFormat, subject.GetType());
             }
 
             return conditionMet;

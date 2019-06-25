@@ -43,15 +43,11 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
-            string failureMessage =
-                "Expected all selected methods to be virtual{reason}, but the following methods are not virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(nonVirtualMethods);
-
             Execute.Assertion
                 .ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat,
+                    Environment.NewLine, GetDescriptionsFor(nonVirtualMethods));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
@@ -70,15 +66,11 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
 
-            string failureMessage =
-                "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(virtualMethods);
-
             Execute.Assertion
                 .ForCondition(!virtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat,
+                    Environment.NewLine, GetDescriptionsFor(virtualMethods));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
@@ -139,15 +131,11 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
 
-            string failureMessage =
-                "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(methodsWithoutAttribute);
-
             Execute.Assertion
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat,
+                    typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(methodsWithoutAttribute));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
@@ -188,15 +176,11 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith<TAttribute>(isMatchingAttributePredicate);
 
-            string failureMessage =
-                "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +
-                Environment.NewLine +
-                GetDescriptionsFor(methodsWithAttribute);
-
             Execute.Assertion
                 .ForCondition(!methodsWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat,
+                    typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(methodsWithAttribute));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }

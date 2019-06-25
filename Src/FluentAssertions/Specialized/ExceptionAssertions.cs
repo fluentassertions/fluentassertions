@@ -65,7 +65,8 @@ namespace FluentAssertions.Specialized
 
             assertion
                 .ForCondition(Subject.Any())
-                .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
+                .FailWith(Resources.Exception_ExpectedExceptionWithMessageXFormat + Resources.Exception_CommaButNoExceptionWasThrown,
+                    expectedWildcardPattern);
 
             outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
 
@@ -85,12 +86,13 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
+                .FailWith(Resources.Exception_ExpectedInnerXFormat + Resources.Exception_CommaButNoExceptionWasThrown,
+                    typeof(TInnerException));
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException != null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
+                .FailWith(Resources.Exception_ExpectedInnerXFormat + Resources.Exception_CommaButTheThrownExceptionHasNoInnerException,
                     typeof(TInnerException));
 
             TInnerException[] expectedInnerExceptions = Subject
@@ -101,7 +103,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(expectedInnerExceptions.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
+                .FailWith(Resources.Exception_ExpectedInnerXFormat + Resources.Common_CommaButFoundYFormat,
+                    typeof(TInnerException), SingleSubject.InnerException);
 
             return new ExceptionAssertions<TInnerException>(expectedInnerExceptions);
         }
@@ -126,7 +129,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(expectedExceptions.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
+                .FailWith(Resources.Exception_ExpectedInnerXFormat + Resources.Common_CommaButFoundYFormat,
+                    typeof(TInnerException), SingleSubject.InnerException);
 
             return new ExceptionAssertions<TInnerException>(expectedExceptions);
         }
@@ -151,7 +155,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(condition(SingleSubject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
+                .FailWith(Resources.Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat,
                     exceptionExpression.Body, Environment.NewLine, Subject);
 
             return this;
@@ -165,8 +169,7 @@ namespace FluentAssertions.Specialized
                 {
                     string thrownExceptions = BuildExceptionsString(Subject);
                     Services.ThrowException(
-                        string.Format(
-                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
+                        string.Format(Resources.Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat,
                             Environment.NewLine, thrownExceptions));
                 }
 

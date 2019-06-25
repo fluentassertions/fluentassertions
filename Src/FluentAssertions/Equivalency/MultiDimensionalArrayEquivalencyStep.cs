@@ -65,10 +65,10 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(type is null))
-                .FailWith("Cannot compare a multi-dimensional array to {0}.", new object[] { null })
+                .FailWith(Resources.Array_CannotCompareMultiDimArrayToXFormat, new object[] { null })
                 .Then
                 .ForCondition(type is Array)
-                .FailWith("Cannot compare a multi-dimensional array to something else.");
+                .FailWith(Resources.Array_CannotCompareMultiDimArrayToSomethingElse);
         }
 
         private static bool HaveSameDimensions(object subject, Array expectation)
@@ -82,8 +82,8 @@ namespace FluentAssertions.Equivalency
 
                 sameDimensions &= AssertionScope.Current
                     .ForCondition(expectedLength == actualLength)
-                    .FailWith("Expected dimension {0} to contain {1} item(s), but found {2}.", dimension, expectedLength,
-                        actualLength);
+                    .FailWith(Resources.Array_ExpectedDimensionXToContainYItemsFormat + Resources.Common_CommaButFoundZFormat,
+                        dimension, expectedLength, actualLength);
             }
 
             return sameDimensions;
@@ -95,7 +95,7 @@ namespace FluentAssertions.Equivalency
 
             return AssertionScope.Current
                 .ForCondition(subjectAsArray.Rank == expectation.Rank)
-                .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank,
+                .FailWith(Resources.Array_ExpectedArrayToHaveXDimensionsButItHasYFormat, expectation.Rank,
                     subjectAsArray.Rank);
         }
     }

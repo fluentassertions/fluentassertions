@@ -59,9 +59,7 @@ namespace FluentAssertions.Execution
 
             if (!framework.IsAvailable)
             {
-                throw new Exception(
-                    "FluentAssertions was configured to use " + frameworkName +
-                    " but the required test framework assembly could not be found");
+                throw new Exception(string.Format(Resources.TestFwk_FluentAssertionsConfiguredToUseXButCouldNotFindTestFramework, frameworkName));
             }
 
             return framework;

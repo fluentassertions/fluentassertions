@@ -116,7 +116,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(exception != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+                .FailWith(Resources.Exception_ExpectedXFormat + Resources.Exception_CommaButNoExceptionWasThrown,
+                    expectedType);
 
             exception.Should().BeOfType(expectedType, because, becauseArgs);
 
@@ -152,12 +153,14 @@ namespace FluentAssertions.Specialized
 
             if (waitTime < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(waitTime),
+                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(waitTime)));
             }
 
             if (pollInterval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(pollInterval),
+                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(pollInterval)));
             }
 
             TimeSpan? invocationEndTime = null;
@@ -178,7 +181,8 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+                .FailWith(Resources.TimeSpan_DidNotExpectAnyExceptionsAfterXFormat + Resources.Common_CommaButFoundYFormat,
+                    waitTime, exception);
         }
 
         protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
@@ -189,13 +193,14 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(exception != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
+                .FailWith(Resources.Exception_ExpectedAXToBeThrownFormat + Resources.Exception_CommaButNoExceptionWasThrown,
+                    typeof(TException));
 
             Execute.Assertion
                 .ForCondition(expectedExceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {2}{3}.",
+                    Resources.Exception_ExpectedAXToBeThrownFormat + Resources.Exception_CommaButFoundYZW,
                     typeof(TException), exception?.GetType(),
                     Environment.NewLine,
                     exception);
@@ -208,7 +213,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(exception is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+                .FailWith(Resources.Exception_DidNotExpectAnyException + Resources.Common_CommaButFoundXFormat,
+                    exception);
         }
 
         protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
@@ -217,7 +223,8 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(!exceptions.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
+                .FailWith(Resources.Exception_DidNotExpectXFormat + Resources.Common_CommaButFoundYFormat,
+                    typeof(TException), exception);
 
         }
 
@@ -243,7 +250,7 @@ namespace FluentAssertions.Specialized
         {
             if (Subject.GetMethodInfo().HasAttribute<AsyncStateMachineAttribute>())
             {
-                throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
+                throw new InvalidOperationException(Resources.Exception_CannotUseActionAssertionsOnAsyncVoidMethods);
             }
         }
     }

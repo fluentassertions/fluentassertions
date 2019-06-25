@@ -36,7 +36,7 @@ namespace FluentAssertions.Execution
             Type exceptionType = assembly.GetType("NSpec.Domain.ExampleFailureException");
             if (exceptionType is null)
             {
-                throw new Exception("Failed to create the NSpec assertion type");
+                throw new Exception(Resources.Assertion_FailedToCreateNSpecAssertionType);
             }
 
             // v1 ctor requires an innerException: https://github.com/nspec/NSpec/blob/v1.0.7/NSpec/Domain/ExampleFailureException.cs

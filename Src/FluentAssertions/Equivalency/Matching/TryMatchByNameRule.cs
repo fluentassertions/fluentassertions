@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency.Matching
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Try to match member by name";
+            return Resources.TryToMatchMemberByName;
         }
     }
 }

@@ -48,7 +48,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith(Resources.Xml_ExpectedXmlDocumentToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -80,12 +81,12 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat, unexpected);
 
             Execute.Assertion
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeXFormat, unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -188,7 +189,7 @@ namespace FluentAssertions.Xml
             if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
+                    Resources.Xml_CannotAssertDocumentHasRootElementIfElementNameIsNull);
             }
 
             return HaveRoot(XNamespace.None + expected, because, becauseArgs);
@@ -210,13 +211,13 @@ namespace FluentAssertions.Xml
         {
             if (Subject is null)
             {
-                throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
+                throw new InvalidOperationException(Resources.Xml_CannotAssertDocumentHasRootElementIfElementIsNull);
             }
 
             if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
+                    Resources.Xml_CannotAssertDocumentHasRootElementIfElementNameIsNull);
             }
 
             XElement root = Subject.Root;
@@ -224,8 +225,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document to have root element \"" + expected.ToString().EscapePlaceholders() + "\"{reason}" +
-                          ", but found {0}.", Subject);
+                .FailWith(Resources.Xml_ExpectedXmlDocumentToHaveRootElementXFormat + Resources.Common_CommaButFoundYFormat,
+                    expected.ToString().EscapePlaceholders(), Subject);
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root);
         }
@@ -274,7 +275,7 @@ namespace FluentAssertions.Xml
             if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has an element if the element name is <null>*");
+                    Resources.Xml_CannotAssertDocumentHasElementIfElementNameIsNull);
             }
 
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
@@ -299,13 +300,13 @@ namespace FluentAssertions.Xml
         {
             if (Subject is null)
             {
-                throw new InvalidOperationException("Cannot assert the document has an element if the document itself is <null>.");
+                throw new InvalidOperationException(Resources.Xml_CannotAssertDocumentHasElementIfElementIsNull);
             }
 
             if (expected is null)
             {
                 throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has an element if the element name is <null>*");
+                    Resources.Xml_CannotAssertDocumentHasElementIfElementNameIsNull);
             }
 
             string expectedText = expected.ToString().EscapePlaceholders();
@@ -313,15 +314,15 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Root != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
-                          ", but XML document has no Root element.", Subject);
+                .FailWith(Resources.Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat + Resources.Xml_CommaButXmlDocumentHasNoRootElement,
+                    Subject, expectedText);
 
             XElement xElement = Subject.Root.Element(expected);
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
-                          ", but no such child element was found.", Subject);
+                .FailWith(Resources.Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat +  Resources.Xml_CommaButNoSuchChildElementWasFound,
+                    Subject, expectedText);
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
         }

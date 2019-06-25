@@ -15,7 +15,7 @@ namespace FluentAssertions.Common
         {
             if (expression is null)
             {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
+                throw new ArgumentNullException(nameof(expression), Resources.Expression_ExpectedAnExpression + Resources.Common_CommaButFoundNull);
             }
 
             MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
@@ -35,7 +35,7 @@ namespace FluentAssertions.Common
             }
 
             throw new ArgumentException(
-                string.Format("Expression <{0}> cannot be used to select a member.", expression.Body),
+                string.Format(Resources.Expression_ExpressionXCannotBeUsedToSelectMemberFormat, expression.Body),
                 nameof(expression));
         }
 
@@ -43,7 +43,7 @@ namespace FluentAssertions.Common
         {
             if (expression is null)
             {
-                throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
+                throw new ArgumentNullException(nameof(expression), Resources.Expression_ExpectedPropertyExpression + Resources.Common_CommaButFoundNull);
             }
 
             var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
@@ -51,7 +51,7 @@ namespace FluentAssertions.Common
 
             if (!(memberInfo is PropertyInfo propertyInfo))
             {
-                throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
+                throw new ArgumentException(string.Format(Resources.Expression_CannotUseXWhenPropertyExpressionExpected, expression.Body),
                     nameof(expression));
             }
 
@@ -90,14 +90,14 @@ namespace FluentAssertions.Common
         {
             if (expression is null)
             {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
+                throw new ArgumentNullException(nameof(expression), Resources.Expression_ExpectedAnExpression + Resources.Common_CommaButFoundNull);
             }
 
             var segments = new List<string>();
             var declaringTypes = new List<Type>();
             Expression node = expression;
 
-            var unsupportedExpressionMessage = $"Expression <{expression.Body}> cannot be used to select a member.";
+            var unsupportedExpressionMessage = string.Format(Resources.Expression_ExpressionXCannotBeUsedToSelectMemberFormat, expression.Body);
 
             while (node != null)
             {

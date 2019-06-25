@@ -27,7 +27,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a value{reason}.");
+                .FailWith(Resources.Object_ExpectedAValue);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }
@@ -62,7 +62,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
+                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundXFormat, Subject);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }

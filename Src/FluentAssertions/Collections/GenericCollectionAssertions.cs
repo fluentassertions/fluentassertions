@@ -38,7 +38,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButCollectionIsNull);
             }
 
             Func<T, TKey> compiledPredicate = predicate.Compile();
@@ -51,7 +51,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainNullOnXFormat + Resources.Common_CommaButFoundYFormat,
                         predicate.Body,
                         values);
             }
@@ -76,7 +76,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundXFormat, Subject);
             }
 
             Func<T, TKey> compiledPredicate = predicate.Compile();
@@ -92,7 +92,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat,
                             predicate.Body,
                             groupWithMultipleItems.SelectMany(g => g));
                 }
@@ -100,7 +100,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat,
                             predicate.Body,
                             groupWithMultipleItems[0].First());
                 }
@@ -241,7 +241,7 @@ namespace FluentAssertions.Collections
             if (comparer is null)
             {
                 throw new ArgumentNullException(nameof(comparer),
-                    "Cannot assert collection ordering without specifying a comparer.");
+                    Resources.Collection_CannotAssertCollectionOrderingWithoutComparer);
             }
 
             if (IsValidProperty(propertyExpression, because, args))
@@ -260,7 +260,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith("Expected {context:collection} {0} to be ordered{1}{reason} and result in {2}.",
+                    .FailWith(Resources.Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat,
                         Subject, orderString, expectation);
             }
 
@@ -272,13 +272,13 @@ namespace FluentAssertions.Collections
             if (propertyExpression is null)
             {
                 throw new ArgumentNullException(nameof(propertyExpression),
-                    "Cannot assert collection ordering without specifying a property.");
+                    Resources.Collection_CannotAssertCollectionOrderingWithoutProperty);
             }
 
             return Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .BecauseOf(because, args)
-                .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
+                .FailWith(Resources.Collection_ExpectedCollectionToBeOrderedByXFormat + Resources.Common_CommaButFoundNull,
                     propertyExpression.GetMemberPath());
         }
 
@@ -381,23 +381,23 @@ namespace FluentAssertions.Collections
         {
             if (expected is null)
             {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify against a <null> collection of inspectors");
+                throw new ArgumentNullException(nameof(expected), Resources.Collection_CannotVerifyAgainstNullInspectors);
             }
 
             ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
             if (!elementInspectors.Any())
             {
-                throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
+                throw new ArgumentException(Resources.Collection_CannotVerifyAgainstEmptyInspectors, nameof(expected));
             }
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
+                .WithExpectation(Resources.Collection_ExpectedCollectionToSatisfyAllInspectors)
                 .ForCondition(!(Subject is null))
-                .FailWith("but collection is <null>.")
+                .FailWith(Resources.Collection_ButCollectionIsNull)
                 .Then
                 .ForCondition(Subject.Any())
-                .FailWith("but collection is empty.")
+                .FailWith(Resources.Collection_ButCollectionIsEmpty)
                 .Then
                 .ClearExpectation();
 
@@ -406,14 +406,14 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(elementsCount == inspectorsCount)
-                .FailWith("Expected {context:collection} to contain exactly {0} items, but it contains {1} items",
+                .FailWith(Resources.Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat,
                     inspectorsCount, elementsCount);
 
             string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
 
             if (failuresFromInspectors.Any())
             {
-                string failureMessage = "Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:"
+                string failureMessage = Resources.Collection_ExpectedCollectionToSatisfyAllInspectors + Resources.Common_ButSomeInspectorsAreNotSatisfied
                     + Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
                 Execute.Assertion
@@ -444,8 +444,7 @@ namespace FluentAssertions.Collections
                         // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
                         string failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
                         // FailWith formatting is not used because of extra quotes being added.
-                        Execute.Assertion
-                            .FailWith($"At index {index}:{Environment.NewLine}{failures}");
+                        Execute.Assertion.FailWith(Resources.Collection_AtIndexXFailuresFormat, index, Environment.NewLine, failures);
                     }
 
                     index++;

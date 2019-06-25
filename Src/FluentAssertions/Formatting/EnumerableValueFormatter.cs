@@ -31,7 +31,7 @@ namespace FluentAssertions.Formatting
                 const int maxItems = 32;
                 if (enumerable.Count > maxItems)
                 {
-                    postfix = $", …{enumerable.Count - maxItems} more…";
+                    postfix = string.Format(Resources.Formatter_CommaXMoreFormat, enumerable.Count - maxItems);
                     enumerable = enumerable.Take(maxItems).ToArray();
                 }
 

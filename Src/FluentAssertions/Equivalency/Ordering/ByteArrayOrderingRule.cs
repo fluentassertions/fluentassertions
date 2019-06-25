@@ -16,7 +16,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         public override string ToString()
         {
-            return "Be strict about the order of items in byte arrays";
+            return Resources.Array_BeStrictAboutItemsOrderInByteArrays;
         }
     }
 }

@@ -41,8 +41,7 @@ namespace FluentAssertions.Equivalency
                     isCyclic = true;
                     if (handling == CyclicReferenceHandling.ThrowException)
                     {
-                        AssertionScope.Current.FailWith(
-                            "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                        AssertionScope.Current.FailWith(Resources.CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference);
                     }
                 }
                 else

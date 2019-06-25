@@ -36,14 +36,15 @@ namespace FluentAssertions.Equivalency
             {
                 if (Recursive)
                 {
-                    using (context.TraceBlock(path => $"Structurally comparing {subject} and expectation {expectation} at {path}"))
+                    using (context.TraceBlock(path => string.Format(Resources.Collection_StructurallyComparingXAndExpectationYAtZFormat, subject, expectation, path)))
                     {
                         AssertElementGraphEquivalency(subject, expectation);
                     }
                 }
                 else
                 {
-                    using (context.TraceBlock(path => $"Comparing subject {subject} and expectation {expectation} at {path} using simple value equality"))
+                    using (context.TraceBlock(path =>
+                        string.Format(Resources.Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat, subject, expectation, path)))
                     {
                         subject.Should().BeEquivalentTo(expectation);
                     }
@@ -55,13 +56,13 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(expectation is null))
-                .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[] { subject });
+                .FailWith(Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundXFormat, new object[] { subject });
         }
 
         private static Continuation AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
         {
             return AssertionScope.Current
-                .WithExpectation("Expected {context:subject} to be a collection with {0} item(s){reason}", expectation.Count)
+                .WithExpectation(Resources.Collection_ExpectedSubjectToBeCollectionWithXItemsFormat, expectation.Count)
                 .AssertEitherCollectionIsNotEmpty(subject, expectation)
                 .Then
                 .AssertCollectionHasEnoughItems(subject, expectation)
@@ -94,7 +95,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using (context.TraceBlock(path =>
-                    $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+                    string.Format(Resources.Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat, expectation, path, index, subjects)))
                 {
                     bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
                     if (!succeeded)
@@ -103,7 +104,7 @@ namespace FluentAssertions.Equivalency
                         if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
-                                $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {path}");
+                                string.Format(Resources.Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat, FailedItemsFastFailThreshold, path));
                             break;
                         }
                     }
@@ -119,7 +120,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using (context.TraceBlock(path =>
-                    $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
+                    string.Format(Resources.Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat, expectation, subjects, path, index)))
                 {
                     bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
                     if (!succeeded)
@@ -128,7 +129,7 @@ namespace FluentAssertions.Equivalency
                         if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
-                                $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                                string.Format(Resources.Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat, FailedItemsFastFailThreshold, path));
                             break;
                         }
                     }
@@ -142,7 +143,7 @@ namespace FluentAssertions.Equivalency
         {
             var results = new AssertionResultSet();
             int index = 0;
-            GetTraceMessage getMessage = path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]";
+            GetTraceMessage getMessage = path => string.Format(Resources.Collection_ComparingSubjectAtXYWithExpectationAtXZFormat, path, index, expectationIndex);
             int indexToBeRemoved = -1;
 
             for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
@@ -157,13 +158,13 @@ namespace FluentAssertions.Equivalency
                     results.AddSet(index, failures);
                     if (results.ContainsSuccessfulSet())
                     {
-                        context.TraceSingle(_ => "It's a match");
+                        context.TraceSingle(_ => Resources.Collection_ItIsAMatch);
                         indexToBeRemoved = metaIndex;
                         break;
                     }
                     else
                     {
-                        context.TraceSingle(_ => $"Contained {failures.Length} failures");
+                        context.TraceSingle(_ => string.Format(Resources.Collection_ContainedXFailuresFormat, failures.Length));
                     }
                 }
             }

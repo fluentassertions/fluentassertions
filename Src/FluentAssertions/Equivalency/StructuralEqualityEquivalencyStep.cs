@@ -20,23 +20,21 @@ namespace FluentAssertions.Equivalency
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
                 .FailWith(
-                    "Expected {context:subject} to be <null>, but found {0}.",
+                    Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundXFormat,
                     context.Subject);
 
             bool subjectIsNotNull =
                 AssertionScope.Current.ForCondition(
                     !(context.Subject is null))
                     .FailWith(
-                        "Expected {context:object} to be {0}{reason}, but found {1}.",
+                        Resources.Object_ExpectedObjectToBeXFormat + Resources.Common_CommaButFoundYFormat,
                         context.Expectation,
                         context.Subject);
 
             SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
             if (context.IsRoot && !selectedMembers.Any())
             {
-                throw new InvalidOperationException(
-                    "No members were found for comparison. " +
-                    "Please specify some members to include in the comparison or choose a more meaningful assertion.");
+                throw new InvalidOperationException(Resources.Equivalency_NoMembersWereFoundForComparison);
             }
 
             if (expectationIsNotNull && subjectIsNotNull)
