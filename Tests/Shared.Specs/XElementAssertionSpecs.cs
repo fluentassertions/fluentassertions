@@ -591,13 +591,13 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var element = new XElement("element");
-            var sameXelement = element;
+            var sameXElement = element;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().NotBeEquivalentTo(sameXelement);
+                element.Should().NotBeEquivalentTo(sameXElement);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -634,13 +634,13 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var element = XElement.Parse("<parent><child /></parent>");
-            var sameXelement = element;
+            var sameXElement = element;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().NotBeEquivalentTo(sameXelement, "because we want to test the failure {0}", "message");
+                element.Should().NotBeEquivalentTo(sameXElement, "because we want to test the failure {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

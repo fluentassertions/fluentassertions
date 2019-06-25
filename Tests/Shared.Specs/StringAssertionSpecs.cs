@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
 
@@ -38,7 +39,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_strings_differ_unexpectingly_it_should_throw()
+        public void When_two_strings_differ_unexpectedly_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -614,7 +615,7 @@ namespace FluentAssertions.Specs
         #region Not Match Equivalent Of
 
         [Fact]
-        public void When_a_string_is_not_equivalent_to_a_pattern_and_thats_expected_it_should_not_throw()
+        public void When_a_string_is_not_equivalent_to_a_pattern_and_that_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -674,6 +675,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
+            // ReSharper disable once StringLiteralTypo
             Action act = () => subject.Should().MatchRegex("h.*\\sworld.$");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -683,6 +685,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -934,6 +937,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_does_not_start_with_expected_phrase_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -947,7 +951,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with " +
                     "*\"ABCDDFGHI\" because it should start, but " +
-                        "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
+                "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [Fact]
@@ -981,6 +985,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_start_is_compared_with_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1388,6 +1393,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1435,6 +1441,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_start_of_string_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1818,6 +1825,7 @@ namespace FluentAssertions.Specs
         #region Contain
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_the_expected_string_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1833,6 +1841,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_does_not_contain_an_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1936,6 +1945,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1966,6 +1976,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_is_equivalent_but_too_short_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2139,7 +2150,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_failes_then_failure_message_should_contain_reason()
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_should_contain_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2298,7 +2309,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exatch_matches_it_should_throw()
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exact_matches_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2370,6 +2381,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_unexpected_fragment_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2803,9 +2815,10 @@ namespace FluentAssertions.Specs
         #region Contain Equivalent Of
 
         [InlineData("aa", "A")]
+        // ReSharper disable once StringLiteralTypo
         [InlineData("aCCa", "acca")]
         [Theory]
-        public void Should_pass_when_contans_equivalent_of(string actual, string equivalentSubstring)
+        public void Should_pass_when_contains_equivalent_of(string actual, string equivalentSubstring)
         {
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3069,6 +3082,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
             //-----------------------------------------------------------------------------------------------------------

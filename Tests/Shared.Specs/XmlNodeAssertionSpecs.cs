@@ -393,7 +393,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_an_xml_node_is_equivalent_to_a_different_XmlDcoument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_XmlDocument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange

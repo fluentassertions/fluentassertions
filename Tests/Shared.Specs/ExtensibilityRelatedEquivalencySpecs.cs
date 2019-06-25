@@ -99,7 +99,7 @@ namespace FluentAssertions.Specs
         #region Matching Rules
 
         [Fact]
-        public void When_a_matching_rule_is_added_it_should_preceed_all_existing_rules()
+        public void When_a_matching_rule_is_added_it_should_precede_all_existing_rules()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -461,7 +461,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
+        public void When_a_nullable_property_is_overriden_with_a_custom_assertion_it_should_use_it()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -492,7 +492,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()
+        public void When_an_assertion_rule_is_added_it_should_precede_all_existing_rules()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -607,7 +607,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_multiple_asertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
+        public void When_multiple_assertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -685,7 +685,7 @@ namespace FluentAssertions.Specs
                 () =>
                     subject.Should().BeEquivalentTo(expected,
                         opts =>
-                            opts.Using(new AlwayHandleEquivalencyStep())
+                            opts.Using(new AlwaysHandleEquivalencyStep())
                                 .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -724,7 +724,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
+        public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_still_be_ran()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -781,7 +781,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        internal class AlwayHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        internal class AlwaysHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
         {
             public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {

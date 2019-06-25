@@ -1698,7 +1698,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_type_does_not_inhert_expected_attribute_that_has_an_unexpected_property_it_fails()
+        public void When_type_does_not_inherit_expected_attribute_that_has_an_unexpected_property_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2624,7 +2624,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitProperty(interfaceType, "NonExistantProperty");
+                    .HaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2632,7 +2632,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.NonExistantProperty, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.NonExistentProperty, but it does not.");
         }
 
         [Fact]
@@ -2650,7 +2650,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitProperty(interfaceType, "NonExistantProperty");
+                    .HaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2780,7 +2780,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitProperty(interfaceType, "NonExistantProperty");
+                    .NotHaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2803,7 +2803,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitProperty(interfaceType, "NonExistantProperty");
+                    .NotHaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2932,7 +2932,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2940,7 +2940,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.NonExistantMethod, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.NonExistentMethod, but it does not.");
         }
 
         [Fact]
@@ -2958,7 +2958,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistantProperty", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "NonExistentProperty", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -3088,7 +3088,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -3111,7 +3111,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -3600,14 +3600,14 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveMethod("NonExistantMethod", new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
+                type.Should().HaveMethod("NonExistentMethod", new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected method FluentAssertions.Specs.ClassWithNoMembers.NonExistantMethod(System.Int32, System.Type) to exist " +
+                    "Expected method FluentAssertions.Specs.ClassWithNoMembers.NonExistentMethod(System.Int32, System.Type) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -3650,7 +3650,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveMethod("NonExistantMethod", new Type[] { });
+                type.Should().NotHaveMethod("NonExistentMethod", new Type[] { });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4309,7 +4309,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region HaveExplictConversionOperator
+        #region HaveExplicitConversionOperator
 
         [Fact]
         public void When_asserting_a_type_has_an_explicit_conversion_operator_which_it_does_it_succeeds()
@@ -4326,7 +4326,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplictConversionOperator(sourceType, targetType)
+                    .HaveExplicitConversionOperator(sourceType, targetType)
                     .Which.Should()
                         .NotBeNull();
 
@@ -4350,7 +4350,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveExplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+                type.Should().HaveExplicitConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4363,7 +4363,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region HaveExplictConversionOperatorOfT
+        #region HaveExplicitConversionOperatorOfT
 
         [Fact]
         public void When_asserting_a_type_has_an_explicit_conversion_operatorOfT_which_it_does_it_succeeds()
@@ -4378,7 +4378,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplictConversionOperator<TypeWithConversionOperators, byte>()
+                    .HaveExplicitConversionOperator<TypeWithConversionOperators, byte>()
                     .Which.Should()
                         .NotBeNull();
 
@@ -4400,7 +4400,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveExplictConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
+                type.Should().HaveExplicitConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4413,7 +4413,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region NotHaveExplictConversionOperator
+        #region NotHaveExplicitConversionOperator
 
         [Fact]
         public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_which_it_does_not_it_succeeds()
@@ -4430,7 +4430,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplictConversionOperator(sourceType, targetType);
+                    .NotHaveExplicitConversionOperator(sourceType, targetType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4452,7 +4452,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveExplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+                type.Should().NotHaveExplicitConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4465,7 +4465,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region NotHaveExplictConversionOperatorOfT
+        #region NotHaveExplicitConversionOperatorOfT
 
         [Fact]
         public void When_asserting_a_type_does_not_have_an_explicit_conversion_operatorOfT_which_it_does_not_it_succeeds()
@@ -4480,7 +4480,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplictConversionOperator<TypeWithConversionOperators, string>();
+                    .NotHaveExplicitConversionOperator<TypeWithConversionOperators, string>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4500,7 +4500,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveExplictConversionOperator<TypeWithConversionOperators, byte>("because we want to test the error {0}", "message");
+                type.Should().NotHaveExplicitConversionOperator<TypeWithConversionOperators, byte>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4530,7 +4530,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveImplictConversionOperator(sourceType, targetType)
+                    .HaveImplicitConversionOperator(sourceType, targetType)
                     .Which.Should()
                         .NotBeNull();
 
@@ -4554,7 +4554,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveImplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+                type.Should().HaveImplicitConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4582,7 +4582,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveImplictConversionOperator<TypeWithConversionOperators, int>()
+                    .HaveImplicitConversionOperator<TypeWithConversionOperators, int>()
                     .Which.Should()
                         .NotBeNull();
 
@@ -4604,7 +4604,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveImplictConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
+                type.Should().HaveImplicitConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4634,7 +4634,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveImplictConversionOperator(sourceType, targetType);
+                    .NotHaveImplicitConversionOperator(sourceType, targetType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4656,7 +4656,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveImplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+                type.Should().NotHaveImplicitConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4684,7 +4684,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveImplictConversionOperator<TypeWithConversionOperators, string>();
+                    .NotHaveImplicitConversionOperator<TypeWithConversionOperators, string>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -4704,7 +4704,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveImplictConversionOperator<TypeWithConversionOperators, int>("because we want to test the error {0}", "message");
+                type.Should().NotHaveImplicitConversionOperator<TypeWithConversionOperators, int>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

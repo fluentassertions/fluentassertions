@@ -829,7 +829,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_close_to_an_ealier_datetimeoffset_by_35ms_it_should_succeed()
+        public void When_asserting_subject_datetimeoffset_is_close_to_an_earlier_datetimeoffset_by_35ms_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -849,7 +849,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_not_close_to_an_ealier_datetimeoffset_by_35ms_it_should_throw()
+        public void When_asserting_subject_datetimeoffset_is_not_close_to_an_earlier_datetimeoffset_by_35ms_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

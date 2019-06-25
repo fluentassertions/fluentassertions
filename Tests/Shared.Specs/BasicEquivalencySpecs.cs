@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -424,7 +425,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
+        public void When_asserting_equivalence_on_a_string_it_should_use_string_specific_failure_messages()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -876,6 +877,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_including_fields_it_should_succeed_if_just_the_included_field_match()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -907,6 +909,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_including_fields_it_should_fail_if_any_included_field_do_not_match()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -967,6 +970,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_members_it_should_pass_if_only_the_excluded_members_are_different()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -997,6 +1001,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_members_it_should_fail_if_any_non_excluded_members_are_different()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1563,6 +1568,7 @@ namespace FluentAssertions.Specs
 
             var other = new
             {
+                // ReSharper disable once StringLiteralTypo
                 City = "Rijswijk"
             };
 
@@ -1651,6 +1657,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_properties_it_should_still_compare_fields()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1763,6 +1770,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void
             When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
             ()
@@ -1795,6 +1803,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_IncludingAllDeclaredProperties_fields_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1830,6 +1839,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_IncludingAllRuntimeProperties_the_runtime_type_should_be_used_and_fields_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1865,6 +1875,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_both_field_and_properties_are_configured_for_inclusion_both_should_be_included()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1891,6 +1902,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void
             When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
             ()
@@ -1935,6 +1947,7 @@ namespace FluentAssertions.Specs
         #region Matching Rules
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_ExcludingMissingMembers_both_fields_and_properties_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2388,6 +2401,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2444,7 +2458,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         public void
-            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed
+            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivalent_according_to_the_declared_type_it_should_succeed
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2647,7 +2661,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
+        public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_converted_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -3358,7 +3372,7 @@ namespace FluentAssertions.Specs
 
 #if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
         [Fact]
-        public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
+        public void When_asserting_types_with_infinite_object_graphs_are_equivalent_it_should_not_overflow_the_stack()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -3381,7 +3395,7 @@ namespace FluentAssertions.Specs
 #endif
         [Fact]
         public void
-            When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3405,7 +3419,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         public void
-            When_asserting_inequivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3670,7 +3684,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
+        public void When_asserting_members_from_different_enum_types_are_equivalent_by_string_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

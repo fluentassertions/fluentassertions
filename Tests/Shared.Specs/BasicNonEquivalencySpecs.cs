@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    public class BasicInequivalencySpecs
+    public class BasicNonEquivalencySpecs
     {
         [Fact]
         public void When_asserting_inequivalence_of_equal_ints_as_object_it_should_fail()
@@ -27,7 +27,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_inequivalence_of_inequal_ints_as_object_it_should_succeed()
+        public void When_asserting_inequivalence_of_unequal_ints_as_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_inequivalence_of_inequal_strings_as_object_it_should_succeed()
+        public void When_asserting_inequivalence_of_unequal_strings_as_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_inequivalence_of_inequal_classes_it_should_succeed()
+        public void When_asserting_inequivalence_of_unequal_classes_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

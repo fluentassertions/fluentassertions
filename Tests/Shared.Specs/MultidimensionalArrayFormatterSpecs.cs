@@ -9,8 +9,8 @@ namespace FluentAssertions.Specs
     public class MultidimensionalArrayFormatterSpecs
     {
         [Theory]
-        [MemberData(nameof(MultiDimentionalArrayData))]
-        public void When_formatting_a_multi_dimentional_array_it_should_show_structure(object value, string expected)
+        [MemberData(nameof(MultiDimensionalArrayData))]
+        public void When_formatting_a_multi_dimensional_array_it_should_show_structure(object value, string expected)
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -27,7 +27,7 @@ namespace FluentAssertions.Specs
             result.Should().Match(expected);
         }
 
-        public static IEnumerable<object[]> MultiDimentionalArrayData =>
+        public static IEnumerable<object[]> MultiDimensionalArrayData =>
             new List<object[]>
             {
                 new object[] { new int[0, 0], "{empty}" },
@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
             };
 
         [Fact]
-        public void When_formatting_a_multi_dimentional_array_with_bounds_it_should_show_structure()
+        public void When_formatting_a_multi_dimensional_array_with_bounds_it_should_show_structure()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

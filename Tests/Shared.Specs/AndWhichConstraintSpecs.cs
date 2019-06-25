@@ -9,7 +9,7 @@ namespace FluentAssertions.Specs
     public class AndWhichConstraintSpecs
     {
         [Fact]
-        public void When_many_objects_are_provided_accesing_which_should_throw_a_descriptive_exception()
+        public void When_many_objects_are_provided_accessing_which_should_throw_a_descriptive_exception()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

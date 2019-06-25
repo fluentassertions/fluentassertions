@@ -50,8 +50,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const int PublicPropertyCount = 3;
-            const int InternalcPropertyCount = 1;
-            properties.Should().HaveCount(PublicPropertyCount + InternalcPropertyCount);
+            const int InternalPropertyCount = 1;
+            properties.Should().HaveCount(PublicPropertyCount + InternalPropertyCount);
         }
 
         [Fact]

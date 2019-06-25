@@ -220,13 +220,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Childs = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> {1, 2, 3, 4}
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "Stuff_2",
-                    Childs = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> {1, 2, 3, 4}
                 }
             };
 
@@ -236,13 +236,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Childs = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> {1, 2, 3, 4}
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "WRONG_DESCRIPTION",
-                    Childs = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> {1, 2, 3, 4}
                 }
             };
 
@@ -256,7 +256,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("*Childs =*")
+                .WithMessage("*Children =*")
                 .WithMessage("*Description =*")
                 .WithMessage("*StuffId =*");
         }
@@ -774,7 +774,7 @@ namespace FluentAssertions.Specs
 
         public class Stuff<TChild> : BaseStuff
         {
-            public List<TChild> Childs { get; set; }
+            public List<TChild> Children { get; set; }
         }
 
 #if !NETSTANDARD1_3

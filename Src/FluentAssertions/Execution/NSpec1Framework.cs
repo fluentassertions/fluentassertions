@@ -39,7 +39,7 @@ namespace FluentAssertions.Execution
                 throw new Exception("Failed to create the NSpec assertion type");
             }
 
-            // v1 ctor requires an innerExpcetion: https://github.com/nspec/NSpec/blob/v1.0.7/NSpec/Domain/ExampleFailureException.cs
+            // v1 ctor requires an innerException: https://github.com/nspec/NSpec/blob/v1.0.7/NSpec/Domain/ExampleFailureException.cs
             throw (Exception)Activator.CreateInstance(exceptionType, message, null);
         }
     }

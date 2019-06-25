@@ -1662,7 +1662,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collections_are_unexpectingly_equivalent_it_should_throw()
+        public void When_collections_are_unexpectedly_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

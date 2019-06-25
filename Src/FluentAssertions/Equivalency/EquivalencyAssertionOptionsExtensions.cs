@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
-    public static class EquivalencyAssertionOptionsExtentions
+    public static class EquivalencyAssertionOptionsExtensions
     {
         /// <summary>
         /// Returns either the run-time or compile-time type of the subject based on the options provided by the caller.

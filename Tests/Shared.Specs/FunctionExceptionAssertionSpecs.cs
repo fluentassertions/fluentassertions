@@ -293,7 +293,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_throws_aggregrate_exception_with_inner_exception_of_the_expected_exact_exception_it_should_fail()
+        public void When_function_throws_aggregate_exception_with_inner_exception_of_the_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

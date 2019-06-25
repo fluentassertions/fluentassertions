@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Collections;
 using Xunit;
@@ -2241,7 +2242,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collections_are_unexpectingly_equivalent_it_should_throw()
+        public void When_collections_are_unexpectedly_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4484,6 +4485,7 @@ namespace FluentAssertions.Specs
         #region HaveElementPreceding
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_collection_has_the_correct_element_preceding_another_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4503,6 +4505,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_collection_has_the_wrong_element_preceding_another_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4523,6 +4526,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_nothing_is_preceding_an_element_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4543,6 +4547,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_expecting_an_element_to_precede_another_but_collection_is_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4582,6 +4587,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_a_null_element_is_not_preceding_another_element_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4645,6 +4651,7 @@ namespace FluentAssertions.Specs
         #region HaveElementSucceeding
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_collection_has_the_correct_element_succeeding_another_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4664,6 +4671,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_collection_has_the_wrong_element_succeeding_another_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4684,6 +4692,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_nothing_is_succeeding_an_element_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -5276,7 +5285,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collection_of_types_and_objects_match_type_excactly_it_should_succeed()
+        public void When_collection_of_types_and_objects_match_type_exactly_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -5290,7 +5299,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collection_of_types_and_objects_do_not_match_type_excactly_it_should_throw()
+        public void When_collection_of_types_and_objects_do_not_match_type_exactly_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

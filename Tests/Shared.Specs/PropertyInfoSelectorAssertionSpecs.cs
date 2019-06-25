@@ -306,7 +306,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_writeable_properties_are_expected_to_be_writable_it_should_not_throw()
+        public void When_writable_properties_are_expected_to_be_writable_it_should_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
