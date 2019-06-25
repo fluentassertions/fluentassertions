@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions.Common;
+using Microsoft.VisualStudio.Threading;
 
 namespace FluentAssertions.Execution
 {
@@ -21,8 +22,8 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-        [ThreadStatic]
-        private static AssertionScope current;
+        
+        private static AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
 
         private AssertionScope parent;
         private Func<string> expectation;
@@ -44,8 +45,8 @@ namespace FluentAssertions.Execution
         public AssertionScope()
             : this(new CollectingAssertionStrategy())
         {
-            parent = current;
-            current = this;
+            parent = current.Value;
+            current.Value = this;
 
             if (parent != null)
             {
@@ -74,8 +75,8 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
-            get => current ?? new AssertionScope(new DefaultAssertionStrategy());
-            private set => current = value;
+            get => current.Value ?? new AssertionScope(new DefaultAssertionStrategy());
+            private set => current.Value = value;
         }
 
         public AssertionScope UsingLineBreaks
