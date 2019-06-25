@@ -4272,6 +4272,8 @@ namespace FluentAssertions.Specs
         public abstract string AbstractProperty { get; }
 
         public virtual string VirtualProperty => "Foo";
+
+        public virtual string NonExcludedBaseProperty => "Foo";
     }
 
     public class Derived : Base
@@ -4283,6 +4285,10 @@ namespace FluentAssertions.Specs
         public override string AbstractProperty => $"{DerivedProperty1} {DerivedProperty2}";
 
         public override string VirtualProperty => "Bar";
+
+        public override string NonExcludedBaseProperty => "Bar";
+
+        public virtual string NonExcludedDerivedProperty => "Foo";
     }
 
     #endregion
