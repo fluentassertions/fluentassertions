@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,9 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
+#if NET45
+    [Serializable]
+#endif
     internal class CollectingAssertionStrategy : IAssertionStrategy
     {
         private readonly List<string> failureMessages = new List<string>();
