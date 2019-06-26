@@ -18,7 +18,9 @@ namespace FluentAssertions.Execution
     /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
     /// using <c>async</c> or <c>await</c>.
     /// </remarks>
+#if NET45
     [Serializable]
+#endif
     public class AssertionScope : IAssertionScope
     {
         #region Private Definitions
