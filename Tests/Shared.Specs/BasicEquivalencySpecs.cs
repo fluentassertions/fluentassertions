@@ -1918,6 +1918,18 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
+        [Fact]
+        public void When_excluding_virtual_or_abstract_property_exclusion_works_properly()
+        {
+            var obj1 = new Derived { DerivedProperty1 = "Something", DerivedProperty2 = "A" };
+            var obj2 = new Derived { DerivedProperty1 = "Something", DerivedProperty2 = "B" };
+
+            obj1.Should().BeEquivalentTo(obj2, opt => opt
+                .Excluding(o => o.AbstractProperty)
+                .Excluding(o => o.VirtualProperty)
+                .Excluding(o => o.DerivedProperty2));
+        }
+
         #endregion
 
         #region Matching Rules
@@ -4253,6 +4265,30 @@ namespace FluentAssertions.Specs
         {
             throw new InvalidCastException();
         }
+    }
+
+    public abstract class Base
+    {
+        public abstract string AbstractProperty { get; }
+
+        public virtual string VirtualProperty => "Foo";
+
+        public virtual string NonExcludedBaseProperty => "Foo";
+    }
+
+    public class Derived : Base
+    {
+        public string DerivedProperty1 { get; set; }
+
+        public string DerivedProperty2 { get; set; }
+
+        public override string AbstractProperty => $"{DerivedProperty1} {DerivedProperty2}";
+
+        public override string VirtualProperty => "Bar";
+
+        public override string NonExcludedBaseProperty => "Bar";
+
+        public virtual string NonExcludedDerivedProperty => "Foo";
     }
 
     #endregion
