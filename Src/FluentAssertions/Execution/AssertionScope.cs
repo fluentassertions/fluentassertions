@@ -1,13 +1,11 @@
 using System;
 using System.Linq;
-#if NOTNET45
-using Microsoft.VisualStudio.Threading;
+#if !NET45
+using System.Threading;
 #else
 using System.Runtime.Remoting.Messaging;
 #endif
 using FluentAssertions.Common;
-
-
 
 namespace FluentAssertions.Execution
 {
@@ -31,7 +29,7 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-#if NOTNET45
+#if !NET45
         private static AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
 #endif
         private AssertionScope parent;
@@ -54,15 +52,9 @@ namespace FluentAssertions.Execution
         public AssertionScope()
             : this(new CollectingAssertionStrategy())
         {
+            parent = GetCurrentAssertionScope();
+            SetCurrentAssertionScope(this);
 
-#if NOTNET45
-            parent = current.Value;
-            current.Value = this;
-#else
-            
-            parent = (AssertionScope) CallContext.LogicalGetData("this");
-            CallContext.LogicalSetData("this", this);
-#endif
             if (parent != null)
             {
                 contextData.Add(parent.contextData);
@@ -85,33 +77,17 @@ namespace FluentAssertions.Execution
         /// </summary>
         public string Context { get; set; }
 
-#if NOTNET45
         /// <summary>
         /// Gets the current thread-specific assertion scope.
         /// </summary>
         public static AssertionScope Current
         {
 
-            get => current.Value ?? new AssertionScope(new DefaultAssertionStrategy());
-            private set => current.Value = value;
+            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
+            private set => SetCurrentAssertionScope(value);
 
         }
-#else
-        /// <summary>
-        /// Gets the current thread-specific assertion scope.
-        /// </summary>
-        public static AssertionScope Current => LogicalCurrent(); 
 
-        public static AssertionScope LogicalCurrent()
-        {
-            if (CallContext.LogicalGetData("this") == null)
-            {
-                CallContext.LogicalSetData("this", new AssertionScope(new DefaultAssertionStrategy()));
-            }
-
-            return CallContext.LogicalGetData("this").As<AssertionScope>();
-        }
-#endif
         public AssertionScope UsingLineBreaks
         {
             get
@@ -292,11 +268,8 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void Dispose()
         {
-#if NOTNET45
-            Current = parent;
-#else
-            CallContext.LogicalSetData("this", parent);
-#endif
+            SetCurrentAssertionScope(parent);
+
             if (parent != null)
             {
                 foreach (string failureMessage in assertionStrategy.FailureMessages)
@@ -318,7 +291,25 @@ namespace FluentAssertions.Execution
             return this;
         }
 
-#region Explicit Implementation to support the interface
+        private static AssertionScope GetCurrentAssertionScope()
+        {
+#if !NET45
+            return current.Value;
+#else
+            return (AssertionScope) CallContext.LogicalGetData("this");
+#endif
+        }
+
+        private static void SetCurrentAssertionScope(AssertionScope scope)
+        {
+#if !NET45
+            current.Value = scope;
+#else
+            CallContext.LogicalSetData("this", scope);
+#endif
+        }
+
+        #region Explicit Implementation to support the interface
 
         IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
 
