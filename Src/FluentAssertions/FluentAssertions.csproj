@@ -27,9 +27,6 @@
     <Copyright>Copyright Dennis Doomen 2010-2019</Copyright>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' != 'net45'">
-    <DefineConstants>NOTNET45</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
     <DefineConstants>NET45</DefineConstants>
   </PropertyGroup>
@@ -62,9 +59,6 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <Reference Include="System.Configuration" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
-    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.0.102" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <Reference Include="System.Configuration" />
