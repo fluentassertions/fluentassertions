@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Localization;
 
@@ -63,8 +64,8 @@ namespace FluentAssertions.Equivalency
                 .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
                 .FailWith(() =>
                 {
-                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    AlreadyFormattedString subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    AlreadyFormattedString expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
 
                     return new FailReason(Resources.Enum_ExpectedEnumToEqualXByValueFormat + Resources.Common_CommaButFoundYFormat,
                         expectationName, subjectsName);
@@ -83,18 +84,18 @@ namespace FluentAssertions.Equivalency
                     decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
                     decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
 
-                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    AlreadyFormattedString subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
+                    AlreadyFormattedString expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
                     return new FailReason(Resources.Enum_ExpectedEnumToEqualXByNameFormat + Resources.Common_CommaButFoundYFormat,
                         expectationName, subjectsName);
                 });
         }
 
-        private static string GetDisplayNameForEnumComparison(object o, decimal? v)
+        private static AlreadyFormattedString GetDisplayNameForEnumComparison(object o, decimal? v)
         {
             if (o is null || v is null)
             {
-                return "null";
+                return "null".ToAlreadyFormattedString();
             }
 
             if (o.GetType().GetTypeInfo().IsEnum)
@@ -102,10 +103,10 @@ namespace FluentAssertions.Equivalency
                 string typePart = o.GetType().Name;
                 string namePart = Enum.GetName(o.GetType(), o);
                 string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
-                return $"{typePart}.{namePart}({valuePart})";
+                return $"{typePart}.{namePart}({valuePart})".ToAlreadyFormattedString();
             }
 
-            return v.Value.ToString(CultureInfo.InvariantCulture);
+            return v.Value.ToString(CultureInfo.InvariantCulture).ToAlreadyFormattedString();
         }
 
         private static decimal? ExtractDecimal(object o)

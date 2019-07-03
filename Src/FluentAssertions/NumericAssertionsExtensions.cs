@@ -673,8 +673,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
-                    expectedValue, precision, Resources.Common_NullKeyword);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                    expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
@@ -776,8 +776,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
-                    expectedValue, precision, Resources.Common_NullKeyword);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                    expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
@@ -879,8 +879,8 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
-                    expectedValue, precision, Resources.Common_NullKeyword);
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                    expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);

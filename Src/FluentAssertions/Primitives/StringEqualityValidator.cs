@@ -33,7 +33,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(subject.Length == expected.Length)
                 .FailWith(() =>
                     {
-                        string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
+                        AlreadyFormattedString mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
 
                         return new FailReason(
                             ExpectationDescription + Resources.String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format,
@@ -42,7 +42,7 @@ namespace FluentAssertions.Primitives
                ).SourceSucceeded;
         }
 
-        private string GetMismatchSegmentForStringsOfDifferentLengths()
+        private AlreadyFormattedString GetMismatchSegmentForStringsOfDifferentLengths()
         {
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
 
@@ -68,7 +68,7 @@ namespace FluentAssertions.Primitives
                 }
             }
 
-            return subject.IndexedSegmentAt(indexOfMismatch);
+            return subject.IndexedSegmentAt(indexOfMismatch).ToAlreadyFormattedString();
         }
 
         protected override void ValidateAgainstMismatch()
@@ -77,7 +77,7 @@ namespace FluentAssertions.Primitives
             if (indexOfMismatch != -1)
             {
                 assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
-                    expected, subject, subject.IndexedSegmentAt(indexOfMismatch));
+                    expected, subject, subject.IndexedSegmentAt(indexOfMismatch).ToAlreadyFormattedString());
             }
         }
 

@@ -36,11 +36,13 @@ namespace FluentAssertions.Equivalency.Matching
                 if (memberPath.Length > 0)
                 {
                     Execute.Assertion.FailWith(Resources.Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat,
-                        memberPath, expectedMember.Name);
+                        memberPath.ToAlreadyFormattedString(),
+                        expectedMember.Name.ToAlreadyFormattedString());
                 }
                 else
                 {
-                    Execute.Assertion.FailWith(Resources.Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat, expectedMember.Name);
+                    Execute.Assertion.FailWith(Resources.Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat,
+                        expectedMember.Name.ToAlreadyFormattedString());
                 }
             }
 

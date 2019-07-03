@@ -89,7 +89,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:array} to have {0} dimension(s), but it has {1}..
+        ///   Looks up a localized string similar to Expected {{context:array}} to have {0} dimension(s), but it has {1}..
         /// </summary>
         public static string Array_ExpectedArrayToHaveXDimensionsButItHasYFormat {
             get {
@@ -107,7 +107,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected assembly {0} not to reference assembly {1}{reason}..
+        ///   Looks up a localized string similar to Expected assembly {0} not to reference assembly {1}{{reason}}..
         /// </summary>
         public static string Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat {
             get {
@@ -125,7 +125,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected assembly {0} to reference assembly {1}{reason}, but it does not..
+        ///   Looks up a localized string similar to Expected assembly {0} to reference assembly {1}{{reason}}, but it does not..
         /// </summary>
         public static string Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat {
             get {
@@ -134,7 +134,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} from expectation to be a {1}{reason}, but found a {2}..
+        ///   Looks up a localized string similar to Expected {0} from expectation to be a {1}{{reason}}, but found a {2}..
         /// </summary>
         public static string Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat {
             get {
@@ -143,7 +143,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} from subject to be a {1}{reason}, but found a {2}..
+        ///   Looks up a localized string similar to Expected {0} from subject to be a {1}{{reason}}, but found a {2}..
         /// </summary>
         public static string Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat {
             get {
@@ -188,7 +188,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:boolean} to be false{reason}.
+        ///   Looks up a localized string similar to Expected {{context:boolean}} to be false{{reason}}.
         /// </summary>
         public static string Bool_ExpectedBoolToBeFalse {
             get {
@@ -197,7 +197,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:boolean} to be true{reason}.
+        ///   Looks up a localized string similar to Expected {{context:boolean}} to be true{{reason}}.
         /// </summary>
         public static string Bool_ExpectedBoolToBeTrue {
             get {
@@ -206,7 +206,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:boolean} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:boolean}} to be {0}{{reason}}.
         /// </summary>
         public static string Bool_ExpectedBoolToBeXFormat {
             get {
@@ -215,7 +215,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:nullable boolean} not to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:nullable boolean}} not to be {0}{{reason}}.
         /// </summary>
         public static string Bool_ExpectedNullableBoolNotToBeXFormat {
             get {
@@ -566,6 +566,15 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to , but found {0} where item at index {1} is in wrong order..
+        /// </summary>
+        public static string Collection_CommaButFoundXWhereYInWrongOrderFormat {
+            get {
+                return ResourceManager.GetString("Collection_CommaButFoundXWhereYInWrongOrderFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to , but items {0} are not unique..
         /// </summary>
         public static string Collection_CommaButItemsXAreNotUniqueFormat {
@@ -584,7 +593,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to only have unique items{reason}, but item {0} is not unique..
+        ///   Looks up a localized string similar to , but item {0} is not unique..
         /// </summary>
         public static string Collection_CommaButItemXIsNotUniqueFormat {
             get {
@@ -647,7 +656,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect collections {0} and {1} to be equal{reason}..
+        ///   Looks up a localized string similar to Did not expect collections {0} and {1} to be equal{{reason}}..
         /// </summary>
         public static string Collection_DidNotExpectCollectionsXAndYToBeEqualFormat {
             get {
@@ -656,16 +665,25 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:collection} to contain items in {0} order{reason}.
+        ///   Looks up a localized string similar to Did not expect collection to contain items in ascending order{{reason}}.
         /// </summary>
-        public static string Collection_DidNotExpectCollectionToContainItemsInXOrderFormat {
+        public static string Collection_DidNotExpectCollectionToContainItemsInAscendingOrder {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionToContainItemsInXOrderFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionToContainItemsInAscendingOrder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}..
+        ///   Looks up a localized string similar to Did not expect collection to contain items in descending order{{reason}}.
+        /// </summary>
+        public static string Collection_DidNotExpectCollectionToContainItemsInDescendingOrder {
+            get {
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionToContainItemsInDescendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Did not expect {{context:collection}} to intersect with {0}{{reason}}, but found the following shared items {1}..
         /// </summary>
         public static string Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat {
             get {
@@ -674,7 +692,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:collection} to intersect with {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:collection}} to intersect with {0}{{reason}}.
         /// </summary>
         public static string Collection_DidNotExpectCollectionToIntersectWithXFormat {
             get {
@@ -683,7 +701,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:collection} {0} to be a subset of {1}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:collection}} {0} to be a subset of {1}{{reason}}..
         /// </summary>
         public static string Collection_DidNotExpectCollectionXToBeSubsetOfYFormat {
             get {
@@ -692,7 +710,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:collection} {0} to intersect with {1}{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:collection}} {0} to intersect with {1}{{reason}}.
         /// </summary>
         public static string Collection_DidNotExpectCollectionXToIntersectWithYFormat {
             get {
@@ -701,7 +719,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {context:Expectation} implements {0}, so cannot determine which one to use for asserting the equivalency of the collection. .
+        ///   Looks up a localized string similar to {{context:Expectation}} implements {0}, so cannot determine which one to use for asserting the equivalency of the collection. .
         /// </summary>
         public static string Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat {
             get {
@@ -710,7 +728,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a collection, but {context:Subject} is of a non-collection type..
+        ///   Looks up a localized string similar to Expected a collection, but {{context:subject}} is of a non-collection type..
         /// </summary>
         public static string Collection_ExpectedACollectionBuSubjectIsNotCollectionType {
             get {
@@ -719,7 +737,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a collection, but {context:Subject} is &lt;null&gt;..
+        ///   Looks up a localized string similar to Expected a collection, but {{context:subject}} is &lt;null&gt;..
         /// </summary>
         public static string Collection_ExpectedACollectionButSubjectIsNull {
             get {
@@ -728,7 +746,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} not to be empty{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to be empty{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToBeEmpty {
             get {
@@ -737,7 +755,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be empty{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be empty{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionNotToBeEmptyComma {
             get {
@@ -746,7 +764,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} not to be equivalent{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to be empty{{reason}}..
+        /// </summary>
+        public static string Collection_ExpectedCollectionNotToBeEmptyDot {
+            get {
+                return ResourceManager.GetString("Collection_ExpectedCollectionNotToBeEmptyDot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to be equivalent{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToBeEquivalent {
             get {
@@ -755,7 +782,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be null or empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be null or empty{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToBeNullOrEmpty {
             get {
@@ -764,7 +791,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} not to contain &lt;null&gt;s{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to contain &lt;null&gt;s{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToContainNull {
             get {
@@ -773,7 +800,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} not to contain &lt;null&gt;s on {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to contain &lt;null&gt;s on {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToContainNullOnXFormat {
             get {
@@ -782,7 +809,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} not to contain {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} not to contain {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionNotToContainXFormat {
             get {
@@ -791,7 +818,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected collections not to be equal{reason}.
+        ///   Looks up a localized string similar to Expected collections not to be equal{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionsNotToBeEqual {
             get {
@@ -800,7 +827,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be equal to {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be equal to {0}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToBeEqualToXCommaFormat {
             get {
@@ -809,7 +836,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be equal to {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToBeEqualToXFormat {
             get {
@@ -818,7 +845,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be ordered by {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be ordered by {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToBeOrderedByXFormat {
             get {
@@ -827,7 +854,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to be a subset of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to be a subset of {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToBeSubsetOfXFormat {
             get {
@@ -836,7 +863,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain at least {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain at least {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainAtLeastXItemsFormat {
             get {
@@ -845,7 +872,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain at most {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain at most {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainAtMostXItemsFormat {
             get {
@@ -854,7 +881,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain element assignable to type {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain element assignable to type {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat {
             get {
@@ -863,7 +890,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain equivalent of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain equivalent of {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainEquivalentOfXFormat {
             get {
@@ -872,7 +899,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain exactly {0} items, but it contains {1} items.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain exactly {0} items, but it contains {1} items.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat {
             get {
@@ -881,7 +908,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain fewer than {0} item(s){reason},.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain fewer than {0} item(s){{reason}},.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainFewerThanXItemsFormat {
             get {
@@ -890,7 +917,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain items in ascending order{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain items in ascending order{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainItemsInAscendingOrder {
             get {
@@ -899,7 +926,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain items in descending order{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain items in descending order{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainItemsInDescendingOrder {
             get {
@@ -908,17 +935,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain items in {0} order{reason}, but found {1} where item at index {2} is in wrong order..
-        /// </summary>
-        public static string Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFormat {
-            get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFor" +
-                        "mat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain more than {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain more than {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainMoreThanXItemsFormat {
             get {
@@ -927,7 +944,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match..
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items matching {0}{{reason}}, but {1} do(es) not match..
         /// </summary>
         public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat {
             get {
@@ -936,7 +953,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain only items matching {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items matching {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat {
             get {
@@ -945,7 +962,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain only items of type {0}{reason}, but item {1} at index {2} is of type {3}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items of type {0}{{reason}}, but item {1} at index {2} is of type {3}..
         /// </summary>
         public static string Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat {
             get {
@@ -954,7 +971,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain a single item{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain a single item{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainSingleItem {
             get {
@@ -963,7 +980,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain a single item matching {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain a single item matching {0}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToContainSingleItemMatchingXFormat {
             get {
@@ -972,7 +989,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainXFormat {
             get {
@@ -981,7 +998,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain {0} in order{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} in order{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainXInOrderFormat {
             get {
@@ -990,7 +1007,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to contain {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} item(s){{reason}}.
+        /// </summary>
+        public static string Collection_ExpectedCollectionToContainXItemFormat {
+            get {
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainXItemFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} items{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToContainXItemsFormat {
             get {
@@ -999,7 +1025,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to end with {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to end with {0}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToEndWithXFormat {
             get {
@@ -1008,7 +1034,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to have element at index {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to have element at index {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToHaveElementAtIndexXFormat {
             get {
@@ -1017,7 +1043,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to have the same count as {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to have the same count as {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToHaveSameCountAsXFormat {
             get {
@@ -1026,7 +1052,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to have {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToHaveXItemsFormat {
             get {
@@ -1035,7 +1061,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to have {0} precede {1}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} precede {1}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToHaveXPrecedeYFormat {
             get {
@@ -1044,7 +1070,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to have {0} succeed {1}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} succeed {1}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToHaveXSucceedYFormat {
             get {
@@ -1053,7 +1079,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items..
+        ///   Looks up a localized string similar to Expected {{context:collection}} to intersect with {0}{{reason}}, but {1} does not contain any shared items..
         /// </summary>
         public static string Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat {
             get {
@@ -1062,7 +1088,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to intersect with {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to intersect with {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToIntersectWithXFormat {
             get {
@@ -1071,7 +1097,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to not contain {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to not contain {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToNotContainXItemsFormat {
             get {
@@ -1080,7 +1106,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to not have the same count as {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to not have the same count as {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToNotHaveSameCountAsXFormat {
             get {
@@ -1089,7 +1115,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to not have {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to not have {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToNotHaveXItemsFormat {
             get {
@@ -1098,7 +1124,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to not contain {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to not contain {0}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToNotXContainFormat {
             get {
@@ -1107,7 +1133,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to only have unique items{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} to only have unique items{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionToOnlyHaveUniqueItems {
             get {
@@ -1116,7 +1142,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique..
+        ///   Looks up a localized string similar to Expected {{context:collection}} to only have unique items on {0}{{reason}}, but items {1} are not unique..
         /// </summary>
         public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat {
             get {
@@ -1125,7 +1151,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique..
+        ///   Looks up a localized string similar to Expected {{context:collection}} to only have unique items on {0}{{reason}}, but item {1} is not unique..
         /// </summary>
         public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat {
             get {
@@ -1134,7 +1160,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to satisfy all inspectors{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to satisfy all inspectors{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToSatisfyAllInspectors {
             get {
@@ -1143,7 +1169,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} to start with {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:collection}} to start with {0}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedCollectionToStartWithXFormat {
             get {
@@ -1152,7 +1178,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} not to be equivalent to collection {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent to collection {1}{{reason}}..
         /// </summary>
         public static string Collection_ExpectedCollectionXNotToBeEquivalentToYFormat {
             get {
@@ -1161,7 +1187,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} not be equivalent with collection {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}..
+        /// </summary>
+        public static string Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat {
+            get {
+                return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat {
             get {
@@ -1170,7 +1205,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to be ordered{1}{reason} and result in {2}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to be ordered{1}{{reason}} and result in {2}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat {
             get {
@@ -1179,7 +1214,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to contain equivalent of {1}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain equivalent of {1}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToContainEquivalentOfYFormat {
             get {
@@ -1188,7 +1223,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to contain items {1} in order{reason}, but {2} (index {3}) did not appear (in the right order)..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain items {1} in order{{reason}}, but {2} (index {3}) did not appear (in the right order)..
         /// </summary>
         public static string Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat {
             get {
@@ -1197,7 +1232,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain {1}{{reason}}, but could not find {2}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat {
             get {
@@ -1206,7 +1241,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to contain {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain {1}{{reason}}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToContainYFormat {
             get {
@@ -1215,7 +1250,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to have a count {1}{{reason}}, but count is {2}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat {
             get {
@@ -1224,7 +1259,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to have an item matching {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to have an item matching {1}{{reason}}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToHaveItemMatchingYFormat {
             get {
@@ -1233,7 +1268,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain element {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain element {1}{{reason}}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToNotContainElementYFormat {
             get {
@@ -1242,7 +1277,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain {1}{{reason}}..
         /// </summary>
         public static string Collection_ExpectedCollectionXToNotContainYDotFormat {
             get {
@@ -1251,7 +1286,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain {1}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionXToNotContainYFormat {
             get {
@@ -1260,7 +1295,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to not have any items matching {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not have any items matching {1}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat {
             get {
@@ -1269,7 +1304,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:collection} {0} to not have the same count as {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not have the same count as {1}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat {
             get {
@@ -1278,7 +1313,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected one or more items{reason}, but found none..
+        ///   Looks up a localized string similar to Expected one or more items{{reason}}, but found none..
         /// </summary>
         public static string Collection_ExpectedOneOrMoreItemsButFoundNone {
             get {
@@ -1287,7 +1322,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} not to be {0}..
+        ///   Looks up a localized string similar to Expected {{context:subject}} not to be {0}..
         /// </summary>
         public static string Collection_ExpectedSubjectNotToBeXFormat {
             get {
@@ -1296,7 +1331,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a collection, but it was a {0}.
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a collection, but it was a {0}.
         /// </summary>
         public static string Collection_ExpectedSubjectToBeACollectionButItWasXFormat {
             get {
@@ -1305,7 +1340,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a collection with {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a collection with {0} item(s){{reason}}.
         /// </summary>
         public static string Collection_ExpectedSubjectToBeCollectionWithXItemsFormat {
             get {
@@ -1314,7 +1349,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type to be {0}{reason}, .
+        ///   Looks up a localized string similar to Expected type to be {0}{{reason}}, .
         /// </summary>
         public static string Collection_ExpectedTypeToBeXFormat {
             get {
@@ -1323,7 +1358,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} at index {1}{reason}, but found no element..
+        ///   Looks up a localized string similar to Expected {0} at index {1}{{reason}}, but found no element..
         /// </summary>
         public static string Collection_ExpectedXAtIndexYButFoundNoElementFormat {
             get {
@@ -1332,7 +1367,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} at index {1}{reason}.
+        ///   Looks up a localized string similar to Expected {0} at index {1}{{reason}}.
         /// </summary>
         public static string Collection_ExpectedXAtIndexYFormat {
             get {
@@ -1458,7 +1493,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , but found&lt;null&gt;..
+        ///   Looks up a localized string similar to , but found &lt;null&gt;..
         /// </summary>
         public static string Common_CommaButFoundNull {
             get {
@@ -1508,6 +1543,15 @@ namespace FluentAssertions.Localization {
         public static string Common_CommaButItDiffersItem4Format {
             get {
                 return ResourceManager.GetString("Common_CommaButItDiffersItem4Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but it differs {3}..
+        /// </summary>
+        public static string Common_CommaButItDiffersWFormat {
+            get {
+                return ResourceManager.GetString("Common_CommaButItDiffersWFormat", resourceCulture);
             }
         }
         
@@ -1620,11 +1664,29 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , but that attribute was not found..
+        ///   Looks up a localized string similar to , but that attribute was found..
         /// </summary>
         public static string Common_CommaButThatAttributeWasFound {
             get {
                 return ResourceManager.GetString("Common_CommaButThatAttributeWasFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but that attribute was not found..
+        /// </summary>
+        public static string Common_CommaButThatAttributeWasNotFound {
+            get {
+                return ResourceManager.GetString("Common_CommaButThatAttributeWasNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but {2} differs {3}..
+        /// </summary>
+        public static string Common_CommaButZDiffersWFormat {
+            get {
+                return ResourceManager.GetString("Common_CommaButZDiffersWFormat", resourceCulture);
             }
         }
         
@@ -1638,7 +1700,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be &lt;null&gt;.
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be &lt;null&gt;.
         /// </summary>
         public static string Common_ExpectedSubjectToBeNull {
             get {
@@ -1719,7 +1781,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference..
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be {{expectation}}{{reason}}, but it contains a cyclic reference..
         /// </summary>
         public static string CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference {
             get {
@@ -1746,7 +1808,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}..
+        ///   Looks up a localized string similar to Did not expect {{context:the date and time}} to be within {0} from {1}{{reason}}, but it was {2}..
         /// </summary>
         public static string DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat {
             get {
@@ -1755,7 +1817,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:the date and time} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectDateToBeXFormat {
             get {
@@ -1764,7 +1826,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:nullable date and time} to have a value{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:nullable date and time}} to have a value{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectNullableDateTimeToHaveAValue {
             get {
@@ -1773,7 +1835,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the date part of {context:the date and time} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the date part of {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheDatePartOfDateToBeXFormat {
             get {
@@ -1782,7 +1844,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the day part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the day part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheDayPartOfDateToBeXFormat {
             get {
@@ -1791,7 +1853,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the hour part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the hour part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheHourPartOfDateToBeXFormat {
             get {
@@ -1800,7 +1862,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the minute part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the minute part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat {
             get {
@@ -1809,7 +1871,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the month part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the month part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat {
             get {
@@ -1818,7 +1880,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the offset of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the offset of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheOffsetOfDateToBeXFormat {
             get {
@@ -1827,7 +1889,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the seconds part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the seconds part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat {
             get {
@@ -1836,7 +1898,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the year part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect the year part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectTheYearPartOfDateToBeXFormat {
             get {
@@ -1845,7 +1907,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:variable} to have a value{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:variable}} to have a value{{reason}}.
         /// </summary>
         public static string DateTime_DidNotExpectVariableToHaveAValue {
             get {
@@ -1854,25 +1916,97 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected date and/or time {0} to be {1} {2} after {3}{reason}.
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be at least {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat {
+        public static string DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected date and/or time {0} to be {1} {2} before {3}{reason}.
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be at least {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat {
+        public static string DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:date and time} not to be {0}{reason}, but it is..
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be exactly {1} after {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be exactly {1} before {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be less than {1} after {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be less than {1} before {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be more than {1} after {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be more than {1} before {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be within {1} after {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected date and/or time {0} to be within {1} before {2}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:date and time}} not to be {0}{{reason}}, but it is..
         /// </summary>
         public static string DateTime_ExpectedDateNotToBeXButItIsFormat {
             get {
@@ -1881,7 +2015,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be after {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be after {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeAfterXFormat {
             get {
@@ -1890,7 +2024,25 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be before {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be at least {0} after {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeAtLeastXAfterYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastXAfterYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be at least {0} before {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeAtLeastXBeforeYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastXBeforeYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be before {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeBeforeXFormat {
             get {
@@ -1899,7 +2051,25 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be in {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be exactly {0} after {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeExactlyXAfterYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyXAfterYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be exactly {0} before {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeExactlyXBeforeYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyXBeforeYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be in {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeInXFormat {
             get {
@@ -1908,7 +2078,43 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:date and time} to be one of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be less than {0} after {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeLessThanXAfterYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanXAfterYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be less than {0} before {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeLessThanXBeforeYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanXBeforeYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be more than {0} after {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeMoreThanXAfterYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanXAfterYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be more than {0} before {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeMoreThanXBeforeYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanXBeforeYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:date and time}} to be one of {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeOneOfXFormat {
             get {
@@ -1917,7 +2123,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be on or after {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be on or after {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeOnOrAfterXFormat {
             get {
@@ -1926,7 +2132,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be on or before {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be on or before {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeOnOrBeforeXFormat {
             get {
@@ -1935,7 +2141,25 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time} to be within {0} from {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} after {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeWithinXAfterYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXAfterYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} before {1}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedDateToBeWithinXBeforeYFormat {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXBeforeYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} from {1}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeWithinXFromYFormat {
             get {
@@ -1944,7 +2168,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:date and time} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:date and time}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedDateToBeXFormat {
             get {
@@ -1953,25 +2177,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time) to be {0} {1} after {2}{reason}.
-        /// </summary>
-        public static string DateTime_ExpectedDateToBeXYAfterZFormat {
-            get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeXYAfterZFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {context:the date and time) to be {0} {1} before {2}{reason}.
-        /// </summary>
-        public static string DateTime_ExpectedDateToBeXYBeforeZFormat {
-            get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeXYBeforeZFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {context:nullable date and time} to have a value{reason}.
+        ///   Looks up a localized string similar to Expected {{context:nullable date and time}} to have a value{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedNullableDateTimeToHaveAValue {
             get {
@@ -1980,7 +2186,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the date part of {context:the date and time} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the date part of {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheDatePartOfDateToBeXFormat {
             get {
@@ -1989,7 +2195,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the day part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the day part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheDayPartOfDateToBeXFormat {
             get {
@@ -1998,7 +2204,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the hour part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the hour part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheHourPartOfDateToBeXFormat {
             get {
@@ -2007,7 +2213,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the minute part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the minute part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheMinutePartOfDateToBeXFormat {
             get {
@@ -2016,7 +2222,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the month part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the month part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheMonthPartOfDateToBeXFormat {
             get {
@@ -2025,7 +2231,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the offset of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the offset of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheOffsetOfDateToBeXFormat {
             get {
@@ -2034,7 +2240,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the seconds part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the seconds part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheSecondsPartOfDateToBeXFormat {
             get {
@@ -2043,7 +2249,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the year part of {context:the date} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected the year part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheYearPartOfDateToBeXFormat {
             get {
@@ -2052,7 +2258,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be greater or equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be greater or equal to {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat {
             get {
@@ -2061,7 +2267,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be greater than {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be greater than {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeGreaterThanXFormat {
             get {
@@ -2070,7 +2276,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be less or equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be less or equal to {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeLessOrEqualToXFormat {
             get {
@@ -2079,7 +2285,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be less than {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be less than {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeLessThanXFormat {
             get {
@@ -2088,7 +2294,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be negative{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be negative{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeNegative {
             get {
@@ -2097,7 +2303,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be positive{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be positive{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBePositive {
             get {
@@ -2106,7 +2312,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to be within {0} from {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to be within {0} from {1}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToBeWithinXFromYFormat {
             get {
@@ -2115,7 +2321,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:time} to not be within {0} from {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:time}} to not be within {0} from {1}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTimeToNotBeWithinXFromYFormat {
             get {
@@ -2124,7 +2330,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:variable} to have a value{reason}.
+        ///   Looks up a localized string similar to Expected {{context:variable}} to have a value{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedVariableToHaveAValue {
             get {
@@ -2160,7 +2366,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected dictionaries not to be equal{reason}.
+        ///   Looks up a localized string similar to Expected dictionaries not to be equal{{reason}}.
         /// </summary>
         public static string Dicitonary_ExpectedDictionariesNotToBeEqual {
             get {
@@ -2250,7 +2456,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect dictionaries {0} and {1} to be equal{reason}..
+        ///   Looks up a localized string similar to Did not expect dictionaries {0} and {1} to be equal{{reason}}..
         /// </summary>
         public static string Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat {
             get {
@@ -2259,7 +2465,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {context:Expectation} implements multiple dictionary types.  It is not known which type should be use for equivalence.{0}The following IDictionary interfaces are implemented: {1}.
+        ///   Looks up a localized string similar to {{context:Expectation}} implements multiple dictionary types.  It is not known which type should be use for equivalence.{0}The following IDictionary interfaces are implemented: {1}.
         /// </summary>
         public static string Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat {
             get {
@@ -2268,7 +2474,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} not to be empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} not to be empty{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryNotToBeEmpty {
             get {
@@ -2277,7 +2483,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} not to contain key {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain key {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryNotToContainKeyXFormat {
             get {
@@ -2286,7 +2492,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but dictionary is {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat {
             get {
@@ -2295,7 +2501,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but found it anyhow..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat {
             get {
@@ -2304,7 +2510,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryNotToContainValueXFormat {
             get {
@@ -2313,7 +2519,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to be empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to be empty{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToBeEmpty {
             get {
@@ -2322,7 +2528,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but could not find keys {1}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but could not find keys {1}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat {
             get {
@@ -2331,7 +2537,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but found additional keys {1}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but found additional keys {1}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat {
             get {
@@ -2340,7 +2546,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but {1} differs at key {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat {
             get {
@@ -2349,7 +2555,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToBeEqualToXFormat {
             get {
@@ -2358,7 +2564,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain at least {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain at least {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat {
             get {
@@ -2367,7 +2573,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain at most {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain at most {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat {
             get {
@@ -2376,7 +2582,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain fewer than {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain fewer than {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat {
             get {
@@ -2385,7 +2591,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain keys {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain keys {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainKeysXFormat {
             get {
@@ -2394,7 +2600,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain key/value pairs {0}{{reason}}, but dictionary is {1}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat {
             get {
@@ -2403,7 +2609,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain more than {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain more than {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat {
             get {
@@ -2412,7 +2618,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}, but dictionary is {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but dictionary is {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat {
             get {
@@ -2421,7 +2627,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}, but the key was not found..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but the key was not found..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat {
             get {
@@ -2430,7 +2636,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat {
             get {
@@ -2439,7 +2645,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainValueXFormat {
             get {
@@ -2448,7 +2654,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to contain {0}{reason}, but {context:dictionary} differs at keys {1}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain {0}{{reason}}, but {{context:dictionary}} differs at keys {1}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat {
             get {
@@ -2457,7 +2663,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to have {0} items{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to have {0} items{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToHaveXItemsFormat {
             get {
@@ -2466,7 +2672,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but dictionary is {1}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat {
             get {
@@ -2475,7 +2681,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but found them anyhow..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but found them anyhow..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat {
             get {
@@ -2484,7 +2690,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not contain value {0} at key {1}{reason}, but found it anyhow..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain value {0} at key {1}{{reason}}, but found it anyhow..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat {
             get {
@@ -2493,7 +2699,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not contain value {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain value {0}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotContainValueXFormat {
             get {
@@ -2502,7 +2708,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not have any items{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not have any items{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotHaveAnyItems {
             get {
@@ -2511,7 +2717,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} to not have {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} to not have {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryToNotHaveXItemsFormat {
             get {
@@ -2520,7 +2726,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} not to contain key {1}{{reason}}, but found it anyhow..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat {
             get {
@@ -2529,7 +2735,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} not to contain value {1}{{reason}}, but found it anyhow..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat {
             get {
@@ -2538,7 +2744,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain at least {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain at least {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat {
             get {
@@ -2547,7 +2753,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain at most {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain at most {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat {
             get {
@@ -2556,7 +2762,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain fewer than {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain fewer than {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat {
             get {
@@ -2565,7 +2771,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find keys {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key(s) {1}{{reason}}, but could not find keys {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat {
             get {
@@ -2574,7 +2780,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key {1}{reason}, but could not find {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key {1}{{reason}}, but could not find {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat {
             get {
@@ -2583,7 +2789,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key {1}{{reason}}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainKeyYFormat {
             get {
@@ -2592,7 +2798,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain more than {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain more than {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat {
             get {
@@ -2601,7 +2807,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain value {1}{reason}, but could not find {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain value {1}{{reason}}, but could not find {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat {
             get {
@@ -2610,7 +2816,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain value {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain value {1}{{reason}}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToContainValueYFormat {
             get {
@@ -2619,7 +2825,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to have a count {1}{{reason}}, but count is {2}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat {
             get {
@@ -2628,7 +2834,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to have {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to have {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToHaveYItemsFormat {
             get {
@@ -2637,7 +2843,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain key {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat {
             get {
@@ -2646,7 +2852,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain key {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToNotContainKeyYFormat {
             get {
@@ -2655,7 +2861,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain value {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}..
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat {
             get {
@@ -2664,7 +2870,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain value {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToNotContainValueYFormat {
             get {
@@ -2673,7 +2879,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not have {1} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not have {1} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat {
             get {
@@ -2682,7 +2888,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a {0}.
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a {0}.
         /// </summary>
         public static string Dictionary_ExpectedSubjectToBeAXFormat {
             get {
@@ -2691,7 +2897,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary, but it is not..
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a dictionary, but it is not..
         /// </summary>
         public static string Dictionary_ExpectedSubjectToBeDictionaryButIsNot {
             get {
@@ -2700,7 +2906,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s)..
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a dictionary with {0} item(s), but it only contains {1} item(s)..
         /// </summary>
         public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat {
             get {
@@ -2709,7 +2915,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary with {0} item(s), .
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be a dictionary with {0} item(s), .
         /// </summary>
         public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat {
             get {
@@ -2718,7 +2924,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to be {0}.
+        ///   Looks up a localized string similar to Expected {{context:subject}} to be {0}.
         /// </summary>
         public static string Dictionary_ExpectedSubjectToBeXFormat {
             get {
@@ -2727,7 +2933,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:subject} to contain key {0}..
+        ///   Looks up a localized string similar to Expected {{context:subject}} to contain key {0}..
         /// </summary>
         public static string Dictionary_ExpectedSubjectToContainKeyXFormat {
             get {
@@ -2736,7 +2942,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} item(s){reason}.
+        ///   Looks up a localized string similar to Expected {0} item(s){{reason}}.
         /// </summary>
         public static string Dictionary_ExpectedXItemsFormat {
             get {
@@ -2745,7 +2951,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recursing into dictionary item {key} at {path}.
+        ///   Looks up a localized string similar to Recursing into dictionary item {0} at {1}.
         /// </summary>
         public static string Dictionary_RecursingIntoDictionaryItemXAtYFormat {
             get {
@@ -2754,7 +2960,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {context:subject} dictionary has keys of type {0}; however, the expectation is not keyed with any compatible types.{1}The subject implements: {2}.
+        ///   Looks up a localized string similar to The {{context:subject}} dictionary has keys of type {0}; however, the expectation is not keyed with any compatible types.{1}The subject implements: {2}.
         /// </summary>
         public static string Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat {
             get {
@@ -2773,7 +2979,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the enum to have flag {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect the enum to have flag {0}{{reason}}..
         /// </summary>
         public static string Enum_DidNotExpectTheEnumToHaveFlagXFormat {
             get {
@@ -2791,7 +2997,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The enum was expected to have flag {0} but found {1}{reason}..
+        ///   Looks up a localized string similar to The enum was expected to have flag {0} but found {1}{{reason}}..
         /// </summary>
         public static string Enum_EnumWasExpectedToHaveFlagXButFoundYFormat {
             get {
@@ -2800,7 +3006,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:enum} to equal {0} by name{reason}.
+        ///   Looks up a localized string similar to Expected {{context:enum}} to equal {0} by name{{reason}}.
         /// </summary>
         public static string Enum_ExpectedEnumToEqualXByNameFormat {
             get {
@@ -2809,7 +3015,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:enum} to equal {0} by value{reason}.
+        ///   Looks up a localized string similar to Expected {{context:enum}} to equal {0} by value{{reason}}.
         /// </summary>
         public static string Enum_ExpectedEnumToEqualXByValueFormat {
             get {
@@ -2818,7 +3024,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the enum to be of type {0} type but found {1}{reason}..
+        ///   Looks up a localized string similar to Expected the enum to be of type {0} type but found {1}{{reason}}..
         /// </summary>
         public static string Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat {
             get {
@@ -2881,7 +3087,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did..
+        ///   Looks up a localized string similar to Did not expect object {0} to raise the {1} event for property {2}{{reason}}, but it did..
         /// </summary>
         public static string Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat {
             get {
@@ -2908,7 +3114,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected object {0} to not raise event {1}{reason}, but it did..
+        ///   Looks up a localized string similar to Expected object {0} to not raise event {1}{{reason}}, but it did..
         /// </summary>
         public static string Event_ExpectedObjectXToNotRaiseEventYButItDidFormat {
             get {
@@ -2917,7 +3123,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected object {0} to raise event {1}{reason}, but it did not..
+        ///   Looks up a localized string similar to Expected object {0} to raise event {1}{{reason}}, but it did not..
         /// </summary>
         public static string Event_ExpectedObjectXToRaiseEventYButItDidNotFormat {
             get {
@@ -2926,7 +3132,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected object {0} to raise event {1} for property {2}{reason}, but it did not..
+        ///   Looks up a localized string similar to Expected object {0} to raise event {1} for property {2}{{reason}}, but it did not..
         /// </summary>
         public static string Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat {
             get {
@@ -3016,7 +3222,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect any exception{reason}.
+        ///   Looks up a localized string similar to Did not expect any exception{{reason}}.
         /// </summary>
         public static string Exception_DidNotExpectAnyException {
             get {
@@ -3025,7 +3231,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect {0}{{reason}}.
         /// </summary>
         public static string Exception_DidNotExpectXFormat {
             get {
@@ -3034,7 +3240,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a &lt;{0}&gt; to be thrown{reason}.
+        ///   Looks up a localized string similar to Expected a &lt;{0}&gt; to be thrown{{reason}}.
         /// </summary>
         public static string Exception_ExpectedAXToBeThrownFormat {
             get {
@@ -3043,7 +3249,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}..
+        ///   Looks up a localized string similar to Expected exception where {0}{{reason}}, but the condition was not met by:{1}{1}{2}..
         /// </summary>
         public static string Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat {
             get {
@@ -3052,7 +3258,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected exception with message {0}{reason}.
+        ///   Looks up a localized string similar to Expected exception with message {0}{{reason}}.
         /// </summary>
         public static string Exception_ExpectedExceptionWithMessageXFormat {
             get {
@@ -3061,7 +3267,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected inner {0}{reason}.
+        ///   Looks up a localized string similar to Expected inner {0}{{reason}}.
         /// </summary>
         public static string Exception_ExpectedInnerXFormat {
             get {
@@ -3070,7 +3276,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0}{reason}.
+        ///   Looks up a localized string similar to Expected {0}{{reason}}.
         /// </summary>
         public static string Exception_ExpectedXFormat {
             get {
@@ -3106,7 +3312,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be greater or equal to {1}{reason}.
+        ///   Looks up a localized string similar to Execution of {0} should be greater or equal to {1}{{reason}}.
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat {
             get {
@@ -3115,7 +3321,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be greater than {1}{reason}.
+        ///   Looks up a localized string similar to Execution of {0} should be greater than {1}{{reason}}.
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat {
             get {
@@ -3124,7 +3330,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be less or equal to {1}{reason}.
+        ///   Looks up a localized string similar to Execution of {0} should be less or equal to {1}{{reason}}.
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat {
             get {
@@ -3133,7 +3339,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be less than {1}{reason}.
+        ///   Looks up a localized string similar to Execution of {0} should be less than {1}{{reason}}.
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeLessThanYFormat {
             get {
@@ -3142,7 +3348,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{reason}, but it required exactly {3}..
+        ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{{reason}}, but it required exactly {3}..
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat {
             get {
@@ -3151,7 +3357,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{reason}, but it required more than {3}..
+        ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{{reason}}, but it required more than {3}..
         /// </summary>
         public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat {
             get {
@@ -3214,7 +3420,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , ...{0} more ....
+        ///   Looks up a localized string similar to , …{0} more….
         /// </summary>
         public static string Formatter_CommaXMoreFormat {
             get {
@@ -3223,7 +3429,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Cyclic reference to type {0} detected}.
+        ///   Looks up a localized string similar to {{Cyclic reference to type {0} detected}}.
         /// </summary>
         public static string Formatter_CyclicReferenceToTypeXDetectedFormat {
             get {
@@ -3241,7 +3447,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Maximum recursion depth was reached…}.
+        ///   Looks up a localized string similar to {{Maximum recursion depth was reached…}}.
         /// </summary>
         public static string Formatter_MaxRecursionDepthWasReached {
             get {
@@ -3268,7 +3474,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children.
+        ///   Looks up a localized string similar to Use the {0} delegate inside a {1} to recursively format children.
         /// </summary>
         public static string Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat {
             get {
@@ -3304,7 +3510,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:Guid} to be empty{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:Guid}} to be empty{{reason}}..
         /// </summary>
         public static string Guid_DidNotExpectGuidToBeEmpty {
             get {
@@ -3313,7 +3519,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:Guid} to be {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:Guid}} to be {0}{{reason}}..
         /// </summary>
         public static string Guid_DidNotExpectGuidToBeXFormat {
             get {
@@ -3322,7 +3528,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:Guid} to be empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:Guid}} to be empty{{reason}}.
         /// </summary>
         public static string Guid_ExpectedGuidToBeEmpty {
             get {
@@ -3331,7 +3537,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:Guid} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:Guid}} to be {0}{{reason}}.
         /// </summary>
         public static string Guid_ExpectedGuidToBeXFormat {
             get {
@@ -3421,7 +3627,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} {1} to be decorated with {2}{reason}.
+        ///   Looks up a localized string similar to Expected {0} {1} to be decorated with {2}{{reason}}.
         /// </summary>
         public static string MemberInfo_ExpectedXYToBeDecoratedWithZFormat {
             get {
@@ -3430,7 +3636,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} {1} to not be decorated with {2}{reason}.
+        ///   Looks up a localized string similar to Expected {0} {1} to not be decorated with {2}{{reason}}.
         /// </summary>
         public static string MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat {
             get {
@@ -3448,7 +3654,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} not to be async{reason}.
+        ///   Looks up a localized string similar to , but it is not virtual..
+        /// </summary>
+        public static string Method_CommaButItIsNotVirtual {
+            get {
+                return ResourceManager.GetString("Method_CommaButItIsNotVirtual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected method {0} not to be async{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXNotToBeAsyncFormat {
             get {
@@ -3457,7 +3672,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} not to be virtual{reason}.
+        ///   Looks up a localized string similar to Expected method {0} not to be virtual{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXNotToBeVirtualFormat {
             get {
@@ -3466,7 +3681,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} not to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected method {0} not to be {1}{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXNotToBeYFormat {
             get {
@@ -3475,7 +3690,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} to be async{reason}.
+        ///   Looks up a localized string similar to Expected method {0} to be async{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXToBeAsyncFormat {
             get {
@@ -3484,7 +3699,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} to be virtual{reason}.
+        ///   Looks up a localized string similar to Expected method {0} to be virtual{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXToBeVirtualFormat {
             get {
@@ -3493,7 +3708,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0} to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected method {0} to be {1}{{reason}}.
         /// </summary>
         public static string Method_ExpectedMethodXToBeYFormat {
             get {
@@ -3502,7 +3717,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the return type of method {0} not to be void{reason}.
+        ///   Looks up a localized string similar to Expected the return type of method {0} not to be void{{reason}}.
         /// </summary>
         public static string Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat {
             get {
@@ -3511,7 +3726,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the return type of method {0} not to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected the return type of method {0} not to be {1}{{reason}}.
         /// </summary>
         public static string Method_ExpectedReturnTypeOfMethodXNotToBeYFormat {
             get {
@@ -3520,7 +3735,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the return type of method {0} to be void{reason}.
+        ///   Looks up a localized string similar to Expected the return type of method {0} to be void{{reason}}.
         /// </summary>
         public static string Method_ExpectedReturnTypeOfMethodXToBeVoidFormat {
             get {
@@ -3529,7 +3744,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the return type of method {0} to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected the return type of method {0} to be {1}{{reason}}.
         /// </summary>
         public static string Method_ExpectedReturnTypeOfMethodXToBeYFormat {
             get {
@@ -3547,7 +3762,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected methods not to be virtual{reason}, but the following methods are virtual:{0}{1}.
+        ///   Looks up a localized string similar to Expected all selected methods not to be virtual{{reason}}, but the following methods are virtual:{0}{1}.
         /// </summary>
         public static string MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat {
             get {
@@ -3557,7 +3772,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:{1}{2}.
+        ///   Looks up a localized string similar to Expected all selected methods to be decorated with {0}{{reason}}, but the following methods are not:{1}{2}.
         /// </summary>
         public static string MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat {
             get {
@@ -3567,7 +3782,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected methods to be virtual{reason}, but the following methods are not virtual:{0}{1}.
+        ///   Looks up a localized string similar to Expected all selected methods to be virtual{{reason}}, but the following methods are not virtual:{0}{1}.
         /// </summary>
         public static string MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat {
             get {
@@ -3577,7 +3792,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:{1}{2}.
+        ///   Looks up a localized string similar to Expected all selected methods to not be decorated with {0}{{reason}}, but the following methods are:{1}{2}.
         /// </summary>
         public static string MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat {
             get {
@@ -3587,7 +3802,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:value} to be within {0} from {1}{reason}.
+        ///   Looks up a localized string similar to Did not expect {{context:value}} to be within {0} from {1}{{reason}}.
         /// </summary>
         public static string Numeric_DidNotExpectValueToBeWithinXFromYFormat {
             get {
@@ -3596,7 +3811,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:value} to be {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:value}} to be {0}{{reason}}..
         /// </summary>
         public static string Numeric_DidNotExpectValueToBeXFormat {
             get {
@@ -3605,7 +3820,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be one of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be one of {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectecValueToBeOneOfXFormat {
             get {
@@ -3614,7 +3829,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to approximate {0} +/- {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to approximate {0} +/- {1}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToApproximateXYFormat {
             get {
@@ -3623,7 +3838,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}..
+        ///   Looks up a localized string similar to Expected {{context:value}} to approximate {1} +/- {2}{{reason}}, but {0} differed by {3}..
         /// </summary>
         public static string Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat {
             get {
@@ -3632,7 +3847,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be between {0} and {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be between {0} and {1}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeBetweenXAndYFormat {
             get {
@@ -3641,7 +3856,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be greater or equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be greater or equal to {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeGreaterOrEqualToXFormat {
             get {
@@ -3650,7 +3865,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be greater than {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be greater than {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeGreaterThanXFormat {
             get {
@@ -3659,7 +3874,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be less or equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be less or equal to {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeLessOrEqualToXFormat {
             get {
@@ -3668,7 +3883,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be less than {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be less than {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeLessThanXFormat {
             get {
@@ -3677,7 +3892,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be negative{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be negative{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeNegative {
             get {
@@ -3686,7 +3901,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be positive{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be positive{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBePositive {
             get {
@@ -3695,7 +3910,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be within {0} from {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be within {0} from {1}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeWithinXFromYFormat {
             get {
@@ -3704,7 +3919,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to be {0}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToBeXFormat {
             get {
@@ -3713,7 +3928,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}..
+        ///   Looks up a localized string similar to Expected {{context:value}} to not approximate {0} +/- {1}{{reason}}, but it was {2}..
         /// </summary>
         public static string Numeric_ExpectedValueToNotApproximateXYButItWasZFormat {
             get {
@@ -3722,7 +3937,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}..
+        ///   Looks up a localized string similar to Expected {{context:value}} to not approximate {1} +/- {2}{{reason}}, but {0} only differed by {3}..
         /// </summary>
         public static string Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat {
             get {
@@ -3731,7 +3946,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:value} to not be between {0} and {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:value}} to not be between {0} and {1}{{reason}}.
         /// </summary>
         public static string Numeric_ExpectedValueToNotBeBetweenXAndYFormat {
             get {
@@ -3749,7 +3964,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect a value{reason}.
+        ///   Looks up a localized string similar to Did not expect a value{{reason}}.
         /// </summary>
         public static string Object_DidNotExpectAValue {
             get {
@@ -3758,7 +3973,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context} to refer to {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context}} to refer to {0}{{reason}}..
         /// </summary>
         public static string Object_DidNotExpectContextToReferToXFormat {
             get {
@@ -3767,7 +3982,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:object} to be equal to {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:object}} to be equal to {0}{{reason}}..
         /// </summary>
         public static string Object_DidNotExpectObjectToBeEqualToXFormat {
             get {
@@ -3776,7 +3991,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect {0}{{reason}}..
         /// </summary>
         public static string Object_DidNotExpectXFormat {
             get {
@@ -3785,7 +4000,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a value{reason}..
+        ///   Looks up a localized string similar to Expected a value{{reason}}..
         /// </summary>
         public static string Object_ExpectedAValue {
             get {
@@ -3794,7 +4009,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} to not be between {0} and {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:object}} to not be between {0} and {1}{{reason}}.
         /// </summary>
         public static string Object_ExpectedObjectNotToBeBetweenXAndYFormat {
             get {
@@ -3803,7 +4018,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} not to be equivalent to {0}, but they are..
+        ///   Looks up a localized string similar to Expected {{context:object}} not to be equivalent to {0}, but they are..
         /// </summary>
         public static string Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat {
             get {
@@ -3812,7 +4027,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} to be between {0} and {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:object}} to be between {0} and {1}{{reason}}.
         /// </summary>
         public static string Object_ExpectedObjectToBeBetweenXAndYFormat {
             get {
@@ -3821,7 +4036,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} to be equal to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:object}} to be equal to {0}{{reason}}.
         /// </summary>
         public static string Object_ExpectedObjectToBeEqualToXFormat {
             get {
@@ -3830,7 +4045,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:object}} to be {0}{{reason}}.
         /// </summary>
         public static string Object_ExpectedObjectToBeXFormat {
             get {
@@ -3839,7 +4054,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} {0} to be greater or equal to {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:object}} {0} to be greater or equal to {1}{{reason}}..
         /// </summary>
         public static string Object_ExpectedObjectXToBeGreaterOrEqualToYFormat {
             get {
@@ -3848,7 +4063,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} {0} to be greater than {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:object}} {0} to be greater than {1}{{reason}}..
         /// </summary>
         public static string Object_ExpectedObjectXToBeGreaterThanYFormat {
             get {
@@ -3857,7 +4072,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} {0} to be less or equal to {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:object}} {0} to be less or equal to {1}{{reason}}..
         /// </summary>
         public static string Object_ExpectedObjectXToBeLessOrEqualToYFormat {
             get {
@@ -3866,7 +4081,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} {0} to be less than {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:object}} {0} to be less than {1}{{reason}}..
         /// </summary>
         public static string Object_ExpectedObjectXToBeLessThanYFormat {
             get {
@@ -3875,7 +4090,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected type to be {0}{{reason}}.
         /// </summary>
         public static string Object_ExpectedTypeToBeXFormat {
             get {
@@ -3884,7 +4099,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0}{reason}.
+        ///   Looks up a localized string similar to Expected {0}{{reason}}.
         /// </summary>
         public static string Object_ExpectedXFormat {
             get {
@@ -3893,7 +4108,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}..
+        ///   Looks up a localized string similar to Expected {0} to be serializable{{reason}}, but serialization failed with:{1}{1}{2}..
         /// </summary>
         public static string Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat {
             get {
@@ -3902,7 +4117,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected property {0} not to be virtual{reason}.
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} to have a getter{{reason}}.
+        /// </summary>
+        public static string Property_ExpectedContextPropertyXToHaveAGetterFormat {
+            get {
+                return ResourceManager.GetString("Property_ExpectedContextPropertyXToHaveAGetterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected property {0} not to be virtual{{reason}}.
         /// </summary>
         public static string Property_ExpectedPropertyXNotToBeVirtual {
             get {
@@ -3911,7 +4135,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:property} {0} not to have a getter{reason}..
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a getter{{reason}}..
         /// </summary>
         public static string Property_ExpectedPropertyXNotToHaveAGetterFormat {
             get {
@@ -3920,7 +4144,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:property} {0} not to have a setter{reason}..
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a setter{{reason}}..
         /// </summary>
         public static string Property_ExpectedPropertyXNotToHaveASetterFormat {
             get {
@@ -3929,7 +4153,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected property {0} to be virtual{reason}.
+        ///   Looks up a localized string similar to Expected property {0} to be virtual{{reason}}.
         /// </summary>
         public static string Property_ExpectedPropertyXToBeVirtual {
             get {
@@ -3938,7 +4162,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:property} {0} to have a getter{reason}.
+        ///   Looks up a localized string similar to Expected property {0} to have a getter{{reason}}.
         /// </summary>
         public static string Property_ExpectedPropertyXToHaveAGetterFormat {
             get {
@@ -3947,7 +4171,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:property} {0} to have a setter{reason}..
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} to have a setter{{reason}}..
         /// </summary>
         public static string Property_ExpectedPropertyXToHaveASetterFormat {
             get {
@@ -3956,7 +4180,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected Type of property {0} not to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected Type of property {0} not to be {1}{{reason}}.
         /// </summary>
         public static string Property_ExpectedTypeOfPropertyXNotToBeYFormat {
             get {
@@ -3965,7 +4189,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected Type of property {0} to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected Type of property {0} to be {1}{{reason}}.
         /// </summary>
         public static string Property_ExpectedTypeOfPropertyXToBeYFormat {
             get {
@@ -3983,7 +4207,17 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected properties not to be virtual{reason}, but the following properties are virtual:{0}{1}.
+        ///   Looks up a localized string similar to Expected all selected properties not to be decorated with {0}{{reason}}, but the following properties are:{1}{2}.
+        /// </summary>
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingPropertiesAreYZFormat {
+            get {
+                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingProper" +
+                        "tiesAreYZFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected all selected properties not to be virtual{{reason}}, but the following properties are virtual:{0}{1}.
         /// </summary>
         public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat {
             get {
@@ -3993,7 +4227,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:{1}{2}.
+        ///   Looks up a localized string similar to Expected all selected properties to be decorated with {0}{{reason}}, but the following properties are not:{1}{2}.
         /// </summary>
         public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat {
             get {
@@ -4003,7 +4237,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected properties to be virtual{reason}, but the following properties are not virtual:{0}{1}.
+        ///   Looks up a localized string similar to Expected all selected properties to be virtual{{reason}}, but the following properties are not virtual:{0}{1}.
         /// </summary>
         public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat {
             get {
@@ -4013,7 +4247,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected properties to have a setter{reason}, but the following properties do not:{0}{1}.
+        ///   Looks up a localized string similar to Expected all selected properties to have a setter{{reason}}, but the following properties do not:{0}{1}.
         /// </summary>
         public static string PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat {
             get {
@@ -4023,17 +4257,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all selected properties to not be decorated with {0}{reason}, but the following properties are:{1}{2}.
-        /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingPropertiesAreYZFormat {
-            get {
-                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingProper" +
-                        "tiesAreYZFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {context} not to be &lt;null&gt;{reason}..
+        ///   Looks up a localized string similar to Expected {{context}} not to be &lt;null&gt;{{reason}}..
         /// </summary>
         public static string RefType_ExpectedContextNotToBeNull {
             get {
@@ -4042,7 +4266,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} not to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context}} not to be {0}{{reason}}.
         /// </summary>
         public static string RefType_ExpectedContextNotToBeXFormat {
             get {
@@ -4051,7 +4275,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} to be assignable to {0}{reason}, but {1} is not..
+        ///   Looks up a localized string similar to Expected {{context}} to be assignable to {0}{{reason}}, but {1} is not..
         /// </summary>
         public static string RefType_ExpectedContextToBeAssignableToXButYIsNotFormat {
             get {
@@ -4060,7 +4284,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} to be &lt;null&gt;{reason}, but found {0}..
+        ///   Looks up a localized string similar to Expected {{context}} to be &lt;null&gt;{{reason}}, but found {0}..
         /// </summary>
         public static string RefType_ExpectedContextToBeNullButFoundXFormat {
             get {
@@ -4069,7 +4293,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context}} to be {0}{{reason}}.
         /// </summary>
         public static string RefType_ExpectedContextToBeXFormat {
             get {
@@ -4078,7 +4302,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} to not be assignable to {0}{reason}, but {1} is..
+        ///   Looks up a localized string similar to Expected {{context}} to not be assignable to {0}{{reason}}, but {1} is..
         /// </summary>
         public static string RefType_ExpectedContextToNotBeAssignableXToButYIsFormat {
             get {
@@ -4087,7 +4311,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context} to refer to {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context}} to refer to {0}{{reason}}.
         /// </summary>
         public static string RefType_ExpectedContextToReferToXFormat {
             get {
@@ -4096,7 +4320,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:object} to match {1}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:object}} to match {1}{{reason}}.
         /// </summary>
         public static string RefType_ExpectedObjectToMatchY {
             get {
@@ -4155,6 +4379,24 @@ namespace FluentAssertions.Localization {
         public static string String_CannotAssertStringContainmentOfValuesInNullCollection {
             get {
                 return ResourceManager.GetString("String_CannotAssertStringContainmentOfValuesInNullCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot compare end of string with empty string..
+        /// </summary>
+        public static string String_CannotCompareEndOfStringWithEmptyString {
+            get {
+                return ResourceManager.GetString("String_CannotCompareEndOfStringWithEmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot compare end of string with &lt;null&gt;..
+        /// </summary>
+        public static string String_CannotCompareEndOfStringWithNull {
+            get {
+                return ResourceManager.GetString("String_CannotCompareEndOfStringWithNull", resourceCulture);
             }
         }
         
@@ -4240,7 +4482,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot match {context:string} against {0} because it is not a valid regular expression..
+        ///   Looks up a localized string similar to Cannot match {{context:string}} against {0} because it is not a valid regular expression..
         /// </summary>
         public static string String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat {
             get {
@@ -4258,7 +4500,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} to be empty{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} to be empty{{reason}}..
         /// </summary>
         public static string String_DidNotExpectStringToBeEmpty {
             get {
@@ -4267,7 +4509,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} to contain equivalent of {0}{{reason}} but found {1}..
         /// </summary>
         public static string String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat {
             get {
@@ -4276,7 +4518,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} to match the equivalent of {0}{reason}, .
+        ///   Looks up a localized string similar to Did not expect {{context:string}} to match the equivalent of {0}{{reason}}, .
         /// </summary>
         public static string String_DidNotExpectStringToMatchEquivalentOfXFormat {
             get {
@@ -4285,7 +4527,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} to match regex {0}{reason}, but {1} matches..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} to match regex {0}{{reason}}, but {1} matches..
         /// </summary>
         public static string String_DidNotExpectStringToMatchRegexXButYMatchesFormat {
             get {
@@ -4294,7 +4536,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} to match {0}{reason}, .
+        ///   Looks up a localized string similar to Did not expect {{context:string}} to match {0}{{reason}}, .
         /// </summary>
         public static string String_DidNotExpectStringToMatchXFormat {
             get {
@@ -4303,7 +4545,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain all of the strings: {1}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain all of the strings: {1}{{reason}}..
         /// </summary>
         public static string String_DidNotExpectStringXToContainAllOfTheStringsYFormat {
             get {
@@ -4312,7 +4554,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain any of the strings: {1}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain any of the strings: {1}{{reason}}..
         /// </summary>
         public static string String_DidNotExpectStringXToContainAnyOfTheStringsYFormat {
             get {
@@ -4321,7 +4563,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain {1}{reason}..
+        ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain {1}{{reason}}..
         /// </summary>
         public static string String_DidNotExpectStringXToContainYFormat {
             get {
@@ -4330,7 +4572,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} not to be &lt;null&gt; or empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} not to be &lt;null&gt; or empty{{reason}}.
         /// </summary>
         public static string String_ExpectedStringNotToBeNullOrEmpty {
             get {
@@ -4339,7 +4581,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} not to be &lt;null&gt; or whitespace{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} not to be &lt;null&gt; or whitespace{{reason}}.
         /// </summary>
         public static string String_ExpectedStringNotToBeNullOrWhitespace {
             get {
@@ -4348,7 +4590,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} not to be {0}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} not to be {0}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringNotToBeXFormat {
             get {
@@ -4357,7 +4599,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that does not end with equivalent of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} that does not end with equivalent of {0}{{reason}}.
         /// </summary>
         public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat {
             get {
@@ -4366,7 +4608,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that does not end with equivalent of {0}.
+        ///   Looks up a localized string similar to Expected {{context:string}} that does not end with equivalent of {0}.
         /// </summary>
         public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat {
             get {
@@ -4375,7 +4617,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that does not end with {0}.
+        ///   Looks up a localized string similar to Expected {{context:string}} that does not end with {0}.
         /// </summary>
         public static string String_ExpectedStringThatDoesNotEndWithXFormat {
             get {
@@ -4384,7 +4626,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that does not start with .
+        ///   Looks up a localized string similar to Expected {{context:string}} that does not start with .
         /// </summary>
         public static string String_ExpectedStringThatDoesNotStartWith {
             get {
@@ -4393,7 +4635,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that does not start with equivalent of .
+        ///   Looks up a localized string similar to Expected {{context:string}} that does not start with equivalent of .
         /// </summary>
         public static string String_ExpectedStringThatDoesNotStartWithEquivalentOf {
             get {
@@ -4402,7 +4644,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} that ends with equivalent of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} that ends with equivalent of {0}{{reason}}.
         /// </summary>
         public static string String_ExpectedStringThatEndsWithEquivalentOfXFormat {
             get {
@@ -4411,7 +4653,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be .
+        ///   Looks up a localized string similar to Expected {{context:string}} to be .
         /// </summary>
         public static string String_ExpectedStringToBe {
             get {
@@ -4420,7 +4662,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to be empty{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToBeEmpty {
             get {
@@ -4429,7 +4671,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be equivalent to .
+        ///   Looks up a localized string similar to Expected {{context:string}} to be equivalent to .
         /// </summary>
         public static string String_ExpectedStringToBeEquivalentTo {
             get {
@@ -4438,7 +4680,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be &lt;null&gt; or empty{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to be &lt;null&gt; or empty{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToBeNullOrEmpty {
             get {
@@ -4447,7 +4689,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be &lt;null&gt; or whitespace{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to be &lt;null&gt; or whitespace{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToBeNullOrWhitespace {
             get {
@@ -4456,7 +4698,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to be one of {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to be one of {0}{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToBeOneOfXFormat {
             get {
@@ -4465,7 +4707,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to contain equivalent of {0}{reason} but found {1}..
+        ///   Looks up a localized string similar to Expected {{context:string}} to contain equivalent of {0}{{reason}} but found {1}..
         /// </summary>
         public static string String_ExpectedStringToContainEquivalentOfXButFoundYFormat {
             get {
@@ -4474,7 +4716,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short..
+        ///   Looks up a localized string similar to Expected {{context:string}} to end with equivalent of {0}{{reason}}, but {1} is too short..
         /// </summary>
         public static string String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat {
             get {
@@ -4483,7 +4725,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to end with {0}{reason}, but {1} is too short..
+        ///   Looks up a localized string similar to Expected {{context:string}} to end with {0}{{reason}}, but {1} is too short..
         /// </summary>
         public static string String_ExpectedStringToEndWithXButYIsTooShortFormat {
             get {
@@ -4492,7 +4734,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to match the equivalent of {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:string}} to match the equivalent of {0}{{reason}}, .
         /// </summary>
         public static string String_ExpectedStringToMatchEquivalentOfXFormat {
             get {
@@ -4501,7 +4743,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to match regex {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to match regex {0}{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToMatchRegexXFormat {
             get {
@@ -4510,7 +4752,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to match {0}{reason}, .
+        ///   Looks up a localized string similar to Expected {{context:string}} to match {0}{{reason}}, .
         /// </summary>
         public static string String_ExpectedStringToMatchXFormat {
             get {
@@ -4519,7 +4761,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to not match regex {0}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:string}} to not match regex {0}{{reason}}.
         /// </summary>
         public static string String_ExpectedStringToNotMatchRegexXFormat {
             get {
@@ -4528,7 +4770,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to start with .
+        ///   Looks up a localized string similar to Expected {{context:string}} to start with .
         /// </summary>
         public static string String_ExpectedStringToStartWith {
             get {
@@ -4537,7 +4779,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} to start with equivalent of .
+        ///   Looks up a localized string similar to Expected {{context:string}} to start with equivalent of .
         /// </summary>
         public static string String_ExpectedStringToStartWithEquivalentOf {
             get {
@@ -4546,7 +4788,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} with length {0}{reason}, but found string {1} with length {2}..
+        ///   Looks up a localized string similar to Expected {{context:string}} with length {0}{{reason}}, but found string {1} with length {2}..
         /// </summary>
         public static string String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat {
             get {
@@ -4555,7 +4797,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} {0} not to end with {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} {0} not to end with {1}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringXNotToEndWithYFormat {
             get {
@@ -4564,7 +4806,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} {0} to contain at least one of the strings: {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain at least one of the strings: {1}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat {
             get {
@@ -4573,7 +4815,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} {0} to contain the strings: {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain the strings: {1}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringXToContainTheStringsYFormat {
             get {
@@ -4582,7 +4824,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} {0} to contain {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain {1}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringXToContainYFormat {
             get {
@@ -4591,7 +4833,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:string} {0} to end with {1}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:string}} {0} to end with {1}{{reason}}..
         /// </summary>
         public static string String_ExpectedStringXToEndWithYFormat {
             get {
@@ -4600,7 +4842,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} with a length of {1}{reason}, but {2} has a length of {3}, differs near {4}..
+        ///   Looks up a localized string similar to {0} with a length of {1}{{reason}}, but {2} has a length of {3}, differs near {4}..
         /// </summary>
         public static string String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format {
             get {
@@ -4609,7 +4851,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{reason}, but it has unexpected whitespace at the end..
+        ///   Looks up a localized string similar to {0}{{reason}}, but it has unexpected whitespace at the end..
         /// </summary>
         public static string String_XButItHasUnexpectedWhitespaceAtTheEndFormat {
             get {
@@ -4618,7 +4860,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{reason}, but it misses some extra whitespace at the end..
+        ///   Looks up a localized string similar to {0}{{reason}}, but it misses some extra whitespace at the end..
         /// </summary>
         public static string String_XButItMissesSomeExtraWhitespaceAtTheEndFormat {
             get {
@@ -4627,7 +4869,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{reason}, but {1} differs near {2}..
+        ///   Looks up a localized string similar to {0}{{reason}}, but {1} differs near {2}..
         /// </summary>
         public static string String_XButYDiffersNearZFormat {
             get {
@@ -4636,7 +4878,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{reason}, but {1} is too short..
+        ///   Looks up a localized string similar to {0}{{reason}}, but {1} is too short..
         /// </summary>
         public static string String_XButYIsTooShortFormat {
             get {
@@ -4645,7 +4887,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{reason}.
+        ///   Looks up a localized string similar to {0}{{reason}}.
         /// </summary>
         public static string String_XFormat {
             get {
@@ -4654,7 +4896,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:task} to complete within {0}{reason}..
+        ///   Looks up a localized string similar to Expected {{context:task}} to complete within {0}{{reason}}..
         /// </summary>
         public static string Task_ExpectedTaskToCompleteWithinXFormat {
             get {
@@ -4690,7 +4932,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect any exceptions after {0}{reason}.
+        ///   Looks up a localized string similar to Did not expect any exceptions after {0}{{reason}}.
         /// </summary>
         public static string TimeSpan_DidNotExpectAnyExceptionsAfterXFormat {
             get {
@@ -4753,7 +4995,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0}{reason}, but the attribute was not found on the following types:{1}{2}..
+        ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0}{{reason}}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
         public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat {
             get {
@@ -4763,17 +5005,17 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0} that matches{1}{reason}, but the attribute was not found on the following types:{2}{3}..
+        ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNotFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNot" +
-                        "FoundOnTypesZWFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoun" +
+                        "dOnTypesZWFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to be decorated with {0}{reason}, but the attribute was not found on the following types:{1}{2}..
+        ///   Looks up a localized string similar to Expected all types to be decorated with {0}{{reason}}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
         public static string Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat {
             get {
@@ -4782,7 +5024,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to be decorated with {0} that matches {1}{reason}, but no matching attribute was found on the following types:{2}{3}..
+        ///   Looks up a localized string similar to Expected all types to be decorated with {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}..
         /// </summary>
         public static string Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat {
             get {
@@ -4792,7 +5034,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0}{reason}, but the attribute was found on the following types:{1}{2}..
+        ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0}{{reason}}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
         public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat {
             get {
@@ -4802,7 +5044,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0} that matches {1}{reason}, but a matching attribute was found on the following types:{2}{3}..
+        ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
         public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat {
             get {
@@ -4812,7 +5054,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to not be decorated with {0}{reason}, but the attribute was found on the following types:{1}{2}..
+        ///   Looks up a localized string similar to Expected all types to not be decorated with {0}{{reason}}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
         public static string Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat {
             get {
@@ -4821,7 +5063,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected all types to not be decorated with {0} that matches {1}{reason}, but a matching attribute was found on the following types:{2}{3}..
+        ///   Looks up a localized string similar to Expected all types to not be decorated with {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
         public static string Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat {
             get {
@@ -4831,7 +5073,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected constructor {0}({1}) not to exist{reason}.
+        ///   Looks up a localized string similar to Expected constructor {0}({1}) not to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedConstructorXYNotToExistFormat {
             get {
@@ -4840,7 +5082,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected constructor {0}({1}) to exist{reason}.
+        ///   Looks up a localized string similar to Expected constructor {0}({1}) to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedConstructorXYToExistFormat {
             get {
@@ -4849,7 +5091,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:{0}} {1} to be assignable to {2}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:{0}}} {1} to be assignable to {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedContextXYToBeAssignableToZFormat {
             get {
@@ -4858,7 +5100,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {context:{0}} {1} to not be assignable to {2}{reason}.
+        ///   Looks up a localized string similar to Expected {{context:{0}}} {1} to not be assignable to {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedContextXYToNotBeAssignableToZFormat {
             get {
@@ -4867,7 +5109,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected indexer {0}[{1}] to not exist{reason}.
+        ///   Looks up a localized string similar to Expected indexer {0}[{1}] to not exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedIndexerXYToNotExistFormat {
             get {
@@ -4876,7 +5118,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0}({1}) to not exist{reason}.
+        ///   Looks up a localized string similar to Expected method {0}({1}) to not exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedMethodXYToNotExistFormat {
             get {
@@ -4885,7 +5127,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected method {0}.{1}({2}) to exist{reason}.
+        ///   Looks up a localized string similar to Expected method {0}.{1}({2}) to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedMethodXYZToExistFormat {
             get {
@@ -4894,7 +5136,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to exist{reason}.
+        ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedPublicStaticExplicitXYToExistFormat {
             get {
@@ -4903,7 +5145,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to not exist{reason}.
+        ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to not exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedPublicStaticExplicitXYToNotExistFormat {
             get {
@@ -4912,7 +5154,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to exist{reason}.
+        ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedPublicStaticImplicitXYToExistFormat {
             get {
@@ -4921,7 +5163,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to not exist{reason}.
+        ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to not exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedPublicStaticImplicitXYToNotExistFormat {
             get {
@@ -4930,7 +5172,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type not to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected type not to be {0}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeNotToBeXFormat {
             get {
@@ -4939,7 +5181,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected type to be {0}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeToBeXFormat {
             get {
@@ -4948,7 +5190,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} not to be abstract{reason}..
+        ///   Looks up a localized string similar to Expected type {0} not to be abstract{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXNotToBeAbstractFormat {
             get {
@@ -4957,7 +5199,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} not to be derived from {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} not to be derived from {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXNotToBeDerivedFromYFormat {
             get {
@@ -4966,7 +5208,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} not to be sealed{reason}..
+        ///   Looks up a localized string similar to Expected type {0} not to be sealed{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXNotToBeSealedFormat {
             get {
@@ -4975,7 +5217,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} not to be static{reason}..
+        ///   Looks up a localized string similar to Expected type {0} not to be static{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXNotToBeStaticFormat {
             get {
@@ -4984,7 +5226,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} not to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} not to be {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXNotToBeYFormat {
             get {
@@ -4993,7 +5235,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be abstract{reason}..
+        ///   Looks up a localized string similar to Expected type {0} to be abstract{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXToBeAbstractFormat {
             get {
@@ -5002,7 +5244,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat {
             get {
@@ -5011,7 +5253,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1} that matches {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat {
             get {
@@ -5020,7 +5262,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be decorated with {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be decorated with {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeDecoratedWithYFormat {
             get {
@@ -5029,7 +5271,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be decorated with {1} that matches {2}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be decorated with {1} that matches {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat {
             get {
@@ -5038,7 +5280,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be derived from {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be derived from {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeDerivedFromYFormat {
             get {
@@ -5047,7 +5289,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be sealed{reason}..
+        ///   Looks up a localized string similar to Expected type {0} to be sealed{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXToBeSealedFormat {
             get {
@@ -5056,7 +5298,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be static{reason}..
+        ///   Looks up a localized string similar to Expected type {0} to be static{{reason}}..
         /// </summary>
         public static string Type_ExpectedTypeXToBeStaticFormat {
             get {
@@ -5065,7 +5307,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to be {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToBeYFormat {
             get {
@@ -5074,7 +5316,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to implement interface {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to implement interface {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToImplementInterfaceYFormat {
             get {
@@ -5083,7 +5325,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat {
             get {
@@ -5092,7 +5334,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1} that matches {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat {
             get {
@@ -5101,7 +5343,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToNotBeDecoratedWithYFormat {
             get {
@@ -5110,7 +5352,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1} that matches {2}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1} that matches {2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat {
             get {
@@ -5119,7 +5361,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type {0} to not implement interface {1}{reason}.
+        ///   Looks up a localized string similar to Expected type {0} to not implement interface {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedTypeXToNotImplementInterfaceYFormat {
             get {
@@ -5128,7 +5370,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} to be of type {1}{reason}.
+        ///   Looks up a localized string similar to Expected {0} to be of type {1}{{reason}}.
         /// </summary>
         public static string Type_ExpectedXToBeOfTypeYFormat {
             get {
@@ -5137,7 +5379,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} to explicitly implement {1}.{2}{reason}.
+        ///   Looks up a localized string similar to Expected {0} to explicitly implement {1}.{2}{{reason}}.
         /// </summary>
         public static string Type_ExpectedXToExplicitlyImplementYXFormat {
             get {
@@ -5146,7 +5388,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} to not exist{reason}.
+        ///   Looks up a localized string similar to Expected {0} to not exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedXToNotExistFormat {
             get {
@@ -5155,16 +5397,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} to not explicitly implement {1}.{2}{reason}.
+        ///   Looks up a localized string similar to Expected {0} to not explicitly implement {1}.{2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXToNotExplicitlyImplementYXFormat {
+        public static string Type_ExpectedXToNotExplicitlyImplementYZFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedXToNotExplicitlyImplementYXFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedXToNotExplicitlyImplementYZFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} {1}.{2} to exist{reason}.
+        ///   Looks up a localized string similar to Expected {0} {1}.{2} to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedXYDotZToExistFormat {
             get {
@@ -5173,7 +5415,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0} {1}[{2}] to exist{reason}.
+        ///   Looks up a localized string similar to Expected {0} {1}[{2}] to exist{{reason}}.
         /// </summary>
         public static string Type_ExpectedXYZToExistFormat {
             get {
@@ -5281,7 +5523,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect to find attribute {0} at {1}{reason}..
+        ///   Looks up a localized string similar to Did not expect to find attribute {0} at {1}{{reason}}..
         /// </summary>
         public static string Xml_DidNotExpectToFindAttributeXAtYFormat {
             get {
@@ -5290,7 +5532,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect XML attribute to be {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect XML attribute to be {0}{{reason}}..
         /// </summary>
         public static string Xml_DidNotExpectXmlAttributeToBeXFormat {
             get {
@@ -5308,7 +5550,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect XML document to be {0}{reason}..
+        ///   Looks up a localized string similar to Did not expect XML document to be {0}{{reason}}..
         /// </summary>
         public static string Xml_DidNotExpectXmlDocumentToBeXFormat {
             get {
@@ -5317,7 +5559,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect Xml to be equivalent{reason}, but it is..
+        ///   Looks up a localized string similar to Did not expect Xml to be equivalent{{reason}}, but it is..
         /// </summary>
         public static string Xml_DidNotExpectXmlToBeEquivalentButItIs {
             get {
@@ -5326,7 +5568,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected attribute {0} at {1}{reason}, but found none..
+        ///   Looks up a localized string similar to Expected attribute {0} at {1}{{reason}}, but found none..
         /// </summary>
         public static string Xml_ExpectedAttributeXAtYButFoundNoneFormat {
             get {
@@ -5335,7 +5577,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected attribute {0} at {1} to have value {2}{reason}.
+        ///   Looks up a localized string similar to Expected attribute {0} at {1} to have value {2}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedAttributeXAtYToHaveValueZFormat {
             get {
@@ -5344,7 +5586,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected content to be {0} at {1}{reason}.
+        ///   Looks up a localized string similar to Expected content to be {0} at {1}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedContentToBeXAtYFormat {
             get {
@@ -5353,7 +5595,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected end of document{reason}.
+        ///   Looks up a localized string similar to Expected end of document{{reason}}.
         /// </summary>
         public static string Xml_ExpectedEndOfDocument {
             get {
@@ -5362,7 +5604,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected local name of element at {0} to be {1}{reason}.
+        ///   Looks up a localized string similar to Expected local name of element at {0} to be {1}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedLocalNameOfElementAtXToBeYFormat {
             get {
@@ -5371,7 +5613,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected namespace of element {0} at {1} to be {2}{reason}.
+        ///   Looks up a localized string similar to Expected namespace of element {0} at {1} to be {2}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedNamespaceOfElementXAtYToBeZFormat {
             get {
@@ -5380,7 +5622,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected node of type {0} at {1}{reason}.
+        ///   Looks up a localized string similar to Expected node of type {0} at {1}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedNodeOfTypeXAtYFormat {
             get {
@@ -5389,7 +5631,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {0}{reason}, but found end of document..
+        ///   Looks up a localized string similar to Expected {0}{{reason}}, but found end of document..
         /// </summary>
         public static string Xml_ExpectedXButFoundEndOfDocumentFormat {
             get {
@@ -5398,7 +5640,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML attribute to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected XML attribute to be {0}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlAttributeToBeXFormat {
             get {
@@ -5407,7 +5649,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML attribute &apos;{0}&apos; to have value {1}{reason}.
+        ///   Looks up a localized string similar to Expected XML attribute {0} to have value {1}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlAttributeXToHaveValueYFormat {
             get {
@@ -5416,7 +5658,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML document to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected XML document to be {0}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlDocumentToBeXFormat {
             get {
@@ -5425,7 +5667,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML document to have root element &quot;{0}&quot;{reason}.
+        ///   Looks up a localized string similar to Expected XML document to have root element &quot;{0}&quot;{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlDocumentToHaveRootElementXFormat {
             get {
@@ -5434,7 +5676,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML document {0} to have root element with child &quot;{1}&quot;{reason}.
+        ///   Looks up a localized string similar to Expected XML document {0} to have root element with child &quot;{1}&quot;{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat {
             get {
@@ -5443,7 +5685,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML element not to be {0}{reason}..
+        ///   Looks up a localized string similar to Expected XML element not to be {0}{{reason}}..
         /// </summary>
         public static string Xml_ExpectedXmlElementNotToBeXFormat {
             get {
@@ -5452,7 +5694,16 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML element to be {0}{reason}.
+        ///   Looks up a localized string similar to Expected XML element &apos;{0}&apos; to have value {1}{{reason}}.
+        /// </summary>
+        public static string Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat {
+            get {
+                return ResourceManager.GetString("Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected XML element to be {0}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlElementToBeXFormat {
             get {
@@ -5461,7 +5712,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML element to have attribute &quot;{0}&quot; with value {1}{reason}, but found no such attribute in {2}.
+        ///   Looks up a localized string similar to Expected XML element to have attribute {0} with value {1}{{reason}}, but found no such attribute in {2}.
         /// </summary>
         public static string Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat {
             get {
@@ -5470,7 +5721,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML element {0} to have child element &quot;{1}&quot;{reason}.
+        ///   Looks up a localized string similar to Expected XML element {0} to have child element &quot;{1}&quot;{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlElementXToHaveChildElementYFormat {
             get {
@@ -5479,7 +5730,7 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected XML element &apos;{0}&apos; to have value {1}{reason}.
+        ///   Looks up a localized string similar to Expected XML element {0} to have value {1}{{reason}}.
         /// </summary>
         public static string Xml_ExpectedXmlElementXToHaveValueYFormat {
             get {

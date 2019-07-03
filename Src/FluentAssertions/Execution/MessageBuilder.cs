@@ -31,7 +31,7 @@ namespace FluentAssertions.Execution
         // SMELL: Too many parameters.
         public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier, string fallbackIdentifier)
         {
-            message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
+            message = Regex.Replace(message, "{+reason}+", SanitizeReason(reason));
 
             message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
 
@@ -44,7 +44,7 @@ namespace FluentAssertions.Execution
 
         private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
-            const string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+            const string pattern = @"(\s|^)\{+context(?:\:(?<default>[a-z|A-Z|\s]+))?\}+";
 
             message = Regex.Replace(message, pattern, match =>
             {

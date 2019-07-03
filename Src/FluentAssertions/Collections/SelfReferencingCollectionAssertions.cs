@@ -37,7 +37,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             int actualCount = Subject.Count();
@@ -45,7 +45,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToContainXItemFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -73,7 +73,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemsFormat + Resources.Common_CommaButFoundYFormat, countPredicate.Body, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                        countPredicate.Body, Subject);
             }
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -108,7 +109,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundNull, unexpected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundNull,
+                        unexpected);
             }
 
             int actualCount = Subject.Count();
@@ -116,7 +118,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundYFormat, unexpected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    unexpected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -138,7 +141,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundNull,
+                        expected);
             }
 
             int actualCount = Subject.Count();
@@ -146,7 +150,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount > expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -168,7 +173,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundNull,
+                        expected);
             }
 
             int actualCount = Subject.Count();
@@ -176,7 +182,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount >= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -198,7 +205,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundNull,
+                        expected);
             }
 
             int actualCount = Subject.Count();
@@ -206,7 +214,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount < expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -228,7 +237,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundNull,
+                        expected);
             }
 
             int actualCount = Subject.Count();
@@ -236,7 +246,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount <= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, actualCount);
+                .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -415,14 +426,16 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundYFormat,
+                        expected, Subject);
             }
 
             if (!Subject.Contains(expected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat, Subject, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat, Subject,
+                        expected);
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
@@ -461,7 +474,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundYFormat, predicate.Body, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundYFormat,
+                        predicate.Body, Subject);
             }
 
             Func<T, bool> func = predicate.Compile();
@@ -493,7 +507,8 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(Subject.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat + Resources.Collection_CommaButCollectionIsEmpty,
+                .FailWith(
+                    Resources.Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat + Resources.Collection_CommaButCollectionIsEmpty,
                     predicate.Body);
 
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
@@ -525,7 +540,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToNotXContainFormat + Resources.Common_CommaButFoundNull, unexpected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotXContainFormat + Resources.Common_CommaButFoundNull,
+                        unexpected);
             }
 
             if (Subject.Contains(unexpected))
@@ -569,7 +585,8 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainXFormat + Resources.Common_CommaButFoundYFormat, predicate.Body, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainXFormat + Resources.Common_CommaButFoundYFormat,
+                        predicate.Body, Subject);
             }
 
             Func<T, bool> compiledPredicate = predicate.Compile();
@@ -608,12 +625,17 @@ namespace FluentAssertions.Collections
             switch (Subject.Count())
             {
                 case 0: // Fail, Collection is empty
-                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith(Resources.Collection_ExpectedCollectionToContainSingleItem + Resources.Collection_CommaButCollectionIsEmpty);
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(Resources.Collection_ExpectedCollectionToContainSingleItem + Resources.Collection_CommaButCollectionIsEmpty);
                     break;
                 case 1: // Success Condition
                     break;
                 default: // Fail, Collection contains more than a single item
-                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith(Resources.Collection_ExpectedCollectionToContainSingleItem + Resources.Common_CommaButFoundXFormat, Subject);
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(Resources.Collection_ExpectedCollectionToContainSingleItem + Resources.Common_CommaButFoundXFormat,
+                            Subject);
                     break;
             }
 

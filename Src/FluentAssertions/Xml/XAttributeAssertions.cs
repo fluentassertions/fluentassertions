@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Xml.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Localization;
 using FluentAssertions.Primitives;
@@ -107,7 +108,8 @@ namespace FluentAssertions.Xml
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
-                    Subject.Name, expected, Subject.Value);
+                    ("'" + Subject.Name + "'").ToAlreadyFormattedString(),
+                    expected, Subject.Value);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }

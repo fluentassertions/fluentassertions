@@ -19,17 +19,18 @@ namespace FluentAssertions.Primitives
     {
         #region Private Definitions
 
+        private readonly TimeSpanCondition condition;
         private readonly DateTimeOffsetAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
             <TimeSpanCondition, TimeSpanPredicate>
         {
-            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
-            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
-            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly"),
-            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within"),
-            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")
+            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2),
+            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2),
+            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2),
+            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2),
+            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2)
         };
 
         private readonly DateTimeOffset? subject;
@@ -43,6 +44,7 @@ namespace FluentAssertions.Primitives
         {
             this.parentAssertions = parentAssertions;
             this.subject = subject;
+            this.condition = condition;
             this.timeSpan = timeSpan;
 
             predicate = predicates[condition];
@@ -67,8 +69,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateToBeXYBeforeZFormat + Resources.DateTime_CommaButFoundANullDateTime,
-                    predicate.DisplayText, timeSpan, target);
+                .FailWith(GetBeforeStringFormatMessage() + Resources.DateTime_CommaButFoundANullDateTime,
+                    timeSpan, target);
 
             if (success)
             {
@@ -78,8 +80,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.DateTime_ExpectedDateToBeXYBeforeZFormat + Resources.Common_CommaButItem3DiffersItem4Format,
-                            predicate.DisplayText, timeSpan, target, subject, actual);
+                        .FailWith(GetBeforeStringFormatMessage() + Resources.Common_CommaButZDiffersWFormat,
+                            timeSpan, target, subject, actual);
                 }
             }
 
@@ -104,8 +106,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateToBeXYAfterZFormat + Resources.DateTime_CommaButFoundANullDateTime,
-                    predicate.DisplayText, timeSpan, target);
+                .FailWith(GetAfterStringFormatMessage() + Resources.DateTime_CommaButFoundANullDateTime,
+                    timeSpan, target);
 
             if (success)
             {
@@ -115,12 +117,60 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.DateTime_ExpectedDateToBeXYAfterZFormat + Resources.Common_CommaButItem3DiffersItem4Format,
-                            predicate.DisplayText, timeSpan, target, subject, actual);
+                        .FailWith(GetAfterStringFormatMessage() + Resources.Common_CommaButZDiffersWFormat,
+                            timeSpan, target, subject, actual);
                 }
             }
 
             return new AndConstraint<DateTimeOffsetAssertions>(parentAssertions);
+        }
+
+        private string GetBeforeStringFormatMessage()
+        {
+            switch (condition)
+            {
+                case TimeSpanCondition.AtLeast:
+                    return Resources.DateTime_ExpectedDateToBeAtLeastXBeforeYFormat;
+
+                case TimeSpanCondition.MoreThan:
+                    return Resources.DateTime_ExpectedDateToBeMoreThanXBeforeYFormat;
+
+                case TimeSpanCondition.Exactly:
+                    return Resources.DateTime_ExpectedDateToBeExactlyXBeforeYFormat;
+
+                case TimeSpanCondition.Within:
+                    return Resources.DateTime_ExpectedDateToBeWithinXBeforeYFormat;
+
+                case TimeSpanCondition.LessThan:
+                    return Resources.DateTime_ExpectedDateToBeLessThanXBeforeYFormat;
+
+                default:
+                    throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message
+            }
+        }
+
+        private string GetAfterStringFormatMessage()
+        {
+            switch (condition)
+            {
+                case TimeSpanCondition.AtLeast:
+                    return Resources.DateTime_ExpectedDateToBeAtLeastXAfterYFormat;
+
+                case TimeSpanCondition.MoreThan:
+                    return Resources.DateTime_ExpectedDateToBeMoreThanXAfterYFormat;
+
+                case TimeSpanCondition.Exactly:
+                    return Resources.DateTime_ExpectedDateToBeExactlyXAfterYFormat;
+
+                case TimeSpanCondition.Within:
+                    return Resources.DateTime_ExpectedDateToBeWithinXAfterYFormat;
+
+                case TimeSpanCondition.LessThan:
+                    return Resources.DateTime_ExpectedDateToBeLessThanXAfterYFormat;
+
+                default:
+                    throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message
+            }
         }
     }
 }

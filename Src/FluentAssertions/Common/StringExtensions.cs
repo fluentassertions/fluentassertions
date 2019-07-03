@@ -46,6 +46,9 @@ namespace FluentAssertions.Common
         internal static string UnescapePlaceholders(this string value) =>
             value.Replace("{{", "{").Replace("}}", "}");
 
+        internal static AlreadyFormattedString ToAlreadyFormattedString(this string value) =>
+            new AlreadyFormattedString(value);
+
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);

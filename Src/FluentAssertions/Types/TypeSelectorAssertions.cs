@@ -146,8 +146,13 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNotFoundOnTypesZWFormat,
+                //.FailWith(
+                //    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat,
+                //    typeof(TAttribute),
+                //    isMatchingAttributePredicate.Body,
+                //    Environment.NewLine,
+                //    GetDescriptionsFor(typesWithoutMatchingAttribute));
+                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -284,10 +289,10 @@ namespace FluentAssertions.Types
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
 
-        private static string GetDescriptionsFor(IEnumerable<Type> types)
+        private static AlreadyFormattedString GetDescriptionsFor(IEnumerable<Type> types)
         {
             string[] descriptions = types.Select(GetDescriptionFor).ToArray();
-            return string.Join(Environment.NewLine, descriptions);
+            return string.Join(Environment.NewLine, descriptions).ToAlreadyFormattedString();
         }
 
         private static string GetDescriptionFor(Type type)

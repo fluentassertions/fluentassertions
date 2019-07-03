@@ -85,8 +85,10 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MemberInfo_ExpectedXYToBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasFound,
-                    Identifier, SubjectDescription, typeof(TAttribute));
+                .FailWith(Resources.MemberInfo_ExpectedXYToBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasNotFound,
+                    Identifier.ToAlreadyFormattedString(),
+                    SubjectDescription.ToAlreadyFormattedString(),
+                    typeof(TAttribute));
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
         }
@@ -116,7 +118,9 @@ namespace FluentAssertions.Types
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasFound,
-                    Identifier, SubjectDescription, typeof(TAttribute));
+                    Identifier.ToAlreadyFormattedString(),
+                    SubjectDescription.ToAlreadyFormattedString(),
+                    typeof(TAttribute));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

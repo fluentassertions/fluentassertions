@@ -19,17 +19,18 @@ namespace FluentAssertions.Primitives
     {
         #region Private Definitions
 
+        private readonly TimeSpanCondition condition;
         private readonly DateTimeAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
             <TimeSpanCondition, TimeSpanPredicate>
         {
-            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
-            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
-            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly"),
-            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within"),
-            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")
+            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2),
+            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2),
+            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2),
+            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2),
+            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2)
         };
 
         private readonly DateTime? subject;
@@ -43,6 +44,7 @@ namespace FluentAssertions.Primitives
         {
             this.parentAssertions = parentAssertions;
             this.subject = subject;
+            this.condition = condition;
             this.timeSpan = timeSpan;
 
             predicate = predicates[condition];
@@ -67,8 +69,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat + Resources.DateTime_CommaButFoundANullDateTime,
-                    subject, predicate.DisplayText, timeSpan, target);
+                .FailWith(GetBeforeStringFormatMessage() + Resources.DateTime_CommaButFoundANullDateTime,
+                    subject, timeSpan, target);
 
             if (success)
             {
@@ -78,8 +80,8 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat + Resources.Common_CommaButItDiffersItem4Format,
-                            subject, predicate.DisplayText, timeSpan, target, actual);
+                        .FailWith(GetBeforeStringFormatMessage() + Resources.Common_CommaButItDiffersWFormat,
+                            subject, timeSpan, target, actual);
                 }
             }
 
@@ -105,8 +107,8 @@ namespace FluentAssertions.Primitives
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat + Resources.DateTime_CommaButFoundANullDateTime,
-                    subject, predicate.DisplayText, timeSpan, target);
+                .FailWith(GetAfterStringFormatMessage() + Resources.DateTime_CommaButFoundANullDateTime,
+                    subject, timeSpan, target);
 
             if (success)
             {
@@ -116,12 +118,60 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat + Resources.Common_CommaButItDiffersItem4Format,
-                            subject, predicate.DisplayText, timeSpan, target, actual);
+                        .FailWith(GetAfterStringFormatMessage() + Resources.Common_CommaButItDiffersWFormat,
+                            subject, timeSpan, target, actual);
                 }
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
+        }
+
+        private string GetBeforeStringFormatMessage()
+        {
+            switch (condition)
+            {
+                case TimeSpanCondition.AtLeast:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat;
+
+                case TimeSpanCondition.MoreThan:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat;
+
+                case TimeSpanCondition.Exactly:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat;
+
+                case TimeSpanCondition.Within:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat;
+
+                case TimeSpanCondition.LessThan:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat;
+
+                default:
+                    throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message
+            }
+        }
+
+        private string GetAfterStringFormatMessage()
+        {
+            switch (condition)
+            {
+                case TimeSpanCondition.AtLeast:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat;
+
+                case TimeSpanCondition.MoreThan:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat;
+
+                case TimeSpanCondition.Exactly:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat;
+
+                case TimeSpanCondition.Within:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat;
+
+                case TimeSpanCondition.LessThan:
+                    return Resources.DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat;
+
+                default:
+                    throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Localization;
 
@@ -81,7 +82,7 @@ namespace FluentAssertions.Specialized
                     + (isRunning
                         ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
                         : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
-                    execution.ActionDescription, maxDuration, elapsed);
+                    execution.ActionDescription.ToAlreadyFormattedString(), maxDuration, elapsed);
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace FluentAssertions.Specialized
                     + (isRunning
                         ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
                         : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
-                    execution.ActionDescription, maxDuration, elapsed);
+                    execution.ActionDescription.ToAlreadyFormattedString(), maxDuration, elapsed);
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace FluentAssertions.Specialized
                     + (isRunning
                         ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
                         : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
-                    execution.ActionDescription, minDuration, elapsed);
+                    execution.ActionDescription.ToAlreadyFormattedString(), minDuration, elapsed);
         }
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace FluentAssertions.Specialized
                     + (isRunning
                         ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
                         : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
-                    execution.ActionDescription, minDuration, elapsed);
+                    execution.ActionDescription.ToAlreadyFormattedString(), minDuration, elapsed);
         }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace FluentAssertions.Specialized
                 .FailWith(isRunning
                     ? Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat
                     : Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat,
-                    execution.ActionDescription, precision, expectedDuration, elapsed);
+                    execution.ActionDescription.ToAlreadyFormattedString(), precision, expectedDuration, elapsed);
         }
     }
 

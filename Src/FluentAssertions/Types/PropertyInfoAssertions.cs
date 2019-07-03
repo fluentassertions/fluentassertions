@@ -35,7 +35,7 @@ namespace FluentAssertions.Types
                 .ForCondition(Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Property_ExpectedPropertyXToBeVirtual + Resources.Common_CommaButItIsNot,
-                    GetDescriptionFor(Subject));
+                    GetDescriptionFor(Subject).ToAlreadyFormattedString());
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -56,7 +56,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Property_ExpectedPropertyXNotToBeVirtual + Resources.Common_CommaButItIs,
-                    GetDescriptionFor(Subject));
+                    GetDescriptionFor(Subject).ToAlreadyFormattedString());
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -140,7 +140,7 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Property_ExpectedPropertyXToHaveAGetterFormat + Resources.Common_CommaButItDoesNot,
-                    Subject.Name);
+                    Subject.Name.ToAlreadyFormattedString());
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -204,7 +204,8 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Property_ExpectedTypeOfPropertyXToBeYFormat + Resources.Common_CommaButItIsZFormat,
-                    Subject.Name, propertyType, Subject.PropertyType);
+                    Subject.Name.ToAlreadyFormattedString(),
+                    propertyType, Subject.PropertyType);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -242,7 +243,8 @@ namespace FluentAssertions.Types
                 .ForCondition(Subject.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Property_ExpectedTypeOfPropertyXNotToBeYFormat + Resources.Common_CommaButItIs,
-                    Subject.Name, propertyType);
+                    Subject.Name.ToAlreadyFormattedString(),
+                    propertyType);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }

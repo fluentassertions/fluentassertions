@@ -214,7 +214,7 @@ namespace FluentAssertions.Xml
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Xml_ExpectedXmlElementXToHaveChildElementYFormat + Resources.Xml_CommaButNoSuchChildElementWasFound,
-                    Subject, expectedFormattedName.EscapePlaceholders());
+                    Subject, expectedFormattedName.ToAlreadyFormattedString());
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
         }

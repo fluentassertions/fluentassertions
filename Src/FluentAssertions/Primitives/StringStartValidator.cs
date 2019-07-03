@@ -51,7 +51,8 @@ namespace FluentAssertions.Primitives
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
                 assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
-                    expected, subject, subject.IndexedSegmentAt(indexOfMismatch));
+                    expected, subject,
+                    subject.IndexedSegmentAt(indexOfMismatch).ToAlreadyFormattedString());
             }
         }
     }

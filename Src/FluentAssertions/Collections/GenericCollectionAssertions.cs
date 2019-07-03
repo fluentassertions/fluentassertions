@@ -443,9 +443,11 @@ namespace FluentAssertions.Collections
                     if (inspectorFailures.Length > 0)
                     {
                         // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
-                        string failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+                        AlreadyFormattedString failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')))
+                            .ToAlreadyFormattedString();
                         // FailWith formatting is not used because of extra quotes being added.
-                        Execute.Assertion.FailWith(Resources.Collection_AtIndexXFailuresFormat, index, Environment.NewLine, failures);
+                        Execute.Assertion.FailWith(Resources.Collection_AtIndexXFailuresFormat,
+                            index, Environment.NewLine, failures);
                     }
 
                     index++;

@@ -505,12 +505,12 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStringEndWithNull);
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareEndOfStringWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException(Resources.String_CannotCompareStringEndWithEmptyString, nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareEndOfStringWithEmptyString, nameof(unexpected));
             }
 
             if (Subject is null)
@@ -595,12 +595,12 @@ namespace FluentAssertions.Primitives
         {
             if (unexpected is null)
             {
-                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareStringEndWithNull);
+                throw new ArgumentNullException(nameof(unexpected), Resources.String_CannotCompareEndOfStringWithNull);
             }
 
             if (unexpected.Length == 0)
             {
-                throw new ArgumentException(Resources.String_CannotCompareStringEndWithEmptyString, nameof(unexpected));
+                throw new ArgumentException(Resources.String_CannotCompareEndOfStringWithEmptyString, nameof(unexpected));
             }
 
             if (Subject is null)

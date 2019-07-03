@@ -626,7 +626,7 @@ namespace FluentAssertions.Specs
 
         private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
         {
-            var expectedMessage = string.Format("{0} \"{1}\"\n.", because, innerExceptionMessage);
+            var expectedMessage = string.Format("{0} \"{1}\"" + Environment.NewLine + ".", because, innerExceptionMessage);
 
             return expectedMessage;
         }

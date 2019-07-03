@@ -3,7 +3,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
-    public class StringValueFormatter : IValueFormatter
+    public class AlreadyFormattedStringValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -14,18 +14,17 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return value is string;
+            return value is AlreadyFormattedString;
         }
 
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            string prefix = context.UseLineBreaks ? Environment.NewLine : "";
-            string escapedString = value.ToString();
+            string prefix = context.UseLineBreaks
+                ? Environment.NewLine
+                : "";
 
-            return escapedString == Environment.NewLine
-                ? prefix + escapedString
-                : prefix + "\"" + escapedString + "\"";
+            return prefix + (value as AlreadyFormattedString)?.Value;
         }
     }
 }

@@ -198,10 +198,10 @@ namespace FluentAssertions.Types
             return SubjectMethods.Where(method => method.HasMatchingAttribute(isMatchingPredicate)).ToArray();
         }
 
-        private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
+        private static AlreadyFormattedString GetDescriptionsFor(IEnumerable<MethodInfo> methods)
         {
-            return string.Join(Environment.NewLine,
-                methods.Select(MethodInfoAssertions.GetDescriptionFor).ToArray());
+            return new AlreadyFormattedString(string.Join(Environment.NewLine,
+                methods.Select(MethodInfoAssertions.GetDescriptionFor).ToArray()));
         }
 
         /// <summary>

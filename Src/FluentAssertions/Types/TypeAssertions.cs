@@ -202,8 +202,8 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Type_ExpectedTypeNotToBeXFormat + Resources.Common_CommaButItIs,
-                    nameOfUnexpectedType);
+                .FailWith(
+                    string.Format(Resources.Type_ExpectedTypeNotToBeXFormat, nameOfUnexpectedType) + Resources.Common_CommaButItIs);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -705,12 +705,15 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(propertyInfo != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXYDotZToExistFormat + Resources.Common_CommaButItDoesNot,
-                    propertyType.Name, Subject.FullName, name);
+                    propertyType.Name.ToAlreadyFormattedString(),
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString());
 
             Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXToBeOfTypeYFormat + Resources.Common_CommaButItIsNot,
-                    propertyInfoDescription, propertyType);
+                    propertyInfoDescription.ToAlreadyFormattedString(),
+                    propertyType);
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
@@ -749,7 +752,7 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXToNotExistFormat + Resources.Common_CommaButItDoes,
-                    propertyInfoDescription);
+                    propertyInfoDescription.ToAlreadyFormattedString());
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -772,7 +775,9 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(explicitlyImplementsProperty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXToExplicitlyImplementYXFormat + Resources.Common_CommaButItDoesNot,
-                    Subject.FullName, interfaceType.FullName, name);
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    interfaceType.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString());
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -809,8 +814,10 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(!explicitlyImplementsProperty)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Type_ExpectedXToNotExplicitlyImplementYXFormat + Resources.Common_CommaButItDoes,
-                    Subject.FullName, interfaceType.FullName, name);
+                .FailWith(Resources.Type_ExpectedXToNotExplicitlyImplementYZFormat + Resources.Common_CommaButItDoes,
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    interfaceType.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString());
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -849,7 +856,9 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(explicitlyImplementsMethod)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXToExplicitlyImplementYXFormat + Resources.Common_CommaButItDoesNot,
-                    Subject.FullName, interfaceType.FullName, name);
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    interfaceType.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString());
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -888,8 +897,10 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(!explicitlyImplementsMethod)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Type_ExpectedXToNotExplicitlyImplementYXFormat + Resources.Common_CommaButItDoes,
-                    Subject.FullName, interfaceType.FullName, name);
+                .FailWith(Resources.Type_ExpectedXToNotExplicitlyImplementYZFormat + Resources.Common_CommaButItDoes,
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    interfaceType.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString());
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -933,8 +944,9 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(propertyInfo != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedXYZToExistFormat + Resources.Common_CommaButItDoesNot,
-                    indexerType.Name, Subject.FullName,
-                    GetParameterString(parameterTypes));
+                    indexerType.Name.ToAlreadyFormattedString(),
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             Execute.Assertion.ForCondition(propertyInfo.PropertyType == indexerType)
                 .BecauseOf(because, becauseArgs)
@@ -958,8 +970,8 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedIndexerXYToNotExistFormat + Resources.Common_CommaButItDoes,
-                    Subject.FullName,
-                    GetParameterString(parameterTypes));
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -979,8 +991,9 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(methodInfo != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedMethodXYZToExistFormat + Resources.Common_CommaButItDoesNot,
-                    Subject.FullName, name,
-                    GetParameterString(parameterTypes));
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    name.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1008,8 +1021,8 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedMethodXYToNotExistFormat + Resources.Common_CommaButItDoes,
-                    methodInfoDescription,
-                    GetParameterString(parameterTypes));
+                    methodInfoDescription.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1028,7 +1041,8 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(constructorInfo != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedConstructorXYToExistFormat + Resources.Common_CommaButItDoesNot,
-                    Subject.FullName, GetParameterString(parameterTypes));
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1059,7 +1073,8 @@ namespace FluentAssertions.Types
                 .ForCondition(constructorInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedConstructorXYNotToExistFormat + Resources.Common_CommaButItDoes,
-                    Subject.FullName, GetParameterString(parameterTypes));
+                    Subject.FullName.ToAlreadyFormattedString(),
+                    GetParameterFormattedString(parameterTypes));
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1075,9 +1090,9 @@ namespace FluentAssertions.Types
             return NotHaveConstructor(new Type[] { }, because, becauseArgs);
         }
 
-        private string GetParameterString(IEnumerable<Type> parameterTypes)
+        private AlreadyFormattedString GetParameterFormattedString(IEnumerable<Type> parameterTypes)
         {
-            return string.Join(", ", parameterTypes.Select(p => p.FullName));
+            return string.Join(", ", parameterTypes.Select(p => p.FullName)).ToAlreadyFormattedString();
         }
 
         /// <summary>
@@ -1099,7 +1114,7 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedTypeXToBeYFormat + Resources.Common_CommaButItIsZFormat,
-                    Subject.Name, accessModifier, subjectAccessModifier);
+                    Subject.Name.ToAlreadyFormattedString(), accessModifier, subjectAccessModifier);
 
             return new AndConstraint<Type>(Subject);
         }
@@ -1121,7 +1136,7 @@ namespace FluentAssertions.Types
                 .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.Type_ExpectedTypeXNotToBeYFormat + Resources.Common_CommaButItIs,
-                    Subject.Name, accessModifier);
+                    Subject.Name.ToAlreadyFormattedString(), accessModifier);
 
             return new AndConstraint<Type>(Subject);
         }

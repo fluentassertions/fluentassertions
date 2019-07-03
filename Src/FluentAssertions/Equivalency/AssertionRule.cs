@@ -42,7 +42,8 @@ namespace FluentAssertions.Equivalency
                 bool subjectIsValidType =
                     AssertionScope.Current
                         .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith(Resources.Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat, context.SelectedMemberDescription,
+                        .FailWith(Resources.Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat,
+                            context.SelectedMemberDescription.ToAlreadyFormattedString(),
                             typeof(TSubject), context.Subject?.GetType());
 
                 bool expectationIsNull = context.Expectation is null;
@@ -50,7 +51,8 @@ namespace FluentAssertions.Equivalency
                 bool expectationIsValidType =
                     AssertionScope.Current
                         .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith(Resources.Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat, context.SelectedMemberDescription,
+                        .FailWith(Resources.Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat,
+                            context.SelectedMemberDescription.ToAlreadyFormattedString(),
                             typeof(TSubject), context.Expectation?.GetType());
 
                 if (subjectIsValidType && expectationIsValidType)
