@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- One of the netstandard should be first so that the generated *.Designer.cs are generated with the right code -->
-    <TargetFrameworks>netstandard1.3;net45;net47;netstandard1.6;netstandard2.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net47;netstandard1.3;netstandard1.6;netstandard2.0;netcoreapp2.0</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -65,16 +64,6 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\FluentAssertions.Localization\FluentAssertions.Localization.csproj" />
   </ItemGroup>
 </Project>

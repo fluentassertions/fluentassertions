@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- One of the netstandard should be first so that the generated *.Designer.cs are generated with the right code -->
+    <TargetFrameworks>netstandard1.3;net45;net47;netstandard1.6;netstandard2.0;netcoreapp2.0</TargetFrameworks>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Dennis Doomen;Jonas Nyrup</Authors>
+    <PackageDescription>
+      A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
+      BDD-style unit tests. Targets .NET Framework 4.5 and 4.7, as well as .NET Core 2.0, .NET Core 3.0, .NET Standard 1.3, 1.6 and 2.0.
+      Supports the unit test frameworks MSTest, MSTest2, Gallio, NUnit, XUnit, MBUnit, MSpec, and NSpec.
+    </PackageDescription>
+    <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fluentassertions/fluentassertions.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>MSTest;MSTest2;xUnit;xUnit2;NUnit;MSpec;NSpec;Gallio;MbUnit;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageIconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/master/Src/FluentAssertions.png</PackageIconUrl>
+    <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions/releases/</PackageReleaseNotes>
+    <Copyright>Copyright Dennis Doomen 2010-2019</Copyright>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

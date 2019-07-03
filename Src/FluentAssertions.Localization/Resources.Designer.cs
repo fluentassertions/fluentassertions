@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FluentAssertions {
+namespace FluentAssertions.Localization {
     using System;
     using System.Reflection;
     
@@ -23,7 +23,7 @@ namespace FluentAssertions {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -37,10 +37,10 @@ namespace FluentAssertions {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FluentAssertions.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FluentAssertions.Localization.Resources", typeof(Resources).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +52,7 @@ namespace FluentAssertions {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +64,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Be strict about the order of items in byte arrays.
         /// </summary>
-        internal static string Array_BeStrictAboutItemsOrderInByteArrays {
+        public static string Array_BeStrictAboutItemsOrderInByteArrays {
             get {
                 return ResourceManager.GetString("Array_BeStrictAboutItemsOrderInByteArrays", resourceCulture);
             }
@@ -73,7 +73,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare a multi-dimensional array to something else..
         /// </summary>
-        internal static string Array_CannotCompareMultiDimArrayToSomethingElse {
+        public static string Array_CannotCompareMultiDimArrayToSomethingElse {
             get {
                 return ResourceManager.GetString("Array_CannotCompareMultiDimArrayToSomethingElse", resourceCulture);
             }
@@ -82,7 +82,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare a multi-dimensional array to {0}..
         /// </summary>
-        internal static string Array_CannotCompareMultiDimArrayToXFormat {
+        public static string Array_CannotCompareMultiDimArrayToXFormat {
             get {
                 return ResourceManager.GetString("Array_CannotCompareMultiDimArrayToXFormat", resourceCulture);
             }
@@ -91,7 +91,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:array} to have {0} dimension(s), but it has {1}..
         /// </summary>
-        internal static string Array_ExpectedArrayToHaveXDimensionsButItHasYFormat {
+        public static string Array_ExpectedArrayToHaveXDimensionsButItHasYFormat {
             get {
                 return ResourceManager.GetString("Array_ExpectedArrayToHaveXDimensionsButItHasYFormat", resourceCulture);
             }
@@ -100,7 +100,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected dimension {0} to contain {1} item(s), but found {2}..
         /// </summary>
-        internal static string Array_ExpectedDimensionXToContainYItemsFormat {
+        public static string Array_ExpectedDimensionXToContainYItemsFormat {
             get {
                 return ResourceManager.GetString("Array_ExpectedDimensionXToContainYItemsFormat", resourceCulture);
             }
@@ -109,7 +109,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} not to reference assembly {1}{reason}..
         /// </summary>
-        internal static string Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat {
+        public static string Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat {
             get {
                 return ResourceManager.GetString("Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat", resourceCulture);
             }
@@ -118,7 +118,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} to define type {1}.{2}, but it does not..
         /// </summary>
-        internal static string Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat {
+        public static string Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat {
             get {
                 return ResourceManager.GetString("Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat", resourceCulture);
             }
@@ -127,7 +127,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} to reference assembly {1}{reason}, but it does not..
         /// </summary>
-        internal static string Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat {
+        public static string Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat {
             get {
                 return ResourceManager.GetString("Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat", resourceCulture);
             }
@@ -136,7 +136,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} from expectation to be a {1}{reason}, but found a {2}..
         /// </summary>
-        internal static string Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat {
+        public static string Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat {
             get {
                 return ResourceManager.GetString("Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat", resourceCulture);
             }
@@ -145,7 +145,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} from subject to be a {1}{reason}, but found a {2}..
         /// </summary>
-        internal static string Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat {
+        public static string Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat {
             get {
                 return ResourceManager.GetString("Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat", resourceCulture);
             }
@@ -154,7 +154,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the NSpec assertion type.
         /// </summary>
-        internal static string Assertion_FailedToCreateNSpecAssertionType {
+        public static string Assertion_FailedToCreateNSpecAssertionType {
             get {
                 return ResourceManager.GetString("Assertion_FailedToCreateNSpecAssertionType", resourceCulture);
             }
@@ -163,7 +163,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the XUnit assertion type.
         /// </summary>
-        internal static string Assertion_FailedToCreateXUnitAssertionType {
+        public static string Assertion_FailedToCreateXUnitAssertionType {
             get {
                 return ResourceManager.GetString("Assertion_FailedToCreateXUnitAssertionType", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Invoke Action&lt;{0}&gt; when {1}.
         /// </summary>
-        internal static string Assertion_InvokeActionXWhenYFormat {
+        public static string Assertion_InvokeActionXWhenYFormat {
             get {
                 return ResourceManager.GetString("Assertion_InvokeActionXWhenYFormat", resourceCulture);
             }
@@ -181,7 +181,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to **WARNING** because message &apos;{0}&apos; could not be formatted with string.Format{1}{2}.
         /// </summary>
-        internal static string Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat {
+        public static string Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat {
             get {
                 return ResourceManager.GetString("Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat", resourceCulture);
             }
@@ -190,7 +190,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:boolean} to be false{reason}.
         /// </summary>
-        internal static string Bool_ExpectedBoolToBeFalse {
+        public static string Bool_ExpectedBoolToBeFalse {
             get {
                 return ResourceManager.GetString("Bool_ExpectedBoolToBeFalse", resourceCulture);
             }
@@ -199,7 +199,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:boolean} to be true{reason}.
         /// </summary>
-        internal static string Bool_ExpectedBoolToBeTrue {
+        public static string Bool_ExpectedBoolToBeTrue {
             get {
                 return ResourceManager.GetString("Bool_ExpectedBoolToBeTrue", resourceCulture);
             }
@@ -208,7 +208,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:boolean} to be {0}{reason}.
         /// </summary>
-        internal static string Bool_ExpectedBoolToBeXFormat {
+        public static string Bool_ExpectedBoolToBeXFormat {
             get {
                 return ResourceManager.GetString("Bool_ExpectedBoolToBeXFormat", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:nullable boolean} not to be {0}{reason}.
         /// </summary>
-        internal static string Bool_ExpectedNullableBoolNotToBeXFormat {
+        public static string Bool_ExpectedNullableBoolNotToBeXFormat {
             get {
                 return ResourceManager.GetString("Bool_ExpectedNullableBoolNotToBeXFormat", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Aborting strict order comparison of collections after {0} items failed at {1}.
         /// </summary>
-        internal static string Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat {
+        public static string Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat {
             get {
                 return ResourceManager.GetString("Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Always be strict about the collection order.
         /// </summary>
-        internal static string Collection_AlwaysBeStrictAboutCollectionOrder {
+        public static string Collection_AlwaysBeStrictAboutCollectionOrder {
             get {
                 return ResourceManager.GetString("Collection_AlwaysBeStrictAboutCollectionOrder", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to At index {0}:{1}{2}.
         /// </summary>
-        internal static string Collection_AtIndexXFailuresFormat {
+        public static string Collection_AtIndexXFailuresFormat {
             get {
                 return ResourceManager.GetString("Collection_AtIndexXFailuresFormat", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Be not strict about the order of collections when {0}.
         /// </summary>
-        internal static string Collection_BeNotStrictAboutCollectionsOrderWhenXFormat {
+        public static string Collection_BeNotStrictAboutCollectionsOrderWhenXFormat {
             get {
                 return ResourceManager.GetString("Collection_BeNotStrictAboutCollectionsOrderWhenXFormat", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Be strict about the order of collection items when path is {0}.
         /// </summary>
-        internal static string Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat {
+        public static string Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat {
             get {
                 return ResourceManager.GetString("Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Be strict about the order of collections when {0}.
         /// </summary>
-        internal static string Collection_BeStrictAboutCollectionsOrderWhenXFormat {
+        public static string Collection_BeStrictAboutCollectionsOrderWhenXFormat {
             get {
                 return ResourceManager.GetString("Collection_BeStrictAboutCollectionsOrderWhenXFormat", resourceCulture);
             }
@@ -280,7 +280,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but collection is empty..
         /// </summary>
-        internal static string Collection_ButCollectionIsEmpty {
+        public static string Collection_ButCollectionIsEmpty {
             get {
                 return ResourceManager.GetString("Collection_ButCollectionIsEmpty", resourceCulture);
             }
@@ -289,7 +289,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but collection is &lt;null&gt;..
         /// </summary>
-        internal static string Collection_ButCollectionIsNull {
+        public static string Collection_ButCollectionIsNull {
             get {
                 return ResourceManager.GetString("Collection_ButCollectionIsNull", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found collection is &lt;null&gt;..
         /// </summary>
-        internal static string Collection_ButFoundCollectionIsNull {
+        public static string Collection_ButFoundCollectionIsNull {
             get {
                 return ResourceManager.GetString("Collection_ButFoundCollectionIsNull", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found empty collection..
         /// </summary>
-        internal static string Collection_ButFoundEmptyCollection {
+        public static string Collection_ButFoundEmptyCollection {
             get {
                 return ResourceManager.GetString("Collection_ButFoundEmptyCollection", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but the collection is empty..
         /// </summary>
-        internal static string Collection_ButTheCollectionIsEmpty {
+        public static string Collection_ButTheCollectionIsEmpty {
             get {
                 return ResourceManager.GetString("Collection_ButTheCollectionIsEmpty", resourceCulture);
             }
@@ -325,7 +325,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {0} contains {1} item(s) less..
         /// </summary>
-        internal static string Collection_ButXContainsYItemsLessFormat {
+        public static string Collection_ButXContainsYItemsLessFormat {
             get {
                 return ResourceManager.GetString("Collection_ButXContainsYItemsLessFormat", resourceCulture);
             }
@@ -334,7 +334,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {0} contains {1} item(s) too many..
         /// </summary>
-        internal static string Collection_ButXContainsYItemsTooManyFormat {
+        public static string Collection_ButXContainsYItemsTooManyFormat {
             get {
                 return ResourceManager.GetString("Collection_ButXContainsYItemsTooManyFormat", resourceCulture);
             }
@@ -343,7 +343,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {0} differs at index {1}..
         /// </summary>
-        internal static string Collection_ButXDiffersAtIndexYFormat {
+        public static string Collection_ButXDiffersAtIndexYFormat {
             get {
                 return ResourceManager.GetString("Collection_ButXDiffersAtIndexYFormat", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {0} such items were found..
         /// </summary>
-        internal static string Collection_ButXSuchItemsWereFoundFormat {
+        public static string Collection_ButXSuchItemsWereFoundFormat {
             get {
                 return ResourceManager.GetString("Collection_ButXSuchItemsWereFoundFormat", resourceCulture);
             }
@@ -361,7 +361,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert collection ordering without specifying a comparer..
         /// </summary>
-        internal static string Collection_CannotAssertCollectionOrderingWithoutComparer {
+        public static string Collection_CannotAssertCollectionOrderingWithoutComparer {
             get {
                 return ResourceManager.GetString("Collection_CannotAssertCollectionOrderingWithoutComparer", resourceCulture);
             }
@@ -370,7 +370,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert collection ordering without specifying a property..
         /// </summary>
-        internal static string Collection_CannotAssertCollectionOrderingWithoutProperty {
+        public static string Collection_CannotAssertCollectionOrderingWithoutProperty {
             get {
                 return ResourceManager.GetString("Collection_CannotAssertCollectionOrderingWithoutProperty", resourceCulture);
             }
@@ -379,7 +379,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert a &lt;null&gt; collection against a subset..
         /// </summary>
-        internal static string Collection_CannotAssertNullAgainstSubset {
+        public static string Collection_CannotAssertNullAgainstSubset {
             get {
                 return ResourceManager.GetString("Collection_CannotAssertNullAgainstSubset", resourceCulture);
             }
@@ -388,7 +388,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare collection count against a &lt;null&gt; predicate..
         /// </summary>
-        internal static string Collection_CannotCompareCollectionCountAgainstNullPredicate {
+        public static string Collection_CannotCompareCollectionCountAgainstNullPredicate {
             get {
                 return ResourceManager.GetString("Collection_CannotCompareCollectionCountAgainstNullPredicate", resourceCulture);
             }
@@ -397,7 +397,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare collection with &lt;null&gt;..
         /// </summary>
-        internal static string Collection_CannotCompareCollectionWithNull {
+        public static string Collection_CannotCompareCollectionWithNull {
             get {
                 return ResourceManager.GetString("Collection_CannotCompareCollectionWithNull", resourceCulture);
             }
@@ -406,7 +406,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify against an empty collection of inspectors.
         /// </summary>
-        internal static string Collection_CannotVerifyAgainstEmptyInspectors {
+        public static string Collection_CannotVerifyAgainstEmptyInspectors {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyAgainstEmptyInspectors", resourceCulture);
             }
@@ -415,7 +415,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify against a &lt;null&gt; collection of inspectors.
         /// </summary>
-        internal static string Collection_CannotVerifyAgainstNullInspectors {
+        public static string Collection_CannotVerifyAgainstNullInspectors {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyAgainstNullInspectors", resourceCulture);
             }
@@ -424,7 +424,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify containment against an empty collection.
         /// </summary>
-        internal static string Collection_CannotVerifyContainmentAgainstEmptyCollection {
+        public static string Collection_CannotVerifyContainmentAgainstEmptyCollection {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyContainmentAgainstEmptyCollection", resourceCulture);
             }
@@ -433,7 +433,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify containment against a &lt;null&gt; collection.
         /// </summary>
-        internal static string Collection_CannotVerifyContainmentAgainstNullCollection {
+        public static string Collection_CannotVerifyContainmentAgainstNullCollection {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyContainmentAgainstNullCollection", resourceCulture);
             }
@@ -442,7 +442,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify count against a &lt;null&gt; collection..
         /// </summary>
-        internal static string Collection_CannotVerifyCountAgainstNull {
+        public static string Collection_CannotVerifyCountAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyCountAgainstNull", resourceCulture);
             }
@@ -451,7 +451,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify inequivalence against a &lt;null&gt; collection..
         /// </summary>
-        internal static string Collection_CannotVerifyInequivalenceAgainstANullCollection {
+        public static string Collection_CannotVerifyInequivalenceAgainstANullCollection {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyInequivalenceAgainstANullCollection", resourceCulture);
             }
@@ -460,7 +460,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify intersection against a &lt;null&gt; collection..
         /// </summary>
-        internal static string Collection_CannotVerifyIntersectionAgainstNull {
+        public static string Collection_CannotVerifyIntersectionAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyIntersectionAgainstNull", resourceCulture);
             }
@@ -469,7 +469,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify non-containment against an empty collection.
         /// </summary>
-        internal static string Collection_CannotVerifyNonContainmentAgainstEmptyCollection {
+        public static string Collection_CannotVerifyNonContainmentAgainstEmptyCollection {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyNonContainmentAgainstEmptyCollection", resourceCulture);
             }
@@ -478,7 +478,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify non-containment against a &lt;null&gt; collection.
         /// </summary>
-        internal static string Collection_CannotVerifyNonContainmentAgainstNull {
+        public static string Collection_CannotVerifyNonContainmentAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyNonContainmentAgainstNull", resourceCulture);
             }
@@ -487,7 +487,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify ordered containment against a &lt;null&gt; collection..
         /// </summary>
-        internal static string Collection_CannotVerifyOrderedContainmentAgainstNull {
+        public static string Collection_CannotVerifyOrderedContainmentAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyOrderedContainmentAgainstNull", resourceCulture);
             }
@@ -496,7 +496,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify a subset against a &lt;null&gt; collection..
         /// </summary>
-        internal static string Collection_CannotVerifySubsetAgainstNull {
+        public static string Collection_CannotVerifySubsetAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifySubsetAgainstNull", resourceCulture);
             }
@@ -505,7 +505,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify value containment with an empty sequence.
         /// </summary>
-        internal static string Collection_CannotVerifyValueContainmentAgainstEmptySequence {
+        public static string Collection_CannotVerifyValueContainmentAgainstEmptySequence {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyValueContainmentAgainstEmptySequence", resourceCulture);
             }
@@ -514,7 +514,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify value containment against a &lt;null&gt; collection of values.
         /// </summary>
-        internal static string Collection_CannotVerifyValueContainmentAgainstNull {
+        public static string Collection_CannotVerifyValueContainmentAgainstNull {
             get {
                 return ResourceManager.GetString("Collection_CannotVerifyValueContainmentAgainstNull", resourceCulture);
             }
@@ -523,7 +523,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but the collection is empty..
         /// </summary>
-        internal static string Collection_CommaButCollectionIsEmpty {
+        public static string Collection_CommaButCollectionIsEmpty {
             get {
                 return ResourceManager.GetString("Collection_CommaButCollectionIsEmpty", resourceCulture);
             }
@@ -532,7 +532,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but collection is &lt;null&gt;..
         /// </summary>
-        internal static string Collection_CommaButCollectionIsNull {
+        public static string Collection_CommaButCollectionIsNull {
             get {
                 return ResourceManager.GetString("Collection_CommaButCollectionIsNull", resourceCulture);
             }
@@ -541,7 +541,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found an empty collection..
         /// </summary>
-        internal static string Collection_CommaButFoundEmptyCollection {
+        public static string Collection_CommaButFoundEmptyCollection {
             get {
                 return ResourceManager.GetString("Collection_CommaButFoundEmptyCollection", resourceCulture);
             }
@@ -550,7 +550,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found one at index {0}..
         /// </summary>
-        internal static string Collection_CommaButFoundOneAtIndexXFormat {
+        public static string Collection_CommaButFoundOneAtIndexXFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButFoundOneAtIndexXFormat", resourceCulture);
             }
@@ -559,7 +559,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found several at indices {0}..
         /// </summary>
-        internal static string Collection_CommaButFoundSeveralAtXFormat {
+        public static string Collection_CommaButFoundSeveralAtXFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButFoundSeveralAtXFormat", resourceCulture);
             }
@@ -568,7 +568,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but items {0} are not unique..
         /// </summary>
-        internal static string Collection_CommaButItemsXAreNotUniqueFormat {
+        public static string Collection_CommaButItemsXAreNotUniqueFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButItemsXAreNotUniqueFormat", resourceCulture);
             }
@@ -577,7 +577,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but items {1} are not part of the superset..
         /// </summary>
-        internal static string Collection_CommaButItemsYAreNotPartOfSupersetFormat {
+        public static string Collection_CommaButItemsYAreNotPartOfSupersetFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButItemsYAreNotPartOfSupersetFormat", resourceCulture);
             }
@@ -586,7 +586,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to only have unique items{reason}, but item {0} is not unique..
         /// </summary>
-        internal static string Collection_CommaButItemXIsNotUniqueFormat {
+        public static string Collection_CommaButItemXIsNotUniqueFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButItemXIsNotUniqueFormat", resourceCulture);
             }
@@ -595,7 +595,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) less than{3}{2}..
         /// </summary>
-        internal static string Collection_CommaButXWContainsYItemsLessThanWZFormat {
+        public static string Collection_CommaButXWContainsYItemsLessThanWZFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButXWContainsYItemsLessThanWZFormat", resourceCulture);
             }
@@ -604,7 +604,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) more than{3}{2}..
         /// </summary>
-        internal static string Collection_CommaButXWContainsYItemsMoreThanWZFormat {
+        public static string Collection_CommaButXWContainsYItemsMoreThanWZFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButXWContainsYItemsMoreThanWZFormat", resourceCulture);
             }
@@ -613,7 +613,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but {0}{2}contains {1} item(s)..
         /// </summary>
-        internal static string Collection_CommaButXZContainsYItemsFormat {
+        public static string Collection_CommaButXZContainsYItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_CommaButXZContainsYItemsFormat", resourceCulture);
             }
@@ -622,7 +622,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Comparing subject at {0}[{1}] with the expectation at {0}[{2}].
         /// </summary>
-        internal static string Collection_ComparingSubjectAtXYWithExpectationAtXZFormat {
+        public static string Collection_ComparingSubjectAtXYWithExpectationAtXZFormat {
             get {
                 return ResourceManager.GetString("Collection_ComparingSubjectAtXYWithExpectationAtXZFormat", resourceCulture);
             }
@@ -631,7 +631,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Comparing subject {0} and expectation {1} at {2} using simple value equality.
         /// </summary>
-        internal static string Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat {
+        public static string Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat {
             get {
                 return ResourceManager.GetString("Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat", resourceCulture);
             }
@@ -640,7 +640,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Contained {0} failures.
         /// </summary>
-        internal static string Collection_ContainedXFailuresFormat {
+        public static string Collection_ContainedXFailuresFormat {
             get {
                 return ResourceManager.GetString("Collection_ContainedXFailuresFormat", resourceCulture);
             }
@@ -649,7 +649,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect collections {0} and {1} to be equal{reason}..
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionsXAndYToBeEqualFormat {
+        public static string Collection_DidNotExpectCollectionsXAndYToBeEqualFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionsXAndYToBeEqualFormat", resourceCulture);
             }
@@ -658,7 +658,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:collection} to contain items in {0} order{reason}.
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionToContainItemsInXOrderFormat {
+        public static string Collection_DidNotExpectCollectionToContainItemsInXOrderFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionToContainItemsInXOrderFormat", resourceCulture);
             }
@@ -667,7 +667,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}..
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat {
+        public static string Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat", resourceCulture);
             }
@@ -676,7 +676,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:collection} to intersect with {0}{reason}.
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionToIntersectWithXFormat {
+        public static string Collection_DidNotExpectCollectionToIntersectWithXFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithXFormat", resourceCulture);
             }
@@ -685,7 +685,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:collection} {0} to be a subset of {1}{reason}..
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionXToBeSubsetOfYFormat {
+        public static string Collection_DidNotExpectCollectionXToBeSubsetOfYFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionXToBeSubsetOfYFormat", resourceCulture);
             }
@@ -694,7 +694,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:collection} {0} to intersect with {1}{reason}.
         /// </summary>
-        internal static string Collection_DidNotExpectCollectionXToIntersectWithYFormat {
+        public static string Collection_DidNotExpectCollectionXToIntersectWithYFormat {
             get {
                 return ResourceManager.GetString("Collection_DidNotExpectCollectionXToIntersectWithYFormat", resourceCulture);
             }
@@ -703,7 +703,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {context:Expectation} implements {0}, so cannot determine which one to use for asserting the equivalency of the collection. .
         /// </summary>
-        internal static string Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat {
+        public static string Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat", resourceCulture);
             }
@@ -712,7 +712,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected a collection, but {context:Subject} is of a non-collection type..
         /// </summary>
-        internal static string Collection_ExpectedACollectionBuSubjectIsNotCollectionType {
+        public static string Collection_ExpectedACollectionBuSubjectIsNotCollectionType {
             get {
                 return ResourceManager.GetString("Collection_ExpectedACollectionBuSubjectIsNotCollectionType", resourceCulture);
             }
@@ -721,7 +721,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected a collection, but {context:Subject} is &lt;null&gt;..
         /// </summary>
-        internal static string Collection_ExpectedACollectionButSubjectIsNull {
+        public static string Collection_ExpectedACollectionButSubjectIsNull {
             get {
                 return ResourceManager.GetString("Collection_ExpectedACollectionButSubjectIsNull", resourceCulture);
             }
@@ -730,7 +730,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} not to be empty{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToBeEmpty {
+        public static string Collection_ExpectedCollectionNotToBeEmpty {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToBeEmpty", resourceCulture);
             }
@@ -739,7 +739,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be empty{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToBeEmptyComma {
+        public static string Collection_ExpectedCollectionNotToBeEmptyComma {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToBeEmptyComma", resourceCulture);
             }
@@ -748,7 +748,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} not to be equivalent{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToBeEquivalent {
+        public static string Collection_ExpectedCollectionNotToBeEquivalent {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToBeEquivalent", resourceCulture);
             }
@@ -757,7 +757,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be null or empty{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToBeNullOrEmpty {
+        public static string Collection_ExpectedCollectionNotToBeNullOrEmpty {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToBeNullOrEmpty", resourceCulture);
             }
@@ -766,7 +766,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} not to contain &lt;null&gt;s{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToContainNull {
+        public static string Collection_ExpectedCollectionNotToContainNull {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainNull", resourceCulture);
             }
@@ -775,7 +775,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} not to contain &lt;null&gt;s on {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToContainNullOnXFormat {
+        public static string Collection_ExpectedCollectionNotToContainNullOnXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainNullOnXFormat", resourceCulture);
             }
@@ -784,7 +784,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} not to contain {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionNotToContainXFormat {
+        public static string Collection_ExpectedCollectionNotToContainXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainXFormat", resourceCulture);
             }
@@ -793,7 +793,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected collections not to be equal{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionsNotToBeEqual {
+        public static string Collection_ExpectedCollectionsNotToBeEqual {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionsNotToBeEqual", resourceCulture);
             }
@@ -802,7 +802,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be equal to {0}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToBeEqualToXCommaFormat {
+        public static string Collection_ExpectedCollectionToBeEqualToXCommaFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToXCommaFormat", resourceCulture);
             }
@@ -811,7 +811,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be equal to {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToBeEqualToXFormat {
+        public static string Collection_ExpectedCollectionToBeEqualToXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToXFormat", resourceCulture);
             }
@@ -820,7 +820,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be ordered by {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToBeOrderedByXFormat {
+        public static string Collection_ExpectedCollectionToBeOrderedByXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToBeOrderedByXFormat", resourceCulture);
             }
@@ -829,7 +829,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to be a subset of {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToBeSubsetOfXFormat {
+        public static string Collection_ExpectedCollectionToBeSubsetOfXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToBeSubsetOfXFormat", resourceCulture);
             }
@@ -838,7 +838,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain at least {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainAtLeastXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainAtLeastXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtLeastXItemsFormat", resourceCulture);
             }
@@ -847,7 +847,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain at most {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainAtMostXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainAtMostXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtMostXItemsFormat", resourceCulture);
             }
@@ -856,7 +856,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain element assignable to type {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat {
+        public static string Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat", resourceCulture);
             }
@@ -865,7 +865,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain equivalent of {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainEquivalentOfXFormat {
+        public static string Collection_ExpectedCollectionToContainEquivalentOfXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainEquivalentOfXFormat", resourceCulture);
             }
@@ -874,7 +874,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain exactly {0} items, but it contains {1} items.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat {
+        public static string Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat", resourceCulture);
             }
@@ -883,7 +883,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain fewer than {0} item(s){reason},.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainFewerThanXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainFewerThanXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainFewerThanXItemsFormat", resourceCulture);
             }
@@ -892,7 +892,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain items in ascending order{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainItemsInAscendingOrder {
+        public static string Collection_ExpectedCollectionToContainItemsInAscendingOrder {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainItemsInAscendingOrder", resourceCulture);
             }
@@ -901,7 +901,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain items in descending order{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainItemsInDescendingOrder {
+        public static string Collection_ExpectedCollectionToContainItemsInDescendingOrder {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainItemsInDescendingOrder", resourceCulture);
             }
@@ -910,7 +910,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain items in {0} order{reason}, but found {1} where item at index {2} is in wrong order..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFormat {
+        public static string Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainItemsInXOrderButFoundYWhereZInWrongOrderFor" +
                         "mat", resourceCulture);
@@ -920,7 +920,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain more than {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainMoreThanXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainMoreThanXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainMoreThanXItemsFormat", resourceCulture);
             }
@@ -929,7 +929,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat", resourceCulture);
             }
@@ -938,7 +938,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain only items matching {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat", resourceCulture);
             }
@@ -947,7 +947,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain only items of type {0}{reason}, but item {1} at index {2} is of type {3}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat", resourceCulture);
             }
@@ -956,7 +956,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain a single item{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainSingleItem {
+        public static string Collection_ExpectedCollectionToContainSingleItem {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainSingleItem", resourceCulture);
             }
@@ -965,7 +965,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain a single item matching {0}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainSingleItemMatchingXFormat {
+        public static string Collection_ExpectedCollectionToContainSingleItemMatchingXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainSingleItemMatchingXFormat", resourceCulture);
             }
@@ -974,7 +974,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainXFormat {
+        public static string Collection_ExpectedCollectionToContainXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainXFormat", resourceCulture);
             }
@@ -983,7 +983,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain {0} in order{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainXInOrderFormat {
+        public static string Collection_ExpectedCollectionToContainXInOrderFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainXInOrderFormat", resourceCulture);
             }
@@ -992,7 +992,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to contain {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToContainXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToContainXItemsFormat", resourceCulture);
             }
@@ -1001,7 +1001,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to end with {0}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToEndWithXFormat {
+        public static string Collection_ExpectedCollectionToEndWithXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToEndWithXFormat", resourceCulture);
             }
@@ -1010,7 +1010,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to have element at index {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToHaveElementAtIndexXFormat {
+        public static string Collection_ExpectedCollectionToHaveElementAtIndexXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToHaveElementAtIndexXFormat", resourceCulture);
             }
@@ -1019,7 +1019,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to have the same count as {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToHaveSameCountAsXFormat {
+        public static string Collection_ExpectedCollectionToHaveSameCountAsXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToHaveSameCountAsXFormat", resourceCulture);
             }
@@ -1028,7 +1028,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to have {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToHaveXItemsFormat {
+        public static string Collection_ExpectedCollectionToHaveXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXItemsFormat", resourceCulture);
             }
@@ -1037,7 +1037,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to have {0} precede {1}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToHaveXPrecedeYFormat {
+        public static string Collection_ExpectedCollectionToHaveXPrecedeYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXPrecedeYFormat", resourceCulture);
             }
@@ -1046,7 +1046,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to have {0} succeed {1}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToHaveXSucceedYFormat {
+        public static string Collection_ExpectedCollectionToHaveXSucceedYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXSucceedYFormat", resourceCulture);
             }
@@ -1055,7 +1055,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat {
+        public static string Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat", resourceCulture);
             }
@@ -1064,7 +1064,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to intersect with {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToIntersectWithXFormat {
+        public static string Collection_ExpectedCollectionToIntersectWithXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithXFormat", resourceCulture);
             }
@@ -1073,7 +1073,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to not contain {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToNotContainXItemsFormat {
+        public static string Collection_ExpectedCollectionToNotContainXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToNotContainXItemsFormat", resourceCulture);
             }
@@ -1082,7 +1082,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to not have the same count as {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToNotHaveSameCountAsXFormat {
+        public static string Collection_ExpectedCollectionToNotHaveSameCountAsXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveSameCountAsXFormat", resourceCulture);
             }
@@ -1091,7 +1091,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to not have {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToNotHaveXItemsFormat {
+        public static string Collection_ExpectedCollectionToNotHaveXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveXItemsFormat", resourceCulture);
             }
@@ -1100,7 +1100,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to not contain {0}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToNotXContainFormat {
+        public static string Collection_ExpectedCollectionToNotXContainFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToNotXContainFormat", resourceCulture);
             }
@@ -1109,7 +1109,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to only have unique items{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionToOnlyHaveUniqueItems {
+        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItems {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItems", resourceCulture);
             }
@@ -1118,7 +1118,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat {
+        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat", resourceCulture);
             }
@@ -1127,7 +1127,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique..
         /// </summary>
-        internal static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat {
+        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat", resourceCulture);
             }
@@ -1136,7 +1136,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to satisfy all inspectors{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToSatisfyAllInspectors {
+        public static string Collection_ExpectedCollectionToSatisfyAllInspectors {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToSatisfyAllInspectors", resourceCulture);
             }
@@ -1145,7 +1145,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} to start with {0}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedCollectionToStartWithXFormat {
+        public static string Collection_ExpectedCollectionToStartWithXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionToStartWithXFormat", resourceCulture);
             }
@@ -1154,7 +1154,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} not to be equivalent to collection {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXNotToBeEquivalentToYFormat {
+        public static string Collection_ExpectedCollectionXNotToBeEquivalentToYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentToYFormat", resourceCulture);
             }
@@ -1163,7 +1163,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} not be equivalent with collection {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat {
+        public static string Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat", resourceCulture);
             }
@@ -1172,7 +1172,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to be ordered{1}{reason} and result in {2}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat {
+        public static string Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat", resourceCulture);
             }
@@ -1181,7 +1181,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to contain equivalent of {1}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToContainEquivalentOfYFormat {
+        public static string Collection_ExpectedCollectionXToContainEquivalentOfYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToContainEquivalentOfYFormat", resourceCulture);
             }
@@ -1190,7 +1190,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to contain items {1} in order{reason}, but {2} (index {3}) did not appear (in the right order)..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat {
+        public static string Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat", resourceCulture);
             }
@@ -1199,7 +1199,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat {
+        public static string Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat", resourceCulture);
             }
@@ -1208,7 +1208,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to contain {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToContainYFormat {
+        public static string Collection_ExpectedCollectionXToContainYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToContainYFormat", resourceCulture);
             }
@@ -1217,7 +1217,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat {
+        public static string Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat", resourceCulture);
             }
@@ -1226,7 +1226,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to have an item matching {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToHaveItemMatchingYFormat {
+        public static string Collection_ExpectedCollectionXToHaveItemMatchingYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToHaveItemMatchingYFormat", resourceCulture);
             }
@@ -1235,7 +1235,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain element {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToNotContainElementYFormat {
+        public static string Collection_ExpectedCollectionXToNotContainElementYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainElementYFormat", resourceCulture);
             }
@@ -1244,7 +1244,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain {1}{reason}..
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToNotContainYDotFormat {
+        public static string Collection_ExpectedCollectionXToNotContainYDotFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainYDotFormat", resourceCulture);
             }
@@ -1253,7 +1253,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to not contain {1}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToNotContainYFormat {
+        public static string Collection_ExpectedCollectionXToNotContainYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainYFormat", resourceCulture);
             }
@@ -1262,7 +1262,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to not have any items matching {1}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat {
+        public static string Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat", resourceCulture);
             }
@@ -1271,7 +1271,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:collection} {0} to not have the same count as {1}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat {
+        public static string Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat", resourceCulture);
             }
@@ -1280,7 +1280,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected one or more items{reason}, but found none..
         /// </summary>
-        internal static string Collection_ExpectedOneOrMoreItemsButFoundNone {
+        public static string Collection_ExpectedOneOrMoreItemsButFoundNone {
             get {
                 return ResourceManager.GetString("Collection_ExpectedOneOrMoreItemsButFoundNone", resourceCulture);
             }
@@ -1289,7 +1289,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} not to be {0}..
         /// </summary>
-        internal static string Collection_ExpectedSubjectNotToBeXFormat {
+        public static string Collection_ExpectedSubjectNotToBeXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedSubjectNotToBeXFormat", resourceCulture);
             }
@@ -1298,7 +1298,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a collection, but it was a {0}.
         /// </summary>
-        internal static string Collection_ExpectedSubjectToBeACollectionButItWasXFormat {
+        public static string Collection_ExpectedSubjectToBeACollectionButItWasXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedSubjectToBeACollectionButItWasXFormat", resourceCulture);
             }
@@ -1307,7 +1307,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a collection with {0} item(s){reason}.
         /// </summary>
-        internal static string Collection_ExpectedSubjectToBeCollectionWithXItemsFormat {
+        public static string Collection_ExpectedSubjectToBeCollectionWithXItemsFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedSubjectToBeCollectionWithXItemsFormat", resourceCulture);
             }
@@ -1316,7 +1316,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{reason}, .
         /// </summary>
-        internal static string Collection_ExpectedTypeToBeXFormat {
+        public static string Collection_ExpectedTypeToBeXFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedTypeToBeXFormat", resourceCulture);
             }
@@ -1325,7 +1325,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} at index {1}{reason}, but found no element..
         /// </summary>
-        internal static string Collection_ExpectedXAtIndexYButFoundNoElementFormat {
+        public static string Collection_ExpectedXAtIndexYButFoundNoElementFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedXAtIndexYButFoundNoElementFormat", resourceCulture);
             }
@@ -1334,7 +1334,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} at index {1}{reason}.
         /// </summary>
-        internal static string Collection_ExpectedXAtIndexYFormat {
+        public static string Collection_ExpectedXAtIndexYFormat {
             get {
                 return ResourceManager.GetString("Collection_ExpectedXAtIndexYFormat", resourceCulture);
             }
@@ -1343,7 +1343,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Fail failing loose order comparison of collection after {0} items failed at {1}.
         /// </summary>
-        internal static string Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat {
+        public static string Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat {
             get {
                 return ResourceManager.GetString("Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat", resourceCulture);
             }
@@ -1352,7 +1352,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Finding the best match of {0} within all items in {1} at {2}[{3}].
         /// </summary>
-        internal static string Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat {
+        public static string Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat {
             get {
                 return ResourceManager.GetString("Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat", resourceCulture);
             }
@@ -1361,7 +1361,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to It&apos;s a match.
         /// </summary>
-        internal static string Collection_ItIsAMatch {
+        public static string Collection_ItIsAMatch {
             get {
                 return ResourceManager.GetString("Collection_ItIsAMatch", resourceCulture);
             }
@@ -1370,7 +1370,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Strictly comparing expectation {0} at {1} to item with index {2} in {3}.
         /// </summary>
-        internal static string Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat {
+        public static string Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat {
             get {
                 return ResourceManager.GetString("Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat", resourceCulture);
             }
@@ -1379,7 +1379,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Structurally comparing {0} and expectation {1} at {2}.
         /// </summary>
-        internal static string Collection_StructurallyComparingXAndExpectationYAtZFormat {
+        public static string Collection_StructurallyComparingXAndExpectationYAtZFormat {
             get {
                 return ResourceManager.GetString("Collection_StructurallyComparingXAndExpectationYAtZFormat", resourceCulture);
             }
@@ -1388,7 +1388,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found a null element..
         /// </summary>
-        internal static string Common_ButFoundANullElement {
+        public static string Common_ButFoundANullElement {
             get {
                 return ResourceManager.GetString("Common_ButFoundANullElement", resourceCulture);
             }
@@ -1397,7 +1397,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found nothing..
         /// </summary>
-        internal static string Common_ButFoundNothing {
+        public static string Common_ButFoundNothing {
             get {
                 return ResourceManager.GetString("Common_ButFoundNothing", resourceCulture);
             }
@@ -1406,7 +1406,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found {0}..
         /// </summary>
-        internal static string Common_ButFoundXFormat {
+        public static string Common_ButFoundXFormat {
             get {
                 return ResourceManager.GetString("Common_ButFoundXFormat", resourceCulture);
             }
@@ -1415,7 +1415,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but it was..
         /// </summary>
-        internal static string Common_ButItWas {
+        public static string Common_ButItWas {
             get {
                 return ResourceManager.GetString("Common_ButItWas", resourceCulture);
             }
@@ -1424,7 +1424,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but it was {0}..
         /// </summary>
-        internal static string Common_ButItWasXFormat {
+        public static string Common_ButItWasXFormat {
             get {
                 return ResourceManager.GetString("Common_ButItWasXFormat", resourceCulture);
             }
@@ -1433,7 +1433,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but no such item was found..
         /// </summary>
-        internal static string Common_ButNoSuchItemWasFound {
+        public static string Common_ButNoSuchItemWasFound {
             get {
                 return ResourceManager.GetString("Common_ButNoSuchItemWasFound", resourceCulture);
             }
@@ -1442,7 +1442,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but some inspectors are not satisfied:.
         /// </summary>
-        internal static string Common_ButSomeInspectorsAreNotSatisfied {
+        public static string Common_ButSomeInspectorsAreNotSatisfied {
             get {
                 return ResourceManager.GetString("Common_ButSomeInspectorsAreNotSatisfied", resourceCulture);
             }
@@ -1451,7 +1451,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but they both reference the same object..
         /// </summary>
-        internal static string Common_CommaButBothReferenceSameObject {
+        public static string Common_CommaButBothReferenceSameObject {
             get {
                 return ResourceManager.GetString("Common_CommaButBothReferenceSameObject", resourceCulture);
             }
@@ -1460,7 +1460,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found&lt;null&gt;..
         /// </summary>
-        internal static string Common_CommaButFoundNull {
+        public static string Common_CommaButFoundNull {
             get {
                 return ResourceManager.GetString("Common_CommaButFoundNull", resourceCulture);
             }
@@ -1469,7 +1469,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found {3}..
         /// </summary>
-        internal static string Common_CommaButFoundWFormat {
+        public static string Common_CommaButFoundWFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButFoundWFormat", resourceCulture);
             }
@@ -1478,7 +1478,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found {0}..
         /// </summary>
-        internal static string Common_CommaButFoundXFormat {
+        public static string Common_CommaButFoundXFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButFoundXFormat", resourceCulture);
             }
@@ -1487,7 +1487,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found {1}..
         /// </summary>
-        internal static string Common_CommaButFoundYFormat {
+        public static string Common_CommaButFoundYFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButFoundYFormat", resourceCulture);
             }
@@ -1496,7 +1496,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found {2}..
         /// </summary>
-        internal static string Common_CommaButFoundZFormat {
+        public static string Common_CommaButFoundZFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButFoundZFormat", resourceCulture);
             }
@@ -1505,7 +1505,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it differs {4}..
         /// </summary>
-        internal static string Common_CommaButItDiffersItem4Format {
+        public static string Common_CommaButItDiffersItem4Format {
             get {
                 return ResourceManager.GetString("Common_CommaButItDiffersItem4Format", resourceCulture);
             }
@@ -1514,7 +1514,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it does..
         /// </summary>
-        internal static string Common_CommaButItDoes {
+        public static string Common_CommaButItDoes {
             get {
                 return ResourceManager.GetString("Common_CommaButItDoes", resourceCulture);
             }
@@ -1523,7 +1523,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it does not..
         /// </summary>
-        internal static string Common_CommaButItDoesNot {
+        public static string Common_CommaButItDoesNot {
             get {
                 return ResourceManager.GetString("Common_CommaButItDoesNot", resourceCulture);
             }
@@ -1532,7 +1532,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but {3} differs {4}..
         /// </summary>
-        internal static string Common_CommaButItem3DiffersItem4Format {
+        public static string Common_CommaButItem3DiffersItem4Format {
             get {
                 return ResourceManager.GetString("Common_CommaButItem3DiffersItem4Format", resourceCulture);
             }
@@ -1541,7 +1541,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it is..
         /// </summary>
-        internal static string Common_CommaButItIs {
+        public static string Common_CommaButItIs {
             get {
                 return ResourceManager.GetString("Common_CommaButItIs", resourceCulture);
             }
@@ -1550,7 +1550,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it is not..
         /// </summary>
-        internal static string Common_CommaButItIsNot {
+        public static string Common_CommaButItIsNot {
             get {
                 return ResourceManager.GetString("Common_CommaButItIsNot", resourceCulture);
             }
@@ -1559,7 +1559,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it is {0}..
         /// </summary>
-        internal static string Common_CommaButItIsXFormat {
+        public static string Common_CommaButItIsXFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButItIsXFormat", resourceCulture);
             }
@@ -1568,7 +1568,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it is {1}..
         /// </summary>
-        internal static string Common_CommaButItIsYFormat {
+        public static string Common_CommaButItIsYFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButItIsYFormat", resourceCulture);
             }
@@ -1577,7 +1577,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it is {2}..
         /// </summary>
-        internal static string Common_CommaButItIsZFormat {
+        public static string Common_CommaButItIsZFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButItIsZFormat", resourceCulture);
             }
@@ -1586,7 +1586,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it was..
         /// </summary>
-        internal static string Common_CommaButItWas {
+        public static string Common_CommaButItWas {
             get {
                 return ResourceManager.GetString("Common_CommaButItWas", resourceCulture);
             }
@@ -1595,7 +1595,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it was &lt;null&gt;..
         /// </summary>
-        internal static string Common_CommaButItWasNull {
+        public static string Common_CommaButItWasNull {
             get {
                 return ResourceManager.GetString("Common_CommaButItWasNull", resourceCulture);
             }
@@ -1604,7 +1604,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it was {1}..
         /// </summary>
-        internal static string Common_CommaButItWasYFormat {
+        public static string Common_CommaButItWasYFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButItWasYFormat", resourceCulture);
             }
@@ -1613,7 +1613,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it was {2}..
         /// </summary>
-        internal static string Common_CommaButItWasZFormat {
+        public static string Common_CommaButItWasZFormat {
             get {
                 return ResourceManager.GetString("Common_CommaButItWasZFormat", resourceCulture);
             }
@@ -1622,7 +1622,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but that attribute was not found..
         /// </summary>
-        internal static string Common_CommaButThatAttributeWasFound {
+        public static string Common_CommaButThatAttributeWasFound {
             get {
                 return ResourceManager.GetString("Common_CommaButThatAttributeWasFound", resourceCulture);
             }
@@ -1631,7 +1631,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , .
         /// </summary>
-        internal static string Common_CommaSpace {
+        public static string Common_CommaSpace {
             get {
                 return ResourceManager.GetString("Common_CommaSpace", resourceCulture);
             }
@@ -1640,7 +1640,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be &lt;null&gt;.
         /// </summary>
-        internal static string Common_ExpectedSubjectToBeNull {
+        public static string Common_ExpectedSubjectToBeNull {
             get {
                 return ResourceManager.GetString("Common_ExpectedSubjectToBeNull", resourceCulture);
             }
@@ -1649,7 +1649,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to &lt;null&gt;.
         /// </summary>
-        internal static string Common_NullKeyword {
+        public static string Common_NullKeyword {
             get {
                 return ResourceManager.GetString("Common_NullKeyword", resourceCulture);
             }
@@ -1658,7 +1658,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan..
         /// </summary>
-        internal static string Configuration_XIsNotValidOptionForValueFormattersFormat {
+        public static string Configuration_XIsNotValidOptionForValueFormattersFormat {
             get {
                 return ResourceManager.GetString("Configuration_XIsNotValidOptionForValueFormattersFormat", resourceCulture);
             }
@@ -1667,7 +1667,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}.
         /// </summary>
-        internal static string Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat {
+        public static string Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat {
             get {
                 return ResourceManager.GetString("Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat", resourceCulture);
             }
@@ -1676,7 +1676,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}({1}).
         /// </summary>
-        internal static string Constructor_DescriptionFormat {
+        public static string Constructor_DescriptionFormat {
             get {
                 return ResourceManager.GetString("Constructor_DescriptionFormat", resourceCulture);
             }
@@ -1685,7 +1685,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Do not convert member {0}..
         /// </summary>
-        internal static string Conversion_DoNotConvertMemberXFormat {
+        public static string Conversion_DoNotConvertMemberXFormat {
             get {
                 return ResourceManager.GetString("Conversion_DoNotConvertMemberXFormat", resourceCulture);
             }
@@ -1694,7 +1694,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Try conversion of all members. .
         /// </summary>
-        internal static string Conversion_TryConversionOfAllMembersSpace {
+        public static string Conversion_TryConversionOfAllMembersSpace {
             get {
                 return ResourceManager.GetString("Conversion_TryConversionOfAllMembersSpace", resourceCulture);
             }
@@ -1703,7 +1703,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Try conversion of member {0}. .
         /// </summary>
-        internal static string Conversion_TryConversionOfMemberXSpaceFormat {
+        public static string Conversion_TryConversionOfMemberXSpaceFormat {
             get {
                 return ResourceManager.GetString("Conversion_TryConversionOfMemberXSpaceFormat", resourceCulture);
             }
@@ -1712,7 +1712,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Without automatic conversion..
         /// </summary>
-        internal static string Conversion_WithoutAutomaticConversion {
+        public static string Conversion_WithoutAutomaticConversion {
             get {
                 return ResourceManager.GetString("Conversion_WithoutAutomaticConversion", resourceCulture);
             }
@@ -1721,7 +1721,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference..
         /// </summary>
-        internal static string CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference {
+        public static string CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference {
             get {
                 return ResourceManager.GetString("CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference", resourceCulture);
             }
@@ -1730,7 +1730,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but found a &lt;null&gt; DateTimeOffset..
         /// </summary>
-        internal static string DateTime_ButFoundANullDateTimeOffset {
+        public static string DateTime_ButFoundANullDateTimeOffset {
             get {
                 return ResourceManager.GetString("DateTime_ButFoundANullDateTimeOffset", resourceCulture);
             }
@@ -1739,7 +1739,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found a &lt;null&gt; DateTime..
         /// </summary>
-        internal static string DateTime_CommaButFoundANullDateTime {
+        public static string DateTime_CommaButFoundANullDateTime {
             get {
                 return ResourceManager.GetString("DateTime_CommaButFoundANullDateTime", resourceCulture);
             }
@@ -1748,7 +1748,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}..
         /// </summary>
-        internal static string DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat {
+        public static string DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat", resourceCulture);
             }
@@ -1757,7 +1757,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:the date and time} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectDateToBeXFormat {
+        public static string DateTime_DidNotExpectDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectDateToBeXFormat", resourceCulture);
             }
@@ -1766,7 +1766,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:nullable date and time} to have a value{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectNullableDateTimeToHaveAValue {
+        public static string DateTime_DidNotExpectNullableDateTimeToHaveAValue {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectNullableDateTimeToHaveAValue", resourceCulture);
             }
@@ -1775,7 +1775,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the date part of {context:the date and time} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheDatePartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheDatePartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheDatePartOfDateToBeXFormat", resourceCulture);
             }
@@ -1784,7 +1784,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the day part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheDayPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheDayPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheDayPartOfDateToBeXFormat", resourceCulture);
             }
@@ -1793,7 +1793,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the hour part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheHourPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheHourPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheHourPartOfDateToBeXFormat", resourceCulture);
             }
@@ -1802,7 +1802,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the minute part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat", resourceCulture);
             }
@@ -1811,7 +1811,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the month part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat", resourceCulture);
             }
@@ -1820,7 +1820,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the offset of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheOffsetOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheOffsetOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheOffsetOfDateToBeXFormat", resourceCulture);
             }
@@ -1829,7 +1829,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the seconds part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat", resourceCulture);
             }
@@ -1838,7 +1838,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the year part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectTheYearPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheYearPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectTheYearPartOfDateToBeXFormat", resourceCulture);
             }
@@ -1847,7 +1847,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:variable} to have a value{reason}.
         /// </summary>
-        internal static string DateTime_DidNotExpectVariableToHaveAValue {
+        public static string DateTime_DidNotExpectVariableToHaveAValue {
             get {
                 return ResourceManager.GetString("DateTime_DidNotExpectVariableToHaveAValue", resourceCulture);
             }
@@ -1856,7 +1856,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be {1} {2} after {3}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat {
+        public static string DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeYZAfterWFormat", resourceCulture);
             }
@@ -1865,7 +1865,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be {1} {2} before {3}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat {
+        public static string DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeYZBeforeWFormat", resourceCulture);
             }
@@ -1874,7 +1874,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:date and time} not to be {0}{reason}, but it is..
         /// </summary>
-        internal static string DateTime_ExpectedDateNotToBeXButItIsFormat {
+        public static string DateTime_ExpectedDateNotToBeXButItIsFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateNotToBeXButItIsFormat", resourceCulture);
             }
@@ -1883,7 +1883,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be after {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeAfterXFormat {
+        public static string DateTime_ExpectedDateToBeAfterXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeAfterXFormat", resourceCulture);
             }
@@ -1892,7 +1892,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be before {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeBeforeXFormat {
+        public static string DateTime_ExpectedDateToBeBeforeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeBeforeXFormat", resourceCulture);
             }
@@ -1901,7 +1901,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be in {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeInXFormat {
+        public static string DateTime_ExpectedDateToBeInXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeInXFormat", resourceCulture);
             }
@@ -1910,7 +1910,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:date and time} to be one of {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeOneOfXFormat {
+        public static string DateTime_ExpectedDateToBeOneOfXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeOneOfXFormat", resourceCulture);
             }
@@ -1919,7 +1919,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be on or after {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeOnOrAfterXFormat {
+        public static string DateTime_ExpectedDateToBeOnOrAfterXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrAfterXFormat", resourceCulture);
             }
@@ -1928,7 +1928,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be on or before {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeOnOrBeforeXFormat {
+        public static string DateTime_ExpectedDateToBeOnOrBeforeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrBeforeXFormat", resourceCulture);
             }
@@ -1937,7 +1937,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time} to be within {0} from {1}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeWithinXFromYFormat {
+        public static string DateTime_ExpectedDateToBeWithinXFromYFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXFromYFormat", resourceCulture);
             }
@@ -1946,7 +1946,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:date and time} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeXFormat {
+        public static string DateTime_ExpectedDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeXFormat", resourceCulture);
             }
@@ -1955,7 +1955,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time) to be {0} {1} after {2}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeXYAfterZFormat {
+        public static string DateTime_ExpectedDateToBeXYAfterZFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeXYAfterZFormat", resourceCulture);
             }
@@ -1964,7 +1964,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:the date and time) to be {0} {1} before {2}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedDateToBeXYBeforeZFormat {
+        public static string DateTime_ExpectedDateToBeXYBeforeZFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedDateToBeXYBeforeZFormat", resourceCulture);
             }
@@ -1973,7 +1973,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:nullable date and time} to have a value{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedNullableDateTimeToHaveAValue {
+        public static string DateTime_ExpectedNullableDateTimeToHaveAValue {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedNullableDateTimeToHaveAValue", resourceCulture);
             }
@@ -1982,7 +1982,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the date part of {context:the date and time} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheDatePartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheDatePartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheDatePartOfDateToBeXFormat", resourceCulture);
             }
@@ -1991,7 +1991,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the day part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheDayPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheDayPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheDayPartOfDateToBeXFormat", resourceCulture);
             }
@@ -2000,7 +2000,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the hour part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheHourPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheHourPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheHourPartOfDateToBeXFormat", resourceCulture);
             }
@@ -2009,7 +2009,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the minute part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheMinutePartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheMinutePartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheMinutePartOfDateToBeXFormat", resourceCulture);
             }
@@ -2018,7 +2018,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the month part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheMonthPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheMonthPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheMonthPartOfDateToBeXFormat", resourceCulture);
             }
@@ -2027,7 +2027,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the offset of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheOffsetOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheOffsetOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheOffsetOfDateToBeXFormat", resourceCulture);
             }
@@ -2036,7 +2036,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the seconds part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheSecondsPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheSecondsPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheSecondsPartOfDateToBeXFormat", resourceCulture);
             }
@@ -2045,7 +2045,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the year part of {context:the date} to be {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTheYearPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheYearPartOfDateToBeXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTheYearPartOfDateToBeXFormat", resourceCulture);
             }
@@ -2054,7 +2054,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be greater or equal to {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat {
+        public static string DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat", resourceCulture);
             }
@@ -2063,7 +2063,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be greater than {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeGreaterThanXFormat {
+        public static string DateTime_ExpectedTimeToBeGreaterThanXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterThanXFormat", resourceCulture);
             }
@@ -2072,7 +2072,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be less or equal to {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeLessOrEqualToXFormat {
+        public static string DateTime_ExpectedTimeToBeLessOrEqualToXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessOrEqualToXFormat", resourceCulture);
             }
@@ -2081,7 +2081,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be less than {0}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeLessThanXFormat {
+        public static string DateTime_ExpectedTimeToBeLessThanXFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessThanXFormat", resourceCulture);
             }
@@ -2090,7 +2090,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be negative{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeNegative {
+        public static string DateTime_ExpectedTimeToBeNegative {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeNegative", resourceCulture);
             }
@@ -2099,7 +2099,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be positive{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBePositive {
+        public static string DateTime_ExpectedTimeToBePositive {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBePositive", resourceCulture);
             }
@@ -2108,7 +2108,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to be within {0} from {1}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToBeWithinXFromYFormat {
+        public static string DateTime_ExpectedTimeToBeWithinXFromYFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToBeWithinXFromYFormat", resourceCulture);
             }
@@ -2117,7 +2117,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:time} to not be within {0} from {1}{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedTimeToNotBeWithinXFromYFormat {
+        public static string DateTime_ExpectedTimeToNotBeWithinXFromYFormat {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedTimeToNotBeWithinXFromYFormat", resourceCulture);
             }
@@ -2126,7 +2126,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:variable} to have a value{reason}.
         /// </summary>
-        internal static string DateTime_ExpectedVariableToHaveAValue {
+        public static string DateTime_ExpectedVariableToHaveAValue {
             get {
                 return ResourceManager.GetString("DateTime_ExpectedVariableToHaveAValue", resourceCulture);
             }
@@ -2135,7 +2135,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to max time span.
         /// </summary>
-        internal static string DateTime_MaxTimeSpan {
+        public static string DateTime_MaxTimeSpan {
             get {
                 return ResourceManager.GetString("DateTime_MaxTimeSpan", resourceCulture);
             }
@@ -2144,7 +2144,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to min time span.
         /// </summary>
-        internal static string DateTime_MinTimeSpan {
+        public static string DateTime_MinTimeSpan {
             get {
                 return ResourceManager.GetString("DateTime_MinTimeSpan", resourceCulture);
             }
@@ -2153,7 +2153,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Valid values are between 0 and 999.
         /// </summary>
-        internal static string DateTime_ValidValuesAreBetween0And999 {
+        public static string DateTime_ValidValuesAreBetween0And999 {
             get {
                 return ResourceManager.GetString("DateTime_ValidValuesAreBetween0And999", resourceCulture);
             }
@@ -2162,7 +2162,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected dictionaries not to be equal{reason}.
         /// </summary>
-        internal static string Dicitonary_ExpectedDictionariesNotToBeEqual {
+        public static string Dicitonary_ExpectedDictionariesNotToBeEqual {
             get {
                 return ResourceManager.GetString("Dicitonary_ExpectedDictionariesNotToBeEqual", resourceCulture);
             }
@@ -2171,7 +2171,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but has additional key(s) {0}.
         /// </summary>
-        internal static string Dictionary_ButHasAdditionalKeysXFormat {
+        public static string Dictionary_ButHasAdditionalKeysXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ButHasAdditionalKeysXFormat", resourceCulture);
             }
@@ -2180,7 +2180,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but it misses key(s) {0} and has additional key(s) {1}.
         /// </summary>
-        internal static string Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat {
+        public static string Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat", resourceCulture);
             }
@@ -2189,7 +2189,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but it misses key(s) {0}.
         /// </summary>
-        internal static string Dictionary_ButItMissesKeysXFormat {
+        public static string Dictionary_ButItMissesKeysXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ButItMissesKeysXFormat", resourceCulture);
             }
@@ -2198,7 +2198,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare dictionary count against a &lt;null&gt; predicate..
         /// </summary>
-        internal static string Dictionary_CannotCompareDictionaryCountAgainstNullPredicate {
+        public static string Dictionary_CannotCompareDictionaryCountAgainstNullPredicate {
             get {
                 return ResourceManager.GetString("Dictionary_CannotCompareDictionaryCountAgainstNullPredicate", resourceCulture);
             }
@@ -2207,7 +2207,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare dictionary with &lt;null&gt;..
         /// </summary>
-        internal static string Dictionary_CannotCompareDictionaryWithNull {
+        public static string Dictionary_CannotCompareDictionaryWithNull {
             get {
                 return ResourceManager.GetString("Dictionary_CannotCompareDictionaryWithNull", resourceCulture);
             }
@@ -2216,7 +2216,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify key containment against an empty collection of key/value pairs.
         /// </summary>
-        internal static string Dictionary_CannotVerifyKeyContainmentAgainstEmptyCollectionOfKvp {
+        public static string Dictionary_CannotVerifyKeyContainmentAgainstEmptyCollectionOfKvp {
             get {
                 return ResourceManager.GetString("Dictionary_CannotVerifyKeyContainmentAgainstEmptyCollectionOfKvp", resourceCulture);
             }
@@ -2225,7 +2225,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify key containment against an empty sequence.
         /// </summary>
-        internal static string Dictionary_CannotVerifyKeyContainmentAgainstEmptySequence {
+        public static string Dictionary_CannotVerifyKeyContainmentAgainstEmptySequence {
             get {
                 return ResourceManager.GetString("Dictionary_CannotVerifyKeyContainmentAgainstEmptySequence", resourceCulture);
             }
@@ -2234,7 +2234,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot verify key containment against a &lt;null&gt; collection of keys.
         /// </summary>
-        internal static string Dictionary_CannotVerifyKeyContainmentAgainstNull {
+        public static string Dictionary_CannotVerifyKeyContainmentAgainstNull {
             get {
                 return ResourceManager.GetString("Dictionary_CannotVerifyKeyContainmentAgainstNull", resourceCulture);
             }
@@ -2243,7 +2243,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Comparing dictionary item {0} at {1} between subject and expectation.
         /// </summary>
-        internal static string Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat {
+        public static string Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat", resourceCulture);
             }
@@ -2252,7 +2252,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect dictionaries {0} and {1} to be equal{reason}..
         /// </summary>
-        internal static string Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat {
+        public static string Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat {
             get {
                 return ResourceManager.GetString("Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat", resourceCulture);
             }
@@ -2261,7 +2261,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {context:Expectation} implements multiple dictionary types.  It is not known which type should be use for equivalence.{0}The following IDictionary interfaces are implemented: {1}.
         /// </summary>
-        internal static string Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat {
+        public static string Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat", resourceCulture);
             }
@@ -2270,7 +2270,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} not to be empty{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryNotToBeEmpty {
+        public static string Dictionary_ExpectedDictionaryNotToBeEmpty {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToBeEmpty", resourceCulture);
             }
@@ -2279,7 +2279,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} not to contain key {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryNotToContainKeyXFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainKeyXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainKeyXFormat", resourceCulture);
             }
@@ -2288,7 +2288,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat", resourceCulture);
             }
@@ -2297,7 +2297,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat", resourceCulture);
             }
@@ -2306,7 +2306,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} not to contain value {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryNotToContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXFormat", resourceCulture);
             }
@@ -2315,7 +2315,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to be empty{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToBeEmpty {
+        public static string Dictionary_ExpectedDictionaryToBeEmpty {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEmpty", resourceCulture);
             }
@@ -2324,7 +2324,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but could not find keys {1}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat", resourceCulture);
             }
@@ -2333,7 +2333,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but found additional keys {1}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat", resourceCulture);
             }
@@ -2342,7 +2342,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat", resourceCulture);
             }
@@ -2351,7 +2351,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to be equal to {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToBeEqualToXFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXFormat", resourceCulture);
             }
@@ -2360,7 +2360,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain at least {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat", resourceCulture);
             }
@@ -2369,7 +2369,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain at most {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat", resourceCulture);
             }
@@ -2378,7 +2378,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain fewer than {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat", resourceCulture);
             }
@@ -2387,7 +2387,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain keys {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainKeysXFormat {
+        public static string Dictionary_ExpectedDictionaryToContainKeysXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKeysXFormat", resourceCulture);
             }
@@ -2396,7 +2396,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat", resourceCulture);
             }
@@ -2405,7 +2405,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain more than {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat", resourceCulture);
             }
@@ -2414,7 +2414,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}, but dictionary is {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat", resourceCulture);
             }
@@ -2423,7 +2423,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}, but the key was not found..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat", resourceCulture);
             }
@@ -2432,7 +2432,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0} at key {1}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat", resourceCulture);
             }
@@ -2441,7 +2441,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain value {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXFormat", resourceCulture);
             }
@@ -2450,7 +2450,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to contain {0}{reason}, but {context:dictionary} differs at keys {1}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat", resourceCulture);
             }
@@ -2459,7 +2459,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to have {0} items{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToHaveXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToHaveXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToHaveXItemsFormat", resourceCulture);
             }
@@ -2468,7 +2468,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat", resourceCulture);
             }
@@ -2477,7 +2477,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but found them anyhow..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat", resourceCulture);
             }
@@ -2486,7 +2486,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not contain value {0} at key {1}{reason}, but found it anyhow..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat", resourceCulture);
             }
@@ -2495,7 +2495,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not contain value {0}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainValueXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueXFormat", resourceCulture);
             }
@@ -2504,7 +2504,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not have any items{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotHaveAnyItems {
+        public static string Dictionary_ExpectedDictionaryToNotHaveAnyItems {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotHaveAnyItems", resourceCulture);
             }
@@ -2513,7 +2513,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} to not have {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryToNotHaveXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToNotHaveXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotHaveXItemsFormat", resourceCulture);
             }
@@ -2522,7 +2522,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat", resourceCulture);
             }
@@ -2531,7 +2531,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat", resourceCulture);
             }
@@ -2540,7 +2540,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain at least {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat", resourceCulture);
             }
@@ -2549,7 +2549,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain at most {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat", resourceCulture);
             }
@@ -2558,7 +2558,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain fewer than {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat", resourceCulture);
             }
@@ -2567,7 +2567,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find keys {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat", resourceCulture);
             }
@@ -2576,7 +2576,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key {1}{reason}, but could not find {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat", resourceCulture);
             }
@@ -2585,7 +2585,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain key {1}{reason}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainKeyYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeyYFormat", resourceCulture);
             }
@@ -2594,7 +2594,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain more than {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat", resourceCulture);
             }
@@ -2603,7 +2603,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain value {1}{reason}, but could not find {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat", resourceCulture);
             }
@@ -2612,7 +2612,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to contain value {1}{reason}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToContainValueYFormat {
+        public static string Dictionary_ExpectedDictionaryXToContainValueYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainValueYFormat", resourceCulture);
             }
@@ -2621,7 +2621,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat {
+        public static string Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat", resourceCulture);
             }
@@ -2630,7 +2630,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to have {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToHaveYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToHaveYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToHaveYItemsFormat", resourceCulture);
             }
@@ -2639,7 +2639,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain key {1}{reason}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat {
+        public static string Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat", resourceCulture);
             }
@@ -2648,7 +2648,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain key {1}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToNotContainKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryXToNotContainKeyYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainKeyYFormat", resourceCulture);
             }
@@ -2657,7 +2657,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain value {1}{reason}..
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat {
+        public static string Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat", resourceCulture);
             }
@@ -2666,7 +2666,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not contain value {1}{reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToNotContainValueYFormat {
+        public static string Dictionary_ExpectedDictionaryXToNotContainValueYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainValueYFormat", resourceCulture);
             }
@@ -2675,7 +2675,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:dictionary} {0} to not have {1} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat", resourceCulture);
             }
@@ -2684,7 +2684,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a {0}.
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToBeAXFormat {
+        public static string Dictionary_ExpectedSubjectToBeAXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeAXFormat", resourceCulture);
             }
@@ -2693,7 +2693,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary, but it is not..
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToBeDictionaryButIsNot {
+        public static string Dictionary_ExpectedSubjectToBeDictionaryButIsNot {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryButIsNot", resourceCulture);
             }
@@ -2702,7 +2702,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s)..
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat {
+        public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat", resourceCulture);
             }
@@ -2711,7 +2711,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be a dictionary with {0} item(s), .
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat {
+        public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat", resourceCulture);
             }
@@ -2720,7 +2720,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to be {0}.
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToBeXFormat {
+        public static string Dictionary_ExpectedSubjectToBeXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeXFormat", resourceCulture);
             }
@@ -2729,7 +2729,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:subject} to contain key {0}..
         /// </summary>
-        internal static string Dictionary_ExpectedSubjectToContainKeyXFormat {
+        public static string Dictionary_ExpectedSubjectToContainKeyXFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedSubjectToContainKeyXFormat", resourceCulture);
             }
@@ -2738,7 +2738,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} item(s){reason}.
         /// </summary>
-        internal static string Dictionary_ExpectedXItemsFormat {
+        public static string Dictionary_ExpectedXItemsFormat {
             get {
                 return ResourceManager.GetString("Dictionary_ExpectedXItemsFormat", resourceCulture);
             }
@@ -2747,7 +2747,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Recursing into dictionary item {key} at {path}.
         /// </summary>
-        internal static string Dictionary_RecursingIntoDictionaryItemXAtYFormat {
+        public static string Dictionary_RecursingIntoDictionaryItemXAtYFormat {
             get {
                 return ResourceManager.GetString("Dictionary_RecursingIntoDictionaryItemXAtYFormat", resourceCulture);
             }
@@ -2756,7 +2756,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to The {context:subject} dictionary has keys of type {0}; however, the expectation is not keyed with any compatible types.{1}The subject implements: {2}.
         /// </summary>
-        internal static string Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat {
+        public static string Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat {
             get {
                 return ResourceManager.GetString("Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubject" +
                         "ImplementsZFormat", resourceCulture);
@@ -2766,7 +2766,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to The subject implements multiple IDictionary interfaces. .
         /// </summary>
-        internal static string Dictionary_SubjectImplementsMultipleIDictionaryInterfaces {
+        public static string Dictionary_SubjectImplementsMultipleIDictionaryInterfaces {
             get {
                 return ResourceManager.GetString("Dictionary_SubjectImplementsMultipleIDictionaryInterfaces", resourceCulture);
             }
@@ -2775,7 +2775,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the enum to have flag {0}{reason}..
         /// </summary>
-        internal static string Enum_DidNotExpectTheEnumToHaveFlagXFormat {
+        public static string Enum_DidNotExpectTheEnumToHaveFlagXFormat {
             get {
                 return ResourceManager.GetString("Enum_DidNotExpectTheEnumToHaveFlagXFormat", resourceCulture);
             }
@@ -2784,7 +2784,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Do not know how to handle {0}.
         /// </summary>
-        internal static string Enum_DoNotKnowHowToHandleXFormat {
+        public static string Enum_DoNotKnowHowToHandleXFormat {
             get {
                 return ResourceManager.GetString("Enum_DoNotKnowHowToHandleXFormat", resourceCulture);
             }
@@ -2793,7 +2793,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to The enum was expected to have flag {0} but found {1}{reason}..
         /// </summary>
-        internal static string Enum_EnumWasExpectedToHaveFlagXButFoundYFormat {
+        public static string Enum_EnumWasExpectedToHaveFlagXButFoundYFormat {
             get {
                 return ResourceManager.GetString("Enum_EnumWasExpectedToHaveFlagXButFoundYFormat", resourceCulture);
             }
@@ -2802,7 +2802,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:enum} to equal {0} by name{reason}.
         /// </summary>
-        internal static string Enum_ExpectedEnumToEqualXByNameFormat {
+        public static string Enum_ExpectedEnumToEqualXByNameFormat {
             get {
                 return ResourceManager.GetString("Enum_ExpectedEnumToEqualXByNameFormat", resourceCulture);
             }
@@ -2811,7 +2811,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:enum} to equal {0} by value{reason}.
         /// </summary>
-        internal static string Enum_ExpectedEnumToEqualXByValueFormat {
+        public static string Enum_ExpectedEnumToEqualXByValueFormat {
             get {
                 return ResourceManager.GetString("Enum_ExpectedEnumToEqualXByValueFormat", resourceCulture);
             }
@@ -2820,7 +2820,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the enum to be of type {0} type but found {1}{reason}..
         /// </summary>
-        internal static string Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat {
+        public static string Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat {
             get {
                 return ResourceManager.GetString("Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat", resourceCulture);
             }
@@ -2829,7 +2829,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to The maximum recursion depth was reached.  .
         /// </summary>
-        internal static string Equivalency_MaximumRecursionDepthWasReached {
+        public static string Equivalency_MaximumRecursionDepthWasReached {
             get {
                 return ResourceManager.GetString("Equivalency_MaximumRecursionDepthWasReached", resourceCulture);
             }
@@ -2838,7 +2838,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to No members were found for comparison. Please specify some members to include in the comparison or choose a more meaningful assertion..
         /// </summary>
-        internal static string Equivalency_NoMembersWereFoundForComparison {
+        public static string Equivalency_NoMembersWereFoundForComparison {
             get {
                 return ResourceManager.GetString("Equivalency_NoMembersWereFoundForComparison", resourceCulture);
             }
@@ -2847,7 +2847,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to No {0} was found to handle the context. .
         /// </summary>
-        internal static string Equivalency_NoXWasFoundToHandleTheContextFormat {
+        public static string Equivalency_NoXWasFoundToHandleTheContextFormat {
             get {
                 return ResourceManager.GetString("Equivalency_NoXWasFoundToHandleTheContextFormat", resourceCulture);
             }
@@ -2856,7 +2856,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Parameter count mismatch..
         /// </summary>
-        internal static string Equivalency_ParameterCountMismatch {
+        public static string Equivalency_ParameterCountMismatch {
             get {
                 return ResourceManager.GetString("Equivalency_ParameterCountMismatch", resourceCulture);
             }
@@ -2865,7 +2865,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot monitor the events of a &lt;null&gt; object..
         /// </summary>
-        internal static string Event_CannotMonitorEventsOfNullObject {
+        public static string Event_CannotMonitorEventsOfNullObject {
             get {
                 return ResourceManager.GetString("Event_CannotMonitorEventsOfNullObject", resourceCulture);
             }
@@ -2874,7 +2874,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot monitor events on garbage-collected object.
         /// </summary>
-        internal static string Event_CannotMonitorEventsOnGarbageCollectedObject {
+        public static string Event_CannotMonitorEventsOnGarbageCollectedObject {
             get {
                 return ResourceManager.GetString("Event_CannotMonitorEventsOnGarbageCollectedObject", resourceCulture);
             }
@@ -2883,7 +2883,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did..
         /// </summary>
-        internal static string Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat {
+        public static string Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat {
             get {
                 return ResourceManager.GetString("Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat", resourceCulture);
             }
@@ -2892,7 +2892,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected at least one event with arguments matching {0}, but found none..
         /// </summary>
-        internal static string Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat {
+        public static string Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat", resourceCulture);
             }
@@ -2901,7 +2901,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected event from sender &lt;{0}&gt;, but event {1} does not include any arguments.
         /// </summary>
-        internal static string Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat {
+        public static string Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat", resourceCulture);
             }
@@ -2910,7 +2910,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to not raise event {1}{reason}, but it did..
         /// </summary>
-        internal static string Event_ExpectedObjectXToNotRaiseEventYButItDidFormat {
+        public static string Event_ExpectedObjectXToNotRaiseEventYButItDidFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedObjectXToNotRaiseEventYButItDidFormat", resourceCulture);
             }
@@ -2919,7 +2919,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to raise event {1}{reason}, but it did not..
         /// </summary>
-        internal static string Event_ExpectedObjectXToRaiseEventYButItDidNotFormat {
+        public static string Event_ExpectedObjectXToRaiseEventYButItDidNotFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedObjectXToRaiseEventYButItDidNotFormat", resourceCulture);
             }
@@ -2928,7 +2928,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to raise event {1} for property {2}{reason}, but it did not..
         /// </summary>
-        internal static string Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat {
+        public static string Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat", resourceCulture);
             }
@@ -2937,7 +2937,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected sender {0}.
         /// </summary>
-        internal static string Event_ExpectedSenderXFormat {
+        public static string Event_ExpectedSenderXFormat {
             get {
                 return ResourceManager.GetString("Event_ExpectedSenderXFormat", resourceCulture);
             }
@@ -2946,7 +2946,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to No argument of event {0} is of type &lt;{1}&gt;..
         /// </summary>
-        internal static string Event_NoArgumentOfEventXIsOfTypeYFormat {
+        public static string Event_NoArgumentOfEventXIsOfTypeYFormat {
             get {
                 return ResourceManager.GetString("Event_NoArgumentOfEventXIsOfTypeYFormat", resourceCulture);
             }
@@ -2955,7 +2955,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Not monitoring any events named &quot;{0}&quot;..
         /// </summary>
-        internal static string Event_NotMonitoringAnyEventsNamedXFormat {
+        public static string Event_NotMonitoringAnyEventsNamedXFormat {
             get {
                 return ResourceManager.GetString("Event_NotMonitoringAnyEventsNamedXFormat", resourceCulture);
             }
@@ -2964,7 +2964,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Type is not a Delegate!.
         /// </summary>
-        internal static string Event_TypeIsNotADelegate {
+        public static string Event_TypeIsNotADelegate {
             get {
                 return ResourceManager.GetString("Event_TypeIsNotADelegate", resourceCulture);
             }
@@ -2973,7 +2973,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Type {0} does not expose any events..
         /// </summary>
-        internal static string Event_TypeXDoesNotExposeAnyEventFormat {
+        public static string Event_TypeXDoesNotExposeAnyEventFormat {
             get {
                 return ResourceManager.GetString("Event_TypeXDoesNotExposeAnyEventFormat", resourceCulture);
             }
@@ -2982,7 +2982,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot use action assertions on an async void method. Assign the async method to a variable of type Func&lt;Task&gt; instead of Action so that it can be awaited..
         /// </summary>
-        internal static string Exception_CannotUseActionAssertionsOnAsyncVoidMethods {
+        public static string Exception_CannotUseActionAssertionsOnAsyncVoidMethods {
             get {
                 return ResourceManager.GetString("Exception_CannotUseActionAssertionsOnAsyncVoidMethods", resourceCulture);
             }
@@ -2991,7 +2991,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but found &lt;{1}&gt;: {2}{3}..
         /// </summary>
-        internal static string Exception_CommaButFoundYZW {
+        public static string Exception_CommaButFoundYZW {
             get {
                 return ResourceManager.GetString("Exception_CommaButFoundYZW", resourceCulture);
             }
@@ -3000,7 +3000,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but no exception was thrown..
         /// </summary>
-        internal static string Exception_CommaButNoExceptionWasThrown {
+        public static string Exception_CommaButNoExceptionWasThrown {
             get {
                 return ResourceManager.GetString("Exception_CommaButNoExceptionWasThrown", resourceCulture);
             }
@@ -3009,7 +3009,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but the thrown exception has no inner exception..
         /// </summary>
-        internal static string Exception_CommaButTheThrownExceptionHasNoInnerException {
+        public static string Exception_CommaButTheThrownExceptionHasNoInnerException {
             get {
                 return ResourceManager.GetString("Exception_CommaButTheThrownExceptionHasNoInnerException", resourceCulture);
             }
@@ -3018,7 +3018,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect any exception{reason}.
         /// </summary>
-        internal static string Exception_DidNotExpectAnyException {
+        public static string Exception_DidNotExpectAnyException {
             get {
                 return ResourceManager.GetString("Exception_DidNotExpectAnyException", resourceCulture);
             }
@@ -3027,7 +3027,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {0}{reason}.
         /// </summary>
-        internal static string Exception_DidNotExpectXFormat {
+        public static string Exception_DidNotExpectXFormat {
             get {
                 return ResourceManager.GetString("Exception_DidNotExpectXFormat", resourceCulture);
             }
@@ -3036,7 +3036,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected a &lt;{0}&gt; to be thrown{reason}.
         /// </summary>
-        internal static string Exception_ExpectedAXToBeThrownFormat {
+        public static string Exception_ExpectedAXToBeThrownFormat {
             get {
                 return ResourceManager.GetString("Exception_ExpectedAXToBeThrownFormat", resourceCulture);
             }
@@ -3045,7 +3045,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}..
         /// </summary>
-        internal static string Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat {
+        public static string Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat {
             get {
                 return ResourceManager.GetString("Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat", resourceCulture);
             }
@@ -3054,7 +3054,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected exception with message {0}{reason}.
         /// </summary>
-        internal static string Exception_ExpectedExceptionWithMessageXFormat {
+        public static string Exception_ExpectedExceptionWithMessageXFormat {
             get {
                 return ResourceManager.GetString("Exception_ExpectedExceptionWithMessageXFormat", resourceCulture);
             }
@@ -3063,7 +3063,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected inner {0}{reason}.
         /// </summary>
-        internal static string Exception_ExpectedInnerXFormat {
+        public static string Exception_ExpectedInnerXFormat {
             get {
                 return ResourceManager.GetString("Exception_ExpectedInnerXFormat", resourceCulture);
             }
@@ -3072,7 +3072,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{reason}.
         /// </summary>
-        internal static string Exception_ExpectedXFormat {
+        public static string Exception_ExpectedXFormat {
             get {
                 return ResourceManager.GetString("Exception_ExpectedXFormat", resourceCulture);
             }
@@ -3081,7 +3081,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}.
         /// </summary>
-        internal static string Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat {
+        public static string Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat {
             get {
                 return ResourceManager.GetString("Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat", resourceCulture);
             }
@@ -3090,7 +3090,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it required exactly {2}..
         /// </summary>
-        internal static string ExecutionTime_CommaButItRequiredExactlyZFormat {
+        public static string ExecutionTime_CommaButItRequiredExactlyZFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_CommaButItRequiredExactlyZFormat", resourceCulture);
             }
@@ -3099,7 +3099,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but it required more than {2}..
         /// </summary>
-        internal static string ExecutionTime_CommaButItRequiredMoreThanZFormat {
+        public static string ExecutionTime_CommaButItRequiredMoreThanZFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_CommaButItRequiredMoreThanZFormat", resourceCulture);
             }
@@ -3108,7 +3108,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be greater or equal to {1}{reason}.
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat", resourceCulture);
             }
@@ -3117,7 +3117,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be greater than {1}{reason}.
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat", resourceCulture);
             }
@@ -3126,7 +3126,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be less or equal to {1}{reason}.
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat", resourceCulture);
             }
@@ -3135,7 +3135,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be less than {1}{reason}.
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeLessThanYFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeLessThanYFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeLessThanYFormat", resourceCulture);
             }
@@ -3144,7 +3144,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{reason}, but it required exactly {3}..
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat", resourceCulture);
             }
@@ -3153,7 +3153,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{reason}, but it required more than {3}..
         /// </summary>
-        internal static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat {
+        public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat {
             get {
                 return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat", resourceCulture);
             }
@@ -3162,7 +3162,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot match an object against a &lt;null&gt; predicate..
         /// </summary>
-        internal static string Expression_CannotMatchObjectAgainstNullPredicate {
+        public static string Expression_CannotMatchObjectAgainstNullPredicate {
             get {
                 return ResourceManager.GetString("Expression_CannotMatchObjectAgainstNullPredicate", resourceCulture);
             }
@@ -3171,7 +3171,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot use &lt;{0}&gt; when a property expression is expected..
         /// </summary>
-        internal static string Expression_CannotUseXWhenPropertyExpressionExpected {
+        public static string Expression_CannotUseXWhenPropertyExpressionExpected {
             get {
                 return ResourceManager.GetString("Expression_CannotUseXWhenPropertyExpressionExpected", resourceCulture);
             }
@@ -3180,7 +3180,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected an expression.
         /// </summary>
-        internal static string Expression_ExpectedAnExpression {
+        public static string Expression_ExpectedAnExpression {
             get {
                 return ResourceManager.GetString("Expression_ExpectedAnExpression", resourceCulture);
             }
@@ -3189,7 +3189,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected a property expression.
         /// </summary>
-        internal static string Expression_ExpectedPropertyExpression {
+        public static string Expression_ExpectedPropertyExpression {
             get {
                 return ResourceManager.GetString("Expression_ExpectedPropertyExpression", resourceCulture);
             }
@@ -3198,7 +3198,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expression &lt;{0}&gt; cannot be used to select a member..
         /// </summary>
-        internal static string Expression_ExpressionXCannotBeUsedToSelectMemberFormat {
+        public static string Expression_ExpressionXCannotBeUsedToSelectMemberFormat {
             get {
                 return ResourceManager.GetString("Expression_ExpressionXCannotBeUsedToSelectMemberFormat", resourceCulture);
             }
@@ -3207,7 +3207,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to (aggregated) .
         /// </summary>
-        internal static string Formatter_Aggregated {
+        public static string Formatter_Aggregated {
             get {
                 return ResourceManager.GetString("Formatter_Aggregated", resourceCulture);
             }
@@ -3216,7 +3216,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , ...{0} more ....
         /// </summary>
-        internal static string Formatter_CommaXMoreFormat {
+        public static string Formatter_CommaXMoreFormat {
             get {
                 return ResourceManager.GetString("Formatter_CommaXMoreFormat", resourceCulture);
             }
@@ -3225,7 +3225,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {Cyclic reference to type {0} detected}.
         /// </summary>
-        internal static string Formatter_CyclicReferenceToTypeXDetectedFormat {
+        public static string Formatter_CyclicReferenceToTypeXDetectedFormat {
             get {
                 return ResourceManager.GetString("Formatter_CyclicReferenceToTypeXDetectedFormat", resourceCulture);
             }
@@ -3234,7 +3234,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Formatting a child value requires a path.
         /// </summary>
-        internal static string Formatter_FormattingChildValueRequiresPath {
+        public static string Formatter_FormattingChildValueRequiresPath {
             get {
                 return ResourceManager.GetString("Formatter_FormattingChildValueRequiresPath", resourceCulture);
             }
@@ -3243,7 +3243,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {Maximum recursion depth was reached…}.
         /// </summary>
-        internal static string Formatter_MaxRecursionDepthWasReached {
+        public static string Formatter_MaxRecursionDepthWasReached {
             get {
                 return ResourceManager.GetString("Formatter_MaxRecursionDepthWasReached", resourceCulture);
             }
@@ -3252,7 +3252,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to [Member &apos;{0}&apos; threw an exception: &apos;{1}&apos;].
         /// </summary>
-        internal static string Formatter_MemberXThrewAnExceptionYFormat {
+        public static string Formatter_MemberXThrewAnExceptionYFormat {
             get {
                 return ResourceManager.GetString("Formatter_MemberXThrewAnExceptionYFormat", resourceCulture);
             }
@@ -3261,7 +3261,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to System.Object (HashCode={0}).
         /// </summary>
-        internal static string Formatter_SystemObjectHashCodeXFormat {
+        public static string Formatter_SystemObjectHashCodeXFormat {
             get {
                 return ResourceManager.GetString("Formatter_SystemObjectHashCodeXFormat", resourceCulture);
             }
@@ -3270,7 +3270,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children.
         /// </summary>
-        internal static string Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat {
+        public static string Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat {
             get {
                 return ResourceManager.GetString("Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat", resourceCulture);
             }
@@ -3279,7 +3279,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} (aggregated) exceptions:{1}.
         /// </summary>
-        internal static string Formatter_XAggregatedExceptionsYFormat {
+        public static string Formatter_XAggregatedExceptionsYFormat {
             get {
                 return ResourceManager.GetString("Formatter_XAggregatedExceptionsYFormat", resourceCulture);
             }
@@ -3288,7 +3288,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} with message &quot;{1}&quot;{2}.
         /// </summary>
-        internal static string Formatter_XWithMessageYZFormat {
+        public static string Formatter_XWithMessageYZFormat {
             get {
                 return ResourceManager.GetString("Formatter_XWithMessageYZFormat", resourceCulture);
             }
@@ -3297,7 +3297,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}With {1}:{0}{2}.
         /// </summary>
-        internal static string Formatter_XWithYColonXZFormat {
+        public static string Formatter_XWithYColonXZFormat {
             get {
                 return ResourceManager.GetString("Formatter_XWithYColonXZFormat", resourceCulture);
             }
@@ -3306,7 +3306,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:Guid} to be empty{reason}..
         /// </summary>
-        internal static string Guid_DidNotExpectGuidToBeEmpty {
+        public static string Guid_DidNotExpectGuidToBeEmpty {
             get {
                 return ResourceManager.GetString("Guid_DidNotExpectGuidToBeEmpty", resourceCulture);
             }
@@ -3315,7 +3315,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:Guid} to be {0}{reason}..
         /// </summary>
-        internal static string Guid_DidNotExpectGuidToBeXFormat {
+        public static string Guid_DidNotExpectGuidToBeXFormat {
             get {
                 return ResourceManager.GetString("Guid_DidNotExpectGuidToBeXFormat", resourceCulture);
             }
@@ -3324,7 +3324,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:Guid} to be empty{reason}.
         /// </summary>
-        internal static string Guid_ExpectedGuidToBeEmpty {
+        public static string Guid_ExpectedGuidToBeEmpty {
             get {
                 return ResourceManager.GetString("Guid_ExpectedGuidToBeEmpty", resourceCulture);
             }
@@ -3333,7 +3333,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:Guid} to be {0}{reason}.
         /// </summary>
-        internal static string Guid_ExpectedGuidToBeXFormat {
+        public static string Guid_ExpectedGuidToBeXFormat {
             get {
                 return ResourceManager.GetString("Guid_ExpectedGuidToBeXFormat", resourceCulture);
             }
@@ -3342,7 +3342,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Include all non-private fields.
         /// </summary>
-        internal static string IncludeAllNonPrivateFields {
+        public static string IncludeAllNonPrivateFields {
             get {
                 return ResourceManager.GetString("IncludeAllNonPrivateFields", resourceCulture);
             }
@@ -3351,7 +3351,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Include all non-private properties.
         /// </summary>
-        internal static string IncludeAllNonPrivateProperties {
+        public static string IncludeAllNonPrivateProperties {
             get {
                 return ResourceManager.GetString("IncludeAllNonPrivateProperties", resourceCulture);
             }
@@ -3360,7 +3360,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Include member root.{0}.
         /// </summary>
-        internal static string IncludeMemberRootDotXFormat {
+        public static string IncludeMemberRootDotXFormat {
             get {
                 return ResourceManager.GetString("IncludeMemberRootDotXFormat", resourceCulture);
             }
@@ -3369,7 +3369,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Include member when {0}.
         /// </summary>
-        internal static string IncludeMemberWhenXFormat {
+        public static string IncludeMemberWhenXFormat {
             get {
                 return ResourceManager.GetString("IncludeMemberWhenXFormat", resourceCulture);
             }
@@ -3378,7 +3378,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Match member by name (or throw).
         /// </summary>
-        internal static string MatchMemberByNameOrThrow {
+        public static string MatchMemberByNameOrThrow {
             get {
                 return ResourceManager.GetString("MatchMemberByNameOrThrow", resourceCulture);
             }
@@ -3387,7 +3387,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Exclude member root.{0}.
         /// </summary>
-        internal static string Member_ExcludeMemberRootXDotFormat {
+        public static string Member_ExcludeMemberRootXDotFormat {
             get {
                 return ResourceManager.GetString("Member_ExcludeMemberRootXDotFormat", resourceCulture);
             }
@@ -3396,7 +3396,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Exclude member when {0}.
         /// </summary>
-        internal static string Member_ExcludeMemberWhenXFormat {
+        public static string Member_ExcludeMemberWhenXFormat {
             get {
                 return ResourceManager.GetString("Member_ExcludeMemberWhenXFormat", resourceCulture);
             }
@@ -3405,7 +3405,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expectation has {0}.{1} that the other object does not have..
         /// </summary>
-        internal static string Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat {
+        public static string Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat {
             get {
                 return ResourceManager.GetString("Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
             }
@@ -3414,7 +3414,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expectation has member {0} that the other object does not have..
         /// </summary>
-        internal static string Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat {
+        public static string Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat {
             get {
                 return ResourceManager.GetString("Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
             }
@@ -3423,7 +3423,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1} to be decorated with {2}{reason}.
         /// </summary>
-        internal static string MemberInfo_ExpectedXYToBeDecoratedWithZFormat {
+        public static string MemberInfo_ExpectedXYToBeDecoratedWithZFormat {
             get {
                 return ResourceManager.GetString("MemberInfo_ExpectedXYToBeDecoratedWithZFormat", resourceCulture);
             }
@@ -3432,7 +3432,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1} to not be decorated with {2}{reason}.
         /// </summary>
-        internal static string MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat {
+        public static string MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat {
             get {
                 return ResourceManager.GetString("MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat", resourceCulture);
             }
@@ -3441,7 +3441,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}.{1}.
         /// </summary>
-        internal static string MemberInfo_SubjectDescriptionFormat {
+        public static string MemberInfo_SubjectDescriptionFormat {
             get {
                 return ResourceManager.GetString("MemberInfo_SubjectDescriptionFormat", resourceCulture);
             }
@@ -3450,7 +3450,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be async{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXNotToBeAsyncFormat {
+        public static string Method_ExpectedMethodXNotToBeAsyncFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXNotToBeAsyncFormat", resourceCulture);
             }
@@ -3459,7 +3459,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be virtual{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXNotToBeVirtualFormat {
+        public static string Method_ExpectedMethodXNotToBeVirtualFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXNotToBeVirtualFormat", resourceCulture);
             }
@@ -3468,7 +3468,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be {1}{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXNotToBeYFormat {
+        public static string Method_ExpectedMethodXNotToBeYFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXNotToBeYFormat", resourceCulture);
             }
@@ -3477,7 +3477,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be async{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXToBeAsyncFormat {
+        public static string Method_ExpectedMethodXToBeAsyncFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXToBeAsyncFormat", resourceCulture);
             }
@@ -3486,7 +3486,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be virtual{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXToBeVirtualFormat {
+        public static string Method_ExpectedMethodXToBeVirtualFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXToBeVirtualFormat", resourceCulture);
             }
@@ -3495,7 +3495,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be {1}{reason}.
         /// </summary>
-        internal static string Method_ExpectedMethodXToBeYFormat {
+        public static string Method_ExpectedMethodXToBeYFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedMethodXToBeYFormat", resourceCulture);
             }
@@ -3504,7 +3504,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} not to be void{reason}.
         /// </summary>
-        internal static string Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat {
+        public static string Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat", resourceCulture);
             }
@@ -3513,7 +3513,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} not to be {1}{reason}.
         /// </summary>
-        internal static string Method_ExpectedReturnTypeOfMethodXNotToBeYFormat {
+        public static string Method_ExpectedReturnTypeOfMethodXNotToBeYFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXNotToBeYFormat", resourceCulture);
             }
@@ -3522,7 +3522,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} to be void{reason}.
         /// </summary>
-        internal static string Method_ExpectedReturnTypeOfMethodXToBeVoidFormat {
+        public static string Method_ExpectedReturnTypeOfMethodXToBeVoidFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXToBeVoidFormat", resourceCulture);
             }
@@ -3531,7 +3531,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} to be {1}{reason}.
         /// </summary>
-        internal static string Method_ExpectedReturnTypeOfMethodXToBeYFormat {
+        public static string Method_ExpectedReturnTypeOfMethodXToBeYFormat {
             get {
                 return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXToBeYFormat", resourceCulture);
             }
@@ -3540,7 +3540,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} {1}.{2}.
         /// </summary>
-        internal static string MethodInfo_DescriptionFormat {
+        public static string MethodInfo_DescriptionFormat {
             get {
                 return ResourceManager.GetString("MethodInfo_DescriptionFormat", resourceCulture);
             }
@@ -3549,7 +3549,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods not to be virtual{reason}, but the following methods are virtual:{0}{1}.
         /// </summary>
-        internal static string MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat {
             get {
                 return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFor" +
                         "mat", resourceCulture);
@@ -3559,7 +3559,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:{1}{2}.
         /// </summary>
-        internal static string MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat {
             get {
                 return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotY" +
                         "ZFormat", resourceCulture);
@@ -3569,7 +3569,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to be virtual{reason}, but the following methods are not virtual:{0}{1}.
         /// </summary>
-        internal static string MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat {
             get {
                 return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFor" +
                         "mat", resourceCulture);
@@ -3579,7 +3579,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:{1}{2}.
         /// </summary>
-        internal static string MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat {
             get {
                 return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreY" +
                         "ZFormat", resourceCulture);
@@ -3589,7 +3589,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:value} to be within {0} from {1}{reason}.
         /// </summary>
-        internal static string Numeric_DidNotExpectValueToBeWithinXFromYFormat {
+        public static string Numeric_DidNotExpectValueToBeWithinXFromYFormat {
             get {
                 return ResourceManager.GetString("Numeric_DidNotExpectValueToBeWithinXFromYFormat", resourceCulture);
             }
@@ -3598,7 +3598,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:value} to be {0}{reason}..
         /// </summary>
-        internal static string Numeric_DidNotExpectValueToBeXFormat {
+        public static string Numeric_DidNotExpectValueToBeXFormat {
             get {
                 return ResourceManager.GetString("Numeric_DidNotExpectValueToBeXFormat", resourceCulture);
             }
@@ -3607,7 +3607,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be one of {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectecValueToBeOneOfXFormat {
+        public static string Numeric_ExpectecValueToBeOneOfXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectecValueToBeOneOfXFormat", resourceCulture);
             }
@@ -3616,7 +3616,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to approximate {0} +/- {1}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToApproximateXYFormat {
+        public static string Numeric_ExpectedValueToApproximateXYFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToApproximateXYFormat", resourceCulture);
             }
@@ -3625,7 +3625,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}..
         /// </summary>
-        internal static string Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat {
+        public static string Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat", resourceCulture);
             }
@@ -3634,7 +3634,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be between {0} and {1}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeBetweenXAndYFormat {
+        public static string Numeric_ExpectedValueToBeBetweenXAndYFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeBetweenXAndYFormat", resourceCulture);
             }
@@ -3643,7 +3643,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be greater or equal to {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeGreaterOrEqualToXFormat {
+        public static string Numeric_ExpectedValueToBeGreaterOrEqualToXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterOrEqualToXFormat", resourceCulture);
             }
@@ -3652,7 +3652,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be greater than {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeGreaterThanXFormat {
+        public static string Numeric_ExpectedValueToBeGreaterThanXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterThanXFormat", resourceCulture);
             }
@@ -3661,7 +3661,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be less or equal to {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeLessOrEqualToXFormat {
+        public static string Numeric_ExpectedValueToBeLessOrEqualToXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeLessOrEqualToXFormat", resourceCulture);
             }
@@ -3670,7 +3670,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be less than {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeLessThanXFormat {
+        public static string Numeric_ExpectedValueToBeLessThanXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeLessThanXFormat", resourceCulture);
             }
@@ -3679,7 +3679,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be negative{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeNegative {
+        public static string Numeric_ExpectedValueToBeNegative {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeNegative", resourceCulture);
             }
@@ -3688,7 +3688,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be positive{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBePositive {
+        public static string Numeric_ExpectedValueToBePositive {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBePositive", resourceCulture);
             }
@@ -3697,7 +3697,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be within {0} from {1}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeWithinXFromYFormat {
+        public static string Numeric_ExpectedValueToBeWithinXFromYFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeWithinXFromYFormat", resourceCulture);
             }
@@ -3706,7 +3706,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to be {0}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToBeXFormat {
+        public static string Numeric_ExpectedValueToBeXFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToBeXFormat", resourceCulture);
             }
@@ -3715,7 +3715,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}..
         /// </summary>
-        internal static string Numeric_ExpectedValueToNotApproximateXYButItWasZFormat {
+        public static string Numeric_ExpectedValueToNotApproximateXYButItWasZFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateXYButItWasZFormat", resourceCulture);
             }
@@ -3724,7 +3724,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}..
         /// </summary>
-        internal static string Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat {
+        public static string Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat", resourceCulture);
             }
@@ -3733,7 +3733,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:value} to not be between {0} and {1}{reason}.
         /// </summary>
-        internal static string Numeric_ExpectedValueToNotBeBetweenXAndYFormat {
+        public static string Numeric_ExpectedValueToNotBeBetweenXAndYFormat {
             get {
                 return ResourceManager.GetString("Numeric_ExpectedValueToNotBeBetweenXAndYFormat", resourceCulture);
             }
@@ -3742,7 +3742,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to This class only supports types implementing IComparable..
         /// </summary>
-        internal static string Numeric_ThisClassOnlySupportsTypeImplementingIComparable {
+        public static string Numeric_ThisClassOnlySupportsTypeImplementingIComparable {
             get {
                 return ResourceManager.GetString("Numeric_ThisClassOnlySupportsTypeImplementingIComparable", resourceCulture);
             }
@@ -3751,7 +3751,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect a value{reason}.
         /// </summary>
-        internal static string Object_DidNotExpectAValue {
+        public static string Object_DidNotExpectAValue {
             get {
                 return ResourceManager.GetString("Object_DidNotExpectAValue", resourceCulture);
             }
@@ -3760,7 +3760,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context} to refer to {0}{reason}..
         /// </summary>
-        internal static string Object_DidNotExpectContextToReferToXFormat {
+        public static string Object_DidNotExpectContextToReferToXFormat {
             get {
                 return ResourceManager.GetString("Object_DidNotExpectContextToReferToXFormat", resourceCulture);
             }
@@ -3769,7 +3769,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:object} to be equal to {0}{reason}..
         /// </summary>
-        internal static string Object_DidNotExpectObjectToBeEqualToXFormat {
+        public static string Object_DidNotExpectObjectToBeEqualToXFormat {
             get {
                 return ResourceManager.GetString("Object_DidNotExpectObjectToBeEqualToXFormat", resourceCulture);
             }
@@ -3778,7 +3778,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {0}{reason}..
         /// </summary>
-        internal static string Object_DidNotExpectXFormat {
+        public static string Object_DidNotExpectXFormat {
             get {
                 return ResourceManager.GetString("Object_DidNotExpectXFormat", resourceCulture);
             }
@@ -3787,7 +3787,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected a value{reason}..
         /// </summary>
-        internal static string Object_ExpectedAValue {
+        public static string Object_ExpectedAValue {
             get {
                 return ResourceManager.GetString("Object_ExpectedAValue", resourceCulture);
             }
@@ -3796,7 +3796,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} to not be between {0} and {1}{reason}.
         /// </summary>
-        internal static string Object_ExpectedObjectNotToBeBetweenXAndYFormat {
+        public static string Object_ExpectedObjectNotToBeBetweenXAndYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectNotToBeBetweenXAndYFormat", resourceCulture);
             }
@@ -3805,7 +3805,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} not to be equivalent to {0}, but they are..
         /// </summary>
-        internal static string Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat {
+        public static string Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat", resourceCulture);
             }
@@ -3814,7 +3814,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} to be between {0} and {1}{reason}.
         /// </summary>
-        internal static string Object_ExpectedObjectToBeBetweenXAndYFormat {
+        public static string Object_ExpectedObjectToBeBetweenXAndYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectToBeBetweenXAndYFormat", resourceCulture);
             }
@@ -3823,7 +3823,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} to be equal to {0}{reason}.
         /// </summary>
-        internal static string Object_ExpectedObjectToBeEqualToXFormat {
+        public static string Object_ExpectedObjectToBeEqualToXFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectToBeEqualToXFormat", resourceCulture);
             }
@@ -3832,7 +3832,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} to be {0}{reason}.
         /// </summary>
-        internal static string Object_ExpectedObjectToBeXFormat {
+        public static string Object_ExpectedObjectToBeXFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectToBeXFormat", resourceCulture);
             }
@@ -3841,7 +3841,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} {0} to be greater or equal to {1}{reason}..
         /// </summary>
-        internal static string Object_ExpectedObjectXToBeGreaterOrEqualToYFormat {
+        public static string Object_ExpectedObjectXToBeGreaterOrEqualToYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectXToBeGreaterOrEqualToYFormat", resourceCulture);
             }
@@ -3850,7 +3850,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} {0} to be greater than {1}{reason}..
         /// </summary>
-        internal static string Object_ExpectedObjectXToBeGreaterThanYFormat {
+        public static string Object_ExpectedObjectXToBeGreaterThanYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectXToBeGreaterThanYFormat", resourceCulture);
             }
@@ -3859,7 +3859,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} {0} to be less or equal to {1}{reason}..
         /// </summary>
-        internal static string Object_ExpectedObjectXToBeLessOrEqualToYFormat {
+        public static string Object_ExpectedObjectXToBeLessOrEqualToYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectXToBeLessOrEqualToYFormat", resourceCulture);
             }
@@ -3868,7 +3868,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} {0} to be less than {1}{reason}..
         /// </summary>
-        internal static string Object_ExpectedObjectXToBeLessThanYFormat {
+        public static string Object_ExpectedObjectXToBeLessThanYFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedObjectXToBeLessThanYFormat", resourceCulture);
             }
@@ -3877,7 +3877,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{reason}.
         /// </summary>
-        internal static string Object_ExpectedTypeToBeXFormat {
+        public static string Object_ExpectedTypeToBeXFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedTypeToBeXFormat", resourceCulture);
             }
@@ -3886,7 +3886,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{reason}.
         /// </summary>
-        internal static string Object_ExpectedXFormat {
+        public static string Object_ExpectedXFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedXFormat", resourceCulture);
             }
@@ -3895,7 +3895,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}..
         /// </summary>
-        internal static string Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat {
+        public static string Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat {
             get {
                 return ResourceManager.GetString("Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat", resourceCulture);
             }
@@ -3904,7 +3904,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected property {0} not to be virtual{reason}.
         /// </summary>
-        internal static string Property_ExpectedPropertyXNotToBeVirtual {
+        public static string Property_ExpectedPropertyXNotToBeVirtual {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXNotToBeVirtual", resourceCulture);
             }
@@ -3913,7 +3913,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:property} {0} not to have a getter{reason}..
         /// </summary>
-        internal static string Property_ExpectedPropertyXNotToHaveAGetterFormat {
+        public static string Property_ExpectedPropertyXNotToHaveAGetterFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXNotToHaveAGetterFormat", resourceCulture);
             }
@@ -3922,7 +3922,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:property} {0} not to have a setter{reason}..
         /// </summary>
-        internal static string Property_ExpectedPropertyXNotToHaveASetterFormat {
+        public static string Property_ExpectedPropertyXNotToHaveASetterFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXNotToHaveASetterFormat", resourceCulture);
             }
@@ -3931,7 +3931,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected property {0} to be virtual{reason}.
         /// </summary>
-        internal static string Property_ExpectedPropertyXToBeVirtual {
+        public static string Property_ExpectedPropertyXToBeVirtual {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXToBeVirtual", resourceCulture);
             }
@@ -3940,7 +3940,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:property} {0} to have a getter{reason}.
         /// </summary>
-        internal static string Property_ExpectedPropertyXToHaveAGetterFormat {
+        public static string Property_ExpectedPropertyXToHaveAGetterFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXToHaveAGetterFormat", resourceCulture);
             }
@@ -3949,7 +3949,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:property} {0} to have a setter{reason}..
         /// </summary>
-        internal static string Property_ExpectedPropertyXToHaveASetterFormat {
+        public static string Property_ExpectedPropertyXToHaveASetterFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedPropertyXToHaveASetterFormat", resourceCulture);
             }
@@ -3958,7 +3958,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected Type of property {0} not to be {1}{reason}.
         /// </summary>
-        internal static string Property_ExpectedTypeOfPropertyXNotToBeYFormat {
+        public static string Property_ExpectedTypeOfPropertyXNotToBeYFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedTypeOfPropertyXNotToBeYFormat", resourceCulture);
             }
@@ -3967,7 +3967,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected Type of property {0} to be {1}{reason}.
         /// </summary>
-        internal static string Property_ExpectedTypeOfPropertyXToBeYFormat {
+        public static string Property_ExpectedTypeOfPropertyXToBeYFormat {
             get {
                 return ResourceManager.GetString("Property_ExpectedTypeOfPropertyXToBeYFormat", resourceCulture);
             }
@@ -3976,7 +3976,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} {1}.{2}.
         /// </summary>
-        internal static string Property_GetDescriptionFormat {
+        public static string Property_GetDescriptionFormat {
             get {
                 return ResourceManager.GetString("Property_GetDescriptionFormat", resourceCulture);
             }
@@ -3985,7 +3985,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties not to be virtual{reason}, but the following properties are virtual:{0}{1}.
         /// </summary>
-        internal static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingProperties" +
                         "AreXYFormat", resourceCulture);
@@ -3995,7 +3995,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:{1}{2}.
         /// </summary>
-        internal static string PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertie" +
                         "sAreNotYZFormat", resourceCulture);
@@ -4005,7 +4005,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to be virtual{reason}, but the following properties are not virtual:{0}{1}.
         /// </summary>
-        internal static string PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAre" +
                         "NotXYFormat", resourceCulture);
@@ -4015,7 +4015,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to have a setter{reason}, but the following properties do not:{0}{1}.
         /// </summary>
-        internal static string PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesD" +
                         "oNotXYFormat", resourceCulture);
@@ -4025,7 +4025,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to not be decorated with {0}{reason}, but the following properties are:{1}{2}.
         /// </summary>
-        internal static string PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingPropertiesAreYZFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingPropertiesAreYZFormat {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToNotBeDecoratedWithXButFollowingProper" +
                         "tiesAreYZFormat", resourceCulture);
@@ -4035,7 +4035,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} not to be &lt;null&gt;{reason}..
         /// </summary>
-        internal static string RefType_ExpectedContextNotToBeNull {
+        public static string RefType_ExpectedContextNotToBeNull {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextNotToBeNull", resourceCulture);
             }
@@ -4044,7 +4044,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} not to be {0}{reason}.
         /// </summary>
-        internal static string RefType_ExpectedContextNotToBeXFormat {
+        public static string RefType_ExpectedContextNotToBeXFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextNotToBeXFormat", resourceCulture);
             }
@@ -4053,7 +4053,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} to be assignable to {0}{reason}, but {1} is not..
         /// </summary>
-        internal static string RefType_ExpectedContextToBeAssignableToXButYIsNotFormat {
+        public static string RefType_ExpectedContextToBeAssignableToXButYIsNotFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextToBeAssignableToXButYIsNotFormat", resourceCulture);
             }
@@ -4062,7 +4062,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} to be &lt;null&gt;{reason}, but found {0}..
         /// </summary>
-        internal static string RefType_ExpectedContextToBeNullButFoundXFormat {
+        public static string RefType_ExpectedContextToBeNullButFoundXFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextToBeNullButFoundXFormat", resourceCulture);
             }
@@ -4071,7 +4071,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} to be {0}{reason}.
         /// </summary>
-        internal static string RefType_ExpectedContextToBeXFormat {
+        public static string RefType_ExpectedContextToBeXFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextToBeXFormat", resourceCulture);
             }
@@ -4080,7 +4080,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} to not be assignable to {0}{reason}, but {1} is..
         /// </summary>
-        internal static string RefType_ExpectedContextToNotBeAssignableXToButYIsFormat {
+        public static string RefType_ExpectedContextToNotBeAssignableXToButYIsFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextToNotBeAssignableXToButYIsFormat", resourceCulture);
             }
@@ -4089,7 +4089,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context} to refer to {0}{reason}.
         /// </summary>
-        internal static string RefType_ExpectedContextToReferToXFormat {
+        public static string RefType_ExpectedContextToReferToXFormat {
             get {
                 return ResourceManager.GetString("RefType_ExpectedContextToReferToXFormat", resourceCulture);
             }
@@ -4098,7 +4098,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:object} to match {1}{reason}.
         /// </summary>
-        internal static string RefType_ExpectedObjectToMatchY {
+        public static string RefType_ExpectedObjectToMatchY {
             get {
                 return ResourceManager.GetString("RefType_ExpectedObjectToMatchY", resourceCulture);
             }
@@ -4107,7 +4107,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {1} does not..
         /// </summary>
-        internal static string String_ButYDoesNotFormat {
+        public static string String_ButYDoesNotFormat {
             get {
                 return ResourceManager.GetString("String_ButYDoesNotFormat", resourceCulture);
             }
@@ -4116,7 +4116,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to but {1} matches..
         /// </summary>
-        internal static string String_ButYMatchesFormat {
+        public static string String_ButYMatchesFormat {
             get {
                 return ResourceManager.GetString("String_ButYMatchesFormat", resourceCulture);
             }
@@ -4125,7 +4125,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert string containment against an empty string..
         /// </summary>
-        internal static string String_CannotAssertStringContainmentAgainstAnEmptyString {
+        public static string String_CannotAssertStringContainmentAgainstAnEmptyString {
             get {
                 return ResourceManager.GetString("String_CannotAssertStringContainmentAgainstAnEmptyString", resourceCulture);
             }
@@ -4134,7 +4134,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert string containment against &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotAssertStringContainmentAgainstNull {
+        public static string String_CannotAssertStringContainmentAgainstNull {
             get {
                 return ResourceManager.GetString("String_CannotAssertStringContainmentAgainstNull", resourceCulture);
             }
@@ -4143,7 +4143,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert string containment of values in empty collection.
         /// </summary>
-        internal static string String_CannotAssertStringContainmentOfValuesInEmptyCollection {
+        public static string String_CannotAssertStringContainmentOfValuesInEmptyCollection {
             get {
                 return ResourceManager.GetString("String_CannotAssertStringContainmentOfValuesInEmptyCollection", resourceCulture);
             }
@@ -4152,7 +4152,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert string containment of values in null collection.
         /// </summary>
-        internal static string String_CannotAssertStringContainmentOfValuesInNullCollection {
+        public static string String_CannotAssertStringContainmentOfValuesInNullCollection {
             get {
                 return ResourceManager.GetString("String_CannotAssertStringContainmentOfValuesInNullCollection", resourceCulture);
             }
@@ -4161,7 +4161,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare start of string with empty string..
         /// </summary>
-        internal static string String_CannotCompareStartOfStringWithEmptyString {
+        public static string String_CannotCompareStartOfStringWithEmptyString {
             get {
                 return ResourceManager.GetString("String_CannotCompareStartOfStringWithEmptyString", resourceCulture);
             }
@@ -4170,7 +4170,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare start of string with &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotCompareStartOfStringWithNull {
+        public static string String_CannotCompareStartOfStringWithNull {
             get {
                 return ResourceManager.GetString("String_CannotCompareStartOfStringWithNull", resourceCulture);
             }
@@ -4179,7 +4179,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string end equivalence with empty string..
         /// </summary>
-        internal static string String_CannotCompareStringEndEquivalenceWithEmptyString {
+        public static string String_CannotCompareStringEndEquivalenceWithEmptyString {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringEndEquivalenceWithEmptyString", resourceCulture);
             }
@@ -4188,7 +4188,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string end equivalence with &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotCompareStringEndEquivalenceWithNull {
+        public static string String_CannotCompareStringEndEquivalenceWithNull {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringEndEquivalenceWithNull", resourceCulture);
             }
@@ -4197,7 +4197,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string end with empty string..
         /// </summary>
-        internal static string String_CannotCompareStringEndWithEmptyString {
+        public static string String_CannotCompareStringEndWithEmptyString {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringEndWithEmptyString", resourceCulture);
             }
@@ -4206,7 +4206,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string end with &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotCompareStringEndWithNull {
+        public static string String_CannotCompareStringEndWithNull {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringEndWithNull", resourceCulture);
             }
@@ -4215,7 +4215,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string start equivalence with empty string..
         /// </summary>
-        internal static string String_CannotCompareStringStartEquivalenceWithEmptyString {
+        public static string String_CannotCompareStringStartEquivalenceWithEmptyString {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringStartEquivalenceWithEmptyString", resourceCulture);
             }
@@ -4224,7 +4224,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare string start equivalence with &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotCompareStringStartEquivalenceWithNull {
+        public static string String_CannotCompareStringStartEquivalenceWithNull {
             get {
                 return ResourceManager.GetString("String_CannotCompareStringStartEquivalenceWithNull", resourceCulture);
             }
@@ -4233,7 +4233,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot match string against &lt;null&gt;..
         /// </summary>
-        internal static string String_CannotMatchStringAgainstNull {
+        public static string String_CannotMatchStringAgainstNull {
             get {
                 return ResourceManager.GetString("String_CannotMatchStringAgainstNull", resourceCulture);
             }
@@ -4242,7 +4242,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot match {context:string} against {0} because it is not a valid regular expression..
         /// </summary>
-        internal static string String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat {
+        public static string String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat {
             get {
                 return ResourceManager.GetString("String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat", resourceCulture);
             }
@@ -4251,7 +4251,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but {1} does not match..
         /// </summary>
-        internal static string String_CommaButYDoesNotMatchFormat {
+        public static string String_CommaButYDoesNotMatchFormat {
             get {
                 return ResourceManager.GetString("String_CommaButYDoesNotMatchFormat", resourceCulture);
             }
@@ -4260,7 +4260,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} to be empty{reason}..
         /// </summary>
-        internal static string String_DidNotExpectStringToBeEmpty {
+        public static string String_DidNotExpectStringToBeEmpty {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringToBeEmpty", resourceCulture);
             }
@@ -4269,7 +4269,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}..
         /// </summary>
-        internal static string String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat {
+        public static string String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat", resourceCulture);
             }
@@ -4278,7 +4278,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} to match the equivalent of {0}{reason}, .
         /// </summary>
-        internal static string String_DidNotExpectStringToMatchEquivalentOfXFormat {
+        public static string String_DidNotExpectStringToMatchEquivalentOfXFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringToMatchEquivalentOfXFormat", resourceCulture);
             }
@@ -4287,7 +4287,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} to match regex {0}{reason}, but {1} matches..
         /// </summary>
-        internal static string String_DidNotExpectStringToMatchRegexXButYMatchesFormat {
+        public static string String_DidNotExpectStringToMatchRegexXButYMatchesFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringToMatchRegexXButYMatchesFormat", resourceCulture);
             }
@@ -4296,7 +4296,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} to match {0}{reason}, .
         /// </summary>
-        internal static string String_DidNotExpectStringToMatchXFormat {
+        public static string String_DidNotExpectStringToMatchXFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringToMatchXFormat", resourceCulture);
             }
@@ -4305,7 +4305,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain all of the strings: {1}{reason}..
         /// </summary>
-        internal static string String_DidNotExpectStringXToContainAllOfTheStringsYFormat {
+        public static string String_DidNotExpectStringXToContainAllOfTheStringsYFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringXToContainAllOfTheStringsYFormat", resourceCulture);
             }
@@ -4314,7 +4314,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain any of the strings: {1}{reason}..
         /// </summary>
-        internal static string String_DidNotExpectStringXToContainAnyOfTheStringsYFormat {
+        public static string String_DidNotExpectStringXToContainAnyOfTheStringsYFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringXToContainAnyOfTheStringsYFormat", resourceCulture);
             }
@@ -4323,7 +4323,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {context:string} {0} to contain {1}{reason}..
         /// </summary>
-        internal static string String_DidNotExpectStringXToContainYFormat {
+        public static string String_DidNotExpectStringXToContainYFormat {
             get {
                 return ResourceManager.GetString("String_DidNotExpectStringXToContainYFormat", resourceCulture);
             }
@@ -4332,7 +4332,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} not to be &lt;null&gt; or empty{reason}.
         /// </summary>
-        internal static string String_ExpectedStringNotToBeNullOrEmpty {
+        public static string String_ExpectedStringNotToBeNullOrEmpty {
             get {
                 return ResourceManager.GetString("String_ExpectedStringNotToBeNullOrEmpty", resourceCulture);
             }
@@ -4341,7 +4341,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} not to be &lt;null&gt; or whitespace{reason}.
         /// </summary>
-        internal static string String_ExpectedStringNotToBeNullOrWhitespace {
+        public static string String_ExpectedStringNotToBeNullOrWhitespace {
             get {
                 return ResourceManager.GetString("String_ExpectedStringNotToBeNullOrWhitespace", resourceCulture);
             }
@@ -4350,7 +4350,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} not to be {0}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringNotToBeXFormat {
+        public static string String_ExpectedStringNotToBeXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringNotToBeXFormat", resourceCulture);
             }
@@ -4359,7 +4359,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that does not end with equivalent of {0}{reason}.
         /// </summary>
-        internal static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat", resourceCulture);
             }
@@ -4368,7 +4368,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that does not end with equivalent of {0}.
         /// </summary>
-        internal static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat", resourceCulture);
             }
@@ -4377,7 +4377,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that does not end with {0}.
         /// </summary>
-        internal static string String_ExpectedStringThatDoesNotEndWithXFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithXFormat", resourceCulture);
             }
@@ -4386,7 +4386,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that does not start with .
         /// </summary>
-        internal static string String_ExpectedStringThatDoesNotStartWith {
+        public static string String_ExpectedStringThatDoesNotStartWith {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatDoesNotStartWith", resourceCulture);
             }
@@ -4395,7 +4395,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that does not start with equivalent of .
         /// </summary>
-        internal static string String_ExpectedStringThatDoesNotStartWithEquivalentOf {
+        public static string String_ExpectedStringThatDoesNotStartWithEquivalentOf {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatDoesNotStartWithEquivalentOf", resourceCulture);
             }
@@ -4404,7 +4404,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} that ends with equivalent of {0}{reason}.
         /// </summary>
-        internal static string String_ExpectedStringThatEndsWithEquivalentOfXFormat {
+        public static string String_ExpectedStringThatEndsWithEquivalentOfXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringThatEndsWithEquivalentOfXFormat", resourceCulture);
             }
@@ -4413,7 +4413,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be .
         /// </summary>
-        internal static string String_ExpectedStringToBe {
+        public static string String_ExpectedStringToBe {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBe", resourceCulture);
             }
@@ -4422,7 +4422,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be empty{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToBeEmpty {
+        public static string String_ExpectedStringToBeEmpty {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBeEmpty", resourceCulture);
             }
@@ -4431,7 +4431,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be equivalent to .
         /// </summary>
-        internal static string String_ExpectedStringToBeEquivalentTo {
+        public static string String_ExpectedStringToBeEquivalentTo {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBeEquivalentTo", resourceCulture);
             }
@@ -4440,7 +4440,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be &lt;null&gt; or empty{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToBeNullOrEmpty {
+        public static string String_ExpectedStringToBeNullOrEmpty {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBeNullOrEmpty", resourceCulture);
             }
@@ -4449,7 +4449,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be &lt;null&gt; or whitespace{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToBeNullOrWhitespace {
+        public static string String_ExpectedStringToBeNullOrWhitespace {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBeNullOrWhitespace", resourceCulture);
             }
@@ -4458,7 +4458,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to be one of {0}{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToBeOneOfXFormat {
+        public static string String_ExpectedStringToBeOneOfXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToBeOneOfXFormat", resourceCulture);
             }
@@ -4467,7 +4467,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to contain equivalent of {0}{reason} but found {1}..
         /// </summary>
-        internal static string String_ExpectedStringToContainEquivalentOfXButFoundYFormat {
+        public static string String_ExpectedStringToContainEquivalentOfXButFoundYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToContainEquivalentOfXButFoundYFormat", resourceCulture);
             }
@@ -4476,7 +4476,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short..
         /// </summary>
-        internal static string String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat {
+        public static string String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat", resourceCulture);
             }
@@ -4485,7 +4485,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to end with {0}{reason}, but {1} is too short..
         /// </summary>
-        internal static string String_ExpectedStringToEndWithXButYIsTooShortFormat {
+        public static string String_ExpectedStringToEndWithXButYIsTooShortFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToEndWithXButYIsTooShortFormat", resourceCulture);
             }
@@ -4494,7 +4494,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to match the equivalent of {0}{reason}, .
         /// </summary>
-        internal static string String_ExpectedStringToMatchEquivalentOfXFormat {
+        public static string String_ExpectedStringToMatchEquivalentOfXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToMatchEquivalentOfXFormat", resourceCulture);
             }
@@ -4503,7 +4503,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to match regex {0}{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToMatchRegexXFormat {
+        public static string String_ExpectedStringToMatchRegexXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToMatchRegexXFormat", resourceCulture);
             }
@@ -4512,7 +4512,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to match {0}{reason}, .
         /// </summary>
-        internal static string String_ExpectedStringToMatchXFormat {
+        public static string String_ExpectedStringToMatchXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToMatchXFormat", resourceCulture);
             }
@@ -4521,7 +4521,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to not match regex {0}{reason}.
         /// </summary>
-        internal static string String_ExpectedStringToNotMatchRegexXFormat {
+        public static string String_ExpectedStringToNotMatchRegexXFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToNotMatchRegexXFormat", resourceCulture);
             }
@@ -4530,7 +4530,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to start with .
         /// </summary>
-        internal static string String_ExpectedStringToStartWith {
+        public static string String_ExpectedStringToStartWith {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToStartWith", resourceCulture);
             }
@@ -4539,7 +4539,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} to start with equivalent of .
         /// </summary>
-        internal static string String_ExpectedStringToStartWithEquivalentOf {
+        public static string String_ExpectedStringToStartWithEquivalentOf {
             get {
                 return ResourceManager.GetString("String_ExpectedStringToStartWithEquivalentOf", resourceCulture);
             }
@@ -4548,7 +4548,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} with length {0}{reason}, but found string {1} with length {2}..
         /// </summary>
-        internal static string String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat {
+        public static string String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat", resourceCulture);
             }
@@ -4557,7 +4557,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} {0} not to end with {1}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringXNotToEndWithYFormat {
+        public static string String_ExpectedStringXNotToEndWithYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringXNotToEndWithYFormat", resourceCulture);
             }
@@ -4566,7 +4566,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} {0} to contain at least one of the strings: {1}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat {
+        public static string String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat", resourceCulture);
             }
@@ -4575,7 +4575,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} {0} to contain the strings: {1}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringXToContainTheStringsYFormat {
+        public static string String_ExpectedStringXToContainTheStringsYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringXToContainTheStringsYFormat", resourceCulture);
             }
@@ -4584,7 +4584,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} {0} to contain {1}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringXToContainYFormat {
+        public static string String_ExpectedStringXToContainYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringXToContainYFormat", resourceCulture);
             }
@@ -4593,7 +4593,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:string} {0} to end with {1}{reason}..
         /// </summary>
-        internal static string String_ExpectedStringXToEndWithYFormat {
+        public static string String_ExpectedStringXToEndWithYFormat {
             get {
                 return ResourceManager.GetString("String_ExpectedStringXToEndWithYFormat", resourceCulture);
             }
@@ -4602,7 +4602,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} with a length of {1}{reason}, but {2} has a length of {3}, differs near {4}..
         /// </summary>
-        internal static string String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format {
+        public static string String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format {
             get {
                 return ResourceManager.GetString("String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format", resourceCulture);
             }
@@ -4611,7 +4611,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}{reason}, but it has unexpected whitespace at the end..
         /// </summary>
-        internal static string String_XButItHasUnexpectedWhitespaceAtTheEndFormat {
+        public static string String_XButItHasUnexpectedWhitespaceAtTheEndFormat {
             get {
                 return ResourceManager.GetString("String_XButItHasUnexpectedWhitespaceAtTheEndFormat", resourceCulture);
             }
@@ -4620,7 +4620,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}{reason}, but it misses some extra whitespace at the end..
         /// </summary>
-        internal static string String_XButItMissesSomeExtraWhitespaceAtTheEndFormat {
+        public static string String_XButItMissesSomeExtraWhitespaceAtTheEndFormat {
             get {
                 return ResourceManager.GetString("String_XButItMissesSomeExtraWhitespaceAtTheEndFormat", resourceCulture);
             }
@@ -4629,7 +4629,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}{reason}, but {1} differs near {2}..
         /// </summary>
-        internal static string String_XButYDiffersNearZFormat {
+        public static string String_XButYDiffersNearZFormat {
             get {
                 return ResourceManager.GetString("String_XButYDiffersNearZFormat", resourceCulture);
             }
@@ -4638,7 +4638,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}{reason}, but {1} is too short..
         /// </summary>
-        internal static string String_XButYIsTooShortFormat {
+        public static string String_XButYIsTooShortFormat {
             get {
                 return ResourceManager.GetString("String_XButYIsTooShortFormat", resourceCulture);
             }
@@ -4647,7 +4647,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0}{reason}.
         /// </summary>
-        internal static string String_XFormat {
+        public static string String_XFormat {
             get {
                 return ResourceManager.GetString("String_XFormat", resourceCulture);
             }
@@ -4656,7 +4656,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:task} to complete within {0}{reason}..
         /// </summary>
-        internal static string Task_ExpectedTaskToCompleteWithinXFormat {
+        public static string Task_ExpectedTaskToCompleteWithinXFormat {
             get {
                 return ResourceManager.GetString("Task_ExpectedTaskToCompleteWithinXFormat", resourceCulture);
             }
@@ -4665,7 +4665,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the assertion exception for the current test framework: &quot;{0}&quot;.
         /// </summary>
-        internal static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat {
+        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat {
             get {
                 return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat", resourceCulture);
             }
@@ -4674,7 +4674,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the assertion exception for the current test framework: &quot;{0}, {1}&quot;.
         /// </summary>
-        internal static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat {
+        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat {
             get {
                 return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat", resourceCulture);
             }
@@ -4683,7 +4683,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to FluentAssertions was configured to use {0} but the required test framework assembly could not be found.
         /// </summary>
-        internal static string TestFwk_FluentAssertionsConfiguredToUseXButCouldNotFindTestFramework {
+        public static string TestFwk_FluentAssertionsConfiguredToUseXButCouldNotFindTestFramework {
             get {
                 return ResourceManager.GetString("TestFwk_FluentAssertionsConfiguredToUseXButCouldNotFindTestFramework", resourceCulture);
             }
@@ -4692,7 +4692,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect any exceptions after {0}{reason}.
         /// </summary>
-        internal static string TimeSpan_DidNotExpectAnyExceptionsAfterXFormat {
+        public static string TimeSpan_DidNotExpectAnyExceptionsAfterXFormat {
             get {
                 return ResourceManager.GetString("TimeSpan_DidNotExpectAnyExceptionsAfterXFormat", resourceCulture);
             }
@@ -4701,7 +4701,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to The value of {0} must be non-negative..
         /// </summary>
-        internal static string TimeSpan_TheValueOfXMustBeNonNegativeFormat {
+        public static string TimeSpan_TheValueOfXMustBeNonNegativeFormat {
             get {
                 return ResourceManager.GetString("TimeSpan_TheValueOfXMustBeNonNegativeFormat", resourceCulture);
             }
@@ -4710,7 +4710,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Try to match member by name.
         /// </summary>
-        internal static string TryToMatchMemberByName {
+        public static string TryToMatchMemberByName {
             get {
                 return ResourceManager.GetString("TryToMatchMemberByName", resourceCulture);
             }
@@ -4719,7 +4719,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but a matching attribute was found..
         /// </summary>
-        internal static string Type_CommaButAMatchingAttributeWasFound {
+        public static string Type_CommaButAMatchingAttributeWasFound {
             get {
                 return ResourceManager.GetString("Type_CommaButAMatchingAttributeWasFound", resourceCulture);
             }
@@ -4728,7 +4728,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but no matching attribute was found..
         /// </summary>
-        internal static string Type_CommaButNoMatchingAttributeWasFound {
+        public static string Type_CommaButNoMatchingAttributeWasFound {
             get {
                 return ResourceManager.GetString("Type_CommaButNoMatchingAttributeWasFound", resourceCulture);
             }
@@ -4737,7 +4737,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but the attribute was found..
         /// </summary>
-        internal static string Type_CommaButTheAttributeWasFound {
+        public static string Type_CommaButTheAttributeWasFound {
             get {
                 return ResourceManager.GetString("Type_CommaButTheAttributeWasFound", resourceCulture);
             }
@@ -4746,7 +4746,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but the attribute was not found..
         /// </summary>
-        internal static string Type_CommaButTheAttributeWasNotFound {
+        public static string Type_CommaButTheAttributeWasNotFound {
             get {
                 return ResourceManager.GetString("Type_CommaButTheAttributeWasNotFound", resourceCulture);
             }
@@ -4755,7 +4755,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0}{reason}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypes" +
                         "YZFormat", resourceCulture);
@@ -4765,7 +4765,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0} that matches{1}{reason}, but the attribute was not found on the following types:{2}{3}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNotFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNotFoundOnTypesZWFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButTheAttributeWasNot" +
                         "FoundOnTypesZWFormat", resourceCulture);
@@ -4775,7 +4775,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with {0}{reason}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat", resourceCulture);
             }
@@ -4784,7 +4784,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with {0} that matches {1}{reason}, but no matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFound" +
                         "OnTypesZWFormat", resourceCulture);
@@ -4794,7 +4794,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0}{reason}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZF" +
                         "ormat", resourceCulture);
@@ -4804,7 +4804,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0} that matches {1}{reason}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFou" +
                         "ndOnTypesZWFormat", resourceCulture);
@@ -4814,7 +4814,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with {0}{reason}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat", resourceCulture);
             }
@@ -4823,7 +4823,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with {0} that matches {1}{reason}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        internal static string Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFou" +
                         "ndOnTypesZWFormat", resourceCulture);
@@ -4833,7 +4833,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected constructor {0}({1}) not to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedConstructorXYNotToExistFormat {
+        public static string Type_ExpectedConstructorXYNotToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedConstructorXYNotToExistFormat", resourceCulture);
             }
@@ -4842,7 +4842,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected constructor {0}({1}) to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedConstructorXYToExistFormat {
+        public static string Type_ExpectedConstructorXYToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedConstructorXYToExistFormat", resourceCulture);
             }
@@ -4851,7 +4851,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:{0}} {1} to be assignable to {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedContextXYToBeAssignableToZFormat {
+        public static string Type_ExpectedContextXYToBeAssignableToZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedContextXYToBeAssignableToZFormat", resourceCulture);
             }
@@ -4860,7 +4860,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {context:{0}} {1} to not be assignable to {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedContextXYToNotBeAssignableToZFormat {
+        public static string Type_ExpectedContextXYToNotBeAssignableToZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedContextXYToNotBeAssignableToZFormat", resourceCulture);
             }
@@ -4869,7 +4869,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected indexer {0}[{1}] to not exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedIndexerXYToNotExistFormat {
+        public static string Type_ExpectedIndexerXYToNotExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedIndexerXYToNotExistFormat", resourceCulture);
             }
@@ -4878,7 +4878,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0}({1}) to not exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedMethodXYToNotExistFormat {
+        public static string Type_ExpectedMethodXYToNotExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedMethodXYToNotExistFormat", resourceCulture);
             }
@@ -4887,7 +4887,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0}.{1}({2}) to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedMethodXYZToExistFormat {
+        public static string Type_ExpectedMethodXYZToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedMethodXYZToExistFormat", resourceCulture);
             }
@@ -4896,7 +4896,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedPublicStaticExplicitXYToExistFormat {
+        public static string Type_ExpectedPublicStaticExplicitXYToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitXYToExistFormat", resourceCulture);
             }
@@ -4905,7 +4905,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to not exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedPublicStaticExplicitXYToNotExistFormat {
+        public static string Type_ExpectedPublicStaticExplicitXYToNotExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitXYToNotExistFormat", resourceCulture);
             }
@@ -4914,7 +4914,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedPublicStaticImplicitXYToExistFormat {
+        public static string Type_ExpectedPublicStaticImplicitXYToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitXYToExistFormat", resourceCulture);
             }
@@ -4923,7 +4923,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to not exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedPublicStaticImplicitXYToNotExistFormat {
+        public static string Type_ExpectedPublicStaticImplicitXYToNotExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitXYToNotExistFormat", resourceCulture);
             }
@@ -4932,7 +4932,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type not to be {0}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeNotToBeXFormat {
+        public static string Type_ExpectedTypeNotToBeXFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeNotToBeXFormat", resourceCulture);
             }
@@ -4941,7 +4941,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeToBeXFormat {
+        public static string Type_ExpectedTypeToBeXFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeToBeXFormat", resourceCulture);
             }
@@ -4950,7 +4950,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be abstract{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXNotToBeAbstractFormat {
+        public static string Type_ExpectedTypeXNotToBeAbstractFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXNotToBeAbstractFormat", resourceCulture);
             }
@@ -4959,7 +4959,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be derived from {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXNotToBeDerivedFromYFormat {
+        public static string Type_ExpectedTypeXNotToBeDerivedFromYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXNotToBeDerivedFromYFormat", resourceCulture);
             }
@@ -4968,7 +4968,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be sealed{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXNotToBeSealedFormat {
+        public static string Type_ExpectedTypeXNotToBeSealedFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXNotToBeSealedFormat", resourceCulture);
             }
@@ -4977,7 +4977,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be static{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXNotToBeStaticFormat {
+        public static string Type_ExpectedTypeXNotToBeStaticFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXNotToBeStaticFormat", resourceCulture);
             }
@@ -4986,7 +4986,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXNotToBeYFormat {
+        public static string Type_ExpectedTypeXNotToBeYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXNotToBeYFormat", resourceCulture);
             }
@@ -4995,7 +4995,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be abstract{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeAbstractFormat {
+        public static string Type_ExpectedTypeXToBeAbstractFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeAbstractFormat", resourceCulture);
             }
@@ -5004,7 +5004,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat {
+        public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat", resourceCulture);
             }
@@ -5013,7 +5013,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat {
+        public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat", resourceCulture);
             }
@@ -5022,7 +5022,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeDecoratedWithYFormat {
+        public static string Type_ExpectedTypeXToBeDecoratedWithYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithYFormat", resourceCulture);
             }
@@ -5031,7 +5031,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with {1} that matches {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat {
+        public static string Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat", resourceCulture);
             }
@@ -5040,7 +5040,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be derived from {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeDerivedFromYFormat {
+        public static string Type_ExpectedTypeXToBeDerivedFromYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeDerivedFromYFormat", resourceCulture);
             }
@@ -5049,7 +5049,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be sealed{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeSealedFormat {
+        public static string Type_ExpectedTypeXToBeSealedFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeSealedFormat", resourceCulture);
             }
@@ -5058,7 +5058,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be static{reason}..
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeStaticFormat {
+        public static string Type_ExpectedTypeXToBeStaticFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeStaticFormat", resourceCulture);
             }
@@ -5067,7 +5067,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToBeYFormat {
+        public static string Type_ExpectedTypeXToBeYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToBeYFormat", resourceCulture);
             }
@@ -5076,7 +5076,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to implement interface {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToImplementInterfaceYFormat {
+        public static string Type_ExpectedTypeXToImplementInterfaceYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToImplementInterfaceYFormat", resourceCulture);
             }
@@ -5085,7 +5085,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat {
+        public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat", resourceCulture);
             }
@@ -5094,7 +5094,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat {
+        public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat", resourceCulture);
             }
@@ -5103,7 +5103,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToNotBeDecoratedWithYFormat {
+        public static string Type_ExpectedTypeXToNotBeDecoratedWithYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithYFormat", resourceCulture);
             }
@@ -5112,7 +5112,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1} that matches {2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat {
+        public static string Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat", resourceCulture);
             }
@@ -5121,7 +5121,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not implement interface {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedTypeXToNotImplementInterfaceYFormat {
+        public static string Type_ExpectedTypeXToNotImplementInterfaceYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedTypeXToNotImplementInterfaceYFormat", resourceCulture);
             }
@@ -5130,7 +5130,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to be of type {1}{reason}.
         /// </summary>
-        internal static string Type_ExpectedXToBeOfTypeYFormat {
+        public static string Type_ExpectedXToBeOfTypeYFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXToBeOfTypeYFormat", resourceCulture);
             }
@@ -5139,7 +5139,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to explicitly implement {1}.{2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedXToExplicitlyImplementYXFormat {
+        public static string Type_ExpectedXToExplicitlyImplementYXFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXToExplicitlyImplementYXFormat", resourceCulture);
             }
@@ -5148,7 +5148,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to not exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedXToNotExistFormat {
+        public static string Type_ExpectedXToNotExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXToNotExistFormat", resourceCulture);
             }
@@ -5157,7 +5157,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to not explicitly implement {1}.{2}{reason}.
         /// </summary>
-        internal static string Type_ExpectedXToNotExplicitlyImplementYXFormat {
+        public static string Type_ExpectedXToNotExplicitlyImplementYXFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXToNotExplicitlyImplementYXFormat", resourceCulture);
             }
@@ -5166,7 +5166,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1}.{2} to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedXYDotZToExistFormat {
+        public static string Type_ExpectedXYDotZToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXYDotZToExistFormat", resourceCulture);
             }
@@ -5175,7 +5175,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1}[{2}] to exist{reason}.
         /// </summary>
-        internal static string Type_ExpectedXYZToExistFormat {
+        public static string Type_ExpectedXYZToExistFormat {
             get {
                 return ResourceManager.GetString("Type_ExpectedXYZToExistFormat", resourceCulture);
             }
@@ -5184,7 +5184,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Must be an interface Type..
         /// </summary>
-        internal static string Type_MustBeAnInterfaceType {
+        public static string Type_MustBeAnInterfaceType {
             get {
                 return ResourceManager.GetString("Type_MustBeAnInterfaceType", resourceCulture);
             }
@@ -5193,7 +5193,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Must not be an interface Type..
         /// </summary>
-        internal static string Type_MustNotBeAnInterfaceType {
+        public static string Type_MustNotBeAnInterfaceType {
             get {
                 return ResourceManager.GetString("Type_MustNotBeAnInterfaceType", resourceCulture);
             }
@@ -5202,7 +5202,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} must be a class..
         /// </summary>
-        internal static string Type_XMustBeAClassFormat {
+        public static string Type_XMustBeAClassFormat {
             get {
                 return ResourceManager.GetString("Type_XMustBeAClassFormat", resourceCulture);
             }
@@ -5211,7 +5211,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Treating {0} as a value type because Equals must be used..
         /// </summary>
-        internal static string ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat {
+        public static string ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat {
             get {
                 return ResourceManager.GetString("ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat", resourceCulture);
             }
@@ -5220,7 +5220,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Treating {0} as a value type because object overrides Equals..
         /// </summary>
-        internal static string ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat {
+        public static string ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat {
             get {
                 return ResourceManager.GetString("ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat", resourceCulture);
             }
@@ -5229,7 +5229,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert the document has an element if the document itself is &lt;null&gt;..
         /// </summary>
-        internal static string Xml_CannotAssertDocumentHasElementIfElementIsNull {
+        public static string Xml_CannotAssertDocumentHasElementIfElementIsNull {
             get {
                 return ResourceManager.GetString("Xml_CannotAssertDocumentHasElementIfElementIsNull", resourceCulture);
             }
@@ -5238,7 +5238,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert the document has an element if the element name is &lt;null&gt;*.
         /// </summary>
-        internal static string Xml_CannotAssertDocumentHasElementIfElementNameIsNull {
+        public static string Xml_CannotAssertDocumentHasElementIfElementNameIsNull {
             get {
                 return ResourceManager.GetString("Xml_CannotAssertDocumentHasElementIfElementNameIsNull", resourceCulture);
             }
@@ -5247,7 +5247,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert the document has a root element if the document itself is &lt;null&gt;..
         /// </summary>
-        internal static string Xml_CannotAssertDocumentHasRootElementIfElementIsNull {
+        public static string Xml_CannotAssertDocumentHasRootElementIfElementIsNull {
             get {
                 return ResourceManager.GetString("Xml_CannotAssertDocumentHasRootElementIfElementIsNull", resourceCulture);
             }
@@ -5256,7 +5256,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot assert the document has a root element if the element name is &lt;null&gt;*.
         /// </summary>
-        internal static string Xml_CannotAssertDocumentHasRootElementIfElementNameIsNull {
+        public static string Xml_CannotAssertDocumentHasRootElementIfElementNameIsNull {
             get {
                 return ResourceManager.GetString("Xml_CannotAssertDocumentHasRootElementIfElementNameIsNull", resourceCulture);
             }
@@ -5265,7 +5265,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but no such child element was found..
         /// </summary>
-        internal static string Xml_CommaButNoSuchChildElementWasFound {
+        public static string Xml_CommaButNoSuchChildElementWasFound {
             get {
                 return ResourceManager.GetString("Xml_CommaButNoSuchChildElementWasFound", resourceCulture);
             }
@@ -5274,7 +5274,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to , but XML document has no Root element..
         /// </summary>
-        internal static string Xml_CommaButXmlDocumentHasNoRootElement {
+        public static string Xml_CommaButXmlDocumentHasNoRootElement {
             get {
                 return ResourceManager.GetString("Xml_CommaButXmlDocumentHasNoRootElement", resourceCulture);
             }
@@ -5283,7 +5283,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect to find attribute {0} at {1}{reason}..
         /// </summary>
-        internal static string Xml_DidNotExpectToFindAttributeXAtYFormat {
+        public static string Xml_DidNotExpectToFindAttributeXAtYFormat {
             get {
                 return ResourceManager.GetString("Xml_DidNotExpectToFindAttributeXAtYFormat", resourceCulture);
             }
@@ -5292,7 +5292,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML attribute to be {0}{reason}..
         /// </summary>
-        internal static string Xml_DidNotExpectXmlAttributeToBeXFormat {
+        public static string Xml_DidNotExpectXmlAttributeToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_DidNotExpectXmlAttributeToBeXFormat", resourceCulture);
             }
@@ -5301,7 +5301,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML document to be {0}, but found &lt;null&gt;..
         /// </summary>
-        internal static string Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat {
+        public static string Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat {
             get {
                 return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat", resourceCulture);
             }
@@ -5310,7 +5310,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML document to be {0}{reason}..
         /// </summary>
-        internal static string Xml_DidNotExpectXmlDocumentToBeXFormat {
+        public static string Xml_DidNotExpectXmlDocumentToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeXFormat", resourceCulture);
             }
@@ -5319,7 +5319,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect Xml to be equivalent{reason}, but it is..
         /// </summary>
-        internal static string Xml_DidNotExpectXmlToBeEquivalentButItIs {
+        public static string Xml_DidNotExpectXmlToBeEquivalentButItIs {
             get {
                 return ResourceManager.GetString("Xml_DidNotExpectXmlToBeEquivalentButItIs", resourceCulture);
             }
@@ -5328,7 +5328,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected attribute {0} at {1}{reason}, but found none..
         /// </summary>
-        internal static string Xml_ExpectedAttributeXAtYButFoundNoneFormat {
+        public static string Xml_ExpectedAttributeXAtYButFoundNoneFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedAttributeXAtYButFoundNoneFormat", resourceCulture);
             }
@@ -5337,7 +5337,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected attribute {0} at {1} to have value {2}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedAttributeXAtYToHaveValueZFormat {
+        public static string Xml_ExpectedAttributeXAtYToHaveValueZFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedAttributeXAtYToHaveValueZFormat", resourceCulture);
             }
@@ -5346,7 +5346,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected content to be {0} at {1}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedContentToBeXAtYFormat {
+        public static string Xml_ExpectedContentToBeXAtYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedContentToBeXAtYFormat", resourceCulture);
             }
@@ -5355,7 +5355,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected end of document{reason}.
         /// </summary>
-        internal static string Xml_ExpectedEndOfDocument {
+        public static string Xml_ExpectedEndOfDocument {
             get {
                 return ResourceManager.GetString("Xml_ExpectedEndOfDocument", resourceCulture);
             }
@@ -5364,7 +5364,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected local name of element at {0} to be {1}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedLocalNameOfElementAtXToBeYFormat {
+        public static string Xml_ExpectedLocalNameOfElementAtXToBeYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedLocalNameOfElementAtXToBeYFormat", resourceCulture);
             }
@@ -5373,7 +5373,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected namespace of element {0} at {1} to be {2}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedNamespaceOfElementXAtYToBeZFormat {
+        public static string Xml_ExpectedNamespaceOfElementXAtYToBeZFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedNamespaceOfElementXAtYToBeZFormat", resourceCulture);
             }
@@ -5382,7 +5382,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected node of type {0} at {1}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedNodeOfTypeXAtYFormat {
+        public static string Xml_ExpectedNodeOfTypeXAtYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedNodeOfTypeXAtYFormat", resourceCulture);
             }
@@ -5391,7 +5391,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{reason}, but found end of document..
         /// </summary>
-        internal static string Xml_ExpectedXButFoundEndOfDocumentFormat {
+        public static string Xml_ExpectedXButFoundEndOfDocumentFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXButFoundEndOfDocumentFormat", resourceCulture);
             }
@@ -5400,7 +5400,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML attribute to be {0}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlAttributeToBeXFormat {
+        public static string Xml_ExpectedXmlAttributeToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlAttributeToBeXFormat", resourceCulture);
             }
@@ -5409,7 +5409,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML attribute &apos;{0}&apos; to have value {1}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlAttributeXToHaveValueYFormat {
+        public static string Xml_ExpectedXmlAttributeXToHaveValueYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlAttributeXToHaveValueYFormat", resourceCulture);
             }
@@ -5418,7 +5418,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document to be {0}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlDocumentToBeXFormat {
+        public static string Xml_ExpectedXmlDocumentToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlDocumentToBeXFormat", resourceCulture);
             }
@@ -5427,7 +5427,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document to have root element &quot;{0}&quot;{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlDocumentToHaveRootElementXFormat {
+        public static string Xml_ExpectedXmlDocumentToHaveRootElementXFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlDocumentToHaveRootElementXFormat", resourceCulture);
             }
@@ -5436,7 +5436,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document {0} to have root element with child &quot;{1}&quot;{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat {
+        public static string Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat", resourceCulture);
             }
@@ -5445,7 +5445,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element not to be {0}{reason}..
         /// </summary>
-        internal static string Xml_ExpectedXmlElementNotToBeXFormat {
+        public static string Xml_ExpectedXmlElementNotToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlElementNotToBeXFormat", resourceCulture);
             }
@@ -5454,7 +5454,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element to be {0}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlElementToBeXFormat {
+        public static string Xml_ExpectedXmlElementToBeXFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlElementToBeXFormat", resourceCulture);
             }
@@ -5463,7 +5463,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element to have attribute &quot;{0}&quot; with value {1}{reason}, but found no such attribute in {2}.
         /// </summary>
-        internal static string Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat {
+        public static string Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat", resourceCulture);
             }
@@ -5472,7 +5472,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element {0} to have child element &quot;{1}&quot;{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlElementXToHaveChildElementYFormat {
+        public static string Xml_ExpectedXmlElementXToHaveChildElementYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlElementXToHaveChildElementYFormat", resourceCulture);
             }
@@ -5481,7 +5481,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element &apos;{0}&apos; to have value {1}{reason}.
         /// </summary>
-        internal static string Xml_ExpectedXmlElementXToHaveValueYFormat {
+        public static string Xml_ExpectedXmlElementXToHaveValueYFormat {
             get {
                 return ResourceManager.GetString("Xml_ExpectedXmlElementXToHaveValueYFormat", resourceCulture);
             }
@@ -5490,7 +5490,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to [XML document without root element].
         /// </summary>
-        internal static string Xml_FormatDocumentWithoutRoot {
+        public static string Xml_FormatDocumentWithoutRoot {
             get {
                 return ResourceManager.GetString("Xml_FormatDocumentWithoutRoot", resourceCulture);
             }
@@ -5499,7 +5499,7 @@ namespace FluentAssertions {
         /// <summary>
         ///   Looks up a localized string similar to {0} found at {1} is not supported for equivalency comparison..
         /// </summary>
-        internal static string Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat {
+        public static string Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat {
             get {
                 return ResourceManager.GetString("Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat", resourceCulture);
             }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency.Selection
 {

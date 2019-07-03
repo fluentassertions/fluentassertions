@@ -4,6 +4,7 @@ using System.Linq;
 
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions
 {

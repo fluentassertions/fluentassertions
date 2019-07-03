@@ -109,7 +109,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
-        /// current <see cref="ExecutionTime"/>.
+        /// current <see cref="Specialized.ExecutionTime"/>.
         /// </summary>
         [Pure]
         public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency
 {

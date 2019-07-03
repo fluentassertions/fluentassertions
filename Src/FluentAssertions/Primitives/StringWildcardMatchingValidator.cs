@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using FluentAssertions.Common;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Primitives
 {

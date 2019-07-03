@@ -5,6 +5,7 @@ using System.Reflection;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Primitives
 {

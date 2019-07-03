@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Formatting
+﻿using FluentAssertions.Localization;
+
+namespace FluentAssertions.Formatting
 {
     public class NullValueFormatter : IValueFormatter
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency
 {

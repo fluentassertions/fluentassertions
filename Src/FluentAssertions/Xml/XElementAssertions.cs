@@ -3,6 +3,7 @@ using System.Xml;
 using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Xml

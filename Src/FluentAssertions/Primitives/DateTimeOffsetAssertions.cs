@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Primitives
 {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency
 {

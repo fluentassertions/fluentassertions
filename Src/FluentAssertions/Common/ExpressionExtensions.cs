@@ -6,6 +6,7 @@ using System.Reflection;
 
 using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Selection;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Common
 {

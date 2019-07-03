@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions.Common;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency.Ordering
 {

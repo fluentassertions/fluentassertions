@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Types
 {

@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Formatting
 {

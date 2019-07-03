@@ -1,4 +1,5 @@
 using FluentAssertions.Common;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency.Matching
 {

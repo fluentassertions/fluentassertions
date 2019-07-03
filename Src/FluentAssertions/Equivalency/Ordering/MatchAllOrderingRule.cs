@@ -1,3 +1,5 @@
+using FluentAssertions.Localization;
+
 namespace FluentAssertions.Equivalency.Ordering
 {
     /// <summary>

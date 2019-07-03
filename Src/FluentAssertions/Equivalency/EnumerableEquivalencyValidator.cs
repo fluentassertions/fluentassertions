@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency
 {

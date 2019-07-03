@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Numeric

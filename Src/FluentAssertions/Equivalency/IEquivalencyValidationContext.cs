@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
@@ -29,7 +30,7 @@ namespace FluentAssertions.Equivalency
         bool IsRoot { get; }
 
         /// <summary>
-        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
+        /// Gets the value of the <see cref="PropertyInfo"/>
         /// </summary>
         object Subject { get; }
 

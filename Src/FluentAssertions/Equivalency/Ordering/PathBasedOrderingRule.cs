@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency.Ordering
 {

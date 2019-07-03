@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions
 {

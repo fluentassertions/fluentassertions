@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Formatting
 {

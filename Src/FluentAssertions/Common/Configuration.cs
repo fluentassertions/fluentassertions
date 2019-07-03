@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Formatting;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Common
 {

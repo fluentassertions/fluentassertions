@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using JetBrains.Annotations;
 
 namespace FluentAssertions.Primitives

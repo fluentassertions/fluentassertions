@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Extensions
 {

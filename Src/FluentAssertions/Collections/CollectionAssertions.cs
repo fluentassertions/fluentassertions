@@ -6,6 +6,7 @@ using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Collections

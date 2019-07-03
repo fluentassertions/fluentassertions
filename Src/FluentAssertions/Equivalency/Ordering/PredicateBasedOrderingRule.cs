@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using FluentAssertions.Localization;
 
 namespace FluentAssertions.Equivalency.Ordering
 {

@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using FluentAssertions.Numeric;
 
 namespace FluentAssertions

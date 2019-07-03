@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Localization;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
