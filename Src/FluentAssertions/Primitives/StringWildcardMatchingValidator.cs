@@ -19,13 +19,13 @@ namespace FluentAssertions.Primitives
 
             if (!isMatch && !Negate)
             {
-                assertion.FailWith(ExpectationDescription + Resources.String_ButYDoesNotFormat,
+                assertion.FailWith(ExpectationDescription + Resources.String_ButX1DoesNotFormat,
                     expected, subject);
             }
 
             if (isMatch && Negate)
             {
-                assertion.FailWith(ExpectationDescription + Resources.String_ButYMatchesFormat,
+                assertion.FailWith(ExpectationDescription + Resources.String_ButX1MatchesFormat,
                     expected, subject);
             }
         }
@@ -61,20 +61,20 @@ namespace FluentAssertions.Primitives
             {
                 if (Negate && IgnoreCase)
                 {
-                    return Resources.String_DidNotExpectStringToMatchEquivalentOfXFormat;
+                    return Resources.String_DidNotExpectStringToMatchEquivalentOfX0Format;
                 }
 
                 if (Negate)
                 {
-                    return Resources.String_DidNotExpectStringToMatchXFormat;
+                    return Resources.String_DidNotExpectStringToMatchX0Format;
                 }
 
                 if (IgnoreCase)
                 {
-                    return Resources.String_ExpectedStringToMatchEquivalentOfXFormat;
+                    return Resources.String_ExpectedStringToMatchEquivalentOfX0Format;
                 }
 
-                return Resources.String_ExpectedStringToMatchXFormat;
+                return Resources.String_ExpectedStringToMatchX0Format;
             }
         }
 

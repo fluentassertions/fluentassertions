@@ -49,7 +49,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlDocumentToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Xml_ExpectedXmlDocumentToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
@@ -82,12 +82,12 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat, unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeX0ButFoundNullFormat, unexpected);
 
             Execute.Assertion
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeXFormat, unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlDocumentToBeX0Format, unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -226,7 +226,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlDocumentToHaveRootElementXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Xml_ExpectedXmlDocumentToHaveRootElementX0Format + Resources.Common_CommaButFoundX1Format,
                     expected.ToString().ToAlreadyFormattedString(),
                     Subject);
 
@@ -316,14 +316,14 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Root != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat + Resources.Xml_CommaButXmlDocumentHasNoRootElement,
+                .FailWith(Resources.Xml_ExpectedXmlDocumentX0ToHaveRootElementWithChildX1Format + Resources.Xml_CommaButXmlDocumentHasNoRootElement,
                     Subject, expectedText.ToAlreadyFormattedString());
 
             XElement xElement = Subject.Root.Element(expected);
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat +  Resources.Xml_CommaButNoSuchChildElementWasFound,
+                .FailWith(Resources.Xml_ExpectedXmlDocumentX0ToHaveRootElementWithChildX1Format +  Resources.Xml_CommaButNoSuchChildElementWasFound,
                     Subject, expectedText.ToAlreadyFormattedString());
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);

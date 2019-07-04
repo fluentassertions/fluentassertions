@@ -42,7 +42,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXToBeYFormat + Resources.Common_CommaButItIsZFormat,
+                .FailWith(Resources.Method_ExpectedMethodX0ToBeX1Format + Resources.Common_CommaButItIsX2Format,
                     Subject.Name.ToAlreadyFormattedString(),
                     accessModifier, subjectAccessModifier);
 
@@ -65,7 +65,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXNotToBeYFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Method_ExpectedMethodX0NotToBeX1Format + Resources.Common_CommaButItIs,
                     Subject.Name.ToAlreadyFormattedString(),
                     accessModifier);
 

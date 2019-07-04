@@ -38,7 +38,7 @@ namespace FluentAssertions.Primitives
             bool isMatch = subject.StartsWith(expected, stringComparison);
             if (isMatch)
             {
-                assertion.FailWith(ExpectationDescription + Resources.String_XFormat + Resources.Common_CommaButFoundYFormat,
+                assertion.FailWith(ExpectationDescription + Resources.String_X0Format + Resources.Common_CommaButFoundX1Format,
                     expected, subject);
             }
         }

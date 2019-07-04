@@ -42,7 +42,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedXItemsFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedX0ItemsFormat + Resources.Common_CommaButFoundX1Format, expected, Subject);
             }
 
             int actualCount = Subject.Count;
@@ -50,7 +50,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToHaveYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, expected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToHaveX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, expected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -72,7 +72,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotHaveXItemsFormat + Resources.Common_CommaButFoundNull, unexpected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotHaveX0ItemsFormat + Resources.Common_CommaButFoundNull, unexpected);
             }
 
             int actualCount = Subject.Count;
@@ -80,7 +80,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, unexpected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToNotHaveX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, unexpected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -102,7 +102,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainMoreThanX0ItemsFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             int actualCount = Subject.Count;
@@ -110,7 +110,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount > expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, expected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainMoreThanX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, expected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -132,7 +132,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainAtLeastX0ItemsFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             int actualCount = Subject.Count;
@@ -140,7 +140,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount >= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, expected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainAtLeastX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, expected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -162,7 +162,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainFewerThanX0ItemsFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             int actualCount = Subject.Count;
@@ -170,7 +170,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount < expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, expected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainFewerThanX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, expected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -192,7 +192,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainAtMostX0ItemsFormat + Resources.Common_CommaButFoundNull, expected);
             }
 
             int actualCount = Subject.Count;
@@ -200,7 +200,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount <= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat + Resources.Common_CommaButFoundZFormat, Subject, expected, actualCount);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainAtMostX1ItemsFormat + Resources.Common_CommaButFoundX2Format, Subject, expected, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -228,7 +228,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToHaveXItemsFormat + Resources.Common_CommaButFoundYFormat, countPredicate.Body, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToHaveX0ItemsFormat + Resources.Common_CommaButFoundX1Format, countPredicate.Body, Subject);
             }
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -239,7 +239,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToHaveCountX1ButIsX2Format,
                         Subject, countPredicate.Body, actualCount);
             }
 
@@ -266,13 +266,13 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEmpty + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEmpty + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Dictionary_ExpectedDictionaryToNotHaveAnyItems + Resources.Common_CommaButFoundXFormat, Subject.Count);
+                .FailWith(Resources.Dictionary_ExpectedDictionaryToNotHaveAnyItems + Resources.Common_CommaButFoundX0Format, Subject.Count);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -294,7 +294,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToBeEmpty + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToBeEmpty + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             Execute.Assertion
@@ -329,7 +329,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject);
             }
 
             if (expected is null)
@@ -344,7 +344,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat, expected,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToX0ButCouldNotFindKeysX1Format, expected,
                         missingKeys);
             }
 
@@ -352,7 +352,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat, expected,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToX0ButFoundMoreKeysX1Format, expected,
                         additionalKeys);
             }
 
@@ -361,7 +361,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToBeEqualToX0ButX1DiffersAtKeyX2Format,
                     expected, Subject, key);
             }
 
@@ -388,7 +388,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dicitonary_ExpectedDictionariesNotToBeEqual + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(Resources.Dicitonary_ExpectedDictionariesNotToBeEqual + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             if (unexpected is null)
@@ -414,7 +414,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat, unexpected, Subject);
+                    .FailWith(Resources.Dictionary_DidNotExpectDictionariesX0AndX1ToBeEqualFormat, unexpected, Subject);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -556,7 +556,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKeysXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKeysX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject);
             }
 
             var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
@@ -567,14 +567,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainKeyX1ButCouldNotFindX2Format, Subject,
                             expected, missingKeys);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainKeyYFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainKeyX1Format, Subject,
                             expected.Cast<object>().First());
                 }
             }
@@ -605,14 +605,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainKeyXFormat + Resources.Common_CommaButFoundYFormat, unexpected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainKeyX0Format + Resources.Common_CommaButFoundX1Format, unexpected, Subject);
             }
 
             if (Subject.ContainsKey(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat, Subject, unexpected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryX0NotToContainKeyX1ButFoundItFormat, Subject, unexpected);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -659,7 +659,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKeysXFormat + Resources.Common_CommaButFoundYFormat, unexpected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKeysX0Format + Resources.Common_CommaButFoundX1Format, unexpected, Subject);
             }
 
             var foundKeys = unexpectedKeys.Intersect(Subject.Keys);
@@ -670,14 +670,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToNotContainKeyYFormat + Resources.Common_CommaButFoundZFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToNotContainKeyX1Format + Resources.Common_CommaButFoundX2Format, Subject,
                             unexpected, foundKeys);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToNotContainKeyX1DotFormat, Subject,
                             unexpected.Cast<object>().First());
                 }
             }
@@ -760,7 +760,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject);
             }
 
             var missingValues = expectedValues.Except(Subject.Values);
@@ -770,14 +770,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainValueX1ButCouldNotFindX2Format, Subject,
                             expected, missingValues);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainValueYFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainValueX1Format, Subject,
                             expected.Cast<object>().First());
                 }
             }
@@ -823,14 +823,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueXFormat + Resources.Common_CommaButFoundYFormat, unexpected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueX0Format + Resources.Common_CommaButFoundX1Format, unexpected, Subject);
             }
 
             if (Subject.Values.Contains(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat, Subject, unexpected);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryX0NotToContainValueX1ButFoundItFormat, Subject, unexpected);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -877,7 +877,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainValueXFormat + Resources.Common_CommaButFoundYFormat, unexpected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainValueX0Format + Resources.Common_CommaButFoundX1Format, unexpected, Subject);
             }
 
             var foundValues = unexpectedValues.Intersect(Subject.Values);
@@ -887,14 +887,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToNotContainValueYFormat + Resources.Common_CommaButFoundZFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToNotContainValueX1Format + Resources.Common_CommaButFoundX2Format, Subject,
                             unexpected, foundValues);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToNotContainValueX1DotFormat, Subject,
                             unexpected.Cast<object>().First());
                 }
             }
@@ -948,7 +948,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat, expected, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainKvpX0ButDictionaryIsX1Format, expected, Subject);
             }
 
             var expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
@@ -960,14 +960,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainKeysX1ButCouldNotFindKeysX2Format, Subject,
                             expectedKeys, missingKeys);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryXToContainKeyYFormat, Subject,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryX0ToContainKeyX1Format, Subject,
                             expectedKeys.Cast<object>().First());
                 }
             }
@@ -980,7 +980,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat,
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryToContainX0ButDiffersAtKeysX1Format,
                             expectedKeyValuePairs, keyValuePairsNotSameOrEqualInSubject.Select(keyValuePair => keyValuePair.Key));
                 }
                 else
@@ -990,7 +990,7 @@ namespace FluentAssertions.Collections
 
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat + Resources.Common_CommaButFoundZFormat, expectedKeyValuePair.Value, expectedKeyValuePair.Key, actual);
+                        .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1Format + Resources.Common_CommaButFoundX2Format, expectedKeyValuePair.Value, expectedKeyValuePair.Key, actual);
                 }
             }
 
@@ -1035,7 +1035,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat, value, key,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButDictionaryIsX2Format, value, key,
                         Subject);
             }
 
@@ -1044,13 +1044,13 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(value))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat + Resources.Common_CommaButFoundZFormat, value, key, actual);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1Format + Resources.Common_CommaButFoundX2Format, value, key, actual);
             }
             else
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat, value,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButKeyWasNotFoundFormat, value,
                         key);
             }
 
@@ -1103,7 +1103,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat, items, Subject);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainKvpX0ButDictionaryIsX1Format, items, Subject);
             }
 
             var keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
@@ -1118,7 +1118,7 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat, keyValuePairs);
+                            .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainKvpX0ButFoundThemFormat, keyValuePairs);
                     }
                     else
                     {
@@ -1126,7 +1126,7 @@ namespace FluentAssertions.Collections
 
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat, keyValuePair.Value, keyValuePair.Key);
+                            .FailWith(Resources.Dictionary_ExpectedDictionaryToNotContainValueX0AtKeyX1ButFoundItFormat, keyValuePair.Value, keyValuePair.Key);
                     }
                 }
             }
@@ -1172,7 +1172,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat, value,
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButDictionaryIsX2Format, value,
                         key, Subject);
             }
 
@@ -1181,7 +1181,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(!actual.IsSameOrEqualTo(value))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat, value, key);
+                    .FailWith(Resources.Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButFoundItFormat, value, key);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);

@@ -42,11 +42,11 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation(Resources.Collection_ExpectedCollectionNotToBeEmptyComma)
                 .ForCondition(!ReferenceEquals(Subject, null))
-                .FailWith(Resources.Common_ButFoundXFormat, Subject)
+                .FailWith(Resources.Common_ButFoundX0Format, Subject)
                 .Then
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(collection => !collection.Any())
-                .FailWith(Resources.Common_ButFoundXFormat, collection => collection);
+                .FailWith(Resources.Common_ButFoundX0Format, collection => collection);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -67,7 +67,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionNotToBeEmpty + Resources.Common_CommaButFoundXFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToBeEmpty + Resources.Common_CommaButFoundX0Format,
                         Subject);
             }
 
@@ -98,7 +98,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion.ForCondition(nullOrEmpty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Collection_ExpectedCollectionNotToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
+                    Resources.Collection_ExpectedCollectionNotToBeNullOrEmpty + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -136,7 +136,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             IEnumerable<object> groupWithMultipleItems = Subject.Cast<object>()
@@ -150,14 +150,14 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemsXAreNotUniqueFormat,
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemsX0AreNotUniqueFormat,
                             groupWithMultipleItems);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemXIsNotUniqueFormat,
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Collection_CommaButItemX0IsNotUniqueFormat,
                             groupWithMultipleItems.First());
                 }
             }
@@ -197,13 +197,13 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundSeveralAtXFormat, indices);
+                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundSeveralAtX0Format, indices);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundOneAtIndexXFormat, indices[0]);
+                        .FailWith(Resources.Collection_ExpectedCollectionNotToContainNull + Resources.Collection_CommaButFoundOneAtIndexX0Format, indices[0]);
                 }
             }
 
@@ -259,11 +259,11 @@ namespace FluentAssertions.Collections
             IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
             {
-                assertion.FailWith(Resources.Collection_ExpectedCollectionToBeEqualToXFormat + Resources.Common_CommaButFoundNull, expectedItems);
+                assertion.FailWith(Resources.Collection_ExpectedCollectionToBeEqualToX0Format + Resources.Common_CommaButFoundNull, expectedItems);
             }
 
             assertion
-                .WithExpectation(Resources.Collection_ExpectedCollectionToBeEqualToXCommaFormat, expectedItems)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToBeEqualToX0CommaFormat, expectedItems)
                 .Given(() => Subject.ConvertOrCastToCollection<TActual>())
                 .AssertCollectionsHaveSameCount(expectedItems.Count)
                 .Then
@@ -309,7 +309,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionsXAndYToBeEqualFormat, unexpected, actualitems);
+                    .FailWith(Resources.Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat, unexpected, actualitems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -509,7 +509,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat + Resources.Common_CommaButBothReferenceSameObject,
+                        Resources.Collection_ExpectedCollectionX0NotToBeEquivalentWithX1Format + Resources.Common_CommaButBothReferenceSameObject,
                         Subject, unexpected);
             }
 
@@ -523,7 +523,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(missingItems.Count > 0)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat, Subject,
+                    .FailWith(Resources.Collection_ExpectedCollectionX0NotToBeEquivalentWithX1DotFormat, Subject,
                         unexpected);
             }
 
@@ -538,7 +538,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(failures.Length > 0)
-                .FailWith(Resources.Collection_ExpectedCollectionXNotToBeEquivalentToYFormat, Subject,
+                .FailWith(Resources.Collection_ExpectedCollectionX0NotToBeEquivalentToX1Format, Subject,
                     unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -595,7 +595,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainEquivalentOfXFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainEquivalentOfX0Format + Resources.Common_CommaButFoundNull,
                         expectation);
             }
 
@@ -631,7 +631,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionXToContainEquivalentOfYFormat, Subject, expectation);
+                    .FailWith(Resources.Collection_ExpectedCollectionX0ToContainEquivalentOfX1Format, Subject, expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -653,7 +653,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainElementAssignableToTypeX0Format + Resources.Common_CommaButFoundNull,
                         typeof(T));
             }
 
@@ -665,7 +665,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            Resources.Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat,
+                            Resources.Collection_ExpectedCollectionToContainOnlyItemsOfTypeX0Format,
                             typeof(T), item, index, item.GetType());
                 }
 
@@ -725,7 +725,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXFormat + Resources.Common_CommaButFoundNull, expected);
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainX0Format + Resources.Common_CommaButFoundNull, expected);
             }
 
             if (expected is string)
@@ -734,7 +734,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat, Subject, expected);
+                        .FailWith(Resources.Collection_ExpectedCollectionX0ToContainX1Format, Subject, expected);
                 }
             }
             else
@@ -746,14 +746,14 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat,
+                            .FailWith(Resources.Collection_ExpectedCollectionX0ToContainX1ButCouldNotFindX2Format,
                                 Subject, expected, missingItems);
                     }
                     else
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Collection_ExpectedCollectionXToContainYFormat,
+                            .FailWith(Resources.Collection_ExpectedCollectionX0ToContainX1Format,
                                 Subject, expected.Cast<object>().First());
                     }
                 }
@@ -798,7 +798,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXInOrderFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainX0InOrderFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -818,7 +818,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            Resources.Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat,
+                            Resources.Collection_ExpectedCollectionX0ToContainItemsX1InOrderButX2DidNotAppearFormat,
                             Subject, expected, expectedItem, index);
                 }
             }
@@ -911,7 +911,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             IList<object> actualItems = Subject.ConvertOrCastToList<object>();
@@ -925,7 +925,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actualItems[index].IsSameOrEqualTo(orderedItems[index]))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(failWithFirstPart + Resources.Collection_CommaButFoundXWhereYInWrongOrderFormat,
+                    .FailWith(failWithFirstPart + Resources.Collection_CommaButFoundX0WhereX1InWrongOrderFormat,
                         Subject, index);
             }
 
@@ -1016,7 +1016,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
@@ -1032,7 +1032,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(failWithFirstPart + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1061,7 +1061,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToBeSubsetOfXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionToBeSubsetOfX0Format + Resources.Common_CommaButFoundX1Format,
                         expectedSuperset, Subject);
             }
 
@@ -1075,7 +1075,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionToBeSubsetOfXFormat + Resources.Collection_CommaButItemsYAreNotPartOfSupersetFormat,
+                        Resources.Collection_ExpectedCollectionToBeSubsetOfX0Format + Resources.Collection_CommaButItemsX1AreNotPartOfSupersetFormat,
                         expectedSuperset, excessItems);
             }
 
@@ -1105,7 +1105,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionXToBeSubsetOfYFormat + Resources.Common_CommaButBothReferenceSameObject,
+                    .FailWith(Resources.Collection_DidNotExpectCollectionX0ToBeSubsetOfX1Format + Resources.Common_CommaButBothReferenceSameObject,
                         Subject,
                         unexpectedSuperset);
             }
@@ -1117,7 +1117,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionXToBeSubsetOfYFormat, actualItems, expectedItems);
+                    .FailWith(Resources.Collection_DidNotExpectCollectionX0ToBeSubsetOfX1Format, actualItems, expectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1146,7 +1146,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToHaveSameCountAsXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionToHaveSameCountAsX0Format + Resources.Common_CommaButFoundX1Format,
                         otherCollection,
                         Subject);
             }
@@ -1159,7 +1159,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expectedCount)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToHaveXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToHaveX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1189,7 +1189,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionToNotHaveSameCountAsXFormat + Resources.Common_CommaButFoundNull,
+                        Resources.Collection_ExpectedCollectionToNotHaveSameCountAsX0Format + Resources.Common_CommaButFoundNull,
                         otherCollection, Subject);
             }
 
@@ -1198,7 +1198,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat + Resources.Common_CommaButBothReferenceSameObject,
+                        Resources.Collection_ExpectedCollectionX0ToNotHaveSameCountAsX1Format + Resources.Common_CommaButBothReferenceSameObject,
                         Subject, otherCollection);
             }
 
@@ -1211,7 +1211,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(actualCount != expectedCount)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Collection_ExpectedCollectionToNotHaveXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    Resources.Collection_ExpectedCollectionToNotHaveX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1238,7 +1238,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionToHaveElementAtIndexXFormat + Resources.Common_CommaButFoundYFormat,
+                        Resources.Collection_ExpectedCollectionToHaveElementAtIndexX0Format + Resources.Common_CommaButFoundX1Format,
                         index, Subject);
             }
 
@@ -1252,14 +1252,14 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(element))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedXAtIndexYFormat + Resources.Common_CommaButFoundZFormat,
+                    .FailWith(Resources.Collection_ExpectedX0AtIndexX1Format + Resources.Common_CommaButFoundX2Format,
                         element, index, actual);
             }
             else
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedXAtIndexYButFoundNoElementFormat,
+                    .FailWith(Resources.Collection_ExpectedX0AtIndexX1ButFoundNoElementFormat,
                         element, index);
             }
 
@@ -1296,7 +1296,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToNotXContainFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotX0ContainFormat + Resources.Common_CommaButFoundNull,
                         unexpected);
             }
 
@@ -1306,7 +1306,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionXToNotContainYDotFormat, Subject, unexpected);
+                        .FailWith(Resources.Collection_ExpectedCollectionX0ToNotContainX1DotFormat, Subject, unexpected);
                 }
             }
             else
@@ -1318,14 +1318,14 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Collection_ExpectedCollectionXToNotContainYFormat + Resources.Common_CommaButFoundZFormat,
+                            .FailWith(Resources.Collection_ExpectedCollectionX0ToNotContainX1Format + Resources.Common_CommaButFoundX2Format,
                                 Subject, unexpected, foundItems);
                     }
                     else
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(Resources.Collection_ExpectedCollectionXToNotContainElementYFormat,
+                            .FailWith(Resources.Collection_ExpectedCollectionX0ToNotContainElementX1Format,
                                 Subject, unexpectedObjects.First());
                     }
                 }
@@ -1357,7 +1357,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToIntersectWithXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionToIntersectWithX0Format + Resources.Common_CommaButFoundX1Format,
                         otherCollection, Subject);
             }
 
@@ -1369,7 +1369,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat,
+                        Resources.Collection_ExpectedCollectionToIntersectWithX0ButX1DoesNotContainSharedItemsFormat,
                         otherCollection, Subject);
             }
 
@@ -1399,7 +1399,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionToIntersectWithXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_DidNotExpectCollectionToIntersectWithX0Format + Resources.Common_CommaButFoundX1Format,
                         otherCollection, Subject);
             }
 
@@ -1407,7 +1407,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionXToIntersectWithYFormat + Resources.Common_CommaButBothReferenceSameObject,
+                    .FailWith(Resources.Collection_DidNotExpectCollectionX0ToIntersectWithX1Format + Resources.Common_CommaButBothReferenceSameObject,
                         Subject, otherCollection);
             }
 
@@ -1419,7 +1419,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        Resources.Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat,
+                        Resources.Collection_DidNotExpectCollectionToIntersectWithX0ButFoundSharedItemsX1Format,
                         otherCollection, sharedItems);
             }
 
@@ -1450,7 +1450,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithXFormat, expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithX0Format, expected)
                 .Given(() => actualItems)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1463,7 +1463,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithXFormat, expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToStartWithX0Format, expected)
                 .Given(() => actualItems)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1496,7 +1496,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithXFormat, expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithX0Format, expected)
                 .Given(() => actual)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1514,7 +1514,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithXFormat, expected)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToEndWithX0Format, expected)
                 .Given(() => actual)
                 .AssertCollectionIsNotNull()
                 .Then
@@ -1542,7 +1542,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveXPrecedeYFormat, expectation, successor)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveX0PrecedeX1Format, expectation, successor)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.Any())
                 .FailWith(Resources.Collection_ButTheCollectionIsEmpty)
@@ -1552,7 +1552,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => PredecessorOf(successor, subject))
                 .ForCondition(predecessor => predecessor.IsSameOrEqualTo(expectation))
-                .FailWith(Resources.Common_ButFoundXFormat, predecessor => predecessor)
+                .FailWith(Resources.Common_ButFoundX0Format, predecessor => predecessor)
                 .Then
                 .ClearExpectation();
 
@@ -1585,7 +1585,7 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveXSucceedYFormat, expectation, predecessor)
+                .WithExpectation(Resources.Collection_ExpectedCollectionToHaveX0SucceedX1Format, expectation, predecessor)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.Any())
                 .FailWith(Resources.Collection_ButTheCollectionIsEmpty)
@@ -1595,7 +1595,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => SuccessorOf(predecessor, subject))
                 .ForCondition(successor => successor.IsSameOrEqualTo(expectation))
-                .FailWith(Resources.Common_ButFoundXFormat, successor => successor);
+                .FailWith(Resources.Common_ButFoundX0Format, successor => successor);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1643,13 +1643,13 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedTypeToBeXFormat, expectedType.FullName)
+                .WithExpectation(Resources.Collection_ExpectedTypeToBeX0Format, expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith(Resources.Common_ButFoundANullElement)
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
-                .FailWith(Resources.Common_ButFoundXFormat, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith(Resources.Common_ButFoundX0Format, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1685,13 +1685,13 @@ namespace FluentAssertions.Collections
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation(Resources.Collection_ExpectedTypeToBeXFormat, expectedType.FullName)
+                .WithExpectation(Resources.Collection_ExpectedTypeToBeX0Format, expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith(Resources.Common_ButFoundANullElement)
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
-                .FailWith(Resources.Common_ButFoundXFormat, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith(Resources.Common_ButFoundX0Format, subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

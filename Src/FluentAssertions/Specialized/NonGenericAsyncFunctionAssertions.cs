@@ -42,7 +42,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(completed)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Task_ExpectedTaskToCompleteWithinXFormat, timeSpan);
+                .FailWith(Resources.Task_ExpectedTaskToCompleteWithinX0Format, timeSpan);
 
             return new AndConstraint<AsyncFunctionAssertions>(this);
         }
@@ -77,7 +77,7 @@ namespace FluentAssertions.Specialized
                 Execute.Assertion
                     .ForCondition(completedTask == task)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Task_ExpectedTaskToCompleteWithinXFormat, timeSpan);
+                    .FailWith(Resources.Task_ExpectedTaskToCompleteWithinX0Format, timeSpan);
 
                 return new AndConstraint<AsyncFunctionAssertions>(this);
             }

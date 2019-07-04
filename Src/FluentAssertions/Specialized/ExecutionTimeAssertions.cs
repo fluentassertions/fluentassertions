@@ -78,10 +78,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat
+                .FailWith(Resources.ExecutionTime_ExecutionOfX0ShouldBeLessOrEqualToX1Format
                     + (isRunning
-                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
-                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanX2Format
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyX2Format),
                     execution.ActionDescription.ToAlreadyFormattedString(), maxDuration, elapsed);
         }
 
@@ -106,10 +106,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeLessThanYFormat
+                .FailWith(Resources.ExecutionTime_ExecutionOfX0ShouldBeLessThanX1Format
                     + (isRunning
-                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
-                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanX2Format
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyX2Format),
                     execution.ActionDescription.ToAlreadyFormattedString(), maxDuration, elapsed);
         }
 
@@ -134,10 +134,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat
+                .FailWith(Resources.ExecutionTime_ExecutionOfX0ShouldBeGreaterOrEqualToX1Format
                     + (isRunning
-                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
-                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanX2Format
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyX2Format),
                     execution.ActionDescription.ToAlreadyFormattedString(), minDuration, elapsed);
         }
 
@@ -162,10 +162,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat
+                .FailWith(Resources.ExecutionTime_ExecutionOfX0ShouldBeGreaterThanX1Format
                     + (isRunning
-                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanZFormat
-                        : Resources.ExecutionTime_CommaButItRequiredExactlyZFormat),
+                        ? Resources.ExecutionTime_CommaButItRequiredMoreThanX2Format
+                        : Resources.ExecutionTime_CommaButItRequiredExactlyX2Format),
                     execution.ActionDescription.ToAlreadyFormattedString(), minDuration, elapsed);
         }
 
@@ -202,8 +202,8 @@ namespace FluentAssertions.Specialized
                 .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(isRunning
-                    ? Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat
-                    : Resources.ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat,
+                    ? Resources.ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredMoreThanX3Format
+                    : Resources.ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredExactlyX3Format,
                     execution.ActionDescription.ToAlreadyFormattedString(), precision, expectedDuration, elapsed);
         }
     }

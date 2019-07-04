@@ -23,7 +23,7 @@ namespace FluentAssertions.Execution
                 .FailWith(Resources.Collection_ButFoundEmptyCollection)
                 .Then
                 .ForCondition(items => ((items.Count == 0) || (length > 0)))
-                .FailWith(Resources.Common_ButFoundXFormat, items => items);
+                .FailWith(Resources.Common_ButFoundX0Format, items => items);
         }
 
         public static ContinuationOfGiven<ICollection<T>> AssertCollectionHasEnoughItems<T>(this GivenSelector<IEnumerable<T>> givenSelector,
@@ -38,7 +38,7 @@ namespace FluentAssertions.Execution
         {
             return givenSelector
                 .ForCondition(items => items.Count >= length)
-                .FailWith(Resources.Collection_ButXContainsYItemsLessFormat, items => items, items => length - items.Count);
+                .FailWith(Resources.Collection_ButX0ContainsX1ItemsLessFormat, items => items, items => length - items.Count);
         }
 
         public static ContinuationOfGiven<ICollection<T>> AssertCollectionHasNotTooManyItems<T>(this GivenSelector<ICollection<T>> givenSelector,
@@ -46,7 +46,7 @@ namespace FluentAssertions.Execution
         {
             return givenSelector
                 .ForCondition(items => items.Count <= length)
-                .FailWith(Resources.Collection_ButXContainsYItemsTooManyFormat, items => items, items => items.Count - length);
+                .FailWith(Resources.Collection_ButX0ContainsX1ItemsTooManyFormat, items => items, items => items.Count - length);
         }
 
         public static ContinuationOfGiven<ICollection<T>> AssertCollectionsHaveSameCount<T>(this GivenSelector<ICollection<T>> givenSelector,
@@ -66,7 +66,7 @@ namespace FluentAssertions.Execution
             givenSelector
                 .Given(actual => new { Items = actual, Index = findIndex(actual, expected) })
                 .ForCondition(diff => diff.Index == -1)
-                .FailWith(Resources.Collection_ButXDiffersAtIndexYFormat, diff => diff.Items, diff => diff.Index);
+                .FailWith(Resources.Collection_ButX0DiffersAtIndexX1Format, diff => diff.Items, diff => diff.Index);
         }
     }
 }

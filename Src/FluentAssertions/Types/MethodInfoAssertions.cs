@@ -37,7 +37,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.IsNonVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXToBeVirtualFormat + Resources.Method_CommaButItIsNotVirtual,
+                .FailWith(Resources.Method_ExpectedMethodX0ToBeVirtualFormat + Resources.Method_CommaButItIsNotVirtual,
                     SubjectDescription.ToAlreadyFormattedString());
 
             return new AndConstraint<MethodInfoAssertions>(this);
@@ -58,7 +58,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.IsNonVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXNotToBeVirtualFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Method_ExpectedMethodX0NotToBeVirtualFormat + Resources.Common_CommaButItIs,
                     SubjectDescription.ToAlreadyFormattedString());
 
             return new AndConstraint<MethodInfoAssertions>(this);
@@ -75,7 +75,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.IsAsync())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXToBeAsyncFormat + Resources.Common_CommaButItIsNot,
+                .FailWith(Resources.Method_ExpectedMethodX0ToBeAsyncFormat + Resources.Common_CommaButItIsNot,
                     SubjectDescription.ToAlreadyFormattedString());
 
             return new AndConstraint<MethodInfoAssertions>(this);
@@ -92,7 +92,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.IsAsync())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedMethodXNotToBeAsyncFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Method_ExpectedMethodX0NotToBeAsyncFormat + Resources.Common_CommaButItIs,
                     SubjectDescription.ToAlreadyFormattedString());
 
             return new AndConstraint<MethodInfoAssertions>(this);
@@ -112,7 +112,7 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(typeof(void) == Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXToBeVoidFormat + Resources.Common_CommaButItIsYFormat,
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodX0ToBeVoidFormat + Resources.Common_CommaButItIsX1Format,
                     Subject.Name.ToAlreadyFormattedString(),
                     Subject.ReturnType.FullName);
 
@@ -134,7 +134,7 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(returnType == Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXToBeYFormat + Resources.Common_CommaButItIsZFormat,
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodX0ToBeX1Format + Resources.Common_CommaButItIsX2Format,
                     Subject.Name.ToAlreadyFormattedString(),
                     returnType,
                     Subject.ReturnType.FullName);
@@ -173,7 +173,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(typeof(void) != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodX0NotToBeVoidFormat + Resources.Common_CommaButItIs,
                     Subject.Name.ToAlreadyFormattedString());
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
@@ -195,7 +195,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(returnType != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodXNotToBeYFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Method_ExpectedReturnTypeOfMethodX0NotToBeX1Format + Resources.Common_CommaButItIs,
                     Subject.Name.ToAlreadyFormattedString(), returnType);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);

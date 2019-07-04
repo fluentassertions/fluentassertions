@@ -87,7 +87,7 @@ namespace FluentAssertions.Events
             EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
             if (!events.Any())
             {
-                throw new InvalidOperationException(string.Format(Resources.Event_TypeXDoesNotExposeAnyEventFormat, typeDefiningEventsToMonitor.Name));
+                throw new InvalidOperationException(string.Format(Resources.Event_TypeX0DoesNotExposeAnyEventFormat, typeDefiningEventsToMonitor.Name));
             }
 
             foreach (var eventInfo in events)
@@ -135,7 +135,7 @@ namespace FluentAssertions.Events
         {
             if (!recorderMap.TryGetValue(eventName, out IEventRecorder recorder))
             {
-                throw new InvalidOperationException(string.Format(Resources.Event_NotMonitoringAnyEventsNamedXFormat, eventName));
+                throw new InvalidOperationException(string.Format(Resources.Event_NotMonitoringAnyEventsNamedX0Format, eventName));
             }
 
             return recorder;

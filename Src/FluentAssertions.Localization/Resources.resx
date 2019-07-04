@@ -123,7 +123,7 @@
   <data name="Common_ButFoundANullElement" xml:space="preserve">
     <value>but found a null element.</value>
   </data>
-  <data name="Common_ButFoundXFormat" xml:space="preserve">
+  <data name="Common_ButFoundX0Format" xml:space="preserve">
     <value>but found {0}.</value>
   </data>
   <data name="Common_ButFoundNothing" xml:space="preserve">
@@ -135,13 +135,13 @@
   <data name="Collection_ButTheCollectionIsEmpty" xml:space="preserve">
     <value>but the collection is empty.</value>
   </data>
-  <data name="Common_CommaButFoundXFormat" xml:space="preserve">
+  <data name="Common_CommaButFoundX0Format" xml:space="preserve">
     <value>, but found {0}.</value>
   </data>
-  <data name="Collection_DidNotExpectCollectionsXAndYToBeEqualFormat" xml:space="preserve">
+  <data name="Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat" xml:space="preserve">
     <value>Did not expect collections {0} and {1} to be equal{{reason}}.</value>
   </data>
-  <data name="Object_DidNotExpectContextToReferToXFormat" xml:space="preserve">
+  <data name="Object_DidNotExpectContextToReferToX0Format" xml:space="preserve">
     <value>Did not expect {{context}} to refer to {0}{{reason}}.</value>
   </data>
   <data name="Collection_CannotCompareCollectionCountAgainstNullPredicate" xml:space="preserve">
@@ -172,10 +172,10 @@
   <data name="Collection_ExpectedCollectionNotToBeEquivalent" xml:space="preserve">
     <value>Expected {{context:collection}} not to be equivalent{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXNotToBeEquivalentToYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0NotToBeEquivalentToX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} not to be equivalent to collection {1}{{reason}}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0NotToBeEquivalentWithX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}</value>
   </data>
   <data name="Collection_ExpectedCollectionNotToBeNullOrEmpty" xml:space="preserve">
@@ -184,64 +184,64 @@
   <data name="Collection_CommaButCollectionIsNull" xml:space="preserve">
     <value>, but collection is &lt;null&gt;.</value>
   </data>
-  <data name="Collection_CommaButFoundOneAtIndexXFormat" xml:space="preserve">
+  <data name="Collection_CommaButFoundOneAtIndexX0Format" xml:space="preserve">
     <value>, but found one at index {0}.</value>
   </data>
-  <data name="Collection_CommaButFoundSeveralAtXFormat" xml:space="preserve">
+  <data name="Collection_CommaButFoundSeveralAtX0Format" xml:space="preserve">
     <value>, but found several at indices {0}.</value>
   </data>
   <data name="Collection_ExpectedCollectionsNotToBeEqual" xml:space="preserve">
     <value>Expected collections not to be equal{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToBeEqualToXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToBeEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to be equal to {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToBeEqualToXCommaFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToBeEqualToX0CommaFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to be equal to {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainElementAssignableToTypeX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain element assignable to type {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainEquivalentOfXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainEquivalentOfX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain equivalent of {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToContainEquivalentOfYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToContainEquivalentOfX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to contain equivalent of {1}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainOnlyItemsOfTypeX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain only items of type {0}{{reason}}, but item {1} at index {2} is of type {3}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainXItemFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainX0ItemFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToEndWithXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToEndWithX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to end with {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
   <data name="Collection_ExpectedCollectionToOnlyHaveUniqueItems" xml:space="preserve">
     <value>Expected {{context:collection}} to only have unique items{{reason}}</value>
   </data>
-  <data name="Collection_CommaButItemsXAreNotUniqueFormat" xml:space="preserve">
+  <data name="Collection_CommaButItemsX0AreNotUniqueFormat" xml:space="preserve">
     <value>, but items {0} are not unique.</value>
   </data>
   <data name="RefType_ExpectedContextNotToBeNull" xml:space="preserve">
     <value>Expected {{context}} not to be &lt;null&gt;{{reason}}.</value>
   </data>
-  <data name="RefType_ExpectedContextToBeXFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextToBeX0Format" xml:space="preserve">
     <value>Expected {{context}} to be {0}{{reason}}</value>
   </data>
-  <data name="RefType_ExpectedContextToBeNullButFoundXFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextToBeNullButFoundX0Format" xml:space="preserve">
     <value>Expected {{context}} to be &lt;null&gt;{{reason}}, but found {0}.</value>
   </data>
-  <data name="RefType_ExpectedContextToReferToXFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextToReferToX0Format" xml:space="preserve">
     <value>Expected {{context}} to refer to {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedTypeToBeXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedTypeToBeX0Format" xml:space="preserve">
     <value>Expected type to be {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_AtIndexXFailuresFormat" xml:space="preserve">
+  <data name="Collection_AtIndexX0FailuresFormat" xml:space="preserve">
     <value>At index {0}:{1}{2}</value>
   </data>
   <data name="Collection_ButCollectionIsEmpty" xml:space="preserve">
@@ -253,16 +253,16 @@
   <data name="Common_ButSomeInspectorsAreNotSatisfied" xml:space="preserve">
     <value>but some inspectors are not satisfied:</value>
   </data>
-  <data name="Collection_DidNotExpectCollectionXToBeSubsetOfYFormat" xml:space="preserve">
+  <data name="Collection_DidNotExpectCollectionX0ToBeSubsetOfX1Format" xml:space="preserve">
     <value>Did not expect {{context:collection}} {0} to be a subset of {1}{{reason}}.</value>
   </data>
-  <data name="Collection_DidNotExpectCollectionXToIntersectWithYFormat" xml:space="preserve">
+  <data name="Collection_DidNotExpectCollectionX0ToIntersectWithX1Format" xml:space="preserve">
     <value>Did not expect {{context:collection}} {0} to intersect with {1}{{reason}}</value>
   </data>
-  <data name="Collection_DidNotExpectCollectionToIntersectWithXFormat" xml:space="preserve">
+  <data name="Collection_DidNotExpectCollectionToIntersectWithX0Format" xml:space="preserve">
     <value>Did not expect {{context:collection}} to intersect with {0}{{reason}}</value>
   </data>
-  <data name="Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat" xml:space="preserve">
+  <data name="Collection_DidNotExpectCollectionToIntersectWithX0ButFoundSharedItemsX1Format" xml:space="preserve">
     <value>Did not expect {{context:collection}} to intersect with {0}{{reason}}, but found the following shared items {1}.</value>
   </data>
   <data name="Collection_CannotAssertCollectionOrderingWithoutComparer" xml:space="preserve">
@@ -298,198 +298,198 @@
   <data name="Collection_CannotVerifySubsetAgainstNull" xml:space="preserve">
     <value>Cannot verify a subset against a &lt;null&gt; collection.</value>
   </data>
-  <data name="Collection_ExpectedXAtIndexYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedX0AtIndexX1Format" xml:space="preserve">
     <value>Expected {0} at index {1}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedXAtIndexYButFoundNoElementFormat" xml:space="preserve">
+  <data name="Collection_ExpectedX0AtIndexX1ButFoundNoElementFormat" xml:space="preserve">
     <value>Expected {0} at index {1}{{reason}}, but found no element.</value>
   </data>
-  <data name="Collection_ExpectedCollectionNotToContainXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionNotToContainX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} not to contain {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionNotToContainNullOnXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionNotToContainNullOnX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} not to contain &lt;null&gt;s on {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToBeOrderedX1AndResultInX2Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to be ordered{1}{{reason}} and result in {2}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToBeSubsetOfXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToBeSubsetOfX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to be a subset of {0}{{reason}}</value>
   </data>
-  <data name="Collection_CommaButItemsYAreNotPartOfSupersetFormat" xml:space="preserve">
+  <data name="Collection_CommaButItemsX1AreNotPartOfSupersetFormat" xml:space="preserve">
     <value>, but items {1} are not part of the superset.</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToContainItemsX1InOrderButX2DidNotAppearFormat" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to contain items {1} in order{{reason}}, but {2} (index {3}) did not appear (in the right order).</value>
   </data>
-  <data name="Collection_CommaButFoundXWhereYInWrongOrderFormat" xml:space="preserve">
+  <data name="Collection_CommaButFoundX0WhereX1InWrongOrderFormat" xml:space="preserve">
     <value>, but found {0} where item at index {1} is in wrong order.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainAtLeastXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainAtLeastX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain at least {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainAtMostXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainAtMostX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain at most {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToContainX1ButCouldNotFindX2Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to contain {1}{{reason}}, but could not find {2}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainExactlyX0ItemsButContainsX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain exactly {0} items, but it contains {1} items</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainFewerThanXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainFewerThanX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain fewer than {0} item(s){{reason}},</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToContainYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToContainX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to contain {1}{{reason}}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainXInOrderFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainX0InOrderFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain {0} in order{{reason}}</value>
   </data>
   <data name="Collection_ExpectedCollectionToContainItemsInAscendingOrder" xml:space="preserve">
     <value>Expected {{context:collection}} to contain items in ascending order{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainMoreThanXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainMoreThanX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain more than {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainOnlyItemsMatchingX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain only items matching {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainOnlyItemsMatchingX0ButX1DoesNotMatchFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain only items matching {0}{{reason}}, but {1} do(es) not match.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainSingleItemMatchingXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainSingleItemMatchingX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to contain a single item matching {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToHaveCountX1ButCountIsX2Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to have a count {1}{{reason}}, but count is {2}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToHaveElementAtIndexXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToHaveElementAtIndexX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to have element at index {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToHaveItemMatchingYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToHaveItemMatchingX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to have an item matching {1}{{reason}}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToHaveXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToHaveX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to have {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToHaveXPrecedeYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToHaveX0PrecedeX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} to have {0} precede {1}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_ExpectedCollectionToHaveSameCountAsXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToHaveSameCountAsX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to have the same count as {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToHaveXSucceedYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToHaveX0SucceedX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} to have {0} succeed {1}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToIntersectWithX0ButX1DoesNotContainSharedItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to intersect with {0}{{reason}}, but {1} does not contain any shared items.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToIntersectWithXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToIntersectWithX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to intersect with {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToNotContainYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToNotContainX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to not contain {1}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToNotXContainFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToNotX0ContainFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to not contain {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToNotContainElementYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToNotContainElementX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to not contain element {1}{{reason}}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToNotContainYDotFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToNotContainX1DotFormat" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to not contain {1}{{reason}}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToNotContainXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToNotContainX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to not contain {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToNotHaveXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToNotHaveX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to not have {0} item(s){{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToNotHaveItemsMatchingX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to not have any items matching {1}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0ToNotHaveSameCountAsX1Format" xml:space="preserve">
     <value>Expected {{context:collection}} {0} to not have the same count as {1}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToNotHaveSameCountAsXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToNotHaveSameCountAsX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to not have the same count as {0}{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemX1IsNotUniqueFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to only have unique items on {0}{{reason}}, but item {1} is not unique.</value>
   </data>
-  <data name="Collection_CommaButItemXIsNotUniqueFormat" xml:space="preserve">
+  <data name="Collection_CommaButItemX0IsNotUniqueFormat" xml:space="preserve">
     <value>, but item {0} is not unique.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemsX1AreNotFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to only have unique items on {0}{{reason}}, but items {1} are not unique.</value>
   </data>
   <data name="Collection_ExpectedCollectionToSatisfyAllInspectors" xml:space="preserve">
     <value>Expected {{context:collection}} to satisfy all inspectors{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Collection_ExpectedCollectionToStartWithXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToStartWithX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to start with {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="RefType_ExpectedContextNotToBeXFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextNotToBeX0Format" xml:space="preserve">
     <value>Expected {{context}} not to be {0}{{reason}}</value>
   </data>
-  <data name="RefType_ExpectedContextToBeAssignableToXButYIsNotFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextToBeAssignableToX0ButX1IsNotFormat" xml:space="preserve">
     <value>Expected {{context}} to be assignable to {0}{{reason}}, but {1} is not.</value>
   </data>
-  <data name="RefType_ExpectedContextToNotBeAssignableXToButYIsFormat" xml:space="preserve">
+  <data name="RefType_ExpectedContextToNotBeAssignableX0ToButX1IsFormat" xml:space="preserve">
     <value>Expected {{context}} to not be assignable to {0}{{reason}}, but {1} is.</value>
   </data>
   <data name="RefType_ExpectedObjectToMatchY" xml:space="preserve">
     <value>Expected {{context:object}} to match {1}{{reason}}</value>
   </data>
-  <data name="Collection_ButXSuchItemsWereFoundFormat" xml:space="preserve">
+  <data name="Collection_ButX0SuchItemsWereFoundFormat" xml:space="preserve">
     <value>but {0} such items were found.</value>
   </data>
-  <data name="Numeric_DidNotExpectValueToBeWithinXFromYFormat" xml:space="preserve">
+  <data name="Numeric_DidNotExpectValueToBeWithinX0FromX1Format" xml:space="preserve">
     <value>Did not expect {{context:value}} to be within {0} from {1}{{reason}}</value>
   </data>
-  <data name="Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat" xml:space="preserve">
+  <data name="Event_ExpectedAtLeastOneEventWithArgsMatchingX0ButFoundNoneFormat" xml:space="preserve">
     <value>Expected at least one event with arguments matching {0}, but found none.</value>
   </data>
   <data name="Collection_ExpectedCollectionToContainSingleItem" xml:space="preserve">
     <value>Expected {{context:collection}} to contain a single item{{reason}}</value>
   </data>
-  <data name="Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat" xml:space="preserve">
+  <data name="Event_ExpectedEventFromSenderX0ButEventX1DoesNotIncludeArgsFormat" xml:space="preserve">
     <value>Expected event from sender &lt;{0}&gt;, but event {1} does not include any arguments</value>
   </data>
-  <data name="Event_ExpectedSenderXFormat" xml:space="preserve">
+  <data name="Event_ExpectedSenderX0Format" xml:space="preserve">
     <value>Expected sender {0}</value>
   </data>
-  <data name="Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat" xml:space="preserve">
+  <data name="Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format" xml:space="preserve">
     <value>Expected {0} to be serializable{{reason}}, but serialization failed with:{1}{1}{2}.</value>
   </data>
-  <data name="Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToApproximateX1X2ButX0DifferedByX3Format" xml:space="preserve">
     <value>Expected {{context:value}} to approximate {1} +/- {2}{{reason}}, but {0} differed by {3}.</value>
   </data>
-  <data name="Numeric_ExpectedValueToApproximateXYFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToApproximateX0X1Format" xml:space="preserve">
     <value>Expected {{context:value}} to approximate {0} +/- {1}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeWithinXFromYFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeWithinX0FromX1Format" xml:space="preserve">
     <value>Expected {{context:value}} to be within {0} from {1}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToNotApproximateX1X2ButX0DifferedByX3Format" xml:space="preserve">
     <value>Expected {{context:value}} to not approximate {1} +/- {2}{{reason}}, but {0} only differed by {3}.</value>
   </data>
-  <data name="Numeric_ExpectedValueToNotApproximateXYButItWasZFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format" xml:space="preserve">
     <value>Expected {{context:value}} to not approximate {0} +/- {1}{{reason}}, but it was {2}.</value>
   </data>
-  <data name="Event_NoArgumentOfEventXIsOfTypeYFormat" xml:space="preserve">
+  <data name="Event_NoArgumentOfEventX0IsOfTypeX1Format" xml:space="preserve">
     <value>No argument of event {0} is of type &lt;{1}&gt;.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToBeOrderedByXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToBeOrderedByX0Format" xml:space="preserve">
     <value>Expected {{context:collection}} to be ordered by {0}{{reason}}</value>
   </data>
   <data name="Common_NullKeyword" xml:space="preserve">
@@ -504,7 +504,7 @@
   <data name="Expression_ExpectedPropertyExpression" xml:space="preserve">
     <value>Expected a property expression</value>
   </data>
-  <data name="Expression_ExpressionXCannotBeUsedToSelectMemberFormat" xml:space="preserve">
+  <data name="Expression_ExpressionX0CannotBeUsedToSelectMemberFormat" xml:space="preserve">
     <value>Expression &lt;{0}&gt; cannot be used to select a member.</value>
   </data>
   <data name="Dictionary_CannotCompareDictionaryCountAgainstNullPredicate" xml:space="preserve">
@@ -537,25 +537,25 @@
   <data name="Collection_ExpectedOneOrMoreItemsButFoundNone" xml:space="preserve">
     <value>Expected one or more items{{reason}}, but found none.</value>
   </data>
-  <data name="Dictionary_ExpectedXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedX0ItemsFormat" xml:space="preserve">
     <value>Expected {0} item(s){{reason}}</value>
   </data>
-  <data name="Configuration_XIsNotValidOptionForValueFormattersFormat" xml:space="preserve">
+  <data name="Configuration_X0IsNotValidOptionForValueFormattersFormat" xml:space="preserve">
     <value>'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.</value>
   </data>
-  <data name="Common_CommaButFoundYFormat" xml:space="preserve">
+  <data name="Common_CommaButFoundX1Format" xml:space="preserve">
     <value>, but found {1}.</value>
   </data>
   <data name="Collection_AlwaysBeStrictAboutCollectionOrder" xml:space="preserve">
     <value>Always be strict about the collection order</value>
   </data>
-  <data name="Collection_BeNotStrictAboutCollectionsOrderWhenXFormat" xml:space="preserve">
+  <data name="Collection_BeNotStrictAboutCollectionsOrderWhenX0Format" xml:space="preserve">
     <value>Be not strict about the order of collections when {0}</value>
   </data>
-  <data name="Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat" xml:space="preserve">
+  <data name="Collection_BeStrictAboutCollectionItemsOrderWhenPathIsX0Format" xml:space="preserve">
     <value>Be strict about the order of collection items when path is {0}</value>
   </data>
-  <data name="Collection_BeStrictAboutCollectionsOrderWhenXFormat" xml:space="preserve">
+  <data name="Collection_BeStrictAboutCollectionsOrderWhenX0Format" xml:space="preserve">
     <value>Be strict about the order of collections when {0}</value>
   </data>
   <data name="Array_BeStrictAboutItemsOrderInByteArrays" xml:space="preserve">
@@ -567,13 +567,13 @@
   <data name="Collection_ButFoundEmptyCollection" xml:space="preserve">
     <value>but found empty collection.</value>
   </data>
-  <data name="Collection_ButXContainsYItemsLessFormat" xml:space="preserve">
+  <data name="Collection_ButX0ContainsX1ItemsLessFormat" xml:space="preserve">
     <value>but {0} contains {1} item(s) less.</value>
   </data>
-  <data name="Collection_ButXContainsYItemsTooManyFormat" xml:space="preserve">
+  <data name="Collection_ButX0ContainsX1ItemsTooManyFormat" xml:space="preserve">
     <value>but {0} contains {1} item(s) too many.</value>
   </data>
-  <data name="Collection_ButXDiffersAtIndexYFormat" xml:space="preserve">
+  <data name="Collection_ButX0DiffersAtIndexX1Format" xml:space="preserve">
     <value>but {0} differs at index {1}.</value>
   </data>
   <data name="Event_CannotMonitorEventsOfNullObject" xml:space="preserve">
@@ -585,55 +585,55 @@
   <data name="Common_CommaButFoundNull" xml:space="preserve">
     <value>, but found &lt;null&gt;.</value>
   </data>
-  <data name="Common_CommaButFoundZFormat" xml:space="preserve">
+  <data name="Common_CommaButFoundX2Format" xml:space="preserve">
     <value>, but found {2}.</value>
   </data>
-  <data name="Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat" xml:space="preserve">
+  <data name="Dictionary_DidNotExpectDictionariesX0AndX1ToBeEqualFormat" xml:space="preserve">
     <value>Did not expect dictionaries {0} and {1} to be equal{{reason}}.</value>
   </data>
-  <data name="Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat" xml:space="preserve">
+  <data name="Event_DidNotExpectObjectX0ToRaiseEventX1ForPropertyX2ButItDidFormat" xml:space="preserve">
     <value>Did not expect object {0} to raise the {1} event for property {2}{{reason}}, but it did.</value>
   </data>
-  <data name="Conversion_DoNotConvertMemberXFormat" xml:space="preserve">
+  <data name="Conversion_DoNotConvertMemberX0Format" xml:space="preserve">
     <value>Do not convert member {0}.</value>
   </data>
-  <data name="Member_ExcludeMemberRootXDotFormat" xml:space="preserve">
+  <data name="Member_ExcludeMemberRootX0DotFormat" xml:space="preserve">
     <value>Exclude member root.{0}</value>
   </data>
-  <data name="Member_ExcludeMemberWhenXFormat" xml:space="preserve">
+  <data name="Member_ExcludeMemberWhenX0Format" xml:space="preserve">
     <value>Exclude member when {0}</value>
   </data>
-  <data name="Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat" xml:space="preserve">
+  <data name="Member_ExpectationHasMemberPathX0DotX1ThatTheOtherObjectDoesNotHaveFormat" xml:space="preserve">
     <value>Expectation has {0}.{1} that the other object does not have.</value>
   </data>
-  <data name="Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat" xml:space="preserve">
+  <data name="Member_ExpectationHasMemberX0ThatTheOtherObjectDoesNotHaveFormat" xml:space="preserve">
     <value>Expectation has member {0} that the other object does not have.</value>
   </data>
   <data name="Collection_ExpectedCollectionToContainItemsInDescendingOrder" xml:space="preserve">
     <value>Expected {{context:collection}} to contain items in descending order{{reason}}</value>
   </data>
-  <data name="Event_ExpectedObjectXToNotRaiseEventYButItDidFormat" xml:space="preserve">
+  <data name="Event_ExpectedObjectX0ToNotRaiseEventX1ButItDidFormat" xml:space="preserve">
     <value>Expected object {0} to not raise event {1}{{reason}}, but it did.</value>
   </data>
-  <data name="Event_ExpectedObjectXToRaiseEventYButItDidNotFormat" xml:space="preserve">
+  <data name="Event_ExpectedObjectX0ToRaiseEventX1ButItDidNotFormat" xml:space="preserve">
     <value>Expected object {0} to raise event {1}{{reason}}, but it did not.</value>
   </data>
-  <data name="Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat" xml:space="preserve">
+  <data name="Event_ExpectedObjectX0ToRaiseEventX1ForPropertyX2ButItDidNotFormat" xml:space="preserve">
     <value>Expected object {0} to raise event {1} for property {2}{{reason}}, but it did not.</value>
   </data>
   <data name="CyclicReference_ExpectedSubjectToBeExpectationButContainsCyclicReference" xml:space="preserve">
     <value>Expected {{context:subject}} to be {{expectation}}{{reason}}, but it contains a cyclic reference.</value>
   </data>
-  <data name="Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat" xml:space="preserve">
+  <data name="Assertion_ExpectedX0FromExpectationToBeAX1ButFoundAX2Format" xml:space="preserve">
     <value>Expected {0} from expectation to be a {1}{{reason}}, but found a {2}.</value>
   </data>
-  <data name="Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat" xml:space="preserve">
+  <data name="Assertion_ExpectedX0FromSubjectToBeAX1ButFoundAX2Format" xml:space="preserve">
     <value>Expected {0} from subject to be a {1}{{reason}}, but found a {2}.</value>
   </data>
-  <data name="TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat" xml:space="preserve">
+  <data name="TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0Format" xml:space="preserve">
     <value>Failed to create the assertion exception for the current test framework: "{0}"</value>
   </data>
-  <data name="TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat" xml:space="preserve">
+  <data name="TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0X1Format" xml:space="preserve">
     <value>Failed to create the assertion exception for the current test framework: "{0}, {1}"</value>
   </data>
   <data name="Assertion_FailedToCreateNSpecAssertionType" xml:space="preserve">
@@ -651,35 +651,35 @@
   <data name="IncludeAllNonPrivateProperties" xml:space="preserve">
     <value>Include all non-private properties</value>
   </data>
-  <data name="IncludeMemberRootDotXFormat" xml:space="preserve">
+  <data name="IncludeMemberRootDotX0Format" xml:space="preserve">
     <value>Include member root.{0}</value>
   </data>
-  <data name="IncludeMemberWhenXFormat" xml:space="preserve">
+  <data name="IncludeMemberWhenX0Format" xml:space="preserve">
     <value>Include member when {0}</value>
   </data>
-  <data name="Assertion_InvokeActionXWhenYFormat" xml:space="preserve">
+  <data name="Assertion_InvokeActionX0WhenX1Format" xml:space="preserve">
     <value>Invoke Action&lt;{0}&gt; when {1}</value>
   </data>
   <data name="MatchMemberByNameOrThrow" xml:space="preserve">
     <value>Match member by name (or throw)</value>
   </data>
-  <data name="Event_NotMonitoringAnyEventsNamedXFormat" xml:space="preserve">
+  <data name="Event_NotMonitoringAnyEventsNamedX0Format" xml:space="preserve">
     <value>Not monitoring any events named "{0}".</value>
   </data>
-  <data name="Dictionary_RecursingIntoDictionaryItemXAtYFormat" xml:space="preserve">
+  <data name="Dictionary_RecursingIntoDictionaryItemX0AtX1Format" xml:space="preserve">
     <value>Recursing into dictionary item {0} at {1}</value>
   </data>
-  <data name="ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat" xml:space="preserve">
+  <data name="ValueType_TreatingX0AsValueTypeBecauseEqualsMustBeUsedFormat" xml:space="preserve">
     <value>Treating {0} as a value type because Equals must be used.</value>
   </data>
-  <data name="ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat" xml:space="preserve">
+  <data name="ValueType_TreatingX0AsValueTypeBecauseEqualsOverriddenFormat" xml:space="preserve">
     <value>Treating {0} as a value type because object overrides Equals.</value>
   </data>
   <data name="Conversion_TryConversionOfAllMembersSpace" xml:space="preserve">
     <value>Try conversion of all members. </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Conversion_TryConversionOfMemberXSpaceFormat" xml:space="preserve">
+  <data name="Conversion_TryConversionOfMemberX0SpaceFormat" xml:space="preserve">
     <value>Try conversion of member {0}. </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
@@ -689,46 +689,46 @@
   <data name="Event_TypeIsNotADelegate" xml:space="preserve">
     <value>Type is not a Delegate!</value>
   </data>
-  <data name="Event_TypeXDoesNotExposeAnyEventFormat" xml:space="preserve">
+  <data name="Event_TypeX0DoesNotExposeAnyEventFormat" xml:space="preserve">
     <value>Type {0} does not expose any events.</value>
   </data>
   <data name="DateTime_ValidValuesAreBetween0And999" xml:space="preserve">
     <value>Valid values are between 0 and 999</value>
   </data>
-  <data name="Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat" xml:space="preserve">
+  <data name="Assertion_WarningBecauseMessageX0CouldNotBeFormattedWithStringFormatX1X2Format" xml:space="preserve">
     <value>**WARNING** because message '{0}' could not be formatted with string.Format{1}{2}</value>
   </data>
   <data name="Conversion_WithoutAutomaticConversion" xml:space="preserve">
     <value>Without automatic conversion.</value>
   </data>
-  <data name="Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat" xml:space="preserve">
+  <data name="Collection_AbortingStrictOrderComparisonAfterX0ItemsFailedAtX1Format" xml:space="preserve">
     <value>Aborting strict order comparison of collections after {0} items failed at {1}</value>
   </data>
   <data name="Collection_CommaButFoundEmptyCollection" xml:space="preserve">
     <value>, but found an empty collection.</value>
   </data>
-  <data name="Collection_CommaButXWContainsYItemsLessThanWZFormat" xml:space="preserve">
+  <data name="Collection_CommaButX0X3ContainsX1ItemsLessThanWX2Format" xml:space="preserve">
     <value>, but {0}{3}contains {1} item(s) less than{3}{2}.</value>
   </data>
-  <data name="Collection_CommaButXWContainsYItemsMoreThanWZFormat" xml:space="preserve">
+  <data name="Collection_CommaButX0X3ContainsX1ItemsMoreThanWX2Format" xml:space="preserve">
     <value>, but {0}{3}contains {1} item(s) more than{3}{2}.</value>
   </data>
-  <data name="Collection_CommaButXZContainsYItemsFormat" xml:space="preserve">
+  <data name="Collection_CommaButX0X2ContainsX1ItemsFormat" xml:space="preserve">
     <value>, but {0}{2}contains {1} item(s).</value>
   </data>
-  <data name="Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat" xml:space="preserve">
+  <data name="Dictionary_ComparingDictionaryItemX0AtX1BetweenSubjectAndExpectationFormat" xml:space="preserve">
     <value>Comparing dictionary item {0} at {1} between subject and expectation</value>
   </data>
-  <data name="Collection_ComparingSubjectAtXYWithExpectationAtXZFormat" xml:space="preserve">
+  <data name="Collection_ComparingSubjectAtX0X1WithExpectationAtXX2Format" xml:space="preserve">
     <value>Comparing subject at {0}[{1}] with the expectation at {0}[{2}]</value>
   </data>
-  <data name="Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat" xml:space="preserve">
+  <data name="Collection_ComparingSubjectX0AndExpectationX1AtX2WithValueEqualityFormat" xml:space="preserve">
     <value>Comparing subject {0} and expectation {1} at {2} using simple value equality</value>
   </data>
-  <data name="Collection_ContainedXFailuresFormat" xml:space="preserve">
+  <data name="Collection_ContainedX0FailuresFormat" xml:space="preserve">
     <value>Contained {0} failures</value>
   </data>
-  <data name="Enum_DoNotKnowHowToHandleXFormat" xml:space="preserve">
+  <data name="Enum_DoNotKnowHowToHandleX0Format" xml:space="preserve">
     <value>Do not know how to handle {0}</value>
   </data>
   <data name="Collection_ExpectedACollectionBuSubjectIsNotCollectionType" xml:space="preserve">
@@ -737,37 +737,37 @@
   <data name="Collection_ExpectedACollectionButSubjectIsNull" xml:space="preserve">
     <value>Expected a collection, but {{context:subject}} is &lt;null&gt;.</value>
   </data>
-  <data name="Enum_ExpectedEnumToEqualXByNameFormat" xml:space="preserve">
+  <data name="Enum_ExpectedEnumToEqualX0ByNameFormat" xml:space="preserve">
     <value>Expected {{context:enum}} to equal {0} by name{{reason}}</value>
   </data>
-  <data name="Enum_ExpectedEnumToEqualXByValueFormat" xml:space="preserve">
+  <data name="Enum_ExpectedEnumToEqualX0ByValueFormat" xml:space="preserve">
     <value>Expected {{context:enum}} to equal {0} by value{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedSubjectNotToBeXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedSubjectNotToBeX0Format" xml:space="preserve">
     <value>Expected {{context:subject}} not to be {0}.</value>
   </data>
-  <data name="Collection_ExpectedSubjectToBeCollectionWithXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedSubjectToBeCollectionWithX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:subject}} to be a collection with {0} item(s){{reason}}</value>
   </data>
   <data name="Dictionary_ExpectedSubjectToBeDictionaryButIsNot" xml:space="preserve">
     <value>Expected {{context:subject}} to be a dictionary, but it is not.</value>
   </data>
-  <data name="Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsButItOnlyContainsX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:subject}} to be a dictionary with {0} item(s), but it only contains {1} item(s).</value>
   </data>
   <data name="Common_ExpectedSubjectToBeNull" xml:space="preserve">
     <value>Expected {{context:subject}} to be &lt;null&gt;</value>
   </data>
-  <data name="Dictionary_ExpectedSubjectToBeXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedSubjectToBeX0Format" xml:space="preserve">
     <value>Expected {{context:subject}} to be {0}</value>
   </data>
-  <data name="Dictionary_ExpectedSubjectToContainKeyXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedSubjectToContainKeyX0Format" xml:space="preserve">
     <value>Expected {{context:subject}} to contain key {0}.</value>
   </data>
-  <data name="Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat" xml:space="preserve">
+  <data name="Collection_FailFailingLooseOrderComparisonOfCollectionAfterX0ItemsFailedAtX1Format" xml:space="preserve">
     <value>Fail failing loose order comparison of collection after {0} items failed at {1}</value>
   </data>
-  <data name="Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat" xml:space="preserve">
+  <data name="Collection_FindingBestMatchOfX0WithinAllItemsInX1AtX2X3Format" xml:space="preserve">
     <value>Finding the best match of {0} within all items in {1} at {2}[{3}]</value>
   </data>
   <data name="Collection_ItIsAMatch" xml:space="preserve">
@@ -777,58 +777,58 @@
     <value>The maximum recursion depth was reached.  </value>
     <comment>/!\ The trailing spaces are important</comment>
   </data>
-  <data name="Equivalency_NoXWasFoundToHandleTheContextFormat" xml:space="preserve">
+  <data name="Equivalency_NoX0WasFoundToHandleTheContextFormat" xml:space="preserve">
     <value>No {0} was found to handle the context. </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
   <data name="Equivalency_ParameterCountMismatch" xml:space="preserve">
     <value>Parameter count mismatch.</value>
   </data>
-  <data name="Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat" xml:space="preserve">
+  <data name="Collection_StrictlyComparingExpectationX0AtX1ToItemWithIndexZinX3Format" xml:space="preserve">
     <value>Strictly comparing expectation {0} at {1} to item with index {2} in {3}</value>
   </data>
-  <data name="Collection_StructurallyComparingXAndExpectationYAtZFormat" xml:space="preserve">
+  <data name="Collection_StructurallyComparingX0AndExpectationX1AtX2Format" xml:space="preserve">
     <value>Structurally comparing {0} and expectation {1} at {2}</value>
   </data>
-  <data name="Dictionary_ButHasAdditionalKeysXFormat" xml:space="preserve">
+  <data name="Dictionary_ButHasAdditionalKeysX0Format" xml:space="preserve">
     <value>but has additional key(s) {0}</value>
   </data>
-  <data name="Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat" xml:space="preserve">
+  <data name="Dictionary_ButItMissesKeysX0AndHasAdditionalKeysX1Format" xml:space="preserve">
     <value>but it misses key(s) {0} and has additional key(s) {1}</value>
   </data>
-  <data name="Dictionary_ButItMissesKeysXFormat" xml:space="preserve">
+  <data name="Dictionary_ButItMissesKeysX0Format" xml:space="preserve">
     <value>but it misses key(s) {0}</value>
   </data>
   <data name="Array_CannotCompareMultiDimArrayToSomethingElse" xml:space="preserve">
     <value>Cannot compare a multi-dimensional array to something else.</value>
   </data>
-  <data name="Array_CannotCompareMultiDimArrayToXFormat" xml:space="preserve">
+  <data name="Array_CannotCompareMultiDimArrayToX0Format" xml:space="preserve">
     <value>Cannot compare a multi-dimensional array to {0}.</value>
   </data>
   <data name="Dictionary_ExpectationImplementsMultipleDictionaryTypesFormat" xml:space="preserve">
     <value>{{context:Expectation}} implements multiple dictionary types.  It is not known which type should be use for equivalence.{0}The following IDictionary interfaces are implemented: {1}</value>
   </data>
-  <data name="Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat" xml:space="preserve">
+  <data name="Collection_ExpectationImplementsX0CannotChooseWhichOneToUseForAssertingFormat" xml:space="preserve">
     <value>{{context:Expectation}} implements {0}, so cannot determine which one to use for asserting the equivalency of the collection. </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Array_ExpectedArrayToHaveXDimensionsButItHasYFormat" xml:space="preserve">
+  <data name="Array_ExpectedArrayToHaveX0DimensionsButItHasX1Format" xml:space="preserve">
     <value>Expected {{context:array}} to have {0} dimension(s), but it has {1}.</value>
   </data>
-  <data name="Array_ExpectedDimensionXToContainYItemsFormat" xml:space="preserve">
+  <data name="Array_ExpectedDimensionX0ToContainX1ItemsFormat" xml:space="preserve">
     <value>Expected dimension {0} to contain {1} item(s), but found {2}.</value>
   </data>
-  <data name="Collection_ExpectedSubjectToBeACollectionButItWasXFormat" xml:space="preserve">
+  <data name="Collection_ExpectedSubjectToBeACollectionButItWasX0Format" xml:space="preserve">
     <value>Expected {{context:subject}} to be a collection, but it was a {0}</value>
   </data>
-  <data name="Dictionary_ExpectedSubjectToBeAXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedSubjectToBeAX0Format" xml:space="preserve">
     <value>Expected {{context:subject}} to be a {0}</value>
   </data>
-  <data name="Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:subject}} to be a dictionary with {0} item(s), </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat" xml:space="preserve">
+  <data name="Dictionary_SubjectDictionaryHasKeysOfTypeX0ButExpectationIncompatibleTypesX1SubjectImplementsX2Format" xml:space="preserve">
     <value>The {{context:subject}} dictionary has keys of type {0}; however, the expectation is not keyed with any compatible types.{1}The subject implements: {2}</value>
   </data>
   <data name="Dictionary_SubjectImplementsMultipleIDictionaryInterfaces" xml:space="preserve">
@@ -838,139 +838,139 @@
   <data name="Dictionary_ExpectedDictionaryNotToBeEmpty" xml:space="preserve">
     <value>Expected {{context:dictionary}} not to be empty{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryNotToContainKeyXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryNotToContainKeyX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} not to contain key {0}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButDictionaryIsX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but dictionary is {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButFoundItFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but found it anyhow.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryNotToContainValueXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryNotToContainValueX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} not to contain value {0}{{reason}}</value>
   </data>
   <data name="Dictionary_ExpectedDictionaryToBeEmpty" xml:space="preserve">
     <value>Expected {{context:dictionary}} to be empty{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToBeEqualToX0ButCouldNotFindKeysX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to be equal to {0}{{reason}}, but could not find keys {1}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToBeEqualToX0ButFoundMoreKeysX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to be equal to {0}{{reason}}, but found additional keys {1}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToBeEqualToX0ButX1DiffersAtKeyX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to be equal to {0}{{reason}}, but {1} differs at key {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToBeEqualToXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToBeEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to be equal to {0}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainAtLeastX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain at least {0} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainAtMostX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain at most {0} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainFewerThanX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain fewer than {0} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainKeysXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainKeysX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain keys {0}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainKvpX0ButDictionaryIsX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain key/value pairs {0}{{reason}}, but dictionary is {1}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainMoreThanX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain more than {0} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButDictionaryIsX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but dictionary is {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButKeyWasNotFoundFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but the key was not found.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainValueXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainValueX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain value {0}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToContainX0ButDiffersAtKeysX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to contain {0}{{reason}}, but {{context:dictionary}} differs at keys {1}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToHaveXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToHaveX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to have {0} items{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToNotContainKvpX0ButDictionaryIsX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but dictionary is {1}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToNotContainKvpX0ButFoundThemFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but found them anyhow.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToNotContainValueX0AtKeyX1ButFoundItFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not contain value {0} at key {1}{{reason}}, but found it anyhow.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToNotContainValueXFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToNotContainValueX0Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not contain value {0}{{reason}}</value>
   </data>
   <data name="Dictionary_ExpectedDictionaryToNotHaveAnyItems" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not have any items{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryToNotHaveXItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryToNotHaveX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} to not have {0} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0NotToContainKeyX1ButFoundItFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} not to contain key {1}{{reason}}, but found it anyhow.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0NotToContainValueX1ButFoundItFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} not to contain value {1}{{reason}}, but found it anyhow.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainAtLeastX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain at least {1} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainAtMostX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain at most {1} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainFewerThanX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain fewer than {1} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainKeysX1ButCouldNotFindKeysX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain key(s) {1}{{reason}}, but could not find keys {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainKeyX1ButCouldNotFindX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain key {1}{{reason}}, but could not find {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainKeyYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainKeyX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain key {1}{{reason}}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainMoreThanX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain more than {1} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainValueX1ButCouldNotFindX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain value {1}{{reason}}, but could not find {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToContainValueYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToContainValueX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to contain value {1}{{reason}}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToHaveCountX1ButIsX2Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to have a count {1}{{reason}}, but count is {2}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToHaveYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToHaveX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to have {1} item(s){{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToNotContainKeyX1DotFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToNotContainKeyYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToNotContainKeyX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToNotContainValueX1DotFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}.</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToNotContainValueYFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToNotContainValueX1Format" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}</value>
   </data>
-  <data name="Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat" xml:space="preserve">
+  <data name="Dictionary_ExpectedDictionaryX0ToNotHaveX1ItemsFormat" xml:space="preserve">
     <value>Expected {{context:dictionary}} {0} to not have {1} item(s){{reason}}</value>
   </data>
   <data name="Collection_CommaButCollectionIsEmpty" xml:space="preserve">
@@ -979,13 +979,13 @@
   <data name="Collection_ExpectedCollectionNotToContainNull" xml:space="preserve">
     <value>Expected {{context:collection}} not to contain &lt;null&gt;s{{reason}}</value>
   </data>
-  <data name="Common_CommaButItWasZFormat" xml:space="preserve">
+  <data name="Common_CommaButItWasX2Format" xml:space="preserve">
     <value>, but it was {2}.</value>
   </data>
-  <data name="Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat" xml:space="preserve">
+  <data name="Constraint_MoreThanOneObjectFoundFoundObjectsX0X1Format" xml:space="preserve">
     <value>More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}</value>
   </data>
-  <data name="Common_CommaButFoundWFormat" xml:space="preserve">
+  <data name="Common_CommaButFoundX3Format" xml:space="preserve">
     <value>, but found {3}.</value>
   </data>
   <data name="Xml_CannotAssertDocumentHasElementIfElementIsNull" xml:space="preserve">
@@ -1006,79 +1006,79 @@
   <data name="Xml_CommaButXmlDocumentHasNoRootElement" xml:space="preserve">
     <value>, but XML document has no Root element.</value>
   </data>
-  <data name="Xml_DidNotExpectToFindAttributeXAtYFormat" xml:space="preserve">
+  <data name="Xml_DidNotExpectToFindAttributeX0AtX1Format" xml:space="preserve">
     <value>Did not expect to find attribute {0} at {1}{{reason}}.</value>
   </data>
-  <data name="Xml_DidNotExpectXmlAttributeToBeXFormat" xml:space="preserve">
+  <data name="Xml_DidNotExpectXmlAttributeToBeX0Format" xml:space="preserve">
     <value>Did not expect XML attribute to be {0}{{reason}}.</value>
   </data>
-  <data name="Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat" xml:space="preserve">
+  <data name="Xml_DidNotExpectXmlDocumentToBeX0ButFoundNullFormat" xml:space="preserve">
     <value>Did not expect XML document to be {0}, but found &lt;null&gt;.</value>
   </data>
-  <data name="Xml_DidNotExpectXmlDocumentToBeXFormat" xml:space="preserve">
+  <data name="Xml_DidNotExpectXmlDocumentToBeX0Format" xml:space="preserve">
     <value>Did not expect XML document to be {0}{{reason}}.</value>
   </data>
   <data name="Xml_DidNotExpectXmlToBeEquivalentButItIs" xml:space="preserve">
     <value>Did not expect Xml to be equivalent{{reason}}, but it is.</value>
   </data>
-  <data name="Xml_ExpectedAttributeXAtYButFoundNoneFormat" xml:space="preserve">
+  <data name="Xml_ExpectedAttributeX0AtX1ButFoundNoneFormat" xml:space="preserve">
     <value>Expected attribute {0} at {1}{{reason}}, but found none.</value>
   </data>
-  <data name="Xml_ExpectedAttributeXAtYToHaveValueZFormat" xml:space="preserve">
+  <data name="Xml_ExpectedAttributeX0AtX1ToHaveValueX2Format" xml:space="preserve">
     <value>Expected attribute {0} at {1} to have value {2}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedContentToBeXAtYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedContentToBeX0AtX1Format" xml:space="preserve">
     <value>Expected content to be {0} at {1}{{reason}}</value>
   </data>
   <data name="Xml_ExpectedEndOfDocument" xml:space="preserve">
     <value>Expected end of document{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedLocalNameOfElementAtXToBeYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedLocalNameOfElementAtX0ToBeX1Format" xml:space="preserve">
     <value>Expected local name of element at {0} to be {1}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedNamespaceOfElementXAtYToBeZFormat" xml:space="preserve">
+  <data name="Xml_ExpectedNamespaceOfElementX0AtX1ToBeX2Format" xml:space="preserve">
     <value>Expected namespace of element {0} at {1} to be {2}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedNodeOfTypeXAtYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedNodeOfTypeX0AtX1Format" xml:space="preserve">
     <value>Expected node of type {0} at {1}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXButFoundEndOfDocumentFormat" xml:space="preserve">
+  <data name="Xml_ExpectedX0ButFoundEndOfDocumentFormat" xml:space="preserve">
     <value>Expected {0}{{reason}}, but found end of document.</value>
   </data>
-  <data name="Xml_ExpectedXmlAttributeToBeXFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlAttributeToBeX0Format" xml:space="preserve">
     <value>Expected XML attribute to be {0}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlAttributeXToHaveValueYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlAttributeX0ToHaveValueX1Format" xml:space="preserve">
     <value>Expected XML attribute {0} to have value {1}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlDocumentToBeXFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlDocumentToBeX0Format" xml:space="preserve">
     <value>Expected XML document to be {0}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlDocumentToHaveRootElementXFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlDocumentToHaveRootElementX0Format" xml:space="preserve">
     <value>Expected XML document to have root element "{0}"{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlDocumentX0ToHaveRootElementWithChildX1Format" xml:space="preserve">
     <value>Expected XML document {0} to have root element with child "{1}"{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlElementNotToBeXFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementNotToBeX0Format" xml:space="preserve">
     <value>Expected XML element not to be {0}{{reason}}.</value>
   </data>
-  <data name="Xml_ExpectedXmlElementToBeXFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementToBeX0Format" xml:space="preserve">
     <value>Expected XML element to be {0}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementToHaveAttributeX0WithValueX1ButFoundNoSuchAttributeInX2Format" xml:space="preserve">
     <value>Expected XML element to have attribute {0} with value {1}{{reason}}, but found no such attribute in {2}</value>
   </data>
-  <data name="Xml_ExpectedXmlElementXToHaveChildElementYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementX0ToHaveChildElementX1Format" xml:space="preserve">
     <value>Expected XML element {0} to have child element "{1}"{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementQuoteX0QuoteToHaveValueX1Format" xml:space="preserve">
     <value>Expected XML element '{0}' to have value {1}{{reason}}</value>
   </data>
-  <data name="Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat" xml:space="preserve">
+  <data name="Xml_X0FoundAtX1IsNotSupportedForEquivalencyComparisonFormat" xml:space="preserve">
     <value>{0} found at {1} is not supported for equivalency comparison.</value>
   </data>
-  <data name="Bool_ExpectedNullableBoolNotToBeXFormat" xml:space="preserve">
+  <data name="Bool_ExpectedNullableBoolNotToBeX0Format" xml:space="preserve">
     <value>Expected {{context:nullable boolean}} not to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_DidNotExpectNullableDateTimeToHaveAValue" xml:space="preserve">
@@ -1087,10 +1087,10 @@
   <data name="DateTime_ExpectedNullableDateTimeToHaveAValue" xml:space="preserve">
     <value>Expected {{context:nullable date and time}} to have a value{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTimeToBeLessOrEqualToXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToBeLessOrEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:time}} to be less or equal to {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTimeToBeLessThanXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToBeLessThanX0Format" xml:space="preserve">
     <value>Expected {{context:time}} to be less than {0}{{reason}}</value>
   </data>
   <data name="DateTime_ExpectedTimeToBeNegative" xml:space="preserve">
@@ -1105,13 +1105,13 @@
   <data name="DateTime_MinTimeSpan" xml:space="preserve">
     <value>min time span</value>
   </data>
-  <data name="Enum_DidNotExpectTheEnumToHaveFlagXFormat" xml:space="preserve">
+  <data name="Enum_DidNotExpectTheEnumToHaveFlagX0Format" xml:space="preserve">
     <value>Did not expect the enum to have flag {0}{{reason}}.</value>
   </data>
-  <data name="Enum_EnumWasExpectedToHaveFlagXButFoundYFormat" xml:space="preserve">
+  <data name="Enum_EnumWasExpectedToHaveFlagX0ButFoundX1Format" xml:space="preserve">
     <value>The enum was expected to have flag {0} but found {1}{{reason}}.</value>
   </data>
-  <data name="Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat" xml:space="preserve">
+  <data name="Enum_ExpectedTheEnumToBeOfTypeX0ButFoundX1Format" xml:space="preserve">
     <value>Expected the enum to be of type {0} type but found {1}{{reason}}.</value>
   </data>
   <data name="Equivalency_NoMembersWereFoundForComparison" xml:space="preserve">
@@ -1121,10 +1121,10 @@
     <value>(aggregated) </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="Formatter_CommaXMoreFormat" xml:space="preserve">
+  <data name="Formatter_CommaX0MoreFormat" xml:space="preserve">
     <value>, …{0} more…</value>
   </data>
-  <data name="Formatter_CyclicReferenceToTypeXDetectedFormat" xml:space="preserve">
+  <data name="Formatter_CyclicReferenceToTypeX0DetectedFormat" xml:space="preserve">
     <value>{{Cyclic reference to type {0} detected}}</value>
     <comment>/!\ The wrapping {} are important</comment>
   </data>
@@ -1134,115 +1134,115 @@
   <data name="Formatter_MaxRecursionDepthWasReached" xml:space="preserve">
     <value>{{Maximum recursion depth was reached…}}</value>
   </data>
-  <data name="Formatter_MemberXThrewAnExceptionYFormat" xml:space="preserve">
+  <data name="Formatter_MemberX0ThrewAnExceptionX1Format" xml:space="preserve">
     <value>[Member '{0}' threw an exception: '{1}']</value>
   </data>
-  <data name="Formatter_SystemObjectHashCodeXFormat" xml:space="preserve">
+  <data name="Formatter_SystemObjectHashCodeX0Format" xml:space="preserve">
     <value>System.Object (HashCode={0})</value>
   </data>
-  <data name="Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat" xml:space="preserve">
+  <data name="Formatter_UseTheX0DelegateInsideX1ToRecursivelyFormatChildrenFormat" xml:space="preserve">
     <value>Use the {0} delegate inside a {1} to recursively format children</value>
   </data>
-  <data name="Formatter_XAggregatedExceptionsYFormat" xml:space="preserve">
+  <data name="Formatter_X0AggregatedExceptionsX1Format" xml:space="preserve">
     <value>{0} (aggregated) exceptions:{1}</value>
   </data>
-  <data name="Formatter_XWithMessageYZFormat" xml:space="preserve">
+  <data name="Formatter_X0WithMessageX1X2Format" xml:space="preserve">
     <value>{0} with message "{1}"{2}</value>
   </data>
-  <data name="Formatter_XWithYColonXZFormat" xml:space="preserve">
+  <data name="Formatter_X0WithX1ColonX2Format" xml:space="preserve">
     <value>{0}With {1}:{0}{2}</value>
   </data>
   <data name="Guid_DidNotExpectGuidToBeEmpty" xml:space="preserve">
     <value>Did not expect {{context:Guid}} to be empty{{reason}}.</value>
   </data>
-  <data name="Guid_DidNotExpectGuidToBeXFormat" xml:space="preserve">
+  <data name="Guid_DidNotExpectGuidToBeX0Format" xml:space="preserve">
     <value>Did not expect {{context:Guid}} to be {0}{{reason}}.</value>
   </data>
   <data name="Guid_ExpectedGuidToBeEmpty" xml:space="preserve">
     <value>Expected {{context:Guid}} to be empty{{reason}}</value>
   </data>
-  <data name="Guid_ExpectedGuidToBeXFormat" xml:space="preserve">
+  <data name="Guid_ExpectedGuidToBeX0Format" xml:space="preserve">
     <value>Expected {{context:Guid}} to be {0}{{reason}}</value>
   </data>
   <data name="Object_DidNotExpectAValue" xml:space="preserve">
     <value>Did not expect a value{{reason}}</value>
   </data>
-  <data name="Object_DidNotExpectObjectToBeEqualToXFormat" xml:space="preserve">
+  <data name="Object_DidNotExpectObjectToBeEqualToX0Format" xml:space="preserve">
     <value>Did not expect {{context:object}} to be equal to {0}{{reason}}.</value>
   </data>
-  <data name="Object_DidNotExpectXFormat" xml:space="preserve">
+  <data name="Object_DidNotExpectX0Format" xml:space="preserve">
     <value>Did not expect {0}{{reason}}.</value>
   </data>
   <data name="Object_ExpectedAValue" xml:space="preserve">
     <value>Expected a value{{reason}}.</value>
   </data>
-  <data name="Object_ExpectedObjectNotToBeBetweenXAndYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectNotToBeBetweenX0AndX1Format" xml:space="preserve">
     <value>Expected {{context:object}} to not be between {0} and {1}{{reason}}</value>
   </data>
-  <data name="Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectNotToBeEquivalentToX0ButTheyAreFormat" xml:space="preserve">
     <value>Expected {{context:object}} not to be equivalent to {0}, but they are.</value>
   </data>
-  <data name="Object_ExpectedObjectToBeBetweenXAndYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectToBeBetweenX0AndX1Format" xml:space="preserve">
     <value>Expected {{context:object}} to be between {0} and {1}{{reason}}</value>
   </data>
-  <data name="Object_ExpectedObjectToBeEqualToXFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectToBeEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:object}} to be equal to {0}{{reason}}</value>
   </data>
-  <data name="Object_ExpectedObjectToBeXFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectToBeX0Format" xml:space="preserve">
     <value>Expected {{context:object}} to be {0}{{reason}}</value>
   </data>
-  <data name="Object_ExpectedObjectXToBeGreaterOrEqualToYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectX0ToBeGreaterOrEqualToX1Format" xml:space="preserve">
     <value>Expected {{context:object}} {0} to be greater or equal to {1}{{reason}}.</value>
   </data>
-  <data name="Object_ExpectedObjectXToBeGreaterThanYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectX0ToBeGreaterThanX1Format" xml:space="preserve">
     <value>Expected {{context:object}} {0} to be greater than {1}{{reason}}.</value>
   </data>
-  <data name="Object_ExpectedObjectXToBeLessOrEqualToYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectX0ToBeLessOrEqualToX1Format" xml:space="preserve">
     <value>Expected {{context:object}} {0} to be less or equal to {1}{{reason}}.</value>
   </data>
-  <data name="Object_ExpectedObjectXToBeLessThanYFormat" xml:space="preserve">
+  <data name="Object_ExpectedObjectX0ToBeLessThanX1Format" xml:space="preserve">
     <value>Expected {{context:object}} {0} to be less than {1}{{reason}}.</value>
   </data>
-  <data name="Object_ExpectedTypeToBeXFormat" xml:space="preserve">
+  <data name="Object_ExpectedTypeToBeX0Format" xml:space="preserve">
     <value>Expected type to be {0}{{reason}}</value>
   </data>
-  <data name="Object_ExpectedXFormat" xml:space="preserve">
+  <data name="Object_ExpectedX0Format" xml:space="preserve">
     <value>Expected {0}{{reason}}</value>
   </data>
   <data name="Xml_FormatDocumentWithoutRoot" xml:space="preserve">
     <value>[XML document without root element]</value>
   </data>
-  <data name="DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToBeGreaterOrEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:time}} to be greater or equal to {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTimeToBeGreaterThanXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToBeGreaterThanX0Format" xml:space="preserve">
     <value>Expected {{context:time}} to be greater than {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTimeToBeWithinXFromYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToBeWithinX0FromX1Format" xml:space="preserve">
     <value>Expected {{context:time}} to be within {0} from {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTimeToNotBeWithinXFromYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTimeToNotBeWithinX0FromX1Format" xml:space="preserve">
     <value>Expected {{context:time}} to not be within {0} from {1}{{reason}}</value>
   </data>
-  <data name="Numeric_DidNotExpectValueToBeXFormat" xml:space="preserve">
+  <data name="Numeric_DidNotExpectValueToBeX0Format" xml:space="preserve">
     <value>Did not expect {{context:value}} to be {0}{{reason}}.</value>
   </data>
-  <data name="Numeric_ExpectecValueToBeOneOfXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectecValueToBeOneOfX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be one of {0}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeBetweenXAndYFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeBetweenX0AndX1Format" xml:space="preserve">
     <value>Expected {{context:value}} to be between {0} and {1}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeGreaterOrEqualToXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeGreaterOrEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be greater or equal to {0}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeGreaterThanXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeGreaterThanX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be greater than {0}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeLessOrEqualToXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeLessOrEqualToX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be less or equal to {0}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeLessThanXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeLessThanX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be less than {0}{{reason}}</value>
   </data>
   <data name="Numeric_ExpectedValueToBeNegative" xml:space="preserve">
@@ -1251,22 +1251,22 @@
   <data name="Numeric_ExpectedValueToBePositive" xml:space="preserve">
     <value>Expected {{context:value}} to be positive{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToBeXFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToBeX0Format" xml:space="preserve">
     <value>Expected {{context:value}} to be {0}{{reason}}</value>
   </data>
-  <data name="Numeric_ExpectedValueToNotBeBetweenXAndYFormat" xml:space="preserve">
+  <data name="Numeric_ExpectedValueToNotBeBetweenX0AndX1Format" xml:space="preserve">
     <value>Expected {{context:value}} to not be between {0} and {1}{{reason}}</value>
   </data>
   <data name="Numeric_ThisClassOnlySupportsTypeImplementingIComparable" xml:space="preserve">
     <value>This class only supports types implementing IComparable.</value>
   </data>
-  <data name="Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat" xml:space="preserve">
+  <data name="Assembly_ExpectedAssemblyX0NotToReferenceAssemblyX1Format" xml:space="preserve">
     <value>Expected assembly {0} not to reference assembly {1}{{reason}}.</value>
   </data>
-  <data name="Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat" xml:space="preserve">
+  <data name="Assembly_ExpectedAssemblyX0ToDefineTypeX1X2ButItDoesNotFormat" xml:space="preserve">
     <value>Expected assembly {0} to define type {1}.{2}, but it does not.</value>
   </data>
-  <data name="Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat" xml:space="preserve">
+  <data name="Assembly_ExpectedAssemblyX0ToReferenceAssemblyX1ButItDoesNotFormat" xml:space="preserve">
     <value>Expected assembly {0} to reference assembly {1}{{reason}}, but it does not.</value>
   </data>
   <data name="Bool_ExpectedBoolToBeFalse" xml:space="preserve">
@@ -1275,16 +1275,16 @@
   <data name="Bool_ExpectedBoolToBeTrue" xml:space="preserve">
     <value>Expected {{context:boolean}} to be true{{reason}}</value>
   </data>
-  <data name="Bool_ExpectedBoolToBeXFormat" xml:space="preserve">
+  <data name="Bool_ExpectedBoolToBeX0Format" xml:space="preserve">
     <value>Expected {{context:boolean}} to be {0}{{reason}}</value>
   </data>
   <data name="Common_ButItWas" xml:space="preserve">
     <value>but it was.</value>
   </data>
-  <data name="Common_ButItWasXFormat" xml:space="preserve">
+  <data name="Common_ButItWasX0Format" xml:space="preserve">
     <value>but it was {0}.</value>
   </data>
-  <data name="Common_CommaButItDiffersItem4Format" xml:space="preserve">
+  <data name="Common_CommaButItDiffersX4Format" xml:space="preserve">
     <value>, but it differs {4}.</value>
   </data>
   <data name="Common_CommaButItDoes" xml:space="preserve">
@@ -1293,7 +1293,7 @@
   <data name="Common_CommaButItDoesNot" xml:space="preserve">
     <value>, but it does not.</value>
   </data>
-  <data name="Common_CommaButItem3DiffersItem4Format" xml:space="preserve">
+  <data name="Common_CommaButX3DiffersX4Format" xml:space="preserve">
     <value>, but {3} differs {4}.</value>
   </data>
   <data name="Common_CommaButItIs" xml:space="preserve">
@@ -1302,19 +1302,19 @@
   <data name="Common_CommaButItIsNot" xml:space="preserve">
     <value>, but it is not.</value>
   </data>
-  <data name="Common_CommaButItIsXFormat" xml:space="preserve">
+  <data name="Common_CommaButItIsX0Format" xml:space="preserve">
     <value>, but it is {0}.</value>
   </data>
-  <data name="Common_CommaButItIsYFormat" xml:space="preserve">
+  <data name="Common_CommaButItIsX1Format" xml:space="preserve">
     <value>, but it is {1}.</value>
   </data>
-  <data name="Common_CommaButItIsZFormat" xml:space="preserve">
+  <data name="Common_CommaButItIsX2Format" xml:space="preserve">
     <value>, but it is {2}.</value>
   </data>
   <data name="Common_CommaButItWas" xml:space="preserve">
     <value>, but it was.</value>
   </data>
-  <data name="Common_CommaButItWasYFormat" xml:space="preserve">
+  <data name="Common_CommaButItWasX1Format" xml:space="preserve">
     <value>, but it was {1}.</value>
   </data>
   <data name="Common_CommaSpace" xml:space="preserve">
@@ -1324,88 +1324,88 @@
   <data name="DateTime_ButFoundANullDateTimeOffset" xml:space="preserve">
     <value>but found a &lt;null&gt; DateTimeOffset.</value>
   </data>
-  <data name="DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectDateToBeWithinX0FromX1ButItWasX2Format" xml:space="preserve">
     <value>Did not expect {{context:the date and time}} to be within {0} from {1}{{reason}}, but it was {2}.</value>
   </data>
-  <data name="DateTime_DidNotExpectDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectDateToBeX0Format" xml:space="preserve">
     <value>Did not expect {{context:the date and time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheDatePartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheDatePartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the date part of {{context:the date and time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheDayPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheDayPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the day part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheHourPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheHourPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the hour part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the minute part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheMonthPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the month part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheOffsetOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheOffsetOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the offset of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the seconds part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheYearPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_DidNotExpectTheYearPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the year part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_DidNotExpectVariableToHaveAValue" xml:space="preserve">
     <value>Did not expect {{context:variable}} to have a value{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateNotToBeXButItIsFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateNotToBeX0ButItIsFormat" xml:space="preserve">
     <value>Expected {{context:date and time}} not to be {0}{{reason}}, but it is.</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeAfterXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeAfterX0Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be after {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeBeforeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeBeforeX0Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be before {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeInXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeInX0Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be in {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeOneOfXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeOneOfX0Format" xml:space="preserve">
     <value>Expected {{context:date and time}} to be one of {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeOnOrAfterXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeOnOrAfterX0Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be on or after {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeOnOrBeforeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeOnOrBeforeX0Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be on or before {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeWithinXFromYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeWithinX0FromX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be within {0} from {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeX0Format" xml:space="preserve">
     <value>Expected {{context:date and time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheDatePartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheDatePartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the date part of {{context:the date and time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheDayPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheDayPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the day part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheHourPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheHourPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the hour part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheMinutePartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheMinutePartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the minute part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheMonthPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheMonthPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the month part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheOffsetOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheOffsetOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the offset of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheSecondsPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheSecondsPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the seconds part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheYearPartOfDateToBeXFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedTheYearPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the year part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_ExpectedVariableToHaveAValue" xml:space="preserve">
@@ -1426,160 +1426,160 @@
   <data name="Exception_DidNotExpectAnyException" xml:space="preserve">
     <value>Did not expect any exception{{reason}}</value>
   </data>
-  <data name="Exception_DidNotExpectXFormat" xml:space="preserve">
+  <data name="Exception_DidNotExpectX0Format" xml:space="preserve">
     <value>Did not expect {0}{{reason}}</value>
   </data>
-  <data name="Exception_ExpectedAXToBeThrownFormat" xml:space="preserve">
+  <data name="Exception_ExpectedAX0ToBeThrownFormat" xml:space="preserve">
     <value>Expected a &lt;{0}&gt; to be thrown{{reason}}</value>
   </data>
-  <data name="Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat" xml:space="preserve">
+  <data name="Exception_ExpectedExceptionWhereX0ButTheConditionWasNotMetByX1X1X2Format" xml:space="preserve">
     <value>Expected exception where {0}{{reason}}, but the condition was not met by:{1}{1}{2}.</value>
   </data>
-  <data name="Exception_ExpectedExceptionWithMessageXFormat" xml:space="preserve">
+  <data name="Exception_ExpectedExceptionWithMessageX0Format" xml:space="preserve">
     <value>Expected exception with message {0}{{reason}}</value>
   </data>
-  <data name="Exception_ExpectedInnerXFormat" xml:space="preserve">
+  <data name="Exception_ExpectedInnerX0Format" xml:space="preserve">
     <value>Expected inner {0}{{reason}}</value>
   </data>
-  <data name="Exception_ExpectedXFormat" xml:space="preserve">
+  <data name="Exception_ExpectedX0Format" xml:space="preserve">
     <value>Expected {0}{{reason}}</value>
   </data>
-  <data name="Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat" xml:space="preserve">
+  <data name="Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneX0X1Format" xml:space="preserve">
     <value>More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}</value>
   </data>
-  <data name="Method_ExpectedMethodXNotToBeAsyncFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0NotToBeAsyncFormat" xml:space="preserve">
     <value>Expected method {0} not to be async{{reason}}</value>
   </data>
-  <data name="Method_ExpectedMethodXNotToBeVirtualFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0NotToBeVirtualFormat" xml:space="preserve">
     <value>Expected method {0} not to be virtual{{reason}}</value>
   </data>
-  <data name="Method_ExpectedMethodXNotToBeYFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0NotToBeX1Format" xml:space="preserve">
     <value>Expected method {0} not to be {1}{{reason}}</value>
   </data>
-  <data name="Method_ExpectedMethodXToBeAsyncFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0ToBeAsyncFormat" xml:space="preserve">
     <value>Expected method {0} to be async{{reason}}</value>
   </data>
-  <data name="Method_ExpectedMethodXToBeVirtualFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0ToBeVirtualFormat" xml:space="preserve">
     <value>Expected method {0} to be virtual{{reason}}</value>
   </data>
-  <data name="Method_ExpectedMethodXToBeYFormat" xml:space="preserve">
+  <data name="Method_ExpectedMethodX0ToBeX1Format" xml:space="preserve">
     <value>Expected method {0} to be {1}{{reason}}</value>
   </data>
-  <data name="Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat" xml:space="preserve">
+  <data name="Method_ExpectedReturnTypeOfMethodX0NotToBeVoidFormat" xml:space="preserve">
     <value>Expected the return type of method {0} not to be void{{reason}}</value>
   </data>
-  <data name="Method_ExpectedReturnTypeOfMethodXNotToBeYFormat" xml:space="preserve">
+  <data name="Method_ExpectedReturnTypeOfMethodX0NotToBeX1Format" xml:space="preserve">
     <value>Expected the return type of method {0} not to be {1}{{reason}}</value>
   </data>
-  <data name="Method_ExpectedReturnTypeOfMethodXToBeVoidFormat" xml:space="preserve">
+  <data name="Method_ExpectedReturnTypeOfMethodX0ToBeVoidFormat" xml:space="preserve">
     <value>Expected the return type of method {0} to be void{{reason}}</value>
   </data>
-  <data name="Method_ExpectedReturnTypeOfMethodXToBeYFormat" xml:space="preserve">
+  <data name="Method_ExpectedReturnTypeOfMethodX0ToBeX1Format" xml:space="preserve">
     <value>Expected the return type of method {0} to be {1}{{reason}}</value>
   </data>
   <data name="Property_ExpectedPropertyXNotToBeVirtual" xml:space="preserve">
     <value>Expected property {0} not to be virtual{{reason}}</value>
   </data>
-  <data name="Property_ExpectedPropertyXNotToHaveASetterFormat" xml:space="preserve">
+  <data name="Property_ExpectedPropertyX0NotToHaveASetterFormat" xml:space="preserve">
     <value>Expected {{context:property}} {0} not to have a setter{{reason}}.</value>
   </data>
   <data name="Property_ExpectedPropertyXToBeVirtual" xml:space="preserve">
     <value>Expected property {0} to be virtual{{reason}}</value>
   </data>
-  <data name="Property_ExpectedContextPropertyXToHaveAGetterFormat" xml:space="preserve">
+  <data name="Property_ExpectedContextPropertyX0ToHaveAGetterFormat" xml:space="preserve">
     <value>Expected {{context:property}} {0} to have a getter{{reason}}</value>
   </data>
-  <data name="Property_ExpectedPropertyXToHaveASetterFormat" xml:space="preserve">
+  <data name="Property_ExpectedPropertyX0ToHaveASetterFormat" xml:space="preserve">
     <value>Expected {{context:property}} {0} to have a setter{{reason}}.</value>
   </data>
-  <data name="Property_ExpectedTypeOfPropertyXNotToBeYFormat" xml:space="preserve">
+  <data name="Property_ExpectedTypeOfPropertyX0NotToBeX1Format" xml:space="preserve">
     <value>Expected Type of property {0} not to be {1}{{reason}}</value>
   </data>
-  <data name="Property_ExpectedTypeOfPropertyXToBeYFormat" xml:space="preserve">
+  <data name="Property_ExpectedTypeOfPropertyX0ToBeX1Format" xml:space="preserve">
     <value>Expected Type of property {0} to be {1}{{reason}}</value>
   </data>
   <data name="Property_GetDescriptionFormat" xml:space="preserve">
     <value>{0} {1}.{2}</value>
   </data>
-  <data name="Task_ExpectedTaskToCompleteWithinXFormat" xml:space="preserve">
+  <data name="Task_ExpectedTaskToCompleteWithinX0Format" xml:space="preserve">
     <value>Expected {{context:task}} to complete within {0}{{reason}}.</value>
   </data>
-  <data name="TimeSpan_DidNotExpectAnyExceptionsAfterXFormat" xml:space="preserve">
+  <data name="TimeSpan_DidNotExpectAnyExceptionsAfterX0Format" xml:space="preserve">
     <value>Did not expect any exceptions after {0}{{reason}}</value>
   </data>
-  <data name="TimeSpan_TheValueOfXMustBeNonNegativeFormat" xml:space="preserve">
+  <data name="TimeSpan_TheValueOfX0MustBeNonNegativeFormat" xml:space="preserve">
     <value>The value of {0} must be non-negative.</value>
   </data>
-  <data name="Type_ExpectedConstructorXYNotToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedConstructorX0X1NotToExistFormat" xml:space="preserve">
     <value>Expected constructor {0}({1}) not to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedConstructorXYToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedConstructorX0X1ToExistFormat" xml:space="preserve">
     <value>Expected constructor {0}({1}) to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedContextXYToBeAssignableToZFormat" xml:space="preserve">
+  <data name="Type_ExpectedContextX0X1ToBeAssignableToX2Format" xml:space="preserve">
     <value>Expected {{context:{0}}} {1} to be assignable to {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedContextXYToNotBeAssignableToZFormat" xml:space="preserve">
+  <data name="Type_ExpectedContextX0X1ToNotBeAssignableToX2Format" xml:space="preserve">
     <value>Expected {{context:{0}}} {1} to not be assignable to {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedPublicStaticExplicitXYToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedPublicStaticExplicitX0X1ToExistFormat" xml:space="preserve">
     <value>Expected public static explicit {0}({1}) to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedPublicStaticExplicitXYToNotExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedPublicStaticExplicitX0X1ToNotExistFormat" xml:space="preserve">
     <value>Expected public static explicit {0}({1}) to not exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedPublicStaticImplicitXYToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedPublicStaticImplicitX0X1ToExistFormat" xml:space="preserve">
     <value>Expected public static implicit {0}({1}) to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedPublicStaticImplicitXYToNotExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedPublicStaticImplicitX0X1ToNotExistFormat" xml:space="preserve">
     <value>Expected public static implicit {0}({1}) to not exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeNotToBeXFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeNotToBeX0Format" xml:space="preserve">
     <value>Expected type not to be {0}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeToBeXFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeToBeX0Format" xml:space="preserve">
     <value>Expected type to be {0}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXNotToBeYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0NotToBeX1Format" xml:space="preserve">
     <value>Expected type {0} not to be {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeX1Format" xml:space="preserve">
     <value>Expected type {0} to be {1}{{reason}}</value>
   </data>
-  <data name="Type_XMustBeAClassFormat" xml:space="preserve">
+  <data name="Type_X0MustBeAClassFormat" xml:space="preserve">
     <value>{0} must be a class.</value>
   </data>
   <data name="Common_CommaButItWasNull" xml:space="preserve">
     <value>, but it was &lt;null&gt;.</value>
   </data>
-  <data name="ExecutionTime_CommaButItRequiredExactlyZFormat" xml:space="preserve">
+  <data name="ExecutionTime_CommaButItRequiredExactlyX2Format" xml:space="preserve">
     <value>, but it required exactly {2}.</value>
   </data>
-  <data name="ExecutionTime_CommaButItRequiredMoreThanZFormat" xml:space="preserve">
+  <data name="ExecutionTime_CommaButItRequiredMoreThanX2Format" xml:space="preserve">
     <value>, but it required more than {2}.</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeGreaterOrEqualToX1Format" xml:space="preserve">
     <value>Execution of {0} should be greater or equal to {1}{{reason}}</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeGreaterThanX1Format" xml:space="preserve">
     <value>Execution of {0} should be greater than {1}{{reason}}</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeLessOrEqualToX1Format" xml:space="preserve">
     <value>Execution of {0} should be less or equal to {1}{{reason}}</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeLessThanYFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeLessThanX1Format" xml:space="preserve">
     <value>Execution of {0} should be less than {1}{{reason}}</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredExactlyX3Format" xml:space="preserve">
     <value>Execution of {0} should be within {1} from {2}{{reason}}, but it required exactly {3}.</value>
   </data>
-  <data name="ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat" xml:space="preserve">
+  <data name="ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredMoreThanX3Format" xml:space="preserve">
     <value>Execution of {0} should be within {1} from {2}{{reason}}, but it required more than {3}.</value>
   </data>
-  <data name="String_ButYDoesNotFormat" xml:space="preserve">
+  <data name="String_ButX1DoesNotFormat" xml:space="preserve">
     <value>but {1} does not.</value>
   </data>
-  <data name="String_ButYMatchesFormat" xml:space="preserve">
+  <data name="String_ButX1MatchesFormat" xml:space="preserve">
     <value>but {1} matches.</value>
   </data>
   <data name="String_CannotAssertStringContainmentAgainstAnEmptyString" xml:space="preserve">
@@ -1621,36 +1621,36 @@
   <data name="String_CannotMatchStringAgainstNull" xml:space="preserve">
     <value>Cannot match string against &lt;null&gt;.</value>
   </data>
-  <data name="String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat" xml:space="preserve">
+  <data name="String_CannotMatchStringAgainstX0BecauseItIsNotValidRegexFormat" xml:space="preserve">
     <value>Cannot match {{context:string}} against {0} because it is not a valid regular expression.</value>
   </data>
-  <data name="String_CommaButYDoesNotMatchFormat" xml:space="preserve">
+  <data name="String_CommaButX1DoesNotMatchFormat" xml:space="preserve">
     <value>, but {1} does not match.</value>
   </data>
   <data name="String_DidNotExpectStringToBeEmpty" xml:space="preserve">
     <value>Did not expect {{context:string}} to be empty{{reason}}.</value>
   </data>
-  <data name="String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringToContainEquivalentOfX1ButFoundX2Format" xml:space="preserve">
     <value>Did not expect {{context:string}} to contain equivalent of {0}{{reason}} but found {1}.</value>
   </data>
-  <data name="String_DidNotExpectStringToMatchEquivalentOfXFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringToMatchEquivalentOfX0Format" xml:space="preserve">
     <value>Did not expect {{context:string}} to match the equivalent of {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_DidNotExpectStringToMatchRegexXButYMatchesFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringToMatchRegexX0ButX1MatchesFormat" xml:space="preserve">
     <value>Did not expect {{context:string}} to match regex {0}{{reason}}, but {1} matches.</value>
   </data>
-  <data name="String_DidNotExpectStringToMatchXFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringToMatchX0Format" xml:space="preserve">
     <value>Did not expect {{context:string}} to match {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_DidNotExpectStringXToContainAllOfTheStringsYFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringX0ToContainAllOfTheStringsX1Format" xml:space="preserve">
     <value>Did not expect {{context:string}} {0} to contain all of the strings: {1}{{reason}}.</value>
   </data>
-  <data name="String_DidNotExpectStringXToContainAnyOfTheStringsYFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringX0ToContainAnyOfTheStringsX1Format" xml:space="preserve">
     <value>Did not expect {{context:string}} {0} to contain any of the strings: {1}{{reason}}.</value>
   </data>
-  <data name="String_DidNotExpectStringXToContainYFormat" xml:space="preserve">
+  <data name="String_DidNotExpectStringX0ToContainX1Format" xml:space="preserve">
     <value>Did not expect {{context:string}} {0} to contain {1}{{reason}}.</value>
   </data>
   <data name="String_ExpectedStringNotToBeNullOrEmpty" xml:space="preserve">
@@ -1659,16 +1659,16 @@
   <data name="String_ExpectedStringNotToBeNullOrWhitespace" xml:space="preserve">
     <value>Expected {{context:string}} not to be &lt;null&gt; or whitespace{{reason}}</value>
   </data>
-  <data name="String_ExpectedStringNotToBeXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringNotToBeX0Format" xml:space="preserve">
     <value>Expected {{context:string}} not to be {0}{{reason}}.</value>
   </data>
-  <data name="String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringThatDoesNotEndWithEquivalentOfX0Format" xml:space="preserve">
     <value>Expected {{context:string}} that does not end with equivalent of {0}{{reason}}</value>
   </data>
-  <data name="String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat" xml:space="preserve">
+  <data name="String_ExpectedStringThatDoesNotEndWithEquivalentOfX0NoReasonFormat" xml:space="preserve">
     <value>Expected {{context:string}} that does not end with equivalent of {0}</value>
   </data>
-  <data name="String_ExpectedStringThatDoesNotEndWithXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringThatDoesNotEndWithX0Format" xml:space="preserve">
     <value>Expected {{context:string}} that does not end with {0}</value>
   </data>
   <data name="String_ExpectedStringThatDoesNotStartWith" xml:space="preserve">
@@ -1679,7 +1679,7 @@
     <value>Expected {{context:string}} that does not start with equivalent of </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_ExpectedStringThatEndsWithEquivalentOfXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringThatEndsWithEquivalentOfX0Format" xml:space="preserve">
     <value>Expected {{context:string}} that ends with equivalent of {0}{{reason}}</value>
   </data>
   <data name="String_ExpectedStringToBeEmpty" xml:space="preserve">
@@ -1691,30 +1691,30 @@
   <data name="String_ExpectedStringToBeNullOrWhitespace" xml:space="preserve">
     <value>Expected {{context:string}} to be &lt;null&gt; or whitespace{{reason}}</value>
   </data>
-  <data name="String_ExpectedStringToBeOneOfXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToBeOneOfX0Format" xml:space="preserve">
     <value>Expected {{context:string}} to be one of {0}{{reason}}</value>
   </data>
-  <data name="String_ExpectedStringToContainEquivalentOfXButFoundYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToContainEquivalentOfX0ButFoundX1Format" xml:space="preserve">
     <value>Expected {{context:string}} to contain equivalent of {0}{{reason}} but found {1}.</value>
   </data>
-  <data name="String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToEndWithEquivalentOfX0ButX1IsTooShortFormat" xml:space="preserve">
     <value>Expected {{context:string}} to end with equivalent of {0}{{reason}}, but {1} is too short.</value>
   </data>
-  <data name="String_ExpectedStringToEndWithXButYIsTooShortFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToEndWithX0ButX1IsTooShortFormat" xml:space="preserve">
     <value>Expected {{context:string}} to end with {0}{{reason}}, but {1} is too short.</value>
   </data>
-  <data name="String_ExpectedStringToMatchEquivalentOfXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToMatchEquivalentOfX0Format" xml:space="preserve">
     <value>Expected {{context:string}} to match the equivalent of {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_ExpectedStringToMatchRegexXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToMatchRegexX0Format" xml:space="preserve">
     <value>Expected {{context:string}} to match regex {0}{{reason}}</value>
   </data>
-  <data name="String_ExpectedStringToMatchXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToMatchX0Format" xml:space="preserve">
     <value>Expected {{context:string}} to match {0}{{reason}}, </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_ExpectedStringToNotMatchRegexXFormat" xml:space="preserve">
+  <data name="String_ExpectedStringToNotMatchRegexX0Format" xml:space="preserve">
     <value>Expected {{context:string}} to not match regex {0}{{reason}}</value>
   </data>
   <data name="String_ExpectedStringToStartWith" xml:space="preserve">
@@ -1725,31 +1725,31 @@
     <value>Expected {{context:string}} to start with equivalent of </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat" xml:space="preserve">
+  <data name="String_ExpectedStringWithLengthX0ButFoundStringX1WithLengthX2Format" xml:space="preserve">
     <value>Expected {{context:string}} with length {0}{{reason}}, but found string {1} with length {2}.</value>
   </data>
-  <data name="String_ExpectedStringXNotToEndWithYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringX0NotToEndWithX1Format" xml:space="preserve">
     <value>Expected {{context:string}} {0} not to end with {1}{{reason}}.</value>
   </data>
-  <data name="String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringX0ToContainAtLeastOneOfTheStringsX1Format" xml:space="preserve">
     <value>Expected {{context:string}} {0} to contain at least one of the strings: {1}{{reason}}.</value>
   </data>
-  <data name="String_ExpectedStringXToContainTheStringsYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringX0ToContainTheStringsX1Format" xml:space="preserve">
     <value>Expected {{context:string}} {0} to contain the strings: {1}{{reason}}.</value>
   </data>
-  <data name="String_ExpectedStringXToContainYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringX0ToContainX1Format" xml:space="preserve">
     <value>Expected {{context:string}} {0} to contain {1}{{reason}}.</value>
   </data>
-  <data name="String_ExpectedStringXToEndWithYFormat" xml:space="preserve">
+  <data name="String_ExpectedStringX0ToEndWithX1Format" xml:space="preserve">
     <value>Expected {{context:string}} {0} to end with {1}{{reason}}.</value>
   </data>
-  <data name="String_XButItHasUnexpectedWhitespaceAtTheEndFormat" xml:space="preserve">
+  <data name="String_X0ButItHasUnexpectedWhitespaceAtTheEndFormat" xml:space="preserve">
     <value>{0}{{reason}}, but it has unexpected whitespace at the end.</value>
   </data>
-  <data name="String_XButItMissesSomeExtraWhitespaceAtTheEndFormat" xml:space="preserve">
+  <data name="String_X0ButItMissesSomeExtraWhitespaceAtTheEndFormat" xml:space="preserve">
     <value>{0}{{reason}}, but it misses some extra whitespace at the end.</value>
   </data>
-  <data name="String_XFormat" xml:space="preserve">
+  <data name="String_X0Format" xml:space="preserve">
     <value>{0}{{reason}}</value>
   </data>
   <data name="Type_CommaButAMatchingAttributeWasFound" xml:space="preserve">
@@ -1764,85 +1764,85 @@
   <data name="Type_CommaButTheAttributeWasNotFound" xml:space="preserve">
     <value>, but the attribute was not found.</value>
   </data>
-  <data name="Type_ExpectedIndexerXYToNotExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedIndexerX0X1ToNotExistFormat" xml:space="preserve">
     <value>Expected indexer {0}[{1}] to not exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedMethodXYToNotExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedMethodX0X1ToNotExistFormat" xml:space="preserve">
     <value>Expected method {0}({1}) to not exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedMethodXYZToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedMethodX0X1X2ToExistFormat" xml:space="preserve">
     <value>Expected method {0}.{1}({2}) to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXNotToBeAbstractFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0NotToBeAbstractFormat" xml:space="preserve">
     <value>Expected type {0} not to be abstract{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXNotToBeDerivedFromYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0NotToBeDerivedFromX1Format" xml:space="preserve">
     <value>Expected type {0} not to be derived from {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXNotToBeSealedFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0NotToBeSealedFormat" xml:space="preserve">
     <value>Expected type {0} not to be sealed{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXNotToBeStaticFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0NotToBeStaticFormat" xml:space="preserve">
     <value>Expected type {0} not to be static{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeAbstractFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeAbstractFormat" xml:space="preserve">
     <value>Expected type {0} to be abstract{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1Format" xml:space="preserve">
     <value>Expected type {0} to be decorated with or inherit {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1ThatMatchesX2Format" xml:space="preserve">
     <value>Expected type {0} to be decorated with or inherit {1} that matches {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeDecoratedWithYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeDecoratedWithX1Format" xml:space="preserve">
     <value>Expected type {0} to be decorated with {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeDecoratedWithX1ThatMatchesX2Format" xml:space="preserve">
     <value>Expected type {0} to be decorated with {1} that matches {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeDerivedFromYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeDerivedFromX1Format" xml:space="preserve">
     <value>Expected type {0} to be derived from {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeSealedFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeSealedFormat" xml:space="preserve">
     <value>Expected type {0} to be sealed{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXToBeStaticFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToBeStaticFormat" xml:space="preserve">
     <value>Expected type {0} to be static{{reason}}.</value>
   </data>
-  <data name="Type_ExpectedTypeXToImplementInterfaceYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToImplementInterfaceX1Format" xml:space="preserve">
     <value>Expected type {0} to implement interface {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1Format" xml:space="preserve">
     <value>Expected type {0} to not be decorated with or inherit {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1ThatMatchesX2Format" xml:space="preserve">
     <value>Expected type {0} to not be decorated with or inherit {1} that matches {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToNotBeDecoratedWithYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToNotBeDecoratedWithX1Format" xml:space="preserve">
     <value>Expected type {0} to not be decorated with {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToNotBeDecoratedWithX1ThatMatchesX2Format" xml:space="preserve">
     <value>Expected type {0} to not be decorated with {1} that matches {2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedTypeXToNotImplementInterfaceYFormat" xml:space="preserve">
+  <data name="Type_ExpectedTypeX0ToNotImplementInterfaceX1Format" xml:space="preserve">
     <value>Expected type {0} to not implement interface {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXToBeOfTypeYFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0ToBeOfTypeX1Format" xml:space="preserve">
     <value>Expected {0} to be of type {1}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXToExplicitlyImplementYXFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0ToExplicitlyImplementX1X2Format" xml:space="preserve">
     <value>Expected {0} to explicitly implement {1}.{2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXToNotExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0ToNotExistFormat" xml:space="preserve">
     <value>Expected {0} to not exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXToNotExplicitlyImplementYZFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0ToNotExplicitlyImplementX1X2Format" xml:space="preserve">
     <value>Expected {0} to not explicitly implement {1}.{2}{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXYDotZToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0X1DotX2ToExistFormat" xml:space="preserve">
     <value>Expected {0} {1}.{2} to exist{{reason}}</value>
   </data>
-  <data name="Type_ExpectedXYZToExistFormat" xml:space="preserve">
+  <data name="Type_ExpectedX0X1X2ToExistFormat" xml:space="preserve">
     <value>Expected {0} {1}[{2}] to exist{{reason}}</value>
   </data>
   <data name="Type_MustBeAnInterfaceType" xml:space="preserve">
@@ -1857,10 +1857,10 @@
   <data name="Constructor_DescriptionFormat" xml:space="preserve">
     <value>{0}({1})</value>
   </data>
-  <data name="MemberInfo_ExpectedXYToBeDecoratedWithZFormat" xml:space="preserve">
+  <data name="MemberInfo_ExpectedX0X1ToBeDecoratedWithX2Format" xml:space="preserve">
     <value>Expected {0} {1} to be decorated with {2}{{reason}}</value>
   </data>
-  <data name="MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat" xml:space="preserve">
+  <data name="MemberInfo_ExpectedX0X1ToNotBeDecoratedWithX2Format" xml:space="preserve">
     <value>Expected {0} {1} to not be decorated with {2}{{reason}}</value>
   </data>
   <data name="MemberInfo_SubjectDescriptionFormat" xml:space="preserve">
@@ -1869,34 +1869,34 @@
   <data name="MethodInfo_DescriptionFormat" xml:space="preserve">
     <value>{0} {1}.{2}</value>
   </data>
-  <data name="MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat" xml:space="preserve">
+  <data name="MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreX0X1Format" xml:space="preserve">
     <value>Expected all selected methods not to be virtual{{reason}}, but the following methods are virtual:{0}{1}</value>
   </data>
-  <data name="MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat" xml:space="preserve">
+  <data name="MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithX0ButFollowingMethodsAreNotX1X2Format" xml:space="preserve">
     <value>Expected all selected methods to be decorated with {0}{{reason}}, but the following methods are not:{1}{2}</value>
   </data>
-  <data name="MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat" xml:space="preserve">
+  <data name="MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotX0X1Format" xml:space="preserve">
     <value>Expected all selected methods to be virtual{{reason}}, but the following methods are not virtual:{0}{1}</value>
   </data>
-  <data name="MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat" xml:space="preserve">
+  <data name="MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithX0ButFollowingMethodsAreX1X2Format" xml:space="preserve">
     <value>Expected all selected methods to not be decorated with {0}{{reason}}, but the following methods are:{1}{2}</value>
   </data>
-  <data name="PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat" xml:space="preserve">
+  <data name="PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreX0X1Format" xml:space="preserve">
     <value>Expected all selected properties not to be virtual{{reason}}, but the following properties are virtual:{0}{1}</value>
   </data>
-  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat" xml:space="preserve">
+  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithX0ButFollowingPropertiesAreNotX1X2Format" xml:space="preserve">
     <value>Expected all selected properties to be decorated with {0}{{reason}}, but the following properties are not:{1}{2}</value>
   </data>
-  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat" xml:space="preserve">
+  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotX0X1Format" xml:space="preserve">
     <value>Expected all selected properties to be virtual{{reason}}, but the following properties are not virtual:{0}{1}</value>
   </data>
-  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat" xml:space="preserve">
+  <data name="PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotX0X1Format" xml:space="preserve">
     <value>Expected all selected properties to have a setter{{reason}}, but the following properties do not:{0}{1}</value>
   </data>
-  <data name="PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingPropertiesAreYZFormat" xml:space="preserve">
+  <data name="PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithX0ButFollowingPropertiesAreX1X2Format" xml:space="preserve">
     <value>Expected all selected properties not to be decorated with {0}{{reason}}, but the following properties are:{1}{2}</value>
   </data>
-  <data name="Property_ExpectedPropertyXNotToHaveAGetterFormat" xml:space="preserve">
+  <data name="Property_ExpectedPropertyX0NotToHaveAGetterFormat" xml:space="preserve">
     <value>Expected {{context:property}} {0} not to have a getter{{reason}}.</value>
   </data>
   <data name="String_ExpectedStringToBe" xml:space="preserve">
@@ -1907,100 +1907,100 @@
     <value>Expected {{context:string}} to be equivalent to </value>
     <comment>/!\ The trailing space is important</comment>
   </data>
-  <data name="String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format" xml:space="preserve">
+  <data name="String_X0WithALengthOfX1ButIX2HasALengthOfX3DiffersNearX4Format" xml:space="preserve">
     <value>{0} with a length of {1}{{reason}}, but {2} has a length of {3}, differs near {4}.</value>
   </data>
-  <data name="String_XButYDiffersNearZFormat" xml:space="preserve">
+  <data name="String_X0ButX1DiffersNearX2Format" xml:space="preserve">
     <value>{0}{{reason}}, but {1} differs near {2}.</value>
   </data>
-  <data name="String_XButYIsTooShortFormat" xml:space="preserve">
+  <data name="String_X0ButX1IsTooShortFormat" xml:space="preserve">
     <value>{0}{{reason}}, but {1} is too short.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ButTheAttributeWasNotFoundOnTypesX1X2Format" xml:space="preserve">
     <value>Expected all types to be decorated with or inherit {0}{{reason}}, but the attribute was not found on the following types:{1}{2}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ThatMatchesX2ButNoAttributeWasFoundOnTypesX2X3Format" xml:space="preserve">
     <value>Expected all types to be decorated with or inherit {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToBeDecoratedWithX0ButTheAttributeWasNotFoundOnTypesX1X2Format" xml:space="preserve">
     <value>Expected all types to be decorated with {0}{{reason}}, but the attribute was not found on the following types:{1}{2}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToBeDecoratedWithX0ThatMatchesX1ButNoMatchingAttributeWasFoundOnTypesX2X3Format" xml:space="preserve">
     <value>Expected all types to be decorated with {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ButAttributeWasFoundOnTypesX1X2Format" xml:space="preserve">
     <value>Expected all types to not be decorated with or inherit {0}{{reason}}, but the attribute was found on the following types:{1}{2}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ThatMatchesX1ButAttributeWasFoundOnTypesX2X3Format" xml:space="preserve">
     <value>Expected all types to not be decorated with or inherit {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithX0ButTheAttributeWasFoundOnTypesX1X2Format" xml:space="preserve">
     <value>Expected all types to not be decorated with {0}{{reason}}, but the attribute was found on the following types:{1}{2}.</value>
   </data>
-  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat" xml:space="preserve">
+  <data name="Type_ExpectedAllTypesToNotBeDecoratedWithX0ThatMatchesX1ButAMatchingAttributeWasFoundOnTypesX2X3Format" xml:space="preserve">
     <value>Expected all types to not be decorated with {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}.</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeAtLeastXAfterYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeAtLeastX0AfterX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be at least {0} after {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeAtLeastXBeforeYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeAtLeastX0BeforeX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be at least {0} before {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeExactlyXAfterYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeExactlyX0AfterX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be exactly {0} after {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeExactlyXBeforeYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeExactlyX0BeforeX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be exactly {0} before {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeLessThanXAfterYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeLessThanX0AfterX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be less than {0} after {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeLessThanXBeforeYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeLessThanX0BeforeX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be less than {0} before {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeMoreThanXAfterYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeMoreThanX0AfterX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be more than {0} after {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeMoreThanXBeforeYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeMoreThanX0BeforeX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be more than {0} before {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeWithinXAfterYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeWithinX0AfterX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be within {0} after {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateToBeWithinXBeforeYFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateToBeWithinX0BeforeX1Format" xml:space="preserve">
     <value>Expected {{context:the date and time}} to be within {0} before {1}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1AfterX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be at least {1} after {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1BeforeX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be at least {1} before {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1AfterX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be exactly {1} after {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1BeforeX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be exactly {1} before {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1AfterX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be less than {1} after {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1BeforeX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be less than {1} before {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1AfterX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be more than {1} after {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1BeforeX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be more than {1} before {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1AfterX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be within {1} after {2}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat" xml:space="preserve">
+  <data name="DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1BeforeX2Format" xml:space="preserve">
     <value>Expected date and/or time {0} to be within {1} before {2}{{reason}}</value>
   </data>
-  <data name="Xml_ExpectedXmlElementXToHaveValueYFormat" xml:space="preserve">
+  <data name="Xml_ExpectedXmlElementX0ToHaveValueX1Format" xml:space="preserve">
     <value>Expected XML element {0} to have value {1}{{reason}}</value>
   </data>
   <data name="Collection_DidNotExpectCollectionToContainItemsInAscendingOrder" xml:space="preserve">
@@ -2012,22 +2012,22 @@
   <data name="Collection_ExpectedCollectionNotToBeEmpty" xml:space="preserve">
     <value>Expected {{context:collection}} not to be empty{{reason}}</value>
   </data>
-  <data name="Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionX0NotToBeEquivalentWithX1DotFormat" xml:space="preserve">
     <value>Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}.</value>
   </data>
-  <data name="Common_CommaButItDiffersWFormat" xml:space="preserve">
+  <data name="Common_CommaButItDiffersX3Format" xml:space="preserve">
     <value>, but it differs {3}.</value>
   </data>
-  <data name="Common_CommaButZDiffersWFormat" xml:space="preserve">
+  <data name="Common_CommaButX2DiffersX3Format" xml:space="preserve">
     <value>, but {2} differs {3}.</value>
   </data>
-  <data name="Collection_ExpectedCollectionToContainXItemsFormat" xml:space="preserve">
+  <data name="Collection_ExpectedCollectionToContainX0ItemsFormat" xml:space="preserve">
     <value>Expected {{context:collection}} to contain {0} items{{reason}}</value>
   </data>
   <data name="Method_CommaButItIsNotVirtual" xml:space="preserve">
     <value>, but it is not virtual.</value>
   </data>
-  <data name="Property_ExpectedPropertyXToHaveAGetterFormat" xml:space="preserve">
+  <data name="Property_ExpectedPropertyX0ToHaveAGetterFormat" xml:space="preserve">
     <value>Expected property {0} to have a getter{{reason}}</value>
   </data>
   <data name="String_CannotCompareEndOfStringWithEmptyString" xml:space="preserve">

@@ -38,7 +38,7 @@ namespace FluentAssertions.Primitives
         {
             return assertion
                 .ForCondition(subject.Length >= expected.Length)
-                .FailWith(ExpectationDescription + Resources.String_XButYIsTooShortFormat,
+                .FailWith(ExpectationDescription + Resources.String_X0ButX1IsTooShortFormat,
                     expected, subject)
                 .SourceSucceeded;
         }
@@ -50,7 +50,7 @@ namespace FluentAssertions.Primitives
             {
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
-                assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
+                assertion.FailWith(ExpectationDescription + Resources.String_X0ButX1DiffersNearX2Format,
                     expected, subject,
                     subject.IndexedSegmentAt(indexOfMismatch).ToAlreadyFormattedString());
             }

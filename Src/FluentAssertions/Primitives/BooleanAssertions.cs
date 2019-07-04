@@ -35,7 +35,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Bool_ExpectedBoolToBeFalse + Resources.Common_CommaButFoundXFormat, Subject);
+                .FailWith(Resources.Bool_ExpectedBoolToBeFalse + Resources.Common_CommaButFoundX0Format, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -55,7 +55,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Bool_ExpectedBoolToBeTrue + Resources.Common_CommaButFoundXFormat, Subject);
+                .FailWith(Resources.Bool_ExpectedBoolToBeTrue + Resources.Common_CommaButFoundX0Format, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -76,7 +76,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.Equals(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Bool_ExpectedBoolToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Bool_ExpectedBoolToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);

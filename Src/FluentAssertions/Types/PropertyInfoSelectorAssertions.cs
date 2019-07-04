@@ -47,7 +47,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat,
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotX0X1Format,
                     Environment.NewLine, GetFormattedDescriptionsFor(nonVirtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -71,7 +71,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!virtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat,
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreX0X1Format,
                     Environment.NewLine, GetFormattedDescriptionsFor(virtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -94,7 +94,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!readOnlyProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat,
+                .FailWith(Resources.PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotX0X1Format,
                     Environment.NewLine, GetFormattedDescriptionsFor(readOnlyProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -144,7 +144,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat,
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithX0ButFollowingPropertiesAreNotX1X2Format,
                     typeof(TAttribute), Environment.NewLine, GetFormattedDescriptionsFor(propertiesWithoutAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -169,7 +169,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!propertiesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingPropertiesAreYZFormat,
+                    Resources.PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithX0ButFollowingPropertiesAreX1X2Format,
                     typeof(TAttribute), Environment.NewLine, GetFormattedDescriptionsFor(propertiesWithAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);

@@ -61,7 +61,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         public override string ToString()
         {
-            return string.Format(Resources.Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat, path);
+            return string.Format(Resources.Collection_BeStrictAboutCollectionItemsOrderWhenPathIsX0Format, path);
         }
     }
 }

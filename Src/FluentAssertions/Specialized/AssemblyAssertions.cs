@@ -51,7 +51,7 @@ namespace FluentAssertions.Reflection
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
                    .ForCondition(references.All(x => x != assemblyName))
-                   .FailWith(Resources.Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat,
+                   .FailWith(Resources.Assembly_ExpectedAssemblyX0NotToReferenceAssemblyX1Format,
                    subjectName, assemblyName);
         }
 
@@ -85,7 +85,7 @@ namespace FluentAssertions.Reflection
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
                    .ForCondition(references.Any(x => x == assemblyName))
-                   .FailWith(Resources.Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat,
+                   .FailWith(Resources.Assembly_ExpectedAssemblyX0ToReferenceAssemblyX1ButItDoesNotFormat,
                         subjectName, assemblyName);
         }
 #endif
@@ -104,7 +104,7 @@ namespace FluentAssertions.Reflection
 
             Execute.Assertion.ForCondition(foundType != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat,
+                .FailWith(Resources.Assembly_ExpectedAssemblyX0ToDefineTypeX1X2ButItDoesNotFormat,
                     Subject.FullName, @namespace, name);
 
             return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);

@@ -71,7 +71,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToBeOneOfXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.String_ExpectedStringToBeOneOfX0Format + Resources.Common_CommaButFoundX1Format,
                     validValues, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -119,7 +119,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringNotToBeXFormat, unexpected);
+                .FailWith(Resources.String_ExpectedStringNotToBeX0Format, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -247,7 +247,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!(Subject is null))
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToMatchRegexXFormat + Resources.Common_CommaButItWasNull,
+                .FailWith(Resources.String_ExpectedStringToMatchRegexX0Format + Resources.Common_CommaButItWasNull,
                     regularExpression);
 
             bool isMatch = false;
@@ -258,14 +258,14 @@ namespace FluentAssertions.Primitives
             catch (ArgumentException)
             {
                 Execute.Assertion
-                    .FailWith(Resources.String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat, regularExpression);
+                    .FailWith(Resources.String_CannotMatchStringAgainstX0BecauseItIsNotValidRegexFormat, regularExpression);
             }
 
             Execute.Assertion
                 .ForCondition(isMatch)
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
-                .FailWith(Resources.String_ExpectedStringToMatchRegexXFormat + Resources.String_CommaButYDoesNotMatchFormat,
+                .FailWith(Resources.String_ExpectedStringToMatchRegexX0Format + Resources.String_CommaButX1DoesNotMatchFormat,
                     regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -295,7 +295,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!(Subject is null))
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToNotMatchRegexXFormat + Resources.Common_CommaButItWasNull,
+                .FailWith(Resources.String_ExpectedStringToNotMatchRegexX0Format + Resources.Common_CommaButItWasNull,
                     regularExpression);
 
             bool isMatch = false;
@@ -305,7 +305,7 @@ namespace FluentAssertions.Primitives
             }
             catch (ArgumentException)
             {
-                Execute.Assertion.FailWith(Resources.String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat,
+                Execute.Assertion.FailWith(Resources.String_CannotMatchStringAgainstX0BecauseItIsNotValidRegexFormat,
                     regularExpression);
             }
 
@@ -313,7 +313,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!isMatch)
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
-                .FailWith(Resources.String_DidNotExpectStringToMatchRegexXButYMatchesFormat,
+                .FailWith(Resources.String_DidNotExpectStringToMatchRegexX0ButX1MatchesFormat,
                     regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -468,7 +468,7 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringXToEndWithYFormat,
+                    .FailWith(Resources.String_ExpectedStringX0ToEndWithX1Format,
                         Subject, expected);
             }
 
@@ -476,14 +476,14 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringToEndWithXButYIsTooShortFormat,
+                    .FailWith(Resources.String_ExpectedStringToEndWithX0ButX1IsTooShortFormat,
                         expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringXToEndWithYFormat,
+                .FailWith(Resources.String_ExpectedStringX0ToEndWithX1Format,
                     Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
@@ -517,14 +517,14 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithX0Format + Resources.Common_CommaButFoundX1Format,
                         unexpected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringXNotToEndWithYFormat,
+                .FailWith(Resources.String_ExpectedStringX0NotToEndWithX1Format,
                     Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
@@ -558,7 +558,7 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfX0Format + Resources.Common_CommaButFoundX1Format,
                         expected, Subject);
             }
 
@@ -566,14 +566,14 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat,
+                    .FailWith(Resources.String_ExpectedStringToEndWithEquivalentOfX0ButX1IsTooShortFormat,
                         expected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.String_ExpectedStringThatEndsWithEquivalentOfX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -607,14 +607,14 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfX0NoReasonFormat + Resources.Common_CommaButFoundX1Format,
                         unexpected, Subject);
             }
 
             Execute.Assertion
                 .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.String_ExpectedStringThatDoesNotEndWithEquivalentOfX0Format + Resources.Common_CommaButFoundX1Format,
                     unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -648,7 +648,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringXToContainYFormat,
+                .FailWith(Resources.String_ExpectedStringX0ToContainX1Format,
                     Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
@@ -681,7 +681,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToContainEquivalentOfXButFoundYFormat,
+                .FailWith(Resources.String_ExpectedStringToContainEquivalentOfX0ButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -708,7 +708,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(values.All(v => Contains(Subject, v, StringComparison.Ordinal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringXToContainTheStringsYFormat, Subject, missing);
+                .FailWith(Resources.String_ExpectedStringX0ToContainTheStringsX1Format, Subject, missing);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -744,7 +744,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(values.Any(v => Contains(Subject, v, StringComparison.Ordinal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat,
+                .FailWith(Resources.String_ExpectedStringX0ToContainAtLeastOneOfTheStringsX1Format,
                     Subject, values.ToArray());
 
             return new AndConstraint<StringAssertions>(this);
@@ -790,7 +790,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Contains(Subject, unexpected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_DidNotExpectStringXToContainYFormat,
+                .FailWith(Resources.String_DidNotExpectStringX0ToContainX1Format,
                     Subject, unexpected);
 
             return new AndConstraint<StringAssertions>(this);
@@ -820,7 +820,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(matches != values.Count())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_DidNotExpectStringXToContainAllOfTheStringsYFormat,
+                .FailWith(Resources.String_DidNotExpectStringX0ToContainAllOfTheStringsX1Format,
                     Subject, values);
 
             return new AndConstraint<StringAssertions>(this);
@@ -861,7 +861,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!matches.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_DidNotExpectStringXToContainAnyOfTheStringsYFormat, Subject, matches);
+                .FailWith(Resources.String_DidNotExpectStringX0ToContainAnyOfTheStringsX1Format, Subject, matches);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -895,7 +895,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat,
+                .FailWith(Resources.String_DidNotExpectStringToContainEquivalentOfX1ButFoundX2Format,
                     unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -921,7 +921,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToBeEmpty + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.String_ExpectedStringToBeEmpty + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -963,7 +963,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Length == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat,
+                .FailWith(Resources.String_ExpectedStringWithLengthX0ButFoundStringX1WithLengthX2Format,
                     expected, Subject, Subject.Length);
 
             return new AndConstraint<StringAssertions>(this);
@@ -984,7 +984,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringNotToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.String_ExpectedStringNotToBeNullOrEmpty + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -1005,7 +1005,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToBeNullOrEmpty + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.String_ExpectedStringToBeNullOrEmpty + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -1026,7 +1026,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringNotToBeNullOrWhitespace + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.String_ExpectedStringNotToBeNullOrWhitespace + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<StringAssertions>(this);
@@ -1047,7 +1047,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.String_ExpectedStringToBeNullOrWhitespace + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.String_ExpectedStringToBeNullOrWhitespace + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<StringAssertions>(this);

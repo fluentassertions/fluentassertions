@@ -82,7 +82,7 @@ namespace FluentAssertions.Formatting
                 if (isReentry)
                 {
                     throw new InvalidOperationException(
-                        string.Format(Resources.Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat,
+                        string.Format(Resources.Formatter_UseTheX0DelegateInsideX1ToRecursivelyFormatChildrenFormat,
                             nameof(FormatChild), nameof(IValueFormatter)));
                 }
 
@@ -115,7 +115,7 @@ namespace FluentAssertions.Formatting
 
                 if (!graph.TryPush(path, childValue))
                 {
-                    return string.Format(Resources.Formatter_CyclicReferenceToTypeXDetectedFormat, childValue.GetType());
+                    return string.Format(Resources.Formatter_CyclicReferenceToTypeX0DetectedFormat, childValue.GetType());
                 }
                 else if (graph.Depth > 5)
                 {

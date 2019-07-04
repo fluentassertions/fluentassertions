@@ -82,72 +82,72 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cannot compare a multi-dimensional array to {0}..
         /// </summary>
-        public static string Array_CannotCompareMultiDimArrayToXFormat {
+        public static string Array_CannotCompareMultiDimArrayToX0Format {
             get {
-                return ResourceManager.GetString("Array_CannotCompareMultiDimArrayToXFormat", resourceCulture);
+                return ResourceManager.GetString("Array_CannotCompareMultiDimArrayToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:array}} to have {0} dimension(s), but it has {1}..
         /// </summary>
-        public static string Array_ExpectedArrayToHaveXDimensionsButItHasYFormat {
+        public static string Array_ExpectedArrayToHaveX0DimensionsButItHasX1Format {
             get {
-                return ResourceManager.GetString("Array_ExpectedArrayToHaveXDimensionsButItHasYFormat", resourceCulture);
+                return ResourceManager.GetString("Array_ExpectedArrayToHaveX0DimensionsButItHasX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected dimension {0} to contain {1} item(s), but found {2}..
         /// </summary>
-        public static string Array_ExpectedDimensionXToContainYItemsFormat {
+        public static string Array_ExpectedDimensionX0ToContainX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Array_ExpectedDimensionXToContainYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Array_ExpectedDimensionX0ToContainX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} not to reference assembly {1}{{reason}}..
         /// </summary>
-        public static string Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat {
+        public static string Assembly_ExpectedAssemblyX0NotToReferenceAssemblyX1Format {
             get {
-                return ResourceManager.GetString("Assembly_ExpectedAssemblyXNotToReferenceAssemblyYFormat", resourceCulture);
+                return ResourceManager.GetString("Assembly_ExpectedAssemblyX0NotToReferenceAssemblyX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} to define type {1}.{2}, but it does not..
         /// </summary>
-        public static string Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat {
+        public static string Assembly_ExpectedAssemblyX0ToDefineTypeX1X2ButItDoesNotFormat {
             get {
-                return ResourceManager.GetString("Assembly_ExpectedAssemblyXToDefineTypeYZButItDoesNotFormat", resourceCulture);
+                return ResourceManager.GetString("Assembly_ExpectedAssemblyX0ToDefineTypeX1X2ButItDoesNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected assembly {0} to reference assembly {1}{{reason}}, but it does not..
         /// </summary>
-        public static string Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat {
+        public static string Assembly_ExpectedAssemblyX0ToReferenceAssemblyX1ButItDoesNotFormat {
             get {
-                return ResourceManager.GetString("Assembly_ExpectedAssemblyXToReferenceAssemblyYButItDoesNotFormat", resourceCulture);
+                return ResourceManager.GetString("Assembly_ExpectedAssemblyX0ToReferenceAssemblyX1ButItDoesNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} from expectation to be a {1}{{reason}}, but found a {2}..
         /// </summary>
-        public static string Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat {
+        public static string Assertion_ExpectedX0FromExpectationToBeAX1ButFoundAX2Format {
             get {
-                return ResourceManager.GetString("Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat", resourceCulture);
+                return ResourceManager.GetString("Assertion_ExpectedX0FromExpectationToBeAX1ButFoundAX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} from subject to be a {1}{{reason}}, but found a {2}..
         /// </summary>
-        public static string Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat {
+        public static string Assertion_ExpectedX0FromSubjectToBeAX1ButFoundAX2Format {
             get {
-                return ResourceManager.GetString("Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat", resourceCulture);
+                return ResourceManager.GetString("Assertion_ExpectedX0FromSubjectToBeAX1ButFoundAX2Format", resourceCulture);
             }
         }
         
@@ -172,18 +172,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Invoke Action&lt;{0}&gt; when {1}.
         /// </summary>
-        public static string Assertion_InvokeActionXWhenYFormat {
+        public static string Assertion_InvokeActionX0WhenX1Format {
             get {
-                return ResourceManager.GetString("Assertion_InvokeActionXWhenYFormat", resourceCulture);
+                return ResourceManager.GetString("Assertion_InvokeActionX0WhenX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to **WARNING** because message &apos;{0}&apos; could not be formatted with string.Format{1}{2}.
         /// </summary>
-        public static string Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat {
+        public static string Assertion_WarningBecauseMessageX0CouldNotBeFormattedWithStringFormatX1X2Format {
             get {
-                return ResourceManager.GetString("Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat", resourceCulture);
+                return ResourceManager.GetString("Assertion_WarningBecauseMessageX0CouldNotBeFormattedWithStringFormatX1X2Format", resourceCulture);
             }
         }
         
@@ -208,27 +208,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:boolean}} to be {0}{{reason}}.
         /// </summary>
-        public static string Bool_ExpectedBoolToBeXFormat {
+        public static string Bool_ExpectedBoolToBeX0Format {
             get {
-                return ResourceManager.GetString("Bool_ExpectedBoolToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Bool_ExpectedBoolToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:nullable boolean}} not to be {0}{{reason}}.
         /// </summary>
-        public static string Bool_ExpectedNullableBoolNotToBeXFormat {
+        public static string Bool_ExpectedNullableBoolNotToBeX0Format {
             get {
-                return ResourceManager.GetString("Bool_ExpectedNullableBoolNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Bool_ExpectedNullableBoolNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Aborting strict order comparison of collections after {0} items failed at {1}.
         /// </summary>
-        public static string Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat {
+        public static string Collection_AbortingStrictOrderComparisonAfterX0ItemsFailedAtX1Format {
             get {
-                return ResourceManager.GetString("Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_AbortingStrictOrderComparisonAfterX0ItemsFailedAtX1Format", resourceCulture);
             }
         }
         
@@ -244,36 +244,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to At index {0}:{1}{2}.
         /// </summary>
-        public static string Collection_AtIndexXFailuresFormat {
+        public static string Collection_AtIndexX0FailuresFormat {
             get {
-                return ResourceManager.GetString("Collection_AtIndexXFailuresFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_AtIndexX0FailuresFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Be not strict about the order of collections when {0}.
         /// </summary>
-        public static string Collection_BeNotStrictAboutCollectionsOrderWhenXFormat {
+        public static string Collection_BeNotStrictAboutCollectionsOrderWhenX0Format {
             get {
-                return ResourceManager.GetString("Collection_BeNotStrictAboutCollectionsOrderWhenXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_BeNotStrictAboutCollectionsOrderWhenX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Be strict about the order of collection items when path is {0}.
         /// </summary>
-        public static string Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat {
+        public static string Collection_BeStrictAboutCollectionItemsOrderWhenPathIsX0Format {
             get {
-                return ResourceManager.GetString("Collection_BeStrictAboutCollectionItemsOrderWhenPathIsXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_BeStrictAboutCollectionItemsOrderWhenPathIsX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Be strict about the order of collections when {0}.
         /// </summary>
-        public static string Collection_BeStrictAboutCollectionsOrderWhenXFormat {
+        public static string Collection_BeStrictAboutCollectionsOrderWhenX0Format {
             get {
-                return ResourceManager.GetString("Collection_BeStrictAboutCollectionsOrderWhenXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_BeStrictAboutCollectionsOrderWhenX0Format", resourceCulture);
             }
         }
         
@@ -325,36 +325,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to but {0} contains {1} item(s) less..
         /// </summary>
-        public static string Collection_ButXContainsYItemsLessFormat {
+        public static string Collection_ButX0ContainsX1ItemsLessFormat {
             get {
-                return ResourceManager.GetString("Collection_ButXContainsYItemsLessFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ButX0ContainsX1ItemsLessFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but {0} contains {1} item(s) too many..
         /// </summary>
-        public static string Collection_ButXContainsYItemsTooManyFormat {
+        public static string Collection_ButX0ContainsX1ItemsTooManyFormat {
             get {
-                return ResourceManager.GetString("Collection_ButXContainsYItemsTooManyFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ButX0ContainsX1ItemsTooManyFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but {0} differs at index {1}..
         /// </summary>
-        public static string Collection_ButXDiffersAtIndexYFormat {
+        public static string Collection_ButX0DiffersAtIndexX1Format {
             get {
-                return ResourceManager.GetString("Collection_ButXDiffersAtIndexYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ButX0DiffersAtIndexX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but {0} such items were found..
         /// </summary>
-        public static string Collection_ButXSuchItemsWereFoundFormat {
+        public static string Collection_ButX0SuchItemsWereFoundFormat {
             get {
-                return ResourceManager.GetString("Collection_ButXSuchItemsWereFoundFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ButX0SuchItemsWereFoundFormat", resourceCulture);
             }
         }
         
@@ -550,117 +550,117 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to , but found one at index {0}..
         /// </summary>
-        public static string Collection_CommaButFoundOneAtIndexXFormat {
+        public static string Collection_CommaButFoundOneAtIndexX0Format {
             get {
-                return ResourceManager.GetString("Collection_CommaButFoundOneAtIndexXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButFoundOneAtIndexX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but found several at indices {0}..
         /// </summary>
-        public static string Collection_CommaButFoundSeveralAtXFormat {
+        public static string Collection_CommaButFoundSeveralAtX0Format {
             get {
-                return ResourceManager.GetString("Collection_CommaButFoundSeveralAtXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButFoundSeveralAtX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but found {0} where item at index {1} is in wrong order..
         /// </summary>
-        public static string Collection_CommaButFoundXWhereYInWrongOrderFormat {
+        public static string Collection_CommaButFoundX0WhereX1InWrongOrderFormat {
             get {
-                return ResourceManager.GetString("Collection_CommaButFoundXWhereYInWrongOrderFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButFoundX0WhereX1InWrongOrderFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but items {0} are not unique..
         /// </summary>
-        public static string Collection_CommaButItemsXAreNotUniqueFormat {
+        public static string Collection_CommaButItemsX0AreNotUniqueFormat {
             get {
-                return ResourceManager.GetString("Collection_CommaButItemsXAreNotUniqueFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButItemsX0AreNotUniqueFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but items {1} are not part of the superset..
         /// </summary>
-        public static string Collection_CommaButItemsYAreNotPartOfSupersetFormat {
+        public static string Collection_CommaButItemsX1AreNotPartOfSupersetFormat {
             get {
-                return ResourceManager.GetString("Collection_CommaButItemsYAreNotPartOfSupersetFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButItemsX1AreNotPartOfSupersetFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but item {0} is not unique..
         /// </summary>
-        public static string Collection_CommaButItemXIsNotUniqueFormat {
+        public static string Collection_CommaButItemX0IsNotUniqueFormat {
             get {
-                return ResourceManager.GetString("Collection_CommaButItemXIsNotUniqueFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) less than{3}{2}..
-        /// </summary>
-        public static string Collection_CommaButXWContainsYItemsLessThanWZFormat {
-            get {
-                return ResourceManager.GetString("Collection_CommaButXWContainsYItemsLessThanWZFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) more than{3}{2}..
-        /// </summary>
-        public static string Collection_CommaButXWContainsYItemsMoreThanWZFormat {
-            get {
-                return ResourceManager.GetString("Collection_CommaButXWContainsYItemsMoreThanWZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButItemX0IsNotUniqueFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but {0}{2}contains {1} item(s)..
         /// </summary>
-        public static string Collection_CommaButXZContainsYItemsFormat {
+        public static string Collection_CommaButX0X2ContainsX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_CommaButXZContainsYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_CommaButX0X2ContainsX1ItemsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) less than{3}{2}..
+        /// </summary>
+        public static string Collection_CommaButX0X3ContainsX1ItemsLessThanWX2Format {
+            get {
+                return ResourceManager.GetString("Collection_CommaButX0X3ContainsX1ItemsLessThanWX2Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but {0}{3}contains {1} item(s) more than{3}{2}..
+        /// </summary>
+        public static string Collection_CommaButX0X3ContainsX1ItemsMoreThanWX2Format {
+            get {
+                return ResourceManager.GetString("Collection_CommaButX0X3ContainsX1ItemsMoreThanWX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Comparing subject at {0}[{1}] with the expectation at {0}[{2}].
         /// </summary>
-        public static string Collection_ComparingSubjectAtXYWithExpectationAtXZFormat {
+        public static string Collection_ComparingSubjectAtX0X1WithExpectationAtXX2Format {
             get {
-                return ResourceManager.GetString("Collection_ComparingSubjectAtXYWithExpectationAtXZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ComparingSubjectAtX0X1WithExpectationAtXX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Comparing subject {0} and expectation {1} at {2} using simple value equality.
         /// </summary>
-        public static string Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat {
+        public static string Collection_ComparingSubjectX0AndExpectationX1AtX2WithValueEqualityFormat {
             get {
-                return ResourceManager.GetString("Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ComparingSubjectX0AndExpectationX1AtX2WithValueEqualityFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Contained {0} failures.
         /// </summary>
-        public static string Collection_ContainedXFailuresFormat {
+        public static string Collection_ContainedX0FailuresFormat {
             get {
-                return ResourceManager.GetString("Collection_ContainedXFailuresFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ContainedX0FailuresFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect collections {0} and {1} to be equal{{reason}}..
         /// </summary>
-        public static string Collection_DidNotExpectCollectionsXAndYToBeEqualFormat {
+        public static string Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionsXAndYToBeEqualFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat", resourceCulture);
             }
         }
         
@@ -685,45 +685,45 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:collection}} to intersect with {0}{{reason}}, but found the following shared items {1}..
         /// </summary>
-        public static string Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat {
+        public static string Collection_DidNotExpectCollectionToIntersectWithX0ButFoundSharedItemsX1Format {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithXButFoundSharedItemsYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithX0ButFoundSharedItemsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:collection}} to intersect with {0}{{reason}}.
         /// </summary>
-        public static string Collection_DidNotExpectCollectionToIntersectWithXFormat {
+        public static string Collection_DidNotExpectCollectionToIntersectWithX0Format {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionToIntersectWithX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:collection}} {0} to be a subset of {1}{{reason}}..
         /// </summary>
-        public static string Collection_DidNotExpectCollectionXToBeSubsetOfYFormat {
+        public static string Collection_DidNotExpectCollectionX0ToBeSubsetOfX1Format {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionXToBeSubsetOfYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionX0ToBeSubsetOfX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:collection}} {0} to intersect with {1}{{reason}}.
         /// </summary>
-        public static string Collection_DidNotExpectCollectionXToIntersectWithYFormat {
+        public static string Collection_DidNotExpectCollectionX0ToIntersectWithX1Format {
             get {
-                return ResourceManager.GetString("Collection_DidNotExpectCollectionXToIntersectWithYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_DidNotExpectCollectionX0ToIntersectWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {{context:Expectation}} implements {0}, so cannot determine which one to use for asserting the equivalency of the collection. .
         /// </summary>
-        public static string Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat {
+        public static string Collection_ExpectationImplementsX0CannotChooseWhichOneToUseForAssertingFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectationImplementsXCannotChooseWhichOneToUseForAssertingFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectationImplementsX0CannotChooseWhichOneToUseForAssertingFormat", resourceCulture);
             }
         }
         
@@ -802,18 +802,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} not to contain &lt;null&gt;s on {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionNotToContainNullOnXFormat {
+        public static string Collection_ExpectedCollectionNotToContainNullOnX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainNullOnXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainNullOnX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} not to contain {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionNotToContainXFormat {
+        public static string Collection_ExpectedCollectionNotToContainX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionNotToContainX0Format", resourceCulture);
             }
         }
         
@@ -829,90 +829,90 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to be equal to {0}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToBeEqualToXCommaFormat {
+        public static string Collection_ExpectedCollectionToBeEqualToX0CommaFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToXCommaFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToX0CommaFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to be equal to {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToBeEqualToXFormat {
+        public static string Collection_ExpectedCollectionToBeEqualToX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToBeEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to be ordered by {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToBeOrderedByXFormat {
+        public static string Collection_ExpectedCollectionToBeOrderedByX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToBeOrderedByXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToBeOrderedByX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to be a subset of {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToBeSubsetOfXFormat {
+        public static string Collection_ExpectedCollectionToBeSubsetOfX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToBeSubsetOfXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToBeSubsetOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain at least {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainAtLeastXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainAtLeastX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtLeastXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtLeastX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain at most {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainAtMostXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainAtMostX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtMostXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainAtMostX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain element assignable to type {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat {
+        public static string Collection_ExpectedCollectionToContainElementAssignableToTypeX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainElementAssignableToTypeXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainElementAssignableToTypeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain equivalent of {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainEquivalentOfXFormat {
+        public static string Collection_ExpectedCollectionToContainEquivalentOfX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainEquivalentOfXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainEquivalentOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain exactly {0} items, but it contains {1} items.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat {
+        public static string Collection_ExpectedCollectionToContainExactlyX0ItemsButContainsX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainExactlyX0ItemsButContainsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain fewer than {0} item(s){{reason}},.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainFewerThanXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainFewerThanX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainFewerThanXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainFewerThanX0ItemsFormat", resourceCulture);
             }
         }
         
@@ -937,36 +937,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain more than {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainMoreThanXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainMoreThanX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainMoreThanXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainMoreThanX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items matching {0}{{reason}}, but {1} do(es) not match..
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingX0ButX1DoesNotMatchFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingXButYDoesNotMatchFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingX0ButX1DoesNotMatchFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items matching {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsMatchingX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsMatchingX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain only items of type {0}{{reason}}, but item {1} at index {2} is of type {3}..
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat {
+        public static string Collection_ExpectedCollectionToContainOnlyItemsOfTypeX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsOfTypeXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainOnlyItemsOfTypeX0Format", resourceCulture);
             }
         }
         
@@ -982,153 +982,154 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain a single item matching {0}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainSingleItemMatchingXFormat {
+        public static string Collection_ExpectedCollectionToContainSingleItemMatchingX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainSingleItemMatchingXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainSingleItemMatchingX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainXFormat {
+        public static string Collection_ExpectedCollectionToContainX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} in order{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainXInOrderFormat {
+        public static string Collection_ExpectedCollectionToContainX0InOrderFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainXInOrderFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainX0InOrderFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainXItemFormat {
+        public static string Collection_ExpectedCollectionToContainX0ItemFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainXItemFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainX0ItemFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to contain {0} items{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToContainXItemsFormat {
+        public static string Collection_ExpectedCollectionToContainX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToContainXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToContainX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to end with {0}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToEndWithXFormat {
+        public static string Collection_ExpectedCollectionToEndWithX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToEndWithXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToEndWithX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to have element at index {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToHaveElementAtIndexXFormat {
+        public static string Collection_ExpectedCollectionToHaveElementAtIndexX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveElementAtIndexXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveElementAtIndexX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to have the same count as {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToHaveSameCountAsXFormat {
+        public static string Collection_ExpectedCollectionToHaveSameCountAsX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveSameCountAsXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveSameCountAsX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToHaveXItemsFormat {
+        public static string Collection_ExpectedCollectionToHaveX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} precede {1}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToHaveXPrecedeYFormat {
+        public static string Collection_ExpectedCollectionToHaveX0PrecedeX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXPrecedeYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveX0PrecedeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to have {0} succeed {1}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToHaveXSucceedYFormat {
+        public static string Collection_ExpectedCollectionToHaveX0SucceedX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveXSucceedYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToHaveX0SucceedX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to intersect with {0}{{reason}}, but {1} does not contain any shared items..
         /// </summary>
-        public static string Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat {
+        public static string Collection_ExpectedCollectionToIntersectWithX0ButX1DoesNotContainSharedItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithXButYDoesNotContainSharedItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithX0ButX1DoesNotContainSharedItemsForma" +
+                        "t", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to intersect with {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToIntersectWithXFormat {
+        public static string Collection_ExpectedCollectionToIntersectWithX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToIntersectWithX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to not contain {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToNotContainXItemsFormat {
+        public static string Collection_ExpectedCollectionToNotContainX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToNotContainXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToNotContainX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to not have the same count as {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToNotHaveSameCountAsXFormat {
+        public static string Collection_ExpectedCollectionToNotHaveSameCountAsX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveSameCountAsXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveSameCountAsX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to not have {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToNotHaveXItemsFormat {
+        public static string Collection_ExpectedCollectionToNotHaveX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToNotHaveX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to not contain {0}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionToNotXContainFormat {
+        public static string Collection_ExpectedCollectionToNotX0ContainFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToNotXContainFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToNotX0ContainFormat", resourceCulture);
             }
         }
         
@@ -1144,18 +1145,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to only have unique items on {0}{{reason}}, but items {1} are not unique..
         /// </summary>
-        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat {
+        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemsX1AreNotFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemsX1AreNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to only have unique items on {0}{{reason}}, but item {1} is not unique..
         /// </summary>
-        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat {
+        public static string Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemX1IsNotUniqueFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemX1IsNotUniqueFormat", resourceCulture);
             }
         }
         
@@ -1171,144 +1172,144 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} to start with {0}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedCollectionToStartWithXFormat {
+        public static string Collection_ExpectedCollectionToStartWithX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionToStartWithXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionToStartWithX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent to collection {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXNotToBeEquivalentToYFormat {
+        public static string Collection_ExpectedCollectionX0NotToBeEquivalentToX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentToYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0NotToBeEquivalentToX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat {
+        public static string Collection_ExpectedCollectionX0NotToBeEquivalentWithX1DotFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentWithYDotFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0NotToBeEquivalentWithX1DotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} not to be equivalent with collection {1}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat {
+        public static string Collection_ExpectedCollectionX0NotToBeEquivalentWithX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXNotToBeEquivalentWithYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0NotToBeEquivalentWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to be ordered{1}{{reason}} and result in {2}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat {
+        public static string Collection_ExpectedCollectionX0ToBeOrderedX1AndResultInX2Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToBeOrderedX1AndResultInX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain equivalent of {1}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToContainEquivalentOfYFormat {
+        public static string Collection_ExpectedCollectionX0ToContainEquivalentOfX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToContainEquivalentOfYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToContainEquivalentOfX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain items {1} in order{{reason}}, but {2} (index {3}) did not appear (in the right order)..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat {
+        public static string Collection_ExpectedCollectionX0ToContainItemsX1InOrderButX2DidNotAppearFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToContainItemsYInOrderButZDidNotAppearFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToContainItemsX1InOrderButX2DidNotAppearFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain {1}{{reason}}, but could not find {2}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat {
+        public static string Collection_ExpectedCollectionX0ToContainX1ButCouldNotFindX2Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToContainYButCouldNotFindZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToContainX1ButCouldNotFindX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to contain {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToContainYFormat {
+        public static string Collection_ExpectedCollectionX0ToContainX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToContainYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToContainX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to have a count {1}{{reason}}, but count is {2}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat {
+        public static string Collection_ExpectedCollectionX0ToHaveCountX1ButCountIsX2Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToHaveCountX1ButCountIsX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to have an item matching {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToHaveItemMatchingYFormat {
+        public static string Collection_ExpectedCollectionX0ToHaveItemMatchingX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToHaveItemMatchingYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToHaveItemMatchingX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain element {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToNotContainElementYFormat {
+        public static string Collection_ExpectedCollectionX0ToNotContainElementX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainElementYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToNotContainElementX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain {1}{{reason}}..
         /// </summary>
-        public static string Collection_ExpectedCollectionXToNotContainYDotFormat {
+        public static string Collection_ExpectedCollectionX0ToNotContainX1DotFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainYDotFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToNotContainX1DotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not contain {1}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionXToNotContainYFormat {
+        public static string Collection_ExpectedCollectionX0ToNotContainX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToNotContainYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToNotContainX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not have any items matching {1}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat {
+        public static string Collection_ExpectedCollectionX0ToNotHaveItemsMatchingX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToNotHaveItemsMatchingYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToNotHaveItemsMatchingX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:collection}} {0} to not have the same count as {1}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat {
+        public static string Collection_ExpectedCollectionX0ToNotHaveSameCountAsX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedCollectionXToNotHaveSameCountAsYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedCollectionX0ToNotHaveSameCountAsX1Format", resourceCulture);
             }
         }
         
@@ -1324,72 +1325,73 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} not to be {0}..
         /// </summary>
-        public static string Collection_ExpectedSubjectNotToBeXFormat {
+        public static string Collection_ExpectedSubjectNotToBeX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedSubjectNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedSubjectNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be a collection, but it was a {0}.
         /// </summary>
-        public static string Collection_ExpectedSubjectToBeACollectionButItWasXFormat {
+        public static string Collection_ExpectedSubjectToBeACollectionButItWasX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedSubjectToBeACollectionButItWasXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedSubjectToBeACollectionButItWasX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be a collection with {0} item(s){{reason}}.
         /// </summary>
-        public static string Collection_ExpectedSubjectToBeCollectionWithXItemsFormat {
+        public static string Collection_ExpectedSubjectToBeCollectionWithX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedSubjectToBeCollectionWithXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedSubjectToBeCollectionWithX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{{reason}}, .
         /// </summary>
-        public static string Collection_ExpectedTypeToBeXFormat {
+        public static string Collection_ExpectedTypeToBeX0Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedTypeToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedTypeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} at index {1}{{reason}}, but found no element..
         /// </summary>
-        public static string Collection_ExpectedXAtIndexYButFoundNoElementFormat {
+        public static string Collection_ExpectedX0AtIndexX1ButFoundNoElementFormat {
             get {
-                return ResourceManager.GetString("Collection_ExpectedXAtIndexYButFoundNoElementFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedX0AtIndexX1ButFoundNoElementFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} at index {1}{{reason}}.
         /// </summary>
-        public static string Collection_ExpectedXAtIndexYFormat {
+        public static string Collection_ExpectedX0AtIndexX1Format {
             get {
-                return ResourceManager.GetString("Collection_ExpectedXAtIndexYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_ExpectedX0AtIndexX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Fail failing loose order comparison of collection after {0} items failed at {1}.
         /// </summary>
-        public static string Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat {
+        public static string Collection_FailFailingLooseOrderComparisonOfCollectionAfterX0ItemsFailedAtX1Format {
             get {
-                return ResourceManager.GetString("Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_FailFailingLooseOrderComparisonOfCollectionAfterX0ItemsFailedAtX1Forma" +
+                        "t", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Finding the best match of {0} within all items in {1} at {2}[{3}].
         /// </summary>
-        public static string Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat {
+        public static string Collection_FindingBestMatchOfX0WithinAllItemsInX1AtX2X3Format {
             get {
-                return ResourceManager.GetString("Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_FindingBestMatchOfX0WithinAllItemsInX1AtX2X3Format", resourceCulture);
             }
         }
         
@@ -1405,18 +1407,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Strictly comparing expectation {0} at {1} to item with index {2} in {3}.
         /// </summary>
-        public static string Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat {
+        public static string Collection_StrictlyComparingExpectationX0AtX1ToItemWithIndexZinX3Format {
             get {
-                return ResourceManager.GetString("Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_StrictlyComparingExpectationX0AtX1ToItemWithIndexZinX3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Structurally comparing {0} and expectation {1} at {2}.
         /// </summary>
-        public static string Collection_StructurallyComparingXAndExpectationYAtZFormat {
+        public static string Collection_StructurallyComparingX0AndExpectationX1AtX2Format {
             get {
-                return ResourceManager.GetString("Collection_StructurallyComparingXAndExpectationYAtZFormat", resourceCulture);
+                return ResourceManager.GetString("Collection_StructurallyComparingX0AndExpectationX1AtX2Format", resourceCulture);
             }
         }
         
@@ -1441,9 +1443,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to but found {0}..
         /// </summary>
-        public static string Common_ButFoundXFormat {
+        public static string Common_ButFoundX0Format {
             get {
-                return ResourceManager.GetString("Common_ButFoundXFormat", resourceCulture);
+                return ResourceManager.GetString("Common_ButFoundX0Format", resourceCulture);
             }
         }
         
@@ -1459,9 +1461,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to but it was {0}..
         /// </summary>
-        public static string Common_ButItWasXFormat {
+        public static string Common_ButItWasX0Format {
             get {
-                return ResourceManager.GetString("Common_ButItWasXFormat", resourceCulture);
+                return ResourceManager.GetString("Common_ButItWasX0Format", resourceCulture);
             }
         }
         
@@ -1502,56 +1504,56 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , but found {3}..
-        /// </summary>
-        public static string Common_CommaButFoundWFormat {
-            get {
-                return ResourceManager.GetString("Common_CommaButFoundWFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to , but found {0}..
         /// </summary>
-        public static string Common_CommaButFoundXFormat {
+        public static string Common_CommaButFoundX0Format {
             get {
-                return ResourceManager.GetString("Common_CommaButFoundXFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButFoundX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but found {1}..
         /// </summary>
-        public static string Common_CommaButFoundYFormat {
+        public static string Common_CommaButFoundX1Format {
             get {
-                return ResourceManager.GetString("Common_CommaButFoundYFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButFoundX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but found {2}..
         /// </summary>
-        public static string Common_CommaButFoundZFormat {
+        public static string Common_CommaButFoundX2Format {
             get {
-                return ResourceManager.GetString("Common_CommaButFoundZFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButFoundX2Format", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , but it differs {4}..
+        ///   Looks up a localized string similar to , but found {3}..
         /// </summary>
-        public static string Common_CommaButItDiffersItem4Format {
+        public static string Common_CommaButFoundX3Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItDiffersItem4Format", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButFoundX3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it differs {3}..
         /// </summary>
-        public static string Common_CommaButItDiffersWFormat {
+        public static string Common_CommaButItDiffersX3Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItDiffersWFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItDiffersX3Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but it differs {4}..
+        /// </summary>
+        public static string Common_CommaButItDiffersX4Format {
+            get {
+                return ResourceManager.GetString("Common_CommaButItDiffersX4Format", resourceCulture);
             }
         }
         
@@ -1570,15 +1572,6 @@ namespace FluentAssertions.Localization {
         public static string Common_CommaButItDoesNot {
             get {
                 return ResourceManager.GetString("Common_CommaButItDoesNot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to , but {3} differs {4}..
-        /// </summary>
-        public static string Common_CommaButItem3DiffersItem4Format {
-            get {
-                return ResourceManager.GetString("Common_CommaButItem3DiffersItem4Format", resourceCulture);
             }
         }
         
@@ -1603,27 +1596,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to , but it is {0}..
         /// </summary>
-        public static string Common_CommaButItIsXFormat {
+        public static string Common_CommaButItIsX0Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItIsXFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItIsX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it is {1}..
         /// </summary>
-        public static string Common_CommaButItIsYFormat {
+        public static string Common_CommaButItIsX1Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItIsYFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItIsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it is {2}..
         /// </summary>
-        public static string Common_CommaButItIsZFormat {
+        public static string Common_CommaButItIsX2Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItIsZFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItIsX2Format", resourceCulture);
             }
         }
         
@@ -1648,18 +1641,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to , but it was {1}..
         /// </summary>
-        public static string Common_CommaButItWasYFormat {
+        public static string Common_CommaButItWasX1Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItWasYFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItWasX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it was {2}..
         /// </summary>
-        public static string Common_CommaButItWasZFormat {
+        public static string Common_CommaButItWasX2Format {
             get {
-                return ResourceManager.GetString("Common_CommaButItWasZFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButItWasX2Format", resourceCulture);
             }
         }
         
@@ -1684,9 +1677,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to , but {2} differs {3}..
         /// </summary>
-        public static string Common_CommaButZDiffersWFormat {
+        public static string Common_CommaButX2DiffersX3Format {
             get {
-                return ResourceManager.GetString("Common_CommaButZDiffersWFormat", resourceCulture);
+                return ResourceManager.GetString("Common_CommaButX2DiffersX3Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to , but {3} differs {4}..
+        /// </summary>
+        public static string Common_CommaButX3DiffersX4Format {
+            get {
+                return ResourceManager.GetString("Common_CommaButX3DiffersX4Format", resourceCulture);
             }
         }
         
@@ -1720,18 +1722,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan..
         /// </summary>
-        public static string Configuration_XIsNotValidOptionForValueFormattersFormat {
+        public static string Configuration_X0IsNotValidOptionForValueFormattersFormat {
             get {
-                return ResourceManager.GetString("Configuration_XIsNotValidOptionForValueFormattersFormat", resourceCulture);
+                return ResourceManager.GetString("Configuration_X0IsNotValidOptionForValueFormattersFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}.
         /// </summary>
-        public static string Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat {
+        public static string Constraint_MoreThanOneObjectFoundFoundObjectsX0X1Format {
             get {
-                return ResourceManager.GetString("Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat", resourceCulture);
+                return ResourceManager.GetString("Constraint_MoreThanOneObjectFoundFoundObjectsX0X1Format", resourceCulture);
             }
         }
         
@@ -1747,9 +1749,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Do not convert member {0}..
         /// </summary>
-        public static string Conversion_DoNotConvertMemberXFormat {
+        public static string Conversion_DoNotConvertMemberX0Format {
             get {
-                return ResourceManager.GetString("Conversion_DoNotConvertMemberXFormat", resourceCulture);
+                return ResourceManager.GetString("Conversion_DoNotConvertMemberX0Format", resourceCulture);
             }
         }
         
@@ -1765,9 +1767,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Try conversion of member {0}. .
         /// </summary>
-        public static string Conversion_TryConversionOfMemberXSpaceFormat {
+        public static string Conversion_TryConversionOfMemberX0SpaceFormat {
             get {
-                return ResourceManager.GetString("Conversion_TryConversionOfMemberXSpaceFormat", resourceCulture);
+                return ResourceManager.GetString("Conversion_TryConversionOfMemberX0SpaceFormat", resourceCulture);
             }
         }
         
@@ -1810,18 +1812,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:the date and time}} to be within {0} from {1}{{reason}}, but it was {2}..
         /// </summary>
-        public static string DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat {
+        public static string DateTime_DidNotExpectDateToBeWithinX0FromX1ButItWasX2Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectDateToBeWithinXFromYButItWasZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectDateToBeWithinX0FromX1ButItWasX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectDateToBeXFormat {
+        public static string DateTime_DidNotExpectDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectDateToBeX0Format", resourceCulture);
             }
         }
         
@@ -1837,72 +1839,72 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the date part of {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheDatePartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheDatePartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheDatePartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheDatePartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the day part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheDayPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheDayPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheDayPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheDayPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the hour part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheHourPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheHourPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheHourPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheHourPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the minute part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheMinutePartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the month part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheMonthPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheMonthPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheMonthPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the offset of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheOffsetOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheOffsetOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheOffsetOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheOffsetOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the seconds part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheSecondsPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the year part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheYearPartOfDateToBeXFormat {
+        public static string DateTime_DidNotExpectTheYearPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheYearPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheYearPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
@@ -1918,261 +1920,261 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be at least {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1AfterX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeAtLeastYAfterZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1AfterX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be at least {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1BeforeX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeAtLeastYBeforeZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeAtLeastX1BeforeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be exactly {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1AfterX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeExactlyYAfterZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1AfterX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be exactly {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1BeforeX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeExactlyYBeforeZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeExactlyX1BeforeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be less than {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1AfterX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeLessThanYAfterZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1AfterX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be less than {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1BeforeX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeLessThanYBeforeZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeLessThanX1BeforeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be more than {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1AfterX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeMoreThanYAfterZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1AfterX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be more than {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1BeforeX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeMoreThanYBeforeZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeMoreThanX1BeforeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be within {1} after {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1AfterX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeWithinYAfterZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1AfterX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected date and/or time {0} to be within {1} before {2}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat {
+        public static string DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1BeforeX2Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeXToBeWithinYBeforeZFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateAndOrTimeX0ToBeWithinX1BeforeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:date and time}} not to be {0}{{reason}}, but it is..
         /// </summary>
-        public static string DateTime_ExpectedDateNotToBeXButItIsFormat {
+        public static string DateTime_ExpectedDateNotToBeX0ButItIsFormat {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateNotToBeXButItIsFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateNotToBeX0ButItIsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be after {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeAfterXFormat {
+        public static string DateTime_ExpectedDateToBeAfterX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeAfterXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeAfterX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be at least {0} after {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeAtLeastXAfterYFormat {
+        public static string DateTime_ExpectedDateToBeAtLeastX0AfterX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastXAfterYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastX0AfterX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be at least {0} before {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeAtLeastXBeforeYFormat {
+        public static string DateTime_ExpectedDateToBeAtLeastX0BeforeX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastXBeforeYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeAtLeastX0BeforeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be before {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeBeforeXFormat {
+        public static string DateTime_ExpectedDateToBeBeforeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeBeforeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeBeforeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be exactly {0} after {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeExactlyXAfterYFormat {
+        public static string DateTime_ExpectedDateToBeExactlyX0AfterX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyXAfterYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyX0AfterX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be exactly {0} before {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeExactlyXBeforeYFormat {
+        public static string DateTime_ExpectedDateToBeExactlyX0BeforeX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyXBeforeYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeExactlyX0BeforeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be in {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeInXFormat {
+        public static string DateTime_ExpectedDateToBeInX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeInXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeInX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be less than {0} after {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeLessThanXAfterYFormat {
+        public static string DateTime_ExpectedDateToBeLessThanX0AfterX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanXAfterYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanX0AfterX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be less than {0} before {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeLessThanXBeforeYFormat {
+        public static string DateTime_ExpectedDateToBeLessThanX0BeforeX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanXBeforeYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeLessThanX0BeforeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be more than {0} after {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeMoreThanXAfterYFormat {
+        public static string DateTime_ExpectedDateToBeMoreThanX0AfterX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanXAfterYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanX0AfterX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be more than {0} before {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeMoreThanXBeforeYFormat {
+        public static string DateTime_ExpectedDateToBeMoreThanX0BeforeX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanXBeforeYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeMoreThanX0BeforeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:date and time}} to be one of {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeOneOfXFormat {
+        public static string DateTime_ExpectedDateToBeOneOfX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeOneOfXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeOneOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be on or after {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeOnOrAfterXFormat {
+        public static string DateTime_ExpectedDateToBeOnOrAfterX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrAfterXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrAfterX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be on or before {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeOnOrBeforeXFormat {
+        public static string DateTime_ExpectedDateToBeOnOrBeforeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrBeforeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeOnOrBeforeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} after {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeWithinXAfterYFormat {
+        public static string DateTime_ExpectedDateToBeWithinX0AfterX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXAfterYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinX0AfterX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} before {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeWithinXBeforeYFormat {
+        public static string DateTime_ExpectedDateToBeWithinX0BeforeX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXBeforeYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinX0BeforeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:the date and time}} to be within {0} from {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeWithinXFromYFormat {
+        public static string DateTime_ExpectedDateToBeWithinX0FromX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinXFromYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeWithinX0FromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:date and time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedDateToBeXFormat {
+        public static string DateTime_ExpectedDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedDateToBeX0Format", resourceCulture);
             }
         }
         
@@ -2188,108 +2190,108 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected the date part of {{context:the date and time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheDatePartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheDatePartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheDatePartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheDatePartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the day part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheDayPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheDayPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheDayPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheDayPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the hour part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheHourPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheHourPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheHourPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheHourPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the minute part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheMinutePartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheMinutePartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheMinutePartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheMinutePartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the month part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheMonthPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheMonthPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheMonthPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheMonthPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the offset of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheOffsetOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheOffsetOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheOffsetOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheOffsetOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the seconds part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheSecondsPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheSecondsPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheSecondsPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheSecondsPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the year part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheYearPartOfDateToBeXFormat {
+        public static string DateTime_ExpectedTheYearPartOfDateToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheYearPartOfDateToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheYearPartOfDateToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to be greater or equal to {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat {
+        public static string DateTime_ExpectedTimeToBeGreaterOrEqualToX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterOrEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to be greater than {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToBeGreaterThanXFormat {
+        public static string DateTime_ExpectedTimeToBeGreaterThanX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterThanXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToBeGreaterThanX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to be less or equal to {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToBeLessOrEqualToXFormat {
+        public static string DateTime_ExpectedTimeToBeLessOrEqualToX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessOrEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessOrEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to be less than {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToBeLessThanXFormat {
+        public static string DateTime_ExpectedTimeToBeLessThanX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessThanXFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToBeLessThanX0Format", resourceCulture);
             }
         }
         
@@ -2314,18 +2316,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to be within {0} from {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToBeWithinXFromYFormat {
+        public static string DateTime_ExpectedTimeToBeWithinX0FromX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToBeWithinXFromYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToBeWithinX0FromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:time}} to not be within {0} from {1}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTimeToNotBeWithinXFromYFormat {
+        public static string DateTime_ExpectedTimeToNotBeWithinX0FromX1Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTimeToNotBeWithinXFromYFormat", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTimeToNotBeWithinX0FromX1Format", resourceCulture);
             }
         }
         
@@ -2377,27 +2379,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to but has additional key(s) {0}.
         /// </summary>
-        public static string Dictionary_ButHasAdditionalKeysXFormat {
+        public static string Dictionary_ButHasAdditionalKeysX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ButHasAdditionalKeysXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ButHasAdditionalKeysX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but it misses key(s) {0} and has additional key(s) {1}.
         /// </summary>
-        public static string Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat {
+        public static string Dictionary_ButItMissesKeysX0AndHasAdditionalKeysX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ButItMissesKeysXAndHasAdditionalKeysYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ButItMissesKeysX0AndHasAdditionalKeysX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but it misses key(s) {0}.
         /// </summary>
-        public static string Dictionary_ButItMissesKeysXFormat {
+        public static string Dictionary_ButItMissesKeysX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ButItMissesKeysXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ButItMissesKeysX0Format", resourceCulture);
             }
         }
         
@@ -2449,18 +2451,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Comparing dictionary item {0} at {1} between subject and expectation.
         /// </summary>
-        public static string Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat {
+        public static string Dictionary_ComparingDictionaryItemX0AtX1BetweenSubjectAndExpectationFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ComparingDictionaryItemX0AtX1BetweenSubjectAndExpectationFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect dictionaries {0} and {1} to be equal{{reason}}..
         /// </summary>
-        public static string Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat {
+        public static string Dictionary_DidNotExpectDictionariesX0AndX1ToBeEqualFormat {
             get {
-                return ResourceManager.GetString("Dictionary_DidNotExpectDictionariesXAndYToBeEqualFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_DidNotExpectDictionariesX0AndX1ToBeEqualFormat", resourceCulture);
             }
         }
         
@@ -2485,36 +2487,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain key {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryNotToContainKeyXFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainKeyX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainKeyXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainKeyX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but dictionary is {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButDictionaryIsX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButDictionaryIsZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButDictionaryIsX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0} at key {1}{{reason}}, but found it anyhow..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButFoundItFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXAtKeyYButFoundItFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueX0AtKeyX1ButFoundItFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} not to contain value {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryNotToContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryNotToContainValueX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryNotToContainValueX0Format", resourceCulture);
             }
         }
         
@@ -2530,180 +2532,180 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but could not find keys {1}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToX0ButCouldNotFindKeysX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButCouldNotFindKeysYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToX0ButCouldNotFindKeysX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but found additional keys {1}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToX0ButFoundMoreKeysX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButFoundMoreKeysYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToX0ButFoundMoreKeysX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}, but {1} differs at key {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToX0ButX1DiffersAtKeyX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXButYDiffersAtKeyZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToX0ButX1DiffersAtKeyX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to be equal to {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToBeEqualToXFormat {
+        public static string Dictionary_ExpectedDictionaryToBeEqualToX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToBeEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain at least {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainAtLeastX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtLeastXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtLeastX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain at most {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainAtMostX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtMostXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainAtMostX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain fewer than {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainFewerThanX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainFewerThanXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainFewerThanX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain keys {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainKeysXFormat {
+        public static string Dictionary_ExpectedDictionaryToContainKeysX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKeysXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKeysX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain key/value pairs {0}{{reason}}, but dictionary is {1}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainKvpX0ButDictionaryIsX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKvpXButDictionaryIsYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainKvpX0ButDictionaryIsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain more than {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToContainMoreThanX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainMoreThanXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainMoreThanX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but dictionary is {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButDictionaryIsX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYButDictionaryIsZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButDictionaryIsX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}, but the key was not found..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButKeyWasNotFoundFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYButKeyWasNotFoundFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1ButKeyWasNotFoundFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0} at key {1}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXAtKeyYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueX0AtKeyX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain value {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryToContainValueX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainValueX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to contain {0}{{reason}}, but {{context:dictionary}} differs at keys {1}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat {
+        public static string Dictionary_ExpectedDictionaryToContainX0ButDiffersAtKeysX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainXButDiffersAtKeysYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToContainX0ButDiffersAtKeysX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to have {0} items{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToHaveXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToHaveX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToHaveXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToHaveX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but dictionary is {1}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainKvpX0ButDictionaryIsX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpXButDictionaryIsYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpX0ButDictionaryIsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain key/value pairs {0}{{reason}}, but found them anyhow..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainKvpX0ButFoundThemFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpXButFoundThemFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainKvpX0ButFoundThemFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain value {0} at key {1}{{reason}}, but found it anyhow..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainValueX0AtKeyX1ButFoundItFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueXAtKeyYButFoundItFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueX0AtKeyX1ButFoundItFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to not contain value {0}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToNotContainValueXFormat {
+        public static string Dictionary_ExpectedDictionaryToNotContainValueX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotContainValueX0Format", resourceCulture);
             }
         }
         
@@ -2719,180 +2721,180 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} to not have {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryToNotHaveXItemsFormat {
+        public static string Dictionary_ExpectedDictionaryToNotHaveX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotHaveXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryToNotHaveX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} not to contain key {1}{{reason}}, but found it anyhow..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryX0NotToContainKeyX1ButFoundItFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXNotToContainKeyYButFoundItFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0NotToContainKeyX1ButFoundItFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} not to contain value {1}{{reason}}, but found it anyhow..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat {
+        public static string Dictionary_ExpectedDictionaryX0NotToContainValueX1ButFoundItFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXNotToContainValueYButFoundItFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0NotToContainValueX1ButFoundItFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain at least {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainAtLeastX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainAtLeastYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainAtLeastX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain at most {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainAtMostX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainAtMostYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainAtMostX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain fewer than {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainFewerThanX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainFewerThanYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainFewerThanX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key(s) {1}{{reason}}, but could not find keys {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainKeysX1ButCouldNotFindKeysX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeysYButCouldNotFindKeysZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainKeysX1ButCouldNotFindKeysX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key {1}{{reason}}, but could not find {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainKeyX1ButCouldNotFindX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeyYButCouldNotFindZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainKeyX1ButCouldNotFindX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain key {1}{{reason}}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainKeyX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainKeyYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainKeyX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain more than {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainMoreThanX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainMoreThanYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainMoreThanX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain value {1}{{reason}}, but could not find {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainValueX1ButCouldNotFindX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainValueYButCouldNotFindZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainValueX1ButCouldNotFindX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to contain value {1}{{reason}}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToContainValueYFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToContainValueX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToContainValueYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToContainValueX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to have a count {1}{{reason}}, but count is {2}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToHaveCountX1ButIsX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToHaveCountYButIsZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToHaveCountX1ButIsX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to have {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToHaveYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToHaveX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToHaveYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToHaveX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToNotContainKeyX1DotFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainKeyYDotFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToNotContainKeyX1DotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain key {1}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToNotContainKeyYFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToNotContainKeyX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainKeyYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToNotContainKeyX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}..
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToNotContainValueX1DotFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainValueYDotFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToNotContainValueX1DotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not contain value {1}{{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToNotContainValueYFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToNotContainValueX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotContainValueYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToNotContainValueX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:dictionary}} {0} to not have {1} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat {
+        public static string Dictionary_ExpectedDictionaryX0ToNotHaveX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedDictionaryXToNotHaveYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedDictionaryX0ToNotHaveX1ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be a {0}.
         /// </summary>
-        public static string Dictionary_ExpectedSubjectToBeAXFormat {
+        public static string Dictionary_ExpectedSubjectToBeAX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeAXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeAX0Format", resourceCulture);
             }
         }
         
@@ -2908,64 +2910,65 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be a dictionary with {0} item(s), but it only contains {1} item(s)..
         /// </summary>
-        public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat {
+        public static string Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsButItOnlyContainsX1ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsButItOnlyContainsX1ItemsFormat" +
+                        "", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be a dictionary with {0} item(s), .
         /// </summary>
-        public static string Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat {
+        public static string Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to be {0}.
         /// </summary>
-        public static string Dictionary_ExpectedSubjectToBeXFormat {
+        public static string Dictionary_ExpectedSubjectToBeX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedSubjectToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:subject}} to contain key {0}..
         /// </summary>
-        public static string Dictionary_ExpectedSubjectToContainKeyXFormat {
+        public static string Dictionary_ExpectedSubjectToContainKeyX0Format {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedSubjectToContainKeyXFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedSubjectToContainKeyX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} item(s){{reason}}.
         /// </summary>
-        public static string Dictionary_ExpectedXItemsFormat {
+        public static string Dictionary_ExpectedX0ItemsFormat {
             get {
-                return ResourceManager.GetString("Dictionary_ExpectedXItemsFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_ExpectedX0ItemsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Recursing into dictionary item {0} at {1}.
         /// </summary>
-        public static string Dictionary_RecursingIntoDictionaryItemXAtYFormat {
+        public static string Dictionary_RecursingIntoDictionaryItemX0AtX1Format {
             get {
-                return ResourceManager.GetString("Dictionary_RecursingIntoDictionaryItemXAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_RecursingIntoDictionaryItemX0AtX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The {{context:subject}} dictionary has keys of type {0}; however, the expectation is not keyed with any compatible types.{1}The subject implements: {2}.
         /// </summary>
-        public static string Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubjectImplementsZFormat {
+        public static string Dictionary_SubjectDictionaryHasKeysOfTypeX0ButExpectationIncompatibleTypesX1SubjectImplementsX2Format {
             get {
-                return ResourceManager.GetString("Dictionary_SubjectDictionaryHasKeysOfTypeXButExpectationIncompatibleTypesYSubject" +
-                        "ImplementsZFormat", resourceCulture);
+                return ResourceManager.GetString("Dictionary_SubjectDictionaryHasKeysOfTypeX0ButExpectationIncompatibleTypesX1Subje" +
+                        "ctImplementsX2Format", resourceCulture);
             }
         }
         
@@ -2981,54 +2984,54 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect the enum to have flag {0}{{reason}}..
         /// </summary>
-        public static string Enum_DidNotExpectTheEnumToHaveFlagXFormat {
+        public static string Enum_DidNotExpectTheEnumToHaveFlagX0Format {
             get {
-                return ResourceManager.GetString("Enum_DidNotExpectTheEnumToHaveFlagXFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_DidNotExpectTheEnumToHaveFlagX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Do not know how to handle {0}.
         /// </summary>
-        public static string Enum_DoNotKnowHowToHandleXFormat {
+        public static string Enum_DoNotKnowHowToHandleX0Format {
             get {
-                return ResourceManager.GetString("Enum_DoNotKnowHowToHandleXFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_DoNotKnowHowToHandleX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The enum was expected to have flag {0} but found {1}{{reason}}..
         /// </summary>
-        public static string Enum_EnumWasExpectedToHaveFlagXButFoundYFormat {
+        public static string Enum_EnumWasExpectedToHaveFlagX0ButFoundX1Format {
             get {
-                return ResourceManager.GetString("Enum_EnumWasExpectedToHaveFlagXButFoundYFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_EnumWasExpectedToHaveFlagX0ButFoundX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:enum}} to equal {0} by name{{reason}}.
         /// </summary>
-        public static string Enum_ExpectedEnumToEqualXByNameFormat {
+        public static string Enum_ExpectedEnumToEqualX0ByNameFormat {
             get {
-                return ResourceManager.GetString("Enum_ExpectedEnumToEqualXByNameFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_ExpectedEnumToEqualX0ByNameFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:enum}} to equal {0} by value{{reason}}.
         /// </summary>
-        public static string Enum_ExpectedEnumToEqualXByValueFormat {
+        public static string Enum_ExpectedEnumToEqualX0ByValueFormat {
             get {
-                return ResourceManager.GetString("Enum_ExpectedEnumToEqualXByValueFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_ExpectedEnumToEqualX0ByValueFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the enum to be of type {0} type but found {1}{{reason}}..
         /// </summary>
-        public static string Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat {
+        public static string Enum_ExpectedTheEnumToBeOfTypeX0ButFoundX1Format {
             get {
-                return ResourceManager.GetString("Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat", resourceCulture);
+                return ResourceManager.GetString("Enum_ExpectedTheEnumToBeOfTypeX0ButFoundX1Format", resourceCulture);
             }
         }
         
@@ -3053,9 +3056,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to No {0} was found to handle the context. .
         /// </summary>
-        public static string Equivalency_NoXWasFoundToHandleTheContextFormat {
+        public static string Equivalency_NoX0WasFoundToHandleTheContextFormat {
             get {
-                return ResourceManager.GetString("Equivalency_NoXWasFoundToHandleTheContextFormat", resourceCulture);
+                return ResourceManager.GetString("Equivalency_NoX0WasFoundToHandleTheContextFormat", resourceCulture);
             }
         }
         
@@ -3089,81 +3092,81 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect object {0} to raise the {1} event for property {2}{{reason}}, but it did..
         /// </summary>
-        public static string Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat {
+        public static string Event_DidNotExpectObjectX0ToRaiseEventX1ForPropertyX2ButItDidFormat {
             get {
-                return ResourceManager.GetString("Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat", resourceCulture);
+                return ResourceManager.GetString("Event_DidNotExpectObjectX0ToRaiseEventX1ForPropertyX2ButItDidFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected at least one event with arguments matching {0}, but found none..
         /// </summary>
-        public static string Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat {
+        public static string Event_ExpectedAtLeastOneEventWithArgsMatchingX0ButFoundNoneFormat {
             get {
-                return ResourceManager.GetString("Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedAtLeastOneEventWithArgsMatchingX0ButFoundNoneFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected event from sender &lt;{0}&gt;, but event {1} does not include any arguments.
         /// </summary>
-        public static string Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat {
+        public static string Event_ExpectedEventFromSenderX0ButEventX1DoesNotIncludeArgsFormat {
             get {
-                return ResourceManager.GetString("Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedEventFromSenderX0ButEventX1DoesNotIncludeArgsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to not raise event {1}{{reason}}, but it did..
         /// </summary>
-        public static string Event_ExpectedObjectXToNotRaiseEventYButItDidFormat {
+        public static string Event_ExpectedObjectX0ToNotRaiseEventX1ButItDidFormat {
             get {
-                return ResourceManager.GetString("Event_ExpectedObjectXToNotRaiseEventYButItDidFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedObjectX0ToNotRaiseEventX1ButItDidFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to raise event {1}{{reason}}, but it did not..
         /// </summary>
-        public static string Event_ExpectedObjectXToRaiseEventYButItDidNotFormat {
+        public static string Event_ExpectedObjectX0ToRaiseEventX1ButItDidNotFormat {
             get {
-                return ResourceManager.GetString("Event_ExpectedObjectXToRaiseEventYButItDidNotFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedObjectX0ToRaiseEventX1ButItDidNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected object {0} to raise event {1} for property {2}{{reason}}, but it did not..
         /// </summary>
-        public static string Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat {
+        public static string Event_ExpectedObjectX0ToRaiseEventX1ForPropertyX2ButItDidNotFormat {
             get {
-                return ResourceManager.GetString("Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedObjectX0ToRaiseEventX1ForPropertyX2ButItDidNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected sender {0}.
         /// </summary>
-        public static string Event_ExpectedSenderXFormat {
+        public static string Event_ExpectedSenderX0Format {
             get {
-                return ResourceManager.GetString("Event_ExpectedSenderXFormat", resourceCulture);
+                return ResourceManager.GetString("Event_ExpectedSenderX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No argument of event {0} is of type &lt;{1}&gt;..
         /// </summary>
-        public static string Event_NoArgumentOfEventXIsOfTypeYFormat {
+        public static string Event_NoArgumentOfEventX0IsOfTypeX1Format {
             get {
-                return ResourceManager.GetString("Event_NoArgumentOfEventXIsOfTypeYFormat", resourceCulture);
+                return ResourceManager.GetString("Event_NoArgumentOfEventX0IsOfTypeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not monitoring any events named &quot;{0}&quot;..
         /// </summary>
-        public static string Event_NotMonitoringAnyEventsNamedXFormat {
+        public static string Event_NotMonitoringAnyEventsNamedX0Format {
             get {
-                return ResourceManager.GetString("Event_NotMonitoringAnyEventsNamedXFormat", resourceCulture);
+                return ResourceManager.GetString("Event_NotMonitoringAnyEventsNamedX0Format", resourceCulture);
             }
         }
         
@@ -3179,9 +3182,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Type {0} does not expose any events..
         /// </summary>
-        public static string Event_TypeXDoesNotExposeAnyEventFormat {
+        public static string Event_TypeX0DoesNotExposeAnyEventFormat {
             get {
-                return ResourceManager.GetString("Event_TypeXDoesNotExposeAnyEventFormat", resourceCulture);
+                return ResourceManager.GetString("Event_TypeX0DoesNotExposeAnyEventFormat", resourceCulture);
             }
         }
         
@@ -3233,135 +3236,135 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {0}{{reason}}.
         /// </summary>
-        public static string Exception_DidNotExpectXFormat {
+        public static string Exception_DidNotExpectX0Format {
             get {
-                return ResourceManager.GetString("Exception_DidNotExpectXFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_DidNotExpectX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected a &lt;{0}&gt; to be thrown{{reason}}.
         /// </summary>
-        public static string Exception_ExpectedAXToBeThrownFormat {
+        public static string Exception_ExpectedAX0ToBeThrownFormat {
             get {
-                return ResourceManager.GetString("Exception_ExpectedAXToBeThrownFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_ExpectedAX0ToBeThrownFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected exception where {0}{{reason}}, but the condition was not met by:{1}{1}{2}..
         /// </summary>
-        public static string Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat {
+        public static string Exception_ExpectedExceptionWhereX0ButTheConditionWasNotMetByX1X1X2Format {
             get {
-                return ResourceManager.GetString("Exception_ExpectedExceptionWhereXButTheConditionWasNotMetByYYZFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_ExpectedExceptionWhereX0ButTheConditionWasNotMetByX1X1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected exception with message {0}{{reason}}.
         /// </summary>
-        public static string Exception_ExpectedExceptionWithMessageXFormat {
+        public static string Exception_ExpectedExceptionWithMessageX0Format {
             get {
-                return ResourceManager.GetString("Exception_ExpectedExceptionWithMessageXFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_ExpectedExceptionWithMessageX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected inner {0}{{reason}}.
         /// </summary>
-        public static string Exception_ExpectedInnerXFormat {
+        public static string Exception_ExpectedInnerX0Format {
             get {
-                return ResourceManager.GetString("Exception_ExpectedInnerXFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_ExpectedInnerX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{{reason}}.
         /// </summary>
-        public static string Exception_ExpectedXFormat {
+        public static string Exception_ExpectedX0Format {
             get {
-                return ResourceManager.GetString("Exception_ExpectedXFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_ExpectedX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}.
         /// </summary>
-        public static string Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat {
+        public static string Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneX0X1Format {
             get {
-                return ResourceManager.GetString("Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneXYFormat", resourceCulture);
+                return ResourceManager.GetString("Exception_MoreThanOneExceptionThrownCannotDetermineWhichOneX0X1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it required exactly {2}..
         /// </summary>
-        public static string ExecutionTime_CommaButItRequiredExactlyZFormat {
+        public static string ExecutionTime_CommaButItRequiredExactlyX2Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_CommaButItRequiredExactlyZFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_CommaButItRequiredExactlyX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but it required more than {2}..
         /// </summary>
-        public static string ExecutionTime_CommaButItRequiredMoreThanZFormat {
+        public static string ExecutionTime_CommaButItRequiredMoreThanX2Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_CommaButItRequiredMoreThanZFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_CommaButItRequiredMoreThanX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be greater or equal to {1}{{reason}}.
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeGreaterOrEqualToX1Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeGreaterOrEqualToYFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeGreaterOrEqualToX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be greater than {1}{{reason}}.
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeGreaterThanX1Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeGreaterThanYFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeGreaterThanX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be less or equal to {1}{{reason}}.
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeLessOrEqualToX1Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeLessOrEqualToYFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeLessOrEqualToX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be less than {1}{{reason}}.
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeLessThanYFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeLessThanX1Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeLessThanYFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeLessThanX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{{reason}}, but it required exactly {3}..
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredExactlyX3Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredExactlyWFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredExactlyX3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Execution of {0} should be within {1} from {2}{{reason}}, but it required more than {3}..
         /// </summary>
-        public static string ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat {
+        public static string ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredMoreThanX3Format {
             get {
-                return ResourceManager.GetString("ExecutionTime_ExecutionOfXShouldBeWithinYFromZButItRequiredMoreThanWFormat", resourceCulture);
+                return ResourceManager.GetString("ExecutionTime_ExecutionOfX0ShouldBeWithinX1FromX2ButItRequiredMoreThanX3Format", resourceCulture);
             }
         }
         
@@ -3404,9 +3407,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expression &lt;{0}&gt; cannot be used to select a member..
         /// </summary>
-        public static string Expression_ExpressionXCannotBeUsedToSelectMemberFormat {
+        public static string Expression_ExpressionX0CannotBeUsedToSelectMemberFormat {
             get {
-                return ResourceManager.GetString("Expression_ExpressionXCannotBeUsedToSelectMemberFormat", resourceCulture);
+                return ResourceManager.GetString("Expression_ExpressionX0CannotBeUsedToSelectMemberFormat", resourceCulture);
             }
         }
         
@@ -3422,18 +3425,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to , …{0} more….
         /// </summary>
-        public static string Formatter_CommaXMoreFormat {
+        public static string Formatter_CommaX0MoreFormat {
             get {
-                return ResourceManager.GetString("Formatter_CommaXMoreFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_CommaX0MoreFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {{Cyclic reference to type {0} detected}}.
         /// </summary>
-        public static string Formatter_CyclicReferenceToTypeXDetectedFormat {
+        public static string Formatter_CyclicReferenceToTypeX0DetectedFormat {
             get {
-                return ResourceManager.GetString("Formatter_CyclicReferenceToTypeXDetectedFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_CyclicReferenceToTypeX0DetectedFormat", resourceCulture);
             }
         }
         
@@ -3458,54 +3461,54 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to [Member &apos;{0}&apos; threw an exception: &apos;{1}&apos;].
         /// </summary>
-        public static string Formatter_MemberXThrewAnExceptionYFormat {
+        public static string Formatter_MemberX0ThrewAnExceptionX1Format {
             get {
-                return ResourceManager.GetString("Formatter_MemberXThrewAnExceptionYFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_MemberX0ThrewAnExceptionX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to System.Object (HashCode={0}).
         /// </summary>
-        public static string Formatter_SystemObjectHashCodeXFormat {
+        public static string Formatter_SystemObjectHashCodeX0Format {
             get {
-                return ResourceManager.GetString("Formatter_SystemObjectHashCodeXFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_SystemObjectHashCodeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Use the {0} delegate inside a {1} to recursively format children.
         /// </summary>
-        public static string Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat {
+        public static string Formatter_UseTheX0DelegateInsideX1ToRecursivelyFormatChildrenFormat {
             get {
-                return ResourceManager.GetString("Formatter_UseTheXDelegateInsideYToRecursivelyFormatChildrenFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_UseTheX0DelegateInsideX1ToRecursivelyFormatChildrenFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} (aggregated) exceptions:{1}.
         /// </summary>
-        public static string Formatter_XAggregatedExceptionsYFormat {
+        public static string Formatter_X0AggregatedExceptionsX1Format {
             get {
-                return ResourceManager.GetString("Formatter_XAggregatedExceptionsYFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_X0AggregatedExceptionsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} with message &quot;{1}&quot;{2}.
         /// </summary>
-        public static string Formatter_XWithMessageYZFormat {
+        public static string Formatter_X0WithMessageX1X2Format {
             get {
-                return ResourceManager.GetString("Formatter_XWithMessageYZFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_X0WithMessageX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}With {1}:{0}{2}.
         /// </summary>
-        public static string Formatter_XWithYColonXZFormat {
+        public static string Formatter_X0WithX1ColonX2Format {
             get {
-                return ResourceManager.GetString("Formatter_XWithYColonXZFormat", resourceCulture);
+                return ResourceManager.GetString("Formatter_X0WithX1ColonX2Format", resourceCulture);
             }
         }
         
@@ -3521,9 +3524,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:Guid}} to be {0}{{reason}}..
         /// </summary>
-        public static string Guid_DidNotExpectGuidToBeXFormat {
+        public static string Guid_DidNotExpectGuidToBeX0Format {
             get {
-                return ResourceManager.GetString("Guid_DidNotExpectGuidToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Guid_DidNotExpectGuidToBeX0Format", resourceCulture);
             }
         }
         
@@ -3539,9 +3542,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:Guid}} to be {0}{{reason}}.
         /// </summary>
-        public static string Guid_ExpectedGuidToBeXFormat {
+        public static string Guid_ExpectedGuidToBeX0Format {
             get {
-                return ResourceManager.GetString("Guid_ExpectedGuidToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Guid_ExpectedGuidToBeX0Format", resourceCulture);
             }
         }
         
@@ -3566,18 +3569,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Include member root.{0}.
         /// </summary>
-        public static string IncludeMemberRootDotXFormat {
+        public static string IncludeMemberRootDotX0Format {
             get {
-                return ResourceManager.GetString("IncludeMemberRootDotXFormat", resourceCulture);
+                return ResourceManager.GetString("IncludeMemberRootDotX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Include member when {0}.
         /// </summary>
-        public static string IncludeMemberWhenXFormat {
+        public static string IncludeMemberWhenX0Format {
             get {
-                return ResourceManager.GetString("IncludeMemberWhenXFormat", resourceCulture);
+                return ResourceManager.GetString("IncludeMemberWhenX0Format", resourceCulture);
             }
         }
         
@@ -3593,54 +3596,54 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Exclude member root.{0}.
         /// </summary>
-        public static string Member_ExcludeMemberRootXDotFormat {
+        public static string Member_ExcludeMemberRootX0DotFormat {
             get {
-                return ResourceManager.GetString("Member_ExcludeMemberRootXDotFormat", resourceCulture);
+                return ResourceManager.GetString("Member_ExcludeMemberRootX0DotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Exclude member when {0}.
         /// </summary>
-        public static string Member_ExcludeMemberWhenXFormat {
+        public static string Member_ExcludeMemberWhenX0Format {
             get {
-                return ResourceManager.GetString("Member_ExcludeMemberWhenXFormat", resourceCulture);
+                return ResourceManager.GetString("Member_ExcludeMemberWhenX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expectation has {0}.{1} that the other object does not have..
         /// </summary>
-        public static string Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat {
+        public static string Member_ExpectationHasMemberPathX0DotX1ThatTheOtherObjectDoesNotHaveFormat {
             get {
-                return ResourceManager.GetString("Member_ExpectationHasMemberPathXDotYThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
+                return ResourceManager.GetString("Member_ExpectationHasMemberPathX0DotX1ThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expectation has member {0} that the other object does not have..
         /// </summary>
-        public static string Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat {
+        public static string Member_ExpectationHasMemberX0ThatTheOtherObjectDoesNotHaveFormat {
             get {
-                return ResourceManager.GetString("Member_ExpectationHasMemberXThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
+                return ResourceManager.GetString("Member_ExpectationHasMemberX0ThatTheOtherObjectDoesNotHaveFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1} to be decorated with {2}{{reason}}.
         /// </summary>
-        public static string MemberInfo_ExpectedXYToBeDecoratedWithZFormat {
+        public static string MemberInfo_ExpectedX0X1ToBeDecoratedWithX2Format {
             get {
-                return ResourceManager.GetString("MemberInfo_ExpectedXYToBeDecoratedWithZFormat", resourceCulture);
+                return ResourceManager.GetString("MemberInfo_ExpectedX0X1ToBeDecoratedWithX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1} to not be decorated with {2}{{reason}}.
         /// </summary>
-        public static string MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat {
+        public static string MemberInfo_ExpectedX0X1ToNotBeDecoratedWithX2Format {
             get {
-                return ResourceManager.GetString("MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat", resourceCulture);
+                return ResourceManager.GetString("MemberInfo_ExpectedX0X1ToNotBeDecoratedWithX2Format", resourceCulture);
             }
         }
         
@@ -3665,90 +3668,90 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be async{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXNotToBeAsyncFormat {
+        public static string Method_ExpectedMethodX0NotToBeAsyncFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXNotToBeAsyncFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0NotToBeAsyncFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be virtual{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXNotToBeVirtualFormat {
+        public static string Method_ExpectedMethodX0NotToBeVirtualFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXNotToBeVirtualFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0NotToBeVirtualFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} not to be {1}{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXNotToBeYFormat {
+        public static string Method_ExpectedMethodX0NotToBeX1Format {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXNotToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0NotToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be async{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXToBeAsyncFormat {
+        public static string Method_ExpectedMethodX0ToBeAsyncFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXToBeAsyncFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0ToBeAsyncFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be virtual{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXToBeVirtualFormat {
+        public static string Method_ExpectedMethodX0ToBeVirtualFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXToBeVirtualFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0ToBeVirtualFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0} to be {1}{{reason}}.
         /// </summary>
-        public static string Method_ExpectedMethodXToBeYFormat {
+        public static string Method_ExpectedMethodX0ToBeX1Format {
             get {
-                return ResourceManager.GetString("Method_ExpectedMethodXToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedMethodX0ToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} not to be void{{reason}}.
         /// </summary>
-        public static string Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat {
+        public static string Method_ExpectedReturnTypeOfMethodX0NotToBeVoidFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXNotToBeVoidFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodX0NotToBeVoidFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} not to be {1}{{reason}}.
         /// </summary>
-        public static string Method_ExpectedReturnTypeOfMethodXNotToBeYFormat {
+        public static string Method_ExpectedReturnTypeOfMethodX0NotToBeX1Format {
             get {
-                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXNotToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodX0NotToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} to be void{{reason}}.
         /// </summary>
-        public static string Method_ExpectedReturnTypeOfMethodXToBeVoidFormat {
+        public static string Method_ExpectedReturnTypeOfMethodX0ToBeVoidFormat {
             get {
-                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXToBeVoidFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodX0ToBeVoidFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected the return type of method {0} to be {1}{{reason}}.
         /// </summary>
-        public static string Method_ExpectedReturnTypeOfMethodXToBeYFormat {
+        public static string Method_ExpectedReturnTypeOfMethodX0ToBeX1Format {
             get {
-                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodXToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Method_ExpectedReturnTypeOfMethodX0ToBeX1Format", resourceCulture);
             }
         }
         
@@ -3764,130 +3767,130 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods not to be virtual{{reason}}, but the following methods are virtual:{0}{1}.
         /// </summary>
-        public static string MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreX0X1Format {
             get {
-                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFor" +
-                        "mat", resourceCulture);
+                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreX0X1F" +
+                        "ormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to be decorated with {0}{{reason}}, but the following methods are not:{1}{2}.
         /// </summary>
-        public static string MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithX0ButFollowingMethodsAreNotX1X2Format {
             get {
-                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotY" +
-                        "ZFormat", resourceCulture);
+                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithX0ButFollowingMethodsAreNot" +
+                        "X1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to be virtual{{reason}}, but the following methods are not virtual:{0}{1}.
         /// </summary>
-        public static string MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotX0X1Format {
             get {
-                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFor" +
-                        "mat", resourceCulture);
+                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotX0X1F" +
+                        "ormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected methods to not be decorated with {0}{{reason}}, but the following methods are:{1}{2}.
         /// </summary>
-        public static string MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat {
+        public static string MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithX0ButFollowingMethodsAreX1X2Format {
             get {
-                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreY" +
-                        "ZFormat", resourceCulture);
+                return ResourceManager.GetString("MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithX0ButFollowingMethodsAre" +
+                        "X1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:value}} to be within {0} from {1}{{reason}}.
         /// </summary>
-        public static string Numeric_DidNotExpectValueToBeWithinXFromYFormat {
+        public static string Numeric_DidNotExpectValueToBeWithinX0FromX1Format {
             get {
-                return ResourceManager.GetString("Numeric_DidNotExpectValueToBeWithinXFromYFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_DidNotExpectValueToBeWithinX0FromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:value}} to be {0}{{reason}}..
         /// </summary>
-        public static string Numeric_DidNotExpectValueToBeXFormat {
+        public static string Numeric_DidNotExpectValueToBeX0Format {
             get {
-                return ResourceManager.GetString("Numeric_DidNotExpectValueToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_DidNotExpectValueToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be one of {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectecValueToBeOneOfXFormat {
+        public static string Numeric_ExpectecValueToBeOneOfX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectecValueToBeOneOfXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectecValueToBeOneOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to approximate {0} +/- {1}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToApproximateXYFormat {
+        public static string Numeric_ExpectedValueToApproximateX0X1Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToApproximateXYFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToApproximateX0X1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to approximate {1} +/- {2}{{reason}}, but {0} differed by {3}..
         /// </summary>
-        public static string Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat {
+        public static string Numeric_ExpectedValueToApproximateX1X2ButX0DifferedByX3Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToApproximateX1X2ButX0DifferedByX3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be between {0} and {1}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeBetweenXAndYFormat {
+        public static string Numeric_ExpectedValueToBeBetweenX0AndX1Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeBetweenXAndYFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeBetweenX0AndX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be greater or equal to {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeGreaterOrEqualToXFormat {
+        public static string Numeric_ExpectedValueToBeGreaterOrEqualToX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterOrEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterOrEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be greater than {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeGreaterThanXFormat {
+        public static string Numeric_ExpectedValueToBeGreaterThanX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterThanXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeGreaterThanX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be less or equal to {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeLessOrEqualToXFormat {
+        public static string Numeric_ExpectedValueToBeLessOrEqualToX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeLessOrEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeLessOrEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be less than {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeLessThanXFormat {
+        public static string Numeric_ExpectedValueToBeLessThanX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeLessThanXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeLessThanX0Format", resourceCulture);
             }
         }
         
@@ -3912,45 +3915,45 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be within {0} from {1}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeWithinXFromYFormat {
+        public static string Numeric_ExpectedValueToBeWithinX0FromX1Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeWithinXFromYFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeWithinX0FromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to be {0}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToBeXFormat {
+        public static string Numeric_ExpectedValueToBeX0Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to not approximate {0} +/- {1}{{reason}}, but it was {2}..
         /// </summary>
-        public static string Numeric_ExpectedValueToNotApproximateXYButItWasZFormat {
+        public static string Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateXYButItWasZFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to not approximate {1} +/- {2}{{reason}}, but {0} only differed by {3}..
         /// </summary>
-        public static string Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat {
+        public static string Numeric_ExpectedValueToNotApproximateX1X2ButX0DifferedByX3Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToNotApproximateX1X2ButX0DifferedByX3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:value}} to not be between {0} and {1}{{reason}}.
         /// </summary>
-        public static string Numeric_ExpectedValueToNotBeBetweenXAndYFormat {
+        public static string Numeric_ExpectedValueToNotBeBetweenX0AndX1Format {
             get {
-                return ResourceManager.GetString("Numeric_ExpectedValueToNotBeBetweenXAndYFormat", resourceCulture);
+                return ResourceManager.GetString("Numeric_ExpectedValueToNotBeBetweenX0AndX1Format", resourceCulture);
             }
         }
         
@@ -3975,27 +3978,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context}} to refer to {0}{{reason}}..
         /// </summary>
-        public static string Object_DidNotExpectContextToReferToXFormat {
+        public static string Object_DidNotExpectContextToReferToX0Format {
             get {
-                return ResourceManager.GetString("Object_DidNotExpectContextToReferToXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_DidNotExpectContextToReferToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:object}} to be equal to {0}{{reason}}..
         /// </summary>
-        public static string Object_DidNotExpectObjectToBeEqualToXFormat {
+        public static string Object_DidNotExpectObjectToBeEqualToX0Format {
             get {
-                return ResourceManager.GetString("Object_DidNotExpectObjectToBeEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_DidNotExpectObjectToBeEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {0}{{reason}}..
         /// </summary>
-        public static string Object_DidNotExpectXFormat {
+        public static string Object_DidNotExpectX0Format {
             get {
-                return ResourceManager.GetString("Object_DidNotExpectXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_DidNotExpectX0Format", resourceCulture);
             }
         }
         
@@ -4011,117 +4014,153 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} to not be between {0} and {1}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedObjectNotToBeBetweenXAndYFormat {
+        public static string Object_ExpectedObjectNotToBeBetweenX0AndX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectNotToBeBetweenXAndYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectNotToBeBetweenX0AndX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} not to be equivalent to {0}, but they are..
         /// </summary>
-        public static string Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat {
+        public static string Object_ExpectedObjectNotToBeEquivalentToX0ButTheyAreFormat {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectNotToBeEquivalentToX0ButTheyAreFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} to be between {0} and {1}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedObjectToBeBetweenXAndYFormat {
+        public static string Object_ExpectedObjectToBeBetweenX0AndX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectToBeBetweenXAndYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectToBeBetweenX0AndX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} to be equal to {0}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedObjectToBeEqualToXFormat {
+        public static string Object_ExpectedObjectToBeEqualToX0Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectToBeEqualToXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectToBeEqualToX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} to be {0}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedObjectToBeXFormat {
+        public static string Object_ExpectedObjectToBeX0Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} {0} to be greater or equal to {1}{{reason}}..
         /// </summary>
-        public static string Object_ExpectedObjectXToBeGreaterOrEqualToYFormat {
+        public static string Object_ExpectedObjectX0ToBeGreaterOrEqualToX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectXToBeGreaterOrEqualToYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectX0ToBeGreaterOrEqualToX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} {0} to be greater than {1}{{reason}}..
         /// </summary>
-        public static string Object_ExpectedObjectXToBeGreaterThanYFormat {
+        public static string Object_ExpectedObjectX0ToBeGreaterThanX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectXToBeGreaterThanYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectX0ToBeGreaterThanX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} {0} to be less or equal to {1}{{reason}}..
         /// </summary>
-        public static string Object_ExpectedObjectXToBeLessOrEqualToYFormat {
+        public static string Object_ExpectedObjectX0ToBeLessOrEqualToX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectXToBeLessOrEqualToYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectX0ToBeLessOrEqualToX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:object}} {0} to be less than {1}{{reason}}..
         /// </summary>
-        public static string Object_ExpectedObjectXToBeLessThanYFormat {
+        public static string Object_ExpectedObjectX0ToBeLessThanX1Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedObjectXToBeLessThanYFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedObjectX0ToBeLessThanX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedTypeToBeXFormat {
+        public static string Object_ExpectedTypeToBeX0Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedTypeToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedTypeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{{reason}}.
         /// </summary>
-        public static string Object_ExpectedXFormat {
+        public static string Object_ExpectedX0Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedXFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to be serializable{{reason}}, but serialization failed with:{1}{1}{2}..
         /// </summary>
-        public static string Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat {
+        public static string Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format {
             get {
-                return ResourceManager.GetString("Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat", resourceCulture);
+                return ResourceManager.GetString("Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:property}} {0} to have a getter{{reason}}.
         /// </summary>
-        public static string Property_ExpectedContextPropertyXToHaveAGetterFormat {
+        public static string Property_ExpectedContextPropertyX0ToHaveAGetterFormat {
             get {
-                return ResourceManager.GetString("Property_ExpectedContextPropertyXToHaveAGetterFormat", resourceCulture);
+                return ResourceManager.GetString("Property_ExpectedContextPropertyX0ToHaveAGetterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a getter{{reason}}..
+        /// </summary>
+        public static string Property_ExpectedPropertyX0NotToHaveAGetterFormat {
+            get {
+                return ResourceManager.GetString("Property_ExpectedPropertyX0NotToHaveAGetterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a setter{{reason}}..
+        /// </summary>
+        public static string Property_ExpectedPropertyX0NotToHaveASetterFormat {
+            get {
+                return ResourceManager.GetString("Property_ExpectedPropertyX0NotToHaveASetterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected property {0} to have a getter{{reason}}.
+        /// </summary>
+        public static string Property_ExpectedPropertyX0ToHaveAGetterFormat {
+            get {
+                return ResourceManager.GetString("Property_ExpectedPropertyX0ToHaveAGetterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:property}} {0} to have a setter{{reason}}..
+        /// </summary>
+        public static string Property_ExpectedPropertyX0ToHaveASetterFormat {
+            get {
+                return ResourceManager.GetString("Property_ExpectedPropertyX0ToHaveASetterFormat", resourceCulture);
             }
         }
         
@@ -4135,24 +4174,6 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a getter{{reason}}..
-        /// </summary>
-        public static string Property_ExpectedPropertyXNotToHaveAGetterFormat {
-            get {
-                return ResourceManager.GetString("Property_ExpectedPropertyXNotToHaveAGetterFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {{context:property}} {0} not to have a setter{{reason}}..
-        /// </summary>
-        public static string Property_ExpectedPropertyXNotToHaveASetterFormat {
-            get {
-                return ResourceManager.GetString("Property_ExpectedPropertyXNotToHaveASetterFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Expected property {0} to be virtual{{reason}}.
         /// </summary>
         public static string Property_ExpectedPropertyXToBeVirtual {
@@ -4162,38 +4183,20 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected property {0} to have a getter{{reason}}.
-        /// </summary>
-        public static string Property_ExpectedPropertyXToHaveAGetterFormat {
-            get {
-                return ResourceManager.GetString("Property_ExpectedPropertyXToHaveAGetterFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected {{context:property}} {0} to have a setter{{reason}}..
-        /// </summary>
-        public static string Property_ExpectedPropertyXToHaveASetterFormat {
-            get {
-                return ResourceManager.GetString("Property_ExpectedPropertyXToHaveASetterFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Expected Type of property {0} not to be {1}{{reason}}.
         /// </summary>
-        public static string Property_ExpectedTypeOfPropertyXNotToBeYFormat {
+        public static string Property_ExpectedTypeOfPropertyX0NotToBeX1Format {
             get {
-                return ResourceManager.GetString("Property_ExpectedTypeOfPropertyXNotToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Property_ExpectedTypeOfPropertyX0NotToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected Type of property {0} to be {1}{{reason}}.
         /// </summary>
-        public static string Property_ExpectedTypeOfPropertyXToBeYFormat {
+        public static string Property_ExpectedTypeOfPropertyX0ToBeX1Format {
             get {
-                return ResourceManager.GetString("Property_ExpectedTypeOfPropertyXToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Property_ExpectedTypeOfPropertyX0ToBeX1Format", resourceCulture);
             }
         }
         
@@ -4209,50 +4212,50 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties not to be decorated with {0}{{reason}}, but the following properties are:{1}{2}.
         /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingPropertiesAreYZFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithX0ButFollowingPropertiesAreX1X2Format {
             get {
-                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithXButFollowingProper" +
-                        "tiesAreYZFormat", resourceCulture);
+                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesNotToBeDecoratedWithX0ButFollowingPrope" +
+                        "rtiesAreX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties not to be virtual{{reason}}, but the following properties are virtual:{0}{1}.
         /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingPropertiesAreX0X1Format {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesNotToBeVirtualButTheFollowingProperties" +
-                        "AreXYFormat", resourceCulture);
+                        "AreX0X1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to be decorated with {0}{{reason}}, but the following properties are not:{1}{2}.
         /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertiesAreNotYZFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithX0ButFollowingPropertiesAreNotX1X2Format {
             get {
-                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithXButFollowingPropertie" +
-                        "sAreNotYZFormat", resourceCulture);
+                return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToBeDecoratedWithX0ButFollowingProperti" +
+                        "esAreNotX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to be virtual{{reason}}, but the following properties are not virtual:{0}{1}.
         /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAreNotX0X1Format {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToBeVirtualButTheFollowingPropertiesAre" +
-                        "NotXYFormat", resourceCulture);
+                        "NotX0X1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all selected properties to have a setter{{reason}}, but the following properties do not:{0}{1}.
         /// </summary>
-        public static string PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotXYFormat {
+        public static string PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesDoNotX0X1Format {
             get {
                 return ResourceManager.GetString("PropertyInfo_ExpectedAllSelectedPropertiesToHaveASetterButTheFollowingPropertiesD" +
-                        "oNotXYFormat", resourceCulture);
+                        "oNotX0X1Format", resourceCulture);
             }
         }
         
@@ -4268,54 +4271,54 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} not to be {0}{{reason}}.
         /// </summary>
-        public static string RefType_ExpectedContextNotToBeXFormat {
+        public static string RefType_ExpectedContextNotToBeX0Format {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} to be assignable to {0}{{reason}}, but {1} is not..
         /// </summary>
-        public static string RefType_ExpectedContextToBeAssignableToXButYIsNotFormat {
+        public static string RefType_ExpectedContextToBeAssignableToX0ButX1IsNotFormat {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextToBeAssignableToXButYIsNotFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextToBeAssignableToX0ButX1IsNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} to be &lt;null&gt;{{reason}}, but found {0}..
         /// </summary>
-        public static string RefType_ExpectedContextToBeNullButFoundXFormat {
+        public static string RefType_ExpectedContextToBeNullButFoundX0Format {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextToBeNullButFoundXFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextToBeNullButFoundX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} to be {0}{{reason}}.
         /// </summary>
-        public static string RefType_ExpectedContextToBeXFormat {
+        public static string RefType_ExpectedContextToBeX0Format {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} to not be assignable to {0}{{reason}}, but {1} is..
         /// </summary>
-        public static string RefType_ExpectedContextToNotBeAssignableXToButYIsFormat {
+        public static string RefType_ExpectedContextToNotBeAssignableX0ToButX1IsFormat {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextToNotBeAssignableXToButYIsFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextToNotBeAssignableX0ToButX1IsFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context}} to refer to {0}{{reason}}.
         /// </summary>
-        public static string RefType_ExpectedContextToReferToXFormat {
+        public static string RefType_ExpectedContextToReferToX0Format {
             get {
-                return ResourceManager.GetString("RefType_ExpectedContextToReferToXFormat", resourceCulture);
+                return ResourceManager.GetString("RefType_ExpectedContextToReferToX0Format", resourceCulture);
             }
         }
         
@@ -4331,18 +4334,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to but {1} does not..
         /// </summary>
-        public static string String_ButYDoesNotFormat {
+        public static string String_ButX1DoesNotFormat {
             get {
-                return ResourceManager.GetString("String_ButYDoesNotFormat", resourceCulture);
+                return ResourceManager.GetString("String_ButX1DoesNotFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to but {1} matches..
         /// </summary>
-        public static string String_ButYMatchesFormat {
+        public static string String_ButX1MatchesFormat {
             get {
-                return ResourceManager.GetString("String_ButYMatchesFormat", resourceCulture);
+                return ResourceManager.GetString("String_ButX1MatchesFormat", resourceCulture);
             }
         }
         
@@ -4484,18 +4487,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cannot match {{context:string}} against {0} because it is not a valid regular expression..
         /// </summary>
-        public static string String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat {
+        public static string String_CannotMatchStringAgainstX0BecauseItIsNotValidRegexFormat {
             get {
-                return ResourceManager.GetString("String_CannotMatchStringAgainstXBecauseItIsNotValidRegexFormat", resourceCulture);
+                return ResourceManager.GetString("String_CannotMatchStringAgainstX0BecauseItIsNotValidRegexFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to , but {1} does not match..
         /// </summary>
-        public static string String_CommaButYDoesNotMatchFormat {
+        public static string String_CommaButX1DoesNotMatchFormat {
             get {
-                return ResourceManager.GetString("String_CommaButYDoesNotMatchFormat", resourceCulture);
+                return ResourceManager.GetString("String_CommaButX1DoesNotMatchFormat", resourceCulture);
             }
         }
         
@@ -4511,63 +4514,63 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} to contain equivalent of {0}{{reason}} but found {1}..
         /// </summary>
-        public static string String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat {
+        public static string String_DidNotExpectStringToContainEquivalentOfX1ButFoundX2Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringToContainEquivalentOfYButFoundZFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringToContainEquivalentOfX1ButFoundX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} to match the equivalent of {0}{{reason}}, .
         /// </summary>
-        public static string String_DidNotExpectStringToMatchEquivalentOfXFormat {
+        public static string String_DidNotExpectStringToMatchEquivalentOfX0Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringToMatchEquivalentOfXFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringToMatchEquivalentOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} to match regex {0}{{reason}}, but {1} matches..
         /// </summary>
-        public static string String_DidNotExpectStringToMatchRegexXButYMatchesFormat {
+        public static string String_DidNotExpectStringToMatchRegexX0ButX1MatchesFormat {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringToMatchRegexXButYMatchesFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringToMatchRegexX0ButX1MatchesFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} to match {0}{{reason}}, .
         /// </summary>
-        public static string String_DidNotExpectStringToMatchXFormat {
+        public static string String_DidNotExpectStringToMatchX0Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringToMatchXFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringToMatchX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain all of the strings: {1}{{reason}}..
         /// </summary>
-        public static string String_DidNotExpectStringXToContainAllOfTheStringsYFormat {
+        public static string String_DidNotExpectStringX0ToContainAllOfTheStringsX1Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringXToContainAllOfTheStringsYFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringX0ToContainAllOfTheStringsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain any of the strings: {1}{{reason}}..
         /// </summary>
-        public static string String_DidNotExpectStringXToContainAnyOfTheStringsYFormat {
+        public static string String_DidNotExpectStringX0ToContainAnyOfTheStringsX1Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringXToContainAnyOfTheStringsYFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringX0ToContainAnyOfTheStringsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect {{context:string}} {0} to contain {1}{{reason}}..
         /// </summary>
-        public static string String_DidNotExpectStringXToContainYFormat {
+        public static string String_DidNotExpectStringX0ToContainX1Format {
             get {
-                return ResourceManager.GetString("String_DidNotExpectStringXToContainYFormat", resourceCulture);
+                return ResourceManager.GetString("String_DidNotExpectStringX0ToContainX1Format", resourceCulture);
             }
         }
         
@@ -4592,36 +4595,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} not to be {0}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringNotToBeXFormat {
+        public static string String_ExpectedStringNotToBeX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} that does not end with equivalent of {0}{{reason}}.
         /// </summary>
-        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} that does not end with equivalent of {0}.
         /// </summary>
-        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithEquivalentOfX0NoReasonFormat {
             get {
-                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfXNoReasonFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithEquivalentOfX0NoReasonFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} that does not end with {0}.
         /// </summary>
-        public static string String_ExpectedStringThatDoesNotEndWithXFormat {
+        public static string String_ExpectedStringThatDoesNotEndWithX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringThatDoesNotEndWithX0Format", resourceCulture);
             }
         }
         
@@ -4646,9 +4649,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} that ends with equivalent of {0}{{reason}}.
         /// </summary>
-        public static string String_ExpectedStringThatEndsWithEquivalentOfXFormat {
+        public static string String_ExpectedStringThatEndsWithEquivalentOfX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringThatEndsWithEquivalentOfXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringThatEndsWithEquivalentOfX0Format", resourceCulture);
             }
         }
         
@@ -4700,72 +4703,72 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to be one of {0}{{reason}}.
         /// </summary>
-        public static string String_ExpectedStringToBeOneOfXFormat {
+        public static string String_ExpectedStringToBeOneOfX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToBeOneOfXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToBeOneOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to contain equivalent of {0}{{reason}} but found {1}..
         /// </summary>
-        public static string String_ExpectedStringToContainEquivalentOfXButFoundYFormat {
+        public static string String_ExpectedStringToContainEquivalentOfX0ButFoundX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToContainEquivalentOfXButFoundYFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToContainEquivalentOfX0ButFoundX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to end with equivalent of {0}{{reason}}, but {1} is too short..
         /// </summary>
-        public static string String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat {
+        public static string String_ExpectedStringToEndWithEquivalentOfX0ButX1IsTooShortFormat {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToEndWithEquivalentOfXButYIsTooShortFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToEndWithEquivalentOfX0ButX1IsTooShortFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to end with {0}{{reason}}, but {1} is too short..
         /// </summary>
-        public static string String_ExpectedStringToEndWithXButYIsTooShortFormat {
+        public static string String_ExpectedStringToEndWithX0ButX1IsTooShortFormat {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToEndWithXButYIsTooShortFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToEndWithX0ButX1IsTooShortFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to match the equivalent of {0}{{reason}}, .
         /// </summary>
-        public static string String_ExpectedStringToMatchEquivalentOfXFormat {
+        public static string String_ExpectedStringToMatchEquivalentOfX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToMatchEquivalentOfXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToMatchEquivalentOfX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to match regex {0}{{reason}}.
         /// </summary>
-        public static string String_ExpectedStringToMatchRegexXFormat {
+        public static string String_ExpectedStringToMatchRegexX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToMatchRegexXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToMatchRegexX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to match {0}{{reason}}, .
         /// </summary>
-        public static string String_ExpectedStringToMatchXFormat {
+        public static string String_ExpectedStringToMatchX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToMatchXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToMatchX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} to not match regex {0}{{reason}}.
         /// </summary>
-        public static string String_ExpectedStringToNotMatchRegexXFormat {
+        public static string String_ExpectedStringToNotMatchRegexX0Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringToNotMatchRegexXFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringToNotMatchRegexX0Format", resourceCulture);
             }
         }
         
@@ -4790,135 +4793,135 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} with length {0}{{reason}}, but found string {1} with length {2}..
         /// </summary>
-        public static string String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat {
+        public static string String_ExpectedStringWithLengthX0ButFoundStringX1WithLengthX2Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringWithLengthXButFoundStringYWithLengthZFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringWithLengthX0ButFoundStringX1WithLengthX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} {0} not to end with {1}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringXNotToEndWithYFormat {
+        public static string String_ExpectedStringX0NotToEndWithX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringXNotToEndWithYFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringX0NotToEndWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain at least one of the strings: {1}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat {
+        public static string String_ExpectedStringX0ToContainAtLeastOneOfTheStringsX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringXToContainAtLeastOneOfTheStringsYFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringX0ToContainAtLeastOneOfTheStringsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain the strings: {1}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringXToContainTheStringsYFormat {
+        public static string String_ExpectedStringX0ToContainTheStringsX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringXToContainTheStringsYFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringX0ToContainTheStringsX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} {0} to contain {1}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringXToContainYFormat {
+        public static string String_ExpectedStringX0ToContainX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringXToContainYFormat", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringX0ToContainX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:string}} {0} to end with {1}{{reason}}..
         /// </summary>
-        public static string String_ExpectedStringXToEndWithYFormat {
+        public static string String_ExpectedStringX0ToEndWithX1Format {
             get {
-                return ResourceManager.GetString("String_ExpectedStringXToEndWithYFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} with a length of {1}{{reason}}, but {2} has a length of {3}, differs near {4}..
-        /// </summary>
-        public static string String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format {
-            get {
-                return ResourceManager.GetString("String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format", resourceCulture);
+                return ResourceManager.GetString("String_ExpectedStringX0ToEndWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}{{reason}}, but it has unexpected whitespace at the end..
         /// </summary>
-        public static string String_XButItHasUnexpectedWhitespaceAtTheEndFormat {
+        public static string String_X0ButItHasUnexpectedWhitespaceAtTheEndFormat {
             get {
-                return ResourceManager.GetString("String_XButItHasUnexpectedWhitespaceAtTheEndFormat", resourceCulture);
+                return ResourceManager.GetString("String_X0ButItHasUnexpectedWhitespaceAtTheEndFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}{{reason}}, but it misses some extra whitespace at the end..
         /// </summary>
-        public static string String_XButItMissesSomeExtraWhitespaceAtTheEndFormat {
+        public static string String_X0ButItMissesSomeExtraWhitespaceAtTheEndFormat {
             get {
-                return ResourceManager.GetString("String_XButItMissesSomeExtraWhitespaceAtTheEndFormat", resourceCulture);
+                return ResourceManager.GetString("String_X0ButItMissesSomeExtraWhitespaceAtTheEndFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}{{reason}}, but {1} differs near {2}..
         /// </summary>
-        public static string String_XButYDiffersNearZFormat {
+        public static string String_X0ButX1DiffersNearX2Format {
             get {
-                return ResourceManager.GetString("String_XButYDiffersNearZFormat", resourceCulture);
+                return ResourceManager.GetString("String_X0ButX1DiffersNearX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}{{reason}}, but {1} is too short..
         /// </summary>
-        public static string String_XButYIsTooShortFormat {
+        public static string String_X0ButX1IsTooShortFormat {
             get {
-                return ResourceManager.GetString("String_XButYIsTooShortFormat", resourceCulture);
+                return ResourceManager.GetString("String_X0ButX1IsTooShortFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0}{{reason}}.
         /// </summary>
-        public static string String_XFormat {
+        public static string String_X0Format {
             get {
-                return ResourceManager.GetString("String_XFormat", resourceCulture);
+                return ResourceManager.GetString("String_X0Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} with a length of {1}{{reason}}, but {2} has a length of {3}, differs near {4}..
+        /// </summary>
+        public static string String_X0WithALengthOfX1ButIX2HasALengthOfX3DiffersNearX4Format {
+            get {
+                return ResourceManager.GetString("String_X0WithALengthOfX1ButIX2HasALengthOfX3DiffersNearX4Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:task}} to complete within {0}{{reason}}..
         /// </summary>
-        public static string Task_ExpectedTaskToCompleteWithinXFormat {
+        public static string Task_ExpectedTaskToCompleteWithinX0Format {
             get {
-                return ResourceManager.GetString("Task_ExpectedTaskToCompleteWithinXFormat", resourceCulture);
+                return ResourceManager.GetString("Task_ExpectedTaskToCompleteWithinX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the assertion exception for the current test framework: &quot;{0}&quot;.
         /// </summary>
-        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat {
+        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0Format {
             get {
-                return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXFormat", resourceCulture);
+                return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Failed to create the assertion exception for the current test framework: &quot;{0}, {1}&quot;.
         /// </summary>
-        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat {
+        public static string TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0X1Format {
             get {
-                return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat", resourceCulture);
+                return ResourceManager.GetString("TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0X1Format", resourceCulture);
             }
         }
         
@@ -4934,18 +4937,18 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect any exceptions after {0}{{reason}}.
         /// </summary>
-        public static string TimeSpan_DidNotExpectAnyExceptionsAfterXFormat {
+        public static string TimeSpan_DidNotExpectAnyExceptionsAfterX0Format {
             get {
-                return ResourceManager.GetString("TimeSpan_DidNotExpectAnyExceptionsAfterXFormat", resourceCulture);
+                return ResourceManager.GetString("TimeSpan_DidNotExpectAnyExceptionsAfterX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The value of {0} must be non-negative..
         /// </summary>
-        public static string TimeSpan_TheValueOfXMustBeNonNegativeFormat {
+        public static string TimeSpan_TheValueOfX0MustBeNonNegativeFormat {
             get {
-                return ResourceManager.GetString("TimeSpan_TheValueOfXMustBeNonNegativeFormat", resourceCulture);
+                return ResourceManager.GetString("TimeSpan_TheValueOfX0MustBeNonNegativeFormat", resourceCulture);
             }
         }
         
@@ -4997,429 +5000,431 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0}{{reason}}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ButTheAttributeWasNotFoundOnTypesX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypes" +
-                        "YZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ButTheAttributeWasNotFoundOnType" +
+                        "sX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with or inherit {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ThatMatchesX2ButNoAttributeWasFoundOnTypesX2X3Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoun" +
-                        "dOnTypesZWFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ThatMatchesX2ButNoAttributeWasFo" +
+                        "undOnTypesX2X3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with {0}{{reason}}, but the attribute was not found on the following types:{1}{2}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithX0ButTheAttributeWasNotFoundOnTypesX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithX0ButTheAttributeWasNotFoundOnTypesX1X2Form" +
+                        "at", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to be decorated with {0} that matches {1}{{reason}}, but no matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToBeDecoratedWithX0ThatMatchesX1ButNoMatchingAttributeWasFoundOnTypesX2X3Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFound" +
-                        "OnTypesZWFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToBeDecoratedWithX0ThatMatchesX1ButNoMatchingAttributeWasFou" +
+                        "ndOnTypesX2X3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0}{{reason}}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ButAttributeWasFoundOnTypesX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZF" +
-                        "ormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ButAttributeWasFoundOnTypesX1" +
+                        "X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with or inherit {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ThatMatchesX1ButAttributeWasFoundOnTypesX2X3Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFou" +
-                        "ndOnTypesZWFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ThatMatchesX1ButAttributeWasF" +
+                        "oundOnTypesX2X3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with {0}{{reason}}, but the attribute was found on the following types:{1}{2}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithX0ButTheAttributeWasFoundOnTypesX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithX0ButTheAttributeWasFoundOnTypesX1X2Form" +
+                        "at", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected all types to not be decorated with {0} that matches {1}{{reason}}, but a matching attribute was found on the following types:{2}{3}..
         /// </summary>
-        public static string Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat {
+        public static string Type_ExpectedAllTypesToNotBeDecoratedWithX0ThatMatchesX1ButAMatchingAttributeWasFoundOnTypesX2X3Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFou" +
-                        "ndOnTypesZWFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedAllTypesToNotBeDecoratedWithX0ThatMatchesX1ButAMatchingAttributeWasF" +
+                        "oundOnTypesX2X3Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected constructor {0}({1}) not to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedConstructorXYNotToExistFormat {
+        public static string Type_ExpectedConstructorX0X1NotToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedConstructorXYNotToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedConstructorX0X1NotToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected constructor {0}({1}) to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedConstructorXYToExistFormat {
+        public static string Type_ExpectedConstructorX0X1ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedConstructorXYToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedConstructorX0X1ToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:{0}}} {1} to be assignable to {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedContextXYToBeAssignableToZFormat {
+        public static string Type_ExpectedContextX0X1ToBeAssignableToX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedContextXYToBeAssignableToZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedContextX0X1ToBeAssignableToX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {{context:{0}}} {1} to not be assignable to {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedContextXYToNotBeAssignableToZFormat {
+        public static string Type_ExpectedContextX0X1ToNotBeAssignableToX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedContextXYToNotBeAssignableToZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedContextX0X1ToNotBeAssignableToX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected indexer {0}[{1}] to not exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedIndexerXYToNotExistFormat {
+        public static string Type_ExpectedIndexerX0X1ToNotExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedIndexerXYToNotExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedIndexerX0X1ToNotExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0}({1}) to not exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedMethodXYToNotExistFormat {
+        public static string Type_ExpectedMethodX0X1ToNotExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedMethodXYToNotExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedMethodX0X1ToNotExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected method {0}.{1}({2}) to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedMethodXYZToExistFormat {
+        public static string Type_ExpectedMethodX0X1X2ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedMethodXYZToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedMethodX0X1X2ToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedPublicStaticExplicitXYToExistFormat {
+        public static string Type_ExpectedPublicStaticExplicitX0X1ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitXYToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitX0X1ToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected public static explicit {0}({1}) to not exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedPublicStaticExplicitXYToNotExistFormat {
+        public static string Type_ExpectedPublicStaticExplicitX0X1ToNotExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitXYToNotExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedPublicStaticExplicitX0X1ToNotExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedPublicStaticImplicitXYToExistFormat {
+        public static string Type_ExpectedPublicStaticImplicitX0X1ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitXYToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitX0X1ToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected public static implicit {0}({1}) to not exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedPublicStaticImplicitXYToNotExistFormat {
+        public static string Type_ExpectedPublicStaticImplicitX0X1ToNotExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitXYToNotExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedPublicStaticImplicitX0X1ToNotExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type not to be {0}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeNotToBeXFormat {
+        public static string Type_ExpectedTypeNotToBeX0Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type to be {0}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeToBeXFormat {
+        public static string Type_ExpectedTypeToBeX0Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be abstract{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXNotToBeAbstractFormat {
+        public static string Type_ExpectedTypeX0NotToBeAbstractFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXNotToBeAbstractFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0NotToBeAbstractFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be derived from {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXNotToBeDerivedFromYFormat {
+        public static string Type_ExpectedTypeX0NotToBeDerivedFromX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXNotToBeDerivedFromYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0NotToBeDerivedFromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be sealed{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXNotToBeSealedFormat {
+        public static string Type_ExpectedTypeX0NotToBeSealedFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXNotToBeSealedFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0NotToBeSealedFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be static{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXNotToBeStaticFormat {
+        public static string Type_ExpectedTypeX0NotToBeStaticFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXNotToBeStaticFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0NotToBeStaticFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} not to be {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXNotToBeYFormat {
+        public static string Type_ExpectedTypeX0NotToBeX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXNotToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0NotToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be abstract{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXToBeAbstractFormat {
+        public static string Type_ExpectedTypeX0ToBeAbstractFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeAbstractFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeAbstractFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat {
+        public static string Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithOrInheritYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with or inherit {1} that matches {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat {
+        public static string Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1ThatMatchesX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithOrInheritYThatMatchesZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeDecoratedWithOrInheritX1ThatMatchesX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeDecoratedWithYFormat {
+        public static string Type_ExpectedTypeX0ToBeDecoratedWithX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeDecoratedWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be decorated with {1} that matches {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat {
+        public static string Type_ExpectedTypeX0ToBeDecoratedWithX1ThatMatchesX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeDecoratedWithYThatMatchesZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeDecoratedWithX1ThatMatchesX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be derived from {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeDerivedFromYFormat {
+        public static string Type_ExpectedTypeX0ToBeDerivedFromX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeDerivedFromYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeDerivedFromX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be sealed{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXToBeSealedFormat {
+        public static string Type_ExpectedTypeX0ToBeSealedFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeSealedFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeSealedFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be static{{reason}}..
         /// </summary>
-        public static string Type_ExpectedTypeXToBeStaticFormat {
+        public static string Type_ExpectedTypeX0ToBeStaticFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeStaticFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeStaticFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to be {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToBeYFormat {
+        public static string Type_ExpectedTypeX0ToBeX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to implement interface {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToImplementInterfaceYFormat {
+        public static string Type_ExpectedTypeX0ToImplementInterfaceX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToImplementInterfaceYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToImplementInterfaceX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat {
+        public static string Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with or inherit {1} that matches {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat {
+        public static string Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1ThatMatchesX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithOrInheritYThatMatchesZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToNotBeDecoratedWithOrInheritX1ThatMatchesX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToNotBeDecoratedWithYFormat {
+        public static string Type_ExpectedTypeX0ToNotBeDecoratedWithX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToNotBeDecoratedWithX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not be decorated with {1} that matches {2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat {
+        public static string Type_ExpectedTypeX0ToNotBeDecoratedWithX1ThatMatchesX2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToNotBeDecoratedWithYThatMatchesZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToNotBeDecoratedWithX1ThatMatchesX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected type {0} to not implement interface {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedTypeXToNotImplementInterfaceYFormat {
+        public static string Type_ExpectedTypeX0ToNotImplementInterfaceX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedTypeXToNotImplementInterfaceYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedTypeX0ToNotImplementInterfaceX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to be of type {1}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXToBeOfTypeYFormat {
+        public static string Type_ExpectedX0ToBeOfTypeX1Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedXToBeOfTypeYFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0ToBeOfTypeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to explicitly implement {1}.{2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXToExplicitlyImplementYXFormat {
+        public static string Type_ExpectedX0ToExplicitlyImplementX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedXToExplicitlyImplementYXFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0ToExplicitlyImplementX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to not exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXToNotExistFormat {
+        public static string Type_ExpectedX0ToNotExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedXToNotExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0ToNotExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} to not explicitly implement {1}.{2}{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXToNotExplicitlyImplementYZFormat {
+        public static string Type_ExpectedX0ToNotExplicitlyImplementX1X2Format {
             get {
-                return ResourceManager.GetString("Type_ExpectedXToNotExplicitlyImplementYZFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0ToNotExplicitlyImplementX1X2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1}.{2} to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXYDotZToExistFormat {
+        public static string Type_ExpectedX0X1DotX2ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedXYDotZToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0X1DotX2ToExistFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0} {1}[{2}] to exist{{reason}}.
         /// </summary>
-        public static string Type_ExpectedXYZToExistFormat {
+        public static string Type_ExpectedX0X1X2ToExistFormat {
             get {
-                return ResourceManager.GetString("Type_ExpectedXYZToExistFormat", resourceCulture);
+                return ResourceManager.GetString("Type_ExpectedX0X1X2ToExistFormat", resourceCulture);
             }
         }
         
@@ -5444,27 +5449,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to {0} must be a class..
         /// </summary>
-        public static string Type_XMustBeAClassFormat {
+        public static string Type_X0MustBeAClassFormat {
             get {
-                return ResourceManager.GetString("Type_XMustBeAClassFormat", resourceCulture);
+                return ResourceManager.GetString("Type_X0MustBeAClassFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Treating {0} as a value type because Equals must be used..
         /// </summary>
-        public static string ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat {
+        public static string ValueType_TreatingX0AsValueTypeBecauseEqualsMustBeUsedFormat {
             get {
-                return ResourceManager.GetString("ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat", resourceCulture);
+                return ResourceManager.GetString("ValueType_TreatingX0AsValueTypeBecauseEqualsMustBeUsedFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Treating {0} as a value type because object overrides Equals..
         /// </summary>
-        public static string ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat {
+        public static string ValueType_TreatingX0AsValueTypeBecauseEqualsOverriddenFormat {
             get {
-                return ResourceManager.GetString("ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat", resourceCulture);
+                return ResourceManager.GetString("ValueType_TreatingX0AsValueTypeBecauseEqualsOverriddenFormat", resourceCulture);
             }
         }
         
@@ -5525,36 +5530,36 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Did not expect to find attribute {0} at {1}{{reason}}..
         /// </summary>
-        public static string Xml_DidNotExpectToFindAttributeXAtYFormat {
+        public static string Xml_DidNotExpectToFindAttributeX0AtX1Format {
             get {
-                return ResourceManager.GetString("Xml_DidNotExpectToFindAttributeXAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_DidNotExpectToFindAttributeX0AtX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML attribute to be {0}{{reason}}..
         /// </summary>
-        public static string Xml_DidNotExpectXmlAttributeToBeXFormat {
+        public static string Xml_DidNotExpectXmlAttributeToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_DidNotExpectXmlAttributeToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_DidNotExpectXmlAttributeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML document to be {0}, but found &lt;null&gt;..
         /// </summary>
-        public static string Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat {
+        public static string Xml_DidNotExpectXmlDocumentToBeX0ButFoundNullFormat {
             get {
-                return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeXButFoundNullFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeX0ButFoundNullFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Did not expect XML document to be {0}{{reason}}..
         /// </summary>
-        public static string Xml_DidNotExpectXmlDocumentToBeXFormat {
+        public static string Xml_DidNotExpectXmlDocumentToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_DidNotExpectXmlDocumentToBeX0Format", resourceCulture);
             }
         }
         
@@ -5570,27 +5575,27 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected attribute {0} at {1}{{reason}}, but found none..
         /// </summary>
-        public static string Xml_ExpectedAttributeXAtYButFoundNoneFormat {
+        public static string Xml_ExpectedAttributeX0AtX1ButFoundNoneFormat {
             get {
-                return ResourceManager.GetString("Xml_ExpectedAttributeXAtYButFoundNoneFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedAttributeX0AtX1ButFoundNoneFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected attribute {0} at {1} to have value {2}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedAttributeXAtYToHaveValueZFormat {
+        public static string Xml_ExpectedAttributeX0AtX1ToHaveValueX2Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedAttributeXAtYToHaveValueZFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedAttributeX0AtX1ToHaveValueX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected content to be {0} at {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedContentToBeXAtYFormat {
+        public static string Xml_ExpectedContentToBeX0AtX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedContentToBeXAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedContentToBeX0AtX1Format", resourceCulture);
             }
         }
         
@@ -5606,135 +5611,136 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Expected local name of element at {0} to be {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedLocalNameOfElementAtXToBeYFormat {
+        public static string Xml_ExpectedLocalNameOfElementAtX0ToBeX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedLocalNameOfElementAtXToBeYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedLocalNameOfElementAtX0ToBeX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected namespace of element {0} at {1} to be {2}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedNamespaceOfElementXAtYToBeZFormat {
+        public static string Xml_ExpectedNamespaceOfElementX0AtX1ToBeX2Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedNamespaceOfElementXAtYToBeZFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedNamespaceOfElementX0AtX1ToBeX2Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected node of type {0} at {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedNodeOfTypeXAtYFormat {
+        public static string Xml_ExpectedNodeOfTypeX0AtX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedNodeOfTypeXAtYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedNodeOfTypeX0AtX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected {0}{{reason}}, but found end of document..
         /// </summary>
-        public static string Xml_ExpectedXButFoundEndOfDocumentFormat {
+        public static string Xml_ExpectedX0ButFoundEndOfDocumentFormat {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXButFoundEndOfDocumentFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedX0ButFoundEndOfDocumentFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML attribute to be {0}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlAttributeToBeXFormat {
+        public static string Xml_ExpectedXmlAttributeToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlAttributeToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlAttributeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML attribute {0} to have value {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlAttributeXToHaveValueYFormat {
+        public static string Xml_ExpectedXmlAttributeX0ToHaveValueX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlAttributeXToHaveValueYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlAttributeX0ToHaveValueX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document to be {0}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlDocumentToBeXFormat {
+        public static string Xml_ExpectedXmlDocumentToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlDocumentToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlDocumentToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document to have root element &quot;{0}&quot;{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlDocumentToHaveRootElementXFormat {
+        public static string Xml_ExpectedXmlDocumentToHaveRootElementX0Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlDocumentToHaveRootElementXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlDocumentToHaveRootElementX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML document {0} to have root element with child &quot;{1}&quot;{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat {
+        public static string Xml_ExpectedXmlDocumentX0ToHaveRootElementWithChildX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlDocumentXToHaveRootElementWithChildYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlDocumentX0ToHaveRootElementWithChildX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element not to be {0}{{reason}}..
         /// </summary>
-        public static string Xml_ExpectedXmlElementNotToBeXFormat {
+        public static string Xml_ExpectedXmlElementNotToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementNotToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementNotToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element &apos;{0}&apos; to have value {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat {
+        public static string Xml_ExpectedXmlElementQuoteX0QuoteToHaveValueX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementQuoteX0QuoteToHaveValueX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element to be {0}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlElementToBeXFormat {
+        public static string Xml_ExpectedXmlElementToBeX0Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementToBeXFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element to have attribute {0} with value {1}{{reason}}, but found no such attribute in {2}.
         /// </summary>
-        public static string Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat {
+        public static string Xml_ExpectedXmlElementToHaveAttributeX0WithValueX1ButFoundNoSuchAttributeInX2Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementToHaveAttributeX0WithValueX1ButFoundNoSuchAttributeInX2Form" +
+                        "at", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element {0} to have child element &quot;{1}&quot;{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlElementXToHaveChildElementYFormat {
+        public static string Xml_ExpectedXmlElementX0ToHaveChildElementX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementXToHaveChildElementYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementX0ToHaveChildElementX1Format", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Expected XML element {0} to have value {1}{{reason}}.
         /// </summary>
-        public static string Xml_ExpectedXmlElementXToHaveValueYFormat {
+        public static string Xml_ExpectedXmlElementX0ToHaveValueX1Format {
             get {
-                return ResourceManager.GetString("Xml_ExpectedXmlElementXToHaveValueYFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_ExpectedXmlElementX0ToHaveValueX1Format", resourceCulture);
             }
         }
         
@@ -5750,9 +5756,9 @@ namespace FluentAssertions.Localization {
         /// <summary>
         ///   Looks up a localized string similar to {0} found at {1} is not supported for equivalency comparison..
         /// </summary>
-        public static string Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat {
+        public static string Xml_X0FoundAtX1IsNotSupportedForEquivalencyComparisonFormat {
             get {
-                return ResourceManager.GetString("Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat", resourceCulture);
+                return ResourceManager.GetString("Xml_X0FoundAtX1IsNotSupportedForEquivalencyComparisonFormat", resourceCulture);
             }
         }
     }

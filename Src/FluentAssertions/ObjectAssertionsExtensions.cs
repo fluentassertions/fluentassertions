@@ -60,7 +60,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat,
+                    .FailWith(Resources.Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format,
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);
@@ -113,7 +113,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat,
+                    .FailWith(Resources.Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format,
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);
@@ -193,7 +193,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Object_ExpectedXToBeSerializableButSerializationFailedWithYZFormat,
+                    .FailWith(Resources.Object_ExpectedX0ToBeSerializableButSerializationFailedWithX1X2Format,
                         assertions.Subject,
                         Environment.NewLine,
                         exc.Message);

@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
             {
                 if (Recursive)
                 {
-                    using (context.TraceBlock(path => string.Format(Resources.Collection_StructurallyComparingXAndExpectationYAtZFormat, subject, expectation, path)))
+                    using (context.TraceBlock(path => string.Format(Resources.Collection_StructurallyComparingX0AndExpectationX1AtX2Format, subject, expectation, path)))
                     {
                         AssertElementGraphEquivalency(subject, expectation);
                     }
@@ -45,7 +45,7 @@ namespace FluentAssertions.Equivalency
                 else
                 {
                     using (context.TraceBlock(path =>
-                        string.Format(Resources.Collection_ComparingSubjectXAndExpectationYAtZWithValueEqualityFormat, subject, expectation, path)))
+                        string.Format(Resources.Collection_ComparingSubjectX0AndExpectationX1AtX2WithValueEqualityFormat, subject, expectation, path)))
                     {
                         subject.Should().BeEquivalentTo(expectation);
                     }
@@ -57,13 +57,13 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(expectation is null))
-                .FailWith(Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundXFormat, new object[] { subject });
+                .FailWith(Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundX0Format, new object[] { subject });
         }
 
         private static Continuation AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
         {
             return AssertionScope.Current
-                .WithExpectation(Resources.Collection_ExpectedSubjectToBeCollectionWithXItemsFormat, expectation.Count)
+                .WithExpectation(Resources.Collection_ExpectedSubjectToBeCollectionWithX0ItemsFormat, expectation.Count)
                 .AssertEitherCollectionIsNotEmpty(subject, expectation)
                 .Then
                 .AssertCollectionHasEnoughItems(subject, expectation)
@@ -96,7 +96,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using (context.TraceBlock(path =>
-                    string.Format(Resources.Collection_StrictlyComparingExpectationXAtYToItemWithIndexZinWFormat, expectation, path, index, subjects)))
+                    string.Format(Resources.Collection_StrictlyComparingExpectationX0AtX1ToItemWithIndexZinX3Format, expectation, path, index, subjects)))
                 {
                     bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
                     if (!succeeded)
@@ -105,7 +105,7 @@ namespace FluentAssertions.Equivalency
                         if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
-                                string.Format(Resources.Collection_AbortingStrictOrderComparisonAfterXItemsFailedAtYFormat, FailedItemsFastFailThreshold, path));
+                                string.Format(Resources.Collection_AbortingStrictOrderComparisonAfterX0ItemsFailedAtX1Format, FailedItemsFastFailThreshold, path));
                             break;
                         }
                     }
@@ -121,7 +121,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using (context.TraceBlock(path =>
-                    string.Format(Resources.Collection_FindingBestMatchOfXWithinAllItemsInYAtZWFormat, expectation, subjects, path, index)))
+                    string.Format(Resources.Collection_FindingBestMatchOfX0WithinAllItemsInX1AtX2X3Format, expectation, subjects, path, index)))
                 {
                     bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
                     if (!succeeded)
@@ -130,7 +130,7 @@ namespace FluentAssertions.Equivalency
                         if (failedCount >= FailedItemsFastFailThreshold)
                         {
                             context.TraceSingle(path =>
-                                string.Format(Resources.Collection_FailFailingLooseOrderComparisonOfCollectionAfterXItemsFailedAtYFormat, FailedItemsFastFailThreshold, path));
+                                string.Format(Resources.Collection_FailFailingLooseOrderComparisonOfCollectionAfterX0ItemsFailedAtX1Format, FailedItemsFastFailThreshold, path));
                             break;
                         }
                     }
@@ -144,7 +144,7 @@ namespace FluentAssertions.Equivalency
         {
             var results = new AssertionResultSet();
             int index = 0;
-            GetTraceMessage getMessage = path => string.Format(Resources.Collection_ComparingSubjectAtXYWithExpectationAtXZFormat, path, index, expectationIndex);
+            GetTraceMessage getMessage = path => string.Format(Resources.Collection_ComparingSubjectAtX0X1WithExpectationAtXX2Format, path, index, expectationIndex);
             int indexToBeRemoved = -1;
 
             for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
@@ -165,7 +165,7 @@ namespace FluentAssertions.Equivalency
                     }
                     else
                     {
-                        context.TraceSingle(_ => string.Format(Resources.Collection_ContainedXFailuresFormat, failures.Length));
+                        context.TraceSingle(_ => string.Format(Resources.Collection_ContainedX0FailuresFormat, failures.Length));
                     }
                 }
             }

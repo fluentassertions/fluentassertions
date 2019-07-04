@@ -50,7 +50,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(XNode.DeepEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Xml_ExpectedXmlElementToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -85,7 +85,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((Subject is null && !(unexpected is null)) || !XNode.DeepEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementNotToBeXFormat, unexpected);
+                .FailWith(Resources.Xml_ExpectedXmlElementNotToBeX0Format, unexpected);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -183,7 +183,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementQuoteXQuoteToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlElementQuoteX0QuoteToHaveValueX1Format + Resources.Common_CommaButFoundX2Format,
                     Subject.Name, expected, Subject.Value);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -252,13 +252,13 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeX0WithValueX1ButFoundNoSuchAttributeInX2Format,
                     expectedText, expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlAttributeX0ToHaveValueX1Format + Resources.Common_CommaButFoundX2Format,
                     expectedText, expectedValue, attribute.Value);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -319,7 +319,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveChildElementYFormat + Resources.Xml_CommaButNoSuchChildElementWasFound,
+                .FailWith(Resources.Xml_ExpectedXmlElementX0ToHaveChildElementX1Format + Resources.Xml_CommaButNoSuchChildElementWasFound,
                     Subject, expected.ToString().ToAlreadyFormattedString());
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);

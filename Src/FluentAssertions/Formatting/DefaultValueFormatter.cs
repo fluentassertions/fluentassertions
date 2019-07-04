@@ -34,7 +34,7 @@ namespace FluentAssertions.Formatting
         {
             if (value.GetType() == typeof(object))
             {
-                return string.Format(Resources.Formatter_SystemObjectHashCodeXFormat, value.GetHashCode());
+                return string.Format(Resources.Formatter_SystemObjectHashCodeX0Format, value.GetHashCode());
             }
 
             string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
@@ -93,7 +93,7 @@ namespace FluentAssertions.Formatting
             }
             catch (Exception ex)
             {
-                propertyValue = string.Format(Resources.Formatter_MemberXThrewAnExceptionYFormat, selectedMemberInfo.Name, ex.Message);
+                propertyValue = string.Format(Resources.Formatter_MemberX0ThrewAnExceptionX1Format, selectedMemberInfo.Name, ex.Message);
             }
 
             return

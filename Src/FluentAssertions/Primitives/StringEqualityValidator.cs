@@ -20,10 +20,10 @@ namespace FluentAssertions.Primitives
         {
             return assertion
                 .ForCondition(!((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode)))
-                .FailWith(ExpectationDescription + Resources.String_XButItMissesSomeExtraWhitespaceAtTheEndFormat, expected)
+                .FailWith(ExpectationDescription + Resources.String_X0ButItMissesSomeExtraWhitespaceAtTheEndFormat, expected)
                 .Then
                 .ForCondition(!((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode)))
-                .FailWith(ExpectationDescription + Resources.String_XButItHasUnexpectedWhitespaceAtTheEndFormat, expected)
+                .FailWith(ExpectationDescription + Resources.String_X0ButItHasUnexpectedWhitespaceAtTheEndFormat, expected)
                 .SourceSucceeded;
         }
 
@@ -36,7 +36,7 @@ namespace FluentAssertions.Primitives
                         AlreadyFormattedString mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
 
                         return new FailReason(
-                            ExpectationDescription + Resources.String_Item1WithALengthOfItem2ButItem3HasALengthOfItem4DiffersNearItem5Format,
+                            ExpectationDescription + Resources.String_X0WithALengthOfX1ButIX2HasALengthOfX3DiffersNearX4Format,
                             expected, expected.Length, subject, subject.Length, mismatchSegment);
                     }
                ).SourceSucceeded;
@@ -76,7 +76,7 @@ namespace FluentAssertions.Primitives
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
             if (indexOfMismatch != -1)
             {
-                assertion.FailWith(ExpectationDescription + Resources.String_XButYDiffersNearZFormat,
+                assertion.FailWith(ExpectationDescription + Resources.String_X0ButX1DiffersNearX2Format,
                     expected, subject, subject.IndexedSegmentAt(indexOfMismatch).ToAlreadyFormattedString());
             }
         }

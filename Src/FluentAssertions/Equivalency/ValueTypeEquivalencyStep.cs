@@ -22,8 +22,8 @@ namespace FluentAssertions.Equivalency
                 context.TraceSingle(path =>
                 {
                     string strategyForm = strategy == EqualityStrategy.Equals
-                        ? Resources.ValueType_TreatingXAsValueTypeBecauseEqualsMustBeUsedFormat
-                        : Resources.ValueType_TreatingXAsValueTypeBecauseEqualsOverriddenFormat;
+                        ? Resources.ValueType_TreatingX0AsValueTypeBecauseEqualsMustBeUsedFormat
+                        : Resources.ValueType_TreatingX0AsValueTypeBecauseEqualsOverriddenFormat;
 
                     return string.Format(strategyForm, path);
                 });

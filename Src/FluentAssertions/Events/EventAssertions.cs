@@ -52,7 +52,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Event_ExpectedObjectXToRaiseEventYButItDidNotFormat, monitor.Subject, eventName);
+                    .FailWith(Resources.Event_ExpectedObjectX0ToRaiseEventX1ButItDidNotFormat, monitor.Subject, eventName);
             }
 
             return eventRecorder;
@@ -83,7 +83,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Event_ExpectedObjectXToNotRaiseEventYButItDidFormat, monitor.Subject, eventName);
+                    .FailWith(Resources.Event_ExpectedObjectX0ToNotRaiseEventX1ButItDidFormat, monitor.Subject, eventName);
             }
         }
 
@@ -116,7 +116,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Event_ExpectedObjectXToRaiseEventYForPropertyZButItDidNotFormat,
+                    .FailWith(Resources.Event_ExpectedObjectX0ToRaiseEventX1ForPropertyX2ButItDidNotFormat,
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
 
@@ -152,7 +152,7 @@ namespace FluentAssertions.Events
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Event_DidNotExpectObjectXToRaiseEventYForPropertyZButItDidFormat,
+                    .FailWith(Resources.Event_DidNotExpectObjectX0ToRaiseEventX1ForPropertyX2ButItDidFormat,
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
         }

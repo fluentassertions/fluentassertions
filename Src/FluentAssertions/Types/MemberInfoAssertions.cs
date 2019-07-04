@@ -85,7 +85,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MemberInfo_ExpectedXYToBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasNotFound,
+                .FailWith(Resources.MemberInfo_ExpectedX0X1ToBeDecoratedWithX2Format + Resources.Common_CommaButThatAttributeWasNotFound,
                     Identifier.ToAlreadyFormattedString(),
                     SubjectDescription.ToAlreadyFormattedString(),
                     typeof(TAttribute));
@@ -117,7 +117,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MemberInfo_ExpectedXYToNotBeDecoratedWithZFormat + Resources.Common_CommaButThatAttributeWasFound,
+                .FailWith(Resources.MemberInfo_ExpectedX0X1ToNotBeDecoratedWithX2Format + Resources.Common_CommaButThatAttributeWasFound,
                     Identifier.ToAlreadyFormattedString(),
                     SubjectDescription.ToAlreadyFormattedString(),
                     typeof(TAttribute));

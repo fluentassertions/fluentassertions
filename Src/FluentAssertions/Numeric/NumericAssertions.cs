@@ -46,7 +46,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -68,7 +68,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition((Subject is null && !expected.HasValue) || (!(Subject is null) && Subject.CompareTo(expected) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -90,7 +90,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject is null || Subject.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_DidNotExpectValueToBeXFormat, unexpected);
+                .FailWith(Resources.Numeric_DidNotExpectValueToBeX0Format, unexpected);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -111,7 +111,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition((Subject is null == unexpected.HasValue) || (!(Subject is null) && Subject.CompareTo(unexpected) != 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_DidNotExpectValueToBeXFormat, unexpected);
+                .FailWith(Resources.Numeric_DidNotExpectValueToBeX0Format, unexpected);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -131,7 +131,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBePositive + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBePositive + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -152,7 +152,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeNegative + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeNegative + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -174,7 +174,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeLessThanXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeLessThanX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -197,7 +197,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeLessOrEqualToXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeLessOrEqualToX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -220,7 +220,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeGreaterThanXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeGreaterThanX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -243,7 +243,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && Subject.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeGreaterOrEqualToXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeGreaterOrEqualToX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -274,7 +274,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && (Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeBetweenXAndYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeBetweenX0AndX1Format + Resources.Common_CommaButFoundX2Format,
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -305,7 +305,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && !((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToNotBeBetweenXAndYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToNotBeBetweenX0AndX1Format + Resources.Common_CommaButFoundX2Format,
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -341,7 +341,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!(Subject is null) && validValues.Contains((T)Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectecValueToBeOneOfXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Numeric_ExpectecValueToBeOneOfX0Format + Resources.Common_CommaButFoundX1Format,
                     validValues, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);

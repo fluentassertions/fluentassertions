@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency.Selection
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format(Resources.IncludeMemberWhenXFormat, description);
+            return string.Format(Resources.IncludeMemberWhenX0Format, description);
         }
     }
 }

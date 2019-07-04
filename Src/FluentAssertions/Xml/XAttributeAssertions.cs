@@ -45,7 +45,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlAttributeToBeXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                .FailWith(Resources.Xml_ExpectedXmlAttributeToBeX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -77,7 +77,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_DidNotExpectXmlAttributeToBeXFormat, unexpected);
+                .FailWith(Resources.Xml_DidNotExpectXmlAttributeToBeX0Format, unexpected);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -107,7 +107,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlAttributeX0ToHaveValueX1Format + Resources.Common_CommaButFoundX2Format,
                     ("'" + Subject.Name + "'").ToAlreadyFormattedString(),
                     expected, Subject.Value);
 

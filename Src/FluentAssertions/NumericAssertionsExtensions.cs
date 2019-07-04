@@ -322,7 +322,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(valueWithinBounds)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToBeWithinX0FromX1Format + Resources.Common_CommaButFoundX2Format,
                     delta, nearbyValue, actualValue);
         }
 
@@ -641,7 +641,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(valueOutsideBounds)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_DidNotExpectValueToBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Numeric_DidNotExpectValueToBeWithinX0FromX1Format + Resources.Common_CommaButFoundX2Format,
                     delta, distantValue, actualValue);
         }
 
@@ -673,7 +673,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasNull,
                     expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
@@ -712,7 +712,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasX2Format,
                     expectedValue, precision, parent.Subject);
 
             if (succeeded)
@@ -776,7 +776,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasNull,
                     expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
@@ -815,7 +815,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasX2Format,
                     expectedValue, precision, parent.Subject);
 
             if (succeeded)
@@ -879,7 +879,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasNull,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasNull,
                     expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
@@ -918,7 +918,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(expectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateXYFormat + Resources.Common_CommaButItWasZFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX0X1Format + Resources.Common_CommaButItWasX2Format,
                     expectedValue, precision, parent.Subject);
 
             if (succeeded)
@@ -966,7 +966,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToApproximateYZButXDifferedByWFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToApproximateX1X2ButX0DifferedByX3Format,
                     parent.Subject, expectedValue, precision, actualDifference);
         }
 
@@ -1034,7 +1034,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1133,7 +1133,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1232,7 +1232,7 @@ namespace FluentAssertions
             bool succeeded = Execute.Assertion
                 .ForCondition(parent.Subject != null && unexpectedValue != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateXYButItWasZFormat, unexpectedValue, precision, parent.Subject);
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateX0X1ButItWasX2Format, unexpectedValue, precision, parent.Subject);
 
             if (succeeded)
             {
@@ -1279,7 +1279,7 @@ namespace FluentAssertions
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateYZButXDifferedByWFormat,
+                .FailWith(Resources.Numeric_ExpectedValueToNotApproximateX1X2ButX0DifferedByX3Format,
                     parent.Subject, unexpectedValue, precision, actualDifference);
         }
 

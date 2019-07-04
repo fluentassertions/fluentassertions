@@ -66,7 +66,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundXFormat, Subject);
+                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundX0Format, Subject);
 
             return new AndConstraint<NullableGuidAssertions>(this);
         }
@@ -102,7 +102,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Guid_ExpectedGuidToBeXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject);
+                .FailWith(Resources.Guid_ExpectedGuidToBeX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject);
 
             return new AndConstraint<NullableGuidAssertions>(this);
         }

@@ -63,7 +63,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundXFormat, Subject);
+                .FailWith(Resources.Object_DidNotExpectAValue + Resources.Common_CommaButFoundX0Format, Subject);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }

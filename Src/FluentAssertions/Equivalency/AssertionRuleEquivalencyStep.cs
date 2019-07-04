@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
             bool subjectIsValidType =
                 AssertionScope.Current
                     .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith(Resources.Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat, context.SelectedMemberDescription,
+                    .FailWith(Resources.Assertion_ExpectedX0FromSubjectToBeAX1ButFoundAX2Format, context.SelectedMemberDescription,
                         typeof(TSubject), context.Subject?.GetType());
 
             bool expectationIsNull = context.Expectation is null;
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
             bool expectationIsValidType =
                 AssertionScope.Current
                     .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith(Resources.Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat, context.SelectedMemberDescription,
+                    .FailWith(Resources.Assertion_ExpectedX0FromExpectationToBeAX1ButFoundAX2Format, context.SelectedMemberDescription,
                         typeof(TSubject), context.SelectedMemberInfo.MemberType);
 
             if (subjectIsValidType && expectationIsValidType)
@@ -62,7 +62,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format(Resources.Assertion_InvokeActionXWhenYFormat, typeof(TSubject).Name, canHandle.Body);
+            return string.Format(Resources.Assertion_InvokeActionX0WhenX1Format, typeof(TSubject).Name, canHandle.Body);
         }
     }
 }

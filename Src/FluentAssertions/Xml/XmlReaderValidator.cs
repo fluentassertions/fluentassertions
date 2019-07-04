@@ -61,7 +61,7 @@ namespace FluentAssertions.Xml
             {
                 if (subjectReader.NodeType != otherReader.NodeType)
                 {
-                    return new ValidationResult(Resources.Xml_ExpectedNodeOfTypeXAtYFormat + Resources.Common_CommaButFoundZFormat,
+                    return new ValidationResult(Resources.Xml_ExpectedNodeOfTypeX0AtX1Format + Resources.Common_CommaButFoundX2Format,
                         otherReader.NodeType, GetCurrentLocation(), subjectReader.NodeType);
                 }
 
@@ -95,7 +95,7 @@ namespace FluentAssertions.Xml
                         break;
                     default:
                         throw new NotSupportedException(
-                            string.Format(Resources.Xml_XFoundAtYIsNotSupportedForEquivalencyComparisonFormat,
+                            string.Format(Resources.Xml_X0FoundAtX1IsNotSupportedForEquivalencyComparisonFormat,
                                 subjectReader.NodeType, GetCurrentLocation()));
                 }
 
@@ -113,13 +113,13 @@ namespace FluentAssertions.Xml
 
             if (!otherReader.EOF)
             {
-                return new ValidationResult(Resources.Xml_ExpectedXButFoundEndOfDocumentFormat,
+                return new ValidationResult(Resources.Xml_ExpectedX0ButFoundEndOfDocumentFormat,
                     otherReader.LocalName);
             }
 
             if (!subjectReader.EOF)
             {
-                return new ValidationResult(Resources.Xml_ExpectedEndOfDocument + Resources.Common_CommaButFoundXFormat,
+                return new ValidationResult(Resources.Xml_ExpectedEndOfDocument + Resources.Common_CommaButFoundX0Format,
                     subjectReader.LocalName);
             }
 
@@ -171,13 +171,13 @@ namespace FluentAssertions.Xml
 
                 if (expectedAttribute is null)
                 {
-                    return new ValidationResult(Resources.Xml_DidNotExpectToFindAttributeXAtYFormat,
+                    return new ValidationResult(Resources.Xml_DidNotExpectToFindAttributeX0AtX1Format,
                         subjectAttribute.QualifiedName, GetCurrentLocation());
                 }
 
                 if (subjectAttribute.Value != expectedAttribute.Value)
                 {
-                    return new ValidationResult(Resources.Xml_ExpectedAttributeXAtYToHaveValueZFormat + Resources.Common_CommaButFoundWFormat,
+                    return new ValidationResult(Resources.Xml_ExpectedAttributeX0AtX1ToHaveValueX2Format + Resources.Common_CommaButFoundX3Format,
                         subjectAttribute.LocalName, GetCurrentLocation(), expectedAttribute.Value, subjectAttribute.Value);
                 }
             }
@@ -189,7 +189,7 @@ namespace FluentAssertions.Xml
                         ea.NamespaceUri == sa.NamespaceUri
                         && sa.LocalName == ea.LocalName));
 
-                return new ValidationResult(Resources.Xml_ExpectedAttributeXAtYButFoundNoneFormat,
+                return new ValidationResult(Resources.Xml_ExpectedAttributeX0AtX1ButFoundNoneFormat,
                     missingAttribute.LocalName, GetCurrentLocation());
             }
 
@@ -219,13 +219,13 @@ namespace FluentAssertions.Xml
         {
             if (subjectReader.LocalName != otherReader.LocalName)
             {
-                return new ValidationResult(Resources.Xml_ExpectedLocalNameOfElementAtXToBeYFormat + Resources.Common_CommaButFoundZFormat,
+                return new ValidationResult(Resources.Xml_ExpectedLocalNameOfElementAtX0ToBeX1Format + Resources.Common_CommaButFoundX2Format,
                     GetCurrentLocation(), otherReader.LocalName, subjectReader.LocalName);
             }
 
             if (subjectReader.NamespaceURI != otherReader.NamespaceURI)
             {
-                return new ValidationResult(Resources.Xml_ExpectedNamespaceOfElementXAtYToBeZFormat  + Resources.Common_CommaButFoundWFormat,
+                return new ValidationResult(Resources.Xml_ExpectedNamespaceOfElementX0AtX1ToBeX2Format  + Resources.Common_CommaButFoundX3Format,
                     subjectReader.LocalName, GetCurrentLocation(), otherReader.NamespaceURI, subjectReader.NamespaceURI);
             }
 
@@ -239,7 +239,7 @@ namespace FluentAssertions.Xml
 
             if (subject != expected)
             {
-                return new ValidationResult(Resources.Xml_ExpectedContentToBeXAtYFormat + Resources.Common_CommaButFoundZFormat,
+                return new ValidationResult(Resources.Xml_ExpectedContentToBeX0AtX1Format + Resources.Common_CommaButFoundX2Format,
                     expected, GetCurrentLocation(), subject);
             }
 

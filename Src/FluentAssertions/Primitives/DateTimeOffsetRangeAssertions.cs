@@ -80,7 +80,7 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(GetBeforeStringFormatMessage() + Resources.Common_CommaButZDiffersWFormat,
+                        .FailWith(GetBeforeStringFormatMessage() + Resources.Common_CommaButX2DiffersX3Format,
                             timeSpan, target, subject, actual);
                 }
             }
@@ -117,7 +117,7 @@ namespace FluentAssertions.Primitives
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(GetAfterStringFormatMessage() + Resources.Common_CommaButZDiffersWFormat,
+                        .FailWith(GetAfterStringFormatMessage() + Resources.Common_CommaButX2DiffersX3Format,
                             timeSpan, target, subject, actual);
                 }
             }
@@ -130,19 +130,19 @@ namespace FluentAssertions.Primitives
             switch (condition)
             {
                 case TimeSpanCondition.AtLeast:
-                    return Resources.DateTime_ExpectedDateToBeAtLeastXBeforeYFormat;
+                    return Resources.DateTime_ExpectedDateToBeAtLeastX0BeforeX1Format;
 
                 case TimeSpanCondition.MoreThan:
-                    return Resources.DateTime_ExpectedDateToBeMoreThanXBeforeYFormat;
+                    return Resources.DateTime_ExpectedDateToBeMoreThanX0BeforeX1Format;
 
                 case TimeSpanCondition.Exactly:
-                    return Resources.DateTime_ExpectedDateToBeExactlyXBeforeYFormat;
+                    return Resources.DateTime_ExpectedDateToBeExactlyX0BeforeX1Format;
 
                 case TimeSpanCondition.Within:
-                    return Resources.DateTime_ExpectedDateToBeWithinXBeforeYFormat;
+                    return Resources.DateTime_ExpectedDateToBeWithinX0BeforeX1Format;
 
                 case TimeSpanCondition.LessThan:
-                    return Resources.DateTime_ExpectedDateToBeLessThanXBeforeYFormat;
+                    return Resources.DateTime_ExpectedDateToBeLessThanX0BeforeX1Format;
 
                 default:
                     throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message
@@ -154,19 +154,19 @@ namespace FluentAssertions.Primitives
             switch (condition)
             {
                 case TimeSpanCondition.AtLeast:
-                    return Resources.DateTime_ExpectedDateToBeAtLeastXAfterYFormat;
+                    return Resources.DateTime_ExpectedDateToBeAtLeastX0AfterX1Format;
 
                 case TimeSpanCondition.MoreThan:
-                    return Resources.DateTime_ExpectedDateToBeMoreThanXAfterYFormat;
+                    return Resources.DateTime_ExpectedDateToBeMoreThanX0AfterX1Format;
 
                 case TimeSpanCondition.Exactly:
-                    return Resources.DateTime_ExpectedDateToBeExactlyXAfterYFormat;
+                    return Resources.DateTime_ExpectedDateToBeExactlyX0AfterX1Format;
 
                 case TimeSpanCondition.Within:
-                    return Resources.DateTime_ExpectedDateToBeWithinXAfterYFormat;
+                    return Resources.DateTime_ExpectedDateToBeWithinX0AfterX1Format;
 
                 case TimeSpanCondition.LessThan:
-                    return Resources.DateTime_ExpectedDateToBeLessThanXAfterYFormat;
+                    return Resources.DateTime_ExpectedDateToBeLessThanX0AfterX1Format;
 
                 default:
                     throw new InvalidOperationException(); // TODO: Amaury - check exception type + add message

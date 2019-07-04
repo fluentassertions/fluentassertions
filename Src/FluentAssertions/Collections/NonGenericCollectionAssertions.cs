@@ -36,7 +36,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainX0ItemFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainXItemFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainX0ItemFormat + Resources.Common_CommaButFoundX1Format,
                     expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -68,7 +68,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToNotContainX0ItemsFormat + Resources.Common_CommaButFoundNull,
                         unexpected);
             }
 
@@ -77,7 +77,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToNotContainXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToNotContainX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     unexpected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -100,7 +100,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanX0ItemsFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -109,7 +109,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount > expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainMoreThanX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -132,7 +132,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastX0ItemsFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -141,7 +141,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount >= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainAtLeastX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
 
                 expected, actualCount);
 
@@ -165,7 +165,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanX0ItemsFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -174,7 +174,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount < expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainFewerThanX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -197,7 +197,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundNull,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostX0ItemsFormat + Resources.Common_CommaButFoundNull,
                         expected);
             }
 
@@ -206,7 +206,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount <= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainAtMostX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                     expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -235,7 +235,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToContainXItemsFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionToContainX0ItemsFormat + Resources.Common_CommaButFoundX1Format,
                         countPredicate.Body, Subject);
             }
 
@@ -247,7 +247,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionXToHaveCountYButCountIsZFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionX0ToHaveCountX1ButCountIsX2Format,
                         Subject, countPredicate.Body, actualCount);
             }
 

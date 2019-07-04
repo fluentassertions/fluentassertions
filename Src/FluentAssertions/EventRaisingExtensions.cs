@@ -22,14 +22,14 @@ namespace FluentAssertions
                 if (!recordedEvent.Parameters.Any())
                 {
                     throw new ArgumentException(string.Format(
-                        Resources.Event_ExpectedEventFromSenderXButEventYDoesNotIncludeArgsFormat,
+                        Resources.Event_ExpectedEventFromSenderX0ButEventX1DoesNotIncludeArgsFormat,
                         expectedSender, eventRecorder.EventName));
                 }
 
                 object actualSender = recordedEvent.Parameters.First();
                 Execute.Assertion
                     .ForCondition(ReferenceEquals(actualSender, expectedSender))
-                    .FailWith(Resources.Event_ExpectedSenderXFormat + Resources.Common_CommaButFoundYFormat, expectedSender, actualSender);
+                    .FailWith(Resources.Event_ExpectedSenderX0Format + Resources.Common_CommaButFoundX1Format, expectedSender, actualSender);
             }
 
             return eventRecorder;
@@ -44,13 +44,13 @@ namespace FluentAssertions
 
             if (!eventRecorder.First().Parameters.OfType<T>().Any())
             {
-                throw new ArgumentException(string.Format(Resources.Event_NoArgumentOfEventXIsOfTypeYFormat, eventRecorder.EventName, typeof(T)));
+                throw new ArgumentException(string.Format(Resources.Event_NoArgumentOfEventX0IsOfTypeX1Format, eventRecorder.EventName, typeof(T)));
             }
 
             if (eventRecorder.All(recordedEvent => !recordedEvent.Parameters.OfType<T>().Any(parameter => compiledPredicate(parameter))))
             {
                 Execute.Assertion
-                    .FailWith(Resources.Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat, predicate.Body);
+                    .FailWith(Resources.Event_ExpectedAtLeastOneEventWithArgsMatchingX0ButFoundNoneFormat, predicate.Body);
             }
 
             return eventRecorder;
@@ -65,7 +65,7 @@ namespace FluentAssertions
 
             if (!eventRecorder.First().Parameters.OfType<T>().Any())
             {
-                throw new ArgumentException(string.Format(Resources.Event_NoArgumentOfEventXIsOfTypeYFormat, eventRecorder.EventName, typeof(T)));
+                throw new ArgumentException(string.Format(Resources.Event_NoArgumentOfEventX0IsOfTypeX1Format, eventRecorder.EventName, typeof(T)));
             }
 
             bool expected = eventRecorder.Any(recordedEvent =>
@@ -85,7 +85,7 @@ namespace FluentAssertions
             if (!expected)
             {
                 Execute.Assertion
-                    .FailWith(Resources.Event_ExpectedAtLeastOneEventWithArgsMatchingXButFoundNoneFormat, string.Join(" | ", predicates.Where(p => p != null).Select(p => p.Body.ToString())));
+                    .FailWith(Resources.Event_ExpectedAtLeastOneEventWithArgsMatchingX0ButFoundNoneFormat, string.Join(" | ", predicates.Where(p => p != null).Select(p => p.Body.ToString())));
             }
 
             return eventRecorder;

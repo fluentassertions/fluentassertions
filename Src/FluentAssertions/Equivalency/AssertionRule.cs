@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             this.predicate = predicate.Compile();
             this.action = action;
-            description = string.Format(Resources.Assertion_InvokeActionXWhenYFormat, typeof(TSubject).Name, predicate.Body);
+            description = string.Format(Resources.Assertion_InvokeActionX0WhenX1Format, typeof(TSubject).Name, predicate.Body);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
                 bool subjectIsValidType =
                     AssertionScope.Current
                         .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith(Resources.Assertion_ExpectedXFromSubjectToBeAYButFoundAZFormat,
+                        .FailWith(Resources.Assertion_ExpectedX0FromSubjectToBeAX1ButFoundAX2Format,
                             context.SelectedMemberDescription.ToAlreadyFormattedString(),
                             typeof(TSubject), context.Subject?.GetType());
 
@@ -51,7 +51,7 @@ namespace FluentAssertions.Equivalency
                 bool expectationIsValidType =
                     AssertionScope.Current
                         .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith(Resources.Assertion_ExpectedXFromExpectationToBeAYButFoundAZFormat,
+                        .FailWith(Resources.Assertion_ExpectedX0FromExpectationToBeAX1ButFoundAX2Format,
                             context.SelectedMemberDescription.ToAlreadyFormattedString(),
                             typeof(TSubject), context.Expectation?.GetType());
 

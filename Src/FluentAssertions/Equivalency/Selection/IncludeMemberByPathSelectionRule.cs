@@ -36,7 +36,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override string ToString()
         {
-            return string.Format(Resources.IncludeMemberRootDotXFormat, memberToInclude);
+            return string.Format(Resources.IncludeMemberRootDotX0Format, memberToInclude);
         }
     }
 }

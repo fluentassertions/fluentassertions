@@ -123,7 +123,7 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            throw new NotImplementedException(string.Format(Resources.Equivalency_NoXWasFoundToHandleTheContextFormat, nameof(IEquivalencyStep)));
+            throw new NotImplementedException(string.Format(Resources.Equivalency_NoX0WasFoundToHandleTheContextFormat, nameof(IEquivalencyStep)));
         }
     }
 }

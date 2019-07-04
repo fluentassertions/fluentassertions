@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency.Selection
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format(Resources.Member_ExcludeMemberWhenXFormat, description);
+            return string.Format(Resources.Member_ExcludeMemberWhenX0Format, description);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace FluentAssertions.Execution
             if (exceptionType is null)
             {
                 throw new Exception(string.Format(
-                    Resources.TestFwk_FailedToCreateAssertionExceptionForTestFrameworkXYFormat,
+                    Resources.TestFwk_FailedToCreateAssertionExceptionForTestFrameworkX0X1Format,
                     ExceptionFullName, assembly.FullName));
             }
 

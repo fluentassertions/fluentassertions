@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
                 .FailWith(Resources.Collection_CommaButFoundEmptyCollection)
                 .Then
                 .ForCondition((subject.Count == 0) || (expectation.Count > 0))
-                .FailWith(Resources.Collection_CommaButXZContainsYItemsFormat,
+                .FailWith(Resources.Collection_CommaButX0X2ContainsX1ItemsFormat,
                     subject,
                     subject.Count,
                     Environment.NewLine);
@@ -24,7 +24,7 @@ namespace FluentAssertions.Equivalency
         {
             return scope
                 .ForCondition(subject.Count >= expectation.Count)
-                .FailWith(Resources.Collection_CommaButXWContainsYItemsLessThanWZFormat,
+                .FailWith(Resources.Collection_CommaButX0X3ContainsX1ItemsLessThanWX2Format,
                     subject,
                     expectation.Count - subject.Count,
                     expectation,
@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency
         {
             return scope
                 .ForCondition(subject.Count <= expectation.Count)
-                .FailWith(Resources.Collection_CommaButXWContainsYItemsMoreThanWZFormat,
+                .FailWith(Resources.Collection_CommaButX0X3ContainsX1ItemsMoreThanWX2Format,
                     subject,
                     subject.Count - expectation.Count,
                     expectation,

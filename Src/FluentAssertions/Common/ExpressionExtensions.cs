@@ -36,7 +36,7 @@ namespace FluentAssertions.Common
             }
 
             throw new ArgumentException(
-                string.Format(Resources.Expression_ExpressionXCannotBeUsedToSelectMemberFormat, expression.Body),
+                string.Format(Resources.Expression_ExpressionX0CannotBeUsedToSelectMemberFormat, expression.Body),
                 nameof(expression));
         }
 
@@ -98,7 +98,7 @@ namespace FluentAssertions.Common
             var declaringTypes = new List<Type>();
             Expression node = expression;
 
-            var unsupportedExpressionMessage = string.Format(Resources.Expression_ExpressionXCannotBeUsedToSelectMemberFormat, expression.Body);
+            var unsupportedExpressionMessage = string.Format(Resources.Expression_ExpressionX0CannotBeUsedToSelectMemberFormat, expression.Body);
 
             while (node != null)
             {

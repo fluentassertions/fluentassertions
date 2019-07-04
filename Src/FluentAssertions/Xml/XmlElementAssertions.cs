@@ -53,7 +53,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.InnerText == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlElementX0ToHaveValueX1Format + Resources.Common_CommaButFoundX2Format,
                     Subject.Name, expected, Subject.InnerText);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -131,13 +131,13 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeXWithValueYButFoundNoSuchAttributeInZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlElementToHaveAttributeX0WithValueX1ButFoundNoSuchAttributeInX2Format,
                     expectedFormattedName, expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlAttributeXToHaveValueYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Xml_ExpectedXmlAttributeX0ToHaveValueX1Format + Resources.Common_CommaButFoundX2Format,
                     expectedFormattedName, expectedValue, attribute.Value);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -213,7 +213,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Xml_ExpectedXmlElementXToHaveChildElementYFormat + Resources.Xml_CommaButNoSuchChildElementWasFound,
+                .FailWith(Resources.Xml_ExpectedXmlElementX0ToHaveChildElementX1Format + Resources.Xml_CommaButNoSuchChildElementWasFound,
                     Subject, expectedFormattedName.ToAlreadyFormattedString());
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);

@@ -21,14 +21,14 @@ namespace FluentAssertions.Equivalency
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
                 .FailWith(
-                    Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundXFormat,
+                    Resources.Common_ExpectedSubjectToBeNull + Resources.Common_CommaButFoundX0Format,
                     context.Subject);
 
             bool subjectIsNotNull =
                 AssertionScope.Current.ForCondition(
                     !(context.Subject is null))
                     .FailWith(
-                        Resources.Object_ExpectedObjectToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                        Resources.Object_ExpectedObjectToBeX0Format + Resources.Common_CommaButFoundX1Format,
                         context.Expectation,
                         context.Subject);
 

@@ -44,7 +44,7 @@ namespace FluentAssertions
                     matchedElements.Select(
                         ele => "\t" + Formatter.ToString(ele)));
 
-                string message = string.Format(Resources.Constraint_MoreThanOneObjectFoundFoundObjectsXYFormat,
+                string message = string.Format(Resources.Constraint_MoreThanOneObjectFoundFoundObjectsX0X1Format,
                     Environment.NewLine,
                     foundObjects);
 

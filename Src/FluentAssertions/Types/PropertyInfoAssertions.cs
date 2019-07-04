@@ -77,7 +77,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedPropertyXToHaveASetterFormat,
+                .FailWith(Resources.Property_ExpectedPropertyX0ToHaveASetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -119,7 +119,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedPropertyXNotToHaveASetterFormat,
+                .FailWith(Resources.Property_ExpectedPropertyX0NotToHaveASetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedPropertyXToHaveAGetterFormat + Resources.Common_CommaButItDoesNot,
+                .FailWith(Resources.Property_ExpectedPropertyX0ToHaveAGetterFormat + Resources.Common_CommaButItDoesNot,
                     Subject.Name.ToAlreadyFormattedString());
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -181,7 +181,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedPropertyXNotToHaveAGetterFormat,
+                .FailWith(Resources.Property_ExpectedPropertyX0NotToHaveAGetterFormat,
                     Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -203,7 +203,7 @@ namespace FluentAssertions.Types
         {
             Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedTypeOfPropertyXToBeYFormat + Resources.Common_CommaButItIsZFormat,
+                .FailWith(Resources.Property_ExpectedTypeOfPropertyX0ToBeX1Format + Resources.Common_CommaButItIsX2Format,
                     Subject.Name.ToAlreadyFormattedString(),
                     propertyType, Subject.PropertyType);
 
@@ -242,7 +242,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Property_ExpectedTypeOfPropertyXNotToBeYFormat + Resources.Common_CommaButItIs,
+                .FailWith(Resources.Property_ExpectedTypeOfPropertyX0NotToBeX1Format + Resources.Common_CommaButItIs,
                     Subject.Name.ToAlreadyFormattedString(),
                     propertyType);
 

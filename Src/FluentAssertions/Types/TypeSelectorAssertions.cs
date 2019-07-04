@@ -49,7 +49,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithXButTheAttributeWasNotFoundOnTypesYZFormat,
+                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithX0ButTheAttributeWasNotFoundOnTypesX1X2Format,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutAttribute));
@@ -83,7 +83,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToBeDecoratedWithXThatMatchesYButNoMatchingAttributeWasFoundOnTypesZWFormat,
+                    Resources.Type_ExpectedAllTypesToBeDecoratedWithX0ThatMatchesX1ButNoMatchingAttributeWasFoundOnTypesX2X3Format,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -113,7 +113,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXButTheAttributeWasNotFoundOnTypesYZFormat,
+                    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ButTheAttributeWasNotFoundOnTypesX1X2Format,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutAttribute));
@@ -146,13 +146,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                //.FailWith(
-                //    Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat,
-                //    typeof(TAttribute),
-                //    isMatchingAttributePredicate.Body,
-                //    Environment.NewLine,
-                //    GetDescriptionsFor(typesWithoutMatchingAttribute));
-                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritXThatMatchesZButNoAttributeWasFoundOnTypesZWFormat,
+                .FailWith(Resources.Type_ExpectedAllTypesToBeDecoratedWithOrInheritX0ThatMatchesX2ButNoAttributeWasFoundOnTypesX2X3Format,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -182,7 +176,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithXButTheAttributeWasFoundOnTypesYZFormat,
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithX0ButTheAttributeWasFoundOnTypesX1X2Format,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithAttribute));
@@ -216,7 +210,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithXThatMatchesYButAMatchingAttributeWasFoundOnTypesZWFormat,
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithX0ThatMatchesX1ButAMatchingAttributeWasFoundOnTypesX2X3Format,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,
@@ -246,7 +240,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXButAttributeWasFoundOnTypesYZFormat,
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ButAttributeWasFoundOnTypesX1X2Format,
                     typeof(TAttribute),
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithAttribute));
@@ -280,7 +274,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!typesWithMatchingAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritXThatMatchesYButAttributeWasFoundOnTypesZWFormat,
+                    Resources.Type_ExpectedAllTypesToNotBeDecoratedWithOrInheritX0ThatMatchesX1ButAttributeWasFoundOnTypesX2X3Format,
                     typeof(TAttribute),
                     isMatchingAttributePredicate.Body,
                     Environment.NewLine,

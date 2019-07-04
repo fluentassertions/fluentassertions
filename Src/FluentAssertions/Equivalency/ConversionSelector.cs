@@ -35,14 +35,14 @@ namespace FluentAssertions.Equivalency
         {
             inclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
-                string.Format(Resources.Conversion_TryConversionOfMemberXSpaceFormat, predicate.Body)));
+                string.Format(Resources.Conversion_TryConversionOfMemberX0SpaceFormat, predicate.Body)));
         }
 
         public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
         {
             exclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
-                string.Format(Resources.Conversion_DoNotConvertMemberXFormat, predicate.Body)));
+                string.Format(Resources.Conversion_DoNotConvertMemberX0Format, predicate.Body)));
         }
 
         public bool RequiresConversion(IMemberInfo info)

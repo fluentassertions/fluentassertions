@@ -37,7 +37,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectToBeEqualToXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Object_ExpectedObjectToBeEqualToX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -126,7 +126,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(unexpected) != Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_DidNotExpectObjectToBeEqualToXFormat, unexpected);
+                .FailWith(Resources.Object_DidNotExpectObjectToBeEqualToX0Format, unexpected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -149,7 +149,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) < Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectXToBeLessThanYFormat, Subject, expected);
+                .FailWith(Resources.Object_ExpectedObjectX0ToBeLessThanX1Format, Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -172,7 +172,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectXToBeLessOrEqualToYFormat, Subject, expected);
+                .FailWith(Resources.Object_ExpectedObjectX0ToBeLessOrEqualToX1Format, Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -195,7 +195,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectXToBeGreaterThanYFormat, Subject, expected);
+                .FailWith(Resources.Object_ExpectedObjectX0ToBeGreaterThanX1Format, Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -218,7 +218,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectXToBeGreaterOrEqualToYFormat, Subject, expected);
+                .FailWith(Resources.Object_ExpectedObjectX0ToBeGreaterOrEqualToX1Format, Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -248,7 +248,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectToBeBetweenXAndYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Object_ExpectedObjectToBeBetweenX0AndX1Format + Resources.Common_CommaButFoundX2Format,
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -279,7 +279,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectNotToBeBetweenXAndYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.Object_ExpectedObjectNotToBeBetweenX0AndX1Format + Resources.Common_CommaButFoundX2Format,
                     minimumValue, maximumValue, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);

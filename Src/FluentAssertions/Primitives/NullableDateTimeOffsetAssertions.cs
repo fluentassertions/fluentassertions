@@ -35,7 +35,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedVariableToHaveAValue + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.DateTime_ExpectedVariableToHaveAValue + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
@@ -72,7 +72,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_DidNotExpectVariableToHaveAValue + Resources.Common_CommaButFoundXFormat,
+                .FailWith(Resources.DateTime_DidNotExpectVariableToHaveAValue + Resources.Common_CommaButFoundX0Format,
                     Subject);
 
             return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
@@ -111,7 +111,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateToBeXFormat +Resources.Common_CommaButItWasYFormat,
+                .FailWith(Resources.DateTime_ExpectedDateToBeX0Format +Resources.Common_CommaButItWasX1Format,
                     expected, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);

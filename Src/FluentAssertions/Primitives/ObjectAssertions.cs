@@ -32,7 +32,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
-                .FailWith(Resources.Object_ExpectedObjectToBeXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.Object_ExpectedObjectToBeX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_DidNotExpectObjectToBeEqualToXFormat, unexpected);
+                .FailWith(Resources.Object_DidNotExpectObjectToBeEqualToX0Format, unexpected);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -187,7 +187,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedObjectNotToBeEquivalentToXButTheyAreFormat, unexpected);
+                .FailWith(Resources.Object_ExpectedObjectNotToBeEquivalentToX0ButTheyAreFormat, unexpected);
         }
 
         /// <summary>
@@ -207,14 +207,14 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .FailWith(Resources.Object_ExpectedTypeToBeXFormat + Resources.Common_CommaButFoundNull, expectedFlag.GetType())
+                .FailWith(Resources.Object_ExpectedTypeToBeX0Format + Resources.Common_CommaButFoundNull, expectedFlag.GetType())
                 .Then
                 .ForCondition(Subject.GetType() == expectedFlag.GetType())
-                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat, expectedFlag.GetType(), Subject.GetType())
+                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeX0ButFoundX1Format, expectedFlag.GetType(), Subject.GetType())
                 .Then
                 .Given(() => Subject as Enum)
                 .ForCondition(@enum => @enum.HasFlag(expectedFlag))
-                .FailWith(Resources.Enum_EnumWasExpectedToHaveFlagXButFoundYFormat, _ => expectedFlag, @enum => @enum);
+                .FailWith(Resources.Enum_EnumWasExpectedToHaveFlagX0ButFoundX1Format, _ => expectedFlag, @enum => @enum);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -236,14 +236,14 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .FailWith(Resources.Object_ExpectedTypeToBeXFormat + Resources.Common_CommaButFoundNull, unexpectedFlag.GetType())
+                .FailWith(Resources.Object_ExpectedTypeToBeX0Format + Resources.Common_CommaButFoundNull, unexpectedFlag.GetType())
                 .Then
                 .ForCondition(Subject.GetType() == unexpectedFlag.GetType())
-                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeXButFoundYFormat, unexpectedFlag.GetType(), Subject.GetType())
+                .FailWith(Resources.Enum_ExpectedTheEnumToBeOfTypeX0ButFoundX1Format, unexpectedFlag.GetType(), Subject.GetType())
                 .Then
                 .Given(() => Subject as Enum)
                 .ForCondition(@enum => !@enum.HasFlag(unexpectedFlag))
-                .FailWith(Resources.Enum_DidNotExpectTheEnumToHaveFlagXFormat, unexpectedFlag);
+                .FailWith(Resources.Enum_DidNotExpectTheEnumToHaveFlagX0Format, unexpectedFlag);
 
             return new AndConstraint<ObjectAssertions>(this);
         }

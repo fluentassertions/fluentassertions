@@ -104,7 +104,7 @@ namespace FluentAssertions.Execution
                 }
                 catch (FormatException formatException)
                 {
-                    return string.Format(Resources.Assertion_WarningBecauseMessageXCouldNotBeFormattedWithStringFormatYZFormat,
+                    return string.Format(Resources.Assertion_WarningBecauseMessageX0CouldNotBeFormattedWithStringFormatX1X2Format,
                         because, Environment.NewLine, formatException.StackTrace);
                 }
             };

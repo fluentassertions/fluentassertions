@@ -66,7 +66,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(type is null))
-                .FailWith(Resources.Array_CannotCompareMultiDimArrayToXFormat, new object[] { null })
+                .FailWith(Resources.Array_CannotCompareMultiDimArrayToX0Format, new object[] { null })
                 .Then
                 .ForCondition(type is Array)
                 .FailWith(Resources.Array_CannotCompareMultiDimArrayToSomethingElse);
@@ -83,7 +83,7 @@ namespace FluentAssertions.Equivalency
 
                 sameDimensions &= AssertionScope.Current
                     .ForCondition(expectedLength == actualLength)
-                    .FailWith(Resources.Array_ExpectedDimensionXToContainYItemsFormat + Resources.Common_CommaButFoundZFormat,
+                    .FailWith(Resources.Array_ExpectedDimensionX0ToContainX1ItemsFormat + Resources.Common_CommaButFoundX2Format,
                         dimension, expectedLength, actualLength);
             }
 
@@ -96,7 +96,7 @@ namespace FluentAssertions.Equivalency
 
             return AssertionScope.Current
                 .ForCondition(subjectAsArray.Rank == expectation.Rank)
-                .FailWith(Resources.Array_ExpectedArrayToHaveXDimensionsButItHasYFormat, expectation.Rank,
+                .FailWith(Resources.Array_ExpectedArrayToHaveX0DimensionsButItHasX1Format, expectation.Rank,
                     subjectAsArray.Rank);
         }
     }

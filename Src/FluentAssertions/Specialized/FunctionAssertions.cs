@@ -89,13 +89,13 @@ namespace FluentAssertions.Specialized
             if (waitTime < TimeSpan.Zero)
             {
                 throw new ArgumentOutOfRangeException(nameof(waitTime),
-                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(waitTime)));
+                    string.Format(Resources.TimeSpan_TheValueOfX0MustBeNonNegativeFormat, nameof(waitTime)));
             }
 
             if (pollInterval < TimeSpan.Zero)
             {
                 throw new ArgumentOutOfRangeException(nameof(pollInterval),
-                    string.Format(Resources.TimeSpan_TheValueOfXMustBeNonNegativeFormat, nameof(pollInterval)));
+                    string.Format(Resources.TimeSpan_TheValueOfX0MustBeNonNegativeFormat, nameof(pollInterval)));
             }
 
             TimeSpan? invocationEndTime = null;
@@ -120,7 +120,7 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.TimeSpan_DidNotExpectAnyExceptionsAfterXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.TimeSpan_DidNotExpectAnyExceptionsAfterX0Format + Resources.Common_CommaButFoundX1Format,
                     waitTime, exception);
 
             return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));

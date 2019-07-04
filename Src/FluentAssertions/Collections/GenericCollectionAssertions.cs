@@ -52,7 +52,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainNullOnXFormat + Resources.Common_CommaButFoundYFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionNotToContainNullOnX0Format + Resources.Common_CommaButFoundX1Format,
                         predicate.Body,
                         values);
             }
@@ -77,7 +77,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundXFormat, Subject);
+                    .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItems + Resources.Common_CommaButFoundX0Format, Subject);
             }
 
             Func<T, TKey> compiledPredicate = predicate.Compile();
@@ -93,7 +93,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemsYAreNotFormat,
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemsX1AreNotFormat,
                             predicate.Body,
                             groupWithMultipleItems.SelectMany(g => g));
                 }
@@ -101,7 +101,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnXButItemYIsNotUniqueFormat,
+                        .FailWith(Resources.Collection_ExpectedCollectionToOnlyHaveUniqueItemsOnX0ButItemX1IsNotUniqueFormat,
                             predicate.Body,
                             groupWithMultipleItems[0].First());
                 }
@@ -261,7 +261,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith(Resources.Collection_ExpectedCollectionXToBeOrderedYAndResultInZFormat,
+                    .FailWith(Resources.Collection_ExpectedCollectionX0ToBeOrderedX1AndResultInX2Format,
                         Subject, orderString, expectation);
             }
 
@@ -279,7 +279,7 @@ namespace FluentAssertions.Collections
             return Execute.Assertion
                 .ForCondition(!(Subject is null))
                 .BecauseOf(because, args)
-                .FailWith(Resources.Collection_ExpectedCollectionToBeOrderedByXFormat + Resources.Common_CommaButFoundNull,
+                .FailWith(Resources.Collection_ExpectedCollectionToBeOrderedByX0Format + Resources.Common_CommaButFoundNull,
                     propertyExpression.GetMemberPath());
         }
 
@@ -407,7 +407,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(elementsCount == inspectorsCount)
-                .FailWith(Resources.Collection_ExpectedCollectionToContainExactlyXItemsButContainsYFormat,
+                .FailWith(Resources.Collection_ExpectedCollectionToContainExactlyX0ItemsButContainsX1Format,
                     inspectorsCount, elementsCount);
 
             string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
@@ -446,7 +446,7 @@ namespace FluentAssertions.Collections
                         AlreadyFormattedString failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')))
                             .ToAlreadyFormattedString();
                         // FailWith formatting is not used because of extra quotes being added.
-                        Execute.Assertion.FailWith(Resources.Collection_AtIndexXFailuresFormat,
+                        Execute.Assertion.FailWith(Resources.Collection_AtIndexX0FailuresFormat,
                             index, Environment.NewLine, failures);
                     }
 

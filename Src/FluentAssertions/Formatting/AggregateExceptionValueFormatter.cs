@@ -45,7 +45,7 @@ namespace FluentAssertions.Formatting
             {
                 var builder = new StringBuilder();
 
-                builder.AppendFormat(Resources.Formatter_XAggregatedExceptionsYFormat, exception.InnerExceptions.Count, Environment.NewLine);
+                builder.AppendFormat(Resources.Formatter_X0AggregatedExceptionsX1Format, exception.InnerExceptions.Count, Environment.NewLine);
 
                 foreach (Exception innerException in exception.InnerExceptions)
                 {

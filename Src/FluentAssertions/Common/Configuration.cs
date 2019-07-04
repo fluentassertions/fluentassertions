@@ -68,7 +68,7 @@ namespace FluentAssertions.Common
                 catch (ArgumentException)
                 {
                     throw new InvalidOperationException(string.Format(
-                        Resources.Configuration_XIsNotValidOptionForValueFormattersFormat,
+                        Resources.Configuration_X0IsNotValidOptionForValueFormattersFormat,
                         setting));
                 }
             }

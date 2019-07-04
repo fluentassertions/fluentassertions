@@ -45,7 +45,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBePositive + Resources.Common_CommaButFoundXFormat, Subject.Value);
+                .FailWith(Resources.DateTime_ExpectedTimeToBePositive + Resources.Common_CommaButFoundX0Format, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -70,7 +70,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeNegative + Resources.Common_CommaButFoundXFormat, Subject.Value);
+                .FailWith(Resources.DateTime_ExpectedTimeToBeNegative + Resources.Common_CommaButFoundX0Format, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -92,12 +92,12 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedXFormat + Resources.Common_CommaButFoundNull, expected);
+                .FailWith(Resources.Object_ExpectedX0Format + Resources.Common_CommaButFoundNull, expected);
 
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_ExpectedXFormat + Resources.Common_CommaButFoundYFormat, expected, Subject.Value);
+                .FailWith(Resources.Object_ExpectedX0Format + Resources.Common_CommaButFoundX1Format, expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -119,7 +119,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || Subject.Value.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.Object_DidNotExpectXFormat, unexpected);
+                .FailWith(Resources.Object_DidNotExpectX0Format, unexpected);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -141,12 +141,12 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeLessThanXFormat + Resources.Common_CommaButFoundNull, expected);
+                .FailWith(Resources.DateTime_ExpectedTimeToBeLessThanX0Format + Resources.Common_CommaButFoundNull, expected);
 
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeLessThanXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToBeLessThanX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -169,12 +169,12 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeLessOrEqualToXFormat + Resources.Common_CommaButFoundNull, expected);
+                .FailWith(Resources.DateTime_ExpectedTimeToBeLessOrEqualToX0Format + Resources.Common_CommaButFoundNull, expected);
 
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeLessOrEqualToXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToBeLessOrEqualToX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -197,12 +197,12 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterThanXFormat + Resources.Common_CommaButFoundNull, expected);
+                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterThanX0Format + Resources.Common_CommaButFoundNull, expected);
 
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterThanXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterThanX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -226,12 +226,12 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat + Resources.Common_CommaButFoundNull, expected);
+                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterOrEqualToX0Format + Resources.Common_CommaButFoundNull, expected);
 
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterOrEqualToXFormat + Resources.Common_CommaButFoundYFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToBeGreaterOrEqualToX0Format + Resources.Common_CommaButFoundX1Format,
                     expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -294,7 +294,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToBeWithinX0FromX1Format + Resources.Common_CommaButFoundX2Format,
                     precision, nearbyTime, Subject ?? default(TimeSpan?));
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -357,7 +357,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedTimeToNotBeWithinXFromYFormat + Resources.Common_CommaButFoundZFormat,
+                .FailWith(Resources.DateTime_ExpectedTimeToNotBeWithinX0FromX1Format + Resources.Common_CommaButFoundX2Format,
                     precision, distantTime, Subject ?? default(TimeSpan?));
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);

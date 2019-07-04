@@ -35,8 +35,8 @@ namespace FluentAssertions.Equivalency.Ordering
         public override string ToString()
         {
             return Invert
-                ? string.Format(Resources.Collection_BeNotStrictAboutCollectionsOrderWhenXFormat, description)
-                : string.Format(Resources.Collection_BeStrictAboutCollectionsOrderWhenXFormat, description);
+                ? string.Format(Resources.Collection_BeNotStrictAboutCollectionsOrderWhenX0Format, description)
+                : string.Format(Resources.Collection_BeStrictAboutCollectionsOrderWhenX0Format, description);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotXYFormat,
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeVirtualButTheFollowingMethodsAreNotX0X1Format,
                     Environment.NewLine, GetDescriptionsFor(nonVirtualMethods));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
@@ -70,7 +70,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!virtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreXYFormat,
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsNotToBeVirtualButTheFollowingMethodsAreX0X1Format,
                     Environment.NewLine, GetDescriptionsFor(virtualMethods));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
@@ -135,7 +135,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithXButFollowingMethodsAreNotYZFormat,
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToBeDecoratedWithX0ButFollowingMethodsAreNotX1X2Format,
                     typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(methodsWithoutAttribute));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
@@ -180,7 +180,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!methodsWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithXButFollowingMethodsAreYZFormat,
+                .FailWith(Resources.MethodInfo_ExpectedAllSelectedMethodsToNotBeDecoratedWithX0ButFollowingMethodsAreX1X2Format,
                     typeof(TAttribute), Environment.NewLine, GetDescriptionsFor(methodsWithAttribute));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);

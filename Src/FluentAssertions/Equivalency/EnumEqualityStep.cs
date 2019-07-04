@@ -48,7 +48,7 @@ namespace FluentAssertions.Equivalency
                     break;
 
                 default:
-                    throw new InvalidOperationException(string.Format(Resources.Enum_DoNotKnowHowToHandleXFormat,
+                    throw new InvalidOperationException(string.Format(Resources.Enum_DoNotKnowHowToHandleX0Format,
                         config.EnumEquivalencyHandling));
             }
 
@@ -67,7 +67,7 @@ namespace FluentAssertions.Equivalency
                     AlreadyFormattedString subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     AlreadyFormattedString expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason(Resources.Enum_ExpectedEnumToEqualXByValueFormat + Resources.Common_CommaButFoundYFormat,
+                    return new FailReason(Resources.Enum_ExpectedEnumToEqualX0ByValueFormat + Resources.Common_CommaButFoundX1Format,
                         expectationName, subjectsName);
                 });
         }
@@ -86,7 +86,7 @@ namespace FluentAssertions.Equivalency
 
                     AlreadyFormattedString subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
                     AlreadyFormattedString expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
-                    return new FailReason(Resources.Enum_ExpectedEnumToEqualXByNameFormat + Resources.Common_CommaButFoundYFormat,
+                    return new FailReason(Resources.Enum_ExpectedEnumToEqualX0ByNameFormat + Resources.Common_CommaButFoundX1Format,
                         expectationName, subjectsName);
                 });
         }

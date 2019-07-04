@@ -40,12 +40,12 @@ namespace FluentAssertions.Equivalency
                     {
                         if (config.IsRecursive)
                         {
-                            context.TraceSingle(path => string.Format(Resources.Dictionary_RecursingIntoDictionaryItemXAtYFormat, key, path));
+                            context.TraceSingle(path => string.Format(Resources.Dictionary_RecursingIntoDictionaryItemX0AtX1Format, key, path));
                             parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
                         }
                         else
                         {
-                            context.TraceSingle(path => string.Format(Resources.Dictionary_ComparingDictionaryItemXAtYBetweenSubjectAndExpectationFormat, key, path));
+                            context.TraceSingle(path => string.Format(Resources.Dictionary_ComparingDictionaryItemX0AtX1BetweenSubjectAndExpectationFormat, key, path));
                             subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
                         }
                     }
@@ -66,7 +66,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(((expectation is null) && (subject is null)) || (expectation != null))
-                .FailWith(Resources.Dictionary_ExpectedSubjectToBeXFormat + Resources.Common_CommaButFoundYFormat, null, subject);
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeX0Format + Resources.Common_CommaButFoundX1Format, null, subject);
         }
 
         private static bool AssertIsDictionary(IDictionary subject)
@@ -80,7 +80,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition((expectation is null) || (subject.Keys.Count == expectation.Keys.Count))
-                .FailWith(Resources.Dictionary_ExpectedSubjectToBeDictionaryWithXItemsButItOnlyContainsYItemsFormat,
+                .FailWith(Resources.Dictionary_ExpectedSubjectToBeDictionaryWithX0ItemsButItOnlyContainsX1ItemsFormat,
                     expectation?.Keys.Count, subject?.Keys.Count);
         }
     }
