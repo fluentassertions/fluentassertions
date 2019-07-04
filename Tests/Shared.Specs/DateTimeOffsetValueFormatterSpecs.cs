@@ -207,7 +207,7 @@ namespace FluentAssertions.Specs
 
             var dateOnly = ToUtcWithoutChangingTime(new DateTime(1973, 9, 20));
             var timeOnly = ToUtcWithoutChangingTime(1.January(0001).At(08, 20, 01));
-            var witoutMilliseconds = ToUtcWithoutChangingTime(1.May(2012).At(20, 15, 30));
+            var withoutMilliseconds = ToUtcWithoutChangingTime(1.May(2012).At(20, 15, 30));
             var withMilliseconds = ToUtcWithoutChangingTime(1.May(2012).At(20, 15, 30, 318));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -219,8 +219,8 @@ namespace FluentAssertions.Specs
             formatter.Format(timeOnly, new FormattingContext(), null).Should()
                 .Be(formatter.Format((DateTimeOffset)timeOnly, new FormattingContext(), null));
 
-            formatter.Format(witoutMilliseconds, new FormattingContext(), null).Should()
-                .Be(formatter.Format((DateTimeOffset)witoutMilliseconds, new FormattingContext(), null));
+            formatter.Format(withoutMilliseconds, new FormattingContext(), null).Should()
+                .Be(formatter.Format((DateTimeOffset)withoutMilliseconds, new FormattingContext(), null));
 
             formatter.Format(withMilliseconds, new FormattingContext(), null).Should()
                 .Be(formatter.Format((DateTimeOffset)withMilliseconds, new FormattingContext(), null));

@@ -1008,7 +1008,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_not_close_to_an_ealier_time_by_35ms_it_should_throw()
+        public void When_asserting_subject_time_is_not_close_to_an_earlier_time_by_35ms_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

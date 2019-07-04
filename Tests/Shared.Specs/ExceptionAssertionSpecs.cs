@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -241,6 +242,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -284,6 +286,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -530,7 +533,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void WithInnerExceptionExactly_no_paramters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+        public void WithInnerExceptionExactly_no_parameters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -561,7 +564,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void WithInnerExceptionExactly_no_paramters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+        public void WithInnerExceptionExactly_no_parameters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

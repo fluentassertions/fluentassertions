@@ -246,7 +246,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_and_both_are_null_it_should_succed()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_and_both_are_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -266,7 +266,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_nullable_TimeSpan_is_equal_to_the_same_nullable_TimeSpan_it_should_succed()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_the_same_nullable_TimeSpan_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange

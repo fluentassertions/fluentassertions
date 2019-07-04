@@ -2,16 +2,16 @@ namespace FluentAssertions.Equivalency
 {
     internal class CollectionMemberAssertionRuleDecorator : IEquivalencyStep
     {
-        private readonly IEquivalencyStep eqivalencyStep;
+        private readonly IEquivalencyStep equivalencyStep;
 
         public CollectionMemberAssertionRuleDecorator(IEquivalencyStep equivalencyStep)
         {
-            eqivalencyStep = equivalencyStep;
+            this.equivalencyStep = equivalencyStep;
         }
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return eqivalencyStep.CanHandle(CreateAdjustedCopy(context), config);
+            return equivalencyStep.CanHandle(CreateAdjustedCopy(context), config);
         }
 
         public bool Handle(
@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
         {
             var equivalencyValidationContext = CreateAdjustedCopy(context);
 
-            return eqivalencyStep.Handle(equivalencyValidationContext, parent, config);
+            return equivalencyStep.Handle(equivalencyValidationContext, parent, config);
         }
 
         private static EquivalencyValidationContext CreateAdjustedCopy(IEquivalencyValidationContext context)
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return eqivalencyStep.ToString();
+            return equivalencyStep.ToString();
         }
     }
 }

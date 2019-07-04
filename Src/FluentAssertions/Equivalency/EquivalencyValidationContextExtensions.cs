@@ -3,7 +3,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
-    internal static class EquivalencyValidationContextExtentions
+    internal static class EquivalencyValidationContextExtensions
     {
         internal static IEquivalencyValidationContext CreateForNestedMember(this IEquivalencyValidationContext context,
             SelectedMemberInfo nestedMember, SelectedMemberInfo matchingProperty)

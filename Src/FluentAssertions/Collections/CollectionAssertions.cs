@@ -301,13 +301,13 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
             }
 
-            ICollection<object> actualitems = Subject.ConvertOrCastToCollection<object>();
+            ICollection<object> actualItems = Subject.ConvertOrCastToCollection<object>();
 
-            if (actualitems.SequenceEqual(unexpected.Cast<object>()))
+            if (actualItems.SequenceEqual(unexpected.Cast<object>()))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualitems);
+                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1555,10 +1555,10 @@ namespace FluentAssertions.Collections
             return !ReferenceEquals(subject.First(), successor);
         }
 
-        private object PredecessorOf(object succesor, IEnumerable<object> subject)
+        private object PredecessorOf(object successor, IEnumerable<object> subject)
         {
             IList<object> collection = subject.ConvertOrCastToList();
-            int index = collection.IndexOf(succesor);
+            int index = collection.IndexOf(successor);
             return (index > 0) ? collection[index - 1] : null;
         }
 

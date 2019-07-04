@@ -54,7 +54,7 @@ namespace FluentAssertions.Formatting
         /// Is used to detect recursive calls by <see cref="IValueFormatter"/> implementations.
         /// </summary>
         [ThreadStatic]
-        private static bool isRentry;
+        private static bool isReentry;
 
         #endregion
 
@@ -77,13 +77,13 @@ namespace FluentAssertions.Formatting
         {
             try
             {
-                if (isRentry)
+                if (isReentry)
                 {
                     throw new InvalidOperationException(
                         $"Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children");
                 }
 
-                isRentry = true;
+                isReentry = true;
 
                 var graph = new ObjectGraph(value);
 
@@ -97,7 +97,7 @@ namespace FluentAssertions.Formatting
             }
             finally
             {
-                isRentry = false;
+                isReentry = false;
             }
         }
 

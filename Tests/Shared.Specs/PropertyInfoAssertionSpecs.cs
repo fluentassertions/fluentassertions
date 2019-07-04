@@ -190,7 +190,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throw_with_useful_message()
+        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predicate_but_it_is_not_it_throw_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -412,7 +412,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_writeonly_property_is_not_writeable_it_fails_with_useful_message()
+        public void When_asserting_a_writeonly_property_is_not_writable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -557,7 +557,7 @@ namespace FluentAssertions.Specs
         #region BeWritableAccessModifier
 
         [Fact]
-        public void When_asserting_a_public_write_private_read_property_is_public_writeable_it_succeeds()
+        public void When_asserting_a_public_write_private_read_property_is_public_writable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -576,7 +576,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_private_write_public_read_property_is_public_writeable_it_fails_with_useful_message()
+        public void When_asserting_a_private_write_public_read_property_is_public_writable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
