@@ -1336,11 +1336,11 @@
   <data name="DateTime_DidNotExpectTheDayPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the day part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheHourPartOfDateToBeX0Format" xml:space="preserve">
-    <value>Did not expect the hour part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_DidNotExpectTheHourPartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Did not expect the hour part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format" xml:space="preserve">
-    <value>Did not expect the minute part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_DidNotExpectTheMinutePartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Did not expect the minute part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_DidNotExpectTheMonthPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the month part of {{context:the date}} to be {0}{{reason}}</value>
@@ -1348,8 +1348,8 @@
   <data name="DateTime_DidNotExpectTheOffsetOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the offset of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format" xml:space="preserve">
-    <value>Did not expect the seconds part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_DidNotExpectTheSecondsPartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Did not expect the seconds part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_DidNotExpectTheYearPartOfDateToBeX0Format" xml:space="preserve">
     <value>Did not expect the year part of {{context:the date}} to be {0}{{reason}}</value>
@@ -1390,11 +1390,11 @@
   <data name="DateTime_ExpectedTheDayPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the day part of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheHourPartOfDateToBeX0Format" xml:space="preserve">
-    <value>Expected the hour part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_ExpectedTheHourPartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Expected the hour part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheMinutePartOfDateToBeX0Format" xml:space="preserve">
-    <value>Expected the minute part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_ExpectedTheMinutePartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Expected the minute part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_ExpectedTheMonthPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the month part of {{context:the date}} to be {0}{{reason}}</value>
@@ -1402,8 +1402,8 @@
   <data name="DateTime_ExpectedTheOffsetOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the offset of {{context:the date}} to be {0}{{reason}}</value>
   </data>
-  <data name="DateTime_ExpectedTheSecondsPartOfDateToBeX0Format" xml:space="preserve">
-    <value>Expected the seconds part of {{context:the date}} to be {0}{{reason}}</value>
+  <data name="DateTime_ExpectedTheSecondsPartOfTimeToBeX0Format" xml:space="preserve">
+    <value>Expected the seconds part of {{context:the time}} to be {0}{{reason}}</value>
   </data>
   <data name="DateTime_ExpectedTheYearPartOfDateToBeX0Format" xml:space="preserve">
     <value>Expected the year part of {{context:the date}} to be {0}{{reason}}</value>
@@ -2038,5 +2038,11 @@
   </data>
   <data name="Common_CommaButThatAttributeWasNotFound" xml:space="preserve">
     <value>, but that attribute was not found.</value>
+  </data>
+  <data name="DateTime_ExpectedTheDateToBeX0Format" xml:space="preserve">
+    <value>Expected {{context:the date and time}} to be {0}{{reason}}</value>
+  </data>
+  <data name="DateTime_ExpectedTheDateToBeOneOfX0Format" xml:space="preserve">
+    <value>Expected {{context:the date and time}} to be one of {0}{{reason}}</value>
   </data>
 </root>

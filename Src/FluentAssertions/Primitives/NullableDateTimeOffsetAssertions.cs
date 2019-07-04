@@ -111,7 +111,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(Resources.DateTime_ExpectedDateToBeX0Format +Resources.Common_CommaButItWasX1Format,
+                .FailWith(Resources.DateTime_ExpectedTheDateToBeX0Format +Resources.Common_CommaButItWasX1Format,
                     expected, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);

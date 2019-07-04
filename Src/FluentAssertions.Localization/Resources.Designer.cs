@@ -1855,20 +1855,20 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the hour part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Did not expect the hour part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheHourPartOfDateToBeX0Format {
+        public static string DateTime_DidNotExpectTheHourPartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheHourPartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheHourPartOfTimeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the minute part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Did not expect the minute part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format {
+        public static string DateTime_DidNotExpectTheMinutePartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheMinutePartOfTimeToBeX0Format", resourceCulture);
             }
         }
         
@@ -1891,11 +1891,11 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Did not expect the seconds part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Did not expect the seconds part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format {
+        public static string DateTime_DidNotExpectTheSecondsPartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_DidNotExpectTheSecondsPartOfTimeToBeX0Format", resourceCulture);
             }
         }
         
@@ -2197,6 +2197,24 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be one of {0}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedTheDateToBeOneOfX0Format {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedTheDateToBeOneOfX0Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {{context:the date and time}} to be {0}{{reason}}.
+        /// </summary>
+        public static string DateTime_ExpectedTheDateToBeX0Format {
+            get {
+                return ResourceManager.GetString("DateTime_ExpectedTheDateToBeX0Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expected the day part of {{context:the date}} to be {0}{{reason}}.
         /// </summary>
         public static string DateTime_ExpectedTheDayPartOfDateToBeX0Format {
@@ -2206,20 +2224,20 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the hour part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Expected the hour part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheHourPartOfDateToBeX0Format {
+        public static string DateTime_ExpectedTheHourPartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheHourPartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheHourPartOfTimeToBeX0Format", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the minute part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Expected the minute part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheMinutePartOfDateToBeX0Format {
+        public static string DateTime_ExpectedTheMinutePartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheMinutePartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheMinutePartOfTimeToBeX0Format", resourceCulture);
             }
         }
         
@@ -2242,11 +2260,11 @@ namespace FluentAssertions.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected the seconds part of {{context:the date}} to be {0}{{reason}}.
+        ///   Looks up a localized string similar to Expected the seconds part of {{context:the time}} to be {0}{{reason}}.
         /// </summary>
-        public static string DateTime_ExpectedTheSecondsPartOfDateToBeX0Format {
+        public static string DateTime_ExpectedTheSecondsPartOfTimeToBeX0Format {
             get {
-                return ResourceManager.GetString("DateTime_ExpectedTheSecondsPartOfDateToBeX0Format", resourceCulture);
+                return ResourceManager.GetString("DateTime_ExpectedTheSecondsPartOfTimeToBeX0Format", resourceCulture);
             }
         }
         

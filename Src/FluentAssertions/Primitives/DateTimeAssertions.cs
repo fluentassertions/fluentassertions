@@ -545,7 +545,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_ExpectedTheHourPartOfDateToBeX0Format, expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheHourPartOfTimeToBeX0Format, expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime)
@@ -573,7 +573,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_DidNotExpectTheHourPartOfDateToBeX0Format, unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheHourPartOfTimeToBeX0Format, unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime, unexpected)
@@ -602,7 +602,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_ExpectedTheMinutePartOfDateToBeX0Format, expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheMinutePartOfTimeToBeX0Format, expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime)
@@ -631,7 +631,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_DidNotExpectTheMinutePartOfDateToBeX0Format, unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheMinutePartOfTimeToBeX0Format, unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime, unexpected)
@@ -660,7 +660,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_ExpectedTheSecondsPartOfDateToBeX0Format, expected)
+                .WithExpectation(Resources.DateTime_ExpectedTheSecondsPartOfTimeToBeX0Format, expected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime)
@@ -689,7 +689,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .WithExpectation(Resources.DateTime_DidNotExpectTheSecondsPartOfDateToBeX0Format, unexpected)
+                .WithExpectation(Resources.DateTime_DidNotExpectTheSecondsPartOfTimeToBeX0Format, unexpected)
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(Resources.DateTime_CommaButFoundANullDateTime)
