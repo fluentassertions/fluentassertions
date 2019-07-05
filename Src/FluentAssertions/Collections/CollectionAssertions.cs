@@ -309,7 +309,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(Resources.Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat, unexpected, actualitems);
+                    .FailWith(Resources.Collection_DidNotExpectCollectionsX0AndX1ToBeEqualFormat, unexpected, actualItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
