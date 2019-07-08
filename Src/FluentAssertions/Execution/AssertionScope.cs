@@ -1,5 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
+#if !NET45
+using System.Threading;
+#else
+using System.Runtime.Remoting.Messaging;
+#endif
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
@@ -11,6 +16,9 @@ namespace FluentAssertions.Execution
     /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
     /// using <c>async</c> or <c>await</c>.
     /// </remarks>
+#if NET45
+    [Serializable]
+#endif
     public class AssertionScope : IAssertionScope
     {
         #region Private Definitions
@@ -21,15 +29,15 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-        [ThreadStatic]
-        private static AssertionScope current;
-
+#if !NET45
+        private static AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
+#endif
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
         private bool? succeeded;
 
-        #endregion
+#endregion
 
         private AssertionScope(IAssertionStrategy _assertionStrategy)
         {
@@ -44,8 +52,8 @@ namespace FluentAssertions.Execution
         public AssertionScope()
             : this(new CollectingAssertionStrategy())
         {
-            parent = current;
-            current = this;
+            parent = GetCurrentAssertionScope();
+            SetCurrentAssertionScope(this);
 
             if (parent != null)
             {
@@ -74,8 +82,10 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
-            get => current ?? new AssertionScope(new DefaultAssertionStrategy());
-            private set => current = value;
+
+            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
+            private set => SetCurrentAssertionScope(value);
+
         }
 
         public AssertionScope UsingLineBreaks
@@ -258,7 +268,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void Dispose()
         {
-            Current = parent;
+            SetCurrentAssertionScope(parent);
 
             if (parent != null)
             {
@@ -281,6 +291,24 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        private static AssertionScope GetCurrentAssertionScope()
+        {
+#if !NET45
+            return current.Value;
+#else
+            return (AssertionScope) CallContext.LogicalGetData("this");
+#endif
+        }
+
+        private static void SetCurrentAssertionScope(AssertionScope scope)
+        {
+#if !NET45
+            current.Value = scope;
+#else
+            CallContext.LogicalSetData("this", scope);
+#endif
+        }
+
         #region Explicit Implementation to support the interface
 
         IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
@@ -293,6 +321,6 @@ namespace FluentAssertions.Execution
 
         IAssertionScope IAssertionScope.UsingLineBreaks => UsingLineBreaks;
 
-        #endregion
+#endregion
     }
 }

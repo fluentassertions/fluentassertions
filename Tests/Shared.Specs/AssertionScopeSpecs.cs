@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
@@ -697,6 +698,31 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().ThrowExactly<XunitException>()
                 .WithMessage("*SomeValue*AnotherValue*");
+        }
+
+        [Fact]
+        public async Task When_using_AssertionScope_across_thread_boundaries_it_should_work()
+        {
+            using (var semaphore = new SemaphoreSlim(0, 1))
+            {
+                await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
+            }
+        }
+
+        private static async Task SemaphoreYieldAndWait (SemaphoreSlim semaphore)
+        {
+            await Task.Yield();
+            var scope = new AssertionScope();
+            await semaphore.WaitAsync();
+            scope.Should().BeSameAs(AssertionScope.Current);
+        }
+
+        private static async Task SemaphoreYieldAndRelease(SemaphoreSlim semaphore)
+        {
+            await Task.Yield();
+            var scope = new AssertionScope();
+            semaphore.Release();
+            scope.Should().BeSameAs(AssertionScope.Current);
         }
     }
 }
