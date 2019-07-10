@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -723,6 +724,41 @@ namespace FluentAssertions.Specs
             var scope = new AssertionScope();
             semaphore.Release();
             scope.Should().BeSameAs(AssertionScope.Current);
+        }
+
+        [Fact]
+        public void When_custom_strategy_used_respect_its_behavior()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope(new FailWithStupidMessageAssertionStrategy());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => scope.FailWith("Failure 1");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("Good luck with understanding what's going on!");
+        }
+
+        internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
+        {
+            public IEnumerable<string> FailureMessages => new string[0];
+
+            public void HandleFailure(string message) =>
+                Services.ThrowException("Good luck with understanding what's going on!");
+
+            public IEnumerable<string> DiscardFailures() => new string[0];
+
+            public void ThrowIfAny(IDictionary<string, object> context)
+            {
+                // do nothing
+            }
         }
     }
 }
