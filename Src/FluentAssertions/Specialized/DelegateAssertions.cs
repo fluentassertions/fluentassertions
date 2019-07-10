@@ -265,7 +265,7 @@ namespace FluentAssertions.Specialized
 
         private void FailIfSubjectIsAsyncVoid()
         {
-            if (!CanHandleAsync && Subject.GetMethodInfo().HasAttribute<AsyncStateMachineAttribute>())
+            if (!CanHandleAsync && Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
             {
                 throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
             }

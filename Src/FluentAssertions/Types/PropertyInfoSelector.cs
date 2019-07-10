@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
 {
@@ -55,7 +56,7 @@ namespace FluentAssertions.Types
         public PropertyInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedProperties = selectedProperties.Where(property => CustomAttributeExtensions.GetCustomAttributes(property, false).OfType<TAttribute>().Any());
+            selectedProperties = selectedProperties.Where(property => property.IsDecoratedWith<TAttribute>());
             return this;
         }
 
@@ -65,7 +66,7 @@ namespace FluentAssertions.Types
         public PropertyInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedProperties = selectedProperties.Where(property => CustomAttributeExtensions.GetCustomAttributes(property, true).OfType<TAttribute>().Any());
+            selectedProperties = selectedProperties.Where(property => property.IsDecoratedWithOrInherit<TAttribute>());
             return this;
         }
 
@@ -75,7 +76,7 @@ namespace FluentAssertions.Types
         public PropertyInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedProperties = selectedProperties.Where(property => !property.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            selectedProperties = selectedProperties.Where(property => !property.IsDecoratedWith<TAttribute>());
             return this;
         }
 
@@ -85,7 +86,7 @@ namespace FluentAssertions.Types
         public PropertyInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedProperties = selectedProperties.Where(property => !CustomAttributeExtensions.GetCustomAttributes(property, true).OfType<TAttribute>().Any());
+            selectedProperties = selectedProperties.Where(property => !property.IsDecoratedWithOrInherit<TAttribute>());
             return this;
         }
 

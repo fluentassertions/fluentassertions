@@ -78,7 +78,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Type[] typesWithoutMatchingAttribute = Subject
-                .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
+                .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -108,7 +108,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Type[] typesWithoutAttribute = Subject
-                .Where(type => !type.IsDecoratedWith<TAttribute>(true))
+                .Where(type => !type.IsDecoratedWithOrInherit<TAttribute>())
                 .ToArray();
 
             Execute.Assertion
@@ -144,7 +144,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Type[] typesWithoutMatchingAttribute = Subject
-                .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -210,7 +210,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Type[] typesWithMatchingAttribute = Subject
-                .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate))
+                .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -240,7 +240,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Type[] typesWithAttribute = Subject
-                .Where(type => type.IsDecoratedWith<TAttribute>(true))
+                .Where(type => type.IsDecoratedWithOrInherit<TAttribute>())
                 .ToArray();
 
             Execute.Assertion
@@ -276,7 +276,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Type[] typesWithMatchingAttribute = Subject
-                .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion

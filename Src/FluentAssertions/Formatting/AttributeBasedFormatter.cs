@@ -77,7 +77,7 @@ namespace FluentAssertions.Formatting
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
-                where method.HasAttribute<ValueFormatterAttribute>()
+                where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
                 where method.GetParameters().Length == 1
                 select method;
 

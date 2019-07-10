@@ -208,13 +208,13 @@ namespace FluentAssertions.Types
         private MethodInfo[] GetMethodsWithout<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return SubjectMethods.Where(method => !method.HasMatchingAttribute(isMatchingPredicate)).ToArray();
+            return SubjectMethods.Where(method => !method.IsDecoratedWith(isMatchingPredicate)).ToArray();
         }
 
         private MethodInfo[] GetMethodsWith<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return SubjectMethods.Where(method => method.HasMatchingAttribute(isMatchingPredicate)).ToArray();
+            return SubjectMethods.Where(method => method.IsDecoratedWith(isMatchingPredicate)).ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)

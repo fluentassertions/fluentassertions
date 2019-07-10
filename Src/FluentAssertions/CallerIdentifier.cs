@@ -39,7 +39,7 @@ namespace FluentAssertions
 
         private static bool IsCustomAssertion(StackFrame frame)
         {
-            return frame.GetMethod().HasAttribute<CustomAssertionAttribute>();
+            return frame.GetMethod().IsDecoratedWithOrInherit<CustomAssertionAttribute>();
         }
 
         private static bool IsDynamic(StackFrame frame)
