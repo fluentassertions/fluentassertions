@@ -39,9 +39,15 @@ namespace FluentAssertions.Execution
 
 #endregion
 
-        private AssertionScope(IAssertionStrategy _assertionStrategy)
+        /// <summary>
+        /// Starts a new scope based on the given assertion strategy.
+        /// </summary>
+        /// <param name="_assertionStrategy">The assertion strategy for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        public AssertionScope(IAssertionStrategy _assertionStrategy)
         {
-            assertionStrategy = _assertionStrategy;
+            assertionStrategy = _assertionStrategy
+                ?? throw new ArgumentNullException(nameof(_assertionStrategy));
             parent = null;
         }
 
