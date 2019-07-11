@@ -137,7 +137,9 @@ namespace FluentAssertions.Common
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type, bool inherit = false)
             where TAttribute : Attribute
         {
-            return type.GetCustomAttributes(inherit).OfType<TAttribute>();
+            // Do not use as extension method here, there is an issue with PropertyInfo and EventInfo
+            // preventing the inherit option to work.
+            return CustomAttributeExtensions.GetCustomAttributes(type, inherit).OfType<TAttribute>();
         }
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false)
