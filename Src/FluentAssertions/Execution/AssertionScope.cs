@@ -167,15 +167,27 @@ namespace FluentAssertions.Execution
 
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
+            return FailWith(() =>
+            {
+                string localReason = reason?.Invoke() ?? "";
+                var messageBuilder = new MessageBuilder(useLineBreaks);
+                string identifier = GetIdentifier();
+                FailReason failReason = failReasonFunc();
+                string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+                return result;
+            });
+        }
+
+        internal Continuation FailWithPreFormatted(string formattedFailReason) =>
+            FailWith(() => formattedFailReason);
+
+        private Continuation FailWith(Func<string> failReasonFunc)
+        {
             try
             {
                 if (!succeeded.HasValue || !succeeded.Value)
                 {
-                    string localReason = reason?.Invoke() ?? "";
-                    var messageBuilder = new MessageBuilder(useLineBreaks);
-                    string identifier = GetIdentifier();
-                    var failReason = failReasonFunc();
-                    string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+                    string result = failReasonFunc();
 
                     if (expectation != null)
                     {
