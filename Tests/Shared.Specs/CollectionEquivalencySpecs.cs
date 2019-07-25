@@ -891,6 +891,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_config_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
+            IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2, config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
         public void
             When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail
             ()
@@ -1415,6 +1436,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_config_to_non_generic_overload_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            ICollection collection1 = null;
+            ICollection collection2 = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2, config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
         public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1755,6 +1797,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_config_to_generic_overload_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new[] { new { Value = 3 } };
+            var list2 = new[] { new { Value = 2 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => list1.Should().BeEquivalentTo(list2, config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
         public void When_subject_and_expectation_are_null_enumerable_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1790,6 +1853,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_AllBeEquivalentTo_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new List<char>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().AllBeEquivalentTo('g', config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
         }
 
         [Fact]

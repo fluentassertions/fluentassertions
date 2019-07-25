@@ -464,6 +464,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext

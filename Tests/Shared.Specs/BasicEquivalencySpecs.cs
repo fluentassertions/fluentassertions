@@ -3418,6 +3418,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_config_to_BeEquivalentTo_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2, config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
         public void
             When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
             ()
@@ -3439,6 +3460,27 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_NotBeEquivalentTo_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2, config: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
         }
 
         [Fact]

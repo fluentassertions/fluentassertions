@@ -408,6 +408,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<IEnumerable>, EquivalencyAssertionOptions<IEnumerable>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<IEnumerable> options = config(AssertionOptions.CloneDefaults<IEnumerable>());
 
             var context = new EquivalencyValidationContext
@@ -454,6 +456,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
             var context = new EquivalencyValidationContext
@@ -584,6 +588,8 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion

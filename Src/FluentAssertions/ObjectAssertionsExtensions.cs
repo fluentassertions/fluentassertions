@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -45,6 +46,8 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(options, nameof(options));
+
             try
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
@@ -98,6 +101,8 @@ namespace FluentAssertions
         public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(options, nameof(options));
+
             try
             {
                 var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);

@@ -328,6 +328,8 @@ namespace FluentAssertions.Collections
             string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             TExpectation[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 
             // Because we have just manually created the collection based on single element
