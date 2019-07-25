@@ -710,7 +710,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        private static async Task SemaphoreYieldAndWait (SemaphoreSlim semaphore)
+        private static async Task SemaphoreYieldAndWait(SemaphoreSlim semaphore)
         {
             await Task.Yield();
             var scope = new AssertionScope();
@@ -744,6 +744,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().ThrowExactly<XunitException>()
                 .WithMessage("Good luck with understanding what's going on!");
+        }
+
+        [Fact]
+        public void When_custom_strategy_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IAssertionStrategy strategy = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new AssertionScope(strategy);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("_assertionStrategy");
         }
 
         internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
