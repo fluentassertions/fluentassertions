@@ -1259,7 +1259,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = new []{1, 2};
+            IEnumerable<int> collection = new[] { 1, 2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1279,7 +1279,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = new []{1, 2};
+            IEnumerable<int> collection = new[] { 1, 2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1346,7 +1346,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new []
+            var collection = new[]
             {
                 new Customer { Age = 21, Name = "John" },
                 new Customer { Age = 22, Name = "Jane" }
@@ -1379,7 +1379,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var customers = new []
+            var customers = new[]
             {
                 new CustomerWithItems { Age = 21, Items = new[] {1, 2} },
                 new CustomerWithItems { Age = 22, Items = new[] {3} }
@@ -1411,34 +1411,53 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
 @"Expected collection to satisfy all inspectors because we want to test nested assertions, but some inspectors are not satisfied:
-	At index 0:
-		Expected value to be less than 21, but found 21
-		Expected collection to satisfy all inspectors, but some inspectors are not satisfied:
-			At index 0:
-				Expected value to be 2, but found 1
-			At index 1:
-				Expected value to be 1, but found 2
-	At index 1:
-		Expected value to be less than 22, but found 22
-		Expected collection to satisfy all inspectors, but some inspectors are not satisfied:
-			At index 0:
-				Expected value to be 2, but found 3"
+*At index 0:
+*Expected value to be less than 21, but found 21
+*Expected collection to satisfy all inspectors, but some inspectors are not satisfied:
+*At index 0:
+*Expected value to be 2, but found 1
+*At index 1:
+*Expected value to be 1, but found 2
+*At index 1:
+*Expected value to be less than 22, but found 22
+*Expected collection to satisfy all inspectors, but some inspectors are not satisfied:
+*At index 0:
+*Expected value to be 2, but found 3"
 #else
 @"Expected customers to satisfy all inspectors because we want to test nested assertions, but some inspectors are not satisfied:
-	At index 0:
-		Expected customer.Age to be less than 21, but found 21
-		Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
-			At index 0:
-				Expected item to be 2, but found 1
-			At index 1:
-				Expected item to be 1, but found 2
-	At index 1:
-		Expected customer.Age to be less than 22, but found 22
-		Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
-			At index 0:
-				Expected item to be 2, but found 3"
+*At index 0:
+*Expected customer.Age to be less than 21, but found 21
+*Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
+*At index 0:
+*Expected item to be 2, but found 1
+*At index 1:
+*Expected item to be 1, but found 2
+*At index 1:
+*Expected customer.Age to be less than 22, but found 22
+*Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
+*At index 0:
+*Expected item to be 2, but found 3"
 #endif
 );
+        }
+
+        [Fact]
+        public void When_inspector_message_is_not_reformatable_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            byte[][] subject = { new byte[] { 1 } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow<FormatException>();
         }
 
         [Fact]
@@ -1447,7 +1466,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new[]{1, 2, 3};
+            var collection = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

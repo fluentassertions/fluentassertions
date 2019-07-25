@@ -413,12 +413,13 @@ namespace FluentAssertions.Collections
 
             if (failuresFromInspectors.Any())
             {
-                string failureMessage = "Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:"
-                    + Environment.NewLine
+                string failureMessage = Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(failureMessage);
+                    .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
+                    .FailWithPreFormatted(failureMessage);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -443,9 +444,7 @@ namespace FluentAssertions.Collections
                     {
                         // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
                         string failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
-                        // FailWith formatting is not used because of extra quotes being added.
-                        Execute.Assertion
-                            .FailWith($"At index {index}:{Environment.NewLine}{failures}");
+                        collectionScope.AddPreFormattedFailure($"At index {index}:{Environment.NewLine}{failures}");
                     }
 
                     index++;
