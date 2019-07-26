@@ -150,8 +150,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(false);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = unexpected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(false);
+            }
 
             return new AndConstraint<XElementAssertions>(this);
         }

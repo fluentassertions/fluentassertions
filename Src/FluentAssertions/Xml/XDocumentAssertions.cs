@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Xml;
 using System.Xml.Linq;
 
 using FluentAssertions.Common;
@@ -114,8 +115,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), expected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(true);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = expected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(true);
+            }
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -144,8 +149,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(false);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = unexpected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(false);
+            }
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
