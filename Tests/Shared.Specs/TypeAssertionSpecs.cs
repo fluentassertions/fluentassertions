@@ -1092,6 +1092,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_BeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().BeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_type_is_decorated_with_expected_attribute_with_the_expected_properties_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1186,6 +1207,27 @@ namespace FluentAssertions.Specs
                     " because we do, but the attribute was not found on the following types:*" +
                     "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_TypeSelector_BeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(typeof(ClassWithAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => types.Should()
+                .BeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1289,6 +1331,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_BeDecoratedWithOrInherit_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => typeWithAttribute.Should()
+                .BeDecoratedWithOrInherit<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_type_inherits_expected_attribute_with_the_expected_properties_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1383,6 +1446,27 @@ namespace FluentAssertions.Specs
                     " because we do, but the attribute was not found on the following types:*" +
                     "*ClassWithoutAttribute*" +
                     "*OtherClassWithoutAttribute*.");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_TypeSelector_BeDecoratedWithOrInherit_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(typeof(ClassWithAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => types.Should()
+                .BeDecoratedWithOrInherit<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1486,6 +1570,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_NotBeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => typeWithoutAttribute.Should()
+                .NotBeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_type_is_not_decorated_with_unexpected_attribute_with_the_expected_properties_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1578,6 +1683,27 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to not be decorated*DummyClassAttribute" +
                     "*because we do*attribute was found*ClassWithAttribute*");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_TypeSelector_NotBeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(typeof(ClassWithAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => types.Should()
+                .NotBeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1677,6 +1803,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_NotBeDecoratedWithOrInherit_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithInheritedAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => typeWithoutAttribute.Should()
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_type_does_not_inherit_unexpected_attribute_with_the_expected_properties_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1769,6 +1916,27 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to not be decorated with or inherit*DummyClassAttribute" +
                     "*because we do*attribute was found*ClassWithInheritedAttribute*");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_TypeSelector_NotBeDecoratedWithOrInherit_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(typeof(ClassWithAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => types.Should()
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         #endregion

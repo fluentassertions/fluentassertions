@@ -34,6 +34,8 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericCollectionAssertions<T>> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey : class
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             if (Subject is null)
             {
                 Execute.Assertion
@@ -72,6 +74,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             if (Subject is null)
             {
                 Execute.Assertion

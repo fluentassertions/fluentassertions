@@ -31,6 +31,26 @@ namespace FluentAssertions.Specs
         #region (Not) Contain
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_Contain_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new int[] { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(predicate: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
+
+        [Fact]
         public void When_collection_does_not_contain_an_expected_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -269,6 +289,26 @@ namespace FluentAssertions.Specs
         #region Only Contain (Predicate)
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_OnlyContain_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new int[] { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyContain(predicate: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
+
+        [Fact]
         public void When_a_collection_contains_items_not_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -334,6 +374,26 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Contain Single
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_ContainSingle_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new int[] { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(predicate: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
 
         [Fact]
         public void When_a_collection_contains_a_single_item_matching_a_predicate_it_should_succeed()
@@ -1067,6 +1127,26 @@ namespace FluentAssertions.Specs
         #region Not Contain Nulls (Predicate)
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_NotContainNulls_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new SomeClass[] { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls<string>(predicate: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
+
+        [Fact]
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1156,6 +1236,26 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Only Have Unique Items (Predicate)
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_OnlyHaveUniqueItems_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new SomeClass[] { };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems<string>(predicate: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
 
         [Fact]
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()

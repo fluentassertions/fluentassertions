@@ -320,6 +320,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_BeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -559,6 +579,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_NotBeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => methodInfo.Should().NotBeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         [Fact]

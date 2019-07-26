@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -33,6 +34,8 @@ namespace FluentAssertions.Equivalency
 
         public void Include(Expression<Func<IMemberInfo, bool>> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             inclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
                 $"Try conversion of member {predicate.Body}. "));
@@ -40,6 +43,8 @@ namespace FluentAssertions.Equivalency
 
         public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             exclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
                 $"Do not convert member {predicate.Body}."));

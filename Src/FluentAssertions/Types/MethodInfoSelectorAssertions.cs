@@ -137,6 +137,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
 
             string failureMessage =
@@ -186,6 +188,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith<TAttribute>(isMatchingAttributePredicate);
 
             string failureMessage =

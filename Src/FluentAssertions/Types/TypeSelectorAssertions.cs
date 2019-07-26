@@ -75,6 +75,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithoutMatchingAttribute = Subject
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
                 .ToArray();
@@ -139,6 +141,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithoutMatchingAttribute = Subject
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate, true))
                 .ToArray();
@@ -203,6 +207,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithMatchingAttribute = Subject
                 .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate))
                 .ToArray();
@@ -267,6 +273,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithMatchingAttribute = Subject
                 .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate, true))
                 .ToArray();

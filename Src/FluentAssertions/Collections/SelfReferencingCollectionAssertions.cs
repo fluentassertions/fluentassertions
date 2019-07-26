@@ -447,6 +447,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             if (Subject is null)
             {
                 Execute.Assertion
@@ -478,6 +480,8 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> OnlyContain(
             Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             Func<T, bool> compiledPredicate = predicate.Compile();
 
             Execute.Assertion
@@ -555,6 +559,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             if (Subject is null)
             {
                 Execute.Assertion
@@ -624,6 +630,8 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
             string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             string expectationPrefix =
                 string.Format("Expected {{context:collection}} to contain a single item matching {0}{{reason}}, ", predicate.Body);
 

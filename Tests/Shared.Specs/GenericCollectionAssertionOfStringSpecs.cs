@@ -460,6 +460,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_comparer_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new List<string>();
+            var expected = new List<string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => actual.Should().Equal(expected, equalityComparison: null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("equalityComparison");
+        }
+
+        [Fact]
         public void
             When_asserting_a_string_collection_contains_an_element_it_should_allow_specifying_the_reason_via_named_parameter()
         {

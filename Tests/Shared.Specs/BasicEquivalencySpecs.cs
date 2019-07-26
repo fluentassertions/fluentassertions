@@ -2567,6 +2567,29 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_WithAutoConversionFor_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new object();
+
+            var expectation = new object();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.WithAutoConversionFor(predicate: null));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
+        }
+
+        [Fact]
         public void When_only_a_single_property_is_and_can_be_converted_but_the_other_one_doesnt_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2624,6 +2647,29 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_WithoutAutoConversionFor_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new object();
+
+            var expectation = new object();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.WithoutAutoConversionFor(predicate: null));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
         }
 
         [Fact]

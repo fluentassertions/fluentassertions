@@ -242,6 +242,8 @@ namespace FluentAssertions.Collections
         protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> equalityComparison,
             string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             bool subjectIsNull = ReferenceEquals(Subject, null);
             bool expectationIsNull = expectation is null;
             if (subjectIsNull && expectationIsNull)
@@ -1416,6 +1418,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
@@ -1431,6 +1435,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
@@ -1466,6 +1472,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
@@ -1486,6 +1494,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)

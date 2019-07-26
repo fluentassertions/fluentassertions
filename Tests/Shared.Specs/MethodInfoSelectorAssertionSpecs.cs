@@ -140,6 +140,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_BeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        [Fact]
         public void When_asserting_methods_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -205,6 +226,27 @@ namespace FluentAssertions.Specs
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_NotBeDecoratedWith_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
         }
 
         [Fact]

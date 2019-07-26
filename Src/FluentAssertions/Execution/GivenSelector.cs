@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
@@ -40,6 +41,8 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<T> ForCondition(Func<T, bool> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             predecessor.ForCondition(predicate(subject));
 
             return this;
@@ -57,6 +60,8 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
         {
+            Guard.ThrowIfArgumentIsNull(selector, nameof(selector));
+
             return new GivenSelector<TOut>(() => selector(subject), predecessorSucceeded, predecessor);
         }
 
