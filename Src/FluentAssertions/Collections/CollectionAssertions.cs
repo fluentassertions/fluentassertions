@@ -45,7 +45,9 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(() => Subject.Cast<object>())
                 .ForCondition(collection => !collection.Any())
-                .FailWith("but found {0}.", collection => collection);
+                .FailWith("but found {0}.", collection => collection)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -265,7 +267,9 @@ namespace FluentAssertions.Collections
                 .Given(() => Subject.ConvertOrCastToCollection<TActual>())
                 .AssertCollectionsHaveSameCount(expectedItems.Count)
                 .Then
-                .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
+                .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison))
+                .Then
+                .ClearExpectation();
         }
 
         /// <summary>
@@ -1447,7 +1451,9 @@ namespace FluentAssertions.Collections
                 .Then
                 .AssertCollectionHasEnoughItems(expected.Length)
                 .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison));
+                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison))
+                .Then
+                .ClearExpectation();
         }
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
@@ -1460,7 +1466,9 @@ namespace FluentAssertions.Collections
                 .Then
                 .AssertCollectionHasEnoughItems(expected.Count)
                 .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison));
+                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison))
+                .Then
+                .ClearExpectation();
         }
 
         /// <summary>
@@ -1498,7 +1506,9 @@ namespace FluentAssertions.Collections
                     int firstIndexToCompare = a.Count - e.Count;
                     int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
                     return index >= 0 ? index + firstIndexToCompare : index;
-                });
+                })
+                .Then
+                .ClearExpectation();
         }
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
@@ -1516,7 +1526,9 @@ namespace FluentAssertions.Collections
                     int firstIndexToCompare = a.Count - e.Count;
                     int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
                     return index >= 0 ? index + firstIndexToCompare : index;
-                });
+                })
+                .Then
+                .ClearExpectation();
         }
 
         /// <summary>
@@ -1586,7 +1598,9 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => SuccessorOf(predecessor, subject))
                 .ForCondition(successor => successor.IsSameOrEqualTo(expectation))
-                .FailWith("but found {0}.", successor => successor);
+                .FailWith("but found {0}.", successor => successor)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1640,7 +1654,9 @@ namespace FluentAssertions.Collections
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1682,7 +1698,9 @@ namespace FluentAssertions.Collections
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
-                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]");
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

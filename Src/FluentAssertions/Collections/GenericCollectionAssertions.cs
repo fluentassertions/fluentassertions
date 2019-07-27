@@ -419,7 +419,9 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
-                    .FailWithPreFormatted(failureMessage);
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
