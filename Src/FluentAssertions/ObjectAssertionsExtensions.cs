@@ -122,15 +122,17 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
-            var stream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter
+            using (var stream = new MemoryStream())
             {
-                Binder = new SimpleBinder(subject.GetType())
-            };
+                var binaryFormatter = new BinaryFormatter
+                {
+                    Binder = new SimpleBinder(subject.GetType())
+                };
 
-            binaryFormatter.Serialize(stream, subject);
-            stream.Position = 0;
-            return binaryFormatter.Deserialize(stream);
+                binaryFormatter.Serialize(stream, subject);
+                stream.Position = 0;
+                return binaryFormatter.Deserialize(stream);
+            }
         }
 
         private class SimpleBinder : SerializationBinder
@@ -202,12 +204,14 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingXmlSerializer(object subject)
         {
-            var stream = new MemoryStream();
-            var binaryFormatter = new XmlSerializer(subject.GetType());
-            binaryFormatter.Serialize(stream, subject);
+            using (var stream = new MemoryStream())
+            {
+                var binaryFormatter = new XmlSerializer(subject.GetType());
+                binaryFormatter.Serialize(stream, subject);
 
-            stream.Position = 0;
-            return binaryFormatter.Deserialize(stream);
+                stream.Position = 0;
+                return binaryFormatter.Deserialize(stream);
+            }
         }
     }
 }
