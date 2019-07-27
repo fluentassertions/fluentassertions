@@ -697,7 +697,8 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.Value.Second != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(", but it was.")
-                .Then.ClearExpectation();
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
