@@ -48,23 +48,25 @@ namespace FluentAssertions.Execution
 
             message = Regex.Replace(message, pattern, match =>
             {
-                string defaultIdentifier = match.Groups["default"].Value;
-                string result = "object";
-
+                const string result = " ";
                 if (!identifier.IsNullOrEmpty())
                 {
-                    result = identifier;
-                }
-                else if (!defaultIdentifier.IsNullOrEmpty())
-                {
-                    result = defaultIdentifier;
-                }
-                else if (!fallbackIdentifier.IsNullOrEmpty())
-                {
-                    result = fallbackIdentifier;
+                    return result + identifier;
                 }
 
-                return " " + result;
+                string defaultIdentifier = match.Groups["default"].Value;
+
+                if (!defaultIdentifier.IsNullOrEmpty())
+                {
+                    return result + defaultIdentifier;
+                }
+
+                if (!fallbackIdentifier.IsNullOrEmpty())
+                {
+                    return result + fallbackIdentifier;
+                }
+
+                return " object";
             });
 
             return message.TrimStart();

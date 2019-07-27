@@ -19,7 +19,7 @@ namespace FluentAssertions.Specs
 
         Task IClock.DelayAsync(TimeSpan delay, CancellationToken cancellationToken)
         {
-            elapsedTime = elapsedTime + delay;
+            elapsedTime += delay;
             return delayTask.Task;
         }
 
@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
 
         public void Delay(TimeSpan timeToDelay)
         {
-            elapsedTime = elapsedTime + timeToDelay;
+            elapsedTime += timeToDelay;
         }
 
         public void CompletesBeforeTimeout()

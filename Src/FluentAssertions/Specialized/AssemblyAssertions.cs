@@ -49,7 +49,7 @@ namespace FluentAssertions.Reflection
 
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
-                   .ForCondition(references.All(x => x != assemblyName))
+                   .ForCondition(!references.Contains(assemblyName))
                    .FailWith("Expected assembly {0} not to reference assembly {1}{reason}.", subjectName, assemblyName);
         }
 
@@ -82,7 +82,7 @@ namespace FluentAssertions.Reflection
 
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
-                   .ForCondition(references.Any(x => x == assemblyName))
+                   .ForCondition(references.Contains(assemblyName))
                    .FailWith("Expected assembly {0} to reference assembly {1}{reason}, but it does not.", subjectName, assemblyName);
         }
 #endif

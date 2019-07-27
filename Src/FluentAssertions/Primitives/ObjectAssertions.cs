@@ -107,7 +107,7 @@ namespace FluentAssertions.Primitives
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
-            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext
             {
@@ -176,7 +176,7 @@ namespace FluentAssertions.Primitives
             string because = "",
             params object[] becauseArgs)
         {
-            bool hasMismatches = false;
+            bool hasMismatches;
             using (var scope = new AssertionScope())
             {
                 Subject.Should().BeEquivalentTo(unexpected, config, because, becauseArgs);

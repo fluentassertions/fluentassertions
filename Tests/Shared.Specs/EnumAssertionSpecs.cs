@@ -6,15 +6,15 @@ namespace FluentAssertions.Specs
 {
     public enum EnumULong : ulong
     {
-        Int64Max = Int64.MaxValue,
-        UInt64LessOne = UInt64.MaxValue - 1,
-        UInt64Max = UInt64.MaxValue
+        Int64Max = long.MaxValue,
+        UInt64LessOne = ulong.MaxValue - 1,
+        UInt64Max = ulong.MaxValue
     }
 
     public enum EnumLong : long
     {
-        Int64Max = Int64.MaxValue,
-        Int64LessOne = Int64.MaxValue - 1
+        Int64Max = long.MaxValue,
+        Int64LessOne = long.MaxValue - 1
     }
 
     public class EnumAssertionSpecs
@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
 #if NETCOREAPP1_1
                 .WithMessage($"Expected enum to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})*");
 #else
-                .WithMessage($"Expected subjectEnum to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(Int64)EnumLong.Int64LessOne})*");
+                .WithMessage($"Expected subjectEnum to equal EnumULong.UInt64Max({(ulong)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(long)EnumLong.Int64LessOne})*");
 #endif
         }
 
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage($"Expected*to equal EnumULong.UInt64Max({(UInt64)EnumULong.UInt64Max}) by name because comparing enums should throw, but found null*");
+                .WithMessage($"Expected*to equal EnumULong.UInt64Max({(ulong)EnumULong.UInt64Max}) by name because comparing enums should throw, but found null*");
         }
 
         [Fact]

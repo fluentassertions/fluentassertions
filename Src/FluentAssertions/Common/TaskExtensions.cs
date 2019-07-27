@@ -25,6 +25,5 @@ namespace FluentAssertions.Common
                 return action();
             }
         }
-
     }
 }

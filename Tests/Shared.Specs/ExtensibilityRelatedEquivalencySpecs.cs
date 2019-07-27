@@ -371,12 +371,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Type = typeof(String),
+                Type = typeof(string),
             };
 
             var other = new
             {
-                Type = typeof(String).AssemblyQualifiedName,
+                Type = typeof(string).AssemblyQualifiedName,
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -656,7 +656,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
-                .Using<ClassWithSomeFieldsAndProperties>(ctx => ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions=> nestedOptions.Excluding(x => x.Property2)))
+                .Using<ClassWithSomeFieldsAndProperties>(ctx => ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions => nestedOptions.Excluding(x => x.Property2)))
                 .WhenTypeIs<ClassWithSomeFieldsAndProperties>());
 
             //-----------------------------------------------------------------------------------------------------------

@@ -28,7 +28,6 @@ namespace FluentAssertions.Specs
 
         private class SomeBaseClass
         {
-
         }
 
         private class SomeDerivedClass : SomeBaseClass
