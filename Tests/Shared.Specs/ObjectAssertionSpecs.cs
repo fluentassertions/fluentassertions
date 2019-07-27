@@ -662,6 +662,22 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_null_instance_is_asserted_to_be_assignable_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object someObject = null;
+            Action act = () => someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*assignable to {typeof(DateTime)}*failure message*found <null>*");
+        }
+
+        [Fact]
         public void When_an_unrelated_type_instance_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -842,6 +858,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(System.Collections.Generic.IList<>)}*failure message*{typeof(System.Collections.Generic.List<string>)} is*");
+        }
+
+        [Fact]
+        public void When_a_null_instance_is_asserted_to_not_be_assignable_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object someObject = null;
+            Action act = () => someObject.Should().NotBeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*not be assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
 
         [Fact]

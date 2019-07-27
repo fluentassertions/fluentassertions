@@ -262,7 +262,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
@@ -310,7 +310,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
