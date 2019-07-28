@@ -36,7 +36,7 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

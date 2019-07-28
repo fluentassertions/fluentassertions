@@ -19,7 +19,7 @@ namespace FluentAssertions.Specialized
         /// <param name="executionTime">The execution on which time must be asserted.</param>
         public ExecutionTimeAssertions(ExecutionTime executionTime)
         {
-            this.execution = executionTime;
+            execution = executionTime;
         }
 
         /// <summary>
