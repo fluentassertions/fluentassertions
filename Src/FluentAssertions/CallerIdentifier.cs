@@ -126,7 +126,7 @@ namespace FluentAssertions
 
         private static bool IsStringLiteral(string candidate)
         {
-            return candidate.StartsWith("\"");
+            return candidate.StartsWith("\"", StringComparison.Ordinal);
         }
 
         private static bool IsNumeric(string candidate)

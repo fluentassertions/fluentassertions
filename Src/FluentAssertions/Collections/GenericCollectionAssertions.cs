@@ -343,7 +343,7 @@ namespace FluentAssertions.Collections
             // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
             // execution times.
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> forceStringOrderingConfig =
-                x => config(x).WithStrictOrderingFor(s => s.SelectedMemberPath == "");
+                x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.SelectedMemberPath));
 
             BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
