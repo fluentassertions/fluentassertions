@@ -8,7 +8,7 @@ namespace FluentAssertions.Xml
 {
     internal class XmlReaderValidator
     {
-        private readonly IAssertionScope assertion;
+        private readonly AssertionScope assertion;
         private readonly XmlReader subjectReader;
         private readonly XmlReader otherReader;
 

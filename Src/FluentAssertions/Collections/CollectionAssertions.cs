@@ -255,7 +255,7 @@ namespace FluentAssertions.Collections
 
             ICollection<TExpected> expectedItems = expectation.ConvertOrCastToCollection<TExpected>();
 
-            IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
             if (subjectIsNull)
             {
                 assertion.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expectedItems);
@@ -599,7 +599,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
             }
 
-            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
             IEnumerable<object> actualItems = Subject.Cast<object>();
 
             using (var scope = new AssertionScope())

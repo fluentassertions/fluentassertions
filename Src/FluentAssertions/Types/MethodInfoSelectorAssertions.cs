@@ -68,7 +68,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
+            MethodInfo[] virtualMethods = GetAllVirtualMethodsFromSelection();
 
             string failureMessage =
                 "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:" +
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
+            MethodInfo[] methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
@@ -190,7 +190,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
+            MethodInfo[] methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +
