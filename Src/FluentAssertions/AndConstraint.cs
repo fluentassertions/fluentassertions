@@ -8,7 +8,7 @@ namespace FluentAssertions
         public T And { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object"/> class.
+        /// Initializes a new instance of the <see cref="System.Object"/> class.
         /// </summary>
         public AndConstraint(T parentConstraint)
         {
