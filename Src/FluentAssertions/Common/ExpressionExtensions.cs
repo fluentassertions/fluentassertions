@@ -40,7 +40,7 @@ namespace FluentAssertions.Common
         {
             Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected a property expression, but found <null>.");
 
-            var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
+            MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                              AttemptToGetMemberInfoFromMemberExpression(expression);
 
             if (!(memberInfo is PropertyInfo propertyInfo))
@@ -92,7 +92,9 @@ namespace FluentAssertions.Common
 
             while (node != null)
             {
+#pragma warning disable IDE0010 // System.Linq.Expressions.ExpressionType has many members we do not care about
                 switch (node.NodeType)
+#pragma warning restore IDE0010
                 {
                     case ExpressionType.Lambda:
                         node = ((LambdaExpression)node).Body;

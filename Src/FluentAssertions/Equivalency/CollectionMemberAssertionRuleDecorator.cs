@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            var equivalencyValidationContext = CreateAdjustedCopy(context);
+            EquivalencyValidationContext equivalencyValidationContext = CreateAdjustedCopy(context);
 
             return equivalencyStep.Handle(equivalencyValidationContext, parent, config);
         }

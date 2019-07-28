@@ -64,12 +64,12 @@ namespace FluentAssertions.Equivalency
 
             StringBuilder descriptionBuilder = new StringBuilder();
 
-            foreach (var inclusion in inclusions)
+            foreach (ConversionSelectorRule inclusion in inclusions)
             {
                 descriptionBuilder.Append(inclusion.Description);
             }
 
-            foreach (var exclusion in exclusions)
+            foreach (ConversionSelectorRule exclusion in exclusions)
             {
                 descriptionBuilder.Append(exclusion.Description);
             }

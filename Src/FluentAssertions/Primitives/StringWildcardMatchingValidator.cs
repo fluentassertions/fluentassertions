@@ -29,7 +29,7 @@ namespace FluentAssertions.Primitives
 
         private bool IsMatch()
         {
-            var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+            RegexOptions options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
             string input = CleanNewLines(subject);
             string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));

@@ -71,7 +71,7 @@ namespace FluentAssertions.Specialized
         public void BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) <= 0;
-            var (isRunning, elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
 
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
@@ -99,7 +99,7 @@ namespace FluentAssertions.Specialized
         public void BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) < 0;
-            var (isRunning, elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
 
             Execute.Assertion
                 .ForCondition(Condition(execution.ElapsedTime))
@@ -127,7 +127,7 @@ namespace FluentAssertions.Specialized
         public void BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) >= 0;
-            var (isRunning, elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
 
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specialized
         public void BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) > 0;
-            var (isRunning, elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
 
             Execute.Assertion
                 .ForCondition(Condition(elapsed))
@@ -186,15 +186,15 @@ namespace FluentAssertions.Specialized
         /// </param>
         public void BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
         {
-            var minimumValue = expectedDuration - precision;
-            var maximumValue = expectedDuration + precision;
+            TimeSpan minimumValue = expectedDuration - precision;
+            TimeSpan maximumValue = expectedDuration + precision;
 
             bool MaxCondition(TimeSpan duration) => duration <= maximumValue;
             bool MinCondition(TimeSpan duration) => duration >= minimumValue;
 
             // for polling we only use max condition, we don't want poll to stop if
             // elapsed time didn't even get to the acceptable range
-            var (isRunning, elapsed) = PollUntil(MaxCondition, expectedResult: false, rate: maximumValue);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(MaxCondition, expectedResult: false, rate: maximumValue);
 
             Execute.Assertion
                 .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))

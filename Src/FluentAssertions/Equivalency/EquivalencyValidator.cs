@@ -82,7 +82,7 @@ namespace FluentAssertions.Equivalency
 
         private bool IsCyclicReference(IEquivalencyValidationContext context)
         {
-            var objectTracker = AssertionScope.Current.Get<CyclicReferenceDetector>("cyclic_reference_detector");
+            CyclicReferenceDetector objectTracker = AssertionScope.Current.Get<CyclicReferenceDetector>("cyclic_reference_detector");
             if (objectTracker is null)
             {
                 objectTracker = new CyclicReferenceDetector(config.CyclicReferenceHandling);
@@ -114,7 +114,7 @@ namespace FluentAssertions.Equivalency
 
         private void RunStepsUntilEquivalencyIsProven(IEquivalencyValidationContext context)
         {
-            foreach (var step in AssertionOptions.EquivalencySteps)
+            foreach (IEquivalencyStep step in AssertionOptions.EquivalencySteps)
             {
                 if (step.CanHandle(context, config) && step.Handle(context, this, config))
                 {

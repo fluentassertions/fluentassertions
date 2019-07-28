@@ -778,7 +778,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> BeSameDateAs(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
-            var expectedDate = expected.Date;
+            DateTime expectedDate = expected.Date;
 
             Execute.Assertion
                 .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}", expectedDate)

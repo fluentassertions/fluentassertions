@@ -845,7 +845,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeSameDateAs(DateTimeOffset expected, string because = "",
             params object[] becauseArgs)
         {
-            var expectedDate = expected.Date;
+            DateTime expectedDate = expected.Date;
 
             Execute.Assertion
                 .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
@@ -876,7 +876,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotBeSameDateAs(DateTimeOffset unexpected, string because = "",
             params object[] becauseArgs)
         {
-            var unexpectedDate = unexpected.Date;
+            DateTime unexpectedDate = unexpected.Date;
 
             Execute.Assertion
                 .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)

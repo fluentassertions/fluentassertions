@@ -84,7 +84,7 @@ namespace FluentAssertions.Events
         /// </summary>
         private static Type GetDelegateReturnType(Type d)
         {
-            var invoke = DelegateInvokeMethod(d);
+            MethodInfo invoke = DelegateInvokeMethod(d);
             return invoke.ReturnType;
         }
 
@@ -93,9 +93,9 @@ namespace FluentAssertions.Events
         /// </summary>
         private static Type[] GetDelegateParameterTypes(Type d)
         {
-            var invoke = DelegateInvokeMethod(d);
+            MethodInfo invoke = DelegateInvokeMethod(d);
 
-            var parameterInfo = invoke.GetParameters();
+            ParameterInfo[] parameterInfo = invoke.GetParameters();
             var parameters = new Type[parameterInfo.Length];
 
             for (var index = 0; index < parameterInfo.Length; index++)
@@ -134,7 +134,7 @@ namespace FluentAssertions.Events
                 return false;
             }
 
-            var invoke = d.GetMethod("Invoke");
+            MethodInfo invoke = d.GetMethod("Invoke");
             return invoke != null;
         }
 
@@ -148,7 +148,7 @@ namespace FluentAssertions.Events
                 throw new ArgumentException("Type is not a Delegate!", nameof(d));
             }
 
-            var invoke = d.GetMethod("Invoke");
+            MethodInfo invoke = d.GetMethod("Invoke");
             return invoke;
         }
     }

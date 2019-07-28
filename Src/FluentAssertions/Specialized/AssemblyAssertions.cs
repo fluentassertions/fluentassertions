@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
@@ -45,7 +46,7 @@ namespace FluentAssertions.Reflection
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
 
-            var references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+            IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
@@ -78,7 +79,7 @@ namespace FluentAssertions.Reflection
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
 
-            var references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+            IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
             Execute.Assertion
                    .BecauseOf(because, becauseArgs)
@@ -97,7 +98,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
         {
-            var foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
+            Type foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
 
             Execute.Assertion.ForCondition(foundType != null)
                 .BecauseOf(because, becauseArgs)

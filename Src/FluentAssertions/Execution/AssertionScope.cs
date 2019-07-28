@@ -141,7 +141,7 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string message, params object[] args)
         {
-            var localReason = reason;
+            Func<string> localReason = reason;
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);

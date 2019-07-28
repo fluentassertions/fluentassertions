@@ -176,7 +176,7 @@ namespace FluentAssertions.Specialized
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
-                var timer = clock.StartTimer();
+                ITimer timer = clock.StartTimer();
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {

@@ -85,7 +85,7 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
-            var query =
+            IEnumerable<MethodInfo> query =
                 from method in SubjectMethods
                 where method.IsNonVirtual()
                 select method;
@@ -95,7 +95,7 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllVirtualMethodsFromSelection()
         {
-            var query =
+            IEnumerable<MethodInfo> query =
                 from method in SubjectMethods
                 where !method.IsNonVirtual()
                 select method;
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
+            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
@@ -190,7 +190,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith<TAttribute>(isMatchingAttributePredicate);
+            IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +

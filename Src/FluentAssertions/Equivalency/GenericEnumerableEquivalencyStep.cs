@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context);
 
             return (context.Expectation != null) && IsGenericCollection(expectationType);
         }
@@ -38,7 +38,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectedType = config.GetExpectationType(context);
 
-            var interfaceTypes = GetIEnumerableInterfaces(expectedType);
+            Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Length == 1)
@@ -97,7 +97,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool IsGenericCollection(Type type)
         {
-            var enumerableInterfaces = GetIEnumerableInterfaces(type);
+            Type[] enumerableInterfaces = GetIEnumerableInterfaces(type);
 
             return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }

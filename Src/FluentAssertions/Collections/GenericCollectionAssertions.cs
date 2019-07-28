@@ -45,7 +45,7 @@ namespace FluentAssertions.Collections
 
             Func<T, TKey> compiledPredicate = predicate.Compile();
 
-            var values = Subject
+            T[] values = Subject
                 .Where(e => compiledPredicate(e) is null)
                 .ToArray();
 

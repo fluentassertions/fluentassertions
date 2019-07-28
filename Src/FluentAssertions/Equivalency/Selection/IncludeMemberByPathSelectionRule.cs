@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency.Selection
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
             string currentPath, IMemberInfo context)
         {
-            var matchingMembers =
+            IEnumerable<SelectedMemberInfo> matchingMembers =
                 from member in context.RuntimeType.GetNonPrivateMembers()
                 let memberPath = new MemberPath(member.DeclaringType, currentPath.Combine(member.Name))
                 where memberToInclude.IsSameAs(memberPath) ||

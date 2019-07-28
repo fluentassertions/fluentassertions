@@ -116,7 +116,7 @@ namespace FluentAssertions.Types
 
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
         {
-            var query =
+            IEnumerable<PropertyInfo> query =
                 from property in SubjectProperties
                 where !property.IsVirtual()
                 select property;
@@ -126,7 +126,7 @@ namespace FluentAssertions.Types
 
         private PropertyInfo[] GetAllVirtualPropertiesFromSelection()
         {
-            var query =
+            IEnumerable<PropertyInfo> query =
                 from property in SubjectProperties
                 where property.IsVirtual()
                 select property;

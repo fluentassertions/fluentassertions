@@ -796,7 +796,7 @@ namespace FluentAssertions.Primitives
         {
             ThrowIfValuesNullOrEmpty(values);
 
-            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+            IEnumerable<string> matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
 
             Execute.Assertion
                 .ForCondition(!matches.Any())

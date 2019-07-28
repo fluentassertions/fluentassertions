@@ -26,7 +26,7 @@ namespace FluentAssertions
 
             if (actualException is AggregateException aggregateException)
             {
-                var flattenedExceptions = aggregateException.Flatten();
+                AggregateException flattenedExceptions = aggregateException.Flatten();
 
                 exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
             }

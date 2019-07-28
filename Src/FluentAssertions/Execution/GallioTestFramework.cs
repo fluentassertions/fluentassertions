@@ -30,20 +30,20 @@ namespace FluentAssertions.Execution
 
             if (testContext != null)
             {
-                var method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
+                MethodInfo method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
                 method.Invoke(testContext, null);
             }
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
             object assertionFailure;
-            var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new[] { typeof(string) });
+            MethodInfo setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new[] { typeof(string) });
             setMessageMethod.Invoke(assertionFailureBuilder, new object[] { message });
 
-            var toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
+            MethodInfo toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
             assertionFailure = toAssertionFailureMethod.Invoke(assertionFailureBuilder, null);
             try
             {
-                var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
+                MethodInfo failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
                 failMethod.Invoke(null, new[] { assertionFailure });
             }
             catch (TargetInvocationException ex)
