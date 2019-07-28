@@ -88,7 +88,9 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
+#pragma warning disable CA2000 // AssertionScope should not be disposed here
             get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
+#pragma warning restore CA2000
             private set => SetCurrentAssertionScope(value);
         }
 

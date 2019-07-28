@@ -33,7 +33,9 @@ namespace FluentAssertions.Equivalency
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#pragma warning disable CA1051 // TODO: fix in 6.0
         protected readonly OrderingRuleCollection orderingRules = new OrderingRuleCollection();
+#pragma warning restore CA1051
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool isRecursive;

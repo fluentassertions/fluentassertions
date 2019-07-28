@@ -211,6 +211,8 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
+#pragma warning disable CA1822 // Do not change signature of a public member
         protected string Context => "property info";
+#pragma warning restore CA1822
     }
 }

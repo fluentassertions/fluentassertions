@@ -13,7 +13,9 @@ namespace FluentAssertions.Execution
     [Serializable]
 #endif
 
+#pragma warning disable CA1032, RCS1194 // AssertionFailedException should never be constructed with an empty message
     public class AssertionFailedException : Exception
+#pragma warning restore CA1032, RCS1194
     {
         public AssertionFailedException(string message)
             : base(message)

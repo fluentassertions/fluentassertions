@@ -66,7 +66,9 @@ namespace FluentAssertions.Xml
 
                 ValidationResult validationResult = null;
 
+#pragma warning disable IDE0010 // System.Xml.XmlNodeType has many members we do not care about
                 switch (subjectReader.NodeType)
+#pragma warning restore IDE0010
                 {
                     case XmlNodeType.Element:
                         validationResult = ValidateStartElement();
