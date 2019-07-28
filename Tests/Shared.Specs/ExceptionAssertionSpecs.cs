@@ -395,7 +395,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to match the equivalent of*\"message2\", but*\"message2*: someParam\"*");
+                    "Expected exception message to match the equivalent of*\"message2\", but*message2*someParam*");
             }
         }
 
