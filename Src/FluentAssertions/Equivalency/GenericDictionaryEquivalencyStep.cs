@@ -143,7 +143,9 @@ namespace FluentAssertions.Equivalency
             if (subject is ICollection subjectCollection
                 && expectation is ICollection expectationCollection
                 && subjectCollection.Count == expectationCollection.Count)
+            {
                 return true;
+            }
 
             Type subjectType = subject.GetType();
             Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);

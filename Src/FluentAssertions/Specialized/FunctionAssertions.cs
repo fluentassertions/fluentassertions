@@ -121,6 +121,5 @@ namespace FluentAssertions.Specialized
 
             return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
         }
-
     }
 }

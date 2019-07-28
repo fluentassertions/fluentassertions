@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage(String.Format("Expected assembly \"{0}\" " +
+                .WithMessage(string.Format("Expected assembly \"{0}\" " +
                              "to define type \"FakeNamespace\".\"FakeName\", but it does not.", thisAssembly.FullName));
         }
 

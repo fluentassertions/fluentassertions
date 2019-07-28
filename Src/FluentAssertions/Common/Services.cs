@@ -10,21 +10,13 @@ namespace FluentAssertions.Common
     {
         private static readonly object lockable = new object();
         private static Configuration configuration;
-        private static Action<string> throwException;
-
-        private static IReflector reflector;
-        private static IConfigurationStore configurationStore;
 
         static Services()
         {
             ResetToDefaults();
         }
 
-        public static IConfigurationStore ConfigurationStore
-        {
-            get => configurationStore;
-            set => configurationStore = value;
-        }
+        public static IConfigurationStore ConfigurationStore { get; set; }
 
         public static Configuration Configuration
         {
@@ -42,39 +34,24 @@ namespace FluentAssertions.Common
             }
         }
 
-        public static Action<string> ThrowException
-        {
-            get
-            {
-                return throwException;
-            }
+        public static Action<string> ThrowException { get; set; }
 
-            set
-            {
-                throwException = value;
-            }
-        }
-
-        public static IReflector Reflector
-        {
-            get { return reflector; }
-            set { reflector = value; }
-        }
+        public static IReflector Reflector { get; set; }
 
         public static void ResetToDefaults()
         {
 #if NETSTANDARD1_3
-            reflector = new NullReflector();
-            configurationStore = new NullConfigurationStore();
+            Reflector = new NullReflector();
+            ConfigurationStore = new NullConfigurationStore();
 #elif NETSTANDARD1_6
-            reflector = new NetStandardReflector();
-            configurationStore = new NullConfigurationStore();
+            Reflector = new NetStandardReflector();
+            ConfigurationStore = new NullConfigurationStore();
 #else
-            reflector = new FullFrameworkReflector();
-            configurationStore = new AppSettingsConfigurationStore();
+            Reflector = new FullFrameworkReflector();
+            ConfigurationStore = new AppSettingsConfigurationStore();
 #endif
 
-            throwException = TestFrameworkProvider.Throw;
+            ThrowException = TestFrameworkProvider.Throw;
         }
     }
 }

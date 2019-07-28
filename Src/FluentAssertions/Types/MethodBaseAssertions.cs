@@ -16,7 +16,6 @@ namespace FluentAssertions.Types
     {
         protected MethodBaseAssertions() : this(default)
         {
-
         }
 
         protected MethodBaseAssertions(TSubject subject) : base(subject)

@@ -184,7 +184,7 @@ namespace FluentAssertions.Specialized
         protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
-            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(exception).ToArray();
+            TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -218,7 +218,6 @@ namespace FluentAssertions.Specialized
                 .ForCondition(!exceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
-
         }
 
         protected abstract void InvokeSubject();

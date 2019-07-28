@@ -41,7 +41,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
         {
-            IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
+            MethodInfo[] nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
             string failureMessage =
                 "Expected all selected methods to be virtual{reason}, but the following methods are not virtual:" +

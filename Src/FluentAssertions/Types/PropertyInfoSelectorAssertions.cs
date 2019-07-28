@@ -40,7 +40,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
         {
-            IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
+            PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
             string failureMessage =
                 "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
@@ -67,7 +67,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            IEnumerable<PropertyInfo> virtualProperties = GetAllVirtualPropertiesFromSelection();
+            PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
             string failureMessage =
                 "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
@@ -147,7 +147,7 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
+            PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
             string failureMessage =
                 "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:" +
@@ -175,7 +175,7 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            IEnumerable<PropertyInfo> propertiesWithAttribute = GetPropertiesWith<TAttribute>();
+            PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
             string failureMessage =
                 "Expected all selected properties not to be decorated with {0}{reason}, but the following properties are:" +

@@ -22,6 +22,7 @@ namespace FluentAssertions.Equivalency
                 Description = description;
             }
         }
+
         private List<ConversionSelectorRule> inclusions = new List<ConversionSelectorRule>();
         private List<ConversionSelectorRule> exclusions = new List<ConversionSelectorRule>();
 

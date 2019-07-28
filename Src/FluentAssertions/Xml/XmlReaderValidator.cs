@@ -195,7 +195,7 @@ namespace FluentAssertions.Xml
 
         private IList<AttributeData> GetAttributes(XmlReader reader)
         {
-            IList<AttributeData> attributes = new List<AttributeData>();
+            var attributes = new List<AttributeData>();
 
             if (reader.MoveToFirstAttribute())
             {

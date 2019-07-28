@@ -30,14 +30,14 @@ namespace FluentAssertions.Execution
         private bool useLineBreaks;
 
 #if !NET45
-        private static AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
+        private static readonly AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
 #endif
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
         private bool? succeeded;
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Starts a new scope based on the given assertion strategy.
@@ -88,10 +88,8 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
-
             get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
             private set => SetCurrentAssertionScope(value);
-
         }
 
         public AssertionScope UsingLineBreaks
@@ -105,7 +103,7 @@ namespace FluentAssertions.Execution
 
         public bool Succeeded
         {
-            get => succeeded.HasValue && succeeded.Value;
+            get => succeeded == true;
         }
 
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
@@ -314,7 +312,7 @@ namespace FluentAssertions.Execution
 #if !NET45
             return current.Value;
 #else
-            return (AssertionScope) CallContext.LogicalGetData("this");
+            return (AssertionScope)CallContext.LogicalGetData("this");
 #endif
         }
 
@@ -339,6 +337,6 @@ namespace FluentAssertions.Execution
 
         IAssertionScope IAssertionScope.UsingLineBreaks => UsingLineBreaks;
 
-#endregion
+        #endregion
     }
 }
