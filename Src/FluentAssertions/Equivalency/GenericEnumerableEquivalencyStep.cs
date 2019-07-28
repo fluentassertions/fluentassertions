@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
                     "to use for asserting the equivalency of the collection. ",
                     interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-            if (AssertSubjectIsCollection(context.Expectation, context.Subject))
+            if (AssertSubjectIsCollection(context.Subject))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency
         private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
             => validator.Execute(subject, expectation?.ToArray());
 
-        private static bool AssertSubjectIsCollection(object expectation, object subject)
+        private static bool AssertSubjectIsCollection(object subject)
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
