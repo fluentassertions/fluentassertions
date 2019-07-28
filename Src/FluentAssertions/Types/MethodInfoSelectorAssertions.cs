@@ -116,7 +116,7 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return BeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return NotBeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
