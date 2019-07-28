@@ -422,6 +422,7 @@ namespace JetBrains.Annotations
     /// which should not be removed and so is treated as used.
     /// </summary>
     [MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
     internal sealed class PublicAPIAttribute : Attribute
     {
         public PublicAPIAttribute() { }
