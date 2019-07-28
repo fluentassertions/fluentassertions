@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
             return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
         }
 
-        private string ConvertWildcardToRegEx(string wildcardExpression)
+        private static string ConvertWildcardToRegEx(string wildcardExpression)
         {
             return "^" + Regex.Escape(wildcardExpression).Replace("\\*", ".*").Replace("\\?", ".") + "$";
         }

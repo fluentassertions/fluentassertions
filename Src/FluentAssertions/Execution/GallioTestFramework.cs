@@ -79,6 +79,6 @@ namespace FluentAssertions.Execution
             }
         }
 
-        private string AssemblyName => "Gallio";
+        private static string AssemblyName => "Gallio";
     }
 }

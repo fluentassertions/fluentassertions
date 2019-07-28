@@ -195,7 +195,7 @@ namespace FluentAssertions.Xml
             return null;
         }
 
-        private IList<AttributeData> GetAttributes(XmlReader reader)
+        private static IList<AttributeData> GetAttributes(XmlReader reader)
         {
             var attributes = new List<AttributeData>();
 

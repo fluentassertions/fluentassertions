@@ -777,7 +777,7 @@ namespace FluentAssertions.Collections
         /// Returns an enumerable consisting of all items in the first collection also appearing in the second.
         /// </summary>
         /// <remarks>Enumerable.Intersect is not suitable because it drops any repeated elements.</remarks>
-        private IEnumerable<TValue> RepetitionPreservingIntersect(
+        private static IEnumerable<TValue> RepetitionPreservingIntersect(
             IEnumerable<TValue> first, IEnumerable<TValue> second)
         {
             var secondSet = new HashSet<TValue>(second);

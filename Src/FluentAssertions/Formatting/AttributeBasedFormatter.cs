@@ -70,7 +70,7 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private MethodInfo[] FindCustomFormatters()
+        private static MethodInfo[] FindCustomFormatters()
         {
             IEnumerable<MethodInfo> query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)

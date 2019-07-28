@@ -1079,7 +1079,7 @@ namespace FluentAssertions.Types
             return NotHaveConstructor(new Type[] { }, because, becauseArgs);
         }
 
-        private string GetParameterString(IEnumerable<Type> parameterTypes)
+        private static string GetParameterString(IEnumerable<Type> parameterTypes)
         {
             return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }
