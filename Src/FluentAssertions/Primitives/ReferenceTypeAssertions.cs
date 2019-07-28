@@ -134,7 +134,7 @@ namespace FluentAssertions.Primitives
 
             T typedSubject = (Subject is T type)
                 ? type
-                : default(T);
+                : default;
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
@@ -244,7 +244,7 @@ namespace FluentAssertions.Primitives
 
             T typedSubject = (Subject is T type)
                 ? type
-                : default(T);
+                : default;
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
