@@ -82,7 +82,7 @@ function MD5HashFile([string] $filePath)
 
 Write-Host "Ensuring .NET Core is installed"
 
-$minVersion = "3.0.100-preview5-011568"
+$minVersion = "3.0.100-preview7-012821"
 $version = . dotnet --version
 Write-Host "Found .NET Core SDK version $version"
 
