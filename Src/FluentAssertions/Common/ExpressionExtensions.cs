@@ -13,10 +13,7 @@ namespace FluentAssertions.Common
     {
         public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (expression is null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
             MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                                     AttemptToGetMemberInfoFromMemberExpression(expression);
@@ -41,10 +38,7 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (expression is null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected a property expression, but found <null>.");
 
             var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                              AttemptToGetMemberInfoFromMemberExpression(expression);
@@ -88,10 +82,7 @@ namespace FluentAssertions.Common
         public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
             this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
-            if (expression is null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
             var segments = new List<string>();
             var declaringTypes = new List<Type>();

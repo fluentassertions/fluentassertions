@@ -46,11 +46,6 @@ namespace FluentAssertions.Common
         internal static string UnescapePlaceholders(this string value) =>
             value.Replace("{{", "{").Replace("}}", "}");
 
-        public static bool IsNullOrEmpty(this string value)
-        {
-            return string.IsNullOrEmpty(value);
-        }
-
         /// <summary>
         /// Joins a string with one or more other strings using a specified separator.
         /// </summary>

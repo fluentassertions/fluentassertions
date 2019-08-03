@@ -249,6 +249,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             BeDecoratedWith<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
@@ -300,6 +302,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
@@ -351,6 +355,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Execute.Assertion
                 .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
@@ -400,6 +406,8 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Execute.Assertion
                 .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
                 .BecauseOf(because, becauseArgs)

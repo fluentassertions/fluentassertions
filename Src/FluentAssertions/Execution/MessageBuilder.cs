@@ -49,19 +49,19 @@ namespace FluentAssertions.Execution
             message = Regex.Replace(message, pattern, match =>
             {
                 const string result = " ";
-                if (!identifier.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(identifier))
                 {
                     return result + identifier;
                 }
 
                 string defaultIdentifier = match.Groups["default"].Value;
 
-                if (!defaultIdentifier.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(defaultIdentifier))
                 {
                     return result + defaultIdentifier;
                 }
 
-                if (!fallbackIdentifier.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(fallbackIdentifier))
                 {
                     return result + fallbackIdentifier;
                 }

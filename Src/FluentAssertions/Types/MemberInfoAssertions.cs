@@ -79,6 +79,8 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));
@@ -112,6 +114,8 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to not be decorated with {2}{{reason}}, but that attribute was found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));

@@ -12,6 +12,24 @@ namespace FluentAssertions.Specs
 {
     namespace AssertionOptionsSpecs
     {
+        public class AssertionOptionsSpecs
+        {
+            [Fact]
+            public void When_injecting_a_null_configurer_it_should_throw()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.Should().ThrowExactly<ArgumentNullException>()
+                    .Which.ParamName.Should().Be("defaultsConfigurer");
+            }
+        }
+
         // Due to tests that call AssertionOptions
         [CollectionDefinition("AssertionOptionsSpecs", DisableParallelization = true)]
         public class AssertionOptionsSpecsDefinition { }

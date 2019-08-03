@@ -147,6 +147,8 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(exceptionExpression, nameof(exceptionExpression));
+
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Assertion
                 .ForCondition(condition(SingleSubject))

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Xml;
 
@@ -105,10 +106,7 @@ namespace FluentAssertions.Formatting
         {
             try
             {
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new ArgumentNullException(nameof(path), "Formatting a child value requires a path");
-                }
+                Guard.ThrowIfArgumentIsNullOrEmpty(path, nameof(path), "Formatting a child value requires a path");
 
                 if (!graph.TryPush(path, childValue))
                 {

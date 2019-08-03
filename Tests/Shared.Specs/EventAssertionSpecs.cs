@@ -206,6 +206,32 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_injecting_a_null_predicate_into_WithArgs_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            using (var monitor = subject.Monitor())
+            {
+                subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => monitor.Should()
+                    .Raise("NonConventionalEvent")
+                    .WithArgs<string>(predicate: null);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.Should().ThrowExactly<ArgumentNullException>()
+                    .Which.ParamName.Should().Be("predicate");
+            }
+        }
+
+        [Fact]
         public void When_the_event_parameters_dont_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

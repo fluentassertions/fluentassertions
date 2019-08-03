@@ -23,8 +23,8 @@ namespace FluentAssertions.Specialized
 
         private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock) : base(@delegate)
         {
-            this.clock = clock;
-            this.extractor = extractor;
+            this.clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
             Subject = @delegate;
         }
 

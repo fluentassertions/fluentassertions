@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
 
@@ -39,6 +40,8 @@ namespace FluentAssertions
         /// </summary>
         public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, Expression<Func<T, bool>> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             Func<T, bool> compiledPredicate = predicate.Compile();
 
             if (!eventRecorder.First().Parameters.OfType<T>().Any())

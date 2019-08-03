@@ -359,10 +359,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
             where T : TSubject
         {
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate), "Cannot match an object against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match an object against a <null> predicate.");
 
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T)Subject))

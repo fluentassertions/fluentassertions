@@ -242,6 +242,8 @@ namespace FluentAssertions.Collections
         protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> equalityComparison,
             string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             bool subjectIsNull = ReferenceEquals(Subject, null);
             bool expectationIsNull = expectation is null;
             if (subjectIsNull && expectationIsNull)
@@ -249,10 +251,7 @@ namespace FluentAssertions.Collections
                 return;
             }
 
-            if (expectation is null)
-            {
-                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
             ICollection<TExpected> expectedItems = expectation.ConvertOrCastToCollection<TExpected>();
 
@@ -293,10 +292,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collections not to be equal{reason}, but found <null>.");
             }
 
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare collection with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare collection with <null>.");
 
             if (ReferenceEquals(Subject, unexpected))
             {
@@ -414,6 +410,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<IEnumerable>, EquivalencyAssertionOptions<IEnumerable>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<IEnumerable> options = config(AssertionOptions.CloneDefaults<IEnumerable>());
 
             var context = new EquivalencyValidationContext
@@ -460,6 +458,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
             var context = new EquivalencyValidationContext
@@ -494,10 +494,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -593,6 +590,8 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
@@ -710,10 +709,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Contain(IEnumerable expected, string because = "", params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify containment against a <null> collection");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
 
             ICollection<object> expectedObjects = expected.ConvertOrCastToCollection<object>();
             if (!expectedObjects.Any())
@@ -790,10 +786,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify ordered containment against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1054,10 +1047,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
-            if (expectedSuperset is null)
-            {
-                throw new ArgumentNullException(nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1139,10 +1129,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection is null)
-            {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1180,10 +1167,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection is null)
-            {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify count against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1275,10 +1259,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContain(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify non-containment against a <null> collection");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
 
             ICollection<object> unexpectedObjects = unexpected.ConvertOrCastToCollection<object>();
             if (!unexpectedObjects.Any())
@@ -1342,10 +1323,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> IntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection is null)
-            {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1384,10 +1362,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotIntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            if (otherCollection is null)
-            {
-                throw new ArgumentNullException(nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
-            }
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
             if (ReferenceEquals(Subject, null))
             {
@@ -1443,6 +1418,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
@@ -1458,6 +1435,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
@@ -1493,6 +1472,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
@@ -1513,6 +1494,8 @@ namespace FluentAssertions.Collections
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, ICollection<TExpected> expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
