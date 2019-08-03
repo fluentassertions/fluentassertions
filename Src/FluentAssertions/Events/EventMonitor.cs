@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Events
 {
@@ -19,10 +20,7 @@ namespace FluentAssertions.Events
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
-            if (eventSource is null)
-            {
-                throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
-            }
+            Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
 
             subject = new WeakReference(eventSource);
 

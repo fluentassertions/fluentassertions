@@ -63,10 +63,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
-            if (countPredicate is null)
-            {
-                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
 
             if (Subject is null)
             {
@@ -334,10 +331,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> StartWith<TExpected>(
             IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
-            if (expectation is null)
-            {
-                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
             AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -388,10 +382,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> EndWith<TExpected>(
             IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
-            if (expectation is null)
-            {
-                throw new ArgumentNullException(nameof(expectation), "Cannot compare collection with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
             AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);

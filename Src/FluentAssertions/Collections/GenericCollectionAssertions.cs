@@ -238,11 +238,7 @@ namespace FluentAssertions.Collections
         private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction, string because, object[] args)
         {
-            if (comparer is null)
-            {
-                throw new ArgumentNullException(nameof(comparer),
-                    "Cannot assert collection ordering without specifying a comparer.");
-            }
+            Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
 
             if (IsValidProperty(propertyExpression, because, args))
             {
@@ -269,11 +265,8 @@ namespace FluentAssertions.Collections
 
         private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because, object[] args)
         {
-            if (propertyExpression is null)
-            {
-                throw new ArgumentNullException(nameof(propertyExpression),
-                    "Cannot assert collection ordering without specifying a property.");
-            }
+            Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
+                "Cannot assert collection ordering without specifying a property.");
 
             return Execute.Assertion
                 .ForCondition(!(Subject is null))
@@ -379,10 +372,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify against a <null> collection of inspectors");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
 
             ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
             if (!elementInspectors.Any())

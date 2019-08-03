@@ -218,10 +218,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
             string because = "", params object[] becauseArgs)
         {
-            if (countPredicate is null)
-            {
-                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
 
             if (Subject is null)
             {
@@ -331,10 +328,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
             IEnumerable<TKey> missingKeys = expected.Keys.Except(Subject.Keys);
             IEnumerable<TKey> additionalKeys = Subject.Keys.Except(expected.Keys);
@@ -390,10 +384,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
             }
 
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare dictionary with <null>.");
 
             if (ReferenceEquals(Subject, unexpected))
             {
@@ -539,10 +530,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify key containment against a <null> collection of keys");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify key containment against a <null> collection of keys");
 
             ICollection<TKey> expectedKeys = expected.ConvertOrCastToCollection();
 
@@ -642,10 +630,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
 
             ICollection<TKey> unexpectedKeys = unexpected.ConvertOrCastToCollection();
 
@@ -743,10 +728,7 @@ namespace FluentAssertions.Collections
         private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify value containment against a <null> collection of values");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
 
             ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
 
@@ -860,10 +842,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected is null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
 
             ICollection<TValue> unexpectedValues = unexpected.ConvertOrCastToCollection();
 
@@ -930,10 +909,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
             ICollection<KeyValuePair<TKey, TValue>> expectedKeyValuePairs = expected.ConvertOrCastToCollection();
 
@@ -1085,10 +1061,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(items, nameof(items), "Cannot compare dictionary with <null>.");
 
             ICollection<KeyValuePair<TKey, TValue>> keyValuePairs = items.ConvertOrCastToCollection();
 

@@ -194,11 +194,8 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has a root element if the element name is <null>*");
 
             return HaveRoot(XNamespace.None + expected, because, becauseArgs);
         }
@@ -222,11 +219,8 @@ namespace FluentAssertions.Xml
                 throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
             }
 
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has a root element if the element name is <null>*");
 
             XElement root = Subject.Root;
 
@@ -280,11 +274,8 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has an element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has an element if the element name is <null>*");
 
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
         }
@@ -311,11 +302,8 @@ namespace FluentAssertions.Xml
                 throw new InvalidOperationException("Cannot assert the document has an element if the document itself is <null>.");
             }
 
-            if (expected is null)
-            {
-                throw new ArgumentNullException(nameof(expected),
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");
-            }
 
             string expectedText = expected.ToString().EscapePlaceholders();
 
