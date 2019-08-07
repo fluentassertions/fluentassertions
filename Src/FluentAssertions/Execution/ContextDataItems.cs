@@ -34,7 +34,7 @@ namespace FluentAssertions.Execution
 
         public void Add(ContextDataItems contextDataItems)
         {
-            foreach (var item in contextDataItems.items)
+            foreach (DataItem item in contextDataItems.items)
             {
                 Add(item.Clone());
             }
@@ -42,7 +42,7 @@ namespace FluentAssertions.Execution
 
         public void Add(DataItem item)
         {
-            var existingItem = items.SingleOrDefault(i => i.Key == item.Key);
+            DataItem existingItem = items.SingleOrDefault(i => i.Key == item.Key);
             if (existingItem != null)
             {
                 items.Remove(existingItem);

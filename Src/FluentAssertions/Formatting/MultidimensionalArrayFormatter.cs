@@ -45,7 +45,7 @@ namespace FluentAssertions.Formatting
 
                 if (IsFirstIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
-                    sb.Append("{");
+                    sb.Append('{');
                 }
 
                 if (IsInnerMostLoop(arr, currentLoopIndex))
@@ -65,7 +65,7 @@ namespace FluentAssertions.Formatting
 
                 while (IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
-                    sb.Append("}");
+                    sb.Append('}');
                     // Reset current loop's variable to start value ...and move to outer loop
                     dimensionIndices[currentLoopIndex] = arr.GetLowerBound(currentLoopIndex);
                     --currentLoopIndex;

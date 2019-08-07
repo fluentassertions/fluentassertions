@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                foreach (var selectedMemberInfo in selectedMembers)
+                foreach (SelectedMemberInfo selectedMemberInfo in selectedMembers)
                 {
                     AssertMemberEquality(context, parent, selectedMemberInfo, config);
                 }
@@ -67,7 +67,7 @@ namespace FluentAssertions.Equivalency
 
         private static SelectedMemberInfo FindMatchFor(SelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var query =
+            IEnumerable<SelectedMemberInfo> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.SelectedMemberDescription, config)
                 where match != null
@@ -81,7 +81,7 @@ namespace FluentAssertions.Equivalency
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
-            foreach (var selectionRule in config.SelectionRules)
+            foreach (IMemberSelectionRule selectionRule in config.SelectionRules)
             {
                 members = selectionRule.SelectMembers(members, context, config);
             }

@@ -162,7 +162,7 @@ namespace FluentAssertions.Specialized
 
             TimeSpan? invocationEndTime = null;
             Exception exception = null;
-            var timer = clock.StartTimer();
+            ITimer timer = clock.StartTimer();
 
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
@@ -213,7 +213,7 @@ namespace FluentAssertions.Specialized
 
         protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
         {
-            var exceptions = extractor.OfType<TException>(exception);
+            IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
             Execute.Assertion
                 .ForCondition(!exceptions.Any())
                 .BecauseOf(because, becauseArgs)

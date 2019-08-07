@@ -26,7 +26,7 @@ namespace FluentAssertions.Execution
             this.predecessorSucceeded = predecessorSucceeded;
             this.predecessor = predecessor;
 
-            subject = predecessorSucceeded ? selector() : default(T);
+            subject = predecessorSucceeded ? selector() : default;
         }
 
         /// <summary>

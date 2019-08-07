@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -43,7 +44,7 @@ namespace FluentAssertions.Events
         {
             get
             {
-                var query =
+                IEnumerable<OccurredEvent> query =
                     from mapItem in recorderMap.ToArray()
                     let eventName = mapItem.Key
                     let recorder = mapItem.Value
@@ -86,7 +87,7 @@ namespace FluentAssertions.Events
                 throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
             }
 
-            foreach (var eventInfo in events)
+            foreach (EventInfo eventInfo in events)
             {
                 AttachEventHandler(eventInfo, utcNow);
             }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -71,7 +73,7 @@ namespace FluentAssertions.Types
 
         internal static string GetParameterString(MethodBase methodBase)
         {
-            var parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
+            IEnumerable<Type> parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
 
             return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }

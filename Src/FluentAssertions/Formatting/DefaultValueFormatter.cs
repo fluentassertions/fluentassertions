@@ -66,12 +66,12 @@ namespace FluentAssertions.Formatting
                 builder.AppendLine();
             }
 
-            var type = obj.GetType();
+            Type type = obj.GetType();
             builder.AppendLine(type.FullName);
             builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
 
             IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
-            foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
+            foreach (SelectedMemberInfo propertyInfo in properties.OrderBy(pi => pi.Name))
             {
                 string propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, context, formatChild);
                 builder.AppendLine(propertyValueText);

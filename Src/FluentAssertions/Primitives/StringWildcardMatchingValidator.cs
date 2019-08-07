@@ -29,7 +29,7 @@ namespace FluentAssertions.Primitives
 
         private bool IsMatch()
         {
-            var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+            RegexOptions options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
             string input = CleanNewLines(subject);
             string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
             return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
         }
 
-        private string ConvertWildcardToRegEx(string wildcardExpression)
+        private static string ConvertWildcardToRegEx(string wildcardExpression)
         {
             return "^" + Regex.Escape(wildcardExpression).Replace("\\*", ".*").Replace("\\?", ".") + "$";
         }

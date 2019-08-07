@@ -8,7 +8,7 @@ namespace FluentAssertions.Xml
 {
     internal class XmlReaderValidator
     {
-        private readonly IAssertionScope assertion;
+        private readonly AssertionScope assertion;
         private readonly XmlReader subjectReader;
         private readonly XmlReader otherReader;
 
@@ -66,7 +66,9 @@ namespace FluentAssertions.Xml
 
                 ValidationResult validationResult = null;
 
+#pragma warning disable IDE0010 // System.Xml.XmlNodeType has many members we do not care about
                 switch (subjectReader.NodeType)
+#pragma warning restore IDE0010
                 {
                     case XmlNodeType.Element:
                         validationResult = ValidateStartElement();
@@ -193,7 +195,7 @@ namespace FluentAssertions.Xml
             return null;
         }
 
-        private IList<AttributeData> GetAttributes(XmlReader reader)
+        private static IList<AttributeData> GetAttributes(XmlReader reader)
         {
             var attributes = new List<AttributeData>();
 

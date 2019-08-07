@@ -68,7 +68,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
+            MethodInfo[] virtualMethods = GetAllVirtualMethodsFromSelection();
 
             string failureMessage =
                 "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:" +
@@ -85,7 +85,7 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
-            var query =
+            IEnumerable<MethodInfo> query =
                 from method in SubjectMethods
                 where method.IsNonVirtual()
                 select method;
@@ -95,7 +95,7 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllVirtualMethodsFromSelection()
         {
-            var query =
+            IEnumerable<MethodInfo> query =
                 from method in SubjectMethods
                 where !method.IsNonVirtual()
                 select method;
@@ -116,7 +116,7 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return BeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
+            MethodInfo[] methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
@@ -167,7 +167,7 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return NotBeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWith<TAttribute>(isMatchingAttributePredicate);
+            MethodInfo[] methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 
             string failureMessage =
                 "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +
@@ -226,6 +226,8 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
+#pragma warning disable CA1822 // Do not change signature of a public member
         protected string Context => "method";
+#pragma warning restore CA1822
     }
 }

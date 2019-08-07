@@ -283,8 +283,8 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
-            var minimumValue = nearbyTime - precision;
-            var maximumValue = nearbyTime + precision;
+            TimeSpan minimumValue = nearbyTime - precision;
+            TimeSpan maximumValue = nearbyTime + precision;
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
@@ -347,8 +347,8 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
-            var minimumValue = distantTime - precision;
-            var maximumValue = distantTime + precision;
+            TimeSpan minimumValue = distantTime - precision;
+            TimeSpan maximumValue = distantTime + precision;
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue)))

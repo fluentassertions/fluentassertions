@@ -61,7 +61,7 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
         {
-            IAssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
+            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())

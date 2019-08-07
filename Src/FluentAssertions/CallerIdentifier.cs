@@ -11,7 +11,9 @@ namespace FluentAssertions
     /// </summary>
     public static class CallerIdentifier
     {
+#pragma warning disable CA2211 // TODO: fix in 6.0
         public static Action<string> logger = str => { };
+#pragma warning restore CA2211
 
 #if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
@@ -126,7 +128,7 @@ namespace FluentAssertions
 
         private static bool IsStringLiteral(string candidate)
         {
-            return candidate.StartsWith("\"");
+            return candidate.StartsWith("\"", StringComparison.Ordinal);
         }
 
         private static bool IsNumeric(string candidate)

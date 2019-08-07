@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -69,9 +70,9 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private MethodInfo[] FindCustomFormatters()
+        private static MethodInfo[] FindCustomFormatters()
         {
-            var query =
+            IEnumerable<MethodInfo> query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -85,7 +86,7 @@ namespace FluentAssertions.Formatting
 
         private static bool Applicable(Assembly assembly)
         {
-            var configuration = Configuration.Current;
+            Configuration configuration = Configuration.Current;
             ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
             return ((mode == ValueFormatterDetectionMode.Scan) || (

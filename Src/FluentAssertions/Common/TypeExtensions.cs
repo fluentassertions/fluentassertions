@@ -300,7 +300,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpAbstract(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsAbstract && !typeInfo.IsSealed;
         }
 
@@ -311,7 +311,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpSealed(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsSealed && !typeInfo.IsAbstract;
         }
 
@@ -322,7 +322,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpStatic(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsSealed && typeInfo.IsAbstract;
         }
 

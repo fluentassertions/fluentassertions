@@ -16,7 +16,7 @@ namespace FluentAssertions.Primitives
     public class StringAssertions : ReferenceTypeAssertions<string, StringAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="System.Object" /> class.
         /// </summary>
         public StringAssertions(string value) : base(value)
         {
@@ -796,7 +796,7 @@ namespace FluentAssertions.Primitives
         {
             ThrowIfValuesNullOrEmpty(values);
 
-            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+            IEnumerable<string> matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
 
             Execute.Assertion
                 .ForCondition(!matches.Any())

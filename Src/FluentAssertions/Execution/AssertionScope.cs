@@ -42,12 +42,12 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Starts a new scope based on the given assertion strategy.
         /// </summary>
-        /// <param name="_assertionStrategy">The assertion strategy for this scope.</param>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
         /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
-        public AssertionScope(IAssertionStrategy _assertionStrategy)
+        public AssertionScope(IAssertionStrategy assertionStrategy)
         {
-            assertionStrategy = _assertionStrategy
-                ?? throw new ArgumentNullException(nameof(_assertionStrategy));
+            this.assertionStrategy = assertionStrategy
+                ?? throw new ArgumentNullException(nameof(assertionStrategy));
             parent = null;
         }
 
@@ -88,7 +88,9 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
+#pragma warning disable CA2000 // AssertionScope should not be disposed here
             get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
+#pragma warning restore CA2000
             private set => SetCurrentAssertionScope(value);
         }
 
@@ -141,7 +143,7 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string message, params object[] args)
         {
-            var localReason = reason;
+            Func<string> localReason = reason;
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);

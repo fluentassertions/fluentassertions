@@ -717,7 +717,7 @@ namespace FluentAssertions
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default(TTo);
+            return subject is TTo ? (TTo)subject : default;
         }
 
         /// <summary>

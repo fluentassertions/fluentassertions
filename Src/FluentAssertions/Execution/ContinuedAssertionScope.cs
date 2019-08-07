@@ -25,7 +25,7 @@ namespace FluentAssertions.Execution
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return predecessor.Given<T>(selector);
+            return predecessor.Given(selector);
         }
 
         public IAssertionScope ForCondition(bool condition)

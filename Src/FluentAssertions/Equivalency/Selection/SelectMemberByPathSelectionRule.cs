@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency.Selection
 
             if (!indexQualifierRegex.IsMatch(selectedPath))
             {
-                var match = indexQualifierRegex.Match(propertyPath);
+                Match match = indexQualifierRegex.Match(propertyPath);
                 if (match.Success)
                 {
                     propertyPath = propertyPath.Substring(match.Length);

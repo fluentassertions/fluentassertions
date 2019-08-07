@@ -58,7 +58,7 @@ namespace FluentAssertions.Primitives
             return true;
         }
 
-        private bool IsLongOrMultiline(string value)
+        private static bool IsLongOrMultiline(string value)
         {
             return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine);
         }

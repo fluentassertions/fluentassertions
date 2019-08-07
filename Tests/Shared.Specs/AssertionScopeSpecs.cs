@@ -763,7 +763,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("_assertionStrategy");
+                .Which.ParamName.Should().Be("assertionStrategy");
         }
 
         internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy

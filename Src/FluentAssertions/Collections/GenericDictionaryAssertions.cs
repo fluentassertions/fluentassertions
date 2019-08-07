@@ -548,7 +548,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -648,7 +648,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            var foundKeys = unexpectedKeys.Intersect(Subject.Keys);
+            IEnumerable<TKey> foundKeys = unexpectedKeys.Intersect(Subject.Keys);
 
             if (foundKeys.Any())
             {
@@ -746,7 +746,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            var missingValues = expectedValues.Except(Subject.Values);
+            IEnumerable<TValue> missingValues = expectedValues.Except(Subject.Values);
+
             if (missingValues.Any())
             {
                 if (expectedValues.Count > 1)
@@ -776,7 +777,7 @@ namespace FluentAssertions.Collections
         /// Returns an enumerable consisting of all items in the first collection also appearing in the second.
         /// </summary>
         /// <remarks>Enumerable.Intersect is not suitable because it drops any repeated elements.</remarks>
-        private IEnumerable<TValue> RepetitionPreservingIntersect(
+        private static IEnumerable<TValue> RepetitionPreservingIntersect(
             IEnumerable<TValue> first, IEnumerable<TValue> second)
         {
             var secondSet = new HashSet<TValue>(second);
@@ -860,7 +861,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            var foundValues = unexpectedValues.Intersect(Subject.Values);
+            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(Subject.Values);
+
             if (foundValues.Any())
             {
                 if (unexpectedValues.Count > 1)
@@ -928,8 +930,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}.", expected, Subject);
             }
 
-            var expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
-            var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -962,7 +964,7 @@ namespace FluentAssertions.Collections
                 }
                 else
                 {
-                    var expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
+                    KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
                     TValue actual = Subject[expectedKeyValuePair.Key];
 
                     Execute.Assertion
@@ -1080,11 +1082,12 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
             }
 
-            var keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
 
             if (keyValuePairsFound.Any())
             {
-                var keyValuePairsSameOrEqualInSubject = keyValuePairsFound.Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
+                    .Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -1096,7 +1099,7 @@ namespace FluentAssertions.Collections
                     }
                     else
                     {
-                        var keyValuePair = keyValuePairsSameOrEqualInSubject[0];
+                        KeyValuePair<TKey, TValue> keyValuePair = keyValuePairsSameOrEqualInSubject[0];
 
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
