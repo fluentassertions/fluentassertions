@@ -19,6 +19,7 @@ theInt.Should().Be(5);
 theInt.Should().NotBe(10);
 theInt.Should().BeInRange(1, 10);
 theInt.Should().NotBeInRange(6, 10);
+theInt.Should().Match(x => x > 4 && x < 6);
 
 theInt = 0;
 //theInt.Should().BePositive(); => Expected positive value, but found 0
@@ -28,6 +29,7 @@ theInt = -8;
 theInt.Should().BeNegative();
 int? nullableInt = 3;
 nullableInt.Should().Be(3);
+nullableInt.Should().Match(x => x.HasValue && x > 0);
 
 double theDouble = 5.1;
 theDouble.Should().BeGreaterThan(5);
