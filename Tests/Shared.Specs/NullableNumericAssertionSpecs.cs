@@ -1271,13 +1271,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => nullableInteger.Should().Match(o => !o.HasValue, "it is not initialized yet");
+            Action act = () => nullableInteger.Should().Match(o => !o.HasValue, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected value to match Not(o.HasValue) because it is not initialized yet*");
+                .WithMessage("Expected value to match Not(o.HasValue) because we want to test the failure message, but found 1.");
         }
 
         [Fact]
@@ -1296,8 +1296,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot match an value against a <null> predicate.*");
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
         }
 
         #endregion

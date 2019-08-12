@@ -13,7 +13,7 @@ sidebar:
 short? theShort = null;
 theShort.Should().NotHaveValue();
 theShort.Should().BeNull();
-theShort.Should().Match(x => !x.HasValue);
+theShort.Should().Match(x => !x.HasValue || x > 0);
 
 int? theInt = 3;
 theInt.Should().HaveValue();
@@ -23,5 +23,4 @@ theInt.Should().Match(x => x.HasValue && x > 0);
 DateTime? theDate = null;
 theDate.Should().NotHaveValue();
 theDate.Should().BeNull();
-theDate.Should().Match(x => !x.HasValue);
 ```

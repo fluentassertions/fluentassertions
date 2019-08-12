@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric
@@ -101,11 +102,8 @@ namespace FluentAssertions.Numeric
             string because = "",
             params object[] becauseArgs)
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate), "Cannot match an value against a <null> predicate.");
-            }
-
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+            
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T?)Subject))
                 .BecauseOf(because, becauseArgs)
