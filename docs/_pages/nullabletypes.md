@@ -18,7 +18,6 @@ theShort.Should().Match(x => !x.HasValue || x > 0);
 int? theInt = 3;
 theInt.Should().HaveValue();
 theInt.Should().NotBeNull();
-theInt.Should().Match(x => x.HasValue && x > 0);
 
 DateTime? theDate = null;
 theDate.Should().NotHaveValue();

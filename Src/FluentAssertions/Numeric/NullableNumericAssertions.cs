@@ -103,7 +103,7 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
-            
+
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T?)Subject))
                 .BecauseOf(because, becauseArgs)
