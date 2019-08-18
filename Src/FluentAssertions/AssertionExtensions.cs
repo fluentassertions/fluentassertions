@@ -666,7 +666,7 @@ namespace FluentAssertions
         [Pure]
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new NonGenericAsyncFunctionAssertions(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new NonGenericAsyncFunctionAssertions(action, extractor);
         }
 
         /// <summary>
@@ -676,7 +676,7 @@ namespace FluentAssertions
         [Pure]
         public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new GenericAsyncFunctionAssertions<T>(action.ExecuteInDefaultSynchronizationContext, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action, extractor);
         }
 
         /// <summary>

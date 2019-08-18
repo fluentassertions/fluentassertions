@@ -13,6 +13,26 @@ namespace FluentAssertions.Specs
     public class FunctionExceptionAssertionSpecs
     {
         [Fact]
+        public void When_subject_is_null_when_not_expecting_an_exception_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> action = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action testAction = () => action.Should().NotThrow("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            testAction.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+        [Fact]
         public void When_method_throws_an_empty_AggregateException_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -129,6 +149,28 @@ namespace FluentAssertions.Specs
         }
 
         #region Throw
+
+        [Fact]
+        public void When_subject_is_null_when_an_exception_should_be_thrown_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().Throw<ArgumentNullException>(
+                "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
         [Fact]
         public void When_function_throws_the_expected_exception_it_should_succeed()
         {
@@ -279,6 +321,27 @@ namespace FluentAssertions.Specs
 
         #region ThrowExactly
         [Fact]
+        public void When_subject_is_null_when_an_exact_exception_should_be_thrown_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().ThrowExactly<ArgumentNullException>(
+                "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+        [Fact]
         public void When_function_throws_the_expected_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -375,6 +438,47 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region NotThrow
+        [Fact]
+        public void When_subject_is_null_when_an_exception_should_not_be_thrown_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().NotThrow("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+        [Fact]
+        public void When_subject_is_null_when_a_generic_exception_should_not_be_thrown_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<int> act = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => act.Should().NotThrow<ArgumentNullException>(
+                "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
         [Fact]
         public void When_function_does_not_throw_exception_and_that_was_expected_it_should_succeed_then_continue_assertion()
         {
@@ -482,6 +586,29 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region NotThrowAfter
+        [Fact]
+        public void When_subject_it_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var waitTime = 0.Milliseconds();
+            var pollInterval = 0.Milliseconds();
+            Func<int> action = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action testAction = () => action.Should().NotThrowAfter(
+                waitTime, pollInterval, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            testAction.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
         [Fact]
         public void When_wait_time_is_negative_it_should_throw()
         {

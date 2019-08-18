@@ -9,6 +9,29 @@ namespace FluentAssertions.Specs
     public class TaskOfTAssertionSpecs
     {
         [Fact]
+        public void When_subject_it_null_when_expecting_to_complete_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new FakeClock();
+            var timeSpan = 0.Milliseconds();
+            Func<Task<int>> action = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action testAction = () => action.Should().CompleteWithin(
+                timeSpan, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            testAction.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+        [Fact]
         public void When_task_completes_fast_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -62,6 +85,29 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_subject_it_null_when_expecting_to_complete_async_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var timer = new FakeClock();
+            var timeSpan = 0.Milliseconds();
+            Func<Task<int>> action = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> testAction = () => action.Should().CompleteWithinAsync(
+                timeSpan, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            testAction.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
         [Fact]

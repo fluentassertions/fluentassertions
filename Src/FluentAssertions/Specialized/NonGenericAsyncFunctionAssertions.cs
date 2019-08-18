@@ -35,7 +35,12 @@ namespace FluentAssertions.Specialized
         public AndConstraint<AsyncFunctionAssertions> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            Task task = Subject();
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
+
+            Task task = Subject.ExecuteInDefaultSynchronizationContext();
             bool completed = clock.Wait(task, timeSpan);
 
             Execute.Assertion
@@ -60,9 +65,14 @@ namespace FluentAssertions.Specialized
         public async Task<AndConstraint<AsyncFunctionAssertions>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
+
             using (var timeoutCancellationTokenSource = new CancellationTokenSource())
             {
-                Task task = Subject();
+                Task task = Subject.ExecuteInDefaultSynchronizationContext();
 
                 Task completedTask =
                     await Task.WhenAny(task, clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
