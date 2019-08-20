@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -766,6 +768,84 @@ namespace FluentAssertions.Specs
                 .Which.ParamName.Should().Be("assertionStrategy");
         }
 
+        [Fact]
+        public void When_using_a_custom_strategy_it_should_include_failure_messages_of_all_failing_assertions()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope(new CustomAssertionStrategy());
+            false.Should().BeTrue();
+            true.Should().BeFalse();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*but found false*but found true*");
+        }
+
+#if NET45
+    [Serializable]
+#endif
+        public class CustomAssertionStrategy : IAssertionStrategy
+        {
+            private readonly List<string> failureMessages = new List<string>();
+
+            /// <summary>
+            /// Returns the messages for the assertion failures that happened until now.
+            /// </summary>
+            public IEnumerable<string> FailureMessages => failureMessages;
+
+            /// <summary>
+            /// Discards and returns the failure messages that happened up to now.
+            /// </summary>
+            public IEnumerable<string> DiscardFailures()
+            {
+                var discardedFailures = failureMessages.ToArray();
+                failureMessages.Clear();
+                return discardedFailures;
+            }
+
+            /// <summary>
+            /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+            /// </summary>
+            public void ThrowIfAny(IDictionary<string, object> context)
+            {
+                if (failureMessages.Any())
+                {
+                    var builder = new StringBuilder();
+                    builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
+
+                    if (context.Any())
+                    {
+                        foreach (KeyValuePair<string, object> pair in context)
+                        {
+                            builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                        }
+                    }
+
+                    Services.ThrowException(builder.ToString());
+                }
+            }
+
+            /// <summary>
+            /// Instructs the strategy to handle a assertion failure.
+            /// </summary>
+            public void HandleFailure(string message)
+            {
+                failureMessages.Add(message);
+            }
+        }
+
+#if NET45
+    [Serializable]
+#endif
         internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
         {
             public IEnumerable<string> FailureMessages => new string[0];

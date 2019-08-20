@@ -40,15 +40,33 @@ namespace FluentAssertions.Execution
         #endregion
 
         /// <summary>
+        /// Starts a new scope based on the given assertion strategy and parent assertion scope
+        /// </summary>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
+        /// <param name="parent">The parent assertion scope for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        internal AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
+        {
+            this.assertionStrategy = assertionStrategy
+                ?? throw new ArgumentNullException(nameof(assertionStrategy));
+            this.parent = parent;
+        }
+
+        /// <summary>
         /// Starts a new scope based on the given assertion strategy.
         /// </summary>
         /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
         /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
         public AssertionScope(IAssertionStrategy assertionStrategy)
+            : this(assertionStrategy, GetCurrentAssertionScope())
         {
-            this.assertionStrategy = assertionStrategy
-                ?? throw new ArgumentNullException(nameof(assertionStrategy));
-            parent = null;
+            SetCurrentAssertionScope(this);
+
+            if (parent != null)
+            {
+                contextData.Add(parent.contextData);
+                Context = parent.Context;
+            }
         }
 
         /// <summary>
@@ -58,14 +76,6 @@ namespace FluentAssertions.Execution
         public AssertionScope()
             : this(new CollectingAssertionStrategy())
         {
-            parent = GetCurrentAssertionScope();
-            SetCurrentAssertionScope(this);
-
-            if (parent != null)
-            {
-                contextData.Add(parent.contextData);
-                Context = parent.Context;
-            }
         }
 
         /// <summary>
@@ -89,7 +99,7 @@ namespace FluentAssertions.Execution
         public static AssertionScope Current
         {
 #pragma warning disable CA2000 // AssertionScope should not be disposed here
-            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy());
+            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), parent: null);
 #pragma warning restore CA2000
             private set => SetCurrentAssertionScope(value);
         }
