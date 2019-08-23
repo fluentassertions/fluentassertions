@@ -13,15 +13,12 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class AsyncFunctionAssertions : DelegateAssertions<Func<Task>>
     {
-        private readonly IClock clock;
-
         public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
         {
         }
 
         public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
         {
-            this.clock = clock;
             Subject = subject;
         }
 
@@ -205,7 +202,7 @@ namespace FluentAssertions.Specialized
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
-                ITimer timer = clock.StartTimer();
+                ITimer timer = Clock.StartTimer();
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
@@ -215,7 +212,7 @@ namespace FluentAssertions.Specialized
                         return;
                     }
 
-                    await clock.DelayAsync(pollInterval, CancellationToken.None);
+                    await Clock.DelayAsync(pollInterval, CancellationToken.None);
                     invocationEndTime = timer.Elapsed;
                 }
 
