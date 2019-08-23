@@ -50,7 +50,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -73,7 +73,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specialized
         public void NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
@@ -170,7 +170,7 @@ namespace FluentAssertions.Specialized
         public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 

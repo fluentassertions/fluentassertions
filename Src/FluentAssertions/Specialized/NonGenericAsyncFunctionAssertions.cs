@@ -33,7 +33,7 @@ namespace FluentAssertions.Specialized
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specialized
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
