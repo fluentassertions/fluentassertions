@@ -8,8 +8,6 @@ namespace FluentAssertions.Specialized
 {
     public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions
     {
-        private readonly IClock clock;
-
         public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : this(subject,
             extractor, new Clock())
         {
@@ -18,7 +16,6 @@ namespace FluentAssertions.Specialized
         public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock) : base(subject,
             extractor, clock)
         {
-            this.clock = clock;
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
             Task task = Subject.ExecuteInDefaultSynchronizationContext();
-            bool completed = clock.Wait(task, timeSpan);
+            bool completed = Clock.Wait(task, timeSpan);
 
             Execute.Assertion
                 .ForCondition(completed)
@@ -75,7 +72,7 @@ namespace FluentAssertions.Specialized
                 Task task = Subject.ExecuteInDefaultSynchronizationContext();
 
                 Task completedTask =
-                    await Task.WhenAny(task, clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+                    await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
 
                 if (completedTask == task)
                 {
