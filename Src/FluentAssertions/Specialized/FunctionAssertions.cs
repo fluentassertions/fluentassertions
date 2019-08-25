@@ -46,7 +46,7 @@ namespace FluentAssertions.Specialized
         public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -98,7 +98,7 @@ namespace FluentAssertions.Specialized
             }
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 

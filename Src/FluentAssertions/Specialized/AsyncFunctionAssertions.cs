@@ -59,7 +59,7 @@ namespace FluentAssertions.Specialized
             Type expectedType = typeof(TException);
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
@@ -90,7 +90,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specialized
         public async Task NotThrowAsync(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -139,7 +139,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -190,7 +190,7 @@ namespace FluentAssertions.Specialized
             }
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
