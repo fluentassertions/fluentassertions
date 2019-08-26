@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore30.Specs", "Tests\NetCore30.Specs\NetCore30.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{364DD16C-D759-49DC-A04A-64D40205295B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
@@ -71,6 +73,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{364DD16C-D759-49DC-A04A-64D40205295B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{364DD16C-D759-49DC-A04A-64D40205295B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
