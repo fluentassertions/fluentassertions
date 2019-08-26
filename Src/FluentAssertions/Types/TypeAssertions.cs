@@ -254,7 +254,7 @@ namespace FluentAssertions.Types
             BeDecoratedWith<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(Subject.IsDecoratedWith(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -276,7 +276,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>(true))
+                .ForCondition(Subject.IsDecoratedWithOrInherit<TAttribute>())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
@@ -307,7 +307,7 @@ namespace FluentAssertions.Types
             BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .ForCondition(Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -358,7 +358,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Execute.Assertion
-                .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(!Subject.IsDecoratedWith(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with {1} that matches {2}{reason}, but a matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -380,7 +380,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Execute.Assertion
-                .ForCondition(!Subject.IsDecoratedWith<TAttribute>(true))
+                .ForCondition(!Subject.IsDecoratedWithOrInherit<TAttribute>())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with or inherit {1}{reason}, but the attribute was found.",
                     Subject, typeof(TAttribute));
@@ -409,7 +409,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
             Execute.Assertion
-                .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .ForCondition(!Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}, but a matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);

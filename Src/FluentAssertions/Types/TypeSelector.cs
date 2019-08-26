@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
 {
@@ -81,7 +82,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .Where(t => t.GetTypeInfo().IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -95,7 +96,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+                .Where(t => t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -109,7 +110,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .Where(t => !t.GetTypeInfo().IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -123,7 +124,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+                .Where(t => !t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;

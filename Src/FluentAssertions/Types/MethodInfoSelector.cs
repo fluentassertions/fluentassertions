@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
 {
@@ -93,7 +94,7 @@ namespace FluentAssertions.Types
         public MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            selectedMethods = selectedMethods.Where(method => method.IsDecoratedWith<TAttribute>());
             return this;
         }
 
@@ -103,7 +104,7 @@ namespace FluentAssertions.Types
         public MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(true).OfType<TAttribute>().Any());
+            selectedMethods = selectedMethods.Where(method => method.IsDecoratedWithOrInherit<TAttribute>());
             return this;
         }
 
@@ -113,7 +114,7 @@ namespace FluentAssertions.Types
         public MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            selectedMethods = selectedMethods.Where(method => !method.IsDecoratedWith<TAttribute>());
             return this;
         }
 
@@ -123,7 +124,7 @@ namespace FluentAssertions.Types
         public MethodInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
-            selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(true).OfType<TAttribute>().Any());
+            selectedMethods = selectedMethods.Where(method => !method.IsDecoratedWithOrInherit<TAttribute>());
             return this;
         }
 
