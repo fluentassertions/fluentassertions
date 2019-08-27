@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-The following example verifies that the `Foo()` method throws an `InvalidOperationException` which `Message` property has a specific value.
+The following example verifies that the `Foo()` method throws an `InvalidOperationException` whose `Message` property has a specific value.
 
 ```csharp
 subject.Invoking(y => y.Foo("Hello"))
