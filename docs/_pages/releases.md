@@ -7,6 +7,17 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 5.9.0
+
+**What's New**
+* Added `Match` method to (nullable) numeric assertions - [#1112](https://github.com/fluentassertions/fluentassertions/pull/1112) 
+
+**Fixes**
+* Using a custom `IAssertionStrategy` with an `AssertionScope` did not always capture all assertion failures - [#1118](https://github.com/fluentassertions/fluentassertions/issues/1118)
+* Ensured `null` arguments are handled with clearer exception messages - [#1117](https://github.com/fluentassertions/fluentassertions/pull/1117)
+
+Special thanks to contributors [@liklainy](https://github.com/Liklainy) and [Amaury Levé](https://github.com/Evangelink).
+
 ## 5.8.0
 
 **What's New**
