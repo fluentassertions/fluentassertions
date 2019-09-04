@@ -38,7 +38,26 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Gets the exception object of the exception thrown.
         /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="And"/>.
+        /// </remarks>
         public TException Which => And;
+
+        /// <summary>
+        /// Gets the exception object of the exception thrown.
+        /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="And"/>.
+        /// </remarks>
+        public TException Whose => And;
+
+        /// <summary>
+        /// Gets the exception object of the exception thrown.
+        /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="And"/>.
+        /// </remarks>
+        public TException That => And;
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.

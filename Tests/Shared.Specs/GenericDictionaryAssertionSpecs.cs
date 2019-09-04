@@ -1798,7 +1798,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+            Action act = () => dictionary.Should().ContainValue(myClass).Whose.SomeProperty.Should().BeGreaterThan(0);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

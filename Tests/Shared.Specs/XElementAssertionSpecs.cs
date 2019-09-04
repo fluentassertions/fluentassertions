@@ -1278,6 +1278,25 @@ namespace FluentAssertions.Specs
             matchedElement.Name.Should().Be(XName.Get("child"));
         }
 
+        [Fact]
+        public void When_asserting_element_has_child_element_it_should_return_the_matched_element_in_the_that_property()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child attr='1' />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            element.Should().HaveElement("child")
+                .That.Should().BeOfType<XElement>()
+                .And.HaveAttribute("attr", "1");
+        }
+
         #endregion
     }
 }

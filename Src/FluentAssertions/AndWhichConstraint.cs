@@ -66,5 +66,21 @@ namespace FluentAssertions
         /// Just a convenience property that returns the same value as <see cref="Which"/>.
         /// </remarks>
         public TMatchedElement Subject => Which;
+
+        /// <summary>
+        /// Returns the single result of a prior assertion that is used to select a nested or collection item.
+        /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="Which"/>.
+        /// </remarks>
+        public TMatchedElement Whose => Which;
+
+        /// <summary>
+        /// Returns the single result of a prior assertion that is used to select a nested or collection item.
+        /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="Which"/>.
+        /// </remarks>
+        public TMatchedElement That => Which;
     }
 }
