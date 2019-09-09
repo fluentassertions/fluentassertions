@@ -15,9 +15,9 @@ namespace FluentAssertions.Collections
     /// </summary>
     [DebuggerNonUserCode]
     public class GenericDictionaryAssertions<TKey, TValue> :
-        ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
+        ReferenceTypeAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, GenericDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary) : base(dictionary)
+        public GenericDictionaryAssertions(IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs) : base(keyValuePairs)
         {
         }
 
@@ -44,7 +44,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, Subject);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount == expected)
@@ -74,7 +74,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but found <null>.", unexpected);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount != unexpected)
@@ -104,7 +104,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain more than {0} item(s){reason}, but found <null>.", expected);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount > expected)
@@ -134,7 +134,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain at least {0} item(s){reason}, but found <null>.", expected);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount >= expected)
@@ -164,7 +164,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain fewer than {0} item(s){reason}, but found <null>.", expected);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount < expected)
@@ -194,7 +194,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain at most {0} item(s){reason}, but found <null>.", expected);
             }
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             Execute.Assertion
                 .ForCondition(actualCount <= expected)
@@ -229,7 +229,7 @@ namespace FluentAssertions.Collections
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
 
-            int actualCount = Subject.Count;
+            int actualCount = CountSubjectItems();
 
             if (!compiledPredicate(actualCount))
             {
@@ -268,7 +268,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(!Subject.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to not have any items{reason}, but found {0}.", Subject.Count);
+                .FailWith("Expected {context:dictionary} to not have any items{reason}, but found {0}.", CountSubjectItems());
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -330,8 +330,9 @@ namespace FluentAssertions.Collections
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
-            IEnumerable<TKey> missingKeys = expected.Keys.Except(Subject.Keys);
-            IEnumerable<TKey> additionalKeys = Subject.Keys.Except(expected.Keys);
+            IEnumerable<TKey> subjectKeys = GetSubjectKeys();
+            IEnumerable<TKey> missingKeys = expected.Keys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(expected.Keys);
 
             if (missingKeys.Any())
             {
@@ -352,7 +353,7 @@ namespace FluentAssertions.Collections
             foreach (var key in expected.Keys)
             {
                 Execute.Assertion
-                    .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
+                    .ForCondition(GetSubjectValue(key).IsSameOrEqualTo(expected[key]))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
                     expected, Subject, key);
@@ -393,12 +394,13 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
             }
 
-            IEnumerable<TKey> missingKeys = unexpected.Keys.Except(Subject.Keys);
-            IEnumerable<TKey> additionalKeys = Subject.Keys.Except(unexpected.Keys);
+            IEnumerable<TKey> subjectKeys = GetSubjectKeys();
+            IEnumerable<TKey> missingKeys = unexpected.Keys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpected.Keys);
 
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || (Subject.Keys.Any(key => !Subject[key].IsSameOrEqualTo(unexpected[key])));
+                    || (subjectKeys.Any(key => !GetSubjectValue(key).IsSameOrEqualTo(unexpected[key])));
 
             if (!foundDifference)
             {
@@ -502,7 +504,7 @@ namespace FluentAssertions.Collections
         {
             AndConstraint<GenericDictionaryAssertions<TKey, TValue>> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
 
-            _ = Subject.TryGetValue(expected, out TValue value);
+            _ = TryGetSubjectValue(expected, out TValue value);
 
             return new WhichValueConstraint<TKey, TValue>(andConstraint.And, value);
         }
@@ -548,7 +550,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !SubjectContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -597,7 +599,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            if (Subject.ContainsKey(unexpected))
+            if (SubjectContainsKey(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -648,7 +650,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            IEnumerable<TKey> foundKeys = unexpectedKeys.Intersect(Subject.Keys);
+            IEnumerable<TKey> foundKeys = unexpectedKeys.Intersect(GetSubjectKeys());
 
             if (foundKeys.Any())
             {
@@ -746,7 +748,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            IEnumerable<TValue> missingValues = expectedValues.Except(Subject.Values);
+            IEnumerable<TValue> subjectValues = GetSubjectValues();
+            IEnumerable<TValue> missingValues = expectedValues.Except(subjectValues);
 
             if (missingValues.Any())
             {
@@ -770,7 +773,7 @@ namespace FluentAssertions.Collections
                 new AndWhichConstraint
                     <GenericDictionaryAssertions<TKey, TValue>,
                         IEnumerable<TValue>>(this,
-                            RepetitionPreservingIntersect(Subject.Values, expectedValues));
+                            RepetitionPreservingIntersect(subjectValues, expectedValues));
         }
 
         /// <summary>
@@ -810,7 +813,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            if (Subject.Values.Contains(unexpected))
+            if (GetSubjectValues().Contains(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -861,7 +864,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(Subject.Values);
+            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(GetSubjectValues());
 
             if (foundValues.Any())
             {
@@ -931,7 +934,7 @@ namespace FluentAssertions.Collections
             }
 
             TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
-            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !SubjectContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -951,7 +954,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !GetSubjectValue(keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
@@ -965,7 +968,7 @@ namespace FluentAssertions.Collections
                 else
                 {
                     KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
-                    TValue actual = Subject[expectedKeyValuePair.Key];
+                    TValue actual = GetSubjectValue(expectedKeyValuePair.Key);
 
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -1018,7 +1021,7 @@ namespace FluentAssertions.Collections
                         Subject);
             }
 
-            if (Subject.TryGetValue(key, out TValue actual))
+            if (TryGetSubjectValue(key, out TValue actual))
             {
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(value))
@@ -1082,12 +1085,12 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => SubjectContainsKey(keyValuePair.Key)).ToArray();
 
             if (keyValuePairsFound.Any())
             {
                 KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
-                    .Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                    .Where(keyValuePair => GetSubjectValue(keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -1153,7 +1156,7 @@ namespace FluentAssertions.Collections
                         key, Subject);
             }
 
-            if (Subject.TryGetValue(key, out TValue actual))
+            if (TryGetSubjectValue(key, out TValue actual))
             {
                 Execute.Assertion
                     .ForCondition(!actual.IsSameOrEqualTo(value))
@@ -1170,5 +1173,97 @@ namespace FluentAssertions.Collections
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Identifier => "dictionary";
+
+        private int CountSubjectItems()
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary.Count;
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary.Count;
+
+                default:
+                    return Subject.Count();
+            }
+        }
+
+        private IEnumerable<TKey> GetSubjectKeys()
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary.Keys;
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary.Keys;
+
+                default:
+                    return Subject.Select(kvp => kvp.Key);
+            }
+        }
+
+        private IEnumerable<TValue> GetSubjectValues()
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary.Values;
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary.Values;
+
+                default:
+                    return Subject.Select(kvp => kvp.Value);
+            }
+        }
+
+        private bool SubjectContainsKey(TKey key)
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary.ContainsKey(key);
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary.ContainsKey(key);
+
+                default:
+                    return Subject.Any(kvp => kvp.Key.IsSameOrEqualTo(key));
+            }
+        }
+
+        private bool TryGetSubjectValue(TKey key, out TValue value)
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary.TryGetValue(key, out value);
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary.TryGetValue(key, out value);
+
+                default:
+                    KeyValuePair<TKey, TValue> matchingPair = Subject.FirstOrDefault(kvp => kvp.Key.IsSameOrEqualTo(key));
+                    value = matchingPair.Value;
+                    return matchingPair.Equals(default(KeyValuePair<TKey, TValue>));
+            }
+        }
+
+        private TValue GetSubjectValue(TKey key)
+        {
+            switch (Subject)
+            {
+                case IDictionary<TKey, TValue> dictionary:
+                    return dictionary[key];
+
+                case IReadOnlyDictionary<TKey, TValue> readOnlyDictionary:
+                    return readOnlyDictionary[key];
+
+                default:
+                    return Subject.First(kvp => kvp.Key.IsSameOrEqualTo(key)).Value;
+            }
+        }
     }
 }
