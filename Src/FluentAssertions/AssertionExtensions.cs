@@ -286,13 +286,34 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
         {
-            return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
+            return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+        {
+            return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+        /// current <typeparamref name="TCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+            where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
+        {
+            return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
         }
 
         /// <summary>

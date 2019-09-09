@@ -1,402 +1,40 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Collections
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IDictionary{TKey,TValue}"/> is in the expected state.
+    /// Contains a number of methods to assert that a <typeparamref name="TCollection"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class GenericDictionaryAssertions<TKey, TValue> :
-        GenericDictionaryAssertions<TKey, TValue, GenericDictionaryAssertions<TKey, TValue>>
+    public class GenericDictionaryAssertions<TCollection, TKey, TValue> :
+        GenericDictionaryAssertions<TCollection, TKey, TValue, GenericDictionaryAssertions<TCollection, TKey, TValue>>
+        where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary) : base(dictionary)
+        public GenericDictionaryAssertions(TCollection keyValuePairs)
+            : base(keyValuePairs)
         {
         }
     }
 
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IDictionary{TKey,TValue}"/> is in the expected state.
+    /// Contains a number of methods to assert that a <typeparamref name="TCollection"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class GenericDictionaryAssertions<TKey, TValue, TAssertions> :
-        ReferenceTypeAssertions<IDictionary<TKey, TValue>, TAssertions>
-        where TAssertions : GenericDictionaryAssertions<TKey, TValue, TAssertions>
+    public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions> :
+        GenericCollectionAssertions<TCollection, KeyValuePair<TKey, TValue>, TAssertions>
+        where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
+        where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
-        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary) : base(dictionary)
+        public GenericDictionaryAssertions(TCollection keyValuePairs)
+            : base(keyValuePairs)
         {
         }
-
-        #region HaveCount
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary matches the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The expected number of items.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCount(int expected,
-            string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, Subject);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount == expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to have {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary does not match the supplied <paramref name="unexpected" /> amount.
-        /// </summary>
-        /// <param name="unexpected">The unexpected number of items.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but found <null>.", unexpected);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount != unexpected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to not have {1} item(s){reason}, but found {2}.", Subject, unexpected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary is greater than the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain more than {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount > expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to contain more than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary is greater or equal to the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain at least {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount >= expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to contain at least {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary is less than the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain fewer than {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount < expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to contain fewer than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary is less or equal to the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain at most {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount <= expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} to contain at most {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary matches a condition stated by a predicate.
-        /// </summary>
-        /// <param name="countPredicate">The predicate which must be satisfied by the amount of items.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate,
-            string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
-
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to have {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
-            }
-
-            Func<int, bool> compiledPredicate = countPredicate.Compile();
-
-            int actualCount = Subject.Count;
-
-            if (!compiledPredicate(actualCount))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}.",
-                        Subject, countPredicate.Body, actualCount);
-            }
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Assert that the current dictionary has the same number of elements as <paramref name="otherCollection" />.
-        /// </summary>
-        /// <param name="otherCollection">The other collection with the same expected number of elements</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string because = "",
-            params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
-
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        Subject);
-            }
-
-            int actualCount = Subject.Count;
-            int expectedCount = otherCollection.Cast<object>().Count();
-
-            Execute.Assertion
-                .ForCondition(actualCount == expectedCount)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Assert that the current collection does not have the same number of elements as <paramref name="otherCollection" />.
-        /// </summary>
-        /// <param name="otherCollection">The other collection with the unexpected number of elements</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
-            params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
-
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to not have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        Subject);
-            }
-
-            if (ReferenceEquals(Subject, otherCollection))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
-                        Subject,
-                        otherCollection);
-            }
-
-            int actualCount = Subject.Count;
-            int expectedCount = otherCollection.Cast<object>().Count();
-
-            Execute.Assertion
-                .ForCondition(actualCount != expectedCount)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        #endregion
-
-        #region BeEmpty
-
-        /// <summary>
-        /// Asserts that the dictionary does not contain any items.
-        /// </summary>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to be empty{reason}, but found {0}.", Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(!Subject.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to not have any items{reason}, but found {0}.", Subject.Count);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the dictionary contains at least 1 item.
-        /// </summary>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotBeEmpty(string because = "",
-            params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} not to be empty{reason}, but found {0}.", Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected one or more items{reason}, but found none.");
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        #endregion
 
         #region Equal
 
@@ -413,8 +51,9 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Equal(IDictionary<TKey, TValue> expected,
+        public AndConstraint<TAssertions> Equal<T>(T expected,
             string because = "", params object[] becauseArgs)
+            where T : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             if (Subject is null)
             {
@@ -425,8 +64,10 @@ namespace FluentAssertions.Collections
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
-            IEnumerable<TKey> missingKeys = expected.Keys.Except(Subject.Keys);
-            IEnumerable<TKey> additionalKeys = Subject.Keys.Except(expected.Keys);
+            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
+            IEnumerable<TKey> expectedKeys = GetKeys(expected);
+            IEnumerable<TKey> missingKeys = expectedKeys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(expectedKeys);
 
             if (missingKeys.Any())
             {
@@ -444,10 +85,10 @@ namespace FluentAssertions.Collections
                         additionalKeys);
             }
 
-            foreach (var key in expected.Keys)
+            foreach (var key in expectedKeys)
             {
                 Execute.Assertion
-                    .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
+                    .ForCondition(GetValue(Subject, key).IsSameOrEqualTo(GetValue(expected, key)))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
                     expected, Subject, key);
@@ -469,8 +110,9 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotEqual(IDictionary<TKey, TValue> unexpected,
+        public AndConstraint<TAssertions> NotEqual<T>(T unexpected,
             string because = "", params object[] becauseArgs)
+            where T : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             if (Subject is null)
             {
@@ -488,12 +130,14 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
             }
 
-            IEnumerable<TKey> missingKeys = unexpected.Keys.Except(Subject.Keys);
-            IEnumerable<TKey> additionalKeys = Subject.Keys.Except(unexpected.Keys);
+            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
+            IEnumerable<TKey> unexpectedKeys = GetKeys(unexpected);
+            IEnumerable<TKey> missingKeys = unexpectedKeys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpectedKeys);
 
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || (Subject.Keys.Any(key => !Subject[key].IsSameOrEqualTo(unexpected[key])));
+                    || (subjectKeys.Any(key => !GetValue(Subject, key).IsSameOrEqualTo(GetValue(unexpected, key))));
 
             if (!foundDifference)
             {
@@ -594,14 +238,14 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public WhichValueConstraint<TKey, TValue, TAssertions> ContainKey(TKey expected,
+        public WhichValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
             string because = "", params object[] becauseArgs)
         {
             AndConstraint<TAssertions> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
 
-            _ = Subject.TryGetValue(expected, out TValue value);
+            _ = TryGetValue(Subject, expected, out TValue value);
 
-            return new WhichValueConstraint<TKey, TValue, TAssertions>(andConstraint.And, value);
+            return new WhichValueConstraint<TCollection, TKey, TValue, TAssertions>(andConstraint.And, value);
         }
 
         /// <summary>
@@ -645,7 +289,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
 
             if (missingKeys.Any())
             {
@@ -694,7 +338,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            if (Subject.ContainsKey(unexpected))
+            if (ContainsKey(Subject, unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -745,7 +389,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            IEnumerable<TKey> foundKeys = unexpected.Where(key => Subject.ContainsKey(key));
+            IEnumerable<TKey> foundKeys = unexpected.Where(key => ContainsKey(Subject, key));
 
             if (foundKeys.Any())
             {
@@ -842,7 +486,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            IEnumerable<TValue> missingValues = expectedValues.Except(Subject.Values);
+            IEnumerable<TValue> subjectValues = GetValues(Subject);
+            IEnumerable<TValue> missingValues = expectedValues.Except(subjectValues);
 
             if (missingValues.Any())
             {
@@ -865,7 +510,7 @@ namespace FluentAssertions.Collections
             return
                 new AndWhichConstraint<TAssertions,
                         IEnumerable<TValue>>((TAssertions)this,
-                            RepetitionPreservingIntersect(Subject.Values, expectedValues));
+                            RepetitionPreservingIntersect(subjectValues, expectedValues));
         }
 
         /// <summary>
@@ -905,7 +550,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            if (Subject.Values.Contains(unexpected))
+            if (GetValues(Subject).Contains(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -956,7 +601,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(Subject.Values);
+            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(GetValues(Subject));
 
             if (foundValues.Any())
             {
@@ -1028,7 +673,7 @@ namespace FluentAssertions.Collections
             }
 
             TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
-            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
 
             if (missingKeys.Any())
             {
@@ -1048,7 +693,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !GetValue(Subject, keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
@@ -1062,7 +707,7 @@ namespace FluentAssertions.Collections
                 else
                 {
                     KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
-                    TValue actual = Subject[expectedKeyValuePair.Key];
+                    TValue actual = GetValue(Subject, expectedKeyValuePair.Key);
 
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -1086,7 +731,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Contain(KeyValuePair<TKey, TValue> expected,
+        public new AndConstraint<TAssertions> Contain(KeyValuePair<TKey, TValue> expected,
             string because = "", params object[] becauseArgs)
         {
             return Contain(expected.Key, expected.Value, because, becauseArgs);
@@ -1118,7 +763,7 @@ namespace FluentAssertions.Collections
                         Subject);
             }
 
-            if (Subject.TryGetValue(key, out TValue actual))
+            if (TryGetValue(Subject, key, out TValue actual))
             {
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(value))
@@ -1184,12 +829,12 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => ContainsKey(Subject, keyValuePair.Key)).ToArray();
 
             if (keyValuePairsFound.Any())
             {
                 KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
-                    .Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                    .Where(keyValuePair => GetValue(Subject, keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -1226,7 +871,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(KeyValuePair<TKey, TValue> item,
+        public new AndConstraint<TAssertions> NotContain(KeyValuePair<TKey, TValue> item,
             string because = "", params object[] becauseArgs)
         {
             return NotContain(item.Key, item.Value, because, becauseArgs);
@@ -1258,7 +903,7 @@ namespace FluentAssertions.Collections
                         key, Subject);
             }
 
-            if (Subject.TryGetValue(key, out TValue actual))
+            if (TryGetValue(Subject, key, out TValue actual))
             {
                 Execute.Assertion
                     .ForCondition(!actual.IsSameOrEqualTo(value))
@@ -1275,5 +920,28 @@ namespace FluentAssertions.Collections
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Identifier => "dictionary";
+
+        private static IEnumerable<TKey> GetKeys(TCollection collection) =>
+            collection.GetKeys<TCollection, TKey, TValue>();
+
+        private static IEnumerable<TKey> GetKeys<T>(T collection)
+            where T : IEnumerable<KeyValuePair<TKey, TValue>> =>
+            collection.GetKeys<T, TKey, TValue>();
+
+        private static IEnumerable<TValue> GetValues(TCollection collection) =>
+            collection.GetValues<TCollection, TKey, TValue>();
+
+        private static bool ContainsKey(TCollection collection, TKey key) =>
+            collection.ContainsKey<TCollection, TKey, TValue>(key);
+
+        private static bool TryGetValue(TCollection collection, TKey key, out TValue value) =>
+            collection.TryGetValue(key, out value);
+
+        private static TValue GetValue(TCollection collection, TKey key) =>
+            collection.GetValue<TCollection, TKey, TValue>(key);
+
+        private static TValue GetValue<T>(T collection, TKey key)
+            where T : IEnumerable<KeyValuePair<TKey, TValue>> =>
+            collection.GetValue<T, TKey, TValue>(key);
     }
 }

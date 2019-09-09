@@ -5,7 +5,6 @@ namespace FluentAssertions.Common
     internal static class Guard
     {
         public static void ThrowIfArgumentIsNull<T>(T obj, string paramName)
-            where T : class
         {
             if (obj is null)
             {
@@ -14,7 +13,6 @@ namespace FluentAssertions.Common
         }
 
         public static void ThrowIfArgumentIsNull<T>(T obj, string paramName, string message)
-            where T : class
         {
             if (obj is null)
             {

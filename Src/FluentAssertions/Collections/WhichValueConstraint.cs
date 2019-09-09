@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+
 namespace FluentAssertions.Collections
 {
-    public class WhichValueConstraint<TKey, TValue, TAssertions> : AndConstraint<TAssertions>
-        where TAssertions : GenericDictionaryAssertions<TKey, TValue, TAssertions>
+    public class WhichValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
+        where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
+        where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
         public WhichValueConstraint(TAssertions parentConstraint, TValue value)
             : base(parentConstraint)

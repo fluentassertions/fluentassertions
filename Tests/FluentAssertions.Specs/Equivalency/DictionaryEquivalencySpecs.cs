@@ -356,7 +356,7 @@ namespace FluentAssertions.Specs
             });
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected item[0]*Value3*Value2*");
+            act.Should().Throw<XunitException>().WithMessage("Expected pair[Key2][0]*Value3*Value2*");
         }
 
         [Fact]
