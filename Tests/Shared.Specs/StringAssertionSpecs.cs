@@ -2063,7 +2063,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected string not to be equivalent to \"abc\", but they are.");
+#else
                 .WithMessage("Expected actual not to be equivalent to \"abc\", but they are.");
+#endif
         }
 
         [Fact]
