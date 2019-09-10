@@ -2057,16 +2057,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => actual.Should().NotBeEquivalentTo(unexpected);
+            Action action = () => actual.Should().NotBeEquivalentTo(unexpected, "because I say {0}", "so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected string not to be equivalent to \"abc\", but they are.");
+                .WithMessage("Expected string not to be equivalent to \"abc\" because I say so, but they are.");
 #else
-                .WithMessage("Expected actual not to be equivalent to \"abc\", but they are.");
+                .WithMessage("Expected actual not to be equivalent to \"abc\" because I say so, but they are.");
 #endif
         }
 
@@ -2076,7 +2076,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ADC".Should().NotBeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => "ADC".Should().NotBeEquivalentTo("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2137,7 +2137,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someString.Should().NotBeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => someString.Should().NotBeEquivalentTo("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2151,7 +2151,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC".Should().NotBeEquivalentTo("abc ", "because I say {0}", "so");
+            Action act = () => "ABC".Should().NotBeEquivalentTo("abc ");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2165,7 +2165,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC ".Should().NotBeEquivalentTo("abc", "because I say {0}", "so");
+            Action act = () => "ABC ".Should().NotBeEquivalentTo("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

@@ -120,14 +120,14 @@ namespace FluentAssertions.Primitives
             bool notEquivalent;
             using (var scope = new AssertionScope())
             {
-                Subject.Should().BeEquivalentTo(unexpected, because, becauseArgs);
+                Subject.Should().BeEquivalentTo(unexpected);
                 notEquivalent = scope.Discard().Any();
             }
 
             Execute.Assertion
                 .ForCondition(notEquivalent)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} not to be equivalent to {0}, but they are.", unexpected);
+                .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
