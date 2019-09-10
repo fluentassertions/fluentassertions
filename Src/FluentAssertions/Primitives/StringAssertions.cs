@@ -101,6 +101,38 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string is not exactly the same as another string, including any leading or trailing whitespace, with
+        /// the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">
+        /// The string that the subject is not expected to be equivalent to.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBeEquivalentTo(string unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            bool notEquivalent;
+            using (var scope = new AssertionScope())
+            {
+                Subject.Should().BeEquivalentTo(unexpected);
+                notEquivalent = scope.Discard().Any();
+            }
+
+            Execute.Assertion
+                .ForCondition(notEquivalent)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>,
         /// including the casing and any leading or trailing whitespace.
         /// </summary>

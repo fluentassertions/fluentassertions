@@ -27,6 +27,7 @@ theString = "This is a String";
 theString.Should().Be("This is a String");
 theString.Should().NotBe("This is another String");
 theString.Should().BeEquivalentTo("THIS IS A STRING");
+theString.Should().NotBeEquivalentTo("THIS IS ANOTHER STRING");
 
 theString.Should().BeOneOf(
     "That is a String",
