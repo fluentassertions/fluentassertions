@@ -31,22 +31,17 @@ class Build : NukeBuild
         x => x.Test,
         x => x.Pack);
 
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-
     [Solution] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
     AbsolutePath TestsDirectory => RootDirectory / "Tests";
     AbsolutePath TestFrameworkDirectory => TestsDirectory / "TestFrameworks";
-    AbsolutePath BuildDirectory => ArtifactsDirectory / Configuration;
-
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
         {
-            EnsureCleanDirectory(BuildDirectory);
+            EnsureCleanDirectory(ArtifactsDirectory);
         });
 
     Target Restore => _ => _
@@ -64,9 +59,9 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.GetNormalizedAssemblyVersion())
-                .SetFileVersion(GitVersion.GetNormalizedFileVersion())
+                .SetConfiguration(Configuration.Debug)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
@@ -132,7 +127,6 @@ class Build : NukeBuild
         {
             DotNetPack(s => s
                 .SetProject(Solution.GetProject("FluentAssertions"))
-                .EnableNoBuild()
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration(Configuration.Release)
                 .SetVersion(GitVersion.NuGetVersionV2));
