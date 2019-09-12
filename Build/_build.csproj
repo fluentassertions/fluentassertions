@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageDownload Include="GitVersion.CommandLine.DotNetCore" Version="[4.0.1-beta1-53]" />
+    <PackageDownload Include="GitVersion.CommandLine.DotNetCore" Version="[5.0.1]" />
     <PackageDownload Include="NSpec" Version="[1.0.13]" />
     <PackageDownload Include="NSpec" Version="[2.0.1]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
