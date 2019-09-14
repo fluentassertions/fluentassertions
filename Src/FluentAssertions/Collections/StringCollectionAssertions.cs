@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
 {
@@ -189,6 +190,38 @@ namespace FluentAssertions.Collections
             var args = new List<object> { becauseArg };
             args.AddRange(becauseArgs);
             return base.NotContain(unexpected, because, args.ToArray());
+        }
+
+        public AndConstraint<StringCollectionAssertions> ContainMatch(string wildcardPattern, string because = "",
+            params object[] becauseArgs)
+        {
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
+
+                return new AndConstraint<StringCollectionAssertions>(this);
+            }
+
+            using (var scope = new AssertionScope())
+            {
+                foreach (string item in Subject)
+                {
+                    item.Should().Match(wildcardPattern);
+                    bool isMatch = !scope.Discard().Any();
+                    if (isMatch)
+                    {
+                        return new AndConstraint<StringCollectionAssertions>(this);
+                    }
+                }
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+
+            return new AndConstraint<StringCollectionAssertions>(this);
         }
     }
 }
