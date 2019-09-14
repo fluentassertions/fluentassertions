@@ -7,10 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		Tests\Default.testsettings = Tests\Default.testsettings
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
-		.nuget\nuget.config = .nuget\nuget.config
+		nuget.config = nuget.config
 		README.md = README.md
 		Src\SolutionInfo.cs = Src\SolutionInfo.cs
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "Build\_build.csproj", "{364DD16C-D759-49DC-A04A-64D40205295B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
 EndProject
@@ -60,8 +62,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchmarks\Benchmarks.csproj", "{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore30.Specs", "Tests\NetCore30.Specs\NetCore30.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "Build\_build.csproj", "{364DD16C-D759-49DC-A04A-64D40205295B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
