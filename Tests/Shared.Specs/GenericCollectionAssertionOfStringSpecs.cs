@@ -2316,13 +2316,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().ContainMatch("* failed");
+            Action action = () => collection.Should().ContainMatch("* failed", "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain a match of \"* failed\", but found <null>.");
+                .WithMessage("Expected collection to contain a match of \"* failed\" because we do, but found <null>.");
         }
 
         [Fact]
