@@ -209,28 +209,26 @@ namespace FluentAssertions.Collections
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is object)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
-
-            using (var scope = new AssertionScope())
-            {
-                foreach (string item in Subject)
-                {
-                    item.Should().Match(wildcardPattern);
-                    bool isMatch = !scope.Discard().Any();
-                    if (isMatch)
-                    {
-                        return new AndConstraint<StringCollectionAssertions>(this);
-                    }
-                }
-            }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
+                .Then
+                .ForCondition(ContainsMatch(wildcardPattern))
                 .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
 
             return new AndConstraint<StringCollectionAssertions>(this);
+        }
+
+        private bool ContainsMatch(string wildcardPattern)
+        {
+            using (var scope = new AssertionScope())
+            {
+                return Subject.Any(item =>
+                {
+                    item.Should().Match(wildcardPattern);
+                    return !scope.Discard().Any();
+                });
+            }
         }
     }
 }
