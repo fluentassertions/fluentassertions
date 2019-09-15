@@ -208,14 +208,10 @@ namespace FluentAssertions.Collections
         public AndConstraint<StringCollectionAssertions> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
-
-                return new AndConstraint<StringCollectionAssertions>(this);
-            }
+            Execute.Assertion
+                .ForCondition(Subject is object)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
             using (var scope = new AssertionScope())
             {
