@@ -205,7 +205,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> ContainMatch(string wildcardPattern, string because = "",
+        public AndWhichConstraint<StringCollectionAssertions, IEnumerable<string>> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -216,7 +216,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(ContainsMatch(wildcardPattern))
                 .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
 
-            return new AndConstraint<StringCollectionAssertions>(this);
+            return new AndWhichConstraint<StringCollectionAssertions, IEnumerable<string>>(this, AllThatMatch(wildcardPattern));
         }
 
         private bool ContainsMatch(string wildcardPattern)
@@ -229,6 +229,18 @@ namespace FluentAssertions.Collections
                     return !scope.Discard().Any();
                 });
             }
+        }
+
+        private IEnumerable<string> AllThatMatch(string wildcardPattern)
+        {
+            return Subject.Where(item =>
+            {
+                using (var scope = new AssertionScope())
+                {
+                    item.Should().Match(wildcardPattern);
+                    return !scope.Discard().Any();
+                }
+            });
         }
     }
 }
