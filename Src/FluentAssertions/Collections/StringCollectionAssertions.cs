@@ -192,6 +192,19 @@ namespace FluentAssertions.Collections
             return base.NotContain(unexpected, because, args.ToArray());
         }
 
+        /// <summary>
+        /// Asserts that the collection contains at least one string that matches a wildcard pattern.
+        /// </summary>
+        /// <param name="wildcardPattern">
+        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
         public AndConstraint<StringCollectionAssertions> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
