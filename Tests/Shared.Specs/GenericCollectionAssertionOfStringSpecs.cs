@@ -2265,7 +2265,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_collection_contains_multiple_matches_which_should_contain_all_matches()
+        public void When_collection_contains_multiple_matches_which_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2275,12 +2275,17 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> matches = collection.Should().ContainMatch("* failed").Which;
+            Action action = () =>
+            {
+                string item = collection.Should().ContainMatch("* failed").Which;
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            matches.Should().BeEquivalentTo(new string[] { "test failed", "pack failed" });
+            action.Should().Throw<XunitException>()
+                .WithMessage("More than one object found.  FluentAssertions cannot determine which object is meant.*")
+                .WithMessage("*Found objects:*\"test failed\"*\"pack failed\"");
         }
 
         [Fact]
