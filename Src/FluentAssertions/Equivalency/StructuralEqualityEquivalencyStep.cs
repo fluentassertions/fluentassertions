@@ -31,16 +31,16 @@ namespace FluentAssertions.Equivalency
                         context.Expectation,
                         context.Subject);
 
-            SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
-            if (context.IsRoot && !selectedMembers.Any())
-            {
-                throw new InvalidOperationException(
-                    "No members were found for comparison. " +
-                    "Please specify some members to include in the comparison or choose a more meaningful assertion.");
-            }
-
             if (expectationIsNotNull && subjectIsNotNull)
             {
+                SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
+                if (context.IsRoot && !selectedMembers.Any())
+                {
+                    throw new InvalidOperationException(
+                        "No members were found for comparison. " +
+                        "Please specify some members to include in the comparison or choose a more meaningful assertion.");
+                }
+
                 foreach (SelectedMemberInfo selectedMemberInfo in selectedMembers)
                 {
                     AssertMemberEquality(context, parent, selectedMemberInfo, config);
