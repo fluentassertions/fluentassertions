@@ -82,6 +82,9 @@ collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
 collection.Should().NotBeAscendingInOrder();
 collection.Should().NotBeDescendingInOrder();
+
+IEnumerable<string> stringCollection = new[] { "build succeded", "test failed" };
+stringCollection.Should().ContainMatch("* failed");
 ```
 
 The `collection.Should().ContainEquivalentOf(boxedValue)` asserts that a collection contains at least one object that is equivalent to the expected object. The comparison is governed by the same rules and options as the [Object graph comparison](/objectgraphs).
