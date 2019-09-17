@@ -936,9 +936,26 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+        [Obsolete("Use NotBeInAscendingOrder instead")]
         public AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeAscendingInOrder(Comparer<object>.Default, because, becauseArgs);
+            return NotBeInAscendingOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in ascending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs)
+        {
+            return NotBeInAscendingOrder(Comparer<object>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -955,7 +972,27 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+        [Obsolete("Use NotBeInAscendingOrder instead")]
         public AndConstraint<TAssertions> NotBeAscendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in ascending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeInAscendingOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
         {
             return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
         }
@@ -971,9 +1008,26 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+        [Obsolete("Use NotBeInDescendingOrder instead")]
         public AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeDescendingInOrder(Comparer<object>.Default, because, becauseArgs);
+            return NotBeInDescendingOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in descending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs)
+        {
+            return NotBeInDescendingOrder(Comparer<object>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -990,7 +1044,27 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+        [Obsolete("Use NotBeInDescendingOrder instead")]
         public AndConstraint<TAssertions> NotBeDescendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in descending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeInDescendingOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
         {
             return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
         }
