@@ -365,7 +365,7 @@ namespace FluentAssertions.Collections
             return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, args);
         }
 
-            private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
+        private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression,
             IComparer<TSelector> comparer,
             SortOrder direction,
@@ -403,20 +403,11 @@ namespace FluentAssertions.Collections
             string because,
             object[] args)
         {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException(nameof(comparer),
-                    "Cannot assert collection ordering without specifying a comparer.");
-            }
+            Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
 
             if (IsValidProperty(propertyExpression, because, args))
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
-
-                if (!unordered.Any())
-                {
-                    return new AndConstraint<GenericCollectionAssertions<T>>(this);
-                }
 
                 IOrderedEnumerable<T> expectation = ConvertToOrderedEnumerable(
                     propertyExpression,
