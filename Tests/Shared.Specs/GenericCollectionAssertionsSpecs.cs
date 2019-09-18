@@ -696,12 +696,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotBeInAscendingOrder();
+            Action act = () => collection.Should().NotBeInAscendingOrder("because I say {0}", "so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to contain items in ascending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -734,12 +735,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotBeInDescendingOrder();
+            Action act = () => collection.Should().NotBeInDescendingOrder("because I say {0}", "so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to contain items in descending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -777,7 +779,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection {empty} to not be ordered \" by Number\" and not result in {empty}.");
         }
 
         [Fact]
@@ -815,7 +818,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection {empty} to not be ordered \" by Number\" and not result in {empty}.");
         }
 
         #endregion
@@ -857,7 +861,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to contain items in ascending order, but found {42}.");
         }
 
         [Fact]
@@ -895,7 +900,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to contain items in descending order, but found {42}.");
         }
 
         [Fact]

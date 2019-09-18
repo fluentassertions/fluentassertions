@@ -389,7 +389,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith("Expected {context:collection} {0} to be ordered{1}{reason} and result in {2}.",
+                    .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
                         Subject, orderString, expectation);
             }
 
@@ -420,7 +420,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(!unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
-                    .FailWith("Expected {context:collection} {0} to not be ordered{1}{reason} and not result in {2}.",
+                    .FailWith("Expected {context:collection} {0} to not be ordered {1}{reason} and not result in {2}.",
                         Subject, orderString, expectation);
             }
 
