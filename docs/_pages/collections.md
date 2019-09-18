@@ -80,8 +80,10 @@ collection.Should().NotIntersectWith(anotherCollection);
 
 collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
-collection.Should().NotBeAscendingInOrder();
-collection.Should().NotBeDescendingInOrder();
+// collection.Should().NotBeAscendingInOrder(); - deprecated in 5.x, to be removed in future version
+// collection.Should().NotBeDescendingInOrder(); - deprecated in 5.x, to be removed in future version
+collection.Should().NotBeInAscendingOrder();
+collection.Should().NotBeInDescendingOrder();
 
 IEnumerable<string> stringCollection = new[] { "build succeded", "test failed" };
 stringCollection.Should().ContainMatch("* failed");
@@ -96,6 +98,8 @@ That's why we offer overloads that take an expression.
 ```csharp
 collection.Should().BeInAscendingOrder(x => x.SomeProperty);
 collection.Should().BeInDescendingOrder(x => x.SomeProperty);
+collection.Should().NotBeInAscendingOrder(x => x.SomeProperty);
+collection.Should().NotBeInDescendingOrder(x => x.SomeProperty);
 ```
 
 When asserting on a projection of a collection the failure message will be less descriptive as it only knows about the projected value and not object containing that property.
