@@ -780,7 +780,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection {empty} to not be ordered \" by Number\" and not result in {empty}.");
+                .WithMessage("Expected collection {empty} to not be ordered \"by Number\" and not result in {empty}.");
         }
 
         [Fact]
@@ -819,7 +819,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection {empty} to not be ordered \" by Number\" and not result in {empty}.");
+                .WithMessage("Expected collection {empty} to not be ordered \"by Number\" and not result in {empty}.");
         }
 
         #endregion

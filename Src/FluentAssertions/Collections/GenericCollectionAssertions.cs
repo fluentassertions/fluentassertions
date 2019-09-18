@@ -494,7 +494,7 @@ namespace FluentAssertions.Collections
         {
             string orderString = propertyExpression.GetMemberPath().ToString();
 
-            orderString = orderString == "\"\"" ? string.Empty : " by " + orderString;
+            orderString = orderString == "\"\"" ? string.Empty : "by " + orderString;
 
             return orderString;
         }
