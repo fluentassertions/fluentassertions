@@ -80,8 +80,6 @@ collection.Should().NotIntersectWith(anotherCollection);
 
 collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
-// collection.Should().NotBeAscendingInOrder(); - deprecated in 5.x, to be removed in future version
-// collection.Should().NotBeDescendingInOrder(); - deprecated in 5.x, to be removed in future version
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
 
