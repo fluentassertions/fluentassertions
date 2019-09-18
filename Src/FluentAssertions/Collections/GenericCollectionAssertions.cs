@@ -127,6 +127,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
         {
@@ -147,6 +150,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
         {
@@ -167,6 +173,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] args)
         {
@@ -187,6 +196,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] args)
         {
@@ -210,6 +222,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
@@ -233,6 +248,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
@@ -253,6 +271,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
         {
@@ -273,6 +294,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
         {
@@ -293,6 +317,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] args)
         {
@@ -313,6 +340,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] args)
         {
@@ -336,6 +366,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
@@ -359,6 +392,9 @@ namespace FluentAssertions.Collections
         /// <param name="args">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
         public AndConstraint<GenericCollectionAssertions<T>> NotBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
