@@ -37,6 +37,7 @@ namespace FluentAssertions.Common
         /// <returns>Index at which two sequences have elements that are not equal, or -1 if enumerables are equal</returns>
         public static int IndexOfFirstDifferenceWith(this object first, IEnumerable second, Func<object, object, bool> equalityComparison)
         {
+
             Type enumerableType = first.GetType();
             MethodInfo getEnumerator = enumerableType.GetParameterlessMethod("GetEnumerator");
 
@@ -51,7 +52,7 @@ namespace FluentAssertions.Common
                 return -1; // what should we do here?????
 #endif
 
-            object firstEnumerator = getEnumerator.Invoke(first, Array.Empty<object>());
+            object firstEnumerator = getEnumerator.Invoke(first, new object[0]);
             IEnumerator secondEnumerator = second.GetEnumerator();
             try
             {
@@ -60,8 +61,8 @@ namespace FluentAssertions.Common
                 {
                     while (true)
                     {
-                        var isFirstCompleted = !(bool)moveNext.Invoke(firstEnumerator, Array.Empty<object>());
-                        var isSecondCompleted = !secondEnumerator.MoveNext();
+                        bool isFirstCompleted = !(bool)moveNext.Invoke(firstEnumerator, new object[0]);
+                        bool isSecondCompleted = !secondEnumerator.MoveNext();
 
                         if (isFirstCompleted && isSecondCompleted)
                         {
@@ -84,7 +85,7 @@ namespace FluentAssertions.Common
             }
             finally
             {
-                dispose?.Invoke(firstEnumerator, Array.Empty<object>());
+                dispose?.Invoke(firstEnumerator, new object[0]);
             }
         }
 
@@ -104,8 +105,8 @@ namespace FluentAssertions.Common
             {
                 while (true)
                 {
-                    var isFirstCompleted = !firstEnumerator.MoveNext();
-                    var isSecondCompleted = !secondEnumerator.MoveNext();
+                    bool isFirstCompleted = !firstEnumerator.MoveNext();
+                    bool isSecondCompleted = !secondEnumerator.MoveNext();
 
                     if (isFirstCompleted && isSecondCompleted)
                     {
@@ -188,8 +189,8 @@ namespace FluentAssertions.Common
                 {
                     while (true)
                     {
-                        var isFirstCompleted = (index == first.Count);
-                        var isSecondCompleted = !secondEnumerator.MoveNext();
+                        bool isFirstCompleted = (index == first.Count);
+                        bool isSecondCompleted = !secondEnumerator.MoveNext();
 
                         if (isFirstCompleted && isSecondCompleted)
                         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -250,6 +251,73 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<ObjectAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that an object is enumerable by a foreach loop.g
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<ObjectAssertions> BeEnumerable(string because = "", params object[] becauseArgs)
+        {
+            AssertIsEnumerable(Subject, because, becauseArgs);
+
+            return new AndConstraint<ObjectAssertions>(this);
+        }
+
+        public AndConstraint<ObjectAssertions> BeEnumerable(IEnumerable expected, Func<object, object, bool> equalityComparison, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+
+            bool subjectIsNull = Subject is null;
+            bool expectationIsNull = expected is null;
+            if (!(subjectIsNull && expectationIsNull))
+            {
+                Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare collection with <null>.");
+
+                if (subjectIsNull)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expected);
+                }
+
+                AssertIsEnumerable(Subject, because, becauseArgs);
+                AssertEquality(Subject, expected, equalityComparison, because, becauseArgs);
+            }
+
+            return new AndConstraint<ObjectAssertions>(this);
+        }
+
+        internal static void AssertIsEnumerable(object subject, string because = "", params object[] becauseArgs)
+            => Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to be an enumerable{reason}, ")
+                .ForCondition(subject is object)
+                .FailWith("but found <null>.")
+                .Then
+                .Given<Type>(() => subject.GetType())
+                .ForCondition(type => type.GetMethodGetEnumerator() is object)
+                .FailWith("but {0} is missing a valid 'GetEnumerator' method.", type => type.ToString())
+                .Then
+                .Given<Type>(type => type.GetMethodGetEnumerator().ReturnType)
+                .ForCondition(type => type.GetPropertyCurrent() is object)
+                .FailWith("but {0} is missing a valid 'Current' property.", type => type.ToString())
+                .Then
+                .ForCondition(type => type.GetMethodMoveNext() is object)
+                .FailWith("but {0} is missing a valid 'MoveNext' method.", type => type.ToString());
+
+        internal static void AssertEquality(object subject, IEnumerable expectation, Func<object, object, bool> equalityComparison,
+            string because = "", params object[] becauseArgs)
+            => Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectation)
+                .Given(() => subject)
+                .AssertForEachEnumerablesHaveSameItems(expectation, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.

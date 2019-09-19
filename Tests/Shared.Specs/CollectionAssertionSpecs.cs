@@ -5550,4 +5550,106 @@ namespace FluentAssertions.Specs
             get { return values[index]; }
         }
     }
+
+    internal class CustomRangeNonGenericEnumerable : CustomRangeEnumerable, IEnumerable
+    {
+        int count;
+
+        public CustomRangeNonGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount)
+            : base(enumerableCount)
+        {
+            count = nonGenericEnumerableCount;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => new Enumerator(count);
+
+        class Enumerator : IEnumerator
+        {
+            readonly int count;
+            int current;
+
+            public Enumerator(int count)
+            {
+                this.count = count;
+                current = -1;
+            }
+
+            public object Current => current;
+
+            public bool MoveNext() => ++current < count;
+
+            public void Reset() => current = -1;
+
+            public void Dispose() {}
+        }
+    }
+
+    internal class CustomRangeGenericEnumerable : CustomRangeNonGenericEnumerable, IEnumerable<int>
+    {
+        int count;
+
+        public CustomRangeGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount)
+            : base(enumerableCount, nonGenericEnumerableCount)
+        {
+            count = genericEnumerableCount;
+        }
+
+        IEnumerator<int> IEnumerable<int>.GetEnumerator() => new Enumerator(count);
+
+        class Enumerator : IEnumerator<int>
+        {
+            readonly int count;
+            int current;
+
+            public Enumerator(int count)
+            {
+                this.count = count;
+                current = -1;
+            }
+
+            public int Current => current;
+            object IEnumerator.Current => current;
+
+            public bool MoveNext() => ++current < count;
+
+            public void Reset() => current = -1;
+
+            public void Dispose() {}
+        }
+    }
+
+    internal class CustomRangeReadOnlyCollection : CustomRangeGenericEnumerable, IReadOnlyCollection<int>
+    {
+        int count;
+
+        public CustomRangeReadOnlyCollection(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount)
+            : base(enumerableCount, nonGenericEnumerableCount, genericEnumerableCount)
+        {
+            count = readOnlyCollectionCount;
+        }
+
+        public int Count => count;
+    }
+
+    internal class CustomRangeReadOnlyList : CustomRangeReadOnlyCollection, IReadOnlyList<int>
+    {
+        int count;
+
+        public CustomRangeReadOnlyList(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount, int readOnlyListCount)
+            : base(enumerableCount, nonGenericEnumerableCount, genericEnumerableCount, readOnlyCollectionCount)
+        {
+            count = readOnlyListCount;
+        }
+
+        public int this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= count)
+                    throw new IndexOutOfRangeException();
+
+                return index;
+            }
+        }
+    }
 }
