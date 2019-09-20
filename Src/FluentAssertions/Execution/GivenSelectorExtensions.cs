@@ -111,12 +111,13 @@ namespace FluentAssertions.Execution
 
                 public Enumerator(ForEachEnumerableWithIndex enumerable)
                 {
-                    LazyInitializer.EnsureInitialized(ref enumerable.methodGetEnumerator, () => enumerable.items.GetType().GetMethodGetEnumerator());
+                    LazyInitializer.EnsureInitialized(ref enumerable.methodGetEnumerator,
+                        () => enumerable.items.GetType().GetPublicExplicitParameterlessMethod("GetEnumerator"));
                     enumerator = enumerable.methodGetEnumerator.Invoke(enumerable.items, new object[0]);
 
                     var enumeratorType = enumerator.GetType();
-                    propertyCurrent = enumeratorType.GetPropertyCurrent();
-                    methodMoveNext = enumeratorType.GetMethodMoveNext();
+                    propertyCurrent = enumeratorType.GetPublicExplicitProperty("Current");
+                    methodMoveNext = enumeratorType.GetPublicExplicitParameterlessMethod("MoveNext");
                 }
 
                 public object Current => propertyCurrent.GetValue(enumerator);
@@ -125,13 +126,15 @@ namespace FluentAssertions.Execution
 
                 public void Reset()
                 {
-                    LazyInitializer.EnsureInitialized(ref methodReset, ref methodResetInitialized, ref methodResetSync, () => enumerator.GetType().GetMethodReset());
+                    LazyInitializer.EnsureInitialized(ref methodReset, ref methodResetInitialized, ref methodResetSync,
+                        () => enumerator.GetType().GetPublicExplicitParameterlessMethod("Reset"));
                     methodReset?.Invoke(enumerator, new object[0]);
                 }
 
                 public void Dispose()
                 {
-                    LazyInitializer.EnsureInitialized(ref methodDispose, ref methodDisposeInitialized, ref methodDisposeSync, () => enumerator.GetType().GetMethodDispose());
+                    LazyInitializer.EnsureInitialized(ref methodDispose, ref methodDisposeInitialized, ref methodDisposeSync,
+                        () => enumerator.GetType().GetPublicExplicitParameterlessMethod("Dispose"));
                     methodDispose?.Invoke(enumerator, new object[0]);
                 }
             }

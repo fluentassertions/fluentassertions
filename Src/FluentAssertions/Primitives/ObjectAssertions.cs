@@ -301,14 +301,14 @@ namespace FluentAssertions.Primitives
                 .FailWith("but found <null>.")
                 .Then
                 .Given<Type>(() => subject.GetType())
-                .ForCondition(type => type.GetMethodGetEnumerator() is object)
+                .ForCondition(type => type.GetPublicExplicitParameterlessMethod("GetEnumerator") is object)
                 .FailWith("but {0} is missing a valid 'GetEnumerator' method.", type => type.ToString())
                 .Then
-                .Given<Type>(type => type.GetMethodGetEnumerator().ReturnType)
-                .ForCondition(type => type.GetPropertyCurrent() is object)
+                .Given<Type>(type => type.GetPublicExplicitParameterlessMethod("GetEnumerator").ReturnType)
+                .ForCondition(type => type.GetPublicExplicitProperty("Current") is object)
                 .FailWith("but {0} is missing a valid 'Current' property.", type => type.ToString())
                 .Then
-                .ForCondition(type => type.GetMethodMoveNext() is object)
+                .ForCondition(type => type.GetPublicExplicitParameterlessMethod("MoveNext") is object)
                 .FailWith("but {0} is missing a valid 'MoveNext' method.", type => type.ToString());
 
         internal static void AssertEquality(object subject, IEnumerable expectation, Func<object, object, bool> equalityComparison,

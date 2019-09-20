@@ -39,12 +39,12 @@ namespace FluentAssertions.Common
         {
 
             Type enumerableType = first.GetType();
-            MethodInfo getEnumerator = enumerableType.GetParameterlessMethod("GetEnumerator");
+            MethodInfo getEnumerator = enumerableType.GetPublicExplicitParameterlessMethod("GetEnumerator");
 
             Type enumeratorType = getEnumerator.ReturnType;
-            PropertyInfo current = enumeratorType.GetPropertyByName("Current");
-            MethodInfo moveNext = enumeratorType.GetParameterlessMethod("MoveNext");
-            MethodInfo dispose = enumeratorType.GetParameterlessMethod("Dispose");
+            PropertyInfo current = enumeratorType.GetPublicExplicitProperty("Current");
+            MethodInfo moveNext = enumeratorType.GetPublicExplicitParameterlessMethod("MoveNext");
+            MethodInfo dispose = enumeratorType.GetPublicExplicitParameterlessMethod("Dispose");
 
 #if !NETSTANDARD2_1
             // 'Current' may return by-ref but reflection only supports its invocation on netstandard 2.1

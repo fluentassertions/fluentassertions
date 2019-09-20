@@ -5551,11 +5551,11 @@ namespace FluentAssertions.Specs
         }
     }
 
-    internal class CustomRangeNonGenericEnumerable : CustomRangeEnumerable, IEnumerable
+    internal class RangeNonGenericEnumerable : RangeEnumerable, IEnumerable
     {
         int count;
 
-        public CustomRangeNonGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount)
+        public RangeNonGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount)
             : base(enumerableCount)
         {
             count = nonGenericEnumerableCount;
@@ -5584,11 +5584,11 @@ namespace FluentAssertions.Specs
         }
     }
 
-    internal class CustomRangeGenericEnumerable : CustomRangeNonGenericEnumerable, IEnumerable<int>
+    internal class RangeGenericEnumerable : RangeNonGenericEnumerable, IEnumerable<int>
     {
         int count;
 
-        public CustomRangeGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount)
+        public RangeGenericEnumerable(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount)
             : base(enumerableCount, nonGenericEnumerableCount)
         {
             count = genericEnumerableCount;
@@ -5618,11 +5618,11 @@ namespace FluentAssertions.Specs
         }
     }
 
-    internal class CustomRangeReadOnlyCollection : CustomRangeGenericEnumerable, IReadOnlyCollection<int>
+    internal class RangeReadOnlyCollection : RangeGenericEnumerable, IReadOnlyCollection<int>
     {
         int count;
 
-        public CustomRangeReadOnlyCollection(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount)
+        public RangeReadOnlyCollection(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount)
             : base(enumerableCount, nonGenericEnumerableCount, genericEnumerableCount)
         {
             count = readOnlyCollectionCount;
@@ -5631,11 +5631,11 @@ namespace FluentAssertions.Specs
         public int Count => count;
     }
 
-    internal class CustomRangeReadOnlyList : CustomRangeReadOnlyCollection, IReadOnlyList<int>
+    internal class RangeReadOnlyList : RangeReadOnlyCollection, IReadOnlyList<int>
     {
         int count;
 
-        public CustomRangeReadOnlyList(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount, int readOnlyListCount)
+        public RangeReadOnlyList(int enumerableCount, int nonGenericEnumerableCount, int genericEnumerableCount, int readOnlyCollectionCount, int readOnlyListCount)
             : base(enumerableCount, nonGenericEnumerableCount, genericEnumerableCount, readOnlyCollectionCount)
         {
             count = readOnlyListCount;
@@ -5646,9 +5646,11 @@ namespace FluentAssertions.Specs
             get
             {
                 if (index < 0 || index >= count)
-                    throw new IndexOutOfRangeException();
+                    ThrowIndexOutOfRangeException();
 
                 return index;
+
+                void ThrowIndexOutOfRangeException() => throw new IndexOutOfRangeException();
             }
         }
     }

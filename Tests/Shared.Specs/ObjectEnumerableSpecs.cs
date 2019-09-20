@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object someObject = new MissingCurrentEnumerable();
+            object someObject = new MissingCurrentEnumerable<int>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
-                @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingCurrentEnumerable"" is missing a valid 'Current' property.");
+                @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingCurrentEnumerable`1[System.Int32]"" is missing a valid 'Current' property.");
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object someObject = new MissingMoveNextEnumerable();
+            object someObject = new MissingMoveNextEnumerable<int>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -87,7 +87,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
-                @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingMoveNextEnumerable"" is missing a valid 'MoveNext' method.");
+                @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingMoveNextEnumerable`1[System.Int32]"" is missing a valid 'MoveNext' method.");
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            object someObject = new CustomRangeEnumerable(5);
+            object someObject = new RangeEnumerable(5);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -145,6 +145,28 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+
+        [Fact]
+        public void When_object_does_not_have_GetEnumerator_with_comparison_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object someObject = new object();
+            IEnumerable collection2 = new[] { 0, 1, 20, 3, 4 };
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => someObject.Should().BeEnumerable(collection2, (a, e) => int.Equals(a, e), "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().WithMessage(
+                @"Expected someObject to be an enumerable because we want to test the failure message, but ""System.Object"" is missing a valid 'GetEnumerator' method.");
         }
 
         [Fact]
@@ -165,20 +187,99 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
+
+        [Fact]
+        public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object collection1 = new RangeEnumerable(5);
+            IEnumerable collection2 = new[] { 0, 1, 20, 3, 4 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.Should().BeEnumerable(collection2, (a, e) => int.Equals(a, e), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to be equal to {0, 1, 20, 3, 4} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 2 when using 'foreach'.");
+#else
+                "Expected collection1 to be equal to {0, 1, 20, 3, 4} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 2 when using 'foreach'.");
+#endif
+        }
+
+        [Fact]
+        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object collection1 = new RangeEnumerable(5);
+            IEnumerable collection2 = new[] { 0, 1, 2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.Should().BeEnumerable(collection2, (a, e) => int.Equals(a, e), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to be equal to {0, 1, 2} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 3 when using 'foreach'.");
+#else
+                "Expected collection1 to be equal to {0, 1, 2} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 3 when using 'foreach'.");
+#endif
+        }
+
+        [Fact]
+        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object collection1 = new RangeEnumerable(5);
+            IEnumerable collection2 = new[] { 0, 1, 2, 3, 4, 5, 6 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.Should().BeEnumerable(collection2, (a, e) => int.Equals(a, e), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to be equal to {0, 1, 2, 3, 4, 5, 6} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 5 when using 'foreach'.");
+#else
+                "Expected collection1 to be equal to {0, 1, 2, 3, 4, 5, 6} because we want to test the failure message, but {0, 1, 2, 3, 4} differs at index 5 when using 'foreach'.");
+#endif
+        }
     }
 
-    internal class MissingCurrentEnumerable
+    internal class MissingCurrentEnumerable<T>
     {
-        public MissingCurrentEnumerable GetEnumerator() => this;
+        public MissingCurrentEnumerable<T> GetEnumerator() => this;
+
+        private T Current => default;
 
         public bool MoveNext() => false;
     }
 
-    internal class MissingMoveNextEnumerable
+    internal class MissingMoveNextEnumerable<T>
     {
-        public MissingMoveNextEnumerable GetEnumerator() => this;
+        public MissingMoveNextEnumerable<T> GetEnumerator() => this;
 
-        public int Current => 0;
+        public T Current => default;
+
+        private bool MoveNext() => false;
     }
 
     internal class EmptyEnumerable<T>
@@ -203,11 +304,11 @@ namespace FluentAssertions.Specs
         void IDisposable.Dispose() {}
     }
 
-    internal class CustomRangeEnumerable
+    internal class RangeEnumerable
     {
         int count;
 
-        public CustomRangeEnumerable(int enumerableCount)
+        public RangeEnumerable(int enumerableCount)
         {
             count = enumerableCount;
         }
