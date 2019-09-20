@@ -70,7 +70,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a read or read/write property for the current <see cref="System.Type"/> given a name.
+        /// Returns a property for the current <see cref="System.Type"/> given a name.
         /// </summary>
         /// <remarks>
         /// Looks for a public implementation in current <see cref="System.Type"/>, base <see cref="System.Type"/>s and explicit interface implementations.
@@ -114,14 +114,13 @@ namespace FluentAssertions
         }
 
         private static PropertyInfo GetPublicProperty(this Type type, string name)
-            => type.GetProperty(
-                name,
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy);
+            => type
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+                .FirstOrDefault(property => property.Name == name && property.GetGetMethod() is object);
 
         private static MethodInfo GetPublicParameterlessMethod(this Type type, string name)
-            => type.GetMethod(
-                name,
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy,
-                null, new Type[0], new ParameterModifier[0]);
+            => type
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+                .FirstOrDefault(method => method.Name == name && method.GetParameters().Length == 0);
     }
 }

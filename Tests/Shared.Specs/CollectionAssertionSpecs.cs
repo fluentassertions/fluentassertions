@@ -5563,7 +5563,7 @@ namespace FluentAssertions.Specs
 
         IEnumerator IEnumerable.GetEnumerator() => new Enumerator(count);
 
-        class Enumerator : IEnumerator
+        new class Enumerator : IEnumerator
         {
             readonly int count;
             int current;
@@ -5596,7 +5596,7 @@ namespace FluentAssertions.Specs
 
         IEnumerator<int> IEnumerable<int>.GetEnumerator() => new Enumerator(count);
 
-        class Enumerator : IEnumerator<int>
+        new class Enumerator : IEnumerator<int>
         {
             readonly int count;
             int current;

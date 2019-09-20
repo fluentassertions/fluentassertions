@@ -27,7 +27,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected collection to be an enumerable because we want to test the failure message, but found <null>.");
+#else
                 "Expected someObject to be an enumerable because we want to test the failure message, but found <null>.");
+#endif
         }
 
         [Fact]
@@ -47,7 +51,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                @"Expected collection to be an enumerable because we want to test the failure message, but ""System.Object"" is missing a valid 'GetEnumerator' method.");
+#else
                 @"Expected someObject to be an enumerable because we want to test the failure message, but ""System.Object"" is missing a valid 'GetEnumerator' method.");
+#endif
         }
 
         [Fact]
@@ -67,7 +75,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                @"Expected collection to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingCurrentEnumerable`1[System.Int32]"" is missing a valid 'Current' property.");
+#else
                 @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingCurrentEnumerable`1[System.Int32]"" is missing a valid 'Current' property.");
+#endif
         }
 
         [Fact]
@@ -87,7 +99,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                @"Expected collection to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingMoveNextEnumerable`1[System.Int32]"" is missing a valid 'MoveNext' method.");
+#else
                 @"Expected someObject to be an enumerable because we want to test the failure message, but ""FluentAssertions.Specs.MissingMoveNextEnumerable`1[System.Int32]"" is missing a valid 'MoveNext' method.");
+#endif
         }
 
         [Fact]
@@ -166,7 +182,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                @"Expected collection to be an enumerable because we want to test the failure message, but ""System.Object"" is missing a valid 'GetEnumerator' method.");
+#else
                 @"Expected someObject to be an enumerable because we want to test the failure message, but ""System.Object"" is missing a valid 'GetEnumerator' method.");
+#endif
         }
 
         [Fact]
