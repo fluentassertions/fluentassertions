@@ -1824,6 +1824,8 @@ namespace FluentAssertions.Specs
 
         #region Contain
 
+        #region Default
+
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_the_expected_string_it_should_not_throw()
@@ -1852,8 +1854,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected string \"ABCDEF\" to contain \"XYZ\" because that is required, but not found.");
         }
 
         [Fact]
@@ -1902,143 +1904,188 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                 "Expected string <null> to contain \"XYZ\" because that is required.");
-#else
-                "Expected someString <null> to contain \"XYZ\" because that is required.");
-#endif
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\" because that is required, but not found.");
         }
 
         #endregion
 
-        #region Be Equivalent To
+        #region Default with times
 
         [Fact]
-        public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
+        public void When_string_containment_is_asserted_and_actual_value_contains_the_expected_string_expected_times_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string actual = "ABC";
-            string expectedEquivalent = "abc";
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            actual.Should().BeEquivalentTo(expectedEquivalent);
-        }
-
-        [Fact]
-        public void When_strings_differ_other_than_by_case_it_should_throw()
-        {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ADC".Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => actual.Should().Contain(expectedSubstring).Times(expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
+            act.Should().NotThrow();
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
+        public void When_string_containment_is_asserted_and_actual_value_contains_the_expected_string_but_not_expected_times_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 3;
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABCDEF".Should().BeEquivalentTo(null);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
-        }
-
-        [Fact]
-        public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC".Should().BeEquivalentTo("");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
-        }
-
-        [Fact]
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_string_is_equivalent_but_too_short_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "AB".Should().BeEquivalentTo("ABCD");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
-        }
-
-        [Fact]
-        public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            string someString = null;
-            Action act = () => someString.Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => actual.Should().Contain(expectedSubstring).Times(expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
-#else
-                .WithMessage("Expected someString to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
-#endif
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
         }
 
         [Fact]
-        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        public void When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
+            Action act = () => actual.Should().Contain(expectedSubstring).Once("that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
         }
 
         [Fact]
-        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        public void When_containment_once_is_asserted_against_null_it_should_throw_earlier()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");
+            Action act = () => actual.Should().Contain(expectedSubstring).Once();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #region Exactly
+
+        [Fact]
+        public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
         }
 
         #endregion
@@ -2178,6 +2225,759 @@ namespace FluentAssertions.Specs
         #region ContainAll
 
         [Fact]
+        public void When_string_containment_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_exactly_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #region AtLeast
+
+        [Fact]
+        public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_at_least_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #region MoreThan
+
+        [Fact]
+        public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_more_than_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #region AtMost
+
+        [Fact]
+        public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_at_most_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("unexpected");
+        }
+
+        [Fact]
+        public void When_containment_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("unexpected");
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #region LessThan
+
+        [Fact]
+        public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_less_than_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_less_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Be Equivalent To
+
+        [Fact]
+        public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABC";
+            string expectedEquivalent = "abc";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should().BeEquivalentTo(expectedEquivalent);
+        }
+
+        [Fact]
+        public void When_strings_differ_other_than_by_case_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ADC".Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
+        }
+
+        [Fact]
+        public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEF".Should().BeEquivalentTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
+        }
+
+        [Fact]
+        public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().BeEquivalentTo("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
+        }
+
+        [Fact]
+        public void When_string_is_equivalent_but_too_short_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "AB".Should().BeEquivalentTo("ABCD");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
+        }
+
+        [Fact]
+        public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
+#else
+                .WithMessage("Expected someString to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
+#endif
+        }
+
+        [Fact]
+        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
+        }
+
+        [Fact]
+        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
+        }
+
+        #endregion
+
+        #region ContainAll
+
+        [Fact]
         public void When_containment_of_all_strings_in_a_null_collection_is_asserted_it_should_throw_an_argument_exception()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2188,9 +2988,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage(_nullCollectionMessagePattern);
         }
 
         [Fact]
@@ -2204,9 +3004,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
         }
 
         [Fact]
@@ -2282,7 +3082,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_should_contain_reason()
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_failes_then_failure_message_should_contain_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2350,9 +3150,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage(_nullCollectionMessagePattern);
         }
 
         [Fact]
@@ -2366,9 +3166,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
         }
 
         [Fact]
@@ -2441,7 +3241,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exact_matches_it_should_throw()
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exatch_matches_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2513,7 +3313,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_unexpected_fragment_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2539,9 +3338,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
         }
 
         [Fact]
@@ -2555,9 +3354,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("unexpected");
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         #endregion
@@ -2575,9 +3374,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage(_nullCollectionMessagePattern);
         }
 
         [Fact]
@@ -2591,9 +3390,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
         }
 
         [Fact]
@@ -2731,9 +3530,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage(_nullCollectionMessagePattern);
         }
 
         [Fact]
@@ -2747,9 +3546,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage(_emptyCollectionMessagePattern);
         }
 
         [Fact]
@@ -2946,11 +3745,12 @@ namespace FluentAssertions.Specs
 
         #region Contain Equivalent Of
 
+        #region Default
+
         [InlineData("aa", "A")]
-        // ReSharper disable once StringLiteralTypo
         [InlineData("aCCa", "acca")]
         [Theory]
-        public void Should_pass_when_contains_equivalent_of(string actual, string equivalentSubstring)
+        public void Should_pass_when_contans_equivalent_of(string actual, string equivalentSubstring)
         {
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2971,7 +3771,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\".");
+                .WithMessage("Expected string \"a\" to contain equivalent of \"aa\", but not found.");
         }
 
         [Fact]
@@ -2987,8 +3787,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithMessage("Cannot assert string containment against <null>.*");
         }
 
         [Fact]
@@ -3004,9 +3803,808 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
+                .WithMessage("Cannot assert string containment against an empty string.*");
         }
+
+        #endregion
+
+        #region Default with times
+
+        [Fact]
+        public void When_string_containment_equivalent_of_is_asserted_and_actual_value_contains_the_expected_string_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_is_asserted_and_actual_value_contains_the_expected_string_but_not_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
+
+        #region Exactly
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_exactly_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
+
+        #region AtLeast
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_at_least_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
+
+        #region MoreThan
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_more_than_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
+
+        #region AtMost
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_at_most_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
+
+        #region LessThan
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 3;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Times(expectedTimes);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+            int expectedTimes = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Times(expectedTimes, "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times because that is required, but found 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_less_than_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_less_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "a";
+            string expectedSubstring = "";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once("that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+        }
+
+        #endregion
 
         #endregion
 
@@ -3214,7 +4812,52 @@ namespace FluentAssertions.Specs
         #endregion
 
         [Fact]
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_chaining_multiple_contain_assertions_it_should_assert_all_conditions()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEFGHI";
+            string substring = "EF";
+            int length = 9;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should()
+                .Contain(substring).Once().And
+                .Exactly.Once().And
+                .AtMost.Once().And
+                .LessThan.Twice().And
+                .AtLeast.Once().And
+                .MoreThan.Times(0).And
+                .HaveLength(length);
+        }
+
+        [Fact]
+        public void When_chaining_multiple_contain_equivalent_of_assertions_it_should_assert_all_conditions()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string actual = "ABCDEFGHI";
+            string substring = "eFg";
+            int length = 9;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            actual.Should()
+                .ContainEquivalentOf(substring).Once().And
+                .Exactly.Once().And
+                .AtMost.Once().And
+                .LessThan.Twice().And
+                .AtLeast.Once().And
+                .MoreThan.Times(0).And
+                .HaveLength(length);
+        }
+
+        [Fact]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
             //-----------------------------------------------------------------------------------------------------------

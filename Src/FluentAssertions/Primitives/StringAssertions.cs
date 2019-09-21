@@ -619,7 +619,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
+        public StringContainmentConstraints Contain(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -631,9 +631,9 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to contain {1}{reason}, but not found.", Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new StringContainmentConstraints(Subject, expected, "contain", StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -648,7 +648,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
+        public StringContainmentConstraints ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -660,9 +660,9 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to contain equivalent of {0}{reason} but found {1}.", expected, Subject);
+                .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}, but not found.", Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new StringContainmentConstraints(Subject, expected, "contain equivalent of", StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <summary>
