@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency.Matching
                     .FindField(expectedMember.Name, expectedMember.MemberType));
             }
 
-            if ((compareeSelectedMemberInfoInfo is null) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
+            if ((compareeSelectedMemberInfoInfo is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
             {
                 compareeSelectedMemberInfoInfo = expectedMember;
             }
