@@ -65,11 +65,11 @@ namespace FluentAssertions.Execution
         public static ContinuationOfGiven<IEnumerable> AssertForEachEnumerablesHaveSameItems(
             this GivenSelector<object> givenSelector, IEnumerable expected, Func<object, IEnumerable, int> findIndex)
             => givenSelector
-                .Given<IEnumerable>(actual => new ForEachEnumerableWithIndex(actual, findIndex(actual, expected)))
-                .ForCondition(diff => diff.As<ForEachEnumerableWithIndex>().Index < 0)
+                .Given<IEnumerable>(actual => new ObjectEnumerableWithIndex(actual, findIndex(actual, expected)))
+                .ForCondition(diff => diff.As<ObjectEnumerableWithIndex>().Index < 0)
                 .FailWith("but {0} differs at index {1} when using 'foreach'.",
                     diff => diff,
-                    diff => diff.As<ForEachEnumerableWithIndex>().Index);
+                    diff => diff.As<ObjectEnumerableWithIndex>().Index);
 
         public static ContinuationOfGiven<ICollection<TActual>> AssertCollectionsHaveSameItems<TActual, TExpected>(this GivenSelector<ICollection<TActual>> givenSelector,
             ICollection<TExpected> expected, Func<ICollection<TActual>, ICollection<TExpected>, int> findIndex)
@@ -82,61 +82,13 @@ namespace FluentAssertions.Execution
                     diff => diff.As<CollectionWithIndex<TActual>>().Index);
         }
 
-        sealed class ForEachEnumerableWithIndex : IEnumerable
+        sealed class ObjectEnumerableWithIndex : Primitives.ObjectAssertions.ObjectEnumerable
         {
-            readonly object items;
-            MethodInfo methodGetEnumerator;
-
             public int Index { get; }
 
-            public ForEachEnumerableWithIndex(object items, int index)
+            public ObjectEnumerableWithIndex(object items, int index) : base(items)
             {
-                this.items = items;
                 Index = index;
-            }
-
-            public IEnumerator GetEnumerator() => new Enumerator(this);
-
-            class Enumerator : IEnumerator, IDisposable
-            {
-                readonly object enumerator;
-                readonly PropertyInfo propertyCurrent;
-                readonly MethodInfo methodMoveNext;
-                MethodInfo methodReset;
-                MethodInfo methodDispose;
-                bool methodResetInitialized;
-                bool methodDisposeInitialized;
-                object methodResetSync;
-                object methodDisposeSync;
-
-                public Enumerator(ForEachEnumerableWithIndex enumerable)
-                {
-                    LazyInitializer.EnsureInitialized(ref enumerable.methodGetEnumerator,
-                        () => enumerable.items.GetType().GetPublicOrExplicitParameterlessMethod("GetEnumerator"));
-                    enumerator = enumerable.methodGetEnumerator.Invoke(enumerable.items, new object[0]);
-
-                    var enumeratorType = enumerator.GetType();
-                    propertyCurrent = enumeratorType.GetPublicOrExplicitProperty("Current");
-                    methodMoveNext = enumeratorType.GetPublicOrExplicitParameterlessMethod("MoveNext");
-                }
-
-                public object Current => propertyCurrent.GetValue(enumerator);
-
-                public bool MoveNext() => (bool)methodMoveNext.Invoke(enumerator, new object[0]);
-
-                public void Reset()
-                {
-                    LazyInitializer.EnsureInitialized(ref methodReset, ref methodResetInitialized, ref methodResetSync,
-                        () => enumerator.GetType().GetPublicOrExplicitParameterlessMethod("Reset"));
-                    methodReset?.Invoke(enumerator, new object[0]);
-                }
-
-                public void Dispose()
-                {
-                    LazyInitializer.EnsureInitialized(ref methodDispose, ref methodDisposeInitialized, ref methodDisposeSync,
-                        () => enumerator.GetType().GetPublicOrExplicitParameterlessMethod("Dispose"));
-                    methodDispose?.Invoke(enumerator, new object[0]);
-                }
             }
         }
 
