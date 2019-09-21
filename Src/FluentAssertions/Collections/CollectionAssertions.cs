@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -952,6 +953,7 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         [Obsolete("Use NotBeInAscendingOrder instead")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs)
         {
             return NotBeInAscendingOrder(Comparer<object>.Default, because, becauseArgs);
@@ -994,6 +996,7 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         [Obsolete("Use NotBeInAscendingOrder instead")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TAssertions> NotBeAscendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
         {
             return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
@@ -1036,6 +1039,7 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         [Obsolete("Use NotBeInDescendingOrder instead")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs)
         {
             return NotBeInDescendingOrder(Comparer<object>.Default, because, becauseArgs);
@@ -1078,6 +1082,7 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         [Obsolete("Use NotBeInDescendingOrder instead")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TAssertions> NotBeDescendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
         {
             return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
