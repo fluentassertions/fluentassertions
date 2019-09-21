@@ -1396,6 +1396,230 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_interfaced_subject_should_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            IVehicle subject = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            subject.VehicleId = 1; // interface member
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_interfaced_expectation_should_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            expected.VehicleId = 1; // interface member
+
+            IVehicle subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_subject_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            IVehicle subject = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            subject.VehicleId = 1; // interface member
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_expectation_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            expected.VehicleId = 1; // interface member
+
+            IVehicle subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_subject_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            var subject = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)subject).VehicleId = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_expectation_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)expected).VehicleId = 1;
+
+            var subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_subject_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            var subject = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)subject).VehicleId = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_expectation_should_not_be_used()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)expected).VehicleId = 1;
+
+            var subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -4585,6 +4809,8 @@ namespace FluentAssertions.Specs
     public class ExplicitVehicle : IVehicle
     {
         int IVehicle.VehicleId { get; set; }
+
+        public int VehicleId { get; set; }
     }
 
     public interface ICar : IVehicle
