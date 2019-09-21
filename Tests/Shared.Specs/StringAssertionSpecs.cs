@@ -2663,7 +2663,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -2685,7 +2685,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("unexpected");
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -2988,9 +2988,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3004,9 +3004,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3150,9 +3150,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3166,9 +3166,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3374,9 +3374,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3390,9 +3390,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3530,9 +3530,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage(_nullCollectionMessagePattern);
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot*containment*null*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
@@ -3546,9 +3546,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage(_emptyCollectionMessagePattern);
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot*containment*empty*")
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact]
