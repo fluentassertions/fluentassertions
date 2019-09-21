@@ -112,12 +112,12 @@ namespace FluentAssertions.Execution
                 public Enumerator(ForEachEnumerableWithIndex enumerable)
                 {
                     LazyInitializer.EnsureInitialized(ref enumerable.methodGetEnumerator,
-                        () => enumerable.items.GetType().GetPublicExplicitParameterlessMethod("GetEnumerator"));
+                        () => enumerable.items.GetType().GetPublicOrExplicitParameterlessMethod("GetEnumerator"));
                     enumerator = enumerable.methodGetEnumerator.Invoke(enumerable.items, new object[0]);
 
                     var enumeratorType = enumerator.GetType();
-                    propertyCurrent = enumeratorType.GetPublicExplicitProperty("Current");
-                    methodMoveNext = enumeratorType.GetPublicExplicitParameterlessMethod("MoveNext");
+                    propertyCurrent = enumeratorType.GetPublicOrExplicitProperty("Current");
+                    methodMoveNext = enumeratorType.GetPublicOrExplicitParameterlessMethod("MoveNext");
                 }
 
                 public object Current => propertyCurrent.GetValue(enumerator);
@@ -127,14 +127,14 @@ namespace FluentAssertions.Execution
                 public void Reset()
                 {
                     LazyInitializer.EnsureInitialized(ref methodReset, ref methodResetInitialized, ref methodResetSync,
-                        () => enumerator.GetType().GetPublicExplicitParameterlessMethod("Reset"));
+                        () => enumerator.GetType().GetPublicOrExplicitParameterlessMethod("Reset"));
                     methodReset?.Invoke(enumerator, new object[0]);
                 }
 
                 public void Dispose()
                 {
                     LazyInitializer.EnsureInitialized(ref methodDispose, ref methodDisposeInitialized, ref methodDisposeSync,
-                        () => enumerator.GetType().GetPublicExplicitParameterlessMethod("Dispose"));
+                        () => enumerator.GetType().GetPublicOrExplicitParameterlessMethod("Dispose"));
                     methodDispose?.Invoke(enumerator, new object[0]);
                 }
             }

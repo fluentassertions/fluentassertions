@@ -69,13 +69,25 @@ namespace FluentAssertions
             return new PropertyInfoSelector(typeSelector.ToList());
         }
 
+        public static bool IsEnumerable(this Type type)
+        {
+            var getEnumerator = type.GetPublicOrExplicitParameterlessMethod("GetEnumerator");
+            if (getEnumerator is null)
+                return false;
+
+            var enumeratorType = getEnumerator.ReturnType;
+            return
+                enumeratorType.GetPublicOrExplicitProperty("Current") is object &&
+                enumeratorType.GetPublicOrExplicitParameterlessMethod("MoveNext") is object;
+        }
+
         /// <summary>
         /// Returns a property for the current <see cref="System.Type"/> given a name.
         /// </summary>
         /// <remarks>
-        /// Looks for a public implementation in current <see cref="System.Type"/>, base <see cref="System.Type"/>s and explicit interface implementations.
+        /// Searches for a public implementation in current <see cref="System.Type"/>, base <see cref="System.Type"/>s and explicit interface implementations.
         /// </remarks>
-        public static PropertyInfo GetPublicExplicitProperty(this Type type, string name)
+        public static PropertyInfo GetPublicOrExplicitProperty(this Type type, string name)
         {
             var method = type.GetPublicProperty(name);
             if (method is object)
@@ -95,9 +107,9 @@ namespace FluentAssertions
         /// Returns a parameterless method for the current <see cref="System.Type"/> given a name.
         /// </summary>
         /// <remarks>
-        /// Looks for a public implementation in current <see cref="System.Type"/>, base <see cref="System.Type"/>s and explicit interface implementations.
+        /// Searches for a public implementation in current <see cref="System.Type"/>, base <see cref="System.Type"/>s and explicit interface implementations.
         /// </remarks>
-        public static MethodInfo GetPublicExplicitParameterlessMethod(this Type type, string name)
+        public static MethodInfo GetPublicOrExplicitParameterlessMethod(this Type type, string name)
         {
             var method = type.GetPublicParameterlessMethod(name);
             if (method is object)
@@ -113,14 +125,14 @@ namespace FluentAssertions
             return null;
         }
 
+        private const BindingFlags InstancePublicFlatten = BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy;
+
         private static PropertyInfo GetPublicProperty(this Type type, string name)
-            => type
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            => type.GetProperties(InstancePublicFlatten)
                 .FirstOrDefault(property => property.Name == name && property.GetGetMethod() is object);
 
         private static MethodInfo GetPublicParameterlessMethod(this Type type, string name)
-            => type
-                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            => type.GetMethods(InstancePublicFlatten)
                 .FirstOrDefault(method => method.Name == name && method.GetParameters().Length == 0);
     }
 }

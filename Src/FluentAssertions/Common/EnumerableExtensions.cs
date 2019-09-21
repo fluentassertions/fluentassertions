@@ -32,19 +32,18 @@ namespace FluentAssertions.Common
         /// Searches for the first different element in two sequences using specified <paramref name="equalityComparison" />
         /// </summary>
         /// <param name="first">The first sequence to compare.</param>
+        /// <param name="enumerableType">The <see cref="Type" /> to call GetEnumerator() from for first sequence.</param>
         /// <param name="second">The second sequence to compare.</param>
         /// <param name="equalityComparison">Method that is used to compare 2 elements with the same index.</param>
         /// <returns>Index at which two sequences have elements that are not equal, or -1 if enumerables are equal</returns>
-        public static int IndexOfFirstDifferenceWith(this object first, IEnumerable second, Func<object, object, bool> equalityComparison)
+        public static int IndexOfFirstDifferenceWith(this object first, Type enumerableType, IEnumerable second, Func<object, object, bool> equalityComparison)
         {
-
-            Type enumerableType = first.GetType();
-            MethodInfo getEnumerator = enumerableType.GetPublicExplicitParameterlessMethod("GetEnumerator");
+            MethodInfo getEnumerator = enumerableType.GetPublicOrExplicitParameterlessMethod("GetEnumerator");
 
             Type enumeratorType = getEnumerator.ReturnType;
-            PropertyInfo current = enumeratorType.GetPublicExplicitProperty("Current");
-            MethodInfo moveNext = enumeratorType.GetPublicExplicitParameterlessMethod("MoveNext");
-            MethodInfo dispose = enumeratorType.GetPublicExplicitParameterlessMethod("Dispose");
+            PropertyInfo current = enumeratorType.GetPublicOrExplicitProperty("Current");
+            MethodInfo moveNext = enumeratorType.GetPublicOrExplicitParameterlessMethod("MoveNext");
+            MethodInfo dispose = enumeratorType.GetPublicOrExplicitParameterlessMethod("Dispose");
 
 #if !NETSTANDARD2_1
             // 'Current' may return by-ref but reflection only supports its invocation on netstandard 2.1

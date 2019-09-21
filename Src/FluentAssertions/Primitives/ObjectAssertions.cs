@@ -287,7 +287,18 @@ namespace FluentAssertions.Primitives
                 }
 
                 AssertIsEnumerable(Subject, because, becauseArgs);
-                AssertEquality(Subject, expected, equalityComparison, because, becauseArgs);
+
+                var subjectType = Subject.GetType();
+
+                // assert equality using the public GetEnumerator()
+                AssertEquality(Subject, subjectType, expected, equalityComparison, because, becauseArgs);
+
+                // assert equality using the GetEnumerator() of implemented enumerable interfaces
+                foreach (var @interface in subjectType.GetInterfaces())
+                {
+                    if (@interface.IsEnumerable())
+                        AssertEquality(Subject, @interface.GetType(), expected, equalityComparison, because, becauseArgs);
+               }
             }
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -301,23 +312,23 @@ namespace FluentAssertions.Primitives
                 .FailWith("but found <null>.")
                 .Then
                 .Given<Type>(() => subject.GetType())
-                .ForCondition(type => type.GetPublicExplicitParameterlessMethod("GetEnumerator") is object)
+                .ForCondition(type => type.GetPublicOrExplicitParameterlessMethod("GetEnumerator") is object)
                 .FailWith("but {0} is missing a valid 'GetEnumerator' method.", type => type.ToString())
                 .Then
-                .Given<Type>(type => type.GetPublicExplicitParameterlessMethod("GetEnumerator").ReturnType)
-                .ForCondition(type => type.GetPublicExplicitProperty("Current") is object)
+                .Given<Type>(type => type.GetPublicOrExplicitParameterlessMethod("GetEnumerator").ReturnType)
+                .ForCondition(type => type.GetPublicOrExplicitProperty("Current") is object)
                 .FailWith("but {0} is missing a valid 'Current' property.", type => type.ToString())
                 .Then
-                .ForCondition(type => type.GetPublicExplicitParameterlessMethod("MoveNext") is object)
+                .ForCondition(type => type.GetPublicOrExplicitParameterlessMethod("MoveNext") is object)
                 .FailWith("but {0} is missing a valid 'MoveNext' method.", type => type.ToString());
 
-        internal static void AssertEquality(object subject, IEnumerable expectation, Func<object, object, bool> equalityComparison,
+        internal static void AssertEquality(object subject, Type enumerableType, IEnumerable expectation, Func<object, object, bool> equalityComparison,
             string because = "", params object[] becauseArgs)
             => Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectation)
                 .Given(() => subject)
-                .AssertForEachEnumerablesHaveSameItems(expectation, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
+                .AssertForEachEnumerablesHaveSameItems(expectation, (a, e) => a.IndexOfFirstDifferenceWith(enumerableType, e, equalityComparison));
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
