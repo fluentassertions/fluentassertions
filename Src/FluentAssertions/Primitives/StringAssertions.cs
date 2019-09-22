@@ -619,7 +619,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public StringContainmentConstraints Contain(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -633,7 +633,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain {1}{reason}, but not found.", Subject, expected);
 
-            return new StringContainmentConstraints(Subject, expected, "contain", StringComparison.Ordinal);
+            return new AndConstraint<StringAssertions>(this);
         }
 
         /// <summary>
@@ -648,7 +648,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public StringContainmentConstraints ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -662,7 +662,144 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}, but not found.", Subject, expected);
 
-            return new StringContainmentConstraints(Subject, expected, "contain equivalent of", StringComparison.CurrentCultureIgnoreCase);
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        public delegate bool MatchesOccurenceCount(int actual);
+
+        public static class AtLeast
+        {
+            public static bool Once(int actual) => actual >= 1;
+
+            public static bool Twice(int actual) => actual >= 2;
+
+            public static bool Thrice(int actual) => actual >= 3;
+        }
+
+        public static class AtMost
+        {
+            public static bool Once(int actual) => actual <= 1;
+
+            public static bool Twice(int actual) => actual <= 2;
+
+            public static bool Thrice(int actual) => actual <= 3;
+        }
+
+        public static class MoreThan
+        {
+            public static bool Once(int actual) => actual > 1;
+
+            public static bool Twice(int actual) => actual > 2;
+
+            public static bool Thrice(int actual) => actual > 3;
+        }
+
+        public static class LessThan
+        {
+            public static bool Twice(int actual) => actual < 2;
+
+            public static bool Thrice(int actual) => actual < 3;
+        }
+
+        public static class Exactly
+        {
+            public static bool Once(int actual) => actual == 1;
+
+            public static bool Twice(int actual) => actual == 2;
+
+            public static bool Thrice(int actual) => actual == 3;
+        }
+
+        private int CountOccurrences(string expected, StringComparison comparison)
+        {
+            string actual = Subject ?? "";
+            string substring = expected ?? "";
+
+            int count = 0;
+            int index = 0;
+
+            while ((index = actual.IndexOf(substring, index, comparison)) >= 0)
+            {
+                index += substring.Length;
+                count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> Contain(string expected, MatchesOccurenceCount predicate, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            var actual = CountOccurrences(expected, StringComparison.Ordinal);
+
+            Execute.Assertion
+                .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} {0} to contain {1}{reason}, but not found.", Subject, expected)
+                .Then
+                .ForCondition(predicate(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {nameof(predicate)} {{reason}}, but found {(actual == 1 ? "1 time" : $"{actual} times")}.",
+                    Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to contain.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, MatchesOccurenceCount predicate, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            var actual = CountOccurrences(expected, StringComparison.CurrentCultureIgnoreCase);
+
+            Execute.Assertion
+                .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}, but not found.", Subject, expected)
+                .Then
+                .ForCondition(predicate(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {nameof(predicate)} {{reason}}, but found {(actual == 1 ? "1 time" : $"{actual} times")}.",
+                    Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
         }
 
         /// <summary>

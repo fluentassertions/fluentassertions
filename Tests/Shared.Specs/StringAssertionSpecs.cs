@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
+using static FluentAssertions.Primitives.StringAssertions;
 
 namespace FluentAssertions.Specs
 {
@@ -1925,7 +1926,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times == expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1946,7 +1947,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times == expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1967,7 +1968,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1988,7 +1989,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2010,7 +2011,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2032,7 +2033,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2058,7 +2059,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times == expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2079,7 +2080,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times == expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2236,7 +2237,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2257,7 +2258,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2279,7 +2280,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2301,7 +2302,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).Exactly.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2327,7 +2328,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times >= expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2348,7 +2349,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times >= expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2369,7 +2370,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2390,7 +2391,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2412,7 +2413,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2434,7 +2435,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtLeast.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2460,7 +2461,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times > expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2481,7 +2482,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times > expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2502,7 +2503,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2523,7 +2524,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2545,7 +2546,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2567,7 +2568,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).MoreThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2593,7 +2594,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times <= expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2614,7 +2615,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times <= expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2635,7 +2636,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2656,7 +2657,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2678,7 +2679,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2700,7 +2701,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).AtMost.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2726,7 +2727,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Times(expectedTimes);
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times < expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2747,7 +2748,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, times => times < expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2757,7 +2758,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_less_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2768,7 +2769,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2789,7 +2790,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2800,7 +2801,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_less_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        public void When_containment_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2811,7 +2812,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once();
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2833,7 +2834,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring).LessThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3823,7 +3824,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times == expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3844,7 +3845,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times == expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3865,7 +3866,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3886,7 +3887,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3908,7 +3909,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3930,7 +3931,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3956,7 +3957,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times == expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3977,7 +3978,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times == expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3998,7 +3999,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4019,7 +4020,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4041,7 +4042,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4063,7 +4064,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).Exactly.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4089,7 +4090,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times >= expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4110,7 +4111,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times >= expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4131,7 +4132,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4152,7 +4153,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4174,7 +4175,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4196,7 +4197,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtLeast.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4222,7 +4223,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times > expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4243,7 +4244,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times > expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4264,7 +4265,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4285,7 +4286,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4307,7 +4308,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4329,7 +4330,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).MoreThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4355,7 +4356,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times <= expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4376,7 +4377,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times <= expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4397,7 +4398,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4418,7 +4419,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4440,7 +4441,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4462,7 +4463,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).AtMost.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4488,7 +4489,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Times(expectedTimes);
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times < expectedTimes);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4509,7 +4510,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Times(expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, times => times < expectedTimes, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4519,7 +4520,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4530,7 +4531,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4540,7 +4541,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_equivalent_of_less_than_once_is_asserted_against_null_it_should_throw_earlier()
+        public void When_containment_equivalent_of_less_than_twice_is_asserted_against_null_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4551,7 +4552,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4562,7 +4563,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_equivalent_of_less_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        public void When_containment_equivalent_of_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4573,7 +4574,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once();
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4584,7 +4585,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4595,7 +4596,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring).LessThan.Once("that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice, "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -4810,52 +4811,6 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-
-        [Fact]
-        public void When_chaining_multiple_contain_assertions_it_should_assert_all_conditions()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            string actual = "ABCDEFGHI";
-            string substring = "EF";
-            int length = 9;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            actual.Should()
-                .Contain(substring).Once().And
-                .Exactly.Once().And
-                .AtMost.Once().And
-                .LessThan.Twice().And
-                .AtLeast.Once().And
-                .MoreThan.Times(0).And
-                .HaveLength(length);
-        }
-
-        [Fact]
-        public void When_chaining_multiple_contain_equivalent_of_assertions_it_should_assert_all_conditions()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            string actual = "ABCDEFGHI";
-            string substring = "eFg";
-            int length = 9;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            actual.Should()
-                .ContainEquivalentOf(substring).Once().And
-                .Exactly.Once().And
-                .AtMost.Once().And
-                .LessThan.Twice().And
-                .AtLeast.Once().And
-                .MoreThan.Times(0).And
-                .HaveLength(length);
-        }
 
         [Fact]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
