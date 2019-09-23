@@ -1953,7 +1953,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -2086,7 +2086,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         #endregion
@@ -2355,7 +2355,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -2488,7 +2488,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -2621,7 +2621,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -2752,7 +2752,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -3847,7 +3847,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -3980,7 +3980,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -4113,7 +4113,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -4246,7 +4246,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -4267,7 +4267,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time, but found 0 times.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -4379,7 +4379,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]
@@ -4510,7 +4510,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" a custom number of times because that is required, but found 2 times.");
         }
 
         [Fact]

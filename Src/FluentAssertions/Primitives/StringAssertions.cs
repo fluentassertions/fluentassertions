@@ -666,7 +666,7 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public delegate bool MatchesOccurenceCount(int actual);
+        public delegate bool MatchesOccurrenceCount(int actual);
 
         public static class AtLeast
         {
@@ -728,37 +728,37 @@ namespace FluentAssertions.Primitives
             return count;
         }
 
-        private string GenerateFailureMessage(MatchesOccurenceCount predicate)
+        private string GenerateOccurrenceMode(MatchesOccurrenceCount predicate)
         {
             MethodInfo methodInfo = predicate.GetMethodInfo();
 
             Assembly declaringAssembly = methodInfo.DeclaringType.GetTypeInfo().Assembly;
             Assembly thisAssembly = GetType().GetTypeInfo().Assembly;
 
-            string message = "";
-
             if (declaringAssembly != thisAssembly)
             {
-                return message;
+                return null;
             }
+
+            string occurrenceMode = "";
 
             // AtLeast, AtMost, MoreThan, LessThan, Exactly
             switch (methodInfo.DeclaringType.Name)
             {
                 case nameof(AtLeast):
-                    message += "at least ";
+                    occurrenceMode += "at least ";
                     break;
                 case nameof(AtMost):
-                    message += "at most ";
+                    occurrenceMode += "at most ";
                     break;
                 case nameof(MoreThan):
-                    message += "more than ";
+                    occurrenceMode += "more than ";
                     break;
                 case nameof(LessThan):
-                    message += "less than ";
+                    occurrenceMode += "less than ";
                     break;
                 case nameof(Exactly):
-                    message += "exactly ";
+                    occurrenceMode += "exactly ";
                     break;
                 default:
                     break;
@@ -768,19 +768,32 @@ namespace FluentAssertions.Primitives
             switch (methodInfo.Name)
             {
                 case "Once":
-                    message += "1 time";
+                    occurrenceMode += "1 time";
                     break;
                 case "Twice":
-                    message += "2 times";
+                    occurrenceMode += "2 times";
                     break;
                 case "Thrice":
-                    message += "3 times";
+                    occurrenceMode += "3 times";
                     break;
                 default:
                     break;
             }
 
-            return message;
+            return occurrenceMode;
+        }
+
+        private string GenerateMessageFormat(MatchesOccurrenceCount predicate, int actual, string containment)
+        {
+            string occurrenceMode = GenerateOccurrenceMode(predicate);
+            string times = actual == 1 ? "1 time" : $"{actual} times";
+
+            if (occurrenceMode is null)
+            {
+                return $"Expected {{context:string}} {{0}} to {containment} {{1}} a custom number of times{{reason}}, but found {times}.";
+            }
+
+            return $"Expected {{context:string}} {{0}} to {containment} {{1}} {occurrenceMode}{{reason}}, but found {times}.";
         }
 
         /// <summary>
@@ -796,7 +809,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, MatchesOccurenceCount predicate, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> Contain(string expected, MatchesOccurrenceCount predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -806,14 +819,12 @@ namespace FluentAssertions.Primitives
             }
 
             var actual = CountOccurrences(expected, StringComparison.Ordinal);
-            string message = GenerateFailureMessage(predicate);
+            string messageFormat = GenerateMessageFormat(predicate, actual, "contain");
 
             Execute.Assertion
                 .ForCondition(predicate(actual))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain {{1}} {message}{{reason}}, but found {(actual == 1 ? "1 time" : $"{actual} times")}.",
-                    Subject, expected);
+                .FailWith(messageFormat, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -830,7 +841,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, MatchesOccurenceCount predicate, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, MatchesOccurrenceCount predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -840,14 +851,12 @@ namespace FluentAssertions.Primitives
             }
 
             var actual = CountOccurrences(expected, StringComparison.CurrentCultureIgnoreCase);
-            string message = GenerateFailureMessage(predicate);
+            string messageFormat = GenerateMessageFormat(predicate, actual, "contain equivalent of");
 
             Execute.Assertion
                 .ForCondition(predicate(actual))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {message}{{reason}}, but found {(actual == 1 ? "1 time" : $"{actual} times")}.",
-                    Subject, expected);
+                .FailWith(messageFormat, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
