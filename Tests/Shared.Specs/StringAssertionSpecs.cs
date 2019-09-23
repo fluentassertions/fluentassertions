@@ -1957,7 +1957,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1974,7 +1974,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -2022,7 +2022,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2039,7 +2039,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -2226,7 +2226,7 @@ namespace FluentAssertions.Specs
         #region ContainAll
 
         [Fact]
-        public void When_string_containment_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2243,7 +2243,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -2291,7 +2291,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2308,7 +2308,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -2376,7 +2376,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -2424,7 +2424,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2441,7 +2441,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -2492,7 +2492,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2509,7 +2509,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -2557,7 +2557,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2574,7 +2574,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -2625,7 +2625,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2636,13 +2636,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2690,7 +2689,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2701,13 +2700,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -2758,7 +2756,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2769,13 +2767,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\", but not found.");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -2823,7 +2820,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2834,13 +2831,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\", but not found.");
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -3872,7 +3868,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -3920,7 +3916,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -3937,7 +3933,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -3988,7 +3984,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4005,7 +4001,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -4070,7 +4066,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -4138,7 +4134,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" at least 1 time because that is required, but found 0 times.");
         }
 
         [Fact]
@@ -4203,7 +4199,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -4271,7 +4267,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time, but found 0 times.");
         }
 
         [Fact]
@@ -4336,7 +4332,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -4387,7 +4383,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4398,13 +4394,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -4452,7 +4447,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4463,13 +4458,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -4520,7 +4514,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4531,13 +4525,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\", but not found.");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -4585,7 +4578,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4596,13 +4589,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice, "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\", but not found.");
+            act.Should().NotThrow();
         }
 
         #endregion
