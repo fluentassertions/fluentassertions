@@ -666,231 +666,59 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public class TimesConstraint
-        {
-            private readonly int expectedCount;
-            private readonly string mode;
-
-            public TimesConstraint(int expectedCount, string mode)
-            {
-                this.expectedCount = expectedCount;
-                this.mode = mode;
-            }
-
-            public string Expected { get; set; }
-
-            public string Subject { get; set; }
-
-            public string Containment { get; set; }
-
-            public StringComparison StringComparison { get; set; }
-
-            public bool IsMatch
-            {
-                get
-                {
-                    int count = CountOccurrences(Subject, Expected, StringComparison);
-
-                    switch (mode)
-                    {
-                        case "at least":
-                            return count >= expectedCount;
-                        case "at most":
-                            return count <= expectedCount;
-                        case "more than":
-                            return count > expectedCount;
-                        case "less than":
-                            return count < expectedCount;
-                        case "exactly":
-                            return count == expectedCount;
-                        default:
-                            return false;
-                    }
-                }
-            }
-
-            public string MessageFormat
-            {
-                get
-                {
-                    int count = CountOccurrences(Subject, Expected, StringComparison);
-                    string mode = $"{this.mode} {(expectedCount == 1 ? "1 time" : $"{expectedCount} times")}";
-                    string format = GenerateMessageFormat(Containment, mode, count);
-
-                    return format;
-                }
-            }
-        }
-
         public delegate bool MatchesOccurrenceCount(int actual);
 
         public static class AtLeast
         {
-            public static bool Once(int actual) => actual >= 1;
+            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.AtLeastMode);
 
-            public static bool Twice(int actual) => actual >= 2;
+            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.AtLeastMode);
 
-            public static bool Thrice(int actual) => actual >= 3;
+            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.AtLeastMode);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "at least");
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.AtLeastMode);
         }
 
         public static class AtMost
         {
-            public static bool Once(int actual) => actual <= 1;
+            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.AtMostMode);
 
-            public static bool Twice(int actual) => actual <= 2;
+            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.AtMostMode);
 
-            public static bool Thrice(int actual) => actual <= 3;
+            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.AtMostMode);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "at most");
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.AtMostMode);
         }
 
         public static class MoreThan
         {
-            public static bool Once(int actual) => actual > 1;
+            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.MoreThanMode);
 
-            public static bool Twice(int actual) => actual > 2;
+            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.MoreThanMode);
 
-            public static bool Thrice(int actual) => actual > 3;
+            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.MoreThanMode);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "more than");
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.MoreThanMode);
         }
 
         public static class LessThan
         {
-            public static bool Twice(int actual) => actual < 2;
+            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.LessThanMode);
 
-            public static bool Thrice(int actual) => actual < 3;
+            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.LessThanMode);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "less than");
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.LessThanMode);
         }
 
         public static class Exactly
         {
-            public static bool Once(int actual) => actual == 1;
+            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.ExactlyMode);
 
-            public static bool Twice(int actual) => actual == 2;
+            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.ExactlyMode);
 
-            public static bool Thrice(int actual) => actual == 3;
+            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.ExactlyMode);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "exactly");
-        }
-
-        private static int CountOccurrences(string subject, string expected, StringComparison comparison)
-        {
-            string actual = subject ?? "";
-            string substring = expected ?? "";
-
-            int count = 0;
-            int index = 0;
-
-            while ((index = actual.IndexOf(substring, index, comparison)) >= 0)
-            {
-                index += substring.Length;
-                count++;
-            }
-
-            return count;
-        }
-
-        private string GenerateOccurrenceMode(Delegate predicate)
-        {
-            MethodInfo methodInfo = predicate.GetMethodInfo();
-
-            Assembly declaringAssembly = methodInfo.DeclaringType.GetTypeInfo().Assembly;
-            Assembly thisAssembly = GetType().GetTypeInfo().Assembly;
-
-            if (declaringAssembly != thisAssembly)
-            {
-                return null;
-            }
-
-            string mode = "";
-
-            switch (methodInfo.DeclaringType.Name)
-            {
-                case nameof(AtLeast):
-                    mode += "at least ";
-                    break;
-                case nameof(AtMost):
-                    mode += "at most ";
-                    break;
-                case nameof(MoreThan):
-                    mode += "more than ";
-                    break;
-                case nameof(LessThan):
-                    mode += "less than ";
-                    break;
-                case nameof(Exactly):
-                    mode += "exactly ";
-                    break;
-                default:
-                    break;
-            }
-
-            switch (methodInfo.Name)
-            {
-                case "Once":
-                    mode += "1 time";
-                    break;
-                case "Twice":
-                    mode += "2 times";
-                    break;
-                case "Thrice":
-                    mode += "3 times";
-                    break;
-                default:
-                    break;
-            }
-
-            return mode;
-        }
-
-        private static string GenerateMessageFormat(string containment, string mode, int count)
-        {
-            string times = count == 1 ? "1 time" : $"{count} times";
-
-            if (mode is null)
-            {
-                return $"Expected {{context:string}} {{0}} to {containment} {{1}} a custom number of times{{reason}}, but found {times}.";
-            }
-
-            return $"Expected {{context:string}} {{0}} to {containment} {{1}} {mode}{{reason}}, but found {times}.";
-        }
-
-        /// <summary>
-        /// Asserts that a string contains another (fragment of a) string.
-        /// </summary>
-        /// <param name="expected">
-        /// The (fragment of a) string that the current string should contain.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, MatchesOccurrenceCount predicate, string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-            }
-
-            int count = CountOccurrences(Subject, expected, StringComparison.Ordinal);
-            string mode = GenerateOccurrenceMode(predicate);
-            string format = GenerateMessageFormat("contain", mode, count);
-
-            Execute.Assertion
-                .ForCondition(predicate(count))
-                .BecauseOf(because, becauseArgs)
-                .FailWith(format, Subject, expected);
-
-            return new AndConstraint<StringAssertions>(this);
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.ExactlyMode);
         }
 
         /// <summary>
@@ -924,39 +752,6 @@ namespace FluentAssertions.Primitives
                 .ForCondition(timesConstraint.IsMatch)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(timesConstraint.MessageFormat, Subject, expected);
-
-            return new AndConstraint<StringAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a string contains the specified <paramref name="expected"/>,
-        /// including any leading or trailing whitespace, with the exception of the casing.
-        /// </summary>
-        /// <param name="expected">The string that the subject is expected to contain.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, MatchesOccurrenceCount predicate, string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-            }
-
-            int count = CountOccurrences(Subject, expected, StringComparison.CurrentCultureIgnoreCase);
-            string mode = GenerateOccurrenceMode(predicate);
-            string format = GenerateMessageFormat("contain equivalent of", mode, count);
-
-            Execute.Assertion
-                .ForCondition(predicate(count))
-                .BecauseOf(because, becauseArgs)
-                .FailWith(format, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
