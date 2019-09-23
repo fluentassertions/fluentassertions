@@ -683,23 +683,25 @@ namespace FluentAssertions.Primitives
 
             public string Containment { get; set; }
 
+            public StringComparison StringComparison { get; set; }
+
             public bool IsMatch
             {
                 get
                 {
-                    int count = CountOccurrences(Subject, Expected, StringComparison.Ordinal);
+                    int count = CountOccurrences(Subject, Expected, StringComparison);
 
                     switch (mode)
                     {
-                        case nameof(AtLeast):
+                        case "at least":
                             return count >= expectedCount;
-                        case nameof(AtMost):
+                        case "at most":
                             return count <= expectedCount;
-                        case nameof(MoreThan):
+                        case "more than":
                             return count > expectedCount;
-                        case nameof(LessThan):
+                        case "less than":
                             return count < expectedCount;
-                        case nameof(Exactly):
+                        case "exactly":
                             return count == expectedCount;
                         default:
                             return false;
@@ -711,9 +713,9 @@ namespace FluentAssertions.Primitives
             {
                 get
                 {
-                    int count = CountOccurrences(Subject, Expected, StringComparison.Ordinal);
-                    string m = mode + " " + expectedCount + " times";
-                    string format = GenerateMessageFormat("contain", m, count);
+                    int count = CountOccurrences(Subject, Expected, StringComparison);
+                    string mode = $"{this.mode} {(expectedCount == 1 ? "1 time" : $"{expectedCount} times")}";
+                    string format = GenerateMessageFormat(Containment, mode, count);
 
                     return format;
                 }
@@ -730,7 +732,7 @@ namespace FluentAssertions.Primitives
 
             public static bool Thrice(int actual) => actual >= 3;
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, nameof(AtLeast));
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "at least");
         }
 
         public static class AtMost
@@ -740,6 +742,8 @@ namespace FluentAssertions.Primitives
             public static bool Twice(int actual) => actual <= 2;
 
             public static bool Thrice(int actual) => actual <= 3;
+
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "at most");
         }
 
         public static class MoreThan
@@ -749,6 +753,8 @@ namespace FluentAssertions.Primitives
             public static bool Twice(int actual) => actual > 2;
 
             public static bool Thrice(int actual) => actual > 3;
+
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "more than");
         }
 
         public static class LessThan
@@ -756,6 +762,8 @@ namespace FluentAssertions.Primitives
             public static bool Twice(int actual) => actual < 2;
 
             public static bool Thrice(int actual) => actual < 3;
+
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "less than");
         }
 
         public static class Exactly
@@ -766,7 +774,7 @@ namespace FluentAssertions.Primitives
 
             public static bool Thrice(int actual) => actual == 3;
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, nameof(AtLeast));
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, "exactly");
         }
 
         private static int CountOccurrences(string subject, string expected, StringComparison comparison)
@@ -910,6 +918,7 @@ namespace FluentAssertions.Primitives
             timesConstraint.Subject = Subject;
             timesConstraint.Expected = expected;
             timesConstraint.Containment = "contain";
+            timesConstraint.StringComparison = StringComparison.Ordinal;
 
             Execute.Assertion
                 .ForCondition(timesConstraint.IsMatch)
@@ -948,6 +957,41 @@ namespace FluentAssertions.Primitives
                 .ForCondition(predicate(count))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(format, Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            timesConstraint.Subject = Subject;
+            timesConstraint.Expected = expected;
+            timesConstraint.Containment = "contain equivalent of";
+            timesConstraint.StringComparison = StringComparison.CurrentCultureIgnoreCase;
+
+            Execute.Assertion
+                .ForCondition(timesConstraint.IsMatch)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(timesConstraint.MessageFormat, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
