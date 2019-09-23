@@ -666,59 +666,57 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public delegate bool MatchesOccurrenceCount(int actual);
-
         public static class AtLeast
         {
-            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.AtLeastMode);
+            public static TimesConstraint Once() => new AtLeastTimesConstraint(1);
 
-            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.AtLeastMode);
+            public static TimesConstraint Twice() => new AtLeastTimesConstraint(2);
 
-            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.AtLeastMode);
+            public static TimesConstraint Thrice() => new AtLeastTimesConstraint(3);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.AtLeastMode);
+            public static TimesConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
         }
 
         public static class AtMost
         {
-            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.AtMostMode);
+            public static TimesConstraint Once() => new AtMostTimesConstraint(1);
 
-            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.AtMostMode);
+            public static TimesConstraint Twice() => new AtMostTimesConstraint(2);
 
-            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.AtMostMode);
+            public static TimesConstraint Thrice() => new AtMostTimesConstraint(3);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.AtMostMode);
+            public static TimesConstraint Times(int expected) => new AtMostTimesConstraint(expected);
         }
 
         public static class MoreThan
         {
-            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.MoreThanMode);
+            public static TimesConstraint Once() => new MoreThanTimesConstraint(1);
 
-            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.MoreThanMode);
+            public static TimesConstraint Twice() => new MoreThanTimesConstraint(2);
 
-            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.MoreThanMode);
+            public static TimesConstraint Thrice() => new MoreThanTimesConstraint(3);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.MoreThanMode);
+            public static TimesConstraint Times(int expected) => new MoreThanTimesConstraint(expected);
         }
 
         public static class LessThan
         {
-            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.LessThanMode);
+            public static TimesConstraint Twice() => new LessThanTimesConstraint(2);
 
-            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.LessThanMode);
+            public static TimesConstraint Thrice() => new LessThanTimesConstraint(3);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.LessThanMode);
+            public static TimesConstraint Times(int expected) => new LessThanTimesConstraint(expected);
         }
 
         public static class Exactly
         {
-            public static TimesConstraint Once() => new TimesConstraint(1, TimesConstraint.ExactlyMode);
+            public static TimesConstraint Once() => new ExactlyTimesConstraint(1);
 
-            public static TimesConstraint Twice() => new TimesConstraint(2, TimesConstraint.ExactlyMode);
+            public static TimesConstraint Twice() => new ExactlyTimesConstraint(2);
 
-            public static TimesConstraint Thrice() => new TimesConstraint(3, TimesConstraint.ExactlyMode);
+            public static TimesConstraint Thrice() => new ExactlyTimesConstraint(3);
 
-            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, TimesConstraint.ExactlyMode);
+            public static TimesConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
         }
 
         /// <summary>

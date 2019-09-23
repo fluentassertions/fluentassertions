@@ -1,23 +1,35 @@
 ﻿using System;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Primitives
 {
-    public class TimesConstraint
+    public abstract class TimesConstraint
     {
-        private readonly int expectedCount;
-        private readonly string mode;
+        private int? actualCount;
 
-        internal const string AtLeastMode = "at least";
-        internal const string AtMostMode = "at most";
-        internal const string MoreThanMode = "more than";
-        internal const string LessThanMode = "less than";
-        internal const string ExactlyMode = "exactly";
+        protected readonly int expectedCount;
 
-        internal TimesConstraint(int expectedCount, string mode)
+        internal TimesConstraint(int expectedCount)
         {
             this.expectedCount = expectedCount;
-            this.mode = mode;
         }
+
+        protected int ActualCount
+        {
+            get
+            {
+                if (!actualCount.HasValue)
+                {
+                    actualCount = Subject.CountSubstring(Expected, StringComparison);
+                }
+
+                return actualCount.Value;
+            }
+        }
+
+        protected abstract string Mode { get; }
+
+        public abstract bool IsMatch { get; }
 
         public string Expected { get; set; }
 
@@ -27,69 +39,54 @@ namespace FluentAssertions.Primitives
 
         public StringComparison StringComparison { get; set; }
 
-        public bool IsMatch
-        {
-            get
-            {
-                int count = CountOccurrences(Subject, Expected, StringComparison);
+        public string MessageFormat =>
+            $"Expected {{context:string}} {{0}} to {Containment} {{1}} {Mode} {Times(expectedCount)}{{reason}}, but found {Times(ActualCount)}.";
 
-                switch (mode)
-                {
-                    case AtLeastMode:
-                        return count >= expectedCount;
-                    case AtMostMode:
-                        return count <= expectedCount;
-                    case MoreThanMode:
-                        return count > expectedCount;
-                    case LessThanMode:
-                        return count < expectedCount;
-                    case ExactlyMode:
-                        return count == expectedCount;
-                    default:
-                        return false;
-                }
-            }
-        }
+        private static string Times(int count) => count == 1 ? "1 time" : $"{count} times";
+    }
 
-        public string MessageFormat
-        {
-            get
-            {
-                int count = CountOccurrences(Subject, Expected, StringComparison);
-                string mode = $"{this.mode} {(expectedCount == 1 ? "1 time" : $"{expectedCount} times")}";
-                string format = GenerateMessageFormat(Containment, mode, count);
+    public class AtLeastTimesConstraint : TimesConstraint
+    {
+        internal AtLeastTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-                return format;
-            }
-        }
+        protected override string Mode => "at least";
 
-        private static int CountOccurrences(string subject, string expected, StringComparison comparison)
-        {
-            string actual = subject ?? "";
-            string substring = expected ?? "";
+        public override bool IsMatch => ActualCount >= expectedCount;
+    }
 
-            int count = 0;
-            int index = 0;
+    public class AtMostTimesConstraint : TimesConstraint
+    {
+        internal AtMostTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            while ((index = actual.IndexOf(substring, index, comparison)) >= 0)
-            {
-                index += substring.Length;
-                count++;
-            }
+        protected override string Mode => "at most";
 
-            return count;
-        }
+        public override bool IsMatch => ActualCount <= expectedCount;
+    }
 
-        private static string GenerateMessageFormat(string containment, string mode, int count)
-        {
-            string times = count == 1 ? "1 time" : $"{count} times";
+    public class MoreThanTimesConstraint : TimesConstraint
+    {
+        internal MoreThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            if (mode is null)
-            {
-                return $"Expected {{context:string}} {{0}} to {containment} {{1}} a custom number of times{{reason}}, but found {times}.";
-            }
+        protected override string Mode => "more than";
 
-            return $"Expected {{context:string}} {{0}} to {containment} {{1}} {mode}{{reason}}, but found {times}.";
-        }
+        public override bool IsMatch => ActualCount > expectedCount;
+    }
+
+    public class LessThanTimesConstraint : TimesConstraint
+    {
+        internal LessThanTimesConstraint(int expectedCount) : base(expectedCount) { }
+
+        protected override string Mode => "less than";
+
+        public override bool IsMatch => ActualCount < expectedCount;
+    }
+
+    public class ExactlyTimesConstraint : TimesConstraint
+    {
+        internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
+
+        protected override string Mode => "exactly";
+
+        public override bool IsMatch => ActualCount == expectedCount;
     }
 }
