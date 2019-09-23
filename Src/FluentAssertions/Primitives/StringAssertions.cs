@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using JetBrains.Annotations;
-using System.Reflection;
 
 namespace FluentAssertions.Primitives
 {
@@ -741,15 +740,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            timesConstraint.Subject = Subject;
-            timesConstraint.Expected = expected;
-            timesConstraint.Containment = "contain";
-            timesConstraint.StringComparison = StringComparison.Ordinal;
-
-            Execute.Assertion
-                .ForCondition(timesConstraint.IsMatch)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(timesConstraint.MessageFormat, Subject, expected);
+            timesConstraint.AssertContain(Subject, expected, because, becauseArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -776,15 +767,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            timesConstraint.Subject = Subject;
-            timesConstraint.Expected = expected;
-            timesConstraint.Containment = "contain equivalent of";
-            timesConstraint.StringComparison = StringComparison.CurrentCultureIgnoreCase;
-
-            Execute.Assertion
-                .ForCondition(timesConstraint.IsMatch)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(timesConstraint.MessageFormat, Subject, expected);
+            timesConstraint.AssertContainEquivalentOf(Subject, expected, because, becauseArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
@@ -9,7 +10,7 @@ namespace FluentAssertions.Primitives
 
         protected readonly int expectedCount;
 
-        internal TimesConstraint(int expectedCount)
+        public TimesConstraint(int expectedCount)
         {
             this.expectedCount = expectedCount;
         }
@@ -31,18 +32,41 @@ namespace FluentAssertions.Primitives
 
         public abstract bool IsMatch { get; }
 
-        public string Expected { get; set; }
+        private string Expected { get; set; }
 
-        public string Subject { get; set; }
+        private string Subject { get; set; }
 
-        public string Containment { get; set; }
-
-        public StringComparison StringComparison { get; set; }
-
-        public string MessageFormat =>
-            $"Expected {{context:string}} {{0}} to {Containment} {{1}} {Mode} {Times(expectedCount)}{{reason}}, but found {Times(ActualCount)}.";
+        private StringComparison StringComparison { get; set; }
 
         private static string Times(int count) => count == 1 ? "1 time" : $"{count} times";
+
+        internal void AssertContain(string subject, string expected, string because, params object[] becauseArgs)
+        {
+            Subject = subject;
+            Expected = expected;
+            StringComparison = StringComparison.Ordinal;
+
+            Execute.Assertion
+                .ForCondition(IsMatch)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {Mode} {Times(expectedCount)}{{reason}}, but found {Times(ActualCount)}.",
+                    Subject, expected);
+        }
+
+        internal void AssertContainEquivalentOf(string subject, string expected, string because, params object[] becauseArgs)
+        {
+            Subject = subject;
+            Expected = expected;
+            StringComparison = StringComparison.CurrentCultureIgnoreCase;
+
+            Execute.Assertion
+                .ForCondition(IsMatch)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {Mode} {Times(expectedCount)}{{reason}}, but found {Times(ActualCount)}.",
+                    Subject, expected);
+        }
     }
 
     public class AtLeastTimesConstraint : TimesConstraint
