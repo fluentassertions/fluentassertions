@@ -637,6 +637,39 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string contains another (fragment of a) string a set amount of times.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="timesConstraint">
+        /// A constraint specifying the amount of times a substring should be present within the test subject.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> Contain(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            timesConstraint.AssertContain(Subject, expected, because, becauseArgs);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that a string contains the specified <paramref name="expected"/>,
         /// including any leading or trailing whitespace, with the exception of the casing.
         /// </summary>
@@ -665,91 +698,17 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public static class AtLeast
-        {
-            public static TimesConstraint Once() => new AtLeastTimesConstraint(1);
-
-            public static TimesConstraint Twice() => new AtLeastTimesConstraint(2);
-
-            public static TimesConstraint Thrice() => new AtLeastTimesConstraint(3);
-
-            public static TimesConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
-        }
-
-        public static class AtMost
-        {
-            public static TimesConstraint Once() => new AtMostTimesConstraint(1);
-
-            public static TimesConstraint Twice() => new AtMostTimesConstraint(2);
-
-            public static TimesConstraint Thrice() => new AtMostTimesConstraint(3);
-
-            public static TimesConstraint Times(int expected) => new AtMostTimesConstraint(expected);
-        }
-
-        public static class MoreThan
-        {
-            public static TimesConstraint Once() => new MoreThanTimesConstraint(1);
-
-            public static TimesConstraint Twice() => new MoreThanTimesConstraint(2);
-
-            public static TimesConstraint Thrice() => new MoreThanTimesConstraint(3);
-
-            public static TimesConstraint Times(int expected) => new MoreThanTimesConstraint(expected);
-        }
-
-        public static class LessThan
-        {
-            public static TimesConstraint Twice() => new LessThanTimesConstraint(2);
-
-            public static TimesConstraint Thrice() => new LessThanTimesConstraint(3);
-
-            public static TimesConstraint Times(int expected) => new LessThanTimesConstraint(expected);
-        }
-
-        public static class Exactly
-        {
-            public static TimesConstraint Once() => new ExactlyTimesConstraint(1);
-
-            public static TimesConstraint Twice() => new ExactlyTimesConstraint(2);
-
-            public static TimesConstraint Thrice() => new ExactlyTimesConstraint(3);
-
-            public static TimesConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
-        }
-
         /// <summary>
-        /// Asserts that a string contains another (fragment of a) string.
+        /// Asserts that a string contains another (fragment of a) string a set amount of times.
         /// </summary>
         /// <param name="expected">
         /// The (fragment of a) string that the current string should contain.
         /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-            }
-
-            timesConstraint.AssertContain(Subject, expected, because, becauseArgs);
-
-            return new AndConstraint<StringAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a string contains another (fragment of a) string.
-        /// </summary>
-        /// <param name="expected">
-        /// The (fragment of a) string that the current string should contain.
+        /// <param name="timesConstraint">
+        /// A constraint specifying the amount of times a substring should be present within the test subject.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

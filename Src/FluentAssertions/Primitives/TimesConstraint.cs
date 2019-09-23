@@ -30,7 +30,7 @@ namespace FluentAssertions.Primitives
 
         protected abstract string Mode { get; }
 
-        public abstract bool IsMatch { get; }
+        protected abstract bool IsMatch { get; }
 
         private string Expected { get; set; }
 
@@ -69,48 +69,101 @@ namespace FluentAssertions.Primitives
         }
     }
 
-    public class AtLeastTimesConstraint : TimesConstraint
+    internal sealed class AtLeastTimesConstraint : TimesConstraint
     {
         internal AtLeastTimesConstraint(int expectedCount) : base(expectedCount) { }
 
         protected override string Mode => "at least";
 
-        public override bool IsMatch => ActualCount >= expectedCount;
+        protected override bool IsMatch => ActualCount >= expectedCount;
     }
 
-    public class AtMostTimesConstraint : TimesConstraint
+    internal sealed class AtMostTimesConstraint : TimesConstraint
     {
         internal AtMostTimesConstraint(int expectedCount) : base(expectedCount) { }
 
         protected override string Mode => "at most";
 
-        public override bool IsMatch => ActualCount <= expectedCount;
+        protected override bool IsMatch => ActualCount <= expectedCount;
     }
 
-    public class MoreThanTimesConstraint : TimesConstraint
+    internal sealed class MoreThanTimesConstraint : TimesConstraint
     {
         internal MoreThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
         protected override string Mode => "more than";
 
-        public override bool IsMatch => ActualCount > expectedCount;
+        protected override bool IsMatch => ActualCount > expectedCount;
     }
 
-    public class LessThanTimesConstraint : TimesConstraint
+    internal sealed class LessThanTimesConstraint : TimesConstraint
     {
         internal LessThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
         protected override string Mode => "less than";
 
-        public override bool IsMatch => ActualCount < expectedCount;
+        protected override bool IsMatch => ActualCount < expectedCount;
     }
 
-    public class ExactlyTimesConstraint : TimesConstraint
+    internal sealed class ExactlyTimesConstraint : TimesConstraint
     {
         internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
 
         protected override string Mode => "exactly";
 
-        public override bool IsMatch => ActualCount == expectedCount;
+        protected override bool IsMatch => ActualCount == expectedCount;
+    }
+
+    public static class AtLeast
+    {
+        public static TimesConstraint Once() => new AtLeastTimesConstraint(1);
+
+        public static TimesConstraint Twice() => new AtLeastTimesConstraint(2);
+
+        public static TimesConstraint Thrice() => new AtLeastTimesConstraint(3);
+
+        public static TimesConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
+    }
+
+    public static class AtMost
+    {
+        public static TimesConstraint Once() => new AtMostTimesConstraint(1);
+
+        public static TimesConstraint Twice() => new AtMostTimesConstraint(2);
+
+        public static TimesConstraint Thrice() => new AtMostTimesConstraint(3);
+
+        public static TimesConstraint Times(int expected) => new AtMostTimesConstraint(expected);
+    }
+
+    public static class MoreThan
+    {
+        public static TimesConstraint Once() => new MoreThanTimesConstraint(1);
+
+        public static TimesConstraint Twice() => new MoreThanTimesConstraint(2);
+
+        public static TimesConstraint Thrice() => new MoreThanTimesConstraint(3);
+
+        public static TimesConstraint Times(int expected) => new MoreThanTimesConstraint(expected);
+    }
+
+    public static class LessThan
+    {
+        public static TimesConstraint Twice() => new LessThanTimesConstraint(2);
+
+        public static TimesConstraint Thrice() => new LessThanTimesConstraint(3);
+
+        public static TimesConstraint Times(int expected) => new LessThanTimesConstraint(expected);
+    }
+
+    public static class Exactly
+    {
+        public static TimesConstraint Once() => new ExactlyTimesConstraint(1);
+
+        public static TimesConstraint Twice() => new ExactlyTimesConstraint(2);
+
+        public static TimesConstraint Thrice() => new ExactlyTimesConstraint(3);
+
+        public static TimesConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
     }
 }
