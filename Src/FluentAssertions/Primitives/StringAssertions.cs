@@ -728,7 +728,7 @@ namespace FluentAssertions.Primitives
             return count;
         }
 
-        private string GenerateOccurrenceMode(MatchesOccurrenceCount predicate)
+        private string GenerateOccurrenceMode(Delegate predicate)
         {
             MethodInfo methodInfo = predicate.GetMethodInfo();
 
@@ -740,60 +740,57 @@ namespace FluentAssertions.Primitives
                 return null;
             }
 
-            string occurrenceMode = "";
+            string mode = "";
 
-            // AtLeast, AtMost, MoreThan, LessThan, Exactly
             switch (methodInfo.DeclaringType.Name)
             {
                 case nameof(AtLeast):
-                    occurrenceMode += "at least ";
+                    mode += "at least ";
                     break;
                 case nameof(AtMost):
-                    occurrenceMode += "at most ";
+                    mode += "at most ";
                     break;
                 case nameof(MoreThan):
-                    occurrenceMode += "more than ";
+                    mode += "more than ";
                     break;
                 case nameof(LessThan):
-                    occurrenceMode += "less than ";
+                    mode += "less than ";
                     break;
                 case nameof(Exactly):
-                    occurrenceMode += "exactly ";
+                    mode += "exactly ";
                     break;
                 default:
                     break;
             }
 
-            // Once, Twice, Thrice
             switch (methodInfo.Name)
             {
                 case "Once":
-                    occurrenceMode += "1 time";
+                    mode += "1 time";
                     break;
                 case "Twice":
-                    occurrenceMode += "2 times";
+                    mode += "2 times";
                     break;
                 case "Thrice":
-                    occurrenceMode += "3 times";
+                    mode += "3 times";
                     break;
                 default:
                     break;
             }
 
-            return occurrenceMode;
+            return mode;
         }
 
-        private string GenerateMessageFormat(MatchesOccurrenceCount predicate, int actual, string containment)
+        private static string GenerateMessageFormat(string containment, string mode, int count)
         {
-            string occurrenceMode = GenerateOccurrenceMode(predicate);
-            string times = actual == 1 ? "1 time" : $"{actual} times";
+            string times = count == 1 ? "1 time" : $"{count} times";
 
-            if (occurrenceMode is null)
+            if (mode is null)
             {
                 return $"Expected {{context:string}} {{0}} to {containment} {{1}} a custom number of times{{reason}}, but found {times}.";
             }
 
-            return $"Expected {{context:string}} {{0}} to {containment} {{1}} {occurrenceMode}{{reason}}, but found {times}.";
+            return $"Expected {{context:string}} {{0}} to {containment} {{1}} {mode}{{reason}}, but found {times}.";
         }
 
         /// <summary>
@@ -818,13 +815,14 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            var actual = CountOccurrences(expected, StringComparison.Ordinal);
-            string messageFormat = GenerateMessageFormat(predicate, actual, "contain");
+            int count = CountOccurrences(expected, StringComparison.Ordinal);
+            string mode = GenerateOccurrenceMode(predicate);
+            string format = GenerateMessageFormat("contain", mode, count);
 
             Execute.Assertion
-                .ForCondition(predicate(actual))
+                .ForCondition(predicate(count))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(messageFormat, Subject, expected);
+                .FailWith(format, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -850,13 +848,14 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            var actual = CountOccurrences(expected, StringComparison.CurrentCultureIgnoreCase);
-            string messageFormat = GenerateMessageFormat(predicate, actual, "contain equivalent of");
+            int count = CountOccurrences(expected, StringComparison.CurrentCultureIgnoreCase);
+            string mode = GenerateOccurrenceMode(predicate);
+            string format = GenerateMessageFormat("contain equivalent of", mode, count);
 
             Execute.Assertion
-                .ForCondition(predicate(actual))
+                .ForCondition(predicate(count))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(messageFormat, Subject, expected);
+                .FailWith(format, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
