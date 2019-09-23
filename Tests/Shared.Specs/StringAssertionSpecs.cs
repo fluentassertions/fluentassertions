@@ -1947,7 +1947,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().Contain(expectedSubstring, times => times == expectedTimes, "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(expectedTimes), "that is {0}", "required");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

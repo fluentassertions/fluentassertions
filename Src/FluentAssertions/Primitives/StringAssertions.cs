@@ -666,6 +666,60 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<StringAssertions>(this);
         }
 
+        public class TimesConstraint
+        {
+            private readonly int expectedCount;
+            private readonly string mode;
+
+            public TimesConstraint(int expectedCount, string mode)
+            {
+                this.expectedCount = expectedCount;
+                this.mode = mode;
+            }
+
+            public string Expected { get; set; }
+
+            public string Subject { get; set; }
+
+            public string Containment { get; set; }
+
+            public bool IsMatch
+            {
+                get
+                {
+                    int count = CountOccurrences(Subject, Expected, StringComparison.Ordinal);
+
+                    switch (mode)
+                    {
+                        case nameof(AtLeast):
+                            return count >= expectedCount;
+                        case nameof(AtMost):
+                            return count <= expectedCount;
+                        case nameof(MoreThan):
+                            return count > expectedCount;
+                        case nameof(LessThan):
+                            return count < expectedCount;
+                        case nameof(Exactly):
+                            return count == expectedCount;
+                        default:
+                            return false;
+                    }
+                }
+            }
+
+            public string MessageFormat
+            {
+                get
+                {
+                    int count = CountOccurrences(Subject, Expected, StringComparison.Ordinal);
+                    string m = mode + " " + expectedCount + " times";
+                    string format = GenerateMessageFormat("contain", m, count);
+
+                    return format;
+                }
+            }
+        }
+
         public delegate bool MatchesOccurrenceCount(int actual);
 
         public static class AtLeast
@@ -675,6 +729,8 @@ namespace FluentAssertions.Primitives
             public static bool Twice(int actual) => actual >= 2;
 
             public static bool Thrice(int actual) => actual >= 3;
+
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, nameof(AtLeast));
         }
 
         public static class AtMost
@@ -709,11 +765,13 @@ namespace FluentAssertions.Primitives
             public static bool Twice(int actual) => actual == 2;
 
             public static bool Thrice(int actual) => actual == 3;
+
+            public static TimesConstraint Times(int expected) => new TimesConstraint(expected, nameof(AtLeast));
         }
 
-        private int CountOccurrences(string expected, StringComparison comparison)
+        private static int CountOccurrences(string subject, string expected, StringComparison comparison)
         {
-            string actual = Subject ?? "";
+            string actual = subject ?? "";
             string substring = expected ?? "";
 
             int count = 0;
@@ -815,7 +873,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            int count = CountOccurrences(expected, StringComparison.Ordinal);
+            int count = CountOccurrences(Subject, expected, StringComparison.Ordinal);
             string mode = GenerateOccurrenceMode(predicate);
             string format = GenerateMessageFormat("contain", mode, count);
 
@@ -823,6 +881,40 @@ namespace FluentAssertions.Primitives
                 .ForCondition(predicate(count))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(format, Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> Contain(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            timesConstraint.Subject = Subject;
+            timesConstraint.Expected = expected;
+            timesConstraint.Containment = "contain";
+
+            Execute.Assertion
+                .ForCondition(timesConstraint.IsMatch)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(timesConstraint.MessageFormat, Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -848,7 +940,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            int count = CountOccurrences(expected, StringComparison.CurrentCultureIgnoreCase);
+            int count = CountOccurrences(Subject, expected, StringComparison.CurrentCultureIgnoreCase);
             string mode = GenerateOccurrenceMode(predicate);
             string format = GenerateMessageFormat("contain equivalent of", mode, count);
 
