@@ -21,6 +21,7 @@ namespace FluentAssertions.Numeric
 
         /// <summary>
         /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
+        /// Equality means that either the objects point to the same reference or that both comparing the objects returns 0 and the objects are equal.
         /// </summary>
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
@@ -35,7 +36,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
+                .ForCondition(ReferenceEquals(Subject, expected) || ((Subject.CompareTo(expected) == Equal) && Subject.IsSameOrEqualTo(expected)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 

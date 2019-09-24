@@ -9,6 +9,21 @@ namespace FluentAssertions.Specs
         #region Be / Not Be
 
         [Fact]
+        public void When_two_instances_are_the_same_reference_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableOfString("Hello");
+            var other = subject;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().Be(other);
+        }
+
+        [Fact]
         public void When_two_instances_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -21,6 +36,52 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             subject.Should().Be(other);
+        }
+
+        [Fact]
+        public void When_two_instances_have_the_same_ordering_but_are_not_equal_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableButNotEqual();
+            var other = new ComparableButNotEqual();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Be(other, "they have the same property values");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected*ComparableButNotEqual*because they have the same property values, but found*ComparableButNotEqual*.");
+        }
+
+        [Fact]
+        public void When_two_instances_are_equal_and_a_non_zero_comparison_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new NotComparableButEqual();
+            var other = new NotComparableButEqual();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Be(other, "they have the same property values");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected*NotComparableButEqual*because they have the same property values, but found*NotComparableButEqual*.");
         }
 
         [Fact]
@@ -692,6 +753,46 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
+    public class NotComparableButEqual : IComparable<NotComparableButEqual>
+    {
+        public override bool Equals(object obj)
+        {
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
+
+        public int CompareTo(NotComparableButEqual other)
+        {
+            return 1;
+        }
+        public override string ToString()
+        {
+            return nameof(NotComparableButEqual);
+        }
+    }
+
+    public class ComparableButNotEqual : IComparable<ComparableButNotEqual>
+    {
+        public int CompareTo(ComparableButNotEqual other)
+        {
+            return 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1;
+        }
+    }
+
     public class ComparableOfString : IComparable<ComparableOfString>
     {
         public string Value { get; set; }
@@ -699,6 +800,15 @@ namespace FluentAssertions.Specs
         public ComparableOfString(string value)
         {
             Value = value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Value == ((ComparableOfString)obj).Value;
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
 
         public int CompareTo(ComparableOfString other)
