@@ -1042,7 +1042,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.Should(clock).Throw<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
@@ -1076,7 +1076,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should(clock).NotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -1210,7 +1210,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.Should(clock).Throw<XunitException>()
+            action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
@@ -1245,7 +1245,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should(clock).NotThrow();
+            act.Should().NotThrow();
         }
 
         #endregion
