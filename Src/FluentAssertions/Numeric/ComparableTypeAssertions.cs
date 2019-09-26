@@ -112,6 +112,7 @@ namespace FluentAssertions.Numeric
 
         /// <summary>
         /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// objects are considered not equal when they do not point to the same instance (reference equality) or that either <c>Equals</c> returns <c>false</c> or <c>CompareTo</c> returns non-zero. 
         /// </summary>
         /// <param name="unexpected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
