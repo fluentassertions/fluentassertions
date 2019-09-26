@@ -21,7 +21,7 @@ namespace FluentAssertions.Numeric
 
         /// <summary>
         /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
-        /// Equality means that either the objects point to the same reference or that both comparing the objects returns 0 and the objects are equal.
+        /// objects are considered equal when both <c>Equals</c> returns <c>true</c> and <c>CompareTo</c> returns 0. 
         /// </summary>
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
@@ -36,7 +36,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, expected) || ((Subject.CompareTo(expected) == Equal) && Subject.IsSameOrEqualTo(expected)))
+                .ForCondition(Subject.CompareTo(expected) == Equal && Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -112,7 +112,7 @@ namespace FluentAssertions.Numeric
 
         /// <summary>
         /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
-        /// objects are considered not equal when they do not point to the same instance (reference equality) or that either <c>Equals</c> returns <c>false</c> or <c>CompareTo</c> returns non-zero. 
+        /// objects are considered not equal when either <c>Equals</c> returns <c>false</c> or <c>CompareTo</c> returns non-zero. 
         /// </summary>
         /// <param name="unexpected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
@@ -127,7 +127,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, unexpected) && (Subject.CompareTo(unexpected) != Equal || !Subject.IsSameOrEqualTo(unexpected)))
+                .ForCondition(Subject.CompareTo(unexpected) != Equal || !Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 

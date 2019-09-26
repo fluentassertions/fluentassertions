@@ -9,8 +9,10 @@ namespace FluentAssertions.Specs
         #region Be / Not Be
 
         [Fact]
-        public void When_two_instances_are_the_same_reference_it_should_succeed()
+        public void When_two_instances_are_the_same_reference_it_should_not_succeed()
         {
+            // Should be handled by BeSameAs and not by Be
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
@@ -18,9 +20,17 @@ namespace FluentAssertions.Specs
             var other = subject;
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Act
             //-----------------------------------------------------------------------------------------------------------
-            subject.Should().Be(other);
+            Action act = () => subject.Should().Be(other, "they have the same property values");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
         }
 
         [Fact]
@@ -98,7 +108,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_references_to_the_same_instance_should_not_be_equal_it_should_throw()
+        public void When_two_references_to_the_same_instance_are_not_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -109,19 +119,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBe(other, "they represent different things");
+            Action act = () => subject.Should().NotBe(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-#if NETCOREAPP1_1
-                    "*Did not expect object to be equal to*CompareAndEqual*because they represent different things.*");
-#else
-                    "*Did not expect subject to be equal to*CompareAndEqual*because they represent different things.*");
-#endif
+            act.Should().NotThrow();
         }
 
         [Fact]
