@@ -14,7 +14,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableOfString("Hello");
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.None);
             var other = subject;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -29,8 +29,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hello");
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -44,8 +44,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableButNotEqual();
-            var other = new ComparableButNotEqual();
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -58,17 +58,17 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected*ComparableButNotEqual*because they have the same property values, but found*ComparableButNotEqual*.");
+                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
         }
 
         [Fact]
-        public void When_two_instances_are_equal_and_a_non_zero_comparison_it_should_throw()
+        public void When_two_instances_are_equal_and_have_a_non_zero_comparison_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new NotComparableButEqual();
-            var other = new NotComparableButEqual();
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected*NotComparableButEqual*because they have the same property values, but found*NotComparableButEqual*.");
+                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
         }
 
         [Fact]
@@ -108,13 +108,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_equal_objects_should_not_be_equal_it_should_throw()
+        public void When_two_references_to_the_same_instance_should_not_be_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hello");
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.None);
+            var other = subject;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -128,20 +128,67 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
 #if NETCOREAPP1_1
-                    "*Did not expect object to be equal to*Hello*because they represent different things.*");
+                    "*Did not expect object to be equal to*CompareAndEqual*because they represent different things.*");
 #else
-                    "*Did not expect subject to be equal to*Hello*because they represent different things.*");
+                    "*Did not expect subject to be equal to*CompareAndEqual*because they represent different things.*");
 #endif
         }
 
         [Fact]
-        public void When_two_unequal_objects_should_not_be_equal_it_should_not_throw()
+        public void When_two_equal_objects_should_not_be_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hi");
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBe(other, "they represent different things");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+#if NETCOREAPP1_1
+                    "*Did not expect object to be equal to*CompareAndEqual*because they represent different things.*");
+#else
+                    "*Did not expect subject to be equal to*CompareAndEqual*because they represent different things.*");
+#endif
+        }
+
+        [Fact]
+        public void When_two_unequal_objects_based_on_equality_should_not_be_equal_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBe(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_two_unequal_objects_based_on_comparison_should_not_be_equal_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
+            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -753,43 +800,37 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    public class NotComparableButEqual : IComparable<NotComparableButEqual>
+    /// <summary>
+    /// Based on the given 
+    /// </summary>
+    public class CompareAndEqual : IComparable<CompareAndEqual>
     {
+        public TrueFor Option;
+        public CompareAndEqual(TrueFor option)
+        {
+            Option = option;
+        }
+
+        public int CompareTo(CompareAndEqual other)
+        {
+            return Option.HasFlag(TrueFor.OnlyComparison) ? 0 : 1;
+        }
         public override bool Equals(object obj)
         {
-            return true;
+            return Option.HasFlag(TrueFor.OnlyEquality);
         }
-
-        public override int GetHashCode()
-        {
-            return 0;
-        }
-
-        public int CompareTo(NotComparableButEqual other)
-        {
-            return 1;
-        }
-        public override string ToString()
-        {
-            return nameof(NotComparableButEqual);
-        }
-    }
-
-    public class ComparableButNotEqual : IComparable<ComparableButNotEqual>
-    {
-        public int CompareTo(ComparableButNotEqual other)
-        {
-            return 0;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return false;
-        }
-
         public override int GetHashCode()
         {
             return 1;
+        }
+
+        [Flags]
+        public enum TrueFor
+        {
+            None = 0,
+            OnlyEquality = 1,
+            OnlyComparison = 2,
+            EqualityAndComparison = 3
         }
     }
 
