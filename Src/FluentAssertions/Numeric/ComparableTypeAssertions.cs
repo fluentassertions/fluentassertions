@@ -126,7 +126,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(unexpected) != Equal)
+                .ForCondition(!ReferenceEquals(Subject, unexpected) && (Subject.CompareTo(unexpected) != Equal || !Subject.IsSameOrEqualTo(unexpected)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
