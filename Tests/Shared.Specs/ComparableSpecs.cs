@@ -843,15 +843,6 @@ namespace FluentAssertions.Specs
             Value = value;
         }
 
-        public override bool Equals(object obj)
-        {
-            return Value == ((ComparableOfString)obj).Value;
-        }
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
-
         public int CompareTo(ComparableOfString other)
         {
             return Value.CompareTo(other.Value);
