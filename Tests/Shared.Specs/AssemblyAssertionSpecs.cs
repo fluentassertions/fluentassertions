@@ -123,14 +123,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => thisAssembly.Should().DefineType("FakeNamespace", "FakeName");
+            Action act = () => thisAssembly.Should().DefineType("FakeNamespace", "FakeName",
+                "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(string.Format("Expected assembly \"{0}\" " +
-                             "to define type \"FakeNamespace\".\"FakeName\", but it does not.", thisAssembly.FullName));
+                             "to define type \"FakeNamespace\".\"FakeName\" " +
+                             "because we want to test the failure message, but it does not.", thisAssembly.FullName));
         }
 
         [Fact]

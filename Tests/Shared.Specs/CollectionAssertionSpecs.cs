@@ -2422,6 +2422,27 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_string_collection_does_contain_same_string_it_should_throw_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string[] collection = new[] { "a" };
+            string item = "b";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
         public void When_collection_does_not_contain_object_equivalent_of_another_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

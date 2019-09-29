@@ -19,17 +19,18 @@ namespace FluentAssertions.Equivalency
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
                 .FailWith(
-                    "Expected {context:subject} to be <null>, but found {0}.",
+                    "Expected {context:subject} to be <null>{reason}, but found {0}.",
                     context.Subject);
 
-            bool subjectIsNotNull =
-                AssertionScope.Current.ForCondition(
-                    !(context.Subject is null))
-                    .FailWith(
-                        "Expected {context:object} to be {0}{reason}, but found {1}.",
-                        context.Expectation,
-                        context.Subject);
+            bool subjectIsNotNull = AssertionScope.Current
+                .ForCondition(!(context.Subject is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
+                .FailWith(
+                    "Expected {context:object} to be {0}{reason}, but found {1}.",
+                    context.Expectation,
+                    context.Subject);
 
             if (expectationIsNotNull && subjectIsNotNull)
             {

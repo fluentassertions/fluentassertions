@@ -2563,7 +2563,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw()
+        public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2581,13 +2581,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other, "we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Name to be <null>, but found \"Dennis\"*");
+                "Expected member Name to be <null>*we want to test the failure message*, but found \"Dennis\"*");
         }
 
         [Fact]
@@ -3766,12 +3766,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo(new SelfReturningEnumerable(), new SelfReturningEnumerable());
+            Action act = () => actual.Should().BeEquivalentTo(
+                new[] { new SelfReturningEnumerable(), new SelfReturningEnumerable() },
+                "we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("*cyclic*");
+            act.Should().Throw<XunitException>().WithMessage("*we want to test the failure message*cyclic reference*");
         }
 
         public class SelfReturningEnumerable : IEnumerable<SelfReturningEnumerable>
@@ -4154,7 +4156,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_instance_of_object_is_equivalent_to_null_it_should_fail()
+        public void When_asserting_instance_of_object_is_equivalent_to_null_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -4165,13 +4167,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Action act = () => actual.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*to be <null>, but found System.Object*");
+                .WithMessage("*Expected*to be <null>*we want to test the failure message*, but found System.Object*");
         }
 
         [Fact]

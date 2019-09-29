@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw()
+        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw_with_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to be <null>, but found UInt64Max*");
+                .WithMessage("Expected*to be <null> because comparing enums should throw, but found UInt64Max*");
         }
     }
 }
