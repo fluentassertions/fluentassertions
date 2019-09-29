@@ -53,7 +53,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeAssertions> Be(Type expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.IsSameOrEqualTo(expected))
+                .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
 
