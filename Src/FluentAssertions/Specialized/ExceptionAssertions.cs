@@ -83,15 +83,15 @@ namespace FluentAssertions.Specialized
             where TInnerException : Exception
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected inner {0}{reason}, but ", typeof(TInnerException))
                 .ForCondition(Subject != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
-
-            Execute.Assertion
+                .FailWith("no exception was thrown.")
+                .Then
                 .ForCondition(Subject.Any(e => e.InnerException != null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
-                    typeof(TInnerException));
+                .FailWith("the thrown exception has no inner exception.")
+                .Then
+                .ClearExpectation();
 
             TInnerException[] expectedInnerExceptions = Subject
                 .Select(e => e.InnerException)
