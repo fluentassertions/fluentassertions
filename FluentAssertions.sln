@@ -64,6 +64,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore30.Specs", "Tests\NetCore30.Specs\NetCore30.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore21.Specs", "Tests\NetCore21.Specs\NetCore21.Specs.csproj", "{C4CC9B52-5800-4E32-AE37-F62FA682B10D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
@@ -152,6 +154,10 @@ Global
 		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,6 +183,7 @@ Global
 		{EE7509BF-A011-4D04-A91F-5AE0F92E5AB5} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{05727385-DA56-4FC1-B44A-79DFECC3198A} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}

@@ -296,6 +296,30 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_subject_ValueTask_throws_subclass_of_expected_exact_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentNullException>())
+                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
+        }
+#endif
+
         [Fact]
         public void When_subject_throws_aggregate_exception_and_not_expected_exact_exception_it_should_fail()
         {
@@ -318,6 +342,30 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_subject_throws_aggregate_exception_and_not_expected_exact_exception_through_ValueTask_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAggregateExceptionAsyncValueTask<ArgumentException>())
+                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
+        }
+#endif
+
         [Fact]
         public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
@@ -333,6 +381,24 @@ namespace FluentAssertions.Specs
                 .Awaiting(x => x.ThrowAsync<ArgumentNullException>())
                 .Should().ThrowExactly<ArgumentNullException>();
         }
+
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_subject_throws_the_expected_exact_exception_through_ValueTask_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentNullException>())
+                .Should().ThrowExactly<ArgumentNullException>();
+        }
+#endif
 
         [Fact]
         public void When_async_method_throws_expected_exception_it_should_succeed()
@@ -354,6 +420,29 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
+
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_throws_expected_exception__through_ValueTask_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
+                .Should().Throw<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+#endif
 
         [Fact]
         public void When_subject_is_null_it_should_be_null()
@@ -416,6 +505,30 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_does_not_throw_expected_exception_through_ValueTask_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.SucceedAsyncValueTask())
+                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
+        }
+#endif
+
         [Fact]
         public void When_async_method_throws_unexpected_exception_it_should_fail()
         {
@@ -438,6 +551,30 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_throws_unexpected_exception_through_ValueTask_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
+                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
+        }
+#endif
+
         [Fact]
         public void When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
         {
@@ -458,6 +595,29 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
+
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_does_not_throw_exception_through_ValueTask_and_that_was_expected_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.SucceedAsyncValueTask())
+                .Should().NotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+#endif
 
         [Fact]
         public async Task When_async_method_does_not_throw_async_exception_and_that_was_expected_it_should_succeed()
@@ -631,6 +791,30 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_throws_exception_through_ValueTask_and_no_exception_was_expected_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
+                .Should().NotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect any exception, but found System.ArgumentException*");
+        }
+#endif
+
         [Fact]
         public void When_async_method_throws_exception_and_expected_not_to_throw_another_one_it_should_succeed()
         {
@@ -651,6 +835,29 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
+
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
+                .Should().NotThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+#endif
 
         [Fact]
         public async Task When_async_method_throws_exception_and_expected_not_to_throw_async_another_one_it_should_succeed()
@@ -692,7 +899,30 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
         [Fact]
+        public void When_async_method_succeeds_and_expected_not_to_throw_particular_exception_through_ValueTask_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => asyncObject.SucceedAsyncValueTask())
+                .Should().NotThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+#endif
+
+        [Fact]//
         public void When_async_method_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -713,6 +943,30 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found*");
         }
+
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]//
+        public void When_async_method_throws_exception_expected_through_ValueTask_not_to_be_thrown_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
+                .Should().NotThrow<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect System.ArgumentException, but found*");
+        }
+#endif
 
         [Fact]
         public void When_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
@@ -735,6 +989,29 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_ValueTask_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => asyncObject.ReturnValueTaskInt())
+                .Should().NotThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().NotThrow();
+        }
+#endif
+
         [Fact]
         public void When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
@@ -756,6 +1033,30 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP3_0
+        [Fact]
+        public void When_ValueTask_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var asyncObject = new AsyncClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncObject
+                .Awaiting(x => x.ThrowValueTaskIntAsync<ArgumentException>(true))
+                .Should().NotThrow<ArgumentException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
+        }
+#endif
 
         [Fact]
         public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
@@ -1260,21 +1561,52 @@ namespace FluentAssertions.Specs
             throw new TException();
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        public async ValueTask ThrowAsyncValueTask<TException>()
+            where TException : Exception, new()
+        {
+            await Task.Yield();
+            throw new TException();
+        }
+#endif
+
         public async Task ThrowAggregateExceptionAsync<TException>() where TException : Exception, new()
         {
             await Task.Yield();
             throw new AggregateException(new TException());
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>() where TException : Exception, new()
+        {
+            await Task.Yield();
+            throw new AggregateException(new TException());
+        }
+#endif
+
         public async Task SucceedAsync()
         {
             await Task.FromResult(0);
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP3_0
+        public async ValueTask SucceedAsyncValueTask()
+        {
+            await Task.FromResult(0);
+        }
+#endif
+
         public Task<int> ReturnTaskInt()
         {
             return Task.FromResult(0);
         }
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP3_0
+        public ValueTask<int> ReturnValueTaskInt()
+        {
+            return new ValueTask<int>(0);
+        }
+#endif
 
         public Task IncompleteTask()
         {
@@ -1293,5 +1625,20 @@ namespace FluentAssertions.Specs
 
             return 123;
         }
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP3_0
+        public async ValueTask<int> ThrowValueTaskIntAsync<TException>(bool throwException)
+            where TException : Exception, new()
+        {
+            await Task.Yield();
+
+            if (throwException)
+            {
+                throw new TException();
+            }
+
+            return 123;
+        }
+#endif
     }
 }

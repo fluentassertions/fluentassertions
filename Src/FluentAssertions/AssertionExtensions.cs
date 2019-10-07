@@ -67,6 +67,30 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
+#if NETCOREAPP2_1 || NETSTANDARD2_1
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task> Awaiting<T>(this T subject, Func<T, ValueTask> action)
+        {
+            return () => action(subject).AsTask();
+        }
+#endif
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_1
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, ValueTask<TResult>> action)
+        {
+            return () => action(subject).AsTask();
+        }
+#endif
+
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
         /// </summary>

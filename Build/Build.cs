@@ -86,6 +86,7 @@ class Build : NukeBuild
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetStandard13.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore20.Specs")),
+                    cc => cc.SetProjectFile(Solution.GetProject("NetCore21.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore30.Specs"))));
 
             DotNetTest(s => s
