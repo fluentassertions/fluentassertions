@@ -1095,7 +1095,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<Type> HaveAccessModifier(
+        public AndConstraint<TypeAssertions> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
@@ -1105,7 +1105,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected type " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     accessModifier, subjectAccessModifier);
 
-            return new AndConstraint<Type>(Subject);
+            return new AndConstraint<TypeAssertions>(this);
         }
 
         /// <summary>
@@ -1119,7 +1119,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<Type> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<TypeAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
@@ -1127,7 +1127,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected type " + Subject.Name + " not to be {0}{reason}, but it is.",
                     accessModifier);
 
-            return new AndConstraint<Type>(Subject);
+            return new AndConstraint<TypeAssertions>(this);
         }
 
         /// <summary>
