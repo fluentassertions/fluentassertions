@@ -10,31 +10,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageDownload Include="GitVersion.CommandLine.DotNetCore" Version="[5.0.1]" />
-    <PackageDownload Include="NSpec" Version="[1.0.13]" />
-    <PackageDownload Include="NSpec" Version="[2.0.1]" />
-    <PackageDownload Include="NSpec" Version="[3.1.0]" />
-    <PackageDownload Include="nunit.runners" Version="[2.7.1]" />
-    <PackageDownload Include="xunit.runner.console" Version="[2.4.1]" />
-    <PackageReference Include="Nuke.Common" Version="0.22.2" />
+    <PackageDownload Include="GitVersion.CommandLine.DotNetCore" Version="[5.0.1]"/>
+    <PackageDownload Include="NSpec" Version="[1.0.13]"/>
+    <PackageDownload Include="NSpec" Version="[2.0.1]"/>
+    <PackageDownload Include="NSpec" Version="[3.1.0]"/>
+    <PackageDownload Include="nunit.runners" Version="[2.7.1]"/>
+    <PackageDownload Include="xunit.runner.console" Version="[2.4.1]"/>
+
+    <PackageReference Include="Nuke.Common" Version="0.22.2"/>
   </ItemGroup>
 
   <ItemGroup>
-    <NukeSpecificationFiles Include="**\*.json" Exclude="bin\**;obj\**" />
-    <NukeExternalFiles Include="**\*.*.ext" Exclude="bin\**;obj\**" />
-    <None Remove="*.csproj.DotSettings;*.ref.*.txt" />
+    <NukeSpecificationFiles Include="**\*.json" Exclude="bin\**;obj\**"/>
+    <NukeExternalFiles Include="**\*.*.ext" Exclude="bin\**;obj\**"/>
+    <None Remove="*.csproj.DotSettings;*.ref.*.txt"/>
 
     <!-- Common build related files -->
-    <None Include="..\build.ps1" />
-    <None Include="..\build.sh" />
-    <None Include="..\.nuke" />
-    <None Include="..\global.json" Condition="Exists('..\global.json')" />
-    <None Include="..\nuget.config" Condition="Exists('..\nuget.config')" />
-    <None Include="..\azure-pipelines.yml" Condition="Exists('..\azure-pipelines.yml')" />
-    <None Include="..\Jenkinsfile" Condition="Exists('..\Jenkinsfile')" />
-    <None Include="..\appveyor.yml" Condition="Exists('..\appveyor.yml')" />
-    <None Include="..\.travis.yml" Condition="Exists('..\.travis.yml')" />
-    <None Include="..\GitVersion.yml" Condition="Exists('..\GitVersion.yml')" />
+    <None Include="..\build.ps1"/>
+    <None Include="..\build.sh"/>
+    <None Include="..\.nuke"/>
+    <None Include="..\global.json" Condition="Exists('..\global.json')"/>
+    <None Include="..\nuget.config" Condition="Exists('..\nuget.config')"/>
+    <None Include="..\azure-pipelines.yml" Condition="Exists('..\azure-pipelines.yml')"/>
+    <None Include="..\Jenkinsfile" Condition="Exists('..\Jenkinsfile')"/>
+    <None Include="..\appveyor.yml" Condition="Exists('..\appveyor.yml')"/>
+    <None Include="..\.travis.yml" Condition="Exists('..\.travis.yml')"/>
+    <None Include="..\GitVersion.yml" Condition="Exists('..\GitVersion.yml')"/>
   </ItemGroup>
 
 </Project>
