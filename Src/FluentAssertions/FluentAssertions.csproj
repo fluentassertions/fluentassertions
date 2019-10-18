@@ -21,7 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>MSTest;MSTest2;xUnit;xUnit2;NUnit;MSpec;NSpec;Gallio;MbUnit;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/fluentassertions/fluentassertions/master/Src/FluentAssertions.png</PackageIconUrl>
+    <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions/releases/</PackageReleaseNotes>
     <Copyright>Copyright Dennis Doomen 2010-2019</Copyright>
     <LangVersion>7.3</LangVersion>
@@ -40,6 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\JetBrainsAnnotations.cs" Link="JetBrainsAnnotations.cs" />
+    <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
