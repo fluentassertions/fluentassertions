@@ -383,13 +383,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Year == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Year)
                 .Then
                 .ClearExpectation();
@@ -411,13 +410,12 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the year part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Year != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -440,13 +438,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Month == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Month)
                 .Then
                 .ClearExpectation();
@@ -468,13 +465,12 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Month != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -497,13 +493,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Day == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Day)
                 .Then
                 .ClearExpectation();
@@ -525,13 +520,12 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Day != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -554,13 +548,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Hour == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Hour)
                 .Then
                 .ClearExpectation();
@@ -582,13 +575,12 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -611,13 +603,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Minute == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Minute)
                 .Then
                 .ClearExpectation();
@@ -640,13 +631,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -669,13 +659,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Second == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Second)
                 .Then
                 .ClearExpectation();
@@ -698,13 +687,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Second != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -727,13 +715,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Offset == expected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value.Offset)
                 .Then
                 .ClearExpectation();
@@ -756,13 +743,12 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Offset != unexpected)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -848,13 +834,12 @@ namespace FluentAssertions.Primitives
             DateTime expectedDate = expected.Date;
 
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.", expectedDate)
                 .Then
                 .ForCondition(Subject.Value.Date == expectedDate)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was {0}.", Subject.Value)
                 .Then
                 .ClearExpectation();
@@ -879,13 +864,12 @@ namespace FluentAssertions.Primitives
             DateTime unexpectedDate = unexpected.Date;
 
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.Date != unexpectedDate)
-                .BecauseOf(because, becauseArgs)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
