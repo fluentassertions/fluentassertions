@@ -21,17 +21,29 @@ namespace FluentAssertions
         {
             string caller = null;
 
-            StackTrace stack = new StackTrace(true);
-
-            foreach (StackFrame frame in stack.GetFrames())
+            try
             {
-                logger(frame.ToString());
+                StackTrace stack = new StackTrace(true);
 
-                if (!IsDynamic(frame) && !IsDotNet(frame) && !IsCurrentAssembly(frame) && !IsCustomAssertion(frame))
+                foreach (StackFrame frame in stack.GetFrames())
                 {
-                    caller = ExtractVariableNameFrom(frame) ?? caller;
-                    break;
+                    logger(frame.ToString());
+
+                    if (frame.GetMethod() is object
+                        && !IsDynamic(frame)
+                        && !IsDotNet(frame)
+                        && !IsCurrentAssembly(frame)
+                        && !IsCustomAssertion(frame))
+                    {
+                        caller = ExtractVariableNameFrom(frame) ?? caller;
+                        break;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                // Ignore exceptions, as determination of caller identity is only a nice-to-have
+                logger(e.ToString());
             }
 
             return caller;
