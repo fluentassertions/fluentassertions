@@ -24,6 +24,11 @@ namespace FluentAssertions.Equivalency
 
             if (AreComparable(context, expectationAsArray))
             {
+                if (expectationAsArray.Length == 0)
+                {
+                    return true;
+                }
+
                 Digit digit = BuildDigitsRepresentingAllIndices(expectationAsArray);
 
                 do
@@ -65,7 +70,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(type is null))
-                .FailWith("Cannot compare a multi-dimensional array to {0}.", new object[] { null })
+                .FailWith("Cannot compare a multi-dimensional array to <null>.")
                 .Then
                 .ForCondition(type is Array)
                 .FailWith("Cannot compare a multi-dimensional array to something else.");
