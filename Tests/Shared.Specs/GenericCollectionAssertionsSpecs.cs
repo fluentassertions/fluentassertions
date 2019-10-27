@@ -2250,7 +2250,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw()
+        public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw_with_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2271,7 +2271,30 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain exactly 2 items, but it contains 3 items");
+                "Expected collection to contain exactly 2 items*we want to test the failure message*, but it contains 3 items");
+        }
+
+        [Fact]
+        public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_fail_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new int[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().SatisfyRespectively(
+                new Action<int>[]
+                {
+                    value => value.Should().Be(1),
+                }, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>().WithMessage("*because we want to test the failure*");
         }
         #endregion
     }
