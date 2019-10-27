@@ -79,6 +79,7 @@ namespace FluentAssertions.Xml
 
                         locationStack.Push(subjectReader.LocalName);
                         validationResult = ValidateAttributes();
+
                         if (subjectReader.IsEmptyElement)
                         {
                             locationStack.Pop();
@@ -103,8 +104,41 @@ namespace FluentAssertions.Xml
                     return validationResult;
                 }
 
-                subjectReader.Read();
-                otherReader.Read();
+                var skipSubjectRead = false;
+                var skipOtherRead = false;
+                if (subjectReader.IsEmptyElement && !otherReader.IsEmptyElement && !otherReader.HasValue)
+                {
+                    // advance other reader to EndElement to sync empty element with self-closing element
+                    otherReader.Read();
+                    if (otherReader.NodeType != XmlNodeType.EndElement || otherReader.LocalName != subjectReader.LocalName)
+                    {
+                        // advancing failed
+                        // skip reading other reader below to "simulate" rewind reader
+                        skipOtherRead = true;
+                    }
+                }
+
+                if (otherReader.IsEmptyElement && !subjectReader.IsEmptyElement && !subjectReader.HasValue)
+                {
+                    // advance subject reader to EndElement to sync empty element with self-closing element
+                    subjectReader.Read();
+                    if (subjectReader.NodeType != XmlNodeType.EndElement || subjectReader.LocalName != otherReader.LocalName)
+                    {
+                        // advancing failed
+                        // skip reading subject reader below to "simulate" rewind reader
+                        skipSubjectRead = true;
+                    }
+                }
+
+                if (skipSubjectRead)
+                {
+                    subjectReader.Read();
+                }
+
+                if (skipOtherRead)
+                {
+                    otherReader.Read();
+                }
 
                 subjectReader.MoveToContent();
                 otherReader.MoveToContent();
