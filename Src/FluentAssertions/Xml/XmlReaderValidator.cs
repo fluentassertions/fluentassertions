@@ -104,8 +104,8 @@ namespace FluentAssertions.Xml
                     return validationResult;
                 }
 
-                var skipSubjectRead = false;
-                var skipOtherRead = false;
+                var readOnSubjectReader = true;
+                var readOnOtherReader = true;
                 if (subjectReader.IsEmptyElement && !otherReader.IsEmptyElement && !otherReader.HasValue)
                 {
                     // advance other reader to EndElement to sync empty element with self-closing element
@@ -114,7 +114,7 @@ namespace FluentAssertions.Xml
                     {
                         // advancing failed
                         // skip reading other reader below to "simulate" rewind reader
-                        skipOtherRead = true;
+                        readOnOtherReader = false;
                     }
                 }
 
@@ -126,16 +126,16 @@ namespace FluentAssertions.Xml
                     {
                         // advancing failed
                         // skip reading subject reader below to "simulate" rewind reader
-                        skipSubjectRead = true;
+                        readOnSubjectReader = false;
                     }
                 }
 
-                if (skipSubjectRead)
+                if (readOnSubjectReader)
                 {
                     subjectReader.Read();
                 }
 
-                if (skipOtherRead)
+                if (readOnOtherReader)
                 {
                     otherReader.Read();
                 }
