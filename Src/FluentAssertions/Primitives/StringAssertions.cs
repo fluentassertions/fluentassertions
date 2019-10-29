@@ -655,7 +655,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint timesConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -717,7 +717,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, TimesConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint timesConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 

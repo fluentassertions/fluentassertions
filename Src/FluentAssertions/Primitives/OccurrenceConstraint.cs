@@ -4,13 +4,13 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
-    public abstract class TimesConstraint
+    public abstract class OccurrenceConstraint
     {
         private int? actualCount;
 
         protected readonly int expectedCount;
 
-        public TimesConstraint(int expectedCount)
+        public OccurrenceConstraint(int expectedCount)
         {
             this.expectedCount = expectedCount;
         }
@@ -69,7 +69,7 @@ namespace FluentAssertions.Primitives
         }
     }
 
-    internal sealed class AtLeastTimesConstraint : TimesConstraint
+    internal sealed class AtLeastTimesConstraint : OccurrenceConstraint
     {
         internal AtLeastTimesConstraint(int expectedCount) : base(expectedCount) { }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Primitives
         protected override bool IsMatch => ActualCount >= expectedCount;
     }
 
-    internal sealed class AtMostTimesConstraint : TimesConstraint
+    internal sealed class AtMostTimesConstraint : OccurrenceConstraint
     {
         internal AtMostTimesConstraint(int expectedCount) : base(expectedCount) { }
 
@@ -87,7 +87,7 @@ namespace FluentAssertions.Primitives
         protected override bool IsMatch => ActualCount <= expectedCount;
     }
 
-    internal sealed class MoreThanTimesConstraint : TimesConstraint
+    internal sealed class MoreThanTimesConstraint : OccurrenceConstraint
     {
         internal MoreThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
@@ -96,7 +96,7 @@ namespace FluentAssertions.Primitives
         protected override bool IsMatch => ActualCount > expectedCount;
     }
 
-    internal sealed class LessThanTimesConstraint : TimesConstraint
+    internal sealed class LessThanTimesConstraint : OccurrenceConstraint
     {
         internal LessThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
@@ -105,7 +105,7 @@ namespace FluentAssertions.Primitives
         protected override bool IsMatch => ActualCount < expectedCount;
     }
 
-    internal sealed class ExactlyTimesConstraint : TimesConstraint
+    internal sealed class ExactlyTimesConstraint : OccurrenceConstraint
     {
         internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
 
@@ -116,54 +116,54 @@ namespace FluentAssertions.Primitives
 
     public static class AtLeast
     {
-        public static TimesConstraint Once() => new AtLeastTimesConstraint(1);
+        public static OccurrenceConstraint Once() => new AtLeastTimesConstraint(1);
 
-        public static TimesConstraint Twice() => new AtLeastTimesConstraint(2);
+        public static OccurrenceConstraint Twice() => new AtLeastTimesConstraint(2);
 
-        public static TimesConstraint Thrice() => new AtLeastTimesConstraint(3);
+        public static OccurrenceConstraint Thrice() => new AtLeastTimesConstraint(3);
 
-        public static TimesConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
     }
 
     public static class AtMost
     {
-        public static TimesConstraint Once() => new AtMostTimesConstraint(1);
+        public static OccurrenceConstraint Once() => new AtMostTimesConstraint(1);
 
-        public static TimesConstraint Twice() => new AtMostTimesConstraint(2);
+        public static OccurrenceConstraint Twice() => new AtMostTimesConstraint(2);
 
-        public static TimesConstraint Thrice() => new AtMostTimesConstraint(3);
+        public static OccurrenceConstraint Thrice() => new AtMostTimesConstraint(3);
 
-        public static TimesConstraint Times(int expected) => new AtMostTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected) => new AtMostTimesConstraint(expected);
     }
 
     public static class MoreThan
     {
-        public static TimesConstraint Once() => new MoreThanTimesConstraint(1);
+        public static OccurrenceConstraint Once() => new MoreThanTimesConstraint(1);
 
-        public static TimesConstraint Twice() => new MoreThanTimesConstraint(2);
+        public static OccurrenceConstraint Twice() => new MoreThanTimesConstraint(2);
 
-        public static TimesConstraint Thrice() => new MoreThanTimesConstraint(3);
+        public static OccurrenceConstraint Thrice() => new MoreThanTimesConstraint(3);
 
-        public static TimesConstraint Times(int expected) => new MoreThanTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected) => new MoreThanTimesConstraint(expected);
     }
 
     public static class LessThan
     {
-        public static TimesConstraint Twice() => new LessThanTimesConstraint(2);
+        public static OccurrenceConstraint Twice() => new LessThanTimesConstraint(2);
 
-        public static TimesConstraint Thrice() => new LessThanTimesConstraint(3);
+        public static OccurrenceConstraint Thrice() => new LessThanTimesConstraint(3);
 
-        public static TimesConstraint Times(int expected) => new LessThanTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected) => new LessThanTimesConstraint(expected);
     }
 
     public static class Exactly
     {
-        public static TimesConstraint Once() => new ExactlyTimesConstraint(1);
+        public static OccurrenceConstraint Once() => new ExactlyTimesConstraint(1);
 
-        public static TimesConstraint Twice() => new ExactlyTimesConstraint(2);
+        public static OccurrenceConstraint Twice() => new ExactlyTimesConstraint(2);
 
-        public static TimesConstraint Thrice() => new ExactlyTimesConstraint(3);
+        public static OccurrenceConstraint Thrice() => new ExactlyTimesConstraint(3);
 
-        public static TimesConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
     }
 }
