@@ -1480,7 +1480,6 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -1488,19 +1487,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -1509,19 +1503,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -1530,15 +1519,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
             // Assert
@@ -1553,38 +1538,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(2));
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(3), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
         }
@@ -1692,19 +1667,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEF";
             string expectedSubstring = "XYS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -1712,19 +1682,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_exactly_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -1734,16 +1699,13 @@ namespace FluentAssertions.Specs
         public void When_containment_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -1753,16 +1715,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -1775,16 +1734,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(2));
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -1792,16 +1748,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(3), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times because that is required, but found 2 times.");
         }
@@ -1810,16 +1763,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEF";
             string expectedSubstring = "XYS";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time because that is required, but found 0 times.");
         }
@@ -1827,19 +1777,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_at_least_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -1848,19 +1793,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -1870,16 +1810,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time because that is required, but found 0 times.");
         }
@@ -1892,12 +1829,10 @@ namespace FluentAssertions.Specs
         public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(1));
 
             // Assert
@@ -1908,16 +1843,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(2), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times because that is required, but found 2 times.");
         }
@@ -1926,16 +1858,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEF";
             string expectedSubstring = "XYS";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time because that is required, but found 0 times.");
         }
@@ -1944,18 +1873,13 @@ namespace FluentAssertions.Specs
         public void When_containment_more_than_once_is_asserted_against_null_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -1964,20 +1888,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -1986,20 +1904,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time because that is required, but found 0 times.");
         }
@@ -2011,40 +1923,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(2));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(1), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time because that is required, but found 2 times.");
         }
@@ -2052,40 +1952,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEF";
             string expectedSubstring = "XYS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_containment_at_most_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
                 .And.ParamName.Should().Be("expected");
@@ -2094,20 +1982,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
                 .And.ParamName.Should().Be("expected");
@@ -2116,20 +1998,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2140,40 +2016,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(3));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEBCDF";
             string expectedSubstring = "BCD";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(2), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times because that is required, but found 2 times.");
         }
@@ -2181,40 +2045,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABCDEF";
             string expectedSubstring = "XYS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_containment_less_than_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -2223,20 +2075,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -2245,20 +2091,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XYZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2271,29 +2111,21 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "ABC";
             string expectedEquivalent = "abc";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             actual.Should().BeEquivalentTo(expectedEquivalent);
         }
 
         [Fact]
         public void When_strings_differ_other_than_by_case_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ADC".Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
         }
@@ -2301,14 +2133,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ABCDEF".Should().BeEquivalentTo(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
         }
@@ -2316,14 +2144,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ABC".Should().BeEquivalentTo("");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
         }
@@ -2331,14 +2155,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_is_equivalent_but_too_short_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "AB".Should().BeEquivalentTo("ABCD");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
         }
@@ -2346,15 +2166,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             string someString = null;
             Action act = () => someString.Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
@@ -2366,14 +2182,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
         }
@@ -2381,14 +2193,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
@@ -2400,14 +2208,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_a_null_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().ContainAll(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .And.ParamName.Should().Be("values");
@@ -2416,14 +2220,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().ContainAll();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .And.ParamName.Should().Be("values");
@@ -2432,45 +2232,33 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_a_collection_is_asserted_and_all_strings_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAll(red, green, yellow);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_containment_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_matches_exist_for_all_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string redLowerCase = "red";
             const string redUpperCase = "RED";
             const string greenWithoutWhitespace = "green";
             const string greenWithWhitespace = "  green ";
             var testString = $"{redLowerCase} {greenWithoutWhitespace}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAll(redUpperCase, greenWithWhitespace);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{redUpperCase}*{greenWithWhitespace}*");
@@ -2479,23 +2267,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string blue = "blue";
             var testString = $"{red} {green}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAll(yellow, blue);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{yellow}*{blue}*");
@@ -2504,9 +2286,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_failes_then_failure_message_should_contain_reason()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
@@ -2517,14 +2297,10 @@ namespace FluentAssertions.Specs
             var becauseArgs = new[] { "special" };
             var expectedErrorReason = string.Format(because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{yellow}*{blue}*because {expectedErrorReason}*");
@@ -2533,23 +2309,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string blue = "blue";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAll(red, blue, green);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain*{blue}*");
@@ -2562,14 +2332,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_any_string_in_a_null_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().ContainAny(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .And.ParamName.Should().Be("values");
@@ -2578,14 +2344,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_any_string_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().ContainAny();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .And.ParamName.Should().Be("values");
@@ -2594,67 +2356,49 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_any_string_in_a_collection_is_asserted_and_all_of_the_strings_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAny(red, green, yellow);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_containment_of_any_string_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string blue = "blue";
             var testString = $"{red} {green}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAny(red, blue, green);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_containment_of_any_string_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string blue = "blue";
             const string purple = "purple";
             var testString = $"{red} {green}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAny(blue, purple);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*");
@@ -2663,23 +2407,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exatch_matches_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string redLowerCase = "red";
             const string redUpperCase = "RED";
             const string greenWithoutWhitespace = "green";
             const string greenWithWhitespace = "   green";
             var testString = $"{redLowerCase} {greenWithoutWhitespace}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAny(redUpperCase, greenWithWhitespace);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{redUpperCase}*{greenWithWhitespace}*");
@@ -2688,9 +2426,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_of_any_string_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_contains_reason()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string blue = "blue";
@@ -2701,14 +2437,10 @@ namespace FluentAssertions.Specs
             var becauseArgs = new[] { "special" };
             var expectedErrorReason = string.Format(because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().ContainAny(new[] { blue, purple }, because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because {expectedErrorReason}*");
@@ -2721,28 +2453,20 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_does_not_contain_the_unexpected_string_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContain("A");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_contains_unexpected_fragment_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "abcd".Should().NotContain("bc", "it was not expected {0}", "today");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string \"abcd\" to contain \"bc\" because it was not expected today.");
         }
@@ -2750,14 +2474,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_is_asserted_against_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContain(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -2766,14 +2486,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_is_asserted_against_an_empty_string_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContain("");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -2786,14 +2502,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_all_strings_in_null_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContainAll(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .And.ParamName.Should().Be("values");
@@ -2802,14 +2514,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_all_strings_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContainAll();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .And.ParamName.Should().Be("values");
@@ -2818,22 +2526,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_all_strings_in_collection_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAll(red, green, yellow);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*");
@@ -2842,9 +2544,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_all_strings_is_asserted_with_reason_and_assertion_fails_then_error_message_contains_reason()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
@@ -2854,14 +2554,10 @@ namespace FluentAssertions.Specs
             var becauseArgs = new[] { "special" };
             var expectedErrorReason = string.Format(because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*{expectedErrorReason}*");
@@ -2870,69 +2566,51 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_in_collection_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string purple = "purple";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAll(red, green, yellow, purple);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_in_the_collection_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string purple = "purple";
             var testString = $"{red} {green}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAll(yellow, purple);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_strings_are_present_in_collection_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string redWithoutWhitespace = "red";
             const string redWithWhitespace = "  red ";
             const string lowerCaseGreen = "green";
             const string upperCaseGreen = "GREEN";
             var testString = $"{redWithoutWhitespace} {lowerCaseGreen}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAll(redWithWhitespace, upperCaseGreen);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2942,14 +2620,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_string_in_null_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContainAny(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .And.ParamName.Should().Be("values");
@@ -2958,14 +2632,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_string_in_an_empty_collection_is_asserted_it_should_throw_an_argument_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContainAny();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .And.ParamName.Should().Be("values");
@@ -2974,22 +2644,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_all_of_the_strings_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAny(red, green, yellow);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*{green}*{yellow}*");
@@ -2998,23 +2662,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string purple = "purple";
             var testString = $"{red} {green} {yellow}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAny(red, purple, green);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*{green}*");
@@ -3023,9 +2681,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_strings_is_asserted_with_reason_and_assertion_fails_then_error_message_contains_reason()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
@@ -3036,12 +2692,9 @@ namespace FluentAssertions.Specs
             var expectedErrorReason = string.Format(because, becauseArgs);
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAny(new[] { red }, because, becauseArgs);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage($"*not*{testString}*contain any*{red}*because*{expectedErrorReason}*");
@@ -3050,46 +2703,34 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exact_matches_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string redLowerCase = "red";
             const string redUpperCase = "RED";
             const string greenWithoutWhitespace = "green";
             const string greenWithWhitespace = " green  ";
             var testString = $"{redLowerCase} {greenWithoutWhitespace}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAny(redUpperCase, greenWithWhitespace);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_exclusion_of_any_string_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string red = "red";
             const string green = "green";
             const string yellow = "yellow";
             const string purple = "purple";
             var testString = $"{red} {green}";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => testString.Should().NotContainAny(yellow, purple);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3100,15 +2741,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_null()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "a".Should().NotContainEquivalentOf(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\".");
         }
@@ -3116,15 +2753,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_empty()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "a".Should().NotContainEquivalentOf("");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\".");
         }
@@ -3132,15 +2765,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_another_string_but_it_does()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "Hello, world!".Should().NotContainEquivalentOf(", worLD!");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\".");
         }
@@ -3148,15 +2777,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_succeed_when_asserting_string_does_not_contain_equivalent_of_another_string()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "aAa".Should().NotContainEquivalentOf("aa ");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3171,24 +2796,18 @@ namespace FluentAssertions.Specs
         [Theory]
         public void Should_pass_when_contans_equivalent_of(string actual, string equivalentSubstring)
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             actual.Should().ContainEquivalentOf(equivalentSubstring);
         }
 
         [Fact]
         public void Should_fail_contain_equivalent_of_when_not_contains()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "a".Should().ContainEquivalentOf("aa");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected string \"a\" to contain equivalent of \"aa\".");
         }
@@ -3196,15 +2815,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_throw_when_null_equivalent_is_expected()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "a".Should().ContainEquivalentOf(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
         }
@@ -3212,15 +2827,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Should_throw_when_empty_equivalent_is_expected()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 "a".Should().ContainEquivalentOf("");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
         }
@@ -3232,40 +2843,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_is_asserted_and_actual_value_contains_the_expected_string_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(2));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_equivalent_of_is_asserted_and_actual_value_contains_the_expected_string_but_not_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(3), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
         }
@@ -3273,20 +2872,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -3294,15 +2887,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
 
             // Assert
@@ -3314,20 +2903,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3336,20 +2919,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -3361,40 +2938,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(2));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(3), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times because that is required, but found 2 times.");
         }
@@ -3402,20 +2967,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -3423,20 +2982,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_exactly_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -3445,20 +2998,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3467,20 +3014,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found 0 times.");
         }
@@ -3492,15 +3033,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(2));
 
             // Assert
@@ -3510,20 +3047,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(3), "that is {0}", "required");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times because that is required, but found 2 times.");
         }
@@ -3531,15 +3062,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
 
             // Assert
@@ -3550,19 +3077,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_at_least_once_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -3571,19 +3093,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3592,19 +3109,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time because that is required, but found 0 times.");
         }
@@ -3616,19 +3128,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(1));
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3636,16 +3143,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(2), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times because that is required, but found 2 times.");
         }
@@ -3654,16 +3158,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time because that is required, but found 0 times.");
         }
@@ -3672,16 +3173,13 @@ namespace FluentAssertions.Specs
         public void When_containment_equivalent_of_more_than_once_is_asserted_against_null_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -3691,16 +3189,13 @@ namespace FluentAssertions.Specs
         public void When_containment_equivalent_of_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3710,16 +3205,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time because that is required, but found 0 times.");
         }
@@ -3731,19 +3223,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(2));
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3751,16 +3238,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(1), "that is {0}", "required");
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time because that is required, but found 2 times.");
         }
@@ -3769,16 +3253,13 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3786,12 +3267,10 @@ namespace FluentAssertions.Specs
         public void When_containment_equivalent_of_at_most_once_is_asserted_against_null_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
 
             // Assert
@@ -3804,16 +3283,13 @@ namespace FluentAssertions.Specs
         public void When_containment_equivalent_of_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3823,12 +3299,10 @@ namespace FluentAssertions.Specs
         public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
 
             // Assert
@@ -3842,34 +3316,25 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(3));
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEBcDF";
             string expectedSubstring = "Bcd";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(2), "that is {0}", "required");
 
             // Assert
@@ -3880,15 +3345,11 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "abCDEf";
             string expectedSubstring = "xyS";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
 
             // Assert
@@ -3898,19 +3359,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_less_than_twice_is_asserted_against_null_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*");
@@ -3919,19 +3375,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_containment_equivalent_of_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = "a";
             string expectedSubstring = "";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*");
@@ -3940,19 +3391,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string actual = null;
             string expectedSubstring = "XyZ";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
 
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
