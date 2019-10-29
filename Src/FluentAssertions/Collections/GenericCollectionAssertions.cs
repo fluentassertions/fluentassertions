@@ -622,7 +622,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(elementsCount == inspectorsCount)
-                .FailWith("Expected {context:collection} to contain exactly {0} items, but it contains {1} items",
+                .FailWith("Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
                     inspectorsCount, elementsCount);
 
             string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);

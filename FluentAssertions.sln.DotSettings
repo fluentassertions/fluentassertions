@@ -88,19 +88,13 @@
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Text/@EntryValue">[TestMethod]&#xD;
 public void When_$scenario$_it_should_$behavior$()&#xD;
 {&#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
     // Arrange&#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
     $END$&#xD;
 &#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
     // Act&#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
 &#xD;
 &#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
     // Assert&#xD;
-    //-----------------------------------------------------------------------------------------------------------&#xD;
 }</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Reformat/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>

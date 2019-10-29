@@ -209,6 +209,8 @@ namespace FluentAssertions.Xml
                     }
                 }
                 while (reader.MoveToNextAttribute());
+
+                reader.MoveToElement();
             }
 
             return attributes;

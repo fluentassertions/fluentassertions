@@ -9,22 +9,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_method_is_marked_as_custom_assertion_it_should_be_ignored_during_caller_identification()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var myClient = new MyCustomer
             {
                 Active = false
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => myClient.Should().BeActive("because we don't work with old clients");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
                 "Expected boolean to be true because we don't work with old clients, but found False.");

@@ -297,9 +297,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_dictionary_does_not_implement_the_dictionary_interface_it_should_still_be_treated_as_a_dictionary()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IDictionary<string, int> dictionary = new GenericDictionaryNotImplementingIDictionary<string, int>
             {
                 ["hi"] = 1
@@ -308,23 +306,17 @@ namespace FluentAssertions.Specs
             ICollection<KeyValuePair<string, int>> collection =
                 new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>("hi", 1) };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary.Should().BeEquivalentTo(collection);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_read_only_dictionary_matches_the_expectation_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
                 new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>()
@@ -333,27 +325,21 @@ namespace FluentAssertions.Specs
                     ["Key1"] = new[] { "Value1" }
                 });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
             {
                 ["Key1"] = new[] { "Value1" },
                 ["Key2"] = new[] { "Value2" }
             });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_read_only_dictionary_does_not_match_the_expectation_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IReadOnlyDictionary<string, IEnumerable<string>> dictionary =
                 new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>()
@@ -362,18 +348,14 @@ namespace FluentAssertions.Specs
                     ["Key1"] = new[] { "Value1" }
                 });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>()
             {
                 ["Key2"] = new[] { "Value3" },
                 ["Key1"] = new[] { "Value1" }
             });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected item[0]*Value3*Value2*");
         }
 
@@ -381,20 +363,14 @@ namespace FluentAssertions.Specs
         // #930
         public void When_a_dictionary_is_compared_to_null_it_should_not_throw_a_NullReferenceException()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Dictionary<int, int> subject = null;
             Dictionary<int, int> expectation = new Dictionary<int, int>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
@@ -402,20 +378,14 @@ namespace FluentAssertions.Specs
         // #930
         public void When_a_null_dictionary_is_compared_to_null_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Dictionary<int, int> subject = null;
             Dictionary<int, int> expectation = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -424,9 +394,7 @@ namespace FluentAssertions.Specs
             When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var expected = new
             {
                 Customers = new Dictionary<string, string>
@@ -445,14 +413,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -460,40 +424,28 @@ namespace FluentAssertions.Specs
         public void
             When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_is_specified_it_should_use_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object object1 = new Dictionary<string, string> { ["greeting"] = "hello" };
             object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
         }
 
         [Fact]
         public void When_a_generic_dictionary_is_typed_as_object_it_should_respect_the_runtime_typed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object object1 = new Dictionary<string, string> { ["greeting"] = "hello" };
             object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -501,20 +453,14 @@ namespace FluentAssertions.Specs
         public void
             When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_is_specified_the_runtime_type_should_be_respected()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object object1 = new NonGenericDictionary { ["greeting"] = "hello" };
             object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
         }
 
@@ -522,21 +468,15 @@ namespace FluentAssertions.Specs
         public void
             When_a_non_generic_dictionary_is_decided_to_be_equivalent_to_expected_trace_is_still_written()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object object1 = new NonGenericDictionary { ["greeting"] = "hello" };
             object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
             var traceWriter = new StringBuilderTraceWriter();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes().WithTracing(traceWriter));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             string trace = traceWriter.ToString();
             trace.Should().Contain("Recursing into dictionary item greeting at root");
         }
@@ -544,40 +484,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_non_generic_dictionary_is_typed_as_object_it_should_respect_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object object1 = new NonGenericDictionary();
             object object2 = new NonGenericDictionary();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var object1 = new ClassWithTwoDictionaryImplementations();
             var object2 = new ClassWithTwoDictionaryImplementations();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -585,63 +513,45 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_dictionaries_and_configured_to_respect_runtime_type_it_should_respect_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IDictionary dictionary1 = new NonGenericDictionary { [2001] = new Car() };
             IDictionary dictionary2 = new NonGenericDictionary { [2001] = new Customer() };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
                     dictionary1.Should().BeEquivalentTo(dictionary2,
                         opts => opts.RespectingRuntimeTypes());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>("the types have different properties");
         }
 
         [Fact]
         public void When_asserting_equivalence_of_dictionaries_it_should_respect_the_declared_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
             var expectation = new Dictionary<int, CustomerType> { [0] = new DerivedCustomerType("123") };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("because it should ignore the properties of the derived type");
         }
 
         [Fact]
         public void When_injecting_a_null_config_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, CustomerType>();
             var expectation = new Dictionary<int, CustomerType>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation, config: null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().ThrowExactly<ArgumentNullException>()
                 .Which.ParamName.Should().Be("config");
         }
@@ -650,15 +560,11 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_generic_dictionaries_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
             var expectation = new Dictionary<int, CustomerType> { [0] = new DerivedCustomerType("123") };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
                     actual.Should().BeEquivalentTo(expectation, opts => opts
@@ -666,9 +572,7 @@ namespace FluentAssertions.Specs
                         .ComparingByMembers<CustomerType>()
                     );
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>("the runtime types have different properties");
         }
 
@@ -676,20 +580,14 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_assignable_from_the_subjects_it_should_fail_if_incompatible()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<object, string> { [new object()] = "hello" };
             var expected = new Dictionary<string, string> { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected subject to contain key \"greeting\"*");
@@ -701,40 +599,28 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_subjects_key_type_is_compatible_with_the_expected_key_type_it_should_match()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<object, string> { ["greeting"] = "hello" };
             var dictionary2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the keys are still strings");
         }
 
         [Fact]
         public void When_the_subjects_key_type_is_not_compatible_with_the_expected_key_type_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, string> { [1234] = "hello" };
             var expectation = new Dictionary<string, string> { ["greeting"] = "hello" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => expectation.Should().BeEquivalentTo(actual);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("*subject*keys*Int32*compatible types*IDictionary`2[System.String,System.String]*");
@@ -747,22 +633,16 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_generic_dictionaries_the_type_information_should_be_preserved_for_other_equivalency_steps()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var userId = Guid.NewGuid();
 
             var dictionary1 = new Dictionary<Guid, IEnumerable<string>> { [userId] = new List<string> { "Admin", "Special" } };
             var dictionary2 = new Dictionary<Guid, IEnumerable<string>> { [userId] = new List<string> { "Admin", "Other" } };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
@@ -770,22 +650,16 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_non_generic_dictionaries_the_lack_of_type_information_should_be_preserved_for_other_equivalency_steps()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var userId = Guid.NewGuid();
 
             var dictionary1 = new NonGenericDictionary { [userId] = new List<string> { "Admin", "Special" } };
             var dictionary2 = new NonGenericDictionary { [userId] = new List<string> { "Admin", "Other" } };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*Other*Special*");
         }
@@ -793,9 +667,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_the_equivalence_of_generic_dictionaries_it_should_respect_the_declared_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<int, CustomerType>
             {
                 [0] = new DerivedCustomerType("123")
@@ -803,23 +675,17 @@ namespace FluentAssertions.Specs
 
             var expectation = new Dictionary<int, CustomerType> { [0] = new CustomerType("123") };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the objects are equivalent according to the members on the declared type");
         }
 
         [Fact]
         public void When_the_both_properties_are_null_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var expected = new ClassWithMemberDictionary
             {
                 Dictionary = null
@@ -830,14 +696,10 @@ namespace FluentAssertions.Specs
                 Dictionary = null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow<XunitException>();
         }
 
@@ -845,9 +707,7 @@ namespace FluentAssertions.Specs
         public void
             When_the_dictionary_values_are_handled_by_the_enumerable_equivalency_step_the_type_information_should_be_preserved()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var userId = Guid.NewGuid();
 
             var actual = new UserRolesLookupElement();
@@ -856,14 +716,10 @@ namespace FluentAssertions.Specs
             var expected = new UserRolesLookupElement();
             expected.Add(userId, "Admin", "Other");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*Roles[*][1]*Other*Special*");
         }
@@ -872,9 +728,7 @@ namespace FluentAssertions.Specs
         public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var expected = new
             {
                 Customers = new Dictionary<string, string>
@@ -892,14 +746,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*Customers*dictionary*2 item(s)*but*misses*");
         }
@@ -907,9 +757,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_other_property_is_not_a_dictionary_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Customers = "I am a string"
@@ -924,14 +772,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*Customers*Dictionary`2[System.String,System.String], but found*String*");
         }
@@ -939,9 +783,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_other_property_is_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithMemberDictionary
             {
                 Dictionary = new Dictionary<string, string>
@@ -956,14 +798,10 @@ namespace FluentAssertions.Specs
                 Dictionary = null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*member*Dictionary to be <null>, but found *{*}*");
         }
@@ -971,9 +809,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_fails_describing_missing_keys()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<string, string>
             {
                 ["greeting"] = "hello"
@@ -984,14 +820,10 @@ namespace FluentAssertions.Specs
                 ["farewell"] = "goodbye"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected subject to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
@@ -1003,9 +835,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_have_less_elements_other_dictionary_derived_class_keys_fails_describing_missing_keys()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
             {
                 [new SomeDerivedKeyClass(1)] = "hello"
@@ -1017,14 +847,10 @@ namespace FluentAssertions.Specs
                 [new SomeDerivedKeyClass(2)] = "hello"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be a dictionary with 2 item(s), but*misses key(s) {BaseKey 2}*");
         }
@@ -1032,9 +858,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_fails_describing_additional_keys()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<string, string>
             {
                 ["greeting"] = "hello"
@@ -1045,14 +869,10 @@ namespace FluentAssertions.Specs
                 ["farewell"] = "goodbye"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
 #if NETCOREAPP1_1
                 .WithMessage("Expected subject to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
@@ -1064,9 +884,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_with_class_keys_asserted_to_be_equivalent_and_other_dictionary_derived_class_keys_fails_because_of_types_incompatibility()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<SomeBaseKeyClass, string>
             {
                 [new SomeDerivedKeyClass(1)] = "hello"
@@ -1078,14 +896,10 @@ namespace FluentAssertions.Specs
                 [new SomeDerivedKeyClass(2)] = "hello"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("*the expectation is not keyed with any compatible types*");
         }
@@ -1093,9 +907,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_asserted_to_be_equivalent_have_less_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<string, string>
             {
                 ["GREETING"] = "hello"
@@ -1106,14 +918,10 @@ namespace FluentAssertions.Specs
                 ["farewell"] = "goodbye"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary1.Should().BeEquivalentTo(dictionary2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be a dictionary with 2 item(s), but*misses key(s)*{\"greeting\", \"farewell\"}*additional key(s) {\"GREETING\"}*");
         }
@@ -1121,9 +929,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_but_some_missing_and_some_additional_elements_fails_describing_missing_and_additional_keys()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<string, string>
             {
                 ["GREETING"] = "hello"
@@ -1134,14 +940,10 @@ namespace FluentAssertions.Specs
                 ["farewell"] = "goodbye"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be a dictionary with 1 item(s), but*misses key(s) {\"GREETING\"}*additional key(s) {\"greeting\", \"farewell\"}*");
         }
@@ -1149,9 +951,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int?>
             {
                 ["C"] = null,
@@ -1159,9 +959,7 @@ namespace FluentAssertions.Specs
                 ["A"] = 0
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
                 ["A"] = 0,
@@ -1169,18 +967,14 @@ namespace FluentAssertions.Specs
                 ["C"] = null
             });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var result = new Dictionary<string, int>
             {
                 ["C"] = 0,
@@ -1188,9 +982,7 @@ namespace FluentAssertions.Specs
                 ["A"] = 0
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int>
             {
                 ["A"] = 0,
@@ -1198,18 +990,14 @@ namespace FluentAssertions.Specs
                 ["C"] = 0
             });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var projection = new
             {
                 ReferencedEquipment = new Dictionary<int, string>
@@ -1226,23 +1014,17 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_nested_dictionaries_do_not_match_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var projection = new
             {
                 ReferencedEquipment = new Dictionary<int, string>
@@ -1259,14 +1041,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
         }
@@ -1274,9 +1052,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_nested_dictionary_value_doesnt_match_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string json = @"{
                 ""NestedDictionary"": {
                     ""StringProperty"": ""string"",
@@ -1293,15 +1069,11 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
             Action act = () => result.Should().BeEquivalentTo(expectedResult);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*String*JValue*");
         }
@@ -1309,9 +1081,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_custom_rule_is_applied_on_a_dictionary_it_should_apply_it_on_the_values()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dictOne = new Dictionary<string, double>
             {
                 { "a", 1.2345 },
@@ -1328,9 +1098,7 @@ namespace FluentAssertions.Specs
                 { "s", 3.333 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             dictOne.Should().BeEquivalentTo(dictTwo, options => options
                 .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.1))
                 .WhenTypeIs<double>()
