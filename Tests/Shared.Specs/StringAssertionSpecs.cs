@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 

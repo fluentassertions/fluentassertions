@@ -2,7 +2,7 @@
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
-namespace FluentAssertions.Primitives
+namespace FluentAssertions
 {
     public abstract class OccurrenceConstraint
     {
