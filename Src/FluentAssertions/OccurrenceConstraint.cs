@@ -38,8 +38,6 @@ namespace FluentAssertions
 
         private StringComparison StringComparison { get; set; }
 
-        private static string Times(int count) => count == 1 ? "1 time" : $"{count} times";
-
         internal void AssertContain(string subject, string expected, string because, params object[] becauseArgs)
         {
             Subject = subject;
@@ -67,6 +65,8 @@ namespace FluentAssertions
                     $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {Mode} {Times(expectedCount)}{{reason}}, but found {Times(ActualCount)}.",
                     Subject, expected);
         }
+
+        private static string Times(int count) => count == 1 ? "1 time" : $"{count} times";
     }
 
     internal sealed class AtLeastTimesConstraint : OccurrenceConstraint
