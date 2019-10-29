@@ -1395,7 +1395,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string \"ABCDEF\" to contain \"XYZ\" because that is required, but not found.");
+                .WithMessage("Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
 
         [Fact]
@@ -1433,7 +1433,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\" because that is required, but not found.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" because that is required.");
         }
 
         #endregion
@@ -3190,7 +3190,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string \"a\" to contain equivalent of \"aa\", but not found.");
+                .WithMessage("Expected string \"a\" to contain equivalent of \"aa\".");
         }
 
         [Fact]

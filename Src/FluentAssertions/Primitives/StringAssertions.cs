@@ -631,7 +631,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain {1}{reason}, but not found.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -693,7 +693,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}, but not found.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
