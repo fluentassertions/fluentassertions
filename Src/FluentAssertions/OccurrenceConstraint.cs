@@ -10,7 +10,7 @@ namespace FluentAssertions
 
         protected readonly int expectedCount;
 
-        public OccurrenceConstraint(int expectedCount)
+        protected OccurrenceConstraint(int expectedCount)
         {
             this.expectedCount = expectedCount;
         }
