@@ -4,8 +4,6 @@ namespace FluentAssertions
 {
     public abstract class OccurrenceConstraint
     {
-        internal int ExpectedCount { get; private set; }
-
         protected OccurrenceConstraint(int expectedCount)
         {
             if (expectedCount < 0)
@@ -15,6 +13,8 @@ namespace FluentAssertions
 
             ExpectedCount = expectedCount;
         }
+
+        internal int ExpectedCount { get; private set; }
 
         internal abstract string Mode { get; }
 
