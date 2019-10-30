@@ -1536,6 +1536,21 @@ namespace FluentAssertions.Specs
         #region Exactly
 
         [Fact]
+        public void When_string_containment_exactly_is_asserted_and_expected_value_is_negative_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(-1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("Expected count cannot be negative.*");
+        }
+
+        [Fact]
         public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
         {
             // Arrange

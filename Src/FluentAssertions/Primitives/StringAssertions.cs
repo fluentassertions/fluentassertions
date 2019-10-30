@@ -733,7 +733,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            var actual = Subject.CountSubstring(expected, StringComparison.CurrentCultureIgnoreCase);
+            int actual = Subject.CountSubstring(expected, StringComparison.CurrentCultureIgnoreCase);
 
             Execute.Assertion
                 .ForCondition(occurrenceConstraint.Assert(actual))
