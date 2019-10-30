@@ -12,9 +12,9 @@
         {
             internal LessThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            protected override string Mode => "less than";
+            internal override string Mode => "less than";
 
-            protected override bool IsMatch => ActualCount < expectedCount;
+            internal override bool IsMatch(int actual) => actual < ExpectedCount;
         }
     }
 }

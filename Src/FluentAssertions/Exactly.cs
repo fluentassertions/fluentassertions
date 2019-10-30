@@ -14,9 +14,9 @@
         {
             internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            protected override string Mode => "exactly";
+            internal override string Mode => "exactly";
 
-            protected override bool IsMatch => ActualCount == expectedCount;
+            internal override bool IsMatch(int actual) => actual == ExpectedCount;
         }
     }
 }

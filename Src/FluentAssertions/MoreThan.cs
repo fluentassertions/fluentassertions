@@ -14,9 +14,9 @@
         {
             internal MoreThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            protected override string Mode => "more than";
+            internal override string Mode => "more than";
 
-            protected override bool IsMatch => ActualCount > expectedCount;
+            internal override bool IsMatch(int actual) => actual > ExpectedCount;
         }
     }
 }

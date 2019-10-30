@@ -14,9 +14,9 @@
         {
             internal AtMostTimesConstraint(int expectedCount) : base(expectedCount) { }
 
-            protected override string Mode => "at most";
+            internal override string Mode => "at most";
 
-            protected override bool IsMatch => ActualCount <= expectedCount;
+            internal override bool IsMatch(int actual) => actual <= ExpectedCount;
         }
     }
 }

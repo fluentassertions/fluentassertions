@@ -642,7 +642,7 @@ namespace FluentAssertions.Primitives
         /// <param name="expected">
         /// The (fragment of a) string that the current string should contain.
         /// </param>
-        /// <param name="timesConstraint">
+        /// <param name="occurrenceConstraint">
         /// A constraint specifying the amount of times a substring should be present within the test subject.
         /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
         /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
@@ -655,7 +655,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint timesConstraint, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -664,7 +664,14 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            timesConstraint.AssertContain(Subject, expected, because, becauseArgs);
+            int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
+
+            Execute.Assertion
+                .ForCondition(occurrenceConstraint.IsMatch(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found {actual.Times()}.",
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -726,7 +733,14 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
             }
 
-            timesConstraint.AssertContainEquivalentOf(Subject, expected, because, becauseArgs);
+            var actual = Subject.CountSubstring(expected, StringComparison.CurrentCultureIgnoreCase);
+
+            Execute.Assertion
+                .ForCondition(timesConstraint.IsMatch(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {timesConstraint.Mode} {timesConstraint.ExpectedCount.Times()}{{reason}}, but found {actual.Times()}.",
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
