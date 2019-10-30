@@ -18,6 +18,6 @@ namespace FluentAssertions
 
         internal abstract string Mode { get; }
 
-        internal abstract bool IsMatch(int actual);
+        internal abstract bool Assert(int actual);
     }
 }

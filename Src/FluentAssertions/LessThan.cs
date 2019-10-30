@@ -14,7 +14,7 @@
 
             internal override string Mode => "less than";
 
-            internal override bool IsMatch(int actual) => actual < ExpectedCount;
+            internal override bool Assert(int actual) => actual < ExpectedCount;
         }
     }
 }
