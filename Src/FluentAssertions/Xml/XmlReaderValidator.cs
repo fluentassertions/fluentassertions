@@ -9,8 +9,8 @@ namespace FluentAssertions.Xml
     internal class XmlReaderValidator
     {
         private readonly AssertionScope assertion;
-        private readonly XmlReader subjectReader;
-        private readonly XmlReader otherReader;
+        private readonly XmlReaderWrapper subjectReader;
+        private readonly XmlReaderWrapper otherReader;
 
         private string GetCurrentLocation() => "/" + string.Join("/", locationStack.Reverse());
 
@@ -20,8 +20,8 @@ namespace FluentAssertions.Xml
         {
             assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
 
-            this.subjectReader = subjectReader;
-            this.otherReader = otherReader;
+            this.subjectReader = new XmlReaderWrapper(subjectReader);
+            this.otherReader = new XmlReaderWrapper(otherReader);
         }
 
         private class ValidationResult
@@ -54,8 +54,6 @@ namespace FluentAssertions.Xml
 
         private ValidationResult Validate()
         {
-            subjectReader.MoveToContent();
-            otherReader.MoveToContent();
             while (!subjectReader.EOF && !otherReader.EOF)
             {
                 if (subjectReader.NodeType != otherReader.NodeType)
@@ -82,7 +80,18 @@ namespace FluentAssertions.Xml
 
                         if (subjectReader.IsEmptyElement)
                         {
+                            // TODO Why? Please help to explain
                             locationStack.Pop();
+                        }
+
+                        // check whether empty element and self-closing element needs to be synchronized
+                        if (subjectReader.IsEmptyElement && !otherReader.IsEmptyElement)
+                        {
+                            otherReader.MoveToEndElement();
+                        }
+                        else if (otherReader.IsEmptyElement && !subjectReader.IsEmptyElement)
+                        {
+                            subjectReader.MoveToEndElement();
                         }
 
                         break;
@@ -104,44 +113,8 @@ namespace FluentAssertions.Xml
                     return validationResult;
                 }
 
-                var readOnSubjectReader = true;
-                var readOnOtherReader = true;
-                if (subjectReader.IsEmptyElement && !otherReader.IsEmptyElement && !otherReader.HasValue)
-                {
-                    // advance other reader to EndElement to sync empty element with self-closing element
-                    otherReader.Read();
-                    if (otherReader.NodeType != XmlNodeType.EndElement || otherReader.LocalName != subjectReader.LocalName)
-                    {
-                        // advancing failed
-                        // skip reading other reader below to "simulate" rewind reader
-                        readOnOtherReader = false;
-                    }
-                }
-
-                if (otherReader.IsEmptyElement && !subjectReader.IsEmptyElement && !subjectReader.HasValue)
-                {
-                    // advance subject reader to EndElement to sync empty element with self-closing element
-                    subjectReader.Read();
-                    if (subjectReader.NodeType != XmlNodeType.EndElement || subjectReader.LocalName != otherReader.LocalName)
-                    {
-                        // advancing failed
-                        // skip reading subject reader below to "simulate" rewind reader
-                        readOnSubjectReader = false;
-                    }
-                }
-
-                if (readOnSubjectReader)
-                {
-                    subjectReader.Read();
-                }
-
-                if (readOnOtherReader)
-                {
-                    otherReader.Read();
-                }
-
-                subjectReader.MoveToContent();
-                otherReader.MoveToContent();
+                subjectReader.Read();
+                otherReader.Read();
             }
 
             if (!otherReader.EOF)
@@ -193,8 +166,8 @@ namespace FluentAssertions.Xml
 
         private ValidationResult ValidateAttributes()
         {
-            IList<AttributeData> expectedAttributes = GetAttributes(otherReader);
-            IList<AttributeData> subjectAttributes = GetAttributes(subjectReader);
+            IList<AttributeData> expectedAttributes = otherReader.GetAttributes();
+            IList<AttributeData> subjectAttributes = subjectReader.GetAttributes();
 
             foreach (AttributeData subjectAttribute in subjectAttributes)
             {
@@ -229,27 +202,6 @@ namespace FluentAssertions.Xml
             return null;
         }
 
-        private static IList<AttributeData> GetAttributes(XmlReader reader)
-        {
-            var attributes = new List<AttributeData>();
-
-            if (reader.MoveToFirstAttribute())
-            {
-                do
-                {
-                    if (reader.NamespaceURI != "http://www.w3.org/2000/xmlns/")
-                    {
-                        attributes.Add(new AttributeData(reader.NamespaceURI, reader.LocalName, reader.Value, reader.Prefix));
-                    }
-                }
-                while (reader.MoveToNextAttribute());
-
-                reader.MoveToElement();
-            }
-
-            return attributes;
-        }
-
         private ValidationResult ValidateStartElement()
         {
             if (subjectReader.LocalName != otherReader.LocalName)
@@ -279,6 +231,85 @@ namespace FluentAssertions.Xml
             }
 
             return null;
+        }
+
+        private class XmlReaderWrapper
+        {
+            private readonly XmlReader reader;
+
+            private bool skipOnce;
+
+            public XmlReaderWrapper(XmlReader reader)
+            {
+                this.reader = reader;
+
+                this.reader.MoveToContent();
+            }
+
+            public XmlNodeType NodeType => this.reader.NodeType;
+
+            public string LocalName => this.reader.LocalName;
+
+            public string NamespaceURI => this.reader.NamespaceURI;
+
+            public string Value => this.reader.Value;
+
+            public bool IsEmptyElement => this.reader.IsEmptyElement;
+
+            public bool EOF => this.reader.EOF;
+
+            public bool Read()
+            {
+                if (this.skipOnce)
+                {
+                    this.skipOnce = false;
+                    return true;
+                }
+
+                if (!this.reader.Read())
+                {
+                    return false;
+                }
+
+                this.reader.MoveToContent();
+                return true;
+            }
+
+            public void MoveToEndElement()
+            {
+                var currentName = this.reader.LocalName;
+                this.reader.Read();
+                if (this.reader.NodeType != XmlNodeType.EndElement
+                    || this.reader.LocalName != currentName)
+                {
+                    // advancing failed
+                    // skip reading on next attempt to "simulate" rewind reader
+                    this.skipOnce = true;
+                }
+
+                this.reader.MoveToContent();
+            }
+
+            public IList<AttributeData> GetAttributes()
+            {
+                var attributes = new List<AttributeData>();
+
+                if (this.reader.MoveToFirstAttribute())
+                {
+                    do
+                    {
+                        if (reader.NamespaceURI != "http://www.w3.org/2000/xmlns/")
+                        {
+                            attributes.Add(new AttributeData(this.reader.NamespaceURI, this.reader.LocalName, this.reader.Value, this.reader.Prefix));
+                        }
+                    }
+                    while (this.reader.MoveToNextAttribute());
+
+                    this.reader.MoveToElement();
+                }
+
+                return attributes;
+            }
         }
     }
 }
