@@ -80,7 +80,8 @@ namespace FluentAssertions.Xml
 
                         if (subjectReader.IsEmptyElement)
                         {
-                            // TODO Why? Please help to explain
+                            // The element is already complete. (We will NOT get an EndElement node.)
+                            // Update node information.
                             locationStack.Pop();
                         }
 
