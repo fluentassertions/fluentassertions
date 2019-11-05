@@ -19,24 +19,22 @@ namespace FluentAssertions.Numeric
         {
         }
 
+
         /// <summary>
-        /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
-        /// objects are considered equal when both <c>Equals</c> returns <c>true</c> and <c>CompareTo</c> returns 0. 
+        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
-        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
-        /// </param>
+        /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) == Equal && Subject.IsSameOrEqualTo(expected))
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -127,7 +125,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(unexpected) != Equal || !Subject.IsSameOrEqualTo(unexpected))
+                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
