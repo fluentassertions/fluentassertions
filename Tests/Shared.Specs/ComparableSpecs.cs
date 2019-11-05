@@ -9,14 +9,12 @@ namespace FluentAssertions.Specs
         #region Be / Not Be
 
         [Fact]
-        public void When_two_instances_are_the_same_reference_it_should_not_succeed()
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_not_succeed()
         {
-            // Should be handled by BeSameAs and not by Be
-
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.None);
+            var subject = new SameInstanceIsNotEqualClass();
             var other = subject;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -30,7 +28,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
+                    "Expected*SameInstanceIsNotEqualClass*because they have the same property values, but found*SameInstanceIsNotEqualClass*.");
         }
 
         [Fact]
@@ -39,8 +37,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(1);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -49,59 +47,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_instances_have_the_same_ordering_but_are_not_equal_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().Be(other, "they have the same property values");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
-        }
-
-        [Fact]
-        public void When_two_instances_are_equal_and_have_a_non_zero_comparison_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().Be(other, "they have the same property values");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected*CompareAndEqual*because they have the same property values, but found*CompareAndEqual*.");
-        }
-
-        [Fact]
         public void When_two_instances_are_not_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hi");
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -114,7 +66,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected*Hi*because they have the same property values, but found*Hello*.");
+                    "Expected*2*because they have the same property values, but found*1*.");
         }
 
         [Fact]
@@ -123,7 +75,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.None);
+            var subject = new SameInstanceIsNotEqualClass();
             var other = subject;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -143,8 +95,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.EqualityAndComparison);
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(1);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -158,50 +110,10 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
 #if NETCOREAPP1_1
-                    "*Did not expect object to be equal to*CompareAndEqual*because they represent different things.*");
+                    "*Did not expect object to be equal to*1*because they represent different things.*");
 #else
-                    "*Did not expect subject to be equal to*CompareAndEqual*because they represent different things.*");
+                    "*Did not expect subject to be equal to*1*because they represent different things.*");
 #endif
-        }
-
-        [Fact]
-        public void When_two_unequal_objects_based_on_equality_should_not_be_equal_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyComparison);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBe(other);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_two_unequal_objects_based_on_comparison_should_not_be_equal_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
-            var other = new CompareAndEqual(CompareAndEqual.TrueFor.OnlyEquality);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBe(other);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().NotThrow();
         }
 
         #endregion
@@ -803,37 +715,40 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    /// <summary>
-    /// Based on the given 
-    /// </summary>
-    public class CompareAndEqual : IComparable<CompareAndEqual>
+    public class SameInstanceIsNotEqualClass 
     {
-        public TrueFor Option;
-        public CompareAndEqual(TrueFor option)
+        public SameInstanceIsNotEqualClass ()
         {
-            Option = option;
-        }
-
-        public int CompareTo(CompareAndEqual other)
-        {
-            return Option.HasFlag(TrueFor.OnlyComparison) ? 0 : 1;
         }
         public override bool Equals(object obj)
         {
-            return Option.HasFlag(TrueFor.OnlyEquality);
+            return false;
         }
         public override int GetHashCode()
         {
             return 1;
         }
+    }
 
-        [Flags]
-        public enum TrueFor
+    public class EquatableOfInt
+    {
+        public int Value { get; set; }
+        public EquatableOfInt(int value)
         {
-            None = 0,
-            OnlyEquality = 1,
-            OnlyComparison = 2,
-            EqualityAndComparison = 3
+            Value = value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Value == ((EquatableOfInt)obj).Value;
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 
