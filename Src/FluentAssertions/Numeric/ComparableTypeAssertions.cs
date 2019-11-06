@@ -19,12 +19,11 @@ namespace FluentAssertions.Numeric
         {
         }
 
+
         /// <summary>
-        /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
+        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
-        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
-        /// </param>
+        /// <param name="expected">The expected value</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -35,7 +34,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -110,22 +109,20 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
-        /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// Asserts that an object does not equal another object using its <see cref="object.Equals(object)" /> method.
         /// </summary>
-        /// <param name="unexpected">
-        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
-        /// </param>
+        /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(unexpected) != Equal)
+                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
