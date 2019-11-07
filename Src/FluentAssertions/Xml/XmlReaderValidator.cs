@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using FluentAssertions.Execution;
 
@@ -12,9 +13,32 @@ namespace FluentAssertions.Xml
         private readonly XmlReader subjectReader;
         private readonly XmlReader otherReader;
 
-        private string GetCurrentLocation() => "/" + string.Join("/", locationStack.Reverse());
+        private string GetCurrentLocation()
+        {
+            var keyBuilder = new StringBuilder();
+            var resultBuilder = new StringBuilder();
+            foreach (var location in locationStack.Reverse())
+            {
+                keyBuilder.Append($"/{location}");
+                resultBuilder.Append($"/{location}");
+                var locationCount = locationCounts[keyBuilder.ToString()];
+                if (locationCount > 1)
+                {
+                    resultBuilder.Append($"[{locationCount}]");
+                }
+            }
+
+            string result = resultBuilder.ToString();
+            if (string.IsNullOrEmpty(result))
+            {
+                return "/";
+            }
+
+            return result;
+        }
 
         private readonly Stack<string> locationStack = new Stack<string>();
+        private readonly Dictionary<string, int> locationCounts = new Dictionary<string, int>();
 
         public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
         {
@@ -77,7 +101,15 @@ namespace FluentAssertions.Xml
                             return validationResult;
                         }
 
+                        // starting new element, add local name to location stack
+                        // to build XPath info
                         locationStack.Push(subjectReader.LocalName);
+
+                        // building key according XPath to count repeating element names
+                        var locationKey = "/" + string.Join("/", locationStack.Reverse());
+                        locationCounts.TryGetValue(locationKey, out var locationCount);
+                        locationCounts[locationKey] = ++locationCount;
+
                         validationResult = ValidateAttributes();
                         if (subjectReader.IsEmptyElement)
                         {
