@@ -292,6 +292,24 @@ namespace FluentAssertions.Types
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
 
+        public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "", params object[] becauseArgs)
+        {
+            Type[] typesNotInNamespace = Subject
+                .Where(t => t.Namespace != @namespace)
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(!typesNotInNamespace.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all types to be in namespace {0}{reason}," +
+                          " but the following types are in a different namespace:{1}{2}.",
+                    @namespace,
+                    Environment.NewLine,
+                    GetDescriptionsFor(typesNotInNamespace));
+
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
             string[] descriptions = types.Select(GetDescriptionFor).ToArray();

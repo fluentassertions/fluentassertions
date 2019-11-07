@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using DummyNamespace;
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
@@ -1441,6 +1442,50 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+        }
+
+        #endregion
+
+        #region BeInNamespace
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_in_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(nameof(DummyNamespace));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_in_another_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(nameof(DummyNamespace), "because reasons");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be in namespace \"DummyNamespace\"" +
+                             " because reasons, but the following types are in a different namespace:*" +
+                             "*ClassNotInDummyNamespace*" +
+                             "*OtherClassNotInDummyNamespace*.");
         }
 
         #endregion
@@ -3796,6 +3841,10 @@ namespace FluentAssertions.Specs
 
     public delegate void ExampleDelegate();
 
+    class ClassNotInDummyNamespace { }
+
+    class OtherClassNotInDummyNamespace { }
+
     #endregion
 }
 
@@ -3813,3 +3862,10 @@ namespace FluentAssertions.Primitives
 
 #pragma warning restore 436
 }
+
+#region Internal classes used in unit tests
+namespace DummyNamespace
+{
+    class ClassInDummyNamespace { }
+}
+#endregion
