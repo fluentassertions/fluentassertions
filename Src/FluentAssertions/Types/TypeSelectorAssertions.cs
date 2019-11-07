@@ -334,6 +334,131 @@ namespace FluentAssertions.Types
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the current <see cref="Type"/> is in the specified <paramref name="namespace"/>.
+        /// </summary>
+        /// <param name="namespace">
+        /// The namespace that the type must be in.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "", params object[] becauseArgs)
+        {
+            Type[] typesNotInNamespace = Subject
+                .Where(t => t.Namespace != @namespace)
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(!typesNotInNamespace.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all types to be in namespace {0}{reason}," +
+                          " but the following types are in a different namespace:{1}{2}.",
+                    @namespace,
+                    Environment.NewLine,
+                    GetDescriptionsFor(typesNotInNamespace));
+
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Type"/> is not in the specified <paramref name="namespace"/>.
+        /// </summary>
+        /// <param name="namespace">
+        /// The namespace that the type must not be in.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TypeSelectorAssertions> NotBeInNamespace(string @namespace, string because = "", params object[] becauseArgs)
+        {
+            Type[] typesInNamespace = Subject
+                .Where(t => t.Namespace == @namespace)
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(!typesInNamespace.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected no types to be in namespace {0}{reason}," +
+                          " but the following types are in the namespace:{1}{2}.",
+                    @namespace,
+                    Environment.NewLine,
+                    GetDescriptionsFor(typesInNamespace));
+
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the namespace of the current <see cref="Type"/> starts with the specified <paramref name="namespace"/>.
+        /// </summary>
+        /// <param name="namespace">
+        /// The namespace that the namespace of the type must start with.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
+        {
+            Type[] typesNotUnderNamespace = Subject
+                .Where(t => !t.IsUnderNamespace(@namespace))
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(!typesNotUnderNamespace.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the namespaces of all types to start with {0}{reason}," +
+                          " but the namespaces of the following types do not start with it:{1}{2}.",
+                    @namespace,
+                    Environment.NewLine,
+                    GetDescriptionsFor(typesNotUnderNamespace));
+
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the namespace of the current <see cref="Type"/>
+        /// does not starts with the specified <paramref name="namespace"/>.
+        /// </summary>
+        /// <param name="namespace">
+        /// The namespace that the namespace of the type must not start with.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
+        {
+            Type[] typesUnderNamespace = Subject
+                .Where(t => t.IsUnderNamespace(@namespace))
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(!typesUnderNamespace.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the namespaces of all types to not start with {0}{reason}," +
+                          " but the namespaces of the following types start with it:{1}{2}.",
+                    @namespace,
+                    Environment.NewLine,
+                    GetDescriptionsFor(typesUnderNamespace));
+
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
             string[] descriptions = types.Select(GetDescriptionFor).ToArray();
