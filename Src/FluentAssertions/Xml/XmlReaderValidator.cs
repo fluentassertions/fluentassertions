@@ -278,10 +278,8 @@ namespace FluentAssertions.Xml
 
             public void MoveToEndElement()
             {
-                var currentName = this.reader.LocalName;
                 this.reader.Read();
-                if (this.reader.NodeType != XmlNodeType.EndElement
-                    || this.reader.LocalName != currentName)
+                if (this.reader.NodeType != XmlNodeType.EndElement)
                 {
                     // advancing failed
                     // skip reading on next attempt to "simulate" rewind reader
