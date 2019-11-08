@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using DummyNamespace;
+using DummyNamespace.InnerDummyNamespace;
+using DummyNamespaceTwo;
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
@@ -1488,6 +1490,405 @@ namespace FluentAssertions.Specs
                              " but the following types are in a different namespace:*" +
                              "*ClassNotInDummyNamespace*" +
                              "*OtherClassNotInDummyNamespace*.");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_the_global_namespace_is_in_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInGlobalNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_the_global_namespace_is_in_another_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInGlobalNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be in namespace \"DummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the following types are in a different namespace:*" +
+                             "*ClassInGlobalNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_in_the_global_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(null,
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be in namespace <null>" +
+                             " because we want to test the error message," +
+                             " but the following types are in a different namespace:*" +
+                             "*ClassInDummyNamespace*" +
+                             "*ClassNotInDummyNamespace*" +
+                             "*OtherClassNotInDummyNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_not_in_a_nested_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeInNamespace($"{nameof(DummyNamespace)}.{nameof(DummyNamespace.InnerDummyNamespace)}");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_nested_namespace_is_not_in_an_outer_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeInNamespace(nameof(DummyNamespace));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_not_in_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeInNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be in namespace \"DummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the following types are in a different namespace:*" +
+                             "*ClassNotInDummyNamespace*" +
+                             "*OtherClassNotInDummyNamespace*.");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_under_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace(nameof(DummyNamespace));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_nested_namespace_is_under_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace($"{nameof(DummyNamespace)}.{nameof(DummyNamespace.InnerDummyNamespace)}");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_under_a_namespace_is_under_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace(nameof(DummyNamespace));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_the_global_namespace_is_under_the_global_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInGlobalNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace(null,
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to start with <null>" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types do not start with it*" +
+                             "*ClassInGlobalNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_is_under_the_global_namespace_it_throws_argumentnullexception()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_with_same_prefix_as_another_namespace_is_under_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespaceTwo)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace(nameof(DummyNamespace));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_not_under_a_namespace_is_under_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().BeUnderNamespace($"{nameof(DummyNamespace)}.{nameof(DummyNamespace.InnerDummyNamespace)}",
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to start with \"DummyNamespace.InnerDummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types do not start with it:*" +
+                             "*ClassInDummyNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_not_under_a_namespace_is_not_under_that_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace($"{nameof(DummyNamespace)}.{nameof(DummyNamespace.InnerDummyNamespace)}");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_is_not_under_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to not start with \"DummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types start with it:*" +
+                             "*ClassInDummyNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_nested_namespace_is_not_under_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace($"{nameof(DummyNamespace)}.{nameof(DummyNamespace.InnerDummyNamespace)}",
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to not start with \"DummyNamespace.InnerDummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types start with it:*" +
+                             "*ClassInInnerDummyNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_under_a_namespace_is_not_under_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInInnerDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to not start with \"DummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types start with it:*" +
+                             "*ClassInInnerDummyNamespace*");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_the_global_namespace_is_not_under_the_global_namespace_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInGlobalNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_is_not_under_the_global_namespace_it_throws_argumentnullexception()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespace),
+                typeof(ClassNotInDummyNamespace),
+                typeof(OtherClassNotInDummyNamespace)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_in_a_namespace_with_same_prefix_as_another_namespace_is_not_under_that_namespace_it_fails()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassInDummyNamespaceTwo)
+            });
+
+            // Act
+            Action act = () =>
+                types.Should().NotBeUnderNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the namespaces of all types to not start with \"DummyNamespace\"" +
+                             " because we want to test the error message," +
+                             " but the namespaces of the following types start with it:*" +
+                             "*ClassInDummyNamespaceTwo*");
         }
 
         #endregion
@@ -3866,8 +4267,22 @@ namespace FluentAssertions.Primitives
 }
 
 #region Internal classes used in unit tests
+
 namespace DummyNamespace
 {
     class ClassInDummyNamespace { }
+
+    namespace InnerDummyNamespace
+    {
+        class ClassInInnerDummyNamespace { }
+    }
 }
+
+namespace DummyNamespaceTwo
+{
+    class ClassInDummyNamespaceTwo { }
+}
+
+class ClassInGlobalNamespace { }
+
 #endregion
