@@ -35,7 +35,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
-            var stringEqualityValidator = new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            var stringEqualityValidator = new StringEqualityValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
             stringEqualityValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
@@ -93,7 +93,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             var expectation = new StringEqualityValidator(
-                Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+                Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
 
             expectation.Validate();
 
@@ -360,7 +360,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
             }
 
-            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
             stringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
@@ -387,7 +387,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
-            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs);
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.Ordinal, because, becauseArgs);
             negatedStringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
@@ -415,7 +415,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
             }
 
-            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             stringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
@@ -442,7 +442,7 @@ namespace FluentAssertions.Primitives
                 throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
             }
 
-            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             negatedStringStartValidator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
@@ -563,7 +563,7 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
 
@@ -599,7 +599,7 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
@@ -658,7 +658,7 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(Contains(Subject, expected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to contain equivalent of {0}{reason} but found {1}.", expected, Subject);
 
@@ -865,7 +865,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(!Contains(Subject, unexpected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
 
