@@ -1478,12 +1478,14 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () =>
-                types.Should().BeInNamespace(nameof(DummyNamespace), "because reasons");
+                types.Should().BeInNamespace(nameof(DummyNamespace),
+                    "because we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all types to be in namespace \"DummyNamespace\"" +
-                             " because reasons, but the following types are in a different namespace:*" +
+                             " because we want to test the error message," +
+                             " but the following types are in a different namespace:*" +
                              "*ClassNotInDummyNamespace*" +
                              "*OtherClassNotInDummyNamespace*.");
         }
