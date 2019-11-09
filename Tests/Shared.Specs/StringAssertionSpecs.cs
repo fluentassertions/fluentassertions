@@ -1556,11 +1556,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "BCD";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(3), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(3));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times, but found 2 times.");
         }
 
         [Fact]
@@ -1571,11 +1571,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XYS";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time, but found 0 times.");
         }
 
         [Fact]
@@ -1586,11 +1586,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XYZ";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time, but found 0 times.");
         }
 
         #endregion
@@ -1619,11 +1619,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "BCD";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(2), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(2));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times, but found 2 times.");
         }
 
         [Fact]
@@ -1634,11 +1634,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XYS";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time, but found 0 times.");
         }
 
         [Fact]
@@ -1649,11 +1649,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XYZ";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time, but found 0 times.");
         }
 
         #endregion
@@ -1682,11 +1682,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "BCD";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(1), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(1));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time, but found 2 times.");
         }
 
         [Fact]
@@ -1743,11 +1743,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "BCD";
 
             // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(2), "that is {0}", "required");
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(2));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times, but found 2 times.");
         }
 
         [Fact]
@@ -2731,11 +2731,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "Bcd";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(3), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(3));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times, but found 2 times.");
         }
 
         [Fact]
@@ -2746,11 +2746,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "xyS";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" at least 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" at least 1 time, but found 0 times.");
         }
 
         [Fact]
@@ -2761,11 +2761,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XyZ";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time, but found 0 times.");
         }
 
         #endregion
@@ -2794,11 +2794,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "Bcd";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(2), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(2));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times, but found 2 times.");
         }
 
         [Fact]
@@ -2809,11 +2809,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "xyS";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time, but found 0 times.");
         }
 
         [Fact]
@@ -2824,11 +2824,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "XyZ";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once(), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time because that is required, but found 0 times.");
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time, but found 0 times.");
         }
 
         #endregion
@@ -2857,11 +2857,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "Bcd";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(1), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(1));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time, but found 2 times.");
         }
 
         [Fact]
@@ -2918,11 +2918,11 @@ namespace FluentAssertions.Specs
             string expectedSubstring = "Bcd";
 
             // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(2), "that is {0}", "required");
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(2));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times because that is required, but found 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times, but found 2 times.");
         }
 
         [Fact]
