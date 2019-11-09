@@ -1372,8 +1372,6 @@ namespace FluentAssertions.Specs
 
         #region Contain
 
-        #region Default
-
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_the_expected_string_it_should_not_throw()
@@ -1434,15 +1432,13 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                "Expected string <null> to contain \"XYZ\" because that is required.");
+                 "Expected string <null> to contain \"XYZ\" because that is required.");
 #else
                 "Expected someString <null> to contain \"XYZ\" because that is required.");
 #endif
         }
 
-        #endregion
-
-        #region Default with times
+        #region Exactly
 
         [Fact]
         public void When_string_containment_is_asserted_and_actual_value_contains_the_expected_string_expected_times_it_should_not_throw()
@@ -1519,10 +1515,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
-        #endregion
-
-        #region Exactly
-
         [Fact]
         public void When_string_containment_exactly_is_asserted_and_expected_value_is_negative_it_should_throw()
         {
@@ -1565,152 +1557,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times because that is required, but found 2 times.");
-        }
-
-        #endregion
-
-        #region Not Be Equivalent To
-
-        [Fact]
-        public void When_strings_are_the_same_while_ignoring_case_it_should_throw()
-        {
-            // Arrange
-            string actual = "ABC";
-            string unexpected = "abc";
-
-            // Act
-            Action action = () => actual.Should().NotBeEquivalentTo(unexpected, "because I say {0}", "so");
-
-            // Assert
-            action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string not to be equivalent to \"abc\" because I say so, but they are.");
-#else
-                .WithMessage("Expected actual not to be equivalent to \"abc\" because I say so, but they are.");
-#endif
-        }
-
-        [Fact]
-        public void When_strings_differ_other_than_by_case_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "ADC".Should().NotBeEquivalentTo("abc");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "ABCDEF".Should().NotBeEquivalentTo(null);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "ABC".Should().NotBeEquivalentTo("");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_string_is_equivalent_but_too_short_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "AB".Should().NotBeEquivalentTo("ABCD");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
-        {
-            // Arrange
-            string someString = null;
-
-            // Act
-            Action act = () => someString.Should().NotBeEquivalentTo("abc");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "ABC".Should().NotBeEquivalentTo("abc ");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_not_throw()
-        {
-            // Act
-            Action act = () => "ABC ".Should().NotBeEquivalentTo("abc");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        #endregion
-
-        #region ContainAll
-
-        [Fact]
-        public void When_string_containment_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
-        {
-            // Arrange
-            string actual = "ABCDEF";
-            string expectedSubstring = "XYS";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found 0 times.");
-        }
-
-        [Fact]
-        public void When_containment_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
-        public void When_string_containment_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
-        {
-            // Arrange
-            string actual = null;
-            string expectedSubstring = "XYZ";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time because that is required, but found 0 times.");
         }
 
         #endregion
@@ -1990,6 +1836,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
             // Act
@@ -2012,6 +1859,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_is_equivalent_but_too_short_it_should_throw()
         {
             // Act
@@ -2058,6 +1906,102 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
+        }
+
+        #endregion
+
+        #region Not Be Equivalent To
+
+        [Fact]
+        public void When_strings_are_the_same_while_ignoring_case_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABC";
+            string unexpected = "abc";
+
+            // Act
+            Action action = () => actual.Should().NotBeEquivalentTo(unexpected, "because I say {0}", "so");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected string not to be equivalent to \"abc\" because I say so, but they are.");
+#else
+                .WithMessage("Expected actual not to be equivalent to \"abc\" because I say so, but they are.");
+#endif
+        }
+
+        [Fact]
+        public void When_strings_differ_other_than_by_case_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "ADC".Should().NotBeEquivalentTo("abc");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "ABCDEF".Should().NotBeEquivalentTo(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "ABC".Should().NotBeEquivalentTo("");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_is_equivalent_but_too_short_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "AB".Should().NotBeEquivalentTo("ABCD");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        {
+            // Arrange
+            string someString = null;
+
+            // Act
+            Action act = () => someString.Should().NotBeEquivalentTo("abc");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "ABC".Should().NotBeEquivalentTo("abc ");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_not_throw()
+        {
+            // Act
+            Action act = () => "ABC ".Should().NotBeEquivalentTo("abc");
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         #endregion
@@ -2143,7 +2087,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_failes_then_failure_message_should_contain_reason()
+        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_should_contain_reason()
         {
             // Arrange
             const string red = "red";
@@ -2264,7 +2208,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exatch_matches_it_should_throw()
+        public void When_containment_of_any_string_in_a_collection_is_asserted_and_there_are_equivalent_but_not_exact_matches_it_should_throw()
         {
             // Arrange
             const string redLowerCase = "red";
@@ -2320,6 +2264,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_string_contains_unexpected_fragment_it_should_throw()
         {
             // Act
@@ -2337,9 +2282,9 @@ namespace FluentAssertions.Specs
             Action act = () => "a".Should().NotContain(null);
 
             // Assert
-            act
-                .Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         [Fact]
@@ -2349,9 +2294,9 @@ namespace FluentAssertions.Specs
             Action act = () => "a".Should().NotContain("");
 
             // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("unexpected");
         }
 
         #endregion
@@ -2648,9 +2593,8 @@ namespace FluentAssertions.Specs
 
         #region Contain Equivalent Of
 
-        #region Default
-
         [InlineData("aa", "A")]
+        // ReSharper disable once StringLiteralTypo
         [InlineData("aCCa", "acca")]
         [Theory]
         public void Should_pass_when_contains_equivalent_of(string actual, string equivalentSubstring)
@@ -2668,7 +2612,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string \"a\" to contain equivalent of \"aa\".");
+                .WithMessage("Expected string \"a\" to contain the equivalent of \"aa\".");
         }
 
         [Fact]
@@ -2680,7 +2624,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot assert string containment against <null>.*");
+                .WithMessage("Cannot assert string containment against <null>.*")
+                .And.ParamName.Should().Be("expected");
         }
 
         [Fact]
@@ -2692,12 +2637,11 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
+                .WithMessage("Cannot assert string containment against an empty string.*")
+                .And.ParamName.Should().Be("expected");
         }
 
-        #endregion
-
-        #region Default with times
+        #region Exactly
 
         [Fact]
         public void When_string_containment_equivalent_of_is_asserted_and_actual_value_contains_the_expected_string_expected_times_it_should_not_throw()
@@ -2773,10 +2717,6 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found 0 times.");
         }
-
-        #endregion
-
-        #region Exactly
 
         [Fact]
         public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
@@ -3255,6 +3195,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
             // Arrange

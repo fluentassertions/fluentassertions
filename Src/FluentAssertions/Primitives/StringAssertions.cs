@@ -700,7 +700,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} to contain equivalent of {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:string} {0} to contain the equivalent of {1}{reason}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
