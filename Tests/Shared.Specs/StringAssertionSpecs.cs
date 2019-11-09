@@ -1394,8 +1394,8 @@ namespace FluentAssertions.Specs
             Action act = () => "ABCDEF".Should().Contain("XYZ", "that is {0}", "required");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
 
         [Fact]
@@ -1432,8 +1432,12 @@ namespace FluentAssertions.Specs
             Action act = () => someString.Should().Contain("XYZ", "that is {0}", "required");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain \"XYZ\" because that is required.");
+            act.Should().Throw<XunitException>().WithMessage(
+#if NETCOREAPP1_1
+                "Expected string <null> to contain \"XYZ\" because that is required.");
+#else
+                "Expected someString <null> to contain \"XYZ\" because that is required.");
+#endif
         }
 
         #endregion
