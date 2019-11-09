@@ -292,6 +292,48 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_an_empty_xml_element_is_equivalent_to_a_different_selfclosing_xml_element_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse("<parent><child></child></parent>");
+            var otherElement = XElement.Parse("<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().BeEquivalentTo(otherElement);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selfclosing_xml_element_is_equivalent_to_a_different_empty_xml_element_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherElement = XElement.Parse("<parent><child></child></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().BeEquivalentTo(otherElement);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_asserting_a_xml_element_is_equivalent_to_a_xml_element_with_elements_missing_it_should_fail()
         {
             // Arrange
@@ -351,6 +393,27 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected node of type Element at \"/parent\" because we want to test the failure message, but found EndElement.");
+        }
+
+        [Fact]
+        public void When_asserting_an_empty_xml_element_is_equivalent_to_a_different_xml_element_with_text_content_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse("<parent><child /></parent>");
+            var otherXElement = XElement.Parse("<parent><child>text</child></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
