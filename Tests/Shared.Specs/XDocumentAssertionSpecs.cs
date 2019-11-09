@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
+        public void When_asserting_a_xml_selfclosing_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
         {
             // Arrange
             var document = XDocument.Parse("<parent><child /></parent>");
@@ -168,6 +168,27 @@ namespace FluentAssertions.Specs
                 document.Should().BeEquivalentTo(otherXDocument);
 
             // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse("<parent><child></child></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child></child></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -199,6 +220,28 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_a_xml_document_with_selfclosing_child_is_equivalent_to_a_different_xml_document_with_subchild_child_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse("<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse("<parent><child><child /></child></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected node of type Element at \"/parent\", but found EndElement.");
         }
 
         [Fact]
