@@ -1501,22 +1501,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
         public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
@@ -1774,22 +1758,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
         public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
@@ -1850,22 +1818,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time because that is required, but found 0 times.");
-        }
-
-        [Fact]
-        public void When_containment_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         [Fact]
@@ -1931,22 +1883,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
-
-            // Assert
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
-        }
-
-        [Fact]
         public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
@@ -2005,22 +1941,6 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_containment_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         [Fact]
@@ -2836,22 +2756,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_equivalent_of_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
         public void When_string_containment_equivalent_of_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
@@ -2994,22 +2898,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_equivalent_of_at_least_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
         public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
             // Arrange
@@ -3070,22 +2958,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time because that is required, but found 0 times.");
-        }
-
-        [Fact]
-        public void When_containment_equivalent_of_more_than_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         [Fact]
@@ -3151,22 +3023,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_containment_equivalent_of_at_most_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
-        }
-
-        [Fact]
         public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
@@ -3225,22 +3081,6 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_containment_equivalent_of_less_than_twice_is_asserted_against_an_empty_string_it_should_throw_earlier()
-        {
-            // Arrange
-            string actual = "a";
-            string expectedSubstring = "";
-
-            // Act
-            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
-
-            // Assert
-            act
-                .Should().Throw<ArgumentException>()
-                .WithMessage("Cannot assert string containment against an empty string.*");
         }
 
         [Fact]
