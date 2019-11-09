@@ -2011,7 +2011,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
             string actual = null;
@@ -2809,7 +2809,7 @@ namespace FluentAssertions.Specs
         [InlineData("aa", "A")]
         [InlineData("aCCa", "acca")]
         [Theory]
-        public void Should_pass_when_contans_equivalent_of(string actual, string equivalentSubstring)
+        public void Should_pass_when_contains_equivalent_of(string actual, string equivalentSubstring)
         {
             // Assert
             actual.Should().ContainEquivalentOf(equivalentSubstring);

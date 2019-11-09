@@ -706,7 +706,8 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string contains another (fragment of a) string a set amount of times.
+        /// Asserts that a string contains the specified <paramref name="expected"/> a set amount of times,
+        /// including any leading or trailing whitespace, with the exception of the casing.
         /// </summary>
         /// <param name="expected">
         /// The (fragment of a) string that the current string should contain.
