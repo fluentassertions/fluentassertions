@@ -259,7 +259,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -295,7 +295,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
