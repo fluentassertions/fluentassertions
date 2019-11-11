@@ -1557,6 +1557,10 @@ namespace FluentAssertions.Specs
                              "*OtherClassNotInDummyNamespace*");
         }
 
+        #endregion
+
+        #region NotBeInNamespace
+
         [Fact]
         public void When_asserting_a_selection_of_types_in_a_namespace_is_not_in_a_nested_namespace_it_succeeds()
         {
@@ -1615,6 +1619,10 @@ namespace FluentAssertions.Specs
                              "*ClassNotInDummyNamespace*" +
                              "*OtherClassNotInDummyNamespace*.");
         }
+
+        #endregion
+
+        #region BeUnderNamespace
 
         [Fact]
         public void When_asserting_a_selection_of_types_in_a_namespace_is_under_that_namespace_it_succeeds()
@@ -1747,6 +1755,10 @@ namespace FluentAssertions.Specs
                              " but the namespaces of the following types do not start with it:*" +
                              "*ClassInDummyNamespace*");
         }
+
+        #endregion
+
+        #region NotBeUnderNamespace
 
         [Fact]
         public void When_asserting_a_selection_of_types_not_under_a_namespace_is_not_under_that_namespace_it_succeeds()
