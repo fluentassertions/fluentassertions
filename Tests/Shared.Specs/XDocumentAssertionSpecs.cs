@@ -529,7 +529,7 @@ namespace FluentAssertions.Specs
             XDocument actual = XDocument.Parse("<xml><a attr=\"x\"/><b id=\"foo\"/></xml>");
             XDocument expected = XDocument.Parse("<xml><a attr=\"x\"/><b id=\"bar\"/></xml>");
 
-            // Arrange
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
@@ -545,7 +545,7 @@ namespace FluentAssertions.Specs
             XDocument expected = XDocument.Parse(
                 "<xml><xml2 /><xml2 /><xml2><a x=\"y\"/><b><sub /></b><a x=\"z\"/></xml2></xml>");
 
-            // Arrange
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
