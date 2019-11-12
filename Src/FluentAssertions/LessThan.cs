@@ -8,7 +8,7 @@
 
         public static OccurrenceConstraint Times(int expected) => new LessThanTimesConstraint(expected);
 
-        internal sealed class LessThanTimesConstraint : OccurrenceConstraint
+        private sealed class LessThanTimesConstraint : OccurrenceConstraint
         {
             internal LessThanTimesConstraint(int expectedCount) : base(expectedCount) { }
 

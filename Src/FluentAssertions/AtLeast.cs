@@ -10,7 +10,7 @@
 
         public static OccurrenceConstraint Times(int expected) => new AtLeastTimesConstraint(expected);
 
-        internal sealed class AtLeastTimesConstraint : OccurrenceConstraint
+        private sealed class AtLeastTimesConstraint : OccurrenceConstraint
         {
             internal AtLeastTimesConstraint(int expectedCount) : base(expectedCount) { }
 

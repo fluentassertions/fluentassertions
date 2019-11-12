@@ -10,7 +10,7 @@
 
         public static OccurrenceConstraint Times(int expected) => new ExactlyTimesConstraint(expected);
 
-        internal sealed class ExactlyTimesConstraint : OccurrenceConstraint
+        private sealed class ExactlyTimesConstraint : OccurrenceConstraint
         {
             internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
 
