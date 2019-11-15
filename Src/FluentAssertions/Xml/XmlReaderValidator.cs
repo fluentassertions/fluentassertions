@@ -13,8 +13,7 @@ namespace FluentAssertions.Xml
         private readonly XmlReaderWrapper subjectReader;
         private readonly XmlReaderWrapper otherReader;
 
-        private readonly Stack<string> locationStack = new Stack<string>();
-        private readonly Dictionary<string, int> countPerElementPath = new Dictionary<string, int>();
+        private Node currentNode = Node.CreateRoot();
 
         public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
         {
@@ -64,10 +63,7 @@ namespace FluentAssertions.Xml
 
                         // starting new element, add local name to location stack
                         // to build XPath info
-                        locationStack.Push(subjectReader.LocalName);
-
-                        // building key according XPath to count repeating element names
-                        UpdateElementPathCount();
+                        currentNode = currentNode.Push(subjectReader.LocalName);
 
                         validationResult = ValidateAttributes();
 
@@ -75,7 +71,7 @@ namespace FluentAssertions.Xml
                         {
                             // The element is already complete. (We will NOT get an EndElement node.)
                             // Update node information.
-                            locationStack.Pop();
+                            currentNode = currentNode.Pop();
                         }
 
                         // check whether empty element and self-closing element needs to be synchronized
@@ -93,7 +89,7 @@ namespace FluentAssertions.Xml
                         // No need to verify end element, if it doesn't match
                         // the start element it isn't valid XML, so the parser
                         // would handle that.
-                        locationStack.Pop();
+                        currentNode = currentNode.Pop();
                         break;
                     case XmlNodeType.Text:
                         validationResult = ValidateText();
@@ -195,25 +191,19 @@ namespace FluentAssertions.Xml
             return null;
         }
 
-        private void UpdateElementPathCount()
-        {
-            var locationKey = "/" + string.Join("/", locationStack.Reverse());
-            countPerElementPath.TryGetValue(locationKey, out var locationCount);
-            countPerElementPath[locationKey] = ++locationCount;
-        }
-
         private string GetCurrentXPath()
         {
-            var keyBuilder = new StringBuilder();
             var resultBuilder = new StringBuilder();
-            foreach (var location in locationStack.Reverse())
+
+            foreach (var location in currentNode.GetPath().Reverse())
             {
-                keyBuilder.Append($"/{location}");
-                resultBuilder.Append($"/{location}");
-                var locationCount = countPerElementPath[keyBuilder.ToString()];
-                if (locationCount > 1)
+                if (location.Count > 1)
                 {
-                    resultBuilder.Append($"[{locationCount}]");
+                    resultBuilder.AppendFormat("/{0}[{1}]", location.Name, location.Count);
+                }
+                else
+                {
+                    resultBuilder.AppendFormat("/{0}", location.Name);
                 }
             }
 
@@ -344,6 +334,52 @@ namespace FluentAssertions.Xml
                 }
 
                 return attributes;
+            }
+        }
+
+        private sealed class Node
+        {
+            private readonly Node parent;
+            private readonly List<Node> children = new List<Node>();
+
+            public string Name { get; }
+            public int Count { get; private set; }
+
+            private Node(Node parent, string name)
+            {
+                this.parent = parent;
+                Name = name;
+            }
+
+            public static Node CreateRoot() => new Node(null, null);
+
+            public IEnumerable<Node> GetPath()
+            {
+                Node current = this;
+                while (current.parent is object)
+                {
+                    yield return current;
+                    current = current.parent;
+                }
+            }
+
+            public Node Pop() => parent;
+
+            public Node Push(string name)
+            {
+                Node node = children.Find(e => e.Name == name)
+                    ?? AddChildNode(name);
+
+                node.Count++;
+
+                return node;
+            }
+
+            private Node AddChildNode(string name)
+            {
+                Node node = new Node(this, name);
+                children.Add(node);
+                return node;
             }
         }
     }
