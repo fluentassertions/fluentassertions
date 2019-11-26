@@ -66,8 +66,11 @@ namespace FluentAssertions
 
         private static bool IsDotNet(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType.Namespace
-                ?.StartsWith("system", StringComparison.InvariantCultureIgnoreCase) == true;
+            var frameNamespace = frame.GetMethod().DeclaringType.Namespace;
+            var comparisonType = StringComparison.InvariantCultureIgnoreCase;
+
+            return frameNamespace?.StartsWith("system.", comparisonType) == true ||
+                frameNamespace?.Equals("system", comparisonType) == true;
         }
 
         private static string ExtractVariableNameFrom(StackFrame frame)
