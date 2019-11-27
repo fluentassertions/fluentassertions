@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicNonEquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CallerIdentifierSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DelegateAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluentActionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FunctionExceptionAssertionSpecs.cs" />
