@@ -552,6 +552,22 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml2[3]/a[2]\"*");
         }
 
+        [Fact]
+        public void When_asserting_equivalence_of_document_with_repeating_element_names_on_different_levels_but_differs_it_should_fail_with_index_xpath_to_difference()
+        {
+            // Arrange
+            XDocument actual = XDocument.Parse(
+                "<xml><xml /><xml /><xml><xml x=\"y\"/><xml2><xml /></xml2><xml x=\"y\"/></xml></xml>");
+            XDocument expected = XDocument.Parse(
+                "<xml><xml /><xml /><xml><xml x=\"y\"/><xml2><xml /></xml2><xml x=\"z\"/></xml></xml>");
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml[3]/xml[2]\"*");
+        }
+
         #endregion
 
         #region BeNull / NotBeNull

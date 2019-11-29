@@ -244,7 +244,7 @@ namespace FluentAssertions.Xml
 
             public string Value { get; }
 
-            public string Prefix { get; }
+            private string Prefix { get; }
 
             public string QualifiedName
             {
@@ -273,64 +273,64 @@ namespace FluentAssertions.Xml
                 this.reader.MoveToContent();
             }
 
-            public XmlNodeType NodeType => this.reader.NodeType;
+            public XmlNodeType NodeType => reader.NodeType;
 
-            public string LocalName => this.reader.LocalName;
+            public string LocalName => reader.LocalName;
 
-            public string NamespaceURI => this.reader.NamespaceURI;
+            public string NamespaceURI => reader.NamespaceURI;
 
-            public string Value => this.reader.Value;
+            public string Value => reader.Value;
 
-            public bool IsEmptyElement => this.reader.IsEmptyElement;
+            public bool IsEmptyElement => reader.IsEmptyElement;
 
-            public bool EOF => this.reader.EOF;
+            public bool EOF => reader.EOF;
 
             public bool Read()
             {
-                if (this.skipOnce)
+                if (skipOnce)
                 {
-                    this.skipOnce = false;
+                    skipOnce = false;
                     return true;
                 }
 
-                if (!this.reader.Read())
+                if (!reader.Read())
                 {
                     return false;
                 }
 
-                this.reader.MoveToContent();
+                reader.MoveToContent();
                 return true;
             }
 
             public void MoveToEndElement()
             {
-                this.reader.Read();
-                if (this.reader.NodeType != XmlNodeType.EndElement)
+                reader.Read();
+                if (reader.NodeType != XmlNodeType.EndElement)
                 {
                     // advancing failed
                     // skip reading on next attempt to "simulate" rewind reader
-                    this.skipOnce = true;
+                    skipOnce = true;
                 }
 
-                this.reader.MoveToContent();
+                reader.MoveToContent();
             }
 
             public IList<AttributeData> GetAttributes()
             {
                 var attributes = new List<AttributeData>();
 
-                if (this.reader.MoveToFirstAttribute())
+                if (reader.MoveToFirstAttribute())
                 {
                     do
                     {
                         if (reader.NamespaceURI != "http://www.w3.org/2000/xmlns/")
                         {
-                            attributes.Add(new AttributeData(this.reader.NamespaceURI, this.reader.LocalName, this.reader.Value, this.reader.Prefix));
+                            attributes.Add(new AttributeData(reader.NamespaceURI, reader.LocalName, reader.Value, reader.Prefix));
                         }
                     }
-                    while (this.reader.MoveToNextAttribute());
+                    while (reader.MoveToNextAttribute());
 
-                    this.reader.MoveToElement();
+                    reader.MoveToElement();
                 }
 
                 return attributes;
