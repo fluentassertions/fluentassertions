@@ -153,7 +153,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreUnderNamespace(string @namespace)
         {
-            types = types.Where(t => t.Namespace?.StartsWith(@namespace) == true).ToList();
+            types = types.Where(t => t.IsUnderNamespace(@namespace)).ToList();
             return this;
         }
 
@@ -162,7 +162,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreNotUnderNamespace(string @namespace)
         {
-            types = types.Where(t => t.Namespace?.StartsWith(@namespace) != true).ToList();
+            types = types.Where(t => !t.IsUnderNamespace(@namespace)).ToList();
             return this;
         }
 
