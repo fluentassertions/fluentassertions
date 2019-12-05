@@ -337,6 +337,84 @@ namespace FluentAssertions.Specs
             // Assert
             types.Should().ContainSingle();
         }
+
+        [Fact]
+        public void When_selecting_global_types_from_global_namespace_it_should_succeed()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(ClassInGlobalNamespace) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreUnderNamespace(null);
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_global_types_not_from_global_namespace_it_should_succeed()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(ClassInGlobalNamespace) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreNotUnderNamespace(null);
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_local_types_from_global_namespace_it_should_succeed()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(SomeBaseClass) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreUnderNamespace(null);
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_local_types_not_from_global_namespace_it_should_succeed()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(SomeBaseClass) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreNotUnderNamespace(null);
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_selecting_a_prefix_of_a_namespace_it_should_not_match()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(SomeBaseClass) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreUnderNamespace("Internal.Main.Tes");
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().BeEmpty();
+        }
+
+        [Fact]
+        public void When_deselecting_a_prefix_of_a_namespace_it_should_not_match()
+        {
+            // Arrange
+            TypeSelector types = new[] { typeof(SomeBaseClass) }.Types();
+
+            // Act
+            TypeSelector filteredTypes = types.ThatAreNotUnderNamespace("Internal.Main.Tes");
+
+            // Assert
+            filteredTypes.As<IEnumerable<Type>>().Should().ContainSingle();
+        }
     }
 }
 
@@ -431,5 +509,9 @@ namespace Internal.Other.Test.Common
     {
     }
 }
+
+#pragma warning disable RCS1110 // Declare type inside namespace.
+internal class ClassInGlobalNamespace { }
+#pragma warning restore RCS1110
 
 #endregion
