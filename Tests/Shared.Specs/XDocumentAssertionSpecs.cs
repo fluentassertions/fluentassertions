@@ -523,18 +523,49 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void when_an_xml_element_has_attributes_and_is_self_closing_it_should_succeed()
+        public void When_asserting_equivalence_of_an_xml_document_but_has_different_attribute_value_it_should_fail_with_xpath_to_difference()
         {
             // Arrange
             XDocument actual = XDocument.Parse("<xml><a attr=\"x\"/><b id=\"foo\"/></xml>");
             XDocument expected = XDocument.Parse("<xml><a attr=\"x\"/><b id=\"bar\"/></xml>");
 
-            // Arrange
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*\"/xml/b\"*");
+            act.Should().Throw<XunitException>().WithMessage("*\"/xml/b\"*");
+        }
+
+        [Fact]
+        public void When_asserting_equivalence_of_document_with_repeating_element_names_but_differs_it_should_fail_with_index_xpath_to_difference()
+        {
+            // Arrange
+            XDocument actual = XDocument.Parse(
+                "<xml><xml2 /><xml2 /><xml2><a x=\"y\"/><b><sub /></b><a x=\"y\"/></xml2></xml>");
+            XDocument expected = XDocument.Parse(
+                "<xml><xml2 /><xml2 /><xml2><a x=\"y\"/><b><sub /></b><a x=\"z\"/></xml2></xml>");
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml2[3]/a[2]\"*");
+        }
+
+        [Fact]
+        public void When_asserting_equivalence_of_document_with_repeating_element_names_on_different_levels_but_differs_it_should_fail_with_index_xpath_to_difference()
+        {
+            // Arrange
+            XDocument actual = XDocument.Parse(
+                "<xml><xml /><xml /><xml><xml x=\"y\"/><xml2><xml /></xml2><xml x=\"y\"/></xml></xml>");
+            XDocument expected = XDocument.Parse(
+                "<xml><xml /><xml /><xml><xml x=\"y\"/><xml2><xml /></xml2><xml x=\"z\"/></xml></xml>");
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml[3]/xml[2]\"*");
         }
 
         #endregion

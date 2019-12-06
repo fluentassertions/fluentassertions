@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using FluentAssertions.Execution;
 
@@ -12,9 +13,7 @@ namespace FluentAssertions.Xml
         private readonly XmlReaderWrapper subjectReader;
         private readonly XmlReaderWrapper otherReader;
 
-        private string GetCurrentLocation() => "/" + string.Join("/", locationStack.Reverse());
-
-        private readonly Stack<string> locationStack = new Stack<string>();
+        private Node currentNode = Node.CreateRoot();
 
         public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
         {
@@ -22,19 +21,6 @@ namespace FluentAssertions.Xml
 
             this.subjectReader = new XmlReaderWrapper(subjectReader);
             this.otherReader = new XmlReaderWrapper(otherReader);
-        }
-
-        private class ValidationResult
-        {
-            public ValidationResult(string formatString, params object[] formatParams)
-            {
-                FormatString = formatString;
-                FormatParams = formatParams;
-            }
-
-            public string FormatString { get; }
-
-            public object[] FormatParams { get; }
         }
 
         public void Validate(bool expectedEquivalence)
@@ -59,7 +45,7 @@ namespace FluentAssertions.Xml
                 if (subjectReader.NodeType != otherReader.NodeType)
                 {
                     return new ValidationResult("Expected node of type {0} at {1}{reason}, but found {2}.",
-                        otherReader.NodeType, GetCurrentLocation(), subjectReader.NodeType);
+                        otherReader.NodeType, GetCurrentXPath(), subjectReader.NodeType);
                 }
 
                 ValidationResult validationResult = null;
@@ -75,14 +61,17 @@ namespace FluentAssertions.Xml
                             return validationResult;
                         }
 
-                        locationStack.Push(subjectReader.LocalName);
+                        // starting new element, add local name to location stack
+                        // to build XPath info
+                        currentNode = currentNode.Push(subjectReader.LocalName);
+
                         validationResult = ValidateAttributes();
 
                         if (subjectReader.IsEmptyElement)
                         {
                             // The element is already complete. (We will NOT get an EndElement node.)
                             // Update node information.
-                            locationStack.Pop();
+                            currentNode = currentNode.Pop();
                         }
 
                         // check whether empty element and self-closing element needs to be synchronized
@@ -100,13 +89,13 @@ namespace FluentAssertions.Xml
                         // No need to verify end element, if it doesn't match
                         // the start element it isn't valid XML, so the parser
                         // would handle that.
-                        locationStack.Pop();
+                        currentNode = currentNode.Pop();
                         break;
                     case XmlNodeType.Text:
                         validationResult = ValidateText();
                         break;
                     default:
-                        throw new NotSupportedException($"{subjectReader.NodeType} found at {GetCurrentLocation()} is not supported for equivalency comparison.");
+                        throw new NotSupportedException($"{subjectReader.NodeType} found at {GetCurrentXPath()} is not supported for equivalency comparison.");
                 }
 
                 if (validationResult != null)
@@ -133,6 +122,112 @@ namespace FluentAssertions.Xml
             return null;
         }
 
+        private ValidationResult ValidateAttributes()
+        {
+            IList<AttributeData> expectedAttributes = otherReader.GetAttributes();
+            IList<AttributeData> subjectAttributes = subjectReader.GetAttributes();
+
+            foreach (AttributeData subjectAttribute in subjectAttributes)
+            {
+                AttributeData expectedAttribute = expectedAttributes.SingleOrDefault(
+                    ea => ea.NamespaceUri == subjectAttribute.NamespaceUri
+                    && ea.LocalName == subjectAttribute.LocalName);
+
+                if (expectedAttribute is null)
+                {
+                    return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
+                        subjectAttribute.QualifiedName, GetCurrentXPath());
+                }
+
+                if (subjectAttribute.Value != expectedAttribute.Value)
+                {
+                    return new ValidationResult("Expected attribute {0} at {1} to have value {2}{reason}, but found {3}.",
+                        subjectAttribute.LocalName, GetCurrentXPath(), expectedAttribute.Value, subjectAttribute.Value);
+                }
+            }
+
+            if (subjectAttributes.Count != expectedAttributes.Count)
+            {
+                AttributeData missingAttribute = expectedAttributes.First(ea =>
+                    !subjectAttributes.Any(sa =>
+                        ea.NamespaceUri == sa.NamespaceUri
+                        && sa.LocalName == ea.LocalName));
+
+                return new ValidationResult("Expected attribute {0} at {1}{reason}, but found none.",
+                    missingAttribute.LocalName, GetCurrentXPath());
+            }
+
+            return null;
+        }
+
+        private ValidationResult ValidateStartElement()
+        {
+            if (subjectReader.LocalName != otherReader.LocalName)
+            {
+                return new ValidationResult("Expected local name of element at {0} to be {1}{reason}, but found {2}.",
+                    GetCurrentXPath(), otherReader.LocalName, subjectReader.LocalName);
+            }
+
+            if (subjectReader.NamespaceURI != otherReader.NamespaceURI)
+            {
+                return new ValidationResult("Expected namespace of element {0} at {1} to be {2}{reason}, but found {3}.",
+                    subjectReader.LocalName, GetCurrentXPath(), otherReader.NamespaceURI, subjectReader.NamespaceURI);
+            }
+
+            return null;
+        }
+
+        private ValidationResult ValidateText()
+        {
+            string subject = subjectReader.Value;
+            string expected = otherReader.Value;
+
+            if (subject != expected)
+            {
+                return new ValidationResult("Expected content to be {0} at {1}{reason}, but found {2}.",
+                    expected, GetCurrentXPath(), subject);
+            }
+
+            return null;
+        }
+
+        private string GetCurrentXPath()
+        {
+            var resultBuilder = new StringBuilder();
+
+            foreach (var location in currentNode.GetPath().Reverse())
+            {
+                if (location.Count > 1)
+                {
+                    resultBuilder.AppendFormat("/{0}[{1}]", location.Name, location.Count);
+                }
+                else
+                {
+                    resultBuilder.AppendFormat("/{0}", location.Name);
+                }
+            }
+
+            if (resultBuilder.Length == 0)
+            {
+                return "/";
+            }
+
+            return resultBuilder.ToString();
+        }
+
+        private class ValidationResult
+        {
+            public ValidationResult(string formatString, params object[] formatParams)
+            {
+                FormatString = formatString;
+                FormatParams = formatParams;
+            }
+
+            public string FormatString { get; }
+
+            public object[] FormatParams { get; }
+        }
+
         private class AttributeData
         {
             public AttributeData(string namespaceUri, string localName, string value, string prefix)
@@ -149,7 +244,7 @@ namespace FluentAssertions.Xml
 
             public string Value { get; }
 
-            public string Prefix { get; }
+            private string Prefix { get; }
 
             public string QualifiedName
             {
@@ -165,75 +260,6 @@ namespace FluentAssertions.Xml
             }
         }
 
-        private ValidationResult ValidateAttributes()
-        {
-            IList<AttributeData> expectedAttributes = otherReader.GetAttributes();
-            IList<AttributeData> subjectAttributes = subjectReader.GetAttributes();
-
-            foreach (AttributeData subjectAttribute in subjectAttributes)
-            {
-                AttributeData expectedAttribute = expectedAttributes.SingleOrDefault(
-                    ea => ea.NamespaceUri == subjectAttribute.NamespaceUri
-                    && ea.LocalName == subjectAttribute.LocalName);
-
-                if (expectedAttribute is null)
-                {
-                    return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
-                        subjectAttribute.QualifiedName, GetCurrentLocation());
-                }
-
-                if (subjectAttribute.Value != expectedAttribute.Value)
-                {
-                    return new ValidationResult("Expected attribute {0} at {1} to have value {2}{reason}, but found {3}.",
-                        subjectAttribute.LocalName, GetCurrentLocation(), expectedAttribute.Value, subjectAttribute.Value);
-                }
-            }
-
-            if (subjectAttributes.Count != expectedAttributes.Count)
-            {
-                AttributeData missingAttribute = expectedAttributes.First(ea =>
-                    !subjectAttributes.Any(sa =>
-                        ea.NamespaceUri == sa.NamespaceUri
-                        && sa.LocalName == ea.LocalName));
-
-                return new ValidationResult("Expected attribute {0} at {1}{reason}, but found none.",
-                    missingAttribute.LocalName, GetCurrentLocation());
-            }
-
-            return null;
-        }
-
-        private ValidationResult ValidateStartElement()
-        {
-            if (subjectReader.LocalName != otherReader.LocalName)
-            {
-                return new ValidationResult("Expected local name of element at {0} to be {1}{reason}, but found {2}.",
-                    GetCurrentLocation(), otherReader.LocalName, subjectReader.LocalName);
-            }
-
-            if (subjectReader.NamespaceURI != otherReader.NamespaceURI)
-            {
-                return new ValidationResult("Expected namespace of element {0} at {1} to be {2}{reason}, but found {3}.",
-                    subjectReader.LocalName, GetCurrentLocation(), otherReader.NamespaceURI, subjectReader.NamespaceURI);
-            }
-
-            return null;
-        }
-
-        private ValidationResult ValidateText()
-        {
-            string subject = subjectReader.Value;
-            string expected = otherReader.Value;
-
-            if (subject != expected)
-            {
-                return new ValidationResult("Expected content to be {0} at {1}{reason}, but found {2}.",
-                    expected, GetCurrentLocation(), subject);
-            }
-
-            return null;
-        }
-
         private class XmlReaderWrapper
         {
             private readonly XmlReader reader;
@@ -247,67 +273,113 @@ namespace FluentAssertions.Xml
                 this.reader.MoveToContent();
             }
 
-            public XmlNodeType NodeType => this.reader.NodeType;
+            public XmlNodeType NodeType => reader.NodeType;
 
-            public string LocalName => this.reader.LocalName;
+            public string LocalName => reader.LocalName;
 
-            public string NamespaceURI => this.reader.NamespaceURI;
+            public string NamespaceURI => reader.NamespaceURI;
 
-            public string Value => this.reader.Value;
+            public string Value => reader.Value;
 
-            public bool IsEmptyElement => this.reader.IsEmptyElement;
+            public bool IsEmptyElement => reader.IsEmptyElement;
 
-            public bool EOF => this.reader.EOF;
+            public bool EOF => reader.EOF;
 
             public bool Read()
             {
-                if (this.skipOnce)
+                if (skipOnce)
                 {
-                    this.skipOnce = false;
+                    skipOnce = false;
                     return true;
                 }
 
-                if (!this.reader.Read())
+                if (!reader.Read())
                 {
                     return false;
                 }
 
-                this.reader.MoveToContent();
+                reader.MoveToContent();
                 return true;
             }
 
             public void MoveToEndElement()
             {
-                this.reader.Read();
-                if (this.reader.NodeType != XmlNodeType.EndElement)
+                reader.Read();
+                if (reader.NodeType != XmlNodeType.EndElement)
                 {
                     // advancing failed
                     // skip reading on next attempt to "simulate" rewind reader
-                    this.skipOnce = true;
+                    skipOnce = true;
                 }
 
-                this.reader.MoveToContent();
+                reader.MoveToContent();
             }
 
             public IList<AttributeData> GetAttributes()
             {
                 var attributes = new List<AttributeData>();
 
-                if (this.reader.MoveToFirstAttribute())
+                if (reader.MoveToFirstAttribute())
                 {
                     do
                     {
                         if (reader.NamespaceURI != "http://www.w3.org/2000/xmlns/")
                         {
-                            attributes.Add(new AttributeData(this.reader.NamespaceURI, this.reader.LocalName, this.reader.Value, this.reader.Prefix));
+                            attributes.Add(new AttributeData(reader.NamespaceURI, reader.LocalName, reader.Value, reader.Prefix));
                         }
                     }
-                    while (this.reader.MoveToNextAttribute());
+                    while (reader.MoveToNextAttribute());
 
-                    this.reader.MoveToElement();
+                    reader.MoveToElement();
                 }
 
                 return attributes;
+            }
+        }
+
+        private sealed class Node
+        {
+            private readonly Node parent;
+            private readonly List<Node> children = new List<Node>();
+
+            public string Name { get; }
+            public int Count { get; private set; }
+
+            private Node(Node parent, string name)
+            {
+                this.parent = parent;
+                Name = name;
+            }
+
+            public static Node CreateRoot() => new Node(null, null);
+
+            public IEnumerable<Node> GetPath()
+            {
+                Node current = this;
+                while (current.parent is object)
+                {
+                    yield return current;
+                    current = current.parent;
+                }
+            }
+
+            public Node Pop() => parent;
+
+            public Node Push(string name)
+            {
+                Node node = children.Find(e => e.Name == name)
+                    ?? AddChildNode(name);
+
+                node.Count++;
+
+                return node;
+            }
+
+            private Node AddChildNode(string name)
+            {
+                Node node = new Node(this, name);
+                children.Add(node);
+                return node;
             }
         }
     }
