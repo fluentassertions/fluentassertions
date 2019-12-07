@@ -1,8 +1,8 @@
 namespace FluentAssertions.Xml.Equivalency
 {
-    internal class ValidationResult
+    internal class Failure
     {
-        public ValidationResult(string formatString, params object[] formatParams)
+        public Failure(string formatString, params object[] formatParams)
         {
             FormatString = formatString;
             FormatParams = formatParams;

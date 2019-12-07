@@ -3,13 +3,12 @@ using System.Xml;
 
 namespace FluentAssertions.Xml.Equivalency
 {
-    internal class XmlReaderWrapper
+    internal class XmlIterator
     {
         private readonly XmlReader reader;
-
         private bool skipOnce;
 
-        public XmlReaderWrapper(XmlReader reader)
+        public XmlIterator(XmlReader reader)
         {
             this.reader = reader;
 
@@ -20,29 +19,24 @@ namespace FluentAssertions.Xml.Equivalency
 
         public string LocalName => reader.LocalName;
 
-        public string NamespaceURI => reader.NamespaceURI;
+        public string NamespaceUri => reader.NamespaceURI;
 
         public string Value => reader.Value;
 
         public bool IsEmptyElement => reader.IsEmptyElement;
 
-        public bool EOF => reader.EOF;
+        public bool IsEndOfDocument => reader.EOF;
 
-        public bool Read()
+        public void Read()
         {
             if (skipOnce)
             {
                 skipOnce = false;
-                return true;
             }
-
-            if (!reader.Read())
+            else if (reader.Read())
             {
-                return false;
+                reader.MoveToContent();
             }
-
-            reader.MoveToContent();
-            return true;
         }
 
         public void MoveToEndElement()

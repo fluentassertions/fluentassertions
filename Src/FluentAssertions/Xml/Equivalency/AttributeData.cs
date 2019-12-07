@@ -24,7 +24,7 @@ namespace FluentAssertions.Xml.Equivalency
         {
             get
             {
-                if (String.IsNullOrEmpty(Prefix))
+                if (string.IsNullOrEmpty(Prefix))
                 {
                     return LocalName;
                 }
