@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using FluentAssertions.Execution;
 
@@ -10,122 +9,122 @@ namespace FluentAssertions.Xml.Equivalency
     internal class XmlReaderValidator
     {
         private readonly AssertionScope assertion;
-        private readonly XmlReaderWrapper subjectReader;
-        private readonly XmlReaderWrapper otherReader;
-
+        private readonly XmlIterator subjectIterator;
+        private readonly XmlIterator expectationIterator;
         private Node currentNode = Node.CreateRoot();
 
-        public XmlReaderValidator(XmlReader subjectReader, XmlReader otherReader, string because, object[] reasonArgs)
+        public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] reasonArgs)
         {
             assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
 
-            this.subjectReader = new XmlReaderWrapper(subjectReader);
-            this.otherReader = new XmlReaderWrapper(otherReader);
+            subjectIterator = new XmlIterator(subjectReader);
+            expectationIterator = new XmlIterator(expectationReader);
         }
 
-        public void Validate(bool expectedEquivalence)
+        public void Validate(bool shouldBeEquivalent)
         {
-            ValidationResult validationResult = Validate();
+            Failure failure = Validate();
 
-            if (expectedEquivalence && validationResult != null)
+            if (shouldBeEquivalent && failure != null)
             {
-                assertion.FailWith(validationResult.FormatString, validationResult.FormatParams);
+                assertion.FailWith(failure.FormatString, failure.FormatParams);
             }
 
-            if (!expectedEquivalence && validationResult is null)
+            if (!shouldBeEquivalent && failure is null)
             {
                 assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
             }
         }
 
-        private ValidationResult Validate()
+        private Failure Validate()
         {
-            while (!subjectReader.EOF && !otherReader.EOF)
+            while (!subjectIterator.IsEndOfDocument && !expectationIterator.IsEndOfDocument)
             {
-                if (subjectReader.NodeType != otherReader.NodeType)
+                if (subjectIterator.NodeType != expectationIterator.NodeType)
                 {
-                    return new ValidationResult("Expected node of type {0} at {1}{reason}, but found {2}.",
-                        otherReader.NodeType, GetCurrentXPath(), subjectReader.NodeType);
+                    return new Failure("Expected node of type {0} at {1}{reason}, but found {2}.",
+                        expectationIterator.NodeType, currentNode.GetXPath(), subjectIterator.NodeType);
                 }
 
-                ValidationResult validationResult = null;
+                Failure failure = null;
 
-#pragma warning disable IDE0010 // System.Xml.XmlNodeType has many members we do not care about
-                switch (subjectReader.NodeType)
-#pragma warning restore IDE0010
+                switch (subjectIterator.NodeType)
                 {
                     case XmlNodeType.Element:
-                        validationResult = ValidateStartElement();
-                        if (validationResult != null)
+                        failure = ValidateStartElement();
+                        if (failure != null)
                         {
-                            return validationResult;
+                            return failure;
                         }
 
                         // starting new element, add local name to location stack
                         // to build XPath info
-                        currentNode = currentNode.Push(subjectReader.LocalName);
+                        currentNode = currentNode.Push(subjectIterator.LocalName);
 
-                        validationResult = ValidateAttributes();
+                        failure = ValidateAttributes();
 
-                        if (subjectReader.IsEmptyElement)
+                        if (subjectIterator.IsEmptyElement)
                         {
                             // The element is already complete. (We will NOT get an EndElement node.)
                             // Update node information.
-                            currentNode = currentNode.Pop();
+                            currentNode = currentNode.Parent;
                         }
 
                         // check whether empty element and self-closing element needs to be synchronized
-                        if (subjectReader.IsEmptyElement && !otherReader.IsEmptyElement)
+                        if (subjectIterator.IsEmptyElement && !expectationIterator.IsEmptyElement)
                         {
-                            otherReader.MoveToEndElement();
+                            expectationIterator.MoveToEndElement();
                         }
-                        else if (otherReader.IsEmptyElement && !subjectReader.IsEmptyElement)
+                        else if (expectationIterator.IsEmptyElement && !subjectIterator.IsEmptyElement)
                         {
-                            subjectReader.MoveToEndElement();
+                            subjectIterator.MoveToEndElement();
                         }
 
                         break;
+
                     case XmlNodeType.EndElement:
                         // No need to verify end element, if it doesn't match
                         // the start element it isn't valid XML, so the parser
                         // would handle that.
-                        currentNode = currentNode.Pop();
+                        currentNode = currentNode.Parent;
                         break;
+
                     case XmlNodeType.Text:
-                        validationResult = ValidateText();
+                        failure = ValidateText();
                         break;
+
                     default:
-                        throw new NotSupportedException($"{subjectReader.NodeType} found at {GetCurrentXPath()} is not supported for equivalency comparison.");
+                        throw new NotSupportedException($"{subjectIterator.NodeType} found at {currentNode.GetXPath()} is not supported for equivalency comparison.");
                 }
 
-                if (validationResult != null)
+                if (failure != null)
                 {
-                    return validationResult;
+                    return failure;
                 }
 
-                subjectReader.Read();
-                otherReader.Read();
+                subjectIterator.Read();
+                expectationIterator.Read();
             }
 
-            if (!otherReader.EOF)
+            if (!expectationIterator.IsEndOfDocument)
             {
-                return new ValidationResult("Expected {0}{reason}, but found end of document.",
-                    otherReader.LocalName);
+                return new Failure("Expected {0}{reason}, but found end of document.",
+                    expectationIterator.LocalName);
             }
 
-            if (!subjectReader.EOF)
+            if (!subjectIterator.IsEndOfDocument)
             {
-                return new ValidationResult("Expected end of document{reason}, but found {0}.",
-                    subjectReader.LocalName);
+                return new Failure("Expected end of document{reason}, but found {0}.",
+                    subjectIterator.LocalName);
             }
 
             return null;
         }
 
-        private ValidationResult ValidateAttributes()
+        private Failure ValidateAttributes()
         {
-            IList<AttributeData> expectedAttributes = otherReader.GetAttributes();
-            IList<AttributeData> subjectAttributes = subjectReader.GetAttributes();
+            IList<AttributeData> expectedAttributes = expectationIterator.GetAttributes();
+            IList<AttributeData> subjectAttributes = subjectIterator.GetAttributes();
 
             foreach (AttributeData subjectAttribute in subjectAttributes)
             {
@@ -135,14 +134,14 @@ namespace FluentAssertions.Xml.Equivalency
 
                 if (expectedAttribute is null)
                 {
-                    return new ValidationResult("Did not expect to find attribute {0} at {1}{reason}.",
-                        subjectAttribute.QualifiedName, GetCurrentXPath());
+                    return new Failure("Did not expect to find attribute {0} at {1}{reason}.",
+                        subjectAttribute.QualifiedName, currentNode.GetXPath());
                 }
 
                 if (subjectAttribute.Value != expectedAttribute.Value)
                 {
-                    return new ValidationResult("Expected attribute {0} at {1} to have value {2}{reason}, but found {3}.",
-                        subjectAttribute.LocalName, GetCurrentXPath(), expectedAttribute.Value, subjectAttribute.Value);
+                    return new Failure("Expected attribute {0} at {1} to have value {2}{reason}, but found {3}.",
+                        subjectAttribute.LocalName, currentNode.GetXPath(), expectedAttribute.Value, subjectAttribute.Value);
                 }
             }
 
@@ -153,66 +152,43 @@ namespace FluentAssertions.Xml.Equivalency
                         ea.NamespaceUri == sa.NamespaceUri
                         && sa.LocalName == ea.LocalName));
 
-                return new ValidationResult("Expected attribute {0} at {1}{reason}, but found none.",
-                    missingAttribute.LocalName, GetCurrentXPath());
+                return new Failure("Expected attribute {0} at {1}{reason}, but found none.",
+                    missingAttribute.LocalName, currentNode.GetXPath());
             }
 
             return null;
         }
 
-        private ValidationResult ValidateStartElement()
+        private Failure ValidateStartElement()
         {
-            if (subjectReader.LocalName != otherReader.LocalName)
+            if (subjectIterator.LocalName != expectationIterator.LocalName)
             {
-                return new ValidationResult("Expected local name of element at {0} to be {1}{reason}, but found {2}.",
-                    GetCurrentXPath(), otherReader.LocalName, subjectReader.LocalName);
+                return new Failure("Expected local name of element at {0} to be {1}{reason}, but found {2}.",
+                    currentNode.GetXPath(), expectationIterator.LocalName, subjectIterator.LocalName);
             }
 
-            if (subjectReader.NamespaceURI != otherReader.NamespaceURI)
+            if (subjectIterator.NamespaceUri != expectationIterator.NamespaceUri)
             {
-                return new ValidationResult("Expected namespace of element {0} at {1} to be {2}{reason}, but found {3}.",
-                    subjectReader.LocalName, GetCurrentXPath(), otherReader.NamespaceURI, subjectReader.NamespaceURI);
+                return new Failure("Expected namespace of element {0} at {1} to be {2}{reason}, but found {3}.",
+                    subjectIterator.LocalName, currentNode.GetXPath(), expectationIterator.NamespaceUri, subjectIterator.NamespaceUri);
             }
 
             return null;
         }
 
-        private ValidationResult ValidateText()
+        private Failure ValidateText()
         {
-            string subject = subjectReader.Value;
-            string expected = otherReader.Value;
+            string subject = subjectIterator.Value;
+            string expected = expectationIterator.Value;
 
             if (subject != expected)
             {
-                return new ValidationResult("Expected content to be {0} at {1}{reason}, but found {2}.",
-                    expected, GetCurrentXPath(), subject);
+                return new Failure("Expected content to be {0} at {1}{reason}, but found {2}.",
+                    expected, currentNode.GetXPath(), subject);
             }
 
             return null;
         }
 
-        private string GetCurrentXPath()
-        {
-            var resultBuilder = new StringBuilder();
-
-            foreach (var location in currentNode.GetPath().Reverse())
-            {
-                if (location.Count > 1)
-                {
-                    resultBuilder.AppendFormat("/{0}[{1}]", location.Name, location.Count);
-                }
-                else
-                {
-                    resultBuilder.AppendFormat("/{0}", location.Name);
-                }
-            }
-
-            if (resultBuilder.Length == 0)
-            {
-                return "/";
-            }
-
-            return resultBuilder.ToString();
-        }
     }
 }
