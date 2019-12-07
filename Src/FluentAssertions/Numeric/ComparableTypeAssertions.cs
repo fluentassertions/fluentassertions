@@ -23,7 +23,7 @@ namespace FluentAssertions.Numeric
         /// <summary>
         /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.<br/>
         /// Verification whether <see cref="IComparable{T}.CompareTo(T)"/> returns 0 is not done here, you should use
-        /// <see cref="BeRankedAsEqualTo(T, string, object[])"/> to verify this. 
+        /// <see cref="BeRankedEquallyTo(T, string, object[])"/> to verify this. 
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
@@ -113,7 +113,7 @@ namespace FluentAssertions.Numeric
         /// <summary>
         /// Asserts that an object does not equal another object using its <see cref="object.Equals(object)" /> method.<br/>
         /// Verification whether <see cref="IComparable{T}.CompareTo(T)"/> returns non-zero is not done here, you should use
-        /// <see cref="NotBeRankedAsEqualTo(T, string, object[])"/> to verify this.
+        /// <see cref="NotBeRankedEquallyTo(T, string, object[])"/> to verify this.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
@@ -147,7 +147,7 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeRankedAsEqualTo(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) == Equal)
@@ -171,7 +171,7 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedAsEqualTo(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) != Equal)

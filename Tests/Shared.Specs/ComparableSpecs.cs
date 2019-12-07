@@ -351,7 +351,7 @@ namespace FluentAssertions.Specs
             var other = new ComparableOfString("Hello");
 
             // Act
-            Action act = () => subject.Should().BeRankedAsEqualTo(other);
+            Action act = () => subject.Should().BeRankedEquallyTo(other);
 
             // Assert
             act.Should().NotThrow();
@@ -365,7 +365,7 @@ namespace FluentAssertions.Specs
             var other = new ComparableOfString("Forty two");
 
             // Act
-            Action act = () => subject.Should().BeRankedAsEqualTo(other, "they represent the same number");
+            Action act = () => subject.Should().BeRankedEquallyTo(other, "they represent the same number");
 
             // Assert
             act
@@ -389,7 +389,7 @@ namespace FluentAssertions.Specs
             var other = new ComparableOfString("Hi");
 
             // Act
-            Action act = () => subject.Should().NotBeRankedAsEqualTo(other);
+            Action act = () => subject.Should().NotBeRankedEquallyTo(other);
 
             // Assert
             act.Should().NotThrow();
@@ -403,7 +403,7 @@ namespace FluentAssertions.Specs
             var other = new ComparableOfString("Lead");
 
             // Act
-            Action act = () => subject.Should().NotBeRankedAsEqualTo(other, "they represent different concepts");
+            Action act = () => subject.Should().NotBeRankedEquallyTo(other, "they represent different concepts");
             // Assert
             act
                 .Should().Throw<XunitException>()
