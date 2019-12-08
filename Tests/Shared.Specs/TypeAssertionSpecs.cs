@@ -4295,6 +4295,4 @@ namespace DummyNamespaceTwo
     class ClassInDummyNamespaceTwo { }
 }
 
-class ClassInGlobalNamespace { }
-
 #endregion
