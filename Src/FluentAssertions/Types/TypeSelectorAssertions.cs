@@ -370,7 +370,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
         {
             Type[] typesNotUnderNamespace = Subject
-                .Where(t => t.Namespace?.StartsWith(@namespace) != true)
+                .Where(t => !t.IsUnderNamespace(@namespace))
                 .ToArray();
 
             Execute.Assertion
@@ -402,7 +402,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
         {
             Type[] typesUnderNamespace = Subject
-                .Where(t => t.Namespace?.StartsWith(@namespace) == true)
+                .Where(t => t.IsUnderNamespace(@namespace))
                 .ToArray();
 
             Execute.Assertion
