@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Xml;
 using FluentAssertions.Primitives;
+using FluentAssertions.Xml.Equivalency;
 
 namespace FluentAssertions.Xml
 {

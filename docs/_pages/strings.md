@@ -35,12 +35,22 @@ theString.Should().BeOneOf(
 );
 
 theString.Should().Contain("is a");
+theString.Should().Contain("is a", Exactly.Once());
+theString.Should().Contain("is a", AtLeast.Twice());
+theString.Should().Contain("is a", MoreThan.Thrice());
+theString.Should().Contain("is a", AtMost.Times(5));
+theString.Should().Contain("is a", LessThan.Twice());
 theString.Should().ContainAll("should", "contain", "all", "of", "these");
 theString.Should().ContainAny("any", "of", "these", "will", "do");
 theString.Should().NotContain("is a");
 theString.Should().NotContainAll("can", "contain", "some", "but", "not", "all");
 theString.Should().NotContainAny("can't", "contain", "any", "of", "these");
 theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING");
+theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", Exactly.Once());
+theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", AtLeast.Twice());
+theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", MoreThan.Thrice());
+theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", AtMost.Times(5));
+theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", LessThan.Twice());
 theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
 
 theString.Should().StartWith("This");
