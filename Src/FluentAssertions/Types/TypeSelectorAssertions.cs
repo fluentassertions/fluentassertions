@@ -345,7 +345,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(!typesInNamespace.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected all types to not be in namespace {0}{reason}," +
+                .FailWith("Expected no types to be in namespace {0}{reason}," +
                           " but the following types are in the namespace:{1}{2}.",
                     @namespace,
                     Environment.NewLine,
