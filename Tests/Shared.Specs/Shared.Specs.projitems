@@ -58,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)NumericAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectCastingSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorSpecs.cs" />
