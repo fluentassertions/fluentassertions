@@ -76,7 +76,9 @@ You can assert methods or properties from all types in an assembly that apply to
 var types = typeof(ClassWithSomeAttribute).Assembly.Types()
   .ThatAreDecoratedWith<SomeAttribute>()
   .ThatImplement<ISomeInterface>()
-  .ThatAreInNamespace("Internal.Main.Test");
+  .ThatAreUnderNamespace("Internal.Main.Test");
+
+types.Should().BeInNamespace("Internal.Main.Test.ISomeInterfaceTests");
 
 var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();
