@@ -49,7 +49,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="NonGenericAsyncFunctionAssertions"/>
         /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
@@ -59,7 +59,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="GenericAsyncFunctionAssertions{TResult}"/>
         /// </summary>
         [Pure]
         public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, Task<TResult>> action)
@@ -651,7 +651,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Action"/> .
+        /// current <see cref="System.Action"/>.
         /// </summary>
         [Pure]
         public static ActionAssertions Should(this Action action)
@@ -660,8 +660,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Func{Task}"/> .
+        /// Returns a <see cref="NonGenericAsyncFunctionAssertions"/> object that can be used to assert the
+        /// current <see cref="System.Func{Task}"/>.
         /// </summary>
         [Pure]
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
@@ -670,7 +670,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
+        /// Returns a <see cref="GenericAsyncFunctionAssertions{T}"/> object that can be used to assert the
         /// current <see><cref>System.Func{Task{T}}</cref></see>.
         /// </summary>
         [Pure]
@@ -681,7 +681,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
-        /// current <see cref="System.Func{T}"/> .
+        /// current <see cref="System.Func{T}"/>.
         /// </summary>
         [Pure]
         public static FunctionAssertions<T> Should<T>(this Func<T> func)
