@@ -97,5 +97,28 @@ namespace FluentAssertions.Common
         {
             return @this.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
         }
+
+        /// <summary>
+        /// Counts the number of times a substring appears within a string by using the specified <see cref="StringComparison"/>.
+        /// </summary>
+        /// <param name="substring">The substring to search for.</param>
+        /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
+        /// <returns></returns>
+        public static int CountSubstring(this string @this, string substring, StringComparison comparisonType)
+        {
+            string actual = @this ?? "";
+            string search = substring ?? "";
+
+            int count = 0;
+            int index = 0;
+
+            while ((index = actual.IndexOf(search, index, comparisonType)) >= 0)
+            {
+                index += search.Length;
+                count++;
+            }
+
+            return count;
+        }
     }
 }

@@ -91,7 +91,8 @@ namespace FluentAssertions.Equivalency
 
             bool isComplexType = IsComplexType(context.Expectation);
 
-            return objectTracker.IsCyclicReference(new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType));
+            var reference = new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType);
+            return objectTracker.IsCyclicReference(reference, context.Because, context.BecauseArgs);
         }
 
         private bool IsComplexType(object expectation)

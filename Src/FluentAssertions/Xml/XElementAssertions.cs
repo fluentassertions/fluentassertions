@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using FluentAssertions.Xml.Equivalency;
 
 namespace FluentAssertions.Xml
 {

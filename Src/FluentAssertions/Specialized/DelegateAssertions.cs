@@ -212,18 +212,18 @@ namespace FluentAssertions.Specialized
             TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
 
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
                 .ForCondition(exception != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
-
-            Execute.Assertion
+                .FailWith("but no exception was thrown.")
+                .Then
                 .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {2}{3}.",
-                    typeof(TException), exception?.GetType(),
+                .FailWith("but found <{0}>: {1}{2}.",
+                    exception?.GetType(),
                     Environment.NewLine,
-                    exception);
+                    exception)
+                .Then
+                .ClearExpectation();
 
             return new ExceptionAssertions<TException>(expectedExceptions);
         }

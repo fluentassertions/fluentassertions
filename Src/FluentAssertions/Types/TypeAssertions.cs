@@ -707,12 +707,12 @@ namespace FluentAssertions.Types
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
-            Execute.Assertion.ForCondition(propertyInfo != null)
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.");
-
-            Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
-                .BecauseOf(because, becauseArgs)
+                .ForCondition(propertyInfo != null)
+                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
+                .Then
+                .ForCondition(propertyInfo.PropertyType == propertyType)
                 .FailWith(string.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
                     propertyInfoDescription, propertyType));
 

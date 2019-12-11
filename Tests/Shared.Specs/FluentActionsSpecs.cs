@@ -12,54 +12,42 @@ namespace FluentAssertions.Specs
         [Fact]
         public void Invoking_works_with_action()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Invoking(() => Throws()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void Invoking_works_with_func()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Invoking(() => Throws(0)).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void Awaiting_works_with_action()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Awaiting(() => ThrowsAsync()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void Awaiting_works_with_func()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Awaiting(() => ThrowsAsync(0)).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void Enumerating_works_with_general()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Enumerating(() => ThrowsAfterFirst()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void Enumerating_works_with_specialized()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             Enumerating(() => ThrowsAfterFirst(0)).Should().Throw<InvalidOperationException>();
         }
 

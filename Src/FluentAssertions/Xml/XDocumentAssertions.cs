@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using FluentAssertions.Xml.Equivalency;
 
 namespace FluentAssertions.Xml
 {
@@ -79,13 +80,11 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because, params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
-
-            Execute.Assertion
+                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected)
+                .Then
                 .ForCondition(!Subject.Equals(unexpected))
-                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);

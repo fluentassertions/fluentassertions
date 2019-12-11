@@ -538,6 +538,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(failures.Length > 0)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
                     unexpected);
 
@@ -632,7 +633,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}.", Subject, expectation);
+                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", Subject, expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

@@ -588,5 +588,17 @@ namespace FluentAssertions.Common
 
             return false;
         }
+
+        internal static bool IsUnderNamespace(this Type type, string @namespace)
+        {
+            return IsGlobalNamespace()
+                || IsExactNamespace()
+                || IsParentNamespace();
+
+            bool IsGlobalNamespace() => @namespace is null;
+            bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
+            bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
+            bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
+        }
     }
 }
