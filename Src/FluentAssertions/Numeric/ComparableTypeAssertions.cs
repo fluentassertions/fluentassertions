@@ -161,7 +161,7 @@ namespace FluentAssertions.Numeric
         /// Asserts that the subject is not ranked equal to another object. I.e. the result of <see cref="IComparable{T}.CompareTo"/>returns non-zero.
         /// To verify whether the objects are not equal according to <see cref="object.Equals(object)"/> you must use <see cref="NotBe(T, string, object[])"/>.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
         /// <param name="because">
@@ -171,12 +171,12 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) != Equal)
+                .ForCondition(Subject.CompareTo(unexpected) != Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} {0} not to be be ranked as equal to {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} not to be be ranked as equal to {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
