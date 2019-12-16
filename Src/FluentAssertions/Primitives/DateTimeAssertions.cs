@@ -693,10 +693,10 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
-        /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
+        /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
-        /// The amount of time that the current <see cref="DateTime"/>  should exceed compared to another <see cref="DateTime"/> .
+        /// The amount of time that the current <see cref="DateTime"/>  should exceed compared to another <see cref="DateTime"/>.
         /// </param>
         public DateTimeRangeAssertions BeMoreThan(TimeSpan timeSpan)
         {
@@ -705,7 +705,7 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
-        /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
+        /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The amount of time that the current <see cref="DateTime"/>  should be equal or exceed compared to
@@ -718,10 +718,10 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
-        /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
+        /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
-        /// The amount of time that the current <see cref="DateTime"/>  should differ exactly compared to another <see cref="DateTime"/> .
+        /// The amount of time that the current <see cref="DateTime"/>  should differ exactly compared to another <see cref="DateTime"/>.
         /// </param>
         public DateTimeRangeAssertions BeExactly(TimeSpan timeSpan)
         {
@@ -730,10 +730,10 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
-        /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
+        /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
-        /// The amount of time that the current <see cref="DateTime"/>  should be within another <see cref="DateTime"/> .
+        /// The amount of time that the current <see cref="DateTime"/>  should be within another <see cref="DateTime"/>.
         /// </param>
         public DateTimeRangeAssertions BeWithin(TimeSpan timeSpan)
         {
@@ -742,10 +742,10 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
-        /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
+        /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
-        /// The maximum amount of time that the current <see cref="DateTime"/>  should differ compared to another <see cref="DateTime"/> .
+        /// The maximum amount of time that the current <see cref="DateTime"/>  should differ compared to another <see cref="DateTime"/>.
         /// </param>
         public DateTimeRangeAssertions BeLessThan(TimeSpan timeSpan)
         {

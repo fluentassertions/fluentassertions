@@ -65,6 +65,12 @@ You can also assert that the dictionary has a certain number of items:
 ```csharp
 dictionary.Should().HaveCount(2);
 dictionary.Should().NotHaveCount(3);
+
+dictionary1.Should().HaveSameCount(dictionary2);
+dictionary1.Should().NotHaveSameCount(dictionary3);
+
+dictionary1.Should().HaveSameCount(dictionary2.Keys);
+dictionary1.Should().NotHaveSameCount(dictionary3.Keys);
 ```
 
 And finally you can assert that the dictionary contains a specific key/value pair or not:
@@ -81,7 +87,7 @@ dictionary.Should().NotContain(item1, item2);
 dictionary.Should().NotContain(9, "Nine");
 ```
 
-Chaining additional assertion is supported as well.
+Chaining additional assertions is supported as well.
 
 ```csharp
 dictionary.Should().ContainValue(myClass)

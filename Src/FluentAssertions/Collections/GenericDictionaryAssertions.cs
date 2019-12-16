@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -238,6 +239,87 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Assert that the current dictionary has the same number of elements as <paramref name="otherCollection" />.
+        /// </summary>
+        /// <param name="otherCollection">The other collection with the same expected number of elements</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveSameCount(IEnumerable otherCollection, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
+
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to have the same count as {0}{reason}, but found {1}.",
+                        otherCollection,
+                        Subject);
+            }
+
+            int actualCount = Subject.Count;
+            int expectedCount = otherCollection.Cast<object>().Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount == expectedCount)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} to have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Assert that the current collection does not have the same number of elements as <paramref name="otherCollection" />.
+        /// </summary>
+        /// <param name="otherCollection">The other collection with the unexpected number of elements</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotHaveSameCount(IEnumerable otherCollection, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
+
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to not have the same count as {0}{reason}, but found {1}.",
+                        otherCollection,
+                        Subject);
+            }
+
+            if (ReferenceEquals(Subject, otherCollection))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        otherCollection);
+            }
+
+            int actualCount = Subject.Count;
+            int expectedCount = otherCollection.Cast<object>().Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount != expectedCount)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }

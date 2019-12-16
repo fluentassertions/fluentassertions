@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicNonEquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CallerIdentifierSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DelegateAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluentActionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FunctionExceptionAssertionSpecs.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)NumericAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectCastingSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorSpecs.cs" />

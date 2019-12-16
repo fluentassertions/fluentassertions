@@ -1432,11 +1432,353 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
-                 "Expected string <null> to contain \"XYZ\" because that is required.");
+                "Expected string <null> to contain \"XYZ\" because that is required.");
 #else
                 "Expected someString <null> to contain \"XYZ\" because that is required.");
 #endif
         }
+
+        #region Exactly
+
+        [Fact]
+        public void When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_containment_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "a";
+            string expectedSubstring = null;
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
+
+            // Assert
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_string_containment_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_exactly_is_asserted_and_expected_value_is_negative_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(-1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("Expected count cannot be negative.*");
+        }
+
+        [Fact]
+        public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(3));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times, but found it 2 times.");
+        }
+
+        #endregion
+
+        #region AtLeast
+
+        [Fact]
+        public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(3));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time, but found it 0 times.");
+        }
+
+        #endregion
+
+        #region MoreThan
+
+        [Fact]
+        public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(1));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(2));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time, but found it 0 times.");
+        }
+
+        #endregion
+
+        #region AtMost
+
+        [Fact]
+        public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(1));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Once());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        #endregion
+
+        #region LessThan
+
+        [Fact]
+        public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(3));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "ABCDEBCDF";
+            string expectedSubstring = "BCD";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(2));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "ABCDEF";
+            string expectedSubstring = "XYS";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_less_than_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Twice());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        #endregion
 
         #endregion
 
@@ -2241,7 +2583,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\".");
+                .WithMessage("Expected string \"a\" to contain the equivalent of \"aa\".");
         }
 
         [Fact]
@@ -2269,6 +2611,349 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert string containment against an empty string.*")
                 .And.ParamName.Should().Be("expected");
         }
+
+        #region Exactly
+
+        [Fact]
+        public void When_containment_equivalent_of_once_is_asserted_against_null_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "a";
+            string expectedSubstring = null;
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
+
+            // Assert
+            act
+                .Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot assert string containment against <null>.*");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Times(3));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_containment_equivalent_of_exactly_once_is_asserted_against_an_empty_string_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "a";
+            string expectedSubstring = "";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once());
+
+            // Assert
+            act
+                .Should().Throw<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.*");
+        }
+
+        #endregion
+
+        #region AtLeast
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Times(3));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" at least 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time, but found it 0 times.");
+        }
+
+        #endregion
+
+        #region MoreThan
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(1));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Times(2));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time, but found it 0 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, MoreThan.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time, but found it 0 times.");
+        }
+
+        #endregion
+
+        #region AtMost
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(2));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Times(1));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, AtMost.Once());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        #endregion
+
+        #region LessThan
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(3));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEBcDF";
+            string expectedSubstring = "Bcd";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Times(2));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times, but found it 2 times.");
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+        {
+            // Arrange
+            string actual = "abCDEf";
+            string expectedSubstring = "xyS";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        {
+            // Arrange
+            string actual = null;
+            string expectedSubstring = "XyZ";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, LessThan.Twice());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        #endregion
 
         #endregion
 
