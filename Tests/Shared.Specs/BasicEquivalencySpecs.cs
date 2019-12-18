@@ -3134,6 +3134,20 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_tuple_is_compared_it_should_compare_its_components()
+        {
+            // Arrange
+            var actual = new Tuple<string, bool, int[]>("Hello", true, new int[] { 3, 2, 1 });
+            var expected = new Tuple<string, bool, int[]>("Hello", true, new int[] { 1, 2, 3 });
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         #endregion
 
         #region Enums

@@ -531,7 +531,15 @@ namespace FluentAssertions.Common
                    || openType == typeof(ValueTuple<,,,,>)
                    || openType == typeof(ValueTuple<,,,,,>)
                    || openType == typeof(ValueTuple<,,,,,,>)
-                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]))
+                   || openType == typeof(Tuple<>)
+                   || openType == typeof(Tuple<,>)
+                   || openType == typeof(Tuple<,,>)
+                   || openType == typeof(Tuple<,,,>)
+                   || openType == typeof(Tuple<,,,,>)
+                   || openType == typeof(Tuple<,,,,,>)
+                   || openType == typeof(Tuple<,,,,,,>)
+                   || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
         }
 
         internal static bool IsAssignableToOpenGeneric(this Type type, Type definition)
