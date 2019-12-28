@@ -97,5 +97,40 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*to be <null> because comparing enums should throw, but found UInt64Max*");
         }
+
+        // TODO: should probably fail in 6.0, see #1204
+        [Fact]
+        public void When_comparing_an_enum_and_a_numeric_for_equality_it_should_not_throw()
+        {
+            // Arrange
+            MyEnum subject = MyEnum.One;
+            object expected = 1;
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        // TODO: should probably fail in 6.0, see #1204
+        [Fact]
+        public void When_comparing_a_numeric_and_an_enum_for_equality_it_should_not_throw()
+        {
+            // Arrange
+            object subject = 1;
+            MyEnum expected = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        private enum MyEnum
+        {
+            One = 1
+        }
     }
 }
