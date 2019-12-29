@@ -12,14 +12,14 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Will block the current thread until a time delay has passed.
         /// </summary>
-        /// <param name="delay">The time span to wait before completing the returned task</param>
+        /// <param name="timeToDelay">The time span to wait before completing the returned task</param>
         void Delay(TimeSpan timeToDelay);
 
         /// <summary>
         /// Creates a task that will complete after a time delay.
         /// </summary>
         /// <param name="delay">The time span to wait before completing the returned task</param>
-        /// <param name="timeoutCancellationTokenSource"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>A task that represents the time delay.</returns>
         /// <seealso cref="Task.Delay(TimeSpan)"/>
         Task DelayAsync(TimeSpan delay, CancellationToken cancellationToken);

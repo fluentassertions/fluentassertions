@@ -21,9 +21,6 @@ namespace FluentAssertions.Equivalency
         /// A collection of members that was prepopulated by other selection rules. Can be empty.</param>
         /// <param name="context"></param>
         /// <param name="config"></param>
-        /// <param name="info">
-        /// Type info about the subject.
-        /// </param>
         /// <returns>
         /// The collection of members after applying this rule. Can contain less or more than was passed in.
         /// </returns>
