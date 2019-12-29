@@ -48,7 +48,7 @@ namespace FluentAssertions.Common
             ConfigurationStore = new NullConfigurationStore();
 #else
             Reflector = new FullFrameworkReflector();
-            ConfigurationStore = new AppSettingsConfigurationStore();
+            ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
 #endif
 
             ThrowException = TestFrameworkProvider.Throw;
