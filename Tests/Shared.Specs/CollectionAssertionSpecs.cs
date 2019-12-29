@@ -198,6 +198,32 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_collection_count_is_matched_against_a_predicate_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().HaveCount(c => c % 2 == 1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_collection_count_is_matched_against_a_predicate_it_should_throw()
+        {
+            // Arrange
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().HaveCount(c => c % 2 == 0);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_counting_nongeneric_enumerable_it_should_enumerate()
         {
             // Arrange

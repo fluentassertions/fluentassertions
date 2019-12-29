@@ -276,22 +276,19 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
 
-            bool isMatch = false;
             try
             {
-                isMatch = Regex.IsMatch(Subject, regularExpression);
+                Execute.Assertion
+                .ForCondition(Regex.IsMatch(Subject, regularExpression))
+                .BecauseOf(because, becauseArgs)
+                .UsingLineBreaks
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion
                     .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
             }
-
-            Execute.Assertion
-                .ForCondition(isMatch)
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -319,22 +316,19 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
 
-            bool isMatch = false;
             try
             {
-                isMatch = Regex.IsMatch(Subject, regularExpression);
+                Execute.Assertion
+                    .ForCondition(!Regex.IsMatch(Subject, regularExpression))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
             }
-
-            Execute.Assertion
-                .ForCondition(!isMatch)
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
