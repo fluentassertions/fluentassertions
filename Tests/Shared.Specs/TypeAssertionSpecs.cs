@@ -1429,6 +1429,40 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_selection_of_types_do_inherit_unexpected_attribute_with_the_expected_properties_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(typeof(ClassWithInheritedAttribute));
+
+            // Act
+            Action act = () => types.Should()
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                    "because we {0}", "do");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to not be decorated with or inherit *DummyClassAttribute*" +
+                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
+                    " but a matching attribute was found on the following types:*" +
+                    "*ClassWithInheritedAttribute*.");
+        }
+
+        [Fact]
+        public void When_a_selection_of_types_do_not_inherit_unexpected_attribute_with_the_expected_properties_it_succeeds()
+        {
+            // Arrange
+            var types = new TypeSelector(typeof(ClassWithoutAttribute));
+
+            // Act
+            Action act = () => types.Should()
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                    "because we {0}", "do");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_injecting_a_null_predicate_into_TypeSelector_NotBeDecoratedWithOrInherit_it_should_throw()
         {
             // Arrange

@@ -1033,6 +1033,24 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_wait_time_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 0.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
+
+            // Act
+            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_poll_interval_is_negative_for_async_func_executed_with_wait_it_should_throw()
         {
             // Arrange
@@ -1048,6 +1066,24 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .WithMessage("* value of pollInterval must be non-negative*");
+        }
+
+        [Fact]
+        public void When_poll_interval_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 10.Milliseconds();
+            var pollInterval = 0.Milliseconds();
+
+            var clock = new FakeClock();
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
+
+            // Act
+            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         [Fact]

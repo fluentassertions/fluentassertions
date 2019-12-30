@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -458,6 +459,19 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_string_with_newline_matches_the_equivalent_of_a_wildcard_pattern_it_should_not_throw()
+        {
+            // Arrange
+            string subject = "hello\r\nworld!";
+
+            // Act
+            Action act = () => subject.Should().MatchEquivalentOf("helloworld!");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         #endregion
 
         #region Not Match Equivalent Of
@@ -494,6 +508,19 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect subject to match the equivalent of*\"*world*\" because that's illegal, " +
                 "but*\"hello WORLD\" matches.");
 #endif
+        }
+
+        [Fact]
+        public void When_a_string_with_newlines_does_match_the_equivalent_of_a_pattern_but_it_shouldnt_it_should_throw()
+        {
+            // Arrange
+            string subject = "hello\r\nworld!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchEquivalentOf("helloworld!");
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         #endregion
@@ -585,6 +612,28 @@ namespace FluentAssertions.Specs
 #endif
         }
 
+        [Fact]
+        public void When_a_string_is_matched_against_an_invalid_regex_it_should_only_have_one_failure_message()
+        {
+            // Arrange
+            string subject = "hello world!";
+            string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    subject.Should().MatchRegex(invalidRegex);
+                }
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should().Contain("is not a valid regular expression")
+                    .And.NotContain("does not match");
+        }
+
         #endregion
 
         #region Not Match Regex
@@ -670,6 +719,28 @@ namespace FluentAssertions.Specs
 #else
              .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
 #endif
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_only_contain_one_failure_message()
+        {
+            // Arrange
+            string subject = "hello world!";
+            string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    subject.Should().NotMatchRegex(invalidRegex);
+                }
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should().Contain("is not a valid regular expression")
+                    .And.NotContain("matches");
         }
 
         #endregion

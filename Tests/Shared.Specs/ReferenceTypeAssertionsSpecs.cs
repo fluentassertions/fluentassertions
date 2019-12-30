@@ -230,6 +230,32 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_generic_object_is_not_of_the_unexpected_type_it_should_not_throw()
+        {
+            // Arrange
+            var aList = new System.Collections.Generic.List<string>();
+
+            // Act
+            Action action = () => aList.Should().NotBeOfType<string>();
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_non_generic_object_is_not_of_the_unexpected_open_generic_type_it_should_not_throw()
+        {
+            // Arrange
+            var aString = "blah";
+
+            // Act
+            Action action = () => aString.Should().NotBeOfType(typeof(System.Collections.Generic.Dictionary<,>));
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_asserting_object_is_not_of_type_and_it_is_null_it_should_throw()
         {
             // Arrange

@@ -1526,6 +1526,24 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_dictionary_contains_exactly_one_of_the_keys_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "One",
+                [2] = "Two"
+            };
+
+            // Act
+            Action act = () => dictionary.Should().NotContainKeys(new[] { 2 }, "because {0}", "we do");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dictionary {[1, One], [2, Two]} to not contain key 2 because we do.");
+        }
+
+        [Fact]
         public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
         {
             // Arrange
@@ -1761,6 +1779,24 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_dictionary_contains_a_exactly_one_of_the_values_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "One",
+                [2] = "Two"
+            };
+
+            // Act
+            Action act = () => dictionary.Should().NotContainValues(new[] { "Two" }, "because {0}", "we do");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dictionary {[1, One], [2, Two]} to not contain value \"Two\" because we do.");
         }
 
         [Fact]

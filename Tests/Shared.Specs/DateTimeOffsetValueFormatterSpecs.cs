@@ -73,6 +73,27 @@ namespace FluentAssertions.Specs
             result.Should().Be("<08:20:01>");
         }
 
+        [InlineData("0001-01-02 04:05:06", "<0001-01-02 04:05:06>")]
+        [InlineData("0001-02-01 04:05:06", "<0001-02-01 04:05:06>")]
+        [InlineData("0002-01-01 04:05:06", "<0002-01-01 04:05:06>")]
+        [InlineData("0001-02-02 04:05:06", "<0001-02-02 04:05:06>")]
+        [InlineData("0002-01-02 04:05:06", "<0002-01-02 04:05:06>")]
+        [InlineData("0002-02-01 04:05:06", "<0002-02-01 04:05:06>")]
+        [InlineData("0002-02-02 04:05:06", "<0002-02-02 04:05:06>")]
+        [Theory]
+        public void When_date_is_relevant_it_should_be_included_in_the_output(string actual, string expected)
+        {
+            // Arrange
+            var formatter = new DateTimeOffsetValueFormatter();
+            var value = DateTime.Parse(actual, CultureInfo.InvariantCulture);
+
+            // Act
+            string result = formatter.Format(value, new FormattingContext(), null);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
         [Fact]
         public void When_a_full_date_and_time_is_specified_all_parts_should_be_included_in_the_output()
         {
