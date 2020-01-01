@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace FluentAssertions.Common
 {
@@ -31,8 +32,8 @@ namespace FluentAssertions.Common
             Type actualType = actual.GetType();
 
             return actualType != expectedType
-                && IsNumericType(actual)
-                && IsNumericType(expected)
+                && (actual.IsNumericType() || actualType.IsEnumType())
+                && (expected.IsNumericType() || expectedType.IsEnumType())
                 && CanConvert(actual, expected, actualType, expectedType)
                 && CanConvert(expected, actual, expectedType, actualType);
         }
@@ -41,9 +42,9 @@ namespace FluentAssertions.Common
         {
             try
             {
-                var converted = Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
+                var converted = source.ConvertTo(targetType);
 
-                return source.Equals(Convert.ChangeType(converted, sourceType, CultureInfo.InvariantCulture))
+                return source.Equals(converted.ConvertTo(sourceType))
                      && converted.Equals(target);
             }
             catch
@@ -53,7 +54,14 @@ namespace FluentAssertions.Common
             }
         }
 
-        private static bool IsNumericType(object obj)
+        private static object ConvertTo(this object source, Type targetType)
+        {
+            return IsEnumType(targetType)
+                ? Enum.ToObject(targetType, source)
+                : Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
+        }
+
+        private static bool IsNumericType(this object obj)
         {
             switch (obj)
             {
@@ -73,5 +81,7 @@ namespace FluentAssertions.Common
                     return false;
             }
         }
+
+        private static bool IsEnumType(this Type type) => type.GetTypeInfo().IsEnum;
     }
 }
