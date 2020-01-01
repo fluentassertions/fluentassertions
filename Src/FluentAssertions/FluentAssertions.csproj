@@ -65,8 +65,10 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
 </Project>
