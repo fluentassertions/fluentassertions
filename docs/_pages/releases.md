@@ -7,6 +7,40 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 5.10.0
+
+**What's New**
+* Added `string.Should().NotBeEquivalentTo` - [#1134](https://github.com/fluentassertions/fluentassertions/pull/1134)
+* Added `collectionOfStrings.Should().ContainMatch()` to assert that the collection contains at least one string that matches a wildcard pattern - [#1138](https://github.com/fluentassertions/fluentassertions/pull/1138)
+* Added overloads of `NotBeInAscendingOrder` and `NotBeInDescendingOrder` that take a property expression - [#1140](https://github.com/fluentassertions/fluentassertions/pull/1140)
+* Include the index in the XPath information reported while comparing `XDocument`s for equivalence - [#1181](https://github.com/fluentassertions/fluentassertions/pull/1181)
+* Added `NotHaveSameCount` and `HaveSameCount` for dictionary assertions - [#1178](https://github.com/fluentassertions/fluentassertions/pull/1178)
+* Extended `string.Should().Contain()` and `string.Should().ContainEquivalentOf()` to test the number of times a phrase exists in a string using `theString.Should().Contain("is a", MoreThan.Thrice())` - [#1145](https://github.com/fluentassertions/fluentassertions/pull/1145)
+* Added support for methods returning `ValueTask` and `ValueTask<T>` - [#1158](https://github.com/fluentassertions/fluentassertions/pull/1158)
+* Added support for using `SatisfyRespectively` on all collections, including collections of `string` - [#1201](https://github.com/fluentassertions/fluentassertions/pull/1201)
+
+**Fixes**
+* Updated the docs to clarify that `CompleteWithin` works on `Func<Task>` and not on `Task` directly - [#1127](https://github.com/fluentassertions/fluentassertions/pull/1127).
+* Renamed collection assertion `NotBeAscendingInOrder` and `NotBeDescendingInOrder` to `NotBeInAscendingOrder` and `NotBeInDescendingOrder` (in a non-breaking way) - [#1140](https://github.com/fluentassertions/fluentassertions/pull/1140)
+* Collections containing `null`s where not properly treated as equivalent by `BeEquivalentTo` - [#1143](https://github.com/fluentassertions/fluentassertions/pull/1143)
+* `BeEquivalentTo` now allows selecting an explicit interface member over a regular instance member when using `RespectingDeclaredTypes` and the expectation type is an interface - [#1144](https://github.com/fluentassertions/fluentassertions/pull/1144)
+* Fixed a crash that can occur when trying to determine the caller identity under .NET Native - [#1149](https://github.com/fluentassertions/fluentassertions/issues/1149)
+* Ensured that determining the caller identity works for namespaces that contain the phrase `System` and don't match on partial namespace segments - [#1193](https://github.com/fluentassertions/fluentassertions/pull/1193)
+* `BeEquivalentTo` on an `XDocument` could report the incorrect path to a self-closing XML tag - [#1170](https://github.com/fluentassertions/fluentassertions/pull/1170)
+* `BeEquivalentTo` on multi-dimensional arrays with empty elements could cause an internal error - [#1167](https://github.com/fluentassertions/fluentassertions/issues/1167)
+* Several assertion APIs did not include the _reason_ in the failure messages - [#1172](https://github.com/fluentassertions/fluentassertions/pull/1172)
+* A self-closing XML element was not treated as equivalent to an empty element with the same name - [#1174](https://github.com/fluentassertions/fluentassertions/pull/1174)
+* Ensure that type assertion `ThatAreUnderNamespace` handles types in the global namespaces correctly - [#1197](https://github.com/fluentassertions/fluentassertions/pull/1197)
+* When comparing whether two objects are equal, a conversion should be precision preserving - [#1202](https://github.com/fluentassertions/fluentassertions/pull/1202)
+* `BeEquivalentTo` on normal `Tuple`s should use structural equivalency instead of treating them as value types - [#1206](https://github.com/fluentassertions/fluentassertions/pull/1206)
+* Some platforms throw reflection exceptions when trying to use `ConfigurationManager`. This is now handled more gracefully - [#1210](https://github.com/fluentassertions/fluentassertions/pull/1210)
+* Reintroduced the package dependency on `System.Xml.Linq` for .NET 4.5/4.7 - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
+* Treat enums and their numeric representations in structural object graph comparisons the same - [#1208](https://github.com/fluentassertions/fluentassertions/pull/1208)
+
+Thanks to contributors [Ronald Kroon](https://github.com/ronaldkroon), [Daniel Petrov](https://github.com/danielmpetrov), [@david-a-jetter](https://github.com/david-a-jetter), [Lukas Grützmacher](https://github.com/lg2de) and [Ben Randall](https://github.com/veleek).
+
+And special thanks to [Matthias Koch](https://github.com/matkoch) to switch us over to the awesome [Nuke build system](https://nuke.build/). 
+
 ## 5.9.0
 
 **What's New**
