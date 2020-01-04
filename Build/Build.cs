@@ -120,6 +120,11 @@ class Build : NukeBuild
             NSpec1(TestFrameworkDirectory / "NSpec.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec.Specs.dll");
             NSpec2(TestFrameworkDirectory / "NSpec2.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec2.Specs.dll");
             NSpec3(TestFrameworkDirectory / "NSpec3.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec3.Specs.dll");
+
+            DotNetTest(s => s
+                .SetConfiguration(Configuration.Debug)
+                .CombineWith(
+                    cc => cc.SetProjectFile(Solution.GetProject("Approval.Tests"))));
         });
 
     Target Pack => _ => _
