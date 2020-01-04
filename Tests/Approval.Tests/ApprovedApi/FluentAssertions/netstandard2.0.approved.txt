@@ -1296,8 +1296,10 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeLessThan(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T>
         where T :  struct
