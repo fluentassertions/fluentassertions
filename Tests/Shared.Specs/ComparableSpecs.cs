@@ -12,19 +12,19 @@ namespace FluentAssertions.Specs
         public void When_two_instances_are_equal_it_should_succeed()
         {
             // Arrange
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hello");
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(1);
 
             // Act / Assert
             subject.Should().Be(other);
         }
 
         [Fact]
-        public void When_two_instances_are_not_equal_it_should_throw()
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_not_succeed()
         {
             // Arrange
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hi");
+            var subject = new SameInstanceIsNotEqualClass();
+            var other = subject;
 
             // Act
             Action act = () => subject.Should().Be(other, "they have the same property values");
@@ -33,15 +33,47 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected*Hi*because they have the same property values, but found*Hello*.");
+                    "Expected*SameInstanceIsNotEqualClass*because they have the same property values, but found*SameInstanceIsNotEqualClass*.");
+        }
+
+
+        [Fact]
+        public void When_two_instances_are_not_equal_it_should_throw()
+        {
+            // Arrange
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(2);
+
+            // Act
+            Action act = () => subject.Should().Be(other, "they have the same property values");
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected*2*because they have the same property values, but found*1*.");
+        }
+
+        [Fact]
+        public void When_two_references_to_the_same_instance_are_not_equal_it_should_succeed()
+        {
+            // Arrange
+            var subject = new SameInstanceIsNotEqualClass();
+            var other = subject;
+
+            // Act
+            Action act = () => subject.Should().NotBe(other);
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_equal_objects_should_not_be_equal_it_should_throw()
         {
             // Arrange
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hello");
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(1);
 
             // Act
             Action act = () => subject.Should().NotBe(other, "they represent different things");
@@ -51,9 +83,9 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
 #if NETCOREAPP1_1
-                    "*Did not expect object to be equal to*Hello*because they represent different things.*");
+                    "*Did not expect object to be equal to*1*because they represent different things.*");
 #else
-                    "*Did not expect subject to be equal to*Hello*because they represent different things.*");
+                    "*Did not expect subject to be equal to*1*because they represent different things.*");
 #endif
         }
 
@@ -61,8 +93,8 @@ namespace FluentAssertions.Specs
         public void When_two_unequal_objects_should_not_be_equal_it_should_not_throw()
         {
             // Arrange
-            var subject = new ComparableOfString("Hello");
-            var other = new ComparableOfString("Hi");
+            var subject = new EquatableOfInt(1);
+            var other = new EquatableOfInt(2);
 
             // Act
             Action act = () => subject.Should().NotBe(other);
@@ -309,6 +341,81 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Be Ranked As Equal To
+
+        [Fact]
+        public void When_subect_is_ranked_equal_to_another_subject_and_that_is_expected_it_should_not_throw()
+        {
+            // Arrange
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hello");
+
+            // Act
+            Action act = () => subject.Should().BeRankedEquallyTo(other);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_not_ranked_equal_to_another_subject_but_that_is_expected_it_should_throw()
+        {
+            // Arrange
+            var subject = new ComparableOfString("42");
+            var other = new ComparableOfString("Forty two");
+
+            // Act
+            Action act = () => subject.Should().BeRankedEquallyTo(other, "they represent the same number");
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected object*42*to be ranked as equal to*Forty two*because they represent the same number.");
+#else
+                .WithMessage("Expected subject*42*to be ranked as equal to*Forty two*because they represent the same number.");
+#endif
+        }
+
+        #endregion
+
+        #region Not Be Ranked As Equal To
+
+        [Fact]
+        public void When_subect_is_not_ranked_equal_to_another_subject_and_that_is_expected_it_should_not_throw()
+        {
+            // Arrange
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hi");
+
+            // Act
+            Action act = () => subject.Should().NotBeRankedEquallyTo(other);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_ranked_equal_to_another_subject_but_that_is_not_expected_it_should_throw()
+        {
+            // Arrange
+            var subject = new ComparableOfString("Lead");
+            var other = new ComparableOfString("Lead");
+
+            // Act
+            Action act = () => subject.Should().NotBeRankedEquallyTo(other, "they represent different concepts");
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+#if NETCOREAPP1_1
+                .WithMessage("Expected object*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
+#else
+                .WithMessage("Expected subject*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
+#endif
+        }
+
+        #endregion
+
         #region Be Less Than
 
         [Fact]
@@ -535,6 +642,43 @@ namespace FluentAssertions.Specs
         public override string ToString()
         {
             return Value;
+        }
+    }
+
+    public class SameInstanceIsNotEqualClass
+    {
+        public SameInstanceIsNotEqualClass()
+        {
+        }
+        public override bool Equals(object obj)
+        {
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return 1;
+        }
+    }
+
+    public class EquatableOfInt
+    {
+        public int Value { get; set; }
+        public EquatableOfInt(int value)
+        {
+            Value = value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Value == ((EquatableOfInt)obj).Value;
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 
