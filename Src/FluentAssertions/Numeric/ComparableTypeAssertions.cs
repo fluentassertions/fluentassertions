@@ -152,7 +152,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) == Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} {0} to be be ranked as equal to {1}{reason}.", Subject, expected);
+                .FailWith("Expected {context:object} {0} to be ranked as equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }

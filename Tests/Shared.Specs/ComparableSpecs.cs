@@ -371,9 +371,9 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected object*42*to be be ranked as equal to*Forty two*because they represent the same number.");
+                .WithMessage("Expected object*42*to be ranked as equal to*Forty two*because they represent the same number.");
 #else
-                .WithMessage("Expected subject*42*to be be ranked as equal to*Forty two*because they represent the same number.");
+                .WithMessage("Expected subject*42*to be ranked as equal to*Forty two*because they represent the same number.");
 #endif
         }
 
@@ -408,9 +408,9 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
 #if NETCOREAPP1_1
-                .WithMessage("Expected object*Lead*not to be be ranked as equal to*Lead*because they represent different concepts.");
+                .WithMessage("Expected object*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
 #else
-                .WithMessage("Expected subject*Lead*not to be be ranked as equal to*Lead*because they represent different concepts.");
+                .WithMessage("Expected subject*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
 #endif
         }
 
