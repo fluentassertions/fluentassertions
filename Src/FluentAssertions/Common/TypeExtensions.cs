@@ -128,7 +128,29 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type, inherit).Any();
         }
 
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type);
+        }
 
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes(type, isMatchingAttributePredicate);
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type, true);
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes(type, isMatchingAttributePredicate, true);
+        }
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type, bool inherit = false)
             where TAttribute : Attribute
