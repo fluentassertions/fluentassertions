@@ -1876,13 +1876,13 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDerivedFrom(System.Type baseType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs)

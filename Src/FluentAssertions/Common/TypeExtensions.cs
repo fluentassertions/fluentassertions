@@ -88,43 +88,37 @@ namespace FluentAssertions.Common
         public static bool IsDecoratedWith<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
         }
 
         public static bool IsDecoratedWith<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
         }
 
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
         }
 
         [Obsolete("This overload is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
@@ -132,6 +126,30 @@ namespace FluentAssertions.Common
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type, inherit).Any();
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type);
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes(type, isMatchingAttributePredicate);
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type, true);
+        }
+
+        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes(type, isMatchingAttributePredicate, true);
         }
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type, bool inherit = false)
@@ -142,16 +160,40 @@ namespace FluentAssertions.Common
             return CustomAttributeExtensions.GetCustomAttributes(type, inherit).OfType<TAttribute>();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this Type type, bool inherit = false)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type.GetTypeInfo(), inherit);
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
         }
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo, bool inherit = false)
             where TAttribute : Attribute
         {
             return typeInfo.GetCustomAttributes(inherit).OfType<TAttribute>();
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(typeInfo, inherit).Where(isMatchingAttribute);
         }
 
         /// <summary>

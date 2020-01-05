@@ -219,16 +219,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes<TAttribute>();
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -245,7 +247,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
@@ -253,13 +255,15 @@ namespace FluentAssertions.Types
 
             BeDecoratedWith<TAttribute>(because, becauseArgs);
 
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith(isMatchingAttributePredicate))
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -272,16 +276,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes<TAttribute>();
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWithOrInherit<TAttribute>())
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -298,7 +304,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
@@ -306,13 +312,15 @@ namespace FluentAssertions.Types
 
             BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes(isMatchingAttributePredicate);
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
