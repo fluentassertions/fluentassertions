@@ -25,15 +25,6 @@ namespace FluentAssertions.Reflection
         /// Asserts that an assembly does not reference the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which should not be referenced.</param>
-        public void NotReference(Assembly assembly)
-        {
-            NotReference(assembly, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that an assembly does not reference the specified assembly.
-        /// </summary>
-        /// <param name="assembly">The assembly which should not be referenced.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -41,7 +32,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotReference(Assembly assembly, string because, params string[] becauseArgs)
+        public void NotReference(Assembly assembly, string because = "", params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -58,15 +49,6 @@ namespace FluentAssertions.Reflection
         /// Asserts that an assembly references the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which should be referenced.</param>
-        public void Reference(Assembly assembly)
-        {
-            Reference(assembly, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that an assembly references the specified assembly.
-        /// </summary>
-        /// <param name="assembly">The assembly which should be referenced.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -74,7 +56,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void Reference(Assembly assembly, string because, params string[] becauseArgs)
+        public void Reference(Assembly assembly, string because = "", params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
