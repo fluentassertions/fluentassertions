@@ -322,8 +322,8 @@ namespace FluentAssertions.Collections
     public class GenericCollectionAssertions<T> : FluentAssertions.Collections.SelfReferencingCollectionAssertions<T, FluentAssertions.Collections.GenericCollectionAssertions<T>>
     {
         public GenericCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue) { }
-        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> BeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] args) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] args) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] args) { }
@@ -345,8 +345,8 @@ namespace FluentAssertions.Collections
         public GenericDictionaryAssertions(System.Collections.Generic.IDictionary<TKey, TValue> dictionary) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> Contain(params System.Collections.Generic.KeyValuePair<, >[] expected) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> Contain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> Contain(System.Collections.Generic.KeyValuePair<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
@@ -1289,8 +1289,8 @@ namespace FluentAssertions.Numeric
         public ComparableTypeAssertions(System.IComparable<T> value) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeGreaterThan(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
@@ -1506,12 +1506,12 @@ namespace FluentAssertions.Primitives
         public ObjectAssertions(object value) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> HaveFlag(System.Enum expectedFlag, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBe(object unexpected, string because = "", params object[] becauseArgs) { }
-        public void NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
-        public void NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotHaveFlag(System.Enum unexpectedFlag, string because = "", params object[] becauseArgs) { }
     }
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
@@ -1616,8 +1616,8 @@ namespace FluentAssertions.Reflection
         public AssemblyAssertions(System.Reflection.Assembly assembly) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Reflection.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
-        public void NotReference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
-        public void Reference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Specialized
@@ -1652,13 +1652,13 @@ namespace FluentAssertions.Specialized
         protected DelegateAssertions(TDelegate @delegate, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         public new TDelegate Subject { get; }
         protected abstract void InvokeSubject();
-        public void NotThrow(string because = "", params object[] becauseArgs) { }
-        protected void NotThrow(System.Exception exception, string because, object[] becauseArgs) { }
-        public void NotThrow<TException>(string because = "", params object[] becauseArgs)
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.DelegateAssertions<TDelegate>> NotThrow(string because = "", params object[] becauseArgs) { }
+        protected FluentAssertions.AndConstraint<FluentAssertions.Specialized.DelegateAssertions<TDelegate>> NotThrow(System.Exception exception, string because, object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.DelegateAssertions<TDelegate>> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
-        protected void NotThrow<TException>(System.Exception exception, string because, object[] becauseArgs)
+        protected FluentAssertions.AndConstraint<FluentAssertions.Specialized.DelegateAssertions<TDelegate>> NotThrow<TException>(System.Exception exception, string because, object[] becauseArgs)
             where TException : System.Exception { }
-        public void NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.DelegateAssertions<TDelegate>> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         protected FluentAssertions.Specialized.ExceptionAssertions<TException> Throw<TException>(System.Exception exception, string because, object[] becauseArgs)
@@ -1690,11 +1690,11 @@ namespace FluentAssertions.Specialized
     public class ExecutionTimeAssertions
     {
         public ExecutionTimeAssertions(FluentAssertions.Specialized.ExecutionTime executionTime) { }
-        public void BeCloseTo(System.TimeSpan expectedDuration, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
-        public void BeGreaterOrEqualTo(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
-        public void BeGreaterThan(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
-        public void BeLessOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
-        public void BeLessThan(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeCloseTo(System.TimeSpan expectedDuration, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterOrEqualTo(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterThan(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessThan(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
     }
     public class FunctionAssertions<T> : FluentAssertions.Specialized.DelegateAssertions<System.Func<T>>
     {

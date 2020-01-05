@@ -118,6 +118,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_two_instances_are_compared_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new ComparableCustomer(42);
+            var expected = new CustomerDTO(42);
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expected)
+                .And.NotBeNull();
+        }
+
+        [Fact]
+        public void When_two_instances_are_compared_with_config_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new ComparableCustomer(42);
+            var expected = new CustomerDTO(42);
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expected, opt => opt)
+                .And.NotBeNull();
+        }
+
+        [Fact]
         public void When_two_instances_are_equivalent_due_to_exclusion_it_should_succeed()
         {
             // Arrange

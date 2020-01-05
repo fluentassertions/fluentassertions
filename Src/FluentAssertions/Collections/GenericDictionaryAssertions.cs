@@ -512,10 +512,10 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEquivalentTo<TExpectation>(TExpectation expectation,
             string because = "", params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, options => options, because, becauseArgs);
+            return BeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -542,7 +542,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -563,6 +563,8 @@ namespace FluentAssertions.Collections
 
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
 
         #region ContainKey

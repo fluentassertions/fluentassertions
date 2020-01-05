@@ -60,10 +60,10 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -108,6 +108,8 @@ namespace FluentAssertions.Numeric
 
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
         /// <summary>

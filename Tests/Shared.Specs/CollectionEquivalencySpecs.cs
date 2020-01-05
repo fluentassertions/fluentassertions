@@ -868,6 +868,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new List<SomeDto>
+            {
+                new SomeDto { Name = "someDto", Age = 1 },
+                new SomeDto { Name = "someDto", Age = 1 },
+                new SomeDto { Name = "someDto", Age = 1 }
+            };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo(new
+            {
+                Name = "someDto",
+                Age = 1,
+                Birthdate = new DateTime()
+            })
+            .And.HaveCount(3);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             // Arrange
@@ -1565,6 +1589,47 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().ThrowExactly<ArgumentNullException>()
                 .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
+        public void When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_succeed()
+        {
+            // Arrange
+            var subject = new List<char> { 'g', 'g' };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_not_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_fail()
+        {
+            // Arrange
+            var subject = new List<char> { 'g', 'a' };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt, "we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("*we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new List<char> { 'g', 'g' };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt)
+                .And.HaveCount(2);
+
+            // Assert
+            action.Should().NotThrow();
         }
 
         [Fact]
