@@ -2006,55 +2006,35 @@ namespace FluentAssertions.Xml
     {
         public XAttributeAssertions(System.Xml.Linq.XAttribute attribute) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> Be(System.Xml.Linq.XAttribute expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> Be(System.Xml.Linq.XAttribute expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> HaveValue(string expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> HaveValue(string expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> NotBe(System.Xml.Linq.XAttribute unexpected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> NotBe(System.Xml.Linq.XAttribute unexpected, string because, params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> Be(System.Xml.Linq.XAttribute expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> NotBe(System.Xml.Linq.XAttribute unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class XDocumentAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Xml.Linq.XDocument, FluentAssertions.Xml.XDocumentAssertions>
     {
         public XDocumentAssertions(System.Xml.Linq.XDocument document) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> Be(System.Xml.Linq.XDocument expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> Be(System.Xml.Linq.XDocument expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> BeEquivalentTo(System.Xml.Linq.XDocument expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> BeEquivalentTo(System.Xml.Linq.XDocument expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(string expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(string expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(string expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(System.Xml.Linq.XName expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(string expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(System.Xml.Linq.XName expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBe(System.Xml.Linq.XDocument unexpected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBe(System.Xml.Linq.XDocument unexpected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBeEquivalentTo(System.Xml.Linq.XDocument unexpected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBeEquivalentTo(System.Xml.Linq.XDocument unexpected, string because, params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> Be(System.Xml.Linq.XDocument expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> BeEquivalentTo(System.Xml.Linq.XDocument expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XDocumentAssertions, System.Xml.Linq.XElement> HaveRoot(System.Xml.Linq.XName expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBe(System.Xml.Linq.XDocument unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> NotBeEquivalentTo(System.Xml.Linq.XDocument unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class XElementAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Xml.Linq.XElement, FluentAssertions.Xml.XElementAssertions>
     {
         public XElementAssertions(System.Xml.Linq.XElement xElement) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> Be(System.Xml.Linq.XElement expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> Be(System.Xml.Linq.XElement expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> BeEquivalentTo(System.Xml.Linq.XElement expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> BeEquivalentTo(System.Xml.Linq.XElement expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(string expectedName, string expectedValue) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(System.Xml.Linq.XName expectedName, string expectedValue) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(System.Xml.Linq.XName expectedName, string expectedValue, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(string expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(string expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveValue(string expected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveValue(string expected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBe(System.Xml.Linq.XElement unexpected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBe(System.Xml.Linq.XElement unexpected, string because, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBeEquivalentTo(System.Xml.Linq.XElement unexpected) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBeEquivalentTo(System.Xml.Linq.XElement unexpected, string because, params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> Be(System.Xml.Linq.XElement expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> BeEquivalentTo(System.Xml.Linq.XElement expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveAttribute(System.Xml.Linq.XName expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XElementAssertions, System.Xml.Linq.XElement> HaveElement(System.Xml.Linq.XName expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBe(System.Xml.Linq.XElement unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBeEquivalentTo(System.Xml.Linq.XElement unexpected, string because = "", params object[] becauseArgs) { }
     }
 }
