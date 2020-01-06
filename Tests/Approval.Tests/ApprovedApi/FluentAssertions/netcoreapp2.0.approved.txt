@@ -511,19 +511,7 @@ namespace FluentAssertions.Common
         public static System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo> GetNonPrivateProperties(this System.Type typeToReflect, System.Collections.Generic.IEnumerable<string> filter = null) { }
         public static System.Reflection.MethodInfo GetParameterlessMethod(this System.Type type, string methodName) { }
         public static System.Reflection.PropertyInfo GetPropertyByName(this System.Type type, string propertyName) { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWithOrInherits> instead.")]
-        public static bool HasAttribute<TAttribute>(this System.Reflection.MemberInfo method)
-            where TAttribute : System.Attribute { }
         public static bool HasExplicitlyImplementedProperty(this System.Type type, System.Type interfaceType, string propertyName) { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
-            where TAttribute : System.Attribute { }
         public static bool HasMethod(this System.Type type, string methodName, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
         public static bool HasParameterlessMethod(this System.Type type, string methodName) { }
         public static bool HasValueSemantics(this System.Type type) { }
@@ -540,10 +528,6 @@ namespace FluentAssertions.Common
         public static bool IsDecoratedWith<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : System.Attribute { }
         public static bool IsDecoratedWith<TAttribute>(this System.Reflection.TypeInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        [System.Obsolete("This overload is deprecated and will be removed on the next major version. Please" +
-            " use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool IsDecoratedWith<TAttribute>(this System.Type type, bool inherit = false)
             where TAttribute : System.Attribute { }
         public static bool IsDecoratedWith<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : System.Attribute { }

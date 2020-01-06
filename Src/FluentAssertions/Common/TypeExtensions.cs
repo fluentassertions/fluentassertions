@@ -16,39 +16,6 @@ namespace FluentAssertions.Common
         private const BindingFlags AllMembersFlag =
             PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
-        /// <summary>
-        /// Determines whether the specified method has been annotated with a specific attribute.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
-        /// </returns>
-        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> instead.")]
-        public static bool HasAttribute<TAttribute>(this MemberInfo method)
-            where TAttribute : Attribute
-        {
-            return method.GetCustomAttributes(typeof(TAttribute), true).Any();
-        }
-
-        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type,
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : Attribute
-        {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-
-            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
-        }
-
-        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this Type type,
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
-            where TAttribute : Attribute
-        {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-
-            return GetCustomAttributes<TAttribute>(type, inherit).Any(isMatchingAttribute);
-        }
-
         public static bool IsDecoratedWith<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
@@ -119,13 +86,6 @@ namespace FluentAssertions.Common
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
-        }
-
-        [Obsolete("This overload is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool IsDecoratedWith<TAttribute>(this Type type, bool inherit = false)
-            where TAttribute : Attribute
-        {
-            return GetCustomAttributes<TAttribute>(type, inherit).Any();
         }
 
         internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
