@@ -13,10 +13,7 @@ namespace FluentAssertions.Common
     {
         public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (expression is null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
             MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                                     AttemptToGetMemberInfoFromMemberExpression(expression);
@@ -41,12 +38,9 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
-            if (expression is null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected a property expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected a property expression, but found <null>.");
 
-            var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
+            MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                              AttemptToGetMemberInfoFromMemberExpression(expression);
 
             if (!(memberInfo is PropertyInfo propertyInfo))
@@ -88,10 +82,7 @@ namespace FluentAssertions.Common
         public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
             this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
-            if (expression == null)
-            {
-                throw new ArgumentNullException(nameof(expression), "Expected an expression, but found <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
             var segments = new List<string>();
             var declaringTypes = new List<Type>();
@@ -101,7 +92,9 @@ namespace FluentAssertions.Common
 
             while (node != null)
             {
+#pragma warning disable IDE0010 // System.Linq.Expressions.ExpressionType has many members we do not care about
                 switch (node.NodeType)
+#pragma warning restore IDE0010
                 {
                     case ExpressionType.Lambda:
                         node = ((LambdaExpression)node).Body;
@@ -151,7 +144,7 @@ namespace FluentAssertions.Common
             }
 
             // If any members were accessed in the expression, the first one found is the last member.
-            Type declaringType = declaringTypes.FirstOrDefault( ) ?? typeof(TDeclaringType);
+            Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
             string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
             string segmentPath = string.Join(".", reversedSegments);

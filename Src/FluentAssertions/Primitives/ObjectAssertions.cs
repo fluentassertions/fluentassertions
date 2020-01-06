@@ -11,9 +11,8 @@ namespace FluentAssertions.Primitives
     /// </summary>
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
-        public ObjectAssertions(object value)
+        public ObjectAssertions(object value) : base(value)
         {
-            Subject = value;
         }
 
         /// <summary>
@@ -108,7 +107,9 @@ namespace FluentAssertions.Primitives
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
-            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
+            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext
             {
@@ -122,6 +123,74 @@ namespace FluentAssertions.Primitives
 
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not equivalent to another object.
+        /// </summary>
+        /// <remarks>
+        /// Objects are equivalent when both object graphs have equally named properties with the same value,
+        /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
+        /// items in the collection are structurally equal.
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public void NotBeEquivalentTo<TExpectation>(
+            TExpectation unexpected,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not equivalent to another object.
+        /// </summary>
+        /// <remarks>
+        /// Objects are equivalent when both object graphs have equally named properties with the same value,
+        /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
+        /// items in the collection are structurally equal.
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public void NotBeEquivalentTo<TExpectation>(
+            TExpectation unexpected,
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
+            bool hasMismatches;
+            using (var scope = new AssertionScope())
+            {
+                Subject.Should().BeEquivalentTo(unexpected, config, because, becauseArgs);
+                hasMismatches = scope.Discard().Length > 0;
+            }
+
+            Execute.Assertion
+                .ForCondition(hasMismatches)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:object} not to be equivalent to {0}, but they are.", unexpected);
         }
 
         /// <summary>

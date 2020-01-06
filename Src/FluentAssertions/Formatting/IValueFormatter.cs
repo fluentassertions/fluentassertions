@@ -22,10 +22,10 @@
         /// </summary>
         /// <param name="value">The value for which to format.</param>
         /// <param name="context">
-        ///     Contains additional information about the formatting task.
+        /// Contains additional information about the formatting task.
         /// </param>
         /// <param name="formatChild">
-        ///     Allows the formatter to recursively format any child objects.
+        /// Allows the formatter to recursively format any child objects.
         /// </param>
         /// <remarks>
         /// DO NOT CALL <see cref="Formatter.ToString(object,bool)"/> directly, but use <paramref name="formatChild"/>

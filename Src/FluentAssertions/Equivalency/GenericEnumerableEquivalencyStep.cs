@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context);
 
             return (context.Expectation != null) && IsGenericCollection(expectationType);
         }
@@ -38,7 +38,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectedType = config.GetExpectationType(context);
 
-            var interfaceTypes = GetIEnumerableInterfaces(expectedType);
+            Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Length == 1)
@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
                     "to use for asserting the equivalency of the collection. ",
                     interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-            if (AssertSubjectIsCollection(context.Expectation, context.Subject))
+            if (AssertSubjectIsCollection(context.Subject))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
@@ -74,11 +74,11 @@ namespace FluentAssertions.Equivalency
         private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
             => validator.Execute(subject, expectation?.ToArray());
 
-        private static bool AssertSubjectIsCollection(object expectation, object subject)
+        private static bool AssertSubjectIsCollection(object subject)
         {
             bool conditionMet = AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:subject} not to be {0}.", new object[] {null});
+                .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
 
             if (conditionMet)
             {
@@ -97,7 +97,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool IsGenericCollection(Type type)
         {
-            var enumerableInterfaces = GetIEnumerableInterfaces(type);
+            Type[] enumerableInterfaces = GetIEnumerableInterfaces(type);
 
             return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }

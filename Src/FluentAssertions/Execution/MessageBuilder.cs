@@ -33,44 +33,46 @@ namespace FluentAssertions.Execution
         {
             message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
 
-            message = SubstituteIdentifier(message, identifier?.Escape(true), fallbackIdentifier);
+            message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
 
             message = SubstituteContextualTags(message, contextData);
 
             message = FormatArgumentPlaceholders(message, messageArgs);
 
-            return message.Unescape();
+            return message;
         }
 
-        private string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
+        private static string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
             const string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
 
             message = Regex.Replace(message, pattern, match =>
             {
+                const string result = " ";
+                if (!string.IsNullOrEmpty(identifier))
+                {
+                    return result + identifier;
+                }
+
                 string defaultIdentifier = match.Groups["default"].Value;
-                string result = "object";
 
-                if (!identifier.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(defaultIdentifier))
                 {
-                    result = identifier;
-                }
-                else if (!defaultIdentifier.IsNullOrEmpty())
-                {
-                    result = defaultIdentifier;
-                }
-                else if (!fallbackIdentifier.IsNullOrEmpty())
-                {
-                    result = fallbackIdentifier;
+                    return result + defaultIdentifier;
                 }
 
-                return " " + result;
+                if (!string.IsNullOrEmpty(fallbackIdentifier))
+                {
+                    return result + fallbackIdentifier;
+                }
+
+                return " object";
             });
 
             return message.TrimStart();
         }
 
-        private string SubstituteContextualTags(string message, ContextDataItems contextData)
+        private static string SubstituteContextualTags(string message, ContextDataItems contextData)
         {
             const string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
 
@@ -126,7 +128,7 @@ namespace FluentAssertions.Execution
 
         private bool StartsWithBlank(string text)
         {
-            return (text.Length > 0) && blanks.Any(blank => text[0] == blank);
+            return (text.Length > 0) && blanks.Contains(text[0]);
         }
     }
 }

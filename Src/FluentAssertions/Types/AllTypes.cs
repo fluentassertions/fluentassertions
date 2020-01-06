@@ -7,9 +7,9 @@ namespace FluentAssertions.Types
     /// </summary>
     /// <example>
     /// AllTypes.From(myAssembly)<br />
-    ///   .ThatImplement&lt;ISomeInterface&gt;<br />
-    ///   .Should()<br />
-    ///   .BeDecoratedWith&lt;SomeAttribute&gt;()
+    /// .ThatImplement&lt;ISomeInterface&gt;<br />
+    /// .Should()<br />
+    /// .BeDecoratedWith&lt;SomeAttribute&gt;()
     /// </example>
     public static class AllTypes
     {

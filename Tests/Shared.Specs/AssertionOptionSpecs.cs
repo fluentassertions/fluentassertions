@@ -1,26 +1,35 @@
 ﻿using System;
 using System.Collections;
-using System.Threading.Tasks;
-using FluentAssertions.Equivalency;
-using Xunit;
-
-#if NET45 || NET47 || NETCOREAPP2_0
 using System.Linq;
-using System.Net;
+using System.Threading.Tasks;
 using Chill;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using Xunit;
 using Xunit.Sdk;
-#endif
 
 namespace FluentAssertions.Specs
 {
     namespace AssertionOptionsSpecs
     {
+        public class AssertionOptionsSpecs
+        {
+            [Fact]
+            public void When_injecting_a_null_configurer_it_should_throw()
+            {
+                // Arrange
+                Action act = () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null);
+
+                // Assert
+                act.Should().ThrowExactly<ArgumentNullException>()
+                    .Which.ParamName.Should().Be("defaultsConfigurer");
+            }
+        }
+
         // Due to tests that call AssertionOptions
         [CollectionDefinition("AssertionOptionsSpecs", DisableParallelization = true)]
         public class AssertionOptionsSpecsDefinition { }
 
-#if NET45 || NET47 || NETCOREAPP2_0
         [Collection("AssertionOptionsSpecs")]
         public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyAssertionOptions, Action>
         {
@@ -28,7 +37,7 @@ namespace FluentAssertions.Specs
             {
                 When(() =>
                 {
-                    IEquivalencyAssertionOptions  equivalencyAssertionOptions = new EquivalencyAssertionOptions();
+                    IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
                     return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
                         e => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
                     );
@@ -288,6 +297,5 @@ namespace FluentAssertions.Specs
                 return true;
             }
         }
-#endif
     }
 }

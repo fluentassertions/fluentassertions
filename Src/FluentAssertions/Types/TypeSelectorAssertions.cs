@@ -16,7 +16,7 @@ namespace FluentAssertions.Types
     public class TypeSelectorAssertions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="System.Object" /> class.
         /// </summary>
         public TypeSelectorAssertions(params Type[] types)
         {
@@ -75,8 +75,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithoutMatchingAttribute = Subject
-                .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
+                .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -106,7 +108,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Type[] typesWithoutAttribute = Subject
-                .Where(type => !type.IsDecoratedWith<TAttribute>(true))
+                .Where(type => !type.IsDecoratedWithOrInherit<TAttribute>())
                 .ToArray();
 
             Execute.Assertion
@@ -139,8 +141,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithoutMatchingAttribute = Subject
-                .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -203,8 +207,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithMatchingAttribute = Subject
-                .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate))
+                .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion
@@ -234,7 +240,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Type[] typesWithAttribute = Subject
-                .Where(type => type.IsDecoratedWith<TAttribute>(true))
+                .Where(type => type.IsDecoratedWithOrInherit<TAttribute>())
                 .ToArray();
 
             Execute.Assertion
@@ -267,8 +273,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Type[] typesWithMatchingAttribute = Subject
-                .Where(type => type.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .ToArray();
 
             Execute.Assertion

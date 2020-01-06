@@ -145,7 +145,7 @@ namespace JetBrains.Annotations
     /// </summary>
     /// <example><code>
     /// void Foo(string param) {
-    ///   if (param == null)
+    ///   if (param is null)
     ///     throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
     /// }
     /// </code></example>
@@ -422,6 +422,7 @@ namespace JetBrains.Annotations
     /// which should not be removed and so is treated as used.
     /// </summary>
     [MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
     internal sealed class PublicAPIAttribute : Attribute
     {
         public PublicAPIAttribute() { }

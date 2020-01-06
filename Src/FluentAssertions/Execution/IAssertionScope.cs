@@ -84,7 +84,7 @@ namespace FluentAssertions.Execution
         /// If an expectation was set through a prior call to <see cref="AssertionScope.WithExpectation"/>, then the failure message is appended to that
         /// expectation.
         /// </remarks>
-        ///  <param name="expectation">The format string that represents the failure message.</param>
+        /// <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         IAssertionScope WithExpectation(string message, params object[] args);
 

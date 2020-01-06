@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Xml;
 
@@ -17,7 +18,7 @@ namespace FluentAssertions.Formatting
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
             new XmlNodeFormatter(),
 #endif
             new AttributeBasedFormatter(),
@@ -45,6 +46,7 @@ namespace FluentAssertions.Formatting
             new TaskFormatter(),
             new ExpressionValueFormatter(),
             new ExceptionValueFormatter(),
+            new MultidimensionalArrayFormatter(),
             new EnumerableValueFormatter(),
             new DefaultValueFormatter()
         };
@@ -53,7 +55,7 @@ namespace FluentAssertions.Formatting
         /// Is used to detect recursive calls by <see cref="IValueFormatter"/> implementations.
         /// </summary>
         [ThreadStatic]
-        private static bool isRentry;
+        private static bool isReentry;
 
         #endregion
 
@@ -76,13 +78,13 @@ namespace FluentAssertions.Formatting
         {
             try
             {
-                if (isRentry)
+                if (isReentry)
                 {
                     throw new InvalidOperationException(
                         $"Use the {nameof(FormatChild)} delegate inside a {nameof(IValueFormatter)} to recursively format children");
                 }
 
-                isRentry = true;
+                isReentry = true;
 
                 var graph = new ObjectGraph(value);
 
@@ -96,7 +98,7 @@ namespace FluentAssertions.Formatting
             }
             finally
             {
-                isRentry = false;
+                isReentry = false;
             }
         }
 
@@ -104,10 +106,7 @@ namespace FluentAssertions.Formatting
         {
             try
             {
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new ArgumentNullException(nameof(path), "Formatting a child value requires a path");
-                }
+                Guard.ThrowIfArgumentIsNullOrEmpty(path, nameof(path), "Formatting a child value requires a path");
 
                 if (!graph.TryPush(path, childValue))
                 {
@@ -201,7 +200,7 @@ namespace FluentAssertions.Formatting
 
             public override string ToString()
             {
-                return String.Join(".", pathStack.Reverse().ToArray());
+                return string.Join(".", pathStack.Reverse().ToArray());
             }
         }
     }

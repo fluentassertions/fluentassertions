@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -31,21 +33,15 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_expectation_is_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject to be <null>, but found { }*");
         }
@@ -53,9 +49,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
             {
                 new MyClass { Items = new[] { "a" } }
@@ -66,14 +60,10 @@ namespace FluentAssertions.Specs
                 new MyClass()
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*item[0].Items*null*, but found*\"a\"*");
         }
@@ -86,21 +76,15 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_is_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             SomeDto subject = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(new
             {
             });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
 #if NETCOREAPP1_1
                 "Expected object to be*, but found <null>*");
@@ -112,58 +96,44 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_and_expectation_are_null_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             SomeDto subject = null;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_equivalence_on_a_value_type_from_system_it_should_not_do_a_structural_comparision()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
 
             // DateTime is used as an example because the current implementation
             // would hit the recursion-depth limit if structural equivalence were attempted.
             var date1 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
             var date2 = new
             {
-                Property = DateTime.Parse("2011-01-01")
+                Property = 1.January(2011)
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => date1.Should().BeEquivalentTo(date2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_an_object_hides_object_equals_it_should_be_compared_using_its_members()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new VirtualClassOverride
             {
                 Property = "Value",
@@ -176,14 +146,10 @@ namespace FluentAssertions.Specs
                 OtherProperty = "Expected"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>("*OtherProperty*Expected*Actual*");
         }
 
@@ -205,9 +171,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_treating_a_value_type_in_a_collection_as_a_complex_type_it_should_compare_them_by_members()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
             {
                 new ClassWithValueSemanticsOnSingleProperty
@@ -226,24 +190,18 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
         }
 
         [Fact]
         public void When_treating_a_value_type_as_a_complex_type_it_should_compare_them_by_members()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithValueSemanticsOnSingleProperty
             {
                 Key = "SameKey",
@@ -256,24 +214,18 @@ namespace FluentAssertions.Specs
                 NestedProperty = "OtherValue"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
         }
 
         [Fact]
         public void When_treating_a_type_as_value_type_but_it_was_already_marked_as_reference_type_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithValueSemanticsOnSingleProperty
             {
                 Key = "Don't care"
@@ -284,16 +236,12 @@ namespace FluentAssertions.Specs
                 Key = "Don't care"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, options => options
                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>().WithMessage(
                 $"*compare {nameof(ClassWithValueSemanticsOnSingleProperty)}*value*already*members*");
         }
@@ -301,9 +249,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_treating_a_type_as_reference_type_but_it_was_already_marked_as_value_type_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithValueSemanticsOnSingleProperty
             {
                 Key = "Don't care"
@@ -314,16 +260,12 @@ namespace FluentAssertions.Specs
                 Key = "Don't care"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, options => options
                .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>()
                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>().WithMessage(
                 $"*compare {nameof(ClassWithValueSemanticsOnSingleProperty)}*members*already*value*");
         }
@@ -331,9 +273,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
             {
                 new
@@ -352,24 +292,18 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByValue<IPAddress>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_treating_a_complex_type_as_a_value_type_it_should_compare_them_by_value()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Address = IPAddress.Parse("1.2.3.4"),
@@ -382,24 +316,18 @@ namespace FluentAssertions.Specs
                 Word = "a"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByValue<IPAddress>());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 UriBuilder = new UriBuilder("http://localhost:9001/api"),
@@ -410,35 +338,25 @@ namespace FluentAssertions.Specs
                 UriBuilder = new UriBuilder("https://localhost:9002/bapi"),
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
 
         [Fact]
-        public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
+        public void When_asserting_equivalence_on_a_string_it_should_use_string_specific_failure_messages()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string s1 = "hello";
             string s2 = "good-bye";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => s1.Should().BeEquivalentTo(s2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*to be*\"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
         }
@@ -446,71 +364,51 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_compare_them_as_strings()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
 
             // The convoluted construction is so the compiler does not optimize the two objects to be the same.
             object s1 = new string('h', 2);
             object s2 = "hh";
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => s1.Should().BeEquivalentTo(s2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_use_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object s1 = 1;
             object s2 = 1;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => s1.Should().BeEquivalentTo(s2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_all_field_of_the_object_are_equal_equivalency_should_pass()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var object1 = new ClassWithOnlyAField { Value = 1 };
             var object2 = new ClassWithOnlyAField { Value = 1 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_number_values_are_convertible_it_should_treat_them_as_equivalent()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Dictionary<string, long>
             {
                 ["001"] = 1L,
@@ -523,74 +421,52 @@ namespace FluentAssertions.Specs
                 ["002"] = 2
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_all_field_of_the_object_are_not_equal_equivalency_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var object1 = new ClassWithOnlyAField { Value = 1 };
             var object2 = new ClassWithOnlyAField { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
         public void When_a_field_on_the_subject_matches_a_property_the_members_should_match_for_equivalence()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var onlyAField = new ClassWithOnlyAField { Value = 1 };
             var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected member Value to be 101, but found 1.*");
         }
 
         [Fact]
         public void When_asserting_equivalence_including_only_fields_it_should_not_match_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var onlyAField = new ClassWithOnlyAField { Value = 1 };
             object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => onlyAProperty.Should().BeEquivalentTo(onlyAField, opts => opts.ExcludingProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expectation has member Value that the other object does not have.*");
         }
@@ -598,20 +474,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_equivalence_including_only_properties_it_should_not_match_fields()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var onlyAField = new ClassWithOnlyAField { Value = 1 };
             var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expectation has member Value that the other object does not have.*");
         }
@@ -620,9 +490,7 @@ namespace FluentAssertions.Specs
         public void
             When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var record = new
             {
                 Member1 = "",
@@ -635,14 +503,10 @@ namespace FluentAssertions.Specs
                 Member2 = new[] { "", "" }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => record.Should().BeEquivalentTo(record2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 @"Expected member Member1 to be*""different"" with a length of 9, but*"""" has a length of 0*");
         }
@@ -650,23 +514,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_object_equivalence_against_a_null_value_it_should_properly_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => ((object)null).Should().BeEquivalentTo("foo");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*foo*null*");
         }
 
         [Fact]
         public void When_the_graph_contains_guids_it_should_properly_format_them()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual =
                 new[]
                 {
@@ -679,14 +537,10 @@ namespace FluentAssertions.Specs
                     new { Id = Guid.NewGuid(), Name = "Name" }
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected item[0].Id to be *-*, but found *-*");
         }
 
@@ -697,9 +551,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_specific_properties_have_been_specified_it_should_ignore_the_other_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36,
@@ -714,25 +566,19 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(d => d.Age)
                 .Including(d => d.Birthdate));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_predicate_for_properties_to_include_has_been_specified_it_should_ignore_the_other_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36,
@@ -747,45 +593,34 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(info => info.SelectedMemberPath.EndsWith("Age"))
                 .Including(info => info.SelectedMemberPath.EndsWith("Birthdate")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_non_property_expression_is_provided_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dto = new CustomerDto();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dto.Should().BeEquivalentTo(dto, options => options.Including(d => d.GetType()));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Expression <d.GetType()> cannot be used to select a member.*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("Expression <d.GetType()> cannot be used to select a member.*")
+                .And.ParamName.Should().Be("expression");
         }
 
         [Fact]
         public void When_including_a_property_it_should_exactly_match_the_property()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new
             {
                 DeclaredType = LocalOtherType.NonDefault,
@@ -797,15 +632,11 @@ namespace FluentAssertions.Specs
                 DeclaredType = LocalOtherType.NonDefault
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation,
                 config => config.Including(o => o.DeclaredType));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -822,9 +653,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_including_a_property_using_an_expression_it_should_evaluate_it_from_the_root()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var list1 = new List<CustomType>
             {
                 new CustomType { Name = "A" },
@@ -840,14 +669,10 @@ namespace FluentAssertions.Specs
             var objectA = new ClassA { ListOfCustomTypes = list1 };
             var objectB = new ClassA { ListOfCustomTypes = list2 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => objectA.Should().BeEquivalentTo(objectB, options => options.Including(x => x.ListOfCustomTypes));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().
                 WithMessage("*C*but*A*D*but*B*");
         }
@@ -855,30 +680,23 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_null_is_provided_as_property_expression_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dto = new CustomerDto();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => dto.Should().BeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Expected an expression, but found <null>.*");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_including_fields_it_should_succeed_if_just_the_included_field_match()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -891,25 +709,20 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
                     class1.Should().BeEquivalentTo(class2, opts => opts.Including(_ => _.Field1).Including(_ => _.Field2));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the only selected fields have the same value");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_including_fields_it_should_fail_if_any_included_field_do_not_match()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -922,26 +735,20 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
                     class1.Should().BeEquivalentTo(class2,
                         opts => opts.Including(_ => _.Field1).Including(_ => _.Field2).Including(_ => _.Field3));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected member Field3*");
         }
 
         [Fact]
         public void When_only_the_excluded_property_doesnt_match_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dto = new CustomerDto
             {
                 Age = 36,
@@ -956,20 +763,17 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             dto.Should().BeEquivalentTo(customer, options => options
                 .Excluding(d => d.Name)
                 .Excluding(d => d.Id));
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_members_it_should_pass_if_only_the_excluded_members_are_different()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -980,26 +784,21 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
                     class1.Should().BeEquivalentTo(class2,
                         opts => opts.Excluding(_ => _.Field3).Excluding(_ => _.Property1));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow("the non-excluded fields have the same value");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_members_it_should_fail_if_any_non_excluded_members_are_different()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1010,24 +809,18 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected member Field3*");
         }
 
         [Fact]
         public void When_all_shared_properties_match_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var dto = new CustomerDto
             {
                 Version = 2,
@@ -1045,23 +838,17 @@ namespace FluentAssertions.Specs
                 Name = "John"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => dto.Should().BeEquivalentTo(customer, options => options.ExcludingMissingMembers());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_is_write_only_it_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithWriteOnlyProperty
             {
                 WriteOnlyProperty = 123,
@@ -1073,23 +860,17 @@ namespace FluentAssertions.Specs
                 SomeOtherProperty = "whatever"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_is_private_it_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Customer("MyPassword")
             {
                 Age = 36,
@@ -1104,44 +885,32 @@ namespace FluentAssertions.Specs
                 Name = "John"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_field_is_private_it_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithAPrivateField(1234) { Value = 1 };
 
             var other = new ClassWithAPrivateField(54321) { Value = 1 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_is_protected_it_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Customer
             {
                 Age = 36,
@@ -1160,69 +929,49 @@ namespace FluentAssertions.Specs
 
             expected.SetProtected("ExpectedValue");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_is_hidden_in_a_derived_class_it_should_ignore_it()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new SubclassA<string> { Foo = "test" };
             var expectation = new SubclassB<string> { Foo = "test" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
 
         [Fact]
         public void When_including_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var b1 = new ClassThatHidesBaseClassProperty();
             var b2 = new ClassThatHidesBaseClassProperty();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             b1.Should().BeEquivalentTo(b2, config => config.Including(b => b.Property));
         }
 
         [Fact]
         public void When_excluding_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var b1 = new ClassThatHidesBaseClassProperty();
             var b2 = new ClassThatHidesBaseClassProperty();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected member Property*-*-*-*-*but*");
         }
 
@@ -1231,7 +980,7 @@ namespace FluentAssertions.Specs
             public string Property { get; set; } = Guid.NewGuid().ToString();
         }
 
-        class ClassThatHidesBaseClassProperty: ClassWithGuidProperty
+        class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
         }
@@ -1239,20 +988,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_property_is_an_indexer_it_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var expected = new ClassWithIndexer { Foo = "test" };
             var result = new ClassWithIndexer { Foo = "test" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -1304,9 +1047,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             ICar subject = new Car
             {
                 VehicleId = 1,
@@ -1319,14 +1060,10 @@ namespace FluentAssertions.Specs
                 Wheels = 4
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected member VehicleId*99999*but*1*");
@@ -1335,9 +1072,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_reference_to_an_interface_is_provided_it_should_only_include_those_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IVehicle expected = new Car
             {
                 VehicleId = 1,
@@ -1350,23 +1085,17 @@ namespace FluentAssertions.Specs
                 Wheels = 99999
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             IVehicle expected = new ExplicitCar
             {
                 Wheels = 4
@@ -1377,23 +1106,193 @@ namespace FluentAssertions.Specs
                 Wheels = 99999
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_interfaced_subject_should_be_used()
+        {
+            // Arrange
+            IVehicle expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            IVehicle subject = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            subject.VehicleId = 1; // interface member
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_interfaced_expectation_should_be_used()
+        {
+            // Arrange
+            IVehicle expected = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            expected.VehicleId = 1; // interface member
+
+            IVehicle subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_subject_should_not_be_used()
+        {
+            // Arrange
+            IVehicle expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            IVehicle subject = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            subject.VehicleId = 1; // interface member
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_expectation_should_not_be_used()
+        {
+            // Arrange
+            IVehicle expected = new ExplicitVehicle
+            {
+                VehicleId = 2 // instance member
+            };
+            expected.VehicleId = 1; // interface member
+
+            IVehicle subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_subject_should_not_be_used()
+        {
+            // Arrange
+            var expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            var subject = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)subject).VehicleId = 1;
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_declared_types_explicit_interface_member_on_expectation_should_not_be_used()
+        {
+            // Arrange
+            var expected = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)expected).VehicleId = 1;
+
+            var subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_subject_should_not_be_used()
+        {
+            // Arrange
+            var expected = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            var subject = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)subject).VehicleId = 1;
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_respecting_runtime_types_explicit_interface_member_on_expectation_should_not_be_used()
+        {
+            // Arrange
+            var expected = new ExplicitVehicle
+            {
+                VehicleId = 2
+            };
+            ((IVehicle)expected).VehicleId = 1;
+
+            var subject = new Vehicle
+            {
+                VehicleId = 1
+            };
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+
+            // Assert
+            action.Should().Throw<XunitException>();
         }
 
         [Fact]
         public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -1420,24 +1319,18 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.Excluding(r => r.Level.Level.Text));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_with_a_value_mismatch_is_excluded_using_a_predicate_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -1464,24 +1357,18 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_members_are_excluded_by_the_access_modifier_of_the_getter_using_a_predicate_they_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithAllAccessModifiersForMembers(
                 "public",
                 "protected",
@@ -1498,26 +1385,20 @@ namespace FluentAssertions.Specs
                 "private",
                 "ignore-private-protected");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
                                         ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal) ||
                                         ctx.WhichGetterHas(CSharpAccessModifier.PrivateProtected)));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_members_are_excluded_by_the_access_modifier_of_the_setter_using_a_predicate_they_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithAllAccessModifiersForMembers(
                 "public",
                 "protected",
@@ -1534,44 +1415,35 @@ namespace FluentAssertions.Specs
                 "ignored-private",
                 "ignore-private-protected");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.Private) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.PrivateProtected)));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_the_expected_object_has_a_property_not_available_on_the_subject_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
             };
 
             var other = new
             {
+                // ReSharper disable once StringLiteralTypo
                 City = "Rijswijk"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expectation has member City that the other object does not have*");
         }
@@ -1579,9 +1451,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_equally_named_properties_are_type_incompatible_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Type = "A"
@@ -1592,14 +1462,10 @@ namespace FluentAssertions.Specs
                 Type = 36
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected member Type to be*36*, but found*\"A\"*");
@@ -1608,9 +1474,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_multiple_properties_mismatch_it_should_report_all_of_them()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Property1 = "A",
@@ -1633,14 +1497,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("*member Property1 to be \"1\", but \"A\" differs near \"A\"*")
@@ -1649,11 +1509,10 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_properties_it_should_still_compare_fields()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1666,24 +1525,18 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "color" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*color*dolor*");
         }
 
         [Fact]
         public void When_excluding_properties_via_non_array_indexers_it_should_exclude_the_specified_paths()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
@@ -1704,27 +1557,21 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 subject.Should().BeEquivalentTo(expected,
                     options => options
                         .Excluding(x => x.List[1].Foo)
                         .Excluding(x => x.Dictionary["Bar"].Value));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_excluding_properties_via_non_array_indexers_it_should_not_exclude_paths_with_different_indexes()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
@@ -1745,29 +1592,24 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 subject.Should().BeEquivalentTo(expected,
                     options => options
                         .Excluding(x => x.List[1].Foo)
                         .Excluding(x => x.Dictionary["Bar"].Value));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void
             When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1780,24 +1622,19 @@ namespace FluentAssertions.Specs
 
             object class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeTypes());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_IncludingAllDeclaredProperties_fields_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1815,24 +1652,19 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllDeclaredProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_IncludingAllRuntimeProperties_the_runtime_type_should_be_used_and_fields_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1850,24 +1682,19 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllRuntimeProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_both_field_and_properties_are_configured_for_inclusion_both_should_be_included()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1876,26 +1703,21 @@ namespace FluentAssertions.Specs
 
             var class2 = new ClassWithSomeFieldsAndProperties();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingFields().IncludingProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void
             When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1904,16 +1726,24 @@ namespace FluentAssertions.Specs
 
             object class2 = new ClassWithSomeFieldsAndProperties();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+        }
+
+        [Fact]
+        public void When_excluding_virtual_or_abstract_property_exclusion_works_properly()
+        {
+            var obj1 = new Derived { DerivedProperty1 = "Something", DerivedProperty2 = "A" };
+            var obj2 = new Derived { DerivedProperty1 = "Something", DerivedProperty2 = "B" };
+
+            obj1.Should().BeEquivalentTo(obj2, opt => opt
+                .Excluding(o => o.AbstractProperty)
+                .Excluding(o => o.VirtualProperty)
+                .Excluding(o => o.DerivedProperty2));
         }
 
         #endregion
@@ -1921,11 +1751,10 @@ namespace FluentAssertions.Specs
         #region Matching Rules
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_using_ExcludingMissingMembers_both_fields_and_properties_should_be_ignored()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
@@ -1941,24 +1770,18 @@ namespace FluentAssertions.Specs
                 Field1 = "Lorem"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingMissingMembers());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_shared_by_anonymous_types_doesnt_match_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36
@@ -1969,14 +1792,10 @@ namespace FluentAssertions.Specs
                 Age = 37
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other, options => options.ExcludingMissingMembers());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>();
         }
 
@@ -1987,9 +1806,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_properties_are_datetime_and_both_are_nullable_and_both_are_null_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2002,24 +1819,18 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)null
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_properties_are_datetime_and_both_are_nullable_and_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2032,14 +1843,10 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2048,9 +1855,7 @@ namespace FluentAssertions.Specs
             When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2063,14 +1868,10 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)null
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
@@ -2079,9 +1880,7 @@ namespace FluentAssertions.Specs
         public void
             When_two_properties_are_datetime_and_both_are_nullable_and_subject_is_null_it_should_throw_and_state_the_difference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2094,14 +1893,10 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
@@ -2109,9 +1904,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_properties_are_datetime_and_expectation_is_nullable_and_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2124,14 +1917,10 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2140,9 +1929,7 @@ namespace FluentAssertions.Specs
             When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2155,14 +1942,10 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?)null
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
@@ -2170,9 +1953,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_properties_are_datetime_and_subject_is_nullable_and_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2185,14 +1966,10 @@ namespace FluentAssertions.Specs
                     Time = new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2200,9 +1977,7 @@ namespace FluentAssertions.Specs
         public void
             When_two_properties_are_datetime_and_subject_is_nullable_and_subject_is_null_it_should_throw_and_state_the_difference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject =
                 new
                 {
@@ -2215,14 +1990,10 @@ namespace FluentAssertions.Specs
                     Time = new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
@@ -2234,9 +2005,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_objects_have_the_same_property_values_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36,
@@ -2251,18 +2020,14 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             subject.Should().BeEquivalentTo(other);
         }
 
         [Fact]
         public void When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36,
@@ -2277,18 +2042,14 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             subject.Should().BeEquivalentTo(other);
         }
 
         [Fact]
         public void When_two_objects_have_the_same_properties_but_a_different_value_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 36
@@ -2299,24 +2060,18 @@ namespace FluentAssertions.Specs
                 Age = 37
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, "because {0} are the same", "they");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Age to be 37 because they are the same, but found 36*");
         }
 
         [Fact]
-        public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw()
+        public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw_with_descriptive_message()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Name = "Dennis"
@@ -2327,24 +2082,18 @@ namespace FluentAssertions.Specs
                 Name = (string)null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other, "we want to test the failure {0}", "message");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Name to be <null>, but found \"Dennis\"*");
+                "Expected member Name to be <null>*we want to test the failure message*, but found \"Dennis\"*");
         }
 
         [Fact]
         public void When_two_collection_properties_dont_match_it_should_throw_and_specify_the_difference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Values = new[]
@@ -2361,24 +2110,19 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Values[1] to be 4, but found 2*");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Name = "Dennes"
@@ -2389,14 +2133,10 @@ namespace FluentAssertions.Specs
                 Name = "Dennis"
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other, options => options.Including(d => d.Name));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected member Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
@@ -2404,9 +2144,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_properties_are_of_derived_types_but_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Type = new DerivedCustomerType("123")
@@ -2417,25 +2155,19 @@ namespace FluentAssertions.Specs
                 Type = new CustomerType("123")
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void
-            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed
+            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivalent_according_to_the_declared_type_it_should_succeed
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Type = (CustomerType)new DerivedCustomerType("123")
@@ -2446,14 +2178,10 @@ namespace FluentAssertions.Specs
                 Type = new CustomerType("123")
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2464,9 +2192,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = "37",
@@ -2479,23 +2205,17 @@ namespace FluentAssertions.Specs
                 Birthdate = new DateTime(1973, 9, 20)
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(other, o => o.WithAutoConversion());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_string_is_declared_equivalent_to_an_int_representing_the_numerals_it_should_pass()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new
             {
                 Property = "32"
@@ -2506,44 +2226,49 @@ namespace FluentAssertions.Specs
                 Property = 32
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation,
                 options => options.WithAutoConversion());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_an_int_is_compared_equivalent_to_a_string_representing_the_number_it_should_pass()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new { Property = 32 };
             var expectation = new { Property = "32" };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_WithAutoConversionFor_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+
+            var expectation = new object();
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.WithAutoConversionFor(predicate: null));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
         }
 
         [Fact]
         public void When_only_a_single_property_is_and_can_be_converted_but_the_other_one_doesnt_match_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 32,
@@ -2556,24 +2281,18 @@ namespace FluentAssertions.Specs
                 Birthdate = new DateTime(1973, 9, 20)
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation,
                 options => options.WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("*Age*String*Int32*");
         }
 
         [Fact]
         public void When_only_a_single_property_is_converted_and_the_other_matches_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 32,
@@ -2586,24 +2305,35 @@ namespace FluentAssertions.Specs
                 Birthdate = new DateTime(1973, 9, 20)
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_into_WithoutAutoConversionFor_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+
+            var expectation = new object();
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.WithoutAutoConversionFor(predicate: null));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("predicate");
         }
 
         [Fact]
         public void When_a_specific_mismatching_property_is_excluded_from_conversion_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Age = 32,
@@ -2616,16 +2346,12 @@ namespace FluentAssertions.Specs
                 Birthdate = new DateTime(1973, 9, 20)
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithAutoConversion()
                 .WithoutAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().Which.Message
                 .Should().Match("Expected*<1973-09-20>*\"1973-09-20\"*", "{0} field is of mismatched type", nameof(expectation.Birthdate))
                 .And.Subject.Should().Match("*Try conversion of all members*", "conversion description should be present")
@@ -2633,22 +2359,16 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
+        public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_converted_it_should_pass()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             string str = "This is a test";
             CustomConvertible obj = new CustomConvertible(str);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => obj.Should().BeEquivalentTo(str, options => options.WithAutoConversion());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -2659,9 +2379,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_the_properties_of_the_nested_objects_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -2688,23 +2406,17 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -2725,14 +2437,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*Without automatic conversion*");
         }
@@ -2740,9 +2448,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_but_nested_objects_are_excluded_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Property = new ClassWithValueSemanticsOnSingleProperty
@@ -2761,37 +2467,27 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ExcludingNestedObjects());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_nested_objects_should_be_excluded_it_should_do_a_simple_equality_check_instead()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var item = new Item
             {
                 Child = new Item()
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*Item*null*");
         }
@@ -2804,9 +2500,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -2825,15 +2519,11 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().Which.Message
                 // Checking exception message exactly is against general guidelines
                 // but in that case it was done on purpose, so that we have at least single
@@ -2845,9 +2535,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_actual_nested_object_is_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -2863,14 +2551,10 @@ namespace FluentAssertions.Specs
                 Level = null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
@@ -2908,9 +2592,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var expected = new[]
             {
                 new MyClass2
@@ -2931,14 +2613,10 @@ namespace FluentAssertions.Specs
                 new MyClass2()
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("*EXPECTED*INCORRECT*EXPECTED*INCORRECT*");
         }
@@ -2946,9 +2624,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_nested_object_property_is_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new Root
             {
                 Text = "Root",
@@ -2964,15 +2640,11 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected member Level to be*Level1Dto*Level2*, but found <null>*");
@@ -2981,9 +2653,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Level = new
@@ -3001,14 +2671,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expectation has member Level.OtherProperty that the other object does not have*");
@@ -3017,9 +2683,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_the_shared_properties_of_the_nested_objects_are_equal_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 Level = new
@@ -3038,23 +2702,17 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expected, options => options.ExcludingMissingMembers());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_deeply_nested_properties_do_not_have_all_equal_values_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var root = new Root
             {
                 Text = "Root",
@@ -3081,14 +2739,10 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => root.Should().BeEquivalentTo(rootDto);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
@@ -3098,41 +2752,29 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var c1 = new ClassOne();
             var c2 = new ClassOne();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => c1.Should().BeEquivalentTo(c2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_property_of_a_nested_object_doesnt_match_it_should_clearly_indicate_the_path()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var c1 = new ClassOne();
             var c2 = new ClassOne();
             c2.RefOne.ValTwo = 2;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => c1.Should().BeEquivalentTo(c2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected member RefOne.ValTwo to be 2, but found 3*");
         }
@@ -3144,9 +2786,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var cyclicRoot = new CyclicRoot
             {
                 Text = "Root"
@@ -3169,14 +2809,10 @@ namespace FluentAssertions.Specs
                 Root = cyclicRootDto
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected member Level.Root to be*but it contains a cyclic reference*");
@@ -3185,9 +2821,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_validating_nested_properties_and_ignoring_cyclic_references_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var cyclicRoot = new CyclicRoot
             {
                 Text = "Root"
@@ -3208,23 +2842,17 @@ namespace FluentAssertions.Specs
                 Root = cyclicRootDto
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto, options => options.IgnoringCyclicReferences());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new Parent();
             actual.Child1 = new Child(actual, 1);
             actual.Child2 = new Child(actual);
@@ -3233,16 +2861,12 @@ namespace FluentAssertions.Specs
             expected.Child1 = new Child(expected);
             expected.Child2 = new Child(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected, x => x
                 .Excluding(y => y.Child1)
                 .IgnoringCyclicReferences());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3267,9 +2891,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new CyclicRoot
             {
                 Text = null
@@ -3292,23 +2914,17 @@ namespace FluentAssertions.Specs
                 Root = null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new CyclicRootWithValueObject
             {
                 Object = new ValueObject("MyValue")
@@ -3331,83 +2947,111 @@ namespace FluentAssertions.Specs
                 Root = null
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
         [Fact]
-        public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
+        public void When_asserting_types_with_infinite_object_graphs_are_equivalent_it_should_not_overflow_the_stack()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var recursiveClass1 = new ClassWithInfinitelyRecursiveProperty();
             var recursiveClass2 = new ClassWithInfinitelyRecursiveProperty();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow<StackOverflowException>();
         }
 
 #endif
         [Fact]
         public void
-            When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
             var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2,
                     options => options.AllowingInfiniteRecursion());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_BeEquivalentTo_it_should_throw()
+        {
+            // Arrange
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
+
+            // Act
+            Action act = () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2, config: null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
+        public void
+            When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            ()
+        {
+            // Arrange
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
+
+            // Act
+            Action act =
+                () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
+                    options => options.AllowingInfiniteRecursion());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_NotBeEquivalentTo_it_should_throw()
+        {
+            // Arrange
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
+
+            // Act
+            Action act = () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2, config: null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
         }
 
         [Fact]
         public void When_an_enumerable_collection_returns_itself_it_should_detect_the_cyclic_reference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             var instance1 = new SelfReturningEnumerable();
             var instance2 = new SelfReturningEnumerable();
             var actual = new List<SelfReturningEnumerable> { instance1, instance2 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.Should().BeEquivalentTo(new SelfReturningEnumerable(), new SelfReturningEnumerable());
+            Action act = () => actual.Should().BeEquivalentTo(
+                new[] { new SelfReturningEnumerable(), new SelfReturningEnumerable() },
+                "we want to test the failure {0}", "message");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>().WithMessage("*cyclic*");
+            act.Should().Throw<XunitException>().WithMessage("*we want to test the failure message*cyclic reference*");
         }
 
         public class SelfReturningEnumerable : IEnumerable<SelfReturningEnumerable>
@@ -3447,9 +3091,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_root_object_is_referenced_from_a_nested_object_it_should_treat_it_as_a_cyclic_reference()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var company1 = new MyCompany { Name = "Company" };
             var user1 = new MyUser { Name = "User", Company = company1 };
             var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
@@ -3460,14 +3102,10 @@ namespace FluentAssertions.Specs
             var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
 
@@ -3478,9 +3116,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_nested_member_is_a_tuple_it_should_compare_its_property_for_equivalence()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new
             {
                 Tuple = (new[] { "string1" }, new[] { "string2" })
@@ -3491,14 +3127,24 @@ namespace FluentAssertions.Specs
                 Tuple = (new[] { "string1" }, new[] { "string2" })
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_tuple_is_compared_it_should_compare_its_components()
+        {
+            // Arrange
+            var actual = new Tuple<string, bool, int[]>("Hello", true, new int[] { 3, 2, 1 });
+            var expected = new Tuple<string, bool, int[]>("Hello", true, new int[] { 1, 2, 3 });
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
             act.Should().NotThrow();
         }
 
@@ -3509,23 +3155,17 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_the_same_enum_member_is_equivalent_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.One);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_the_actual_enum_value_is_null_it_should_report_that_properly()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 NullableEnum = (DayOfWeek?)null
@@ -3536,14 +3176,10 @@ namespace FluentAssertions.Specs
                 NullableEnum = DayOfWeek.Friday
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*5*null*");
         }
@@ -3551,9 +3187,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_the_actual_enum_name_is_null_it_should_report_that_properly()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
                 NullableEnum = (DayOfWeek?)null
@@ -3564,14 +3198,10 @@ namespace FluentAssertions.Specs
                 NullableEnum = DayOfWeek.Friday
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, o => o.ComparingEnumsByValue());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*5*null*");
         }
@@ -3579,14 +3209,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.Two);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected *EnumOne.Two(3)*but*EnumOne.One(0)*");
         }
@@ -3594,129 +3220,91 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne();
             var expectation = new ClassWithEnumTwo();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.One };
             var expectation = new ClassWithEnumThree { Enum = EnumThree.ValueZero };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
+        public void When_asserting_members_from_different_enum_types_are_equivalent_by_string_value_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
             var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_but_comparing_by_name_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
             var expectation = new ClassWithEnumFour { Enum = EnumFour.Three };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three(3) by name, but found EnumOne.Two(3)*");
         }
 
         [Fact]
         public void When_asserting_members_from_different_char_enum_types_are_equivalent_by_value_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumCharOne { Enum = EnumCharOne.B };
             var expectation = new ClassWithEnumCharTwo { Enum = EnumCharTwo.ValueB };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_enums_typed_as_object_are_equivalent_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object e1 = EnumOne.One;
             object e2 = EnumOne.One;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => e1.Should().BeEquivalentTo(e2);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_a_numeric_member_is_compared_with_an_enum_it_should_respect_the_enum_options()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actual = new
             {
                 Property = 1
@@ -3727,14 +3315,10 @@ namespace FluentAssertions.Specs
                 Property = TestEnum.First
             };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -3750,102 +3334,102 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_instances_of_an_anonymous_type_having_no_members_are_equivalent_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => new { }.Should().BeEquivalentTo(new { });
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void When_asserting_instances_of_a_class_having_no_members_are_equivalent_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => new ClassWithNoMembers().Should().BeEquivalentTo(new ClassWithNoMembers());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public void When_asserting_instances_of_Object_are_equivalent_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => new object().Should().BeEquivalentTo(new object());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void When_asserting_instance_of_object_is_equivalent_to_null_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            object actual = new object();
+            object expected = null;
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*to be <null>*we want to test the failure message*, but found System.Object*");
+        }
+
+        [Fact]
+        public void When_asserting_null_is_equivalent_to_instance_of_object_it_should_fail()
+        {
+            // Arrange
+            object actual = null;
+            object expected = new object();
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*to be System.Object*but found <null>*");
         }
 
         [Fact]
         public void When_an_type_only_exposes_fields_but_fields_are_ignored_in_the_equivalence_comparision_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var object1 = new ClassWithOnlyAField { Value = 1 };
             var object2 = new ClassWithOnlyAField { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.IncludingAllDeclaredProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>("the objects have no members to compare.");
         }
 
         [Fact]
         public void When_an_type_only_exposes_properties_but_properties_are_ignored_in_the_equivalence_comparision_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var object1 = new ClassWithOnlyAProperty { Value = 1 };
             var object2 = new ClassWithOnlyAProperty { Value = 101 };
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.ExcludingProperties());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<InvalidOperationException>("the objects have no members to compare.");
         }
 
         [Fact]
         public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_runtime_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             object actual = new int[0];
             object expectation = new int[0];
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => actual.Should().BeEquivalentTo(expectation);
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -4229,6 +3813,30 @@ namespace FluentAssertions.Specs
         }
     }
 
+    public abstract class Base
+    {
+        public abstract string AbstractProperty { get; }
+
+        public virtual string VirtualProperty => "Foo";
+
+        public virtual string NonExcludedBaseProperty => "Foo";
+    }
+
+    public class Derived : Base
+    {
+        public string DerivedProperty1 { get; set; }
+
+        public string DerivedProperty2 { get; set; }
+
+        public override string AbstractProperty => $"{DerivedProperty1} {DerivedProperty2}";
+
+        public override string VirtualProperty => "Bar";
+
+        public override string NonExcludedBaseProperty => "Bar";
+
+        public virtual string NonExcludedDerivedProperty => "Foo";
+    }
+
     #endregion
 
     #region Nested classes for comparison
@@ -4421,6 +4029,8 @@ namespace FluentAssertions.Specs
     public class ExplicitVehicle : IVehicle
     {
         int IVehicle.VehicleId { get; set; }
+
+        public int VehicleId { get; set; }
     }
 
     public interface ICar : IVehicle

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
@@ -14,12 +15,8 @@ namespace FluentAssertions.Collections
     [DebuggerNonUserCode]
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
-        public NonGenericCollectionAssertions(IEnumerable collection)
+        public NonGenericCollectionAssertions(IEnumerable collection) : base(collection)
         {
-            if (collection != null)
-            {
-                Subject = collection;
-            }
         }
 
         /// <summary>
@@ -216,10 +213,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<NonGenericCollectionAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
-            if (countPredicate == null)
-            {
-                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
 
             if (Subject is null)
             {

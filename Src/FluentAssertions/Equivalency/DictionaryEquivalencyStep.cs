@@ -64,7 +64,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition(((expectation == null) && (subject == null)) || (expectation != null))
+                .ForCondition(((expectation is null) && (subject is null)) || (expectation != null))
                 .FailWith("Expected {context:subject} to be {0}, but found {1}.", null, subject);
         }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSameLength(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition((expectation == null) || (subject.Keys.Count == expectation.Keys.Count))
+                .ForCondition((expectation is null) || (subject.Keys.Count == expectation.Keys.Count))
                 .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
                     expectation?.Keys.Count, subject?.Keys.Count);
         }

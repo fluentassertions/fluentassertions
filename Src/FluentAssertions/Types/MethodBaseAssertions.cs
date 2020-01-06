@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +16,14 @@ namespace FluentAssertions.Types
         where TSubject : MethodBase
         where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
     {
+        protected MethodBaseAssertions() : this(default)
+        {
+        }
+
+        protected MethodBaseAssertions(TSubject subject) : base(subject)
+        {
+        }
+
         /// <summary>
         /// Asserts that the selected member has the specified C# <paramref name="accessModifier"/>.
         /// </summary>
@@ -63,7 +73,7 @@ namespace FluentAssertions.Types
 
         internal static string GetParameterString(MethodBase methodBase)
         {
-            var parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
+            IEnumerable<Type> parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
 
             return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }

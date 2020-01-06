@@ -15,7 +15,7 @@ namespace FluentAssertions.Execution
                 {
                     assembly = Assembly.Load(new AssemblyName("nspec"));
 
-                    if (assembly == null)
+                    if (assembly is null)
                     {
                         return false;
                     }
@@ -34,12 +34,12 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType("NSpec.Domain.ExampleFailureException");
-            if (exceptionType == null)
+            if (exceptionType is null)
             {
                 throw new Exception("Failed to create the NSpec assertion type");
             }
 
-            // v1 ctor requires an innerExpcetion: https://github.com/nspec/NSpec/blob/v1.0.7/NSpec/Domain/ExampleFailureException.cs
+            // v1 ctor requires an innerException: https://github.com/nspec/NSpec/blob/v1.0.7/NSpec/Domain/ExampleFailureException.cs
             throw (Exception)Activator.CreateInstance(exceptionType, message, null);
         }
     }

@@ -19,29 +19,30 @@ namespace FluentAssertions.Equivalency
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
                 .FailWith(
-                    "Expected {context:subject} to be <null>, but found {0}.",
+                    "Expected {context:subject} to be <null>{reason}, but found {0}.",
                     context.Subject);
 
-            bool subjectIsNotNull =
-                AssertionScope.Current.ForCondition(
-                    !(context.Subject is null))
-                    .FailWith(
-                        "Expected {context:object} to be {0}{reason}, but found {1}.",
-                        context.Expectation,
-                        context.Subject);
-
-            SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
-            if (context.IsRoot && !selectedMembers.Any())
-            {
-                throw new InvalidOperationException(
-                    "No members were found for comparison. " +
-                    "Please specify some members to include in the comparison or choose a more meaningful assertion.");
-            }
+            bool subjectIsNotNull = AssertionScope.Current
+                .ForCondition(!(context.Subject is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
+                .FailWith(
+                    "Expected {context:object} to be {0}{reason}, but found {1}.",
+                    context.Expectation,
+                    context.Subject);
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                foreach (var selectedMemberInfo in selectedMembers)
+                SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
+                if (context.IsRoot && !selectedMembers.Any())
+                {
+                    throw new InvalidOperationException(
+                        "No members were found for comparison. " +
+                        "Please specify some members to include in the comparison or choose a more meaningful assertion.");
+                }
+
+                foreach (SelectedMemberInfo selectedMemberInfo in selectedMembers)
                 {
                     AssertMemberEquality(context, parent, selectedMemberInfo, config);
                 }
@@ -67,7 +68,7 @@ namespace FluentAssertions.Equivalency
 
         private static SelectedMemberInfo FindMatchFor(SelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var query =
+            IEnumerable<SelectedMemberInfo> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.SelectedMemberDescription, config)
                 where match != null
@@ -81,7 +82,7 @@ namespace FluentAssertions.Equivalency
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
-            foreach (var selectionRule in config.SelectionRules)
+            foreach (IMemberSelectionRule selectionRule in config.SelectionRules)
             {
                 members = selectionRule.SelectMembers(members, context, config);
             }

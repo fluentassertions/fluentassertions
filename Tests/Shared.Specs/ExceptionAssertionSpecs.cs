@@ -1,49 +1,149 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
+
+using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
 namespace FluentAssertions.Specs
 {
     public class ExceptionAssertionSpecs
     {
         [Fact]
+        public void When_method_throws_an_empty_AggregateException_it_should_fail()
+        {
+            // Arrange
+            Action act = () => throw new AggregateException();
+
+            // Act
+            Action act2 = () => act.Should().NotThrow();
+
+            // Assert
+            act2.Should().Throw<XunitException>();
+        }
+
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_wrapped_it_should_succeed<T>(Action action, T _)
+            where T : Exception
+        {
+            // Act/Assert
+            action.Should().Throw<T>();
+        }
+
+        [Theory]
+        [MemberData(nameof(AggregateExceptionTestData))]
+        public void When_the_expected_exception_is_not_wrapped_it_should_fail<T>(Action action, T _)
+            where T : Exception
+        {
+            // Act
+            Action act2 = () => action.Should().NotThrow<T>();
+
+            // Assert
+            act2.Should().Throw<XunitException>();
+        }
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+
+        public static IEnumerable<object[]> AggregateExceptionTestData()
+        {
+            var tasks = new Action[]
+            {
+                AggregateExceptionWithLeftNestedException,
+                AggregateExceptionWithRightNestedException
+            };
+
+            var types = new Exception[]
+            {
+                new AggregateException(),
+                new ArgumentNullException(),
+                new InvalidOperationException()
+            };
+
+            foreach (var task in tasks)
+            {
+                foreach (var type in types)
+                {
+                    yield return new object[] { task, type };
+                }
+            }
+
+            yield return new object[] { (Action)EmptyAggregateException, new AggregateException() };
+        }
+
+        private static void AggregateExceptionWithLeftNestedException()
+        {
+            var ex1 = new AggregateException(new InvalidOperationException());
+            var ex2 = new ArgumentNullException();
+            var wrapped = new AggregateException(ex1, ex2);
+
+            throw wrapped;
+        }
+
+        private static void AggregateExceptionWithRightNestedException()
+        {
+            var ex1 = new ArgumentNullException();
+            var ex2 = new AggregateException(new InvalidOperationException());
+            var wrapped = new AggregateException(ex1, ex2);
+
+            throw wrapped;
+        }
+
+        private static void EmptyAggregateException()
+        {
+            throw new AggregateException();
+        }
+
+        [Fact]
         public void ThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentNullException();
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
                 throw new XunitException("This point should not be reached.");
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.ArgumentNullException.");
+            }
+        }
+
+        [Fact]
+        public void ThrowExactly_when_subject_throws_aggregate_exception_instead_of_expected_exception_it_should_throw()
+        {
+            // Arrange
+            Action act = () => throw new AggregateException(new ArgumentException());
+
+            try
+            {
+                // Act
+                act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
+
+                throw new XunitException("This point should not be reached.");
+            }
+            catch (XunitException ex)
+            {
+                // Assert
+                ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.AggregateException.");
             }
         }
 
         [Fact]
         public void ThrowExactly_when_subject_throws_expected_exception_it_should_not_do_anything()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentNullException();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
@@ -52,30 +152,22 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("some message"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>().WithMessage("some message");
         }
 
         [Fact]
         public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("some"));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
                     .Should().Throw<InvalidOperationException>()
@@ -85,9 +177,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
                     "Expected exception message to match the equivalent of*\"some message\", but*\"some\" does not*");
             }
@@ -96,42 +186,31 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_expected_exception_with_message_starting_with_expected_message_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("expected message"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = testSubject.Do;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<InvalidOperationException>()
                 .WithMessage("expected mes*");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                 .Invoking(s => s.Do())
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage("Expected mes");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<Exception>()
                 .WithMessage("Expected exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
         }
@@ -139,42 +218,31 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_expected_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("Expected Message"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = testSubject.Do;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<InvalidOperationException>()
                 .WithMessage("expected mes*");
         }
 
         [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => testSubject
                     .Invoking(s => s.Do())
                     .Should().Throw<InvalidOperationException>()
                     .WithMessage("expected mes");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<Exception>()
                 .WithMessage("Expected exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
         }
@@ -182,16 +250,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_some_exception_with_unexpected_message_it_should_throw_with_clear_description()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does subjectThatThrows = Does.Throw(new InvalidOperationException("message1"));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do())
                     .Should().Throw<InvalidOperationException>()
@@ -201,9 +265,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
                     "Expected exception message to match the equivalent of \"message2\" because we want to test the failure message, but \"message1\" does not*");
             }
@@ -212,16 +274,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_some_exception_with_an_empty_message_it_should_throw_with_clear_description()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does subjectThatThrows = Does.Throw(new InvalidOperationException(""));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do())
                     .Should().Throw<InvalidOperationException>()
@@ -231,9 +289,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
                     "Expected exception message to match the equivalent of \"message2\"*, but \"\"*");
             }
@@ -242,16 +298,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does subjectThatThrows = Does.Throw(new ArgumentNullException("someParam", "message2"));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do("something"))
                     .Should().Throw<ArgumentNullException>()
@@ -261,11 +313,9 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to match the equivalent of*\"message2\", but*\"message2*Parameter name: someParam\"*");
+                    "Expected exception message to match the equivalent of*\"message2\", but*message2*someParam*");
             }
         }
 
@@ -274,23 +324,17 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Arrange
-                //-----------------------------------------------------------------------------------------------------------
                 Does testSubject = Does.NotThrow();
 
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 testSubject.Invoking(x => x.Do()).Should().Throw<Exception>("because {0} should do that", "Does.Do");
 
                 throw new XunitException("This point should not be reached");
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
                     "Expected a <System.Exception> to be thrown because Does.Do should do that, but no exception was thrown.");
             }
@@ -299,18 +343,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_another_exception_than_expected_it_should_include_details_of_that_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var actualException = new ArgumentException();
 
             Does testSubject = Does.Throw(actualException);
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
                     .Should().Throw<InvalidOperationException>("because {0} should throw that one", "Does.Do");
@@ -319,11 +359,9 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found a <System.ArgumentException>:");
+                    "Expected a <System.InvalidOperationException> to be thrown because Does.Do should throw that one, but found <System.ArgumentException>:");
 
                 ex.Message.Should().Contain(actualException.Message);
             }
@@ -332,16 +370,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_exception_with_message_with_braces_but_a_different_message_is_expected_it_should_report_that()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does subjectThatThrows = Does.Throw(new Exception("message with {}"));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .Invoking(x => x.Do("something"))
                     .Should().Throw<Exception>()
@@ -351,9 +385,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
                     "Expected exception message to match the equivalent of*\"message without\"*, but*\"message with {}*");
             }
@@ -362,19 +394,13 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_with_an_aggregate_exception_type_the_asserts_should_occur_against_the_aggregate_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = testSubject.Do;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<AggregateException>()
                 .WithMessage("Outer Message*")
                 .WithInnerException<Exception>()
@@ -388,14 +414,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_an_exception_with_the_expected_inner_exception_it_should_not_do_anything()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new Exception("", new ArgumentException()));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<Exception>()
@@ -403,20 +425,16 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void WithInnerExceptionExactly_no_paramters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+        public void WithInnerExceptionExactly_no_parameters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
             Action act = () => throw new BadImageFormatException("", innerException);
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>();
 
@@ -424,9 +442,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException, but found System.ArgumentNullException with message", innerException.Message);
 
                 ex.Message.Should().Be(expectedMessage);
@@ -434,16 +450,12 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void WithInnerExceptionExactly_no_paramters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+        public void WithInnerExceptionExactly_no_parameters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>();
         }
@@ -451,18 +463,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void WithInnerExceptionExactly_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
             Action act = () => throw new BadImageFormatException("", innerException);
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
 
@@ -470,9 +478,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException ex)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException because the action should do just that, but found System.ArgumentNullException with message", innerException.Message);
 
                 ex.Message.Should().Be(expectedMessage);
@@ -482,14 +488,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void WithInnerExceptionExactly_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
         }
@@ -504,18 +506,14 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_subject_throws_an_exception_with_an_unexpected_inner_exception_it_should_throw_with_clear_description()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var innerException = new NullReferenceException();
 
             Does testSubject = Does.Throw(new Exception("", innerException));
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
                     .Should().Throw<Exception>()
@@ -525,9 +523,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException exc)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().StartWith(
                     "Expected inner System.ArgumentException because Does.Do should do just that, but found System.NullReferenceException");
 
@@ -578,19 +574,30 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 throw new ArgumentException("OuterMessage", new InvalidOperationException("InnerMessage"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().ThrowExactly<ArgumentException>()
                 .WithInnerExceptionExactly<InvalidOperationException>()
                 .Where(i => i.Message == "InnerMessage");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_predicate_it_should_throw()
+        {
+            // Arrange
+            Action act = () => throw new Exception();
+
+            // Act
+            Action act2 = () => act.Should().Throw<Exception>()
+                .Where(exceptionExpression: null);
+
+            // Act
+            act2.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("exceptionExpression");
         }
 
         #endregion
@@ -600,34 +607,24 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_getting_value_of_property_of_thrown_exception_it_should_return_value_of_property()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             const string SomeParamNameValue = "param";
             Does target = Does.Throw(new ExceptionWithProperties(SomeParamNameValue));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = target.Do;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
         }
 
         [Fact]
         public void When_validating_a_subject_against_multiple_conditions_it_should_support_chaining()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new InvalidOperationException("message", new ArgumentException("inner message")));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<InvalidOperationException>()
@@ -638,14 +635,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_yielding_enumerable_throws_an_expected_exception_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Func<IEnumerable<char>> act = () => MethodThatUsesYield("aaa!aaa");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Enumerating().Should().Throw<Exception>();
         }
 
@@ -665,16 +658,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_custom_condition_is_not_met_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentException("");
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 act
                     .Should().Throw<ArgumentException>("")
                     .Where(e => e.Message.Length > 0, "an exception must have a message");
@@ -683,9 +672,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException exc)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message.Length > 0) because an exception must have a message, but the condition was not met");
             }
@@ -694,16 +681,12 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_2nd_condition_is_not_met_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentException("Fail");
 
             try
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Act
-                //-----------------------------------------------------------------------------------------------------------
                 act
                     .Should().Throw<ArgumentException>("")
                     .Where(e => e.Message.Length > 0)
@@ -713,9 +696,7 @@ namespace FluentAssertions.Specs
             }
             catch (XunitException exc)
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
             }
@@ -729,14 +710,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_custom_condition_is_met_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act = () => throw new ArgumentException("");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act
                 .Should().Throw<ArgumentException>()
                 .Where(e => e.Message.Length == 0);
@@ -747,40 +724,28 @@ namespace FluentAssertions.Specs
             When_two_exceptions_are_thrown_and_the_assertion_assumes_there_can_only_be_one_it_should_fail
             ()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does testSubject = Does.Throw(new AggregateException(new Exception(), new Exception()));
             Action throwingMethod = testSubject.Do;
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => throwingMethod.Should().Throw<Exception>().And.Message.Should();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action.Should().Throw<Exception>();
         }
 
         [Fact]
         public void When_an_exception_of_a_different_type_is_thrown_it_should_include_the_type_of_the_thrown_exception()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Action throwException = () => throw new ExceptionWithEmptyToString();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () => throwException.Should().Throw<ArgumentNullException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     string.Format("*System.ArgumentNullException*{0}*",
@@ -790,24 +755,31 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Not Throw
+        [Fact]
+        public void When_subject_is_null_when_an_exception_should_not_be_thrown_it_should_throw()
+        {
+            // Arrange
+            Action act = null;
+
+            // Act
+            Action action = () => act.Should().NotThrow("because we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
 
         [Fact]
         public void When_a_specific_exception_should_not_be_thrown_but_it_was_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does foo = Does.Throw(new ArgumentException("An exception was forced"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action =
                 () => foo.Invoking(f => f.Do()).Should().NotThrow<ArgumentException>("we passed valid arguments");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>().WithMessage(
                     "Did not expect System.ArgumentException because we passed valid arguments, " +
@@ -817,33 +789,33 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_specific_exception_should_not_be_thrown_but_another_was_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does foo = Does.Throw<ArgumentException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).Should().NotThrow<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
+        {
+            // Arrange
+            Action act = () => Task.Delay(0).Wait(0);
+
+            // Act / Assert
+            act.Should().NotThrow();
         }
 
         [Fact]
         public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does foo = Does.Throw(new ArgumentException("An exception was forced"));
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
             Action action = () => foo.Invoking(f => f.Do()).Should().NotThrow("we passed valid arguments");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
             action
                 .Should().Throw<XunitException>().WithMessage(
                     "Did not expect any exception because we passed valid arguments, " +
@@ -853,15 +825,128 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_no_exception_should_be_thrown_and_none_was_it_should_not_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             Does foo = Does.NotThrow();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_null_when_it_should_not_throw_it_should_throw()
+        {
+            // Arrange
+            Action act = null;
+
+            // Act
+            Action action = () => act.Should().NotThrowAfter(0.Milliseconds(), 0.Milliseconds(),
+                "because we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+#pragma warning disable CS1998
+        [Fact]
+        public void When_subject_is_async_it_should_throw()
+        {
+            // Arrange
+            Action someAsyncAction = async () => { };
+
+            // Act
+            Action action = () =>
+                someAsyncAction.Should().NotThrowAfter(1.Milliseconds(), 1.Milliseconds());
+
+            // Assert
+            action.Should().Throw<InvalidOperationException>()
+                .WithMessage("Cannot use action assertions on an async void method.*");
+        }
+#pragma warning restore CS1998
+
+        [Fact]
+        public void When_wait_time_is_negative_it_should_throw()
+        {
+            // Arrange
+            var waitTime = -1.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+            Action someAction = () => { };
+
+            // Act
+            Action action = () =>
+                someAction.Should().NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            action.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of waitTime must be non-negative*");
+        }
+
+        [Fact]
+        public void When_poll_interval_is_negative_it_should_throw()
+        {
+            // Arrange
+            var waitTime = 10.Milliseconds();
+            var pollInterval = -1.Milliseconds();
+            Action someAction = () => { };
+
+            // Act
+            Action action = () =>
+                someAction.Should().NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            action.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of pollInterval must be non-negative*");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_after_wait_time_but_it_was_it_should_throw()
+        {
+            // Arrange
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+
+            Action throwLongerThanWaitTime = () =>
+            {
+                if (timer.Elapsed < (waitTime.Multiply(1.5)))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+            };
+
+            // Act
+            Action action = () =>
+                throwLongerThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                         .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+        }
+
+        [Fact]
+        public void When_no_exception_should_be_thrown_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            // Arrange
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            var waitTime = 100.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            Action throwShorterThanWaitTime = () =>
+            {
+                if (timer.Elapsed <= waitTime.Divide(2))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+            };
+
+            // Act
+            Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            act.Should().NotThrow();
         }
     }
 
@@ -884,6 +969,8 @@ namespace FluentAssertions.Specs
         public abstract void Do();
 
         public abstract void Do(string someParam);
+
+        public abstract int Return();
 
         public static Does Throw<TException>(TException exception)
             where TException : Exception
@@ -912,6 +999,8 @@ namespace FluentAssertions.Specs
             public override void Do() => throw exception;
 
             public override void Do(string someParam) => throw exception;
+
+            public override int Return() => throw exception;
         }
 
         private class DoesNotThrow : Does
@@ -919,6 +1008,8 @@ namespace FluentAssertions.Specs
             public override void Do() { }
 
             public override void Do(string someParam) { }
+
+            public override int Return() => 42;
         }
     }
 

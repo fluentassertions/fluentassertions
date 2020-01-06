@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
@@ -7,6 +8,9 @@ namespace FluentAssertions.Execution
     /// Represents a chaining object returned from <see cref="AssertionScope.Given{T}"/> to continue the assertion using
     /// an object returned by a selector.
     /// </summary>
+#if NET45
+    [Serializable]
+#endif
     public class GivenSelector<T>
     {
         #region Private Definitions
@@ -22,7 +26,7 @@ namespace FluentAssertions.Execution
             this.predecessorSucceeded = predecessorSucceeded;
             this.predecessor = predecessor;
 
-            subject = predecessorSucceeded ? selector() : default(T);
+            subject = predecessorSucceeded ? selector() : default;
         }
 
         /// <summary>
@@ -37,6 +41,8 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<T> ForCondition(Func<T, bool> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             predecessor.ForCondition(predicate(subject));
 
             return this;
@@ -54,6 +60,8 @@ namespace FluentAssertions.Execution
         /// </remarks>
         public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
         {
+            Guard.ThrowIfArgumentIsNull(selector, nameof(selector));
+
             return new GivenSelector<TOut>(() => selector(subject), predecessorSucceeded, predecessor);
         }
 

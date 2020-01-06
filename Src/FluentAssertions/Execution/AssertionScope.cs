@@ -1,16 +1,24 @@
-﻿#region
-
 using System;
 using System.Linq;
+#if !NET45
+using System.Threading;
+#else
+using System.Runtime.Remoting.Messaging;
+#endif
 using FluentAssertions.Common;
-
-#endregion
 
 namespace FluentAssertions.Execution
 {
     /// <summary>
     /// Represents an implicit or explicit scope within which multiple assertions can be collected.
     /// </summary>
+    /// <remarks>
+    /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
+    /// using <c>async</c> or <c>await</c>.
+    /// </remarks>
+#if NET45
+    [Serializable]
+#endif
     public class AssertionScope : IAssertionScope
     {
         #region Private Definitions
@@ -21,9 +29,9 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-        [ThreadStatic]
-        private static AssertionScope current;
-
+#if !NET45
+        private static readonly AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
+#endif
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
@@ -31,10 +39,34 @@ namespace FluentAssertions.Execution
 
         #endregion
 
-        private AssertionScope(IAssertionStrategy _assertionStrategy)
+        /// <summary>
+        /// Starts a new scope based on the given assertion strategy and parent assertion scope
+        /// </summary>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
+        /// <param name="parent">The parent assertion scope for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        internal AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
         {
-            assertionStrategy = _assertionStrategy;
-            parent = null;
+            this.assertionStrategy = assertionStrategy
+                ?? throw new ArgumentNullException(nameof(assertionStrategy));
+            this.parent = parent;
+        }
+
+        /// <summary>
+        /// Starts a new scope based on the given assertion strategy.
+        /// </summary>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        public AssertionScope(IAssertionStrategy assertionStrategy)
+            : this(assertionStrategy, GetCurrentAssertionScope())
+        {
+            SetCurrentAssertionScope(this);
+
+            if (parent != null)
+            {
+                contextData.Add(parent.contextData);
+                Context = parent.Context;
+            }
         }
 
         /// <summary>
@@ -44,14 +76,6 @@ namespace FluentAssertions.Execution
         public AssertionScope()
             : this(new CollectingAssertionStrategy())
         {
-            parent = current;
-            current = this;
-
-            if (parent != null)
-            {
-                contextData.Add(parent.contextData);
-                Context = parent.Context;
-            }
         }
 
         /// <summary>
@@ -74,8 +98,10 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static AssertionScope Current
         {
-            get => current ?? new AssertionScope(new DefaultAssertionStrategy());
-            private set => current = value;
+#pragma warning disable CA2000 // AssertionScope should not be disposed here
+            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), parent: null);
+#pragma warning restore CA2000
+            private set => SetCurrentAssertionScope(value);
         }
 
         public AssertionScope UsingLineBreaks
@@ -89,7 +115,7 @@ namespace FluentAssertions.Execution
 
         public bool Succeeded
         {
-            get => succeeded.HasValue && succeeded.Value;
+            get => succeeded == true;
         }
 
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
@@ -123,11 +149,11 @@ namespace FluentAssertions.Execution
         /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
         /// expectation.
         /// </remarks>
-        ///  <param name="message">The format string that represents the failure message.</param>
+        /// <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string message, params object[] args)
         {
-            var localReason = reason;
+            Func<string> localReason = reason;
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);
@@ -138,6 +164,12 @@ namespace FluentAssertions.Execution
             };
 
             return this;
+        }
+
+        internal void TrackComparands(object subject, object expectation)
+        {
+            contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
+            contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
         }
 
         public Continuation ClearExpectation()
@@ -161,15 +193,27 @@ namespace FluentAssertions.Execution
 
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
+            return FailWith(() =>
+            {
+                string localReason = reason?.Invoke() ?? "";
+                var messageBuilder = new MessageBuilder(useLineBreaks);
+                string identifier = GetIdentifier();
+                FailReason failReason = failReasonFunc();
+                string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+                return result;
+            });
+        }
+
+        internal Continuation FailWithPreFormatted(string formattedFailReason) =>
+            FailWith(() => formattedFailReason);
+
+        private Continuation FailWith(Func<string> failReasonFunc)
+        {
             try
             {
                 if (!succeeded.HasValue || !succeeded.Value)
                 {
-                    string localReason = reason?.Invoke() ?? "";
-                    var messageBuilder = new MessageBuilder(useLineBreaks);
-                    string identifier = GetIdentifier();
-                    var failReason = failReasonFunc();
-                    string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+                    string result = failReasonFunc();
 
                     if (expectation != null)
                     {
@@ -212,9 +256,12 @@ namespace FluentAssertions.Execution
             assertionStrategy.HandleFailure(formattedFailureMessage);
         }
 
+        /// <summary>
+        /// Tracks a keyed object in the current scope that is excluded from the failure message in case an assertion fails.
+        /// </summary>
         public void AddNonReportable(string key, object value)
         {
-            contextData.Add(key, value, Reportability.Hidden);
+            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
         }
 
         /// <summary>
@@ -223,7 +270,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void AddReportable(string key, string value)
         {
-            contextData.Add(key, value, Reportability.Reportable);
+            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
         }
 
         public string[] Discard()
@@ -249,7 +296,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void Dispose()
         {
-            Current = parent;
+            SetCurrentAssertionScope(parent);
 
             if (parent != null)
             {
@@ -270,6 +317,24 @@ namespace FluentAssertions.Execution
         {
             fallbackIdentifier = identifier;
             return this;
+        }
+
+        private static AssertionScope GetCurrentAssertionScope()
+        {
+#if !NET45
+            return current.Value;
+#else
+            return (AssertionScope)CallContext.LogicalGetData("this");
+#endif
+        }
+
+        private static void SetCurrentAssertionScope(AssertionScope scope)
+        {
+#if !NET45
+            current.Value = scope;
+#else
+            CallContext.LogicalSetData("this", scope);
+#endif
         }
 
         #region Explicit Implementation to support the interface

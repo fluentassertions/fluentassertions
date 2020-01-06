@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency.Selection
         public ExcludeMemberByPathSelectionRule(MemberPath pathToExclude)
             : base(pathToExclude.ToString())
         {
-            this.memberToExclude = pathToExclude;
+            memberToExclude = pathToExclude;
         }
 
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,

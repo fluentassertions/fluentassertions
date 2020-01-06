@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -14,9 +15,8 @@ namespace FluentAssertions.Numeric
     {
         private const int Equal = 0;
 
-        public ComparableTypeAssertions(IComparable<T> value)
+        public ComparableTypeAssertions(IComparable<T> value) : base(value)
         {
-            Subject = value;
         }
 
         /// <summary>
@@ -91,7 +91,9 @@ namespace FluentAssertions.Numeric
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
-            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
+            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext
             {

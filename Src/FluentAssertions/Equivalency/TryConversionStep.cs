@@ -57,7 +57,7 @@ namespace FluentAssertions.Equivalency
             {
                 context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
 
-                var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
+                IEquivalencyValidationContext newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
 
                 structuralEqualityValidator.AssertEqualityUsing(newContext);
                 return true;

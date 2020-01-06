@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -34,37 +35,16 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        public static string Escape(this string value, bool escapePlaceholders = false)
-        {
-            value = value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r");
-            if (escapePlaceholders)
-            {
-                value = value.Replace("{", "{{").Replace("}", "}}");
-            }
-
-            return value;
-        }
+        public static string EscapePlaceholders(this string value) =>
+            value.Replace("{", "{{").Replace("}", "}}");
 
         /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        internal static string Unescape(this string value, bool escapePlaceholders = false)
-        {
-            value = value.Replace("\\\"", "\"").Replace(@"\n", "\n").Replace(@"\r", "\r");
-            if (escapePlaceholders)
-            {
-                value = value.Replace("{{", "{").Replace("}}", "}");
-            }
-
-            return value;
-        }
-
-        public static bool IsNullOrEmpty(this string value)
-        {
-            return string.IsNullOrEmpty(value);
-        }
+        internal static string UnescapePlaceholders(this string value) =>
+            value.Replace("{{", "{").Replace("}}", "}");
 
         /// <summary>
         /// Joins a string with one or more other strings using a specified separator.
@@ -81,7 +61,7 @@ namespace FluentAssertions.Common
 
             if (other.Length == 0)
             {
-                return (@this.Length != 0) ? @this : string.Empty;
+                return @this;
             }
 
             return @this + separator + other;
@@ -92,14 +72,53 @@ namespace FluentAssertions.Common
         /// </summary>
         public static string Capitalize(this string @this)
         {
+            if (@this.Length == 0)
+            {
+                return @this;
+            }
+
             char[] charArray = @this.ToCharArray();
             charArray[0] = char.ToUpper(charArray[0]);
             return new string(charArray);
         }
 
+        /// <summary>
+        /// Appends tab character at the beginning of each line in a string.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static string IndentLines(this string @this)
+        {
+            return string.Join(Environment.NewLine,
+                @this.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
+        }
+
         public static string RemoveNewLines(this string @this)
         {
             return @this.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
+        }
+
+        /// <summary>
+        /// Counts the number of times a substring appears within a string by using the specified <see cref="StringComparison"/>.
+        /// </summary>
+        /// <param name="substring">The substring to search for.</param>
+        /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
+        /// <returns></returns>
+        public static int CountSubstring(this string @this, string substring, StringComparison comparisonType)
+        {
+            string actual = @this ?? "";
+            string search = substring ?? "";
+
+            int count = 0;
+            int index = 0;
+
+            while ((index = actual.IndexOf(search, index, comparisonType)) >= 0)
+            {
+                index += search.Length;
+                count++;
+            }
+
+            return count;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace FluentAssertions.Formatting
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             string prefix = context.UseLineBreaks ? Environment.NewLine : "";
-            string escapedString = value.ToString().Escape();
+            string escapedString = value.ToString();
 
             return prefix + "\"" + escapedString + "\"";
         }

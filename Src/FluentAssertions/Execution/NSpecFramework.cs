@@ -15,7 +15,7 @@ namespace FluentAssertions.Execution
                 {
                     assembly = Assembly.Load(new AssemblyName("nspec"));
 
-                    if (assembly == null)
+                    if (assembly is null)
                     {
                         return false;
                     }
@@ -34,7 +34,7 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType("NSpec.Domain.AssertionException");
-            if (exceptionType == null)
+            if (exceptionType is null)
             {
                 throw new Exception("Failed to create the NSpec assertion type");
             }

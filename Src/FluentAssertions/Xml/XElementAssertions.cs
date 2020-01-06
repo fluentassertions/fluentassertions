@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using FluentAssertions.Xml.Equivalency;
 
 namespace FluentAssertions.Xml
 {
@@ -16,9 +17,8 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XElementAssertions" /> class.
         /// </summary>
-        public XElementAssertions(XElement xElement)
+        public XElementAssertions(XElement xElement) : base(xElement)
         {
-            Subject = xElement;
         }
 
         /// <summary>
@@ -151,8 +151,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(false);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = unexpected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(false);
+            }
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -246,7 +250,7 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             XAttribute attribute = Subject.Attribute(expectedName);
-            string expectedText = expectedName.ToString().Escape(escapePlaceholders: true);
+            string expectedText = expectedName.ToString().EscapePlaceholders();
 
             Execute.Assertion
                 .ForCondition(attribute != null)
@@ -319,7 +323,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape(escapePlaceholders: true) + "\"{reason}" +
+                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().EscapePlaceholders() + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);

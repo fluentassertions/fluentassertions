@@ -48,7 +48,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
             if (!indexQualifierRegex.IsMatch(path))
             {
-                var match = indexQualifierRegex.Match(sourcePath);
+                Match match = indexQualifierRegex.Match(sourcePath);
                 if (match.Success)
                 {
                     sourcePath = sourcePath.Substring(match.Length);

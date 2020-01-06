@@ -1,17 +1,19 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Tests\Default.testsettings = Tests\Default.testsettings
-		Src\FluentAssertions.nuspec = Src\FluentAssertions.nuspec
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
-		.nuget\nuget.config = .nuget\nuget.config
+		nuget.config = nuget.config
 		README.md = README.md
 		Src\SolutionInfo.cs = Src\SolutionInfo.cs
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "Build\_build.csproj", "{364DD16C-D759-49DC-A04A-64D40205295B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
 EndProject
@@ -60,6 +62,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandard13.Specs", "Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchmarks\Benchmarks.csproj", "{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore30.Specs", "Tests\NetCore30.Specs\NetCore30.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore21.Specs", "Tests\NetCore21.Specs\NetCore21.Specs.csproj", "{C4CC9B52-5800-4E32-AE37-F62FA682B10D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
@@ -70,6 +76,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{364DD16C-D759-49DC-A04A-64D40205295B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{364DD16C-D759-49DC-A04A-64D40205295B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -142,6 +150,14 @@ Global
 		{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{05727385-DA56-4FC1-B44A-79DFECC3198A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +182,8 @@ Global
 		{1E4EFB8D-FB8B-4EF2-83FC-B42D28CD99A3} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{EE7509BF-A011-4D04-A91F-5AE0F92E5AB5} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{05727385-DA56-4FC1-B44A-79DFECC3198A} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{C4CC9B52-5800-4E32-AE37-F62FA682B10D} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}

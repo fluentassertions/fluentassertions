@@ -18,6 +18,14 @@ namespace FluentAssertions.Types
         where TSubject : MemberInfo
         where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
     {
+        protected MemberInfoAssertions() : this(null)
+        {
+        }
+
+        protected MemberInfoAssertions(TSubject subject) : base(subject)
+        {
+        }
+
         /// <summary>
         /// Asserts that the selected member is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
@@ -32,7 +40,7 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return BeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -49,7 +57,7 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return NotBeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
+            return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -71,6 +79,8 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));
@@ -104,6 +114,8 @@ namespace FluentAssertions.Types
             string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             string failureMessage = string.Format("Expected {0} {1}" +
                                                   " to not be decorated with {2}{{reason}}, but that attribute was found.",
                                                   Identifier, SubjectDescription, typeof(TAttribute));

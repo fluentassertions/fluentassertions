@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
@@ -22,11 +23,13 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static partial class AssertionExtensions
+    public static class AssertionExtensions
     {
+        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+
         /// <summary>
-        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow
-        /// overloads.
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="ActionAssertions"/>
         /// </summary>
         [Pure]
         public static Action Invoking<T>(this T subject, Action<T> action)
@@ -34,11 +37,59 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
+        /// </summary>
+        [Pure]
+        public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
+        {
+            return () => action(subject);
+        }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="NonGenericAsyncFunctionAssertions"/>
+        /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
         {
             return () => action(subject);
         }
+
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="GenericAsyncFunctionAssertions{TResult}"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, Task<TResult>> action)
+        {
+            return () => action(subject);
+        }
+
+#if NETCOREAPP2_1 || NETSTANDARD2_1
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task> Awaiting<T>(this T subject, Func<T, ValueTask> action)
+        {
+            return () => action(subject).AsTask();
+        }
+#endif
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_1
+        /// <summary>
+        /// Invokes the specified action on a subject so that you can chain it
+        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// </summary>
+        [Pure]
+        public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, ValueTask<TResult>> action)
+        {
+            return () => action(subject).AsTask();
+        }
+#endif
 
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
@@ -77,7 +128,7 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new ExecutionTime(action);
+            return new ExecutionTime(action.ExecuteInDefaultSynchronizationContext);
         }
 
         /// <summary>
@@ -624,7 +675,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Action"/> .
+        /// current <see cref="System.Action"/>.
         /// </summary>
         [Pure]
         public static ActionAssertions Should(this Action action)
@@ -633,40 +684,39 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Func{Task}"/> .
+        /// Returns a <see cref="NonGenericAsyncFunctionAssertions"/> object that can be used to assert the
+        /// current <see cref="System.Func{Task}"/>.
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should(this Func<Task> action)
+        public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new NonGenericAsyncFunctionAssertions(action, extractor);
         }
 
         /// <summary>
-        /// Returns a <see cref="AsyncFunctionAssertions"/> object that can be used to assert the
+        /// Returns a <see cref="GenericAsyncFunctionAssertions{T}"/> object that can be used to assert the
         /// current <see><cref>System.Func{Task{T}}</cref></see>.
         /// </summary>
         [Pure]
-        public static AsyncFunctionAssertions Should<T>(this Func<Task<T>> action)
+        public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new AsyncFunctionAssertions(action, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action, extractor);
         }
 
         /// <summary>
         /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
-        /// current <see cref="System.Func{T}"/> .
+        /// current <see cref="System.Func{T}"/>.
         /// </summary>
         [Pure]
         public static FunctionAssertions<T> Should<T>(this Func<T> func)
         {
             return new FunctionAssertions<T>(func, extractor);
         }
-        
 
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
         /// <summary>
-        ///   Starts monitoring <paramref name="eventSource"/> for its events.
+        /// Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
         /// <param name="eventSource">The object for which to monitor the events.</param>
         /// <param name="utcNow">
@@ -691,7 +741,30 @@ namespace FluentAssertions
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default(TTo);
+            return subject is TTo ? (TTo)subject : default;
+        }
+
+        /// <summary>
+        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// </summary>
+        /// <param name = "expectedWildcardPattern">
+        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "because">
+        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
+        public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
+            this Task<ExceptionAssertions<TException>> task,
+            string expectedWildcardPattern,
+            string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+        {
+            return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
     }
 }

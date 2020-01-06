@@ -1,10 +1,12 @@
 using System;
 using System.Diagnostics;
+using System.Xml;
 using System.Xml.Linq;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using FluentAssertions.Xml.Equivalency;
 
 namespace FluentAssertions.Xml
 {
@@ -17,9 +19,8 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
         /// </summary>
-        public XDocumentAssertions(XDocument document)
+        public XDocumentAssertions(XDocument document) : base(document)
         {
-            Subject = document;
         }
 
         /// <summary>
@@ -79,13 +80,11 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because, params object[] becauseArgs)
         {
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(!(Subject is null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
-
-            Execute.Assertion
+                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected)
+                .Then
                 .ForCondition(!Subject.Equals(unexpected))
-                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);
@@ -115,8 +114,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), expected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(true);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = expected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(true);
+            }
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -145,8 +148,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because, params object[] becauseArgs)
         {
-            var xmlReaderValidator = new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs);
-            xmlReaderValidator.Validate(false);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader otherReader = unexpected.CreateReader())
+            {
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                xmlReaderValidator.Validate(false);
+            }
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -186,11 +193,8 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has a root element if the element name is <null>*");
 
             return HaveRoot(XNamespace.None + expected, because, becauseArgs);
         }
@@ -209,23 +213,20 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string because, params object[] becauseArgs)
         {
-            if (Subject == null)
+            if (Subject is null)
             {
                 throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
             }
 
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has a root element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has a root element if the element name is <null>*");
 
             XElement root = Subject.Root;
 
             Execute.Assertion
                 .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape(escapePlaceholders: true) + "\"{reason}" +
+                .FailWith("Expected XML document to have root element \"" + expected.ToString().EscapePlaceholders() + "\"{reason}" +
                           ", but found {0}.", Subject);
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root);
@@ -272,11 +273,8 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, string because,
             params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected),
-                    "Cannot assert the document has an element if the element name is <null>*");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has an element if the element name is <null>*");
 
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
         }
@@ -298,18 +296,15 @@ namespace FluentAssertions.Xml
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected, string because,
             params object[] becauseArgs)
         {
-            if (Subject == null)
+            if (Subject is null)
             {
                 throw new InvalidOperationException("Cannot assert the document has an element if the document itself is <null>.");
             }
 
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected),
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
                     "Cannot assert the document has an element if the element name is <null>*");
-            }
 
-            string expectedText = expected.ToString().Escape(escapePlaceholders: true);
+            string expectedText = expected.ToString().EscapePlaceholders();
 
             Execute.Assertion
                 .ForCondition(Subject.Root != null)

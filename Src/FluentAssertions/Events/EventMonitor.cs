@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Events
 {
@@ -19,10 +21,7 @@ namespace FluentAssertions.Events
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
-            if (eventSource == null)
-            {
-                throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
-            }
+            Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
 
             subject = new WeakReference(eventSource);
 
@@ -45,7 +44,7 @@ namespace FluentAssertions.Events
         {
             get
             {
-                var query =
+                IEnumerable<OccurredEvent> query =
                     from mapItem in recorderMap.ToArray()
                     let eventName = mapItem.Key
                     let recorder = mapItem.Value
@@ -77,21 +76,34 @@ namespace FluentAssertions.Events
 
         private void Attach(Type typeDefiningEventsToMonitor, Func<DateTime> utcNow)
         {
-            if (subject.Target == null)
+            if (subject.Target is null)
             {
                 throw new InvalidOperationException("Cannot monitor events on garbage-collected object");
             }
 
-            EventInfo[] events = typeDefiningEventsToMonitor.GetEvents();
+            EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
             if (!events.Any())
             {
                 throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
             }
 
-            foreach (var eventInfo in events)
+            foreach (EventInfo eventInfo in events)
             {
                 AttachEventHandler(eventInfo, utcNow);
             }
+        }
+
+        private EventInfo[] GetPublicEvents(Type type)
+        {
+            if (!type.IsInterface)
+            {
+                return type.GetEvents();
+            }
+
+            return new[] { type }
+                .Concat(type.GetInterfaces())
+                .SelectMany(i => i.GetEvents())
+                .ToArray();
         }
 
         public void Dispose()

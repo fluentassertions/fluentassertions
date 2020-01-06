@@ -16,8 +16,15 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            return config.GetUserEquivalencySteps(config.ConversionSelector)
-                .Any(step => step.CanHandle(context, config) && step.Handle(context, parent, config));
+            foreach (IEquivalencyStep step in config.GetUserEquivalencySteps(config.ConversionSelector))
+            {
+                if (step.CanHandle(context, config) && step.Handle(context, parent, config))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

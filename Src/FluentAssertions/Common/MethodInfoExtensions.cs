@@ -31,7 +31,7 @@ namespace FluentAssertions.Common
 
             if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
             {
-                var (success, methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
+                (bool success, MethodImplAttribute methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
 
                 if (success)
                 {

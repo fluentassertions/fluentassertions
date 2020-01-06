@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
 {
@@ -81,7 +82,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .Where(t => t.GetTypeInfo().IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -95,7 +96,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+                .Where(t => t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -109,7 +110,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), false).Any())
+                .Where(t => !t.GetTypeInfo().IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -123,7 +124,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+                .Where(t => !t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -152,7 +153,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreUnderNamespace(string @namespace)
         {
-            types = types.Where(t => t.Namespace?.StartsWith(@namespace) == true).ToList();
+            types = types.Where(t => t.IsUnderNamespace(@namespace)).ToList();
             return this;
         }
 
@@ -161,7 +162,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreNotUnderNamespace(string @namespace)
         {
-            types = types.Where(t => t.Namespace?.StartsWith(@namespace) != true).ToList();
+            types = types.Where(t => !t.IsUnderNamespace(@namespace)).ToList();
             return this;
         }
 
@@ -169,7 +170,7 @@ namespace FluentAssertions.Types
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// A <see cref="System.Collections.Generic.IEnumerator{T}"/> that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
         public IEnumerator<Type> GetEnumerator()
@@ -181,7 +182,7 @@ namespace FluentAssertions.Types
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// An <see cref="System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()

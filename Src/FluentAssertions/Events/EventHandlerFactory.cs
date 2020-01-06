@@ -1,4 +1,4 @@
-#if NET45 || NET47 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
 
 using System;
 using System.Reflection;
@@ -7,13 +7,13 @@ using System.Reflection.Emit;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    ///   Static methods that aid in generic event subscription
+    /// Static methods that aid in generic event subscription
     /// </summary>
     internal static class EventHandlerFactory
     {
         /// <summary>
-        ///   Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
-        ///   when invoked.
+        /// Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
+        /// when invoked.
         /// </summary>
         public static Delegate GenerateHandler(Type eventSignature, IEventRecorder recorder)
         {
@@ -72,7 +72,7 @@ namespace FluentAssertions.Events
             ilGen.Emit(OpCodes.Ldloc_0);
 
             // Call the handler
-            ilGen.EmitCall(OpCodes.Call, methodToCall, null);
+            ilGen.EmitCall(OpCodes.Callvirt, methodToCall, null);
 
             ilGen.Emit(OpCodes.Ret);
 
@@ -80,22 +80,22 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Finds the Return Type of a Delegate.
+        /// Finds the Return Type of a Delegate.
         /// </summary>
         private static Type GetDelegateReturnType(Type d)
         {
-            var invoke = DelegateInvokeMethod(d);
+            MethodInfo invoke = DelegateInvokeMethod(d);
             return invoke.ReturnType;
         }
 
         /// <summary>
-        ///   Returns an Array of Types that make up a delegate's parameter signature.
+        /// Returns an Array of Types that make up a delegate's parameter signature.
         /// </summary>
         private static Type[] GetDelegateParameterTypes(Type d)
         {
-            var invoke = DelegateInvokeMethod(d);
+            MethodInfo invoke = DelegateInvokeMethod(d);
 
-            var parameterInfo = invoke.GetParameters();
+            ParameterInfo[] parameterInfo = invoke.GetParameters();
             var parameters = new Type[parameterInfo.Length];
 
             for (var index = 0; index < parameterInfo.Length; index++)
@@ -107,7 +107,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns an array of types appended with an EventRecorder reference at the beginning.
+        /// Returns an array of types appended with an EventRecorder reference at the beginning.
         /// </summary>
         private static Type[] AppendParameterListThisReference(Type[] parameters)
         {
@@ -124,7 +124,7 @@ namespace FluentAssertions.Events
         }
 
         /// <summary>
-        ///   Returns T/F Dependent on a Type Being a Delegate.
+        /// Returns T/F Dependent on a Type Being a Delegate.
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
@@ -134,12 +134,12 @@ namespace FluentAssertions.Events
                 return false;
             }
 
-            var invoke = d.GetMethod("Invoke");
+            MethodInfo invoke = d.GetMethod("Invoke");
             return invoke != null;
         }
 
         /// <summary>
-        ///   Returns the MethodInfo for the Delegate's "Invoke" Method.
+        /// Returns the MethodInfo for the Delegate's "Invoke" Method.
         /// </summary>
         private static MethodInfo DelegateInvokeMethod(Type d)
         {
@@ -148,7 +148,7 @@ namespace FluentAssertions.Events
                 throw new ArgumentException("Type is not a Delegate!", nameof(d));
             }
 
-            var invoke = d.GetMethod("Invoke");
+            MethodInfo invoke = d.GetMethod("Invoke");
             return invoke;
         }
     }

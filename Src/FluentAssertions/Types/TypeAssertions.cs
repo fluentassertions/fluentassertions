@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -17,11 +18,10 @@ namespace FluentAssertions.Types
     public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="System.Object" /> class.
         /// </summary>
-        public TypeAssertions(Type type)
+        public TypeAssertions(Type type) : base(type)
         {
-            Subject = type;
         }
 
         /// <summary>
@@ -249,10 +249,12 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             BeDecoratedWith<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(Subject.IsDecoratedWith(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -274,7 +276,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>(true))
+                .ForCondition(Subject.IsDecoratedWithOrInherit<TAttribute>())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
@@ -300,10 +302,12 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .ForCondition(Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -351,8 +355,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Execute.Assertion
-                .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(!Subject.IsDecoratedWith(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with {1} that matches {2}{reason}, but a matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -374,7 +380,7 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Execute.Assertion
-                .ForCondition(!Subject.IsDecoratedWith<TAttribute>(true))
+                .ForCondition(!Subject.IsDecoratedWithOrInherit<TAttribute>())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with or inherit {1}{reason}, but the attribute was found.",
                     Subject, typeof(TAttribute));
@@ -400,8 +406,10 @@ namespace FluentAssertions.Types
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+
             Execute.Assertion
-                .ForCondition(!Subject.HasMatchingAttribute(isMatchingAttributePredicate, true))
+                .ForCondition(!Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}, but a matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
@@ -413,9 +421,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> implements Interface <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be implemented.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
             if (!interfaceType.GetTypeInfo().IsInterface)
@@ -434,9 +442,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> implements Interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should be implemented.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> Implement<TInterface>(string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -447,9 +455,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> does not implement Interface <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be not implemented.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotImplement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
             if (!interfaceType.GetTypeInfo().IsInterface)
@@ -468,9 +476,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> does not implement Interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should not be implemented.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotImplement<TInterface>(string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -481,9 +489,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is derived from <see cref="System.Type"/> <paramref name="baseType"/>.
         /// </summary>
         /// <param name="baseType">The Type that should be derived from.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
             if (baseType.GetTypeInfo().IsInterface)
@@ -512,9 +520,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is derived from <typeparamref name="TBaseClass"/>.
         /// </summary>
         /// <typeparam name="TBaseClass">The Type that should be derived from.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> BeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs)
             where TBaseClass : class
         {
@@ -525,9 +533,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is not derived from <see cref="System.Type"/> <paramref name="baseType"/>.
         /// </summary>
         /// <param name="baseType">The Type that should not be derived from.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
             if (baseType.GetTypeInfo().IsInterface)
@@ -557,9 +565,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current <see cref="System.Type"/> is not derived from <typeparamref name="TBaseClass"/>.
         /// </summary>
         /// <typeparam name="TBaseClass">The Type that should not be derived from.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotBeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs)
             where TBaseClass : class
         {
@@ -569,9 +577,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is sealed.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
@@ -588,9 +596,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is not sealed.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
@@ -607,9 +615,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is abstract.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
         {
@@ -626,9 +634,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is not abstract.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
         {
@@ -645,9 +653,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is static.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
         {
@@ -664,9 +672,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="System.Type"/> is not static.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
         {
@@ -683,11 +691,11 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         /// <param name="propertyType">The type of the property.</param>
         /// <param name="name">The name of the property.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(Type propertyType, string name, string because = "", params object[] becauseArgs)
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
@@ -699,12 +707,12 @@ namespace FluentAssertions.Types
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
-            Execute.Assertion.ForCondition(propertyInfo != null)
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.");
-
-            Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
-                .BecauseOf(because, becauseArgs)
+                .ForCondition(propertyInfo != null)
+                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
+                .Then
+                .ForCondition(propertyInfo.PropertyType == propertyType)
                 .FailWith(string.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
                     propertyInfoDescription, propertyType));
 
@@ -716,9 +724,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TProperty">The type of the property.</typeparam>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty<TProperty>(string name, string because = "", params object[] becauseArgs)
         {
             return HaveProperty(typeof(TProperty), name, because, becauseArgs);
@@ -728,9 +736,9 @@ namespace FluentAssertions.Types
         /// Asserts that the current type does not have a property named <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs)
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
@@ -742,7 +750,7 @@ namespace FluentAssertions.Types
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
-            Execute.Assertion.ForCondition(propertyInfo == null)
+            Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected {0} to not exist{{reason}}, but it does.", propertyInfoDescription));
 
@@ -755,9 +763,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> HaveExplicitProperty(Type interfaceType, string name, string because = "", params object[] becauseArgs)
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
@@ -778,9 +786,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> HaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -793,9 +801,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitProperty(Type interfaceType, string name, string because = "", params object[] becauseArgs)
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
@@ -816,9 +824,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
         /// <param name="name">The name of the property.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -832,9 +840,9 @@ namespace FluentAssertions.Types
         /// <param name="interfaceType">The type of the interface.</param>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> HaveExplicitMethod(Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
@@ -856,9 +864,9 @@ namespace FluentAssertions.Types
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> HaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -872,9 +880,9 @@ namespace FluentAssertions.Types
         /// <param name="interfaceType">The type of the interface.</param>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitMethod(Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
@@ -896,9 +904,9 @@ namespace FluentAssertions.Types
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The expected types of the method parameters.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -911,9 +919,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="indexerType">The type of the indexer.</param>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
@@ -942,15 +950,15 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type does not have an indexer that takes parameter types <paramref name="parameterTypes"/>.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         /// <param name="parameterTypes">The expected indexer's parameter types.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveIndexer(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
-            Execute.Assertion.ForCondition(propertyInfo == null)
+            Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected indexer {0}[{1}] to not exist{{reason}}, but it does.",
                     Subject.FullName,
@@ -962,12 +970,12 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type has a method named <paramref name="name"/>with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
-        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(String name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
@@ -986,9 +994,9 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The method parameter types.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveMethod(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
@@ -1000,7 +1008,7 @@ namespace FluentAssertions.Types
                 methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
             }
 
-            Execute.Assertion.ForCondition(methodInfo == null)
+            Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected method {0}({1}) to not exist{{reason}}, but it does.", methodInfoDescription,
                     GetParameterString(parameterTypes)));
@@ -1011,10 +1019,10 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type has a constructor with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
@@ -1031,9 +1039,9 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type has a default constructor.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(string because = "", params object[] becauseArgs)
         {
             return HaveConstructor(new Type[] { }, because, becauseArgs);
@@ -1042,16 +1050,16 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type does not have a constructor with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
             ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
 
             Execute.Assertion
-                .ForCondition(constructorInfo == null)
+                .ForCondition(constructorInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected constructor {0}({1}) not to exist{{reason}}, but it does.",
                     Subject.FullName,
@@ -1063,15 +1071,15 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type does not have a default constructor.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(string because = "", params object[] becauseArgs)
         {
             return NotHaveConstructor(new Type[] { }, because, becauseArgs);
         }
 
-        private string GetParameterString(IEnumerable<Type> parameterTypes)
+        private static string GetParameterString(IEnumerable<Type> parameterTypes)
         {
             return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }
@@ -1127,12 +1135,27 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'HaveImplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
-            return HaveImplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+            return HaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return HaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
         }
 
         /// <summary>
@@ -1140,10 +1163,25 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'HaveImplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            return HaveImplicitConversionOperator(sourceType, targetType, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
@@ -1160,12 +1198,27 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'NotHaveImplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
-            return NotHaveImplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+            return NotHaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return NotHaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
         }
 
         /// <summary>
@@ -1173,14 +1226,29 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'NotHaveImplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            return NotHaveImplicitConversionOperator(sourceType, targetType, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
-            Execute.Assertion.ForCondition(methodInfo == null)
+            Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected public static implicit {0}({1}) to not exist{{reason}}, but it does.",
                     targetType.FullName, sourceType.FullName));
@@ -1193,12 +1261,27 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'HaveExplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
-            return HaveExplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+            return HaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return HaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
         }
 
         /// <summary>
@@ -1206,10 +1289,25 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'HaveExplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            return HaveExplicitConversionOperator(sourceType, targetType, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
@@ -1226,12 +1324,27 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'NotHaveExplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
-            return NotHaveExplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+            return NotHaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return NotHaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
         }
 
         /// <summary>
@@ -1239,14 +1352,29 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
-        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        [Obsolete("This method is deprecated in favor of 'NotHaveExplicitConversionOperator' and will be removed in v6.X.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            return NotHaveExplicitConversionOperator(sourceType, targetType, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
+        public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
-            Execute.Assertion.ForCondition(methodInfo == null)
+            Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected public static explicit {0}({1}) to not exist{{reason}}, but it does.",
                     targetType.FullName, sourceType.FullName));
@@ -1261,7 +1389,7 @@ namespace FluentAssertions.Types
 
         private void AssertThatSubjectIsClass()
         {
-            var typeInfo = Subject.GetTypeInfo();
+            TypeInfo typeInfo = Subject.GetTypeInfo();
             if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
             {
                 throw new InvalidOperationException($"{Subject} must be a class.");

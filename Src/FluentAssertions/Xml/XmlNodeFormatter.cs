@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
 using System.Xml;
 using FluentAssertions.Common;
@@ -25,7 +25,7 @@ namespace FluentAssertions.Xml
                 outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "…";
             }
 
-            return outerXml.Escape(escapePlaceholders: true);
+            return outerXml.EscapePlaceholders();
         }
     }
 }

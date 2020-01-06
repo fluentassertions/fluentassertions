@@ -1,10 +1,11 @@
-﻿#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
 using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -45,6 +46,8 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(options, nameof(options));
+
             try
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
@@ -98,6 +101,8 @@ namespace FluentAssertions
         public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(options, nameof(options));
+
             try
             {
                 var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
@@ -122,15 +127,17 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
-            var stream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter
+            using (var stream = new MemoryStream())
             {
-                Binder = new SimpleBinder(subject.GetType())
-            };
+                var binaryFormatter = new BinaryFormatter
+                {
+                    Binder = new SimpleBinder(subject.GetType())
+                };
 
-            binaryFormatter.Serialize(stream, subject);
-            stream.Position = 0;
-            return binaryFormatter.Deserialize(stream);
+                binaryFormatter.Serialize(stream, subject);
+                stream.Position = 0;
+                return binaryFormatter.Deserialize(stream);
+            }
         }
 
         private class SimpleBinder : SerializationBinder
@@ -202,12 +209,14 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingXmlSerializer(object subject)
         {
-            var stream = new MemoryStream();
-            var binaryFormatter = new XmlSerializer(subject.GetType());
-            binaryFormatter.Serialize(stream, subject);
+            using (var stream = new MemoryStream())
+            {
+                var binaryFormatter = new XmlSerializer(subject.GetType());
+                binaryFormatter.Serialize(stream, subject);
 
-            stream.Position = 0;
-            return binaryFormatter.Deserialize(stream);
+                stream.Position = 0;
+                return binaryFormatter.Deserialize(stream);
+            }
         }
     }
 }

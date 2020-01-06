@@ -15,6 +15,15 @@ namespace FluentAssertions.Primitives
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
     {
+        protected ReferenceTypeAssertions()
+        {
+        }
+
+        protected ReferenceTypeAssertions(TSubject subject)
+        {
+            Subject = subject;
+        }
+
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
@@ -123,7 +132,11 @@ namespace FluentAssertions.Primitives
         {
             BeOfType(typeof(T), because, becauseArgs);
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)(object)Subject);
+            T typedSubject = (Subject is T type)
+                ? type
+                : default;
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
 
         /// <summary>
@@ -229,7 +242,11 @@ namespace FluentAssertions.Primitives
                     typeof(T),
                     Subject.GetType());
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)((object)Subject));
+            T typedSubject = (Subject is T type)
+                ? type
+                : default;
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
 
         /// <summary>
@@ -245,7 +262,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
@@ -293,7 +310,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
-                .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", type);
+                .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
             if (type.GetTypeInfo().IsGenericTypeDefinition)
@@ -342,10 +359,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
             where T : TSubject
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate), "Cannot match an object against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match an object against a <null> predicate.");
 
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T)Subject))

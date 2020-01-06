@@ -17,7 +17,7 @@ namespace FluentAssertions.Execution
             Type assertionHelperType = assembly.GetType("Gallio.Framework.Assertions.AssertionHelper");
             Type testContextType = assembly.GetType("Gallio.Framework.TestContext");
 
-            if ((assertionFailureBuilderType == null) || (assertionHelperType == null) || (testContextType == null))
+            if ((assertionFailureBuilderType is null) || (assertionHelperType is null) || (testContextType is null))
             {
                 throw new Exception(string.Format(
                     "Failed to create the assertion exception for the current test framework: \"{0}\"",
@@ -30,20 +30,20 @@ namespace FluentAssertions.Execution
 
             if (testContext != null)
             {
-                var method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
+                MethodInfo method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
                 method.Invoke(testContext, null);
             }
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
             object assertionFailure;
-            var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new[] { typeof(string) });
+            MethodInfo setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new[] { typeof(string) });
             setMessageMethod.Invoke(assertionFailureBuilder, new object[] { message });
 
-            var toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
+            MethodInfo toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
             assertionFailure = toAssertionFailureMethod.Invoke(assertionFailureBuilder, null);
             try
             {
-                var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
+                MethodInfo failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
                 failMethod.Invoke(null, new[] { assertionFailure });
             }
             catch (TargetInvocationException ex)
@@ -59,7 +59,7 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if !NET45 && !NET47 && !NETSTANDARD2_0 && !NETCOREAPP2_0
+#if NETSTANDARD1_3 || NETSTANDARD1_6
                 // For .NET Standard < 2.0, we need to attempt to load the assembly
                 try
                 {
@@ -79,6 +79,6 @@ namespace FluentAssertions.Execution
             }
         }
 
-        private string AssemblyName => "Gallio";
+        private static string AssemblyName => "Gallio";
     }
 }

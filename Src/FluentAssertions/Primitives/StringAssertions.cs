@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using JetBrains.Annotations;
 
@@ -16,11 +16,10 @@ namespace FluentAssertions.Primitives
     public class StringAssertions : ReferenceTypeAssertions<string, StringAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="System.Object" /> class.
         /// </summary>
-        public StringAssertions(string value)
+        public StringAssertions(string value) : base(value)
         {
-            Subject = value;
         }
 
         /// <summary>
@@ -97,6 +96,38 @@ namespace FluentAssertions.Primitives
                 Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
 
             expectation.Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string is not exactly the same as another string, including any leading or trailing whitespace, with
+        /// the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">
+        /// The string that the subject is not expected to be equivalent to.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBeEquivalentTo(string unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            bool notEquivalent;
+            using (var scope = new AssertionScope())
+            {
+                Subject.Should().BeEquivalentTo(unexpected);
+                notEquivalent = scope.Discard().Any();
+            }
+
+            Execute.Assertion
+                .ForCondition(notEquivalent)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -237,10 +268,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            if (regularExpression == null)
-            {
-                throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))
@@ -248,22 +276,19 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
 
-            bool isMatch = false;
             try
             {
-                isMatch = Regex.IsMatch(Subject, regularExpression);
+                Execute.Assertion
+                .ForCondition(Regex.IsMatch(Subject, regularExpression))
+                .BecauseOf(because, becauseArgs)
+                .UsingLineBreaks
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion
                     .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
             }
-
-            Execute.Assertion
-                .ForCondition(isMatch)
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -283,10 +308,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            if (regularExpression == null)
-            {
-                throw new ArgumentNullException(nameof(regularExpression), "Cannot match string against <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))
@@ -294,22 +316,19 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
 
-            bool isMatch = false;
             try
             {
-                isMatch = Regex.IsMatch(Subject, regularExpression);
+                Execute.Assertion
+                    .ForCondition(!Regex.IsMatch(Subject, regularExpression))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
             }
-
-            Execute.Assertion
-                .ForCondition(!isMatch)
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -328,10 +347,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare start of string with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
             if (expected.Length == 0)
             {
@@ -358,10 +374,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
             if (unexpected.Length == 0)
             {
@@ -389,10 +402,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string start equivalence with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
             if (expected.Length == 0)
             {
@@ -419,10 +429,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare start of string with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
             if (unexpected.Length == 0)
             {
@@ -449,17 +456,14 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string end with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
             if (expected.Length == 0)
             {
                 throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -495,17 +499,14 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
             if (unexpected.Length == 0)
             {
                 throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -534,17 +535,14 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare string end equivalence with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
             if (expected.Length == 0)
             {
                 throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -580,17 +578,14 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare end of string with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
             if (unexpected.Length == 0)
             {
                 throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
             }
 
-            if (Subject == null)
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -620,10 +615,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
             if (expected.Length == 0)
             {
@@ -634,6 +626,46 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string a set amount of times.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the amount of times a substring should be present within the test subject.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
+
+            Execute.Assertion
+                .ForCondition(occurrenceConstraint.Assert(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -652,10 +684,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot assert string containment against <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
             if (expected.Length == 0)
             {
@@ -665,7 +694,48 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to contain equivalent of {0}{reason} but found {1}.", expected, Subject);
+                .FailWith("Expected {context:string} {0} to contain the equivalent of {1}{reason}.", Subject, expected);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string contains the specified <paramref name="expected"/> a set amount of times,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragment of a) string that the current string should contain.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the amount of times a substring should be present within the test subject.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
+            }
+
+            int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
+
+            Execute.Assertion
+                .ForCondition(occurrenceConstraint.Assert(actual))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -759,10 +829,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> NotContain(string unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot assert string containment against <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot assert string containment against <null>.");
 
             if (unexpected.Length == 0)
             {
@@ -836,7 +903,7 @@ namespace FluentAssertions.Primitives
         {
             ThrowIfValuesNullOrEmpty(values);
 
-            var matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
+            IEnumerable<string> matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
 
             Execute.Assertion
                 .ForCondition(!matches.Any())
@@ -1029,10 +1096,7 @@ namespace FluentAssertions.Primitives
 
         private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
         {
-            if (values == null)
-            {
-                throw new ArgumentNullException(nameof(values), "Cannot assert string containment of values in null collection");
-            }
+            Guard.ThrowIfArgumentIsNull(values, nameof(values), "Cannot assert string containment of values in null collection");
 
             if (!values.Any())
             {

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
 #endregion
@@ -33,6 +34,8 @@ namespace FluentAssertions
         public static void AssertEquivalencyUsing(
             Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
         {
+            Guard.ThrowIfArgumentIsNull(defaultsConfigurer, nameof(defaultsConfigurer));
+
             defaults = defaultsConfigurer(defaults);
         }
 

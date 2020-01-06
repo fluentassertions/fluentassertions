@@ -7,28 +7,43 @@ using FluentAssertions.Common;
 namespace FluentAssertions
 {
     /// <summary>
-    ///     Tries to extract the name of the variable or invocation on which the assertion is executed.
+    /// Tries to extract the name of the variable or invocation on which the assertion is executed.
     /// </summary>
     public static class CallerIdentifier
     {
+#pragma warning disable CA2211 // TODO: fix in 6.0
         public static Action<string> logger = str => { };
+#pragma warning restore CA2211
 
-#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETSTANDARD1_3 && !NETSTANDARD1_6
+
         public static string DetermineCallerIdentity()
         {
             string caller = null;
 
-            StackTrace stack = new StackTrace(true);
-
-            foreach (StackFrame frame in stack.GetFrames())
+            try
             {
-                logger(frame.ToString());
+                StackTrace stack = new StackTrace(true);
 
-                if (!IsDynamic(frame) && !IsDotNet(frame) && !IsCurrentAssembly(frame) && !IsCustomAssertion(frame))
+                foreach (StackFrame frame in stack.GetFrames())
                 {
-                    caller = ExtractVariableNameFrom(frame) ?? caller;
-                    break;
+                    logger(frame.ToString());
+
+                    if (frame.GetMethod() is object
+                        && !IsDynamic(frame)
+                        && !IsDotNet(frame)
+                        && !IsCurrentAssembly(frame)
+                        && !IsCustomAssertion(frame))
+                    {
+                        caller = ExtractVariableNameFrom(frame) ?? caller;
+                        break;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                // Ignore exceptions, as determination of caller identity is only a nice-to-have
+                logger(e.ToString());
             }
 
             return caller;
@@ -36,12 +51,12 @@ namespace FluentAssertions
 
         private static bool IsCustomAssertion(StackFrame frame)
         {
-            return frame.GetMethod().HasAttribute<CustomAssertionAttribute>();
+            return frame.GetMethod().IsDecoratedWithOrInherit<CustomAssertionAttribute>();
         }
 
         private static bool IsDynamic(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType == null;
+            return frame.GetMethod().DeclaringType is null;
         }
 
         private static bool IsCurrentAssembly(StackFrame frame)
@@ -51,8 +66,11 @@ namespace FluentAssertions
 
         private static bool IsDotNet(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType.Namespace
-                ?.StartsWith("system", StringComparison.InvariantCultureIgnoreCase) == true;
+            var frameNamespace = frame.GetMethod().DeclaringType.Namespace;
+            var comparisonType = StringComparison.InvariantCultureIgnoreCase;
+
+            return frameNamespace?.StartsWith("system.", comparisonType) == true ||
+                frameNamespace?.Equals("system", comparisonType) == true;
         }
 
         private static string ExtractVariableNameFrom(StackFrame frame)
@@ -125,7 +143,7 @@ namespace FluentAssertions
 
         private static bool IsStringLiteral(string candidate)
         {
-            return candidate.StartsWith("\"");
+            return candidate.StartsWith("\"", StringComparison.Ordinal);
         }
 
         private static bool IsNumeric(string candidate)

@@ -24,7 +24,7 @@ namespace FluentAssertions.Equivalency
 
         internal static AssertionContext<TSubject> CreateFromEquivalencyValidationContext(IEquivalencyValidationContext context)
         {
-            var expectation = (context.Expectation != null) ? (TSubject)context.Expectation : default(TSubject);
+            TSubject expectation = (context.Expectation != null) ? (TSubject)context.Expectation : default;
 
             var assertionContext = new AssertionContext<TSubject>(
                 context.SelectedMemberInfo,

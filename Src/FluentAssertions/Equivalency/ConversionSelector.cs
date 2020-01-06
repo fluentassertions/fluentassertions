@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -22,6 +23,7 @@ namespace FluentAssertions.Equivalency
                 Description = description;
             }
         }
+
         private List<ConversionSelectorRule> inclusions = new List<ConversionSelectorRule>();
         private List<ConversionSelectorRule> exclusions = new List<ConversionSelectorRule>();
 
@@ -32,6 +34,8 @@ namespace FluentAssertions.Equivalency
 
         public void Include(Expression<Func<IMemberInfo, bool>> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             inclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
                 $"Try conversion of member {predicate.Body}. "));
@@ -39,6 +43,8 @@ namespace FluentAssertions.Equivalency
 
         public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
         {
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
             exclusions.Add(new ConversionSelectorRule(
                 predicate.Compile(),
                 $"Do not convert member {predicate.Body}."));
@@ -58,12 +64,12 @@ namespace FluentAssertions.Equivalency
 
             StringBuilder descriptionBuilder = new StringBuilder();
 
-            foreach (var inclusion in inclusions)
+            foreach (ConversionSelectorRule inclusion in inclusions)
             {
                 descriptionBuilder.Append(inclusion.Description);
             }
 
-            foreach (var exclusion in exclusions)
+            foreach (ConversionSelectorRule exclusion in exclusions)
             {
                 descriptionBuilder.Append(exclusion.Description);
             }

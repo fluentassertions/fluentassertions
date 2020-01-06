@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,12 +18,8 @@ namespace FluentAssertions.Collections
     public class GenericDictionaryAssertions<TKey, TValue> :
         ReferenceTypeAssertions<IReadOnlyDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(IReadOnlyDictionary<TKey, TValue> dictionary)
+        public GenericDictionaryAssertions(IReadOnlyDictionary<TKey, TValue> dictionary): base(dictionary)
         {
-            if (dictionary != null)
-            {
-                Subject = dictionary;
-            }
         }
 
         #region HaveCount
@@ -222,10 +219,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
             string because = "", params object[] becauseArgs)
         {
-            if (countPredicate == null)
-            {
-                throw new ArgumentNullException(nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
-            }
+            Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare dictionary count against a <null> predicate.");
 
             if (Subject is null)
             {
@@ -245,6 +239,87 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Assert that the current dictionary has the same number of elements as <paramref name="otherCollection" />.
+        /// </summary>
+        /// <param name="otherCollection">The other collection with the same expected number of elements</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveSameCount(IEnumerable otherCollection, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
+
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to have the same count as {0}{reason}, but found {1}.",
+                        otherCollection,
+                        Subject);
+            }
+
+            int actualCount = Subject.Count;
+            int expectedCount = otherCollection.Cast<object>().Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount == expectedCount)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} to have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Assert that the current collection does not have the same number of elements as <paramref name="otherCollection" />.
+        /// </summary>
+        /// <param name="otherCollection">The other collection with the unexpected number of elements</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotHaveSameCount(IEnumerable otherCollection, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot compare dictionary count against a <null> collection.");
+
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to not have the same count as {0}{reason}, but found {1}.",
+                        otherCollection,
+                        Subject);
+            }
+
+            if (ReferenceEquals(Subject, otherCollection))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        otherCollection);
+            }
+
+            int actualCount = Subject.Count;
+            int expectedCount = otherCollection.Cast<object>().Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount != expectedCount)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but count is {1}.", expectedCount, actualCount);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -335,10 +410,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
             IEnumerable<TKey> missingKeys = expected.Keys.Except(Subject.Keys);
             IEnumerable<TKey> additionalKeys = Subject.Keys.Except(expected.Keys);
@@ -394,10 +466,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
             }
 
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare dictionary with <null>.");
 
             if (ReferenceEquals(Subject, unexpected))
             {
@@ -477,6 +546,8 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext
@@ -543,10 +614,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify key containment against a <null> collection of keys");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify key containment against a <null> collection of keys");
 
             ICollection<TKey> expectedKeys = expected.ConvertOrCastToCollection();
 
@@ -562,7 +630,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -646,10 +714,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
 
             ICollection<TKey> unexpectedKeys = unexpected.ConvertOrCastToCollection();
 
@@ -665,7 +730,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            var foundKeys = unexpectedKeys.Intersect(Subject.Keys);
+            IEnumerable<TKey> foundKeys = unexpectedKeys.Intersect(Subject.Keys);
 
             if (foundKeys.Any())
             {
@@ -747,10 +812,7 @@ namespace FluentAssertions.Collections
         private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
             params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot verify value containment against a <null> collection of values");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
 
             ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
 
@@ -766,7 +828,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            var missingValues = expectedValues.Except(Subject.Values);
+            IEnumerable<TValue> missingValues = expectedValues.Except(Subject.Values);
+
             if (missingValues.Any())
             {
                 if (expectedValues.Count > 1)
@@ -796,7 +859,7 @@ namespace FluentAssertions.Collections
         /// Returns an enumerable consisting of all items in the first collection also appearing in the second.
         /// </summary>
         /// <remarks>Enumerable.Intersect is not suitable because it drops any repeated elements.</remarks>
-        private IEnumerable<TValue> RepetitionPreservingIntersect(
+        private static IEnumerable<TValue> RepetitionPreservingIntersect(
             IEnumerable<TValue> first, IEnumerable<TValue> second)
         {
             var secondSet = new HashSet<TValue>(second);
@@ -864,10 +927,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
             string because = "", params object[] becauseArgs)
         {
-            if (unexpected == null)
-            {
-                throw new ArgumentNullException(nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
-            }
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
 
             ICollection<TValue> unexpectedValues = unexpected.ConvertOrCastToCollection();
 
@@ -883,7 +943,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            var foundValues = unexpectedValues.Intersect(Subject.Values);
+            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(Subject.Values);
+
             if (foundValues.Any())
             {
                 if (unexpectedValues.Count > 1)
@@ -934,10 +995,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new ArgumentNullException(nameof(expected), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
             ICollection<KeyValuePair<TKey, TValue>> expectedKeyValuePairs = expected.ConvertOrCastToCollection();
 
@@ -954,8 +1012,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}.", expected, Subject);
             }
 
-            var expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
-            var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
+            TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
 
             if (missingKeys.Any())
             {
@@ -988,7 +1046,7 @@ namespace FluentAssertions.Collections
                 }
                 else
                 {
-                    var expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
+                    KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
                     TValue actual = Subject[expectedKeyValuePair.Key];
 
                     Execute.Assertion
@@ -1089,10 +1147,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items), "Cannot compare dictionary with <null>.");
-            }
+            Guard.ThrowIfArgumentIsNull(items, nameof(items), "Cannot compare dictionary with <null>.");
 
             ICollection<KeyValuePair<TKey, TValue>> keyValuePairs = items.ConvertOrCastToCollection();
 
@@ -1109,11 +1164,12 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
             }
 
-            var keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
 
             if (keyValuePairsFound.Any())
             {
-                var keyValuePairsSameOrEqualInSubject = keyValuePairsFound.Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
+                    .Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -1125,7 +1181,7 @@ namespace FluentAssertions.Collections
                     }
                     else
                     {
-                        var keyValuePair = keyValuePairsSameOrEqualInSubject[0];
+                        KeyValuePair<TKey, TValue> keyValuePair = keyValuePairsSameOrEqualInSubject[0];
 
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)

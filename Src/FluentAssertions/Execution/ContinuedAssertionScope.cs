@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace FluentAssertions.Execution
 {
@@ -9,6 +9,9 @@ namespace FluentAssertions.Execution
     /// If the parent scope has captured a failed assertion, this class ensures that successive assertions
     /// are no longer evaluated.
     /// </remarks>
+#if NET45
+    [Serializable]
+#endif
     public class ContinuedAssertionScope : IAssertionScope
     {
         private readonly AssertionScope predecessor;
@@ -22,7 +25,7 @@ namespace FluentAssertions.Execution
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return predecessor.Given<T>(selector);
+            return predecessor.Given(selector);
         }
 
         public IAssertionScope ForCondition(bool condition)

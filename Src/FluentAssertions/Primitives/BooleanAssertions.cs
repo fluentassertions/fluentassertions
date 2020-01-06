@@ -34,7 +34,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} to be false{reason}, but found {1}.", true, Subject);
+                .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} to be true{reason}, but found {1}.", true, Subject);
+                .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }

@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETSTANDARD2_0 || NETCOREAPP2_0
+﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
 using System.Diagnostics;
 using System.Xml;
@@ -215,7 +215,7 @@ namespace FluentAssertions.Xml
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected XML element {0} to have child element \"" +
-                    expectedFormattedName.Escape(escapePlaceholders: true) + "\"{reason}" +
+                    expectedFormattedName.EscapePlaceholders() + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);

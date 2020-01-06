@@ -8,7 +8,8 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Chill" Version="4.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -18,12 +19,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <!-- If both Release and Debug version of FluentAssertions.dll exists, Debug will be selected -->
-      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
-      <HintPath Condition="'$(Configuration)' == 'Debug' and Exists('..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll')">..\..\Artifacts\Debug\netstandard1.3\FluentAssertions.dll</HintPath>
-      <HintPath Condition="'$(Configuration)' == 'Release'">..\..\Artifacts\Release\netstandard1.3\FluentAssertions.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj">
+      <SetTargetFramework>TargetFramework=netstandard1.3</SetTargetFramework>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" />
 </Project>

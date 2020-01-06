@@ -12,7 +12,7 @@ To facilitate the need for those developers which ideas don't end up in the libr
 
 ## Building your own extensions ##
 
-As an example, let's create an extension method on `DirectionInfo` like this
+As an example, let's create an extension method on `DirectoryInfo` like this
 
 ```csharp
 public static class DirectoryInfoExtensions 
@@ -24,7 +24,7 @@ public static class DirectoryInfoExtensions
 }
 ```
 
-It's the returned assertions class that provides the actually assertion methods. You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. Let's add an extension that allows you to assert that the involved directory contains a particular file.
+It's the returned assertions class that provides the actual assertion methods. You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. Let's add an extension that allows you to assert that the involved directory contains a particular file.
 
 ```csharp
 public class DirectoryInfoAssertions : 
@@ -55,7 +55,7 @@ public class DirectoryInfoAssertions :
 }
 ```
 
-This is quite an elaborate example with shows some of the more advanced extensibility features. Let me highlight some things:
+This is quite an elaborate example which shows some of the more advanced extensibility features. Let me highlight some things:
 
 * The `Subject` property is used to give the base-class extensions access to the current `DirectoryInfo` object.
 * `Execute.Assertion` is the point of entrance into the internal fluent assertion API.

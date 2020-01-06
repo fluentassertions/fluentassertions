@@ -8,7 +8,7 @@
 See https://www.fluentassertions.com for background information, usage documentation, an extensibility guide, support information and more tips & tricks.
 
 # How do I build this?
-Install Visual Studio 2017 or JetBrains Rider 2017.1 and Build Tools 2017 and run
+Install Visual Studio 2019 or JetBrains Rider 2017.1 and Build Tools 2017 and run
 
 `build.ps1`
 

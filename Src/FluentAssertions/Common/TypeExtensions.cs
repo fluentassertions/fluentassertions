@@ -17,17 +17,19 @@ namespace FluentAssertions.Common
             PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         /// <summary>
-        ///     Determines whether the specified method has been annotated with a specific attribute.
+        /// Determines whether the specified method has been annotated with a specific attribute.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
         /// </returns>
+        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> instead.")]
         public static bool HasAttribute<TAttribute>(this MemberInfo method)
             where TAttribute : Attribute
         {
             return method.GetCustomAttributes(typeof(TAttribute), true).Any();
         }
 
+        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWith> instead.")]
         public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type,
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
@@ -37,6 +39,7 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
+        [Obsolete("This method is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
         public static bool HasMatchingAttribute<TAttribute>(this Type type,
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
             where TAttribute : Attribute
@@ -46,22 +49,97 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type, inherit).Any(isMatchingAttribute);
         }
 
+        public static bool IsDecoratedWith<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type).Any();
+        }
+
+        public static bool IsDecoratedWith<TAttribute>(this TypeInfo type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type).Any();
+        }
+
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type, true).Any();
+        }
+
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type, true).Any();
+        }
+
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type, true).Any();
+        }
+
+        public static bool IsDecoratedWith<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWith<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWith<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+            return GetCustomAttributes<TAttribute>(type, true).Any(isMatchingAttribute);
+        }
+
+        [Obsolete("This overload is deprecated and will be removed on the next major version. Please use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
         public static bool IsDecoratedWith<TAttribute>(this Type type, bool inherit = false)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type, inherit).Any();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type, bool inherit = false)
             where TAttribute : Attribute
         {
-            return type.GetCustomAttributes(false).OfType<TAttribute>();
+            // Do not use as extension method here, there is an issue with PropertyInfo and EventInfo
+            // preventing the inherit option to work.
+            return CustomAttributeExtensions.GetCustomAttributes(type, inherit).OfType<TAttribute>();
         }
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type, bool inherit = false)
@@ -77,8 +155,8 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
-        ///     member.
+        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
+        /// member.
         /// </summary>
         public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
         {
@@ -94,7 +172,7 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     NOTE: This method does not give the expected results with open generics
+        /// NOTE: This method does not give the expected results with open generics
         /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
@@ -136,10 +214,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds a member by its case-sensitive name.
+        /// Finds a member by its case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such member exists.
+        /// Returns <c>null</c> if no such member exists.
         /// </returns>
         public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
         {
@@ -148,10 +226,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds the property by a case-sensitive name.
+        /// Finds the property by a case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such property exists.
+        /// Returns <c>null</c> if no such property exists.
         /// </returns>
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
@@ -166,10 +244,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        ///     Finds the field by a case-sensitive name.
+        /// Finds the field by a case-sensitive name.
         /// </summary>
         /// <returns>
-        ///     Returns <c>null</c> if no such property exists.
+        /// Returns <c>null</c> if no such property exists.
         /// </returns>
         public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
         {
@@ -199,7 +277,7 @@ namespace FluentAssertions.Common
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
                 where HasNonPrivateGetter(propertyInfo)
                 where !propertyInfo.IsIndexer()
-                where filter == null || filter.Contains(propertyInfo.Name)
+                where filter is null || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();
@@ -300,7 +378,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpAbstract(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsAbstract && !typeInfo.IsSealed;
         }
 
@@ -311,7 +389,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpSealed(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsSealed && !typeInfo.IsAbstract;
         }
 
@@ -322,7 +400,7 @@ namespace FluentAssertions.Common
         /// <returns></returns>
         public static bool IsCSharpStatic(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             return typeInfo.IsSealed && typeInfo.IsAbstract;
         }
 
@@ -433,7 +511,7 @@ namespace FluentAssertions.Common
             }
 
             bool hasCompilerGeneratedAttribute =
-                type.GetTypeInfo().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any();
+                type.GetTypeInfo().IsDecoratedWith<CompilerGeneratedAttribute>();
 
             return hasCompilerGeneratedAttribute;
         }
@@ -453,7 +531,15 @@ namespace FluentAssertions.Common
                    || openType == typeof(ValueTuple<,,,,>)
                    || openType == typeof(ValueTuple<,,,,,>)
                    || openType == typeof(ValueTuple<,,,,,,>)
-                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]))
+                   || openType == typeof(Tuple<>)
+                   || openType == typeof(Tuple<,>)
+                   || openType == typeof(Tuple<,,>)
+                   || openType == typeof(Tuple<,,,>)
+                   || openType == typeof(Tuple<,,,,>)
+                   || openType == typeof(Tuple<,,,,,>)
+                   || openType == typeof(Tuple<,,,,,,>)
+                   || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
         }
 
         internal static bool IsAssignableToOpenGeneric(this Type type, Type definition)
@@ -509,6 +595,18 @@ namespace FluentAssertions.Common
             }
 
             return false;
+        }
+
+        internal static bool IsUnderNamespace(this Type type, string @namespace)
+        {
+            return IsGlobalNamespace()
+                || IsExactNamespace()
+                || IsParentNamespace();
+
+            bool IsGlobalNamespace() => @namespace is null;
+            bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
+            bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
+            bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
         }
     }
 }

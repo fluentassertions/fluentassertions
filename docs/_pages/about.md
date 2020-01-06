@@ -39,8 +39,11 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Core 2.0, .NET Standard 1.3, 1.6 and 2.0. Because of that it supports the following minimum platforms.
-*   .NET Core 1.0 and 2.0
+Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET Core 2.0 and 2.1, .NET Standard 1.3, 1.6, 2.0 and 2.1.
+.NET Core 3.0 is supported through .NET 2.1 target, tested with Preview 5.
+
+Because of that Fluent Assertions supports the following minimum platforms.
+*   .NET Core 1.0, 2.0 and 2.1
 *   .NET Framework 4.5
 *   Mono, Xamarin.iOS 10.0, Xamarin.Mac 3.0 and Xamarin.Android 7.0
 *   Univeral Windows Platform
@@ -48,7 +51,7 @@ Fluent Assertions cross-compiles to .NET Framework 4.5 and 4.7, as well as .NET 
 Fluent Assertions supports the following unit test frameworks:
 
 *   MSTest (Visual Studio 2010, 2012 Update 2, 2013 and 2015)
-*   MSTest2 (Visual Studio 2017)
+*   MSTest2 (Visual Studio 2017, Visual Studio 2019)
 *   [NUnit](http://www.nunit.org/)
 *   [XUnit](http://xunit.codeplex.com/)
 *   [XUnit2](https://github.com/xunit/xunit/releases)
@@ -56,6 +59,11 @@ Fluent Assertions supports the following unit test frameworks:
 *   [Gallio](http://code.google.com/p/mb-unit/)
 *   [NSpec](http://nspec.org/)
 *   [MSpec](https://github.com/machine/machine.specifications)
+
+## Coding by Example ##
+As you may have noticed, the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
+We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation.
+So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/Shared.Specs).
 
 ## Who is behind this project
 
@@ -79,6 +87,6 @@ The version numbers of Fluent Assertions releases comply to the [Semantic Versio
 
 ## What do you need to compile the solution?
 
-* Visual Studio 2017 or Jetbrains Rider and Build Tools 2017
+* Visual Studio 2019 or Jetbrains Rider and Build Tools 2017
 * Windows 10
-* .NET Core SDK 2.0 (Preview 2>)
+* .NET Core SDK 3.0
