@@ -296,14 +296,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(object predecessor, object expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> IntersectWith(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInAscendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInAscendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAscendingInOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInDescendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInDescendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDescendingInOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs) { }
