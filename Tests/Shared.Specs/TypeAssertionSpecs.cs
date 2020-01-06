@@ -779,6 +779,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_type_is_decorated_with_expected_attribute_it_should_allow_chaining()
+        {
+            // Arrange
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            // Act
+            Action act = () =>
+                typeWithAttribute.Should().BeDecoratedWith<DummyClassAttribute>()
+                    .Which.IsEnabled.Should().BeTrue();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_type_is_not_decorated_with_expected_attribute_it_fails()
         {
             // Arrange
@@ -836,6 +851,22 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 typeWithAttribute.Should()
                     .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_is_decorated_with_expected_attribute_with_the_expected_properties_it_should_allow_chaining()
+        {
+            // Arrange
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            // Act
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Expected")
+                        .Which.IsEnabled.Should().BeTrue();
 
             // Assert
             act.Should().NotThrow();
@@ -958,6 +989,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_type_inherits_expected_attribute_it_should_allow_chaining()
+        {
+            // Arrange
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            // Act
+            Action act = () =>
+                typeWithAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>()
+                    .Which.IsEnabled.Should().BeTrue();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_type_does_not_inherit_expected_attribute_it_fails()
         {
             // Arrange
@@ -1015,6 +1061,22 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 typeWithAttribute.Should()
                     .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_type_inherits_expected_attribute_with_the_expected_properties_it_should_allow_chaining()
+        {
+            // Arrange
+            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
+
+            // Act
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Expected")
+                        .Which.IsEnabled.Should().BeTrue();
 
             // Assert
             act.Should().NotThrow();

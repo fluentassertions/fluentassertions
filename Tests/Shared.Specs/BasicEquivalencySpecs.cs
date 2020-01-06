@@ -107,6 +107,62 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_subject_and_expectation_are_compared_for_equivalence_it_should_allow_chaining()
+        {
+            // Arrange
+            SomeDto subject = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo<object>(null)
+                .And.BeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_and_expectation_are_compared_for_equivalence_with_config_it_should_allow_chaining()
+        {
+            // Arrange
+            SomeDto subject = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo<object>(null, opt => opt)
+                .And.BeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_and_expectation_are_compared_for_non_equivalence_it_should_allow_chaining()
+        {
+            // Arrange
+            SomeDto subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotBeEquivalentTo<object>(new { })
+                .And.BeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_and_expectation_are_compared_for_non_equivalence_with_config_it_should_allow_chaining()
+        {
+            // Arrange
+            SomeDto subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotBeEquivalentTo<object>(new { }, opt => opt)
+                .And.BeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_asserting_equivalence_on_a_value_type_from_system_it_should_not_do_a_structural_comparision()
         {
             // Arrange

@@ -68,7 +68,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) <= 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
@@ -81,6 +81,8 @@ namespace FluentAssertions.Specialized
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     maxDuration,
                     elapsed);
+
+            return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) < 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
@@ -109,6 +111,8 @@ namespace FluentAssertions.Specialized
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     maxDuration,
                     elapsed);
+
+            return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         /// <summary>
@@ -124,7 +128,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) >= 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
@@ -137,6 +141,8 @@ namespace FluentAssertions.Specialized
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     minDuration,
                     elapsed);
+
+            return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         /// <summary>
@@ -152,7 +158,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) > 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
@@ -165,6 +171,8 @@ namespace FluentAssertions.Specialized
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     minDuration,
                     elapsed);
+
+            return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         /// <summary>
@@ -184,7 +192,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
         {
             TimeSpan minimumValue = expectedDuration - precision;
             TimeSpan maximumValue = expectedDuration + precision;
@@ -205,6 +213,8 @@ namespace FluentAssertions.Specialized
                     precision,
                     expectedDuration,
                     elapsed);
+
+            return new AndConstraint<ExecutionTimeAssertions>(this);
         }
     }
 

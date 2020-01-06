@@ -25,15 +25,6 @@ namespace FluentAssertions.Reflection
         /// Asserts that an assembly does not reference the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which should not be referenced.</param>
-        public void NotReference(Assembly assembly)
-        {
-            NotReference(assembly, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that an assembly does not reference the specified assembly.
-        /// </summary>
-        /// <param name="assembly">The assembly which should not be referenced.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -41,7 +32,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotReference(Assembly assembly, string because, params string[] becauseArgs)
+        public AndConstraint<AssemblyAssertions> NotReference(Assembly assembly, string because = "", params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -52,15 +43,8 @@ namespace FluentAssertions.Reflection
                    .BecauseOf(because, becauseArgs)
                    .ForCondition(!references.Contains(assemblyName))
                    .FailWith("Expected assembly {0} not to reference assembly {1}{reason}.", subjectName, assemblyName);
-        }
 
-        /// <summary>
-        /// Asserts that an assembly references the specified assembly.
-        /// </summary>
-        /// <param name="assembly">The assembly which should be referenced.</param>
-        public void Reference(Assembly assembly)
-        {
-            Reference(assembly, string.Empty);
+            return new AndConstraint<AssemblyAssertions>(this);
         }
 
         /// <summary>
@@ -74,7 +58,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void Reference(Assembly assembly, string because, params string[] becauseArgs)
+        public AndConstraint<AssemblyAssertions> Reference(Assembly assembly, string because = "", params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -85,6 +69,8 @@ namespace FluentAssertions.Reflection
                    .BecauseOf(because, becauseArgs)
                    .ForCondition(references.Contains(assemblyName))
                    .FailWith("Expected assembly {0} to reference assembly {1}{reason}, but it does not.", subjectName, assemblyName);
+
+            return new AndConstraint<AssemblyAssertions>(this);
         }
 #endif
 

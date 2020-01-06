@@ -517,10 +517,10 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             string because = "", params object[] becauseArgs)
         {
-            AllBeEquivalentTo(expectation, options => options, because, becauseArgs);
+            return AllBeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -547,7 +547,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
             string because = "",
             params object[] becauseArgs)
@@ -565,7 +565,7 @@ namespace FluentAssertions.Collections
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> forceStringOrderingConfig =
                 x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.SelectedMemberPath));
 
-            BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
+            return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
 
         private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)

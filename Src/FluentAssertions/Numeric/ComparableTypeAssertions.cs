@@ -19,12 +19,13 @@ namespace FluentAssertions.Numeric
         {
         }
 
+
         /// <summary>
-        /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
+        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.<br/>
+        /// Verification whether <see cref="IComparable{T}.CompareTo(T)"/> returns 0 is not done here, you should use
+        /// <see cref="BeRankedEquallyTo(T, string, object[])"/> to verify this. 
         /// </summary>
-        /// <param name="expected">
-        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
-        /// </param>
+        /// <param name="expected">The expected value</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -35,7 +36,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -59,10 +60,10 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -107,10 +108,60 @@ namespace FluentAssertions.Numeric
 
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
         /// <summary>
-        /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// Asserts that an object does not equal another object using its <see cref="object.Equals(object)" /> method.<br/>
+        /// Verification whether <see cref="IComparable{T}.CompareTo(T)"/> returns non-zero is not done here, you should use
+        /// <see cref="NotBeRankedEquallyTo(T, string, object[])"/> to verify this.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the subject is ranked equal to another object. I.e. the result of <see cref="IComparable{T}.CompareTo"/> returns 0.
+        /// To verify whether the objects are equal you must use <see cref="Be(T, string, object[])"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject.CompareTo(expected) == Equal)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:object} {0} to be ranked as equal to {1}{reason}.", Subject, expected);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the subject is not ranked equal to another object. I.e. the result of <see cref="IComparable{T}.CompareTo"/>returns non-zero.
+        /// To verify whether the objects are not equal according to <see cref="object.Equals(object)"/> you must use <see cref="NotBe(T, string, object[])"/>.
         /// </summary>
         /// <param name="unexpected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
@@ -122,12 +173,12 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(unexpected) != Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
+                .FailWith("Expected {context:object} {0} not to be ranked as equal to {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
