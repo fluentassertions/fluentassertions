@@ -86,7 +86,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>(this System.Func<System.Threading.Tasks.Task<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this System.IComparable<T> comparableValue) { }
-        public static FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IReadOnlyDictionary<TKey, TValue> actualValue) { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
     }
@@ -341,9 +341,9 @@ namespace FluentAssertions.Collections
             where TKey :  class { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> OnlyHaveUniqueItems<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs) { }
     }
-    public class GenericDictionaryAssertions<TKey, TValue> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>>
+    public class GenericDictionaryAssertions<TKey, TValue> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>, FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(System.Collections.Generic.IDictionary<TKey, TValue> dictionary) { }
+        public GenericDictionaryAssertions(System.Collections.Generic.IReadOnlyDictionary<TKey, TValue> dictionary) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
@@ -358,7 +358,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> ContainValues(System.Collections.Generic.IEnumerable<TValue> expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> Equal(System.Collections.Generic.IDictionary<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> Equal(System.Collections.Generic.IReadOnlyDictionary<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
@@ -377,7 +377,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotContainValues(System.Collections.Generic.IEnumerable<TValue> unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotEqual(System.Collections.Generic.IDictionary<TKey, TValue> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotEqual(System.Collections.Generic.IReadOnlyDictionary<TKey, TValue> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>> NotHaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
     }
