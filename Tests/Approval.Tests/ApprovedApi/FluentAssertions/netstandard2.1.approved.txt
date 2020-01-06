@@ -1946,20 +1946,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> HaveExplicitProperty(System.Type interfaceType, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> HaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface :  class { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveExplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveExplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveExplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveImplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveImplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.PropertyInfo> HaveIndexer(System.Type indexerType, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveMethod(string name, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.PropertyInfo> HaveProperty(System.Type propertyType, string name, string because = "", params object[] becauseArgs) { }
@@ -1996,20 +1984,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplicitProperty(System.Type interfaceType, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface :  class { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveExplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveExplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveImplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveImplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveIndexer(System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveMethod(string name, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs) { }
