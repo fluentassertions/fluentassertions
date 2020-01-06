@@ -613,11 +613,6 @@ namespace FluentAssertions.Equivalency
     {
         public EquivalencyAssertionOptions() { }
     }
-    [System.Obsolete("This class is deprecated and will be removed in version 6.X.")]
-    public static class EquivalencyAssertionOptionsExtentions
-    {
-        public static System.Type GetExpectationType(this FluentAssertions.Equivalency.IEquivalencyAssertionOptions config, FluentAssertions.Equivalency.IMemberInfo context) { }
-    }
     public class EquivalencyAssertionOptions<TExpectation> : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>>
     {
         public EquivalencyAssertionOptions() { }
