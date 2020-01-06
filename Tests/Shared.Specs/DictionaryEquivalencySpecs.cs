@@ -390,6 +390,36 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_dictionary_is_compared_to_a_dictionary_it_should_allow_chaining()
+        {
+            // Arrange
+            Dictionary<int, int> subject = new Dictionary<int, int> { [42] = 1337 };
+            Dictionary<int, int> expectation = new Dictionary<int, int> { [42] = 1337 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation)
+                .And.ContainKey(42);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_dictionary_is_compared_to_a_dictionary_with_a_config_it_should_allow_chaining()
+        {
+            // Arrange
+            Dictionary<int, int> subject = new Dictionary<int, int> { [42] = 1337 };
+            Dictionary<int, int> expectation = new Dictionary<int, int> { [42] = 1337 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt)
+                .And.ContainKey(42);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void
             When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
             ()

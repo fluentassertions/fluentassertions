@@ -488,6 +488,22 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_async_method_does_not_throw_exception_it_should_allow_chaining()
+        {
+            // Arrange
+            var asyncObject = new AsyncClass();
+
+            // Act
+            Action action = () => asyncObject
+                .Awaiting(x => x.SucceedAsync())
+                .Should().NotThrow()
+                    .And.NotBeNull();
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
 #if NETCOREAPP2_1 || NETCOREAPP3_0
         [Fact]
         public void When_async_method_does_not_throw_exception_through_ValueTask_and_that_was_expected_it_should_succeed()
@@ -718,6 +734,22 @@ namespace FluentAssertions.Specs
             Action action = () => asyncObject
                 .Awaiting(x => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>();
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_method_succeeds_it_should_allow_chaining()
+        {
+            // Arrange
+            var asyncObject = new AsyncClass();
+
+            // Act
+            Action action = () => asyncObject
+                .Awaiting(x => asyncObject.SucceedAsync())
+                .Should().NotThrow<InvalidOperationException>()
+                    .And.NotBeNull();
 
             // Assert
             action.Should().NotThrow();
@@ -1081,6 +1113,25 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_async_func_does_not_throw_it_should_allow_chaining()
+        {
+            // Arrange
+            var waitTime = 0.Milliseconds();
+            var pollInterval = 0.Milliseconds();
+
+            var clock = new FakeClock();
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
+
+            // Act
+            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval)
+                .And.NotBeNull();
 
             // Assert
             act.Should().NotThrow();

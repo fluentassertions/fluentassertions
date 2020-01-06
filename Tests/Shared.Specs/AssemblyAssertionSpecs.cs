@@ -26,6 +26,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_an_assembly_is_not_referenced_it_should_allow_chaining()
+        {
+            // Arrange
+            var assemblyA = FindAssembly.Containing<ClassA>();
+            var assemblyB = FindAssembly.Containing<ClassB>();
+
+            // Act
+            Action act = () => assemblyB.Should().NotReference(assemblyA)
+                .And.NotBeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_an_assembly_is_referenced_and_should_not_reference_is_asserted_it_should_fail()
         {
             // Arrange
@@ -48,6 +63,21 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => assemblyA.Should().Reference(assemblyB);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_assembly_is_referenced_it_should_allow_chaining()
+        {
+            // Arrange
+            var assemblyA = FindAssembly.Containing<ClassA>();
+            var assemblyB = FindAssembly.Containing<ClassB>();
+
+            // Act
+            Action act = () => assemblyA.Should().Reference(assemblyB)
+                .And.NotBeNull();
 
             // Assert
             act.Should().NotThrow();
