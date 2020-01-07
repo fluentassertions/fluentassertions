@@ -1,19 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace FluentAssertions.Extensions
 {
     public static class DictionaryExtensions
     {
+        internal class ReadOnlyDictionaryAdapter<TKey, TValue>
+            : IReadOnlyDictionary<TKey, TValue>
+        {
+            private readonly IDictionary<TKey, TValue> Dictionary;
+
+            public ReadOnlyDictionaryAdapter(IDictionary<TKey, TValue> dictionary)
+            {
+                Dictionary = dictionary;
+            }
+
+            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() =>
+                Dictionary.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+            public int Count => Dictionary.Count;
+
+            public bool ContainsKey(TKey key) => Dictionary.ContainsKey(key);
+
+            public bool TryGetValue(TKey key, out TValue value) => Dictionary.TryGetValue(key, out value);
+
+            public TValue this[TKey key] => Dictionary[key];
+
+            public IEnumerable<TKey> Keys => Dictionary.Keys;
+            public IEnumerable<TValue> Values => Dictionary.Values;
+        }
+
         public static IReadOnlyDictionary<TKey, TValue>
             AsReadOnlyDictionary<TKey, TValue>(
                 this IDictionary<TKey, TValue> dictionary)
         {
-            var result = new Dictionary<TKey, TValue>();
-            foreach (var kvp in dictionary)
-            {
-                result.Add(kvp.Key, kvp.Value);    
-            }
-            return result;
+            return new ReadOnlyDictionaryAdapter<TKey, TValue>(dictionary);
         }
     }
 }
