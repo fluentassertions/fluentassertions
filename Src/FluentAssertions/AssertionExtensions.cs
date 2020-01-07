@@ -291,7 +291,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
-        /// current <see cref="IDictionary{TKey, TValue}"/>.
+        /// current <see cref="IReadOnlyDictionary{TKey,TValue}"/>.
         /// </summary>
         [Pure]
         public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> actualValue)

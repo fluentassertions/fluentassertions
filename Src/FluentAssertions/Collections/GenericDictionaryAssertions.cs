@@ -12,7 +12,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Collections
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IDictionary{TKey,TValue}"/> is in the expected state.
+    /// Contains a number of methods to assert that an <see cref="IReadOnlyDictionary{TKey,TValue}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
     public class GenericDictionaryAssertions<TKey, TValue> :
