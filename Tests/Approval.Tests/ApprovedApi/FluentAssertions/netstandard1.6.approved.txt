@@ -119,6 +119,10 @@ namespace FluentAssertions
     {
         public CustomAssertionAttribute() { }
     }
+    public static class DictionaryExtensions
+    {
+        public static System.Collections.Generic.IReadOnlyDictionary<TKey, TValue> AsReadOnlyDictionary<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> dictionary) { }
+    }
     public class EquivalencyStepCollection : System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep>, System.Collections.IEnumerable
     {
         public EquivalencyStepCollection() { }

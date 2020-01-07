@@ -6,8 +6,6 @@ using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-using FluentAssertions.Extensions;
-
 namespace FluentAssertions.Specs
 {
     public class GenericDictionaryAssertionSpecs
