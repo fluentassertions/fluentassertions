@@ -536,8 +536,7 @@ namespace FluentAssertions.Specs
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
             // Assert
-
-	    act.Should().Throw<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*implements multiple dictionary types.  It is not known which type should be use for equivalence*System.Collections.Generic.IDictionary`2[System.Int32,System.Object]*");
         }
 
