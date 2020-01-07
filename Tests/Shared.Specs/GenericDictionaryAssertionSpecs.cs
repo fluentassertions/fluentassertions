@@ -6,6 +6,8 @@ using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
+using FluentAssertions.Extensions;
+
 namespace FluentAssertions.Specs
 {
     public class GenericDictionaryAssertionSpecs
@@ -55,6 +57,9 @@ namespace FluentAssertions.Specs
             //dictionary.Should().NotContainKey(0), "Dictionaries not implementing IReadOnlyDictionary<TKey, TValue> 
             //    + "are not supported since Fluent Assertions 6.0. It was the price to pay"
             //    + "for support of dictionary assertions for IReadOnlyDictionary");
+
+            // However, we can use the following extension to bypass the problem
+            dictionary.AsReadOnlyDictionary().Should().NotContainKey(0);
         }
 
         #endregion
