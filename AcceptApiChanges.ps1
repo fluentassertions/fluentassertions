@@ -4,7 +4,7 @@
 
 
 ## Go to the directory where "approved" API is saved as .txt files
-Set-Location -Path .\Tests\Approval.Tests\ApprovedApi\FluentAssertions
+Push-Location -Path .\Tests\Approval.Tests\ApprovedApi\FluentAssertions
 
 ## Remove current "approved" API 
 Remove-Item *.approved.txt*
@@ -15,3 +15,5 @@ Get-ChildItem -Filter "*received.txt" | ForEach-Object {
 	$NewName = $_.FullName -replace 'received.txt', 'approved.txt'
 	Copy-Item $_.FullName $NewName
 }
+
+Pop-Location
