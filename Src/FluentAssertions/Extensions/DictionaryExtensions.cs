@@ -39,7 +39,7 @@ namespace FluentAssertions
             public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() =>
                 dictionary.GetEnumerator();
 
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => dictionary.GetEnumerator();
 
             public int Count => dictionary.Count;
 

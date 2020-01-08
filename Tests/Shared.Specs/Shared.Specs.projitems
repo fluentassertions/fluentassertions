@@ -20,7 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)BasicNonEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CallerIdentifierSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DelegateAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DictionaryNotImplementingIReadOnlyDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluentActionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DictionarySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FunctionExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
