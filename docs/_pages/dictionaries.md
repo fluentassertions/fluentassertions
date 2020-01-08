@@ -93,3 +93,23 @@ Chaining additional assertions is supported as well.
 dictionary.Should().ContainValue(myClass)
   .Which.SomeProperty.Should().BeGreaterThan(0);
 ```
+
+Read-only dictionaries are also covered.
+
+```csharp
+IReadOnlyDictionary<int, string> readOnlyDictionary = new Dictionary<int, string>
+{
+    { 1, "One" },
+    { 2, "Two" }
+};
+
+readOnlyDictionary.Should().ContainKey(1);
+```
+
+In a particular scenario of a dictionary that does not implement `IReadOnlyDictionary` interface you need to adapt the object to read-only interface using convenience extension method `AsReadOnlyDictionary`.
+
+```csharp
+var dictionaryNotReadOnly = new DictionaryNotImplementingReadOnly<int, string>();
+[...]
+dictionaryNotReadOnly.AsReadOnlyDictionary().Should().ContainKey(1);
+```
