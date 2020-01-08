@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.0.0
+
+**What's New**
+* Added support for dictionary assertions `IReadOnlyDictionary` objects. However, it comes with a breaking change such that dictionaries that do not implement `IReadOnlyDictionary` interface lose direct support for dictionary assertions. New extensions method `AsReadOnlyDictionary` is provided
+to easily adapt such dictionaries to read-only interface.
+
 ## 5.10.0
 
 **What's New**
