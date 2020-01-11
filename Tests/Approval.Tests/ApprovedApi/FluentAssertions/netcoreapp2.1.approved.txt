@@ -260,7 +260,6 @@ namespace FluentAssertions.Collections
         where TSubject : System.Collections.IEnumerable
         where TAssertions : FluentAssertions.Collections.CollectionAssertions<TSubject, TAssertions>
     {
-        protected CollectionAssertions() { }
         protected CollectionAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
@@ -1534,10 +1533,9 @@ namespace FluentAssertions.Primitives
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
     {
-        protected ReferenceTypeAssertions() { }
         protected ReferenceTypeAssertions(TSubject subject) { }
         protected abstract string Identifier { get; }
-        public TSubject Subject { get; set; }
+        public TSubject Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
@@ -1762,7 +1760,6 @@ namespace FluentAssertions.Types
         where TSubject : System.Reflection.MemberInfo
         where TAssertions : FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>
     {
-        protected MemberInfoAssertions() { }
         protected MemberInfoAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
@@ -1778,7 +1775,6 @@ namespace FluentAssertions.Types
         where TSubject : System.Reflection.MethodBase
         where TAssertions : FluentAssertions.Types.MethodBaseAssertions<TSubject, TAssertions>
     {
-        protected MethodBaseAssertions() { }
         protected MethodBaseAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
@@ -1786,7 +1782,6 @@ namespace FluentAssertions.Types
     }
     public class MethodInfoAssertions : FluentAssertions.Types.MethodBaseAssertions<System.Reflection.MethodInfo, FluentAssertions.Types.MethodInfoAssertions>
     {
-        public MethodInfoAssertions() { }
         public MethodInfoAssertions(System.Reflection.MethodInfo methodInfo) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs) { }

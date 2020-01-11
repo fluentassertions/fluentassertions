@@ -19,7 +19,6 @@ namespace FluentAssertions.Numeric
         {
         }
 
-
         /// <summary>
         /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.<br/>
         /// Verification whether <see cref="IComparable{T}.CompareTo(T)"/> returns 0 is not done here, you should use

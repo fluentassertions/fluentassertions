@@ -18,10 +18,6 @@ namespace FluentAssertions.Types
         where TSubject : MemberInfo
         where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
     {
-        protected MemberInfoAssertions() : this(null)
-        {
-        }
-
         protected MemberInfoAssertions(TSubject subject) : base(subject)
         {
         }
