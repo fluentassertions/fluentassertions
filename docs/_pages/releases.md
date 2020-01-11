@@ -21,6 +21,10 @@ sidebar:
 * Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
   * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
 * Made `EquivalencyAssertionOptionsExtentions` `internal` (and fixed a typo in the type name) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+* Removed parameterless constructors from: `CollectionAssertions`, `ReferenceTypeAssertions`, `MemberInfoAssertions`, `MethodBaseAssertions` and `MethodInfoAssertions` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
+  * Use the constructors taking a `subject` instead.
+* Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
+  * Set the `Subject` through the constructor instead.
 
 ## 5.10.0
 
