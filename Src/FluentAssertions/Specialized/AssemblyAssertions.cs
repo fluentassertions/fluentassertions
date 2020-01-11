@@ -19,7 +19,6 @@ namespace FluentAssertions.Reflection
         {
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.
@@ -72,7 +71,6 @@ namespace FluentAssertions.Reflection
 
             return new AndConstraint<AssemblyAssertions>(this);
         }
-#endif
 
         /// <summary>
         /// Asserts that the Assembly defines a type called <paramref name="namespace"/> and <paramref name="name"/>.

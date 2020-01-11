@@ -567,7 +567,6 @@ namespace FluentAssertions.Specs
             public List<TChild> Children { get; set; }
         }
 
-#if !NETSTANDARD1_3
         [Fact]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
         {
@@ -585,7 +584,6 @@ namespace FluentAssertions.Specs
             // Assert
             result.Should().Be("Property = SomeValue", "it should use my custom formatter");
         }
-#endif
 
         [Fact]
         public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()

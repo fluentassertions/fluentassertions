@@ -820,9 +820,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-
-#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
-
+        
         #region BeBinarySerializable
 
         [Fact]
@@ -1204,9 +1202,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-
-#endif
-
+        
     }
 
     internal class DummyBaseClass

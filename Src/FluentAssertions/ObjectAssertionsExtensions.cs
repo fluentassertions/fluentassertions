@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
+﻿
 using System;
 using System.IO;
 using System.Runtime.Serialization;
@@ -221,4 +220,3 @@ namespace FluentAssertions
     }
 }
 
-#endif

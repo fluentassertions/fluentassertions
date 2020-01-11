@@ -1,10 +1,8 @@
-﻿#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
-
+﻿
 using Xunit;
 using Xunit.Sdk;
 using FluentAssertions;
 using System;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
 {
@@ -78,4 +76,3 @@ namespace System.Data
     }
 }
 
-#endif

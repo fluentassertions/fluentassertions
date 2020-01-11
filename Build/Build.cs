@@ -66,8 +66,6 @@ class Build : NukeBuild
         });
 
     const string XunitFramework = "net47";
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "1.0.13")] Tool NSpec1;
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "2.0.1")] Tool NSpec2;
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
 
     Target Test => _ => _
@@ -83,8 +81,6 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Debug)
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetStandard13.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore20.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore21.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore30.Specs"))));
@@ -97,29 +93,7 @@ class Build : NukeBuild
                     cc => cc.SetProjectFile(Solution.GetProject("NUnit3.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("XUnit2.Specs"))));
 
-            Xunit2(s => s
-                .SetFramework(XunitFramework)
-                .AddTargetAssemblies(GlobFiles(
-                    TestFrameworkDirectory / "XUnit.Net45.Specs",
-                    $"**/bin/Debug/*/*.Specs.dll").NotEmpty()));
-            NUnit3(s => s
-                .SetToolPath(ToolPathResolver.GetPackageExecutable("nunit.runners", "nunit-console.exe"))
-                .SetInputFiles(GlobFiles(
-                    TestFrameworkDirectory / "NUnit2.Net45.Specs",
-                    $"**/bin/Debug/*/*.Specs.dll").NotEmpty())
-                .EnableNoResults());
-
-            // NSpec2.0.1 does not have NSpec.dll in the test runner directory, which crashes the test runner.
-            var nspecPackage =
-                NuGetPackageResolver.GetLocalInstalledPackage("NSpec", NuGetPackagesConfigFile, version: "2.0.1");
-            CopyFile(
-                nspecPackage.Directory / "lib" / "net451" / "NSpec.dll",
-                nspecPackage.Directory / "tools" / "net451" / "NSpec.dll",
-                FileExistsPolicy.Skip);
-
-            NSpec1(TestFrameworkDirectory / "NSpec.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec.Specs.dll");
-            NSpec2(TestFrameworkDirectory / "NSpec2.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec2.Specs.dll");
-            NSpec3(TestFrameworkDirectory / "NSpec3.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec3.Specs.dll");
+            NSpec3(TestFrameworkDirectory / "NSpec3.Net47.Specs" / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
 
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Debug)
