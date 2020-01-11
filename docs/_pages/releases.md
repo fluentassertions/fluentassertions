@@ -7,6 +7,21 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.0.0
+
+**What's New**
+
+**Fixes**
+
+**Breaking Changes**
+* Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use the equivalent assertions without the typo "plict" instead.
+* Removed `NotBeAscendingInOrder`/`NotBeDescendingInOrder` - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
+* Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
+* Made `EquivalencyAssertionOptionsExtentions` `internal` (and fixed a typo in the type name) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+
 ## 5.10.0
 
 **What's New**

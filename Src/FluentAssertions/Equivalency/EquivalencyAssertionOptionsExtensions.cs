@@ -1,13 +1,10 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
-    [Obsolete("This class is deprecated and will be removed in version 6.X.")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class EquivalencyAssertionOptionsExtentions // TODO: Rename class into EquivalencyAssertionOptionsExtensions and make internal
+    internal static class EquivalencyAssertionOptionsExtensions
     {
         /// <summary>
         /// Returns either the run-time or compile-time type of the subject based on the options provided by the caller.
