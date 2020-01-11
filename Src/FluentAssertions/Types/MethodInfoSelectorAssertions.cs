@@ -27,7 +27,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public IEnumerable<MethodInfo> SubjectMethods { get; private set; }
+        public IEnumerable<MethodInfo> SubjectMethods { get; }
 
         /// <summary>
         /// Asserts that the selected methods are virtual.

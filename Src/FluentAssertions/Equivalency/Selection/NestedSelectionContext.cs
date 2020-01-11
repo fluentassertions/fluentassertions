@@ -17,21 +17,21 @@ namespace FluentAssertions.Equivalency.Selection
             SelectedMemberInfo = selectedMemberInfo;
         }
 
-        public SelectedMemberInfo SelectedMemberInfo { get; private set; }
+        public SelectedMemberInfo SelectedMemberInfo { get; }
 
-        public string SelectedMemberPath { get; private set; }
+        public string SelectedMemberPath { get; }
 
-        public string SelectedMemberDescription { get; private set; }
+        public string SelectedMemberDescription { get; }
 
         /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the
         /// same <see cref="System.Type"/> as the <see cref="IMemberInfo.RuntimeType"/> property does.
         /// </summary>
-        public Type CompileTimeType { get; private set; }
+        public Type CompileTimeType { get; }
 
         /// <summary>
         /// Gets the run-time type of the current object.
         /// </summary>
-        public Type RuntimeType { get; private set; }
+        public Type RuntimeType { get; }
     }
 }

@@ -14,7 +14,7 @@ namespace FluentAssertions
             ExpectedCount = expectedCount;
         }
 
-        internal int ExpectedCount { get; private set; }
+        internal int ExpectedCount { get; }
 
         internal abstract string Mode { get; }
 

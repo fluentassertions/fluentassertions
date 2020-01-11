@@ -18,11 +18,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public TimeSpan? Subject
-        {
-            get;
-            private set;
-        }
+        public TimeSpan? Subject { get; }
 
         /// <summary>
         /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than zero.
