@@ -248,7 +248,6 @@ namespace FluentAssertions.Collections
         where TSubject : System.Collections.IEnumerable
         where TAssertions : FluentAssertions.Collections.CollectionAssertions<TSubject, TAssertions>
     {
-        protected CollectionAssertions() { }
         protected CollectionAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
@@ -286,14 +285,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(object predecessor, object expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> IntersectWith(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInAscendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInAscendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAscendingInOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInDescendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("Use NotBeInDescendingOrder instead")]
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDescendingInOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs) { }
@@ -508,19 +499,7 @@ namespace FluentAssertions.Common
         public static System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo> GetNonPrivateProperties(this System.Type typeToReflect, System.Collections.Generic.IEnumerable<string> filter = null) { }
         public static System.Reflection.MethodInfo GetParameterlessMethod(this System.Type type, string methodName) { }
         public static System.Reflection.PropertyInfo GetPropertyByName(this System.Type type, string propertyName) { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWithOrInherits> instead.")]
-        public static bool HasAttribute<TAttribute>(this System.Reflection.MemberInfo method)
-            where TAttribute : System.Attribute { }
         public static bool HasExplicitlyImplementedProperty(this System.Type type, System.Type interfaceType, string propertyName) { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        [System.Obsolete("This method is deprecated and will be removed on the next major version. Please u" +
-            "se <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool HasMatchingAttribute<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
-            where TAttribute : System.Attribute { }
         public static bool HasMethod(this System.Type type, string methodName, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
         public static bool HasParameterlessMethod(this System.Type type, string methodName) { }
         public static bool HasValueSemantics(this System.Type type) { }
@@ -537,10 +516,6 @@ namespace FluentAssertions.Common
         public static bool IsDecoratedWith<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : System.Attribute { }
         public static bool IsDecoratedWith<TAttribute>(this System.Reflection.TypeInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        [System.Obsolete("This overload is deprecated and will be removed on the next major version. Please" +
-            " use <IsDecoratedWithOrInherits> or <IsDecoratedWith> instead.")]
-        public static bool IsDecoratedWith<TAttribute>(this System.Type type, bool inherit = false)
             where TAttribute : System.Attribute { }
         public static bool IsDecoratedWith<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : System.Attribute { }
@@ -625,11 +600,6 @@ namespace FluentAssertions.Equivalency
     public class EquivalencyAssertionOptions : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<FluentAssertions.Equivalency.EquivalencyAssertionOptions>
     {
         public EquivalencyAssertionOptions() { }
-    }
-    [System.Obsolete("This class is deprecated and will be removed in version 6.X.")]
-    public static class EquivalencyAssertionOptionsExtentions
-    {
-        public static System.Type GetExpectationType(this FluentAssertions.Equivalency.IEquivalencyAssertionOptions config, FluentAssertions.Equivalency.IMemberInfo context) { }
     }
     public class EquivalencyAssertionOptions<TExpectation> : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>>
     {
@@ -1507,10 +1477,9 @@ namespace FluentAssertions.Primitives
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
     {
-        protected ReferenceTypeAssertions() { }
         protected ReferenceTypeAssertions(TSubject subject) { }
         protected abstract string Identifier { get; }
-        public TSubject Subject { get; set; }
+        public TSubject Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
@@ -1733,7 +1702,6 @@ namespace FluentAssertions.Types
         where TSubject : System.Reflection.MemberInfo
         where TAssertions : FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>
     {
-        protected MemberInfoAssertions() { }
         protected MemberInfoAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
@@ -1749,7 +1717,6 @@ namespace FluentAssertions.Types
         where TSubject : System.Reflection.MethodBase
         where TAssertions : FluentAssertions.Types.MethodBaseAssertions<TSubject, TAssertions>
     {
-        protected MethodBaseAssertions() { }
         protected MethodBaseAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
@@ -1757,7 +1724,6 @@ namespace FluentAssertions.Types
     }
     public class MethodInfoAssertions : FluentAssertions.Types.MethodBaseAssertions<System.Reflection.MethodInfo, FluentAssertions.Types.MethodInfoAssertions>
     {
-        public MethodInfoAssertions() { }
         public MethodInfoAssertions(System.Reflection.MethodInfo methodInfo) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs) { }
@@ -1888,20 +1854,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> HaveExplicitProperty(System.Type interfaceType, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> HaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface :  class { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveExplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveExplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveExplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveImplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'HaveImplicitConversionOperator\' and will b" +
-            "e removed in v6.X.")]
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.PropertyInfo> HaveIndexer(System.Type indexerType, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveMethod(string name, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.PropertyInfo> HaveProperty(System.Type propertyType, string name, string because = "", params object[] becauseArgs) { }
@@ -1938,20 +1892,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplicitProperty(System.Type interfaceType, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface :  class { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveExplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveExplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveImplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplictConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
-        [System.Obsolete("This method is deprecated in favor of \'NotHaveImplicitConversionOperator\' and wil" +
-            "l be removed in v6.X.")]
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveIndexer(System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveMethod(string name, System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs) { }

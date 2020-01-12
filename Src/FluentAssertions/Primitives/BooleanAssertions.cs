@@ -17,7 +17,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public bool? Subject { get; private set; }
+        public bool? Subject { get; }
 
         /// <summary>
         /// Asserts that the value is <c>false</c>.

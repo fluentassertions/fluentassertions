@@ -28,7 +28,7 @@ namespace FluentAssertions.Numeric
             }
         }
 
-        public IComparable Subject { get; private set; }
+        public IComparable Subject { get; }
 
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.

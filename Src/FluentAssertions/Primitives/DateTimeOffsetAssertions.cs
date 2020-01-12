@@ -24,7 +24,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public DateTimeOffset? Subject { get; private set; }
+        public DateTimeOffset? Subject { get; }
 
         /// <summary>
         /// Asserts that the current <see cref="DateTimeOffset"/> is exactly equal to the <paramref name="expected"/> value.

@@ -14,7 +14,7 @@ namespace FluentAssertions.Specs
         public ICollection<TKey> Keys => dictionary.Keys;
 
         public ICollection<TValue> Values => dictionary.Values;
-
+    
         public int Count => dictionary.Count;
 
         public bool IsReadOnly => ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).IsReadOnly;

@@ -16,10 +16,6 @@ namespace FluentAssertions.Types
         where TSubject : MethodBase
         where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
     {
-        protected MethodBaseAssertions() : this(default)
-        {
-        }
-
         protected MethodBaseAssertions(TSubject subject) : base(subject)
         {
         }

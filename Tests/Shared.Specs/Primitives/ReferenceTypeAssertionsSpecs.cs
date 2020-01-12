@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -8,16 +7,6 @@ namespace FluentAssertions.Specs
 {
     public class ReferenceTypeAssertionsSpecs
     {
-        [Fact]
-        public void Should_have_parameterless_constructor()
-        {
-            // Arrange
-            Type type = typeof(ReferenceTypeAssertions<,>);
-
-            // Act / Assert
-            type.Should().HaveDefaultConstructor();
-        }
-
         [Fact]
         public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_fail()
         {

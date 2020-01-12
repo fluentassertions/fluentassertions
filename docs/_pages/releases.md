@@ -13,6 +13,21 @@ sidebar:
 * Added support for dictionary assertions `IReadOnlyDictionary` objects. However, it comes with a breaking change such that dictionaries that do not implement `IReadOnlyDictionary` interface lose direct support for dictionary assertions. New extensions method `AsReadOnlyDictionary` is provided
 to easily adapt such dictionaries to read-only interface.
 
+**Fixes**
+
+**Breaking Changes**
+* Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use the equivalent assertions without the typo "plict" instead.
+* Removed `NotBeAscendingInOrder`/`NotBeDescendingInOrder` - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
+* Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+  * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
+* Made `EquivalencyAssertionOptionsExtentions` `internal` (and fixed a typo in the type name) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
+* Removed parameterless constructors from: `CollectionAssertions`, `ReferenceTypeAssertions`, `MemberInfoAssertions`, `MethodBaseAssertions` and `MethodInfoAssertions` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
+  * Use the constructors taking a `subject` instead.
+* Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
+  * Set the `Subject` through the constructor instead.
+
 ## 5.10.0
 
 **What's New**

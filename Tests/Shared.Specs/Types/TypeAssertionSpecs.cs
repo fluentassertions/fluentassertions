@@ -3597,7 +3597,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region HaveImplictConversionOperator
+        #region HaveImplicitConversionOperator
 
         [Fact]
         public void When_asserting_a_type_has_an_implicit_conversion_operator_which_it_does_it_succeeds()
@@ -3639,7 +3639,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region HaveImplictConversionOperatorOfT
+        #region HaveImplicitConversionOperatorOfT
 
         [Fact]
         public void When_asserting_a_type_has_an_implicit_conversion_operatorOfT_which_it_does_it_succeeds()
@@ -3677,7 +3677,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region NotHaveImplictConversionOperator
+        #region NotHaveImplicitConversionOperator
 
         [Fact]
         public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_which_it_does_not_it_succeeds()
@@ -3717,7 +3717,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region NotHaveImplictConversionOperatorOfT
+        #region NotHaveImplicitConversionOperatorOfT
 
         [Fact]
         public void When_asserting_a_type_does_not_have_an_implicit_conversion_operatorOfT_which_it_does_not_it_succeeds()
