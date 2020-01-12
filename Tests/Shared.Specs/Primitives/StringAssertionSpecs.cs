@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_two_strings_differ_unexpectedly_containing_double_curly_braces_it_should_throw()
+        public void When_two_strings_differ_unexpectedly_containing_double_curly_closing_braces_it_should_throw()
         {
             // Act
             const string expect = "}}";
@@ -53,6 +53,19 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "*to be \"}}\" with a length of 2, but \"}}}}\" has a length of 4*");
+        }
+
+        [Fact]
+        public void When_two_strings_differ_unexpectedly_containing_double_curly_opening_braces_it_should_throw()
+        {
+            // Act
+            const string expect = "{{";
+            const string actual = "{{{{";
+            Action act = () => actual.Should().Be(expect);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to be \"{{\" with a length of 2, but \"{{{{\" has a length of 4*");
         }
 
         [Fact]
