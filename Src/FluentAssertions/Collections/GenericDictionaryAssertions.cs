@@ -732,7 +732,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
-            IEnumerable<TKey> foundKeys = unexpectedKeys.Intersect(Subject.Keys);
+            IEnumerable<TKey> foundKeys = unexpected.Where(key => Subject.ContainsKey(key));
 
             if (foundKeys.Any())
             {

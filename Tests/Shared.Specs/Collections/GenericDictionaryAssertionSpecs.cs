@@ -1561,6 +1561,39 @@ namespace FluentAssertions.Specs
                 "Cannot verify key containment against an empty sequence*");
         }
 
+        [Fact]
+        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_sensitive_equality_comparer_of_the_dictionary()
+        {
+            // Arrange
+            var dictionary = new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["ONE"] = "One",
+                ["TWO"] = "Two"
+            };
+
+            // Act
+            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
+
+            // Assert
+            act.Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_insensitive_equality_comparer_of_the_dictionary()
+        {
+            // Arrange
+            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ONE"] = "One",
+                ["TWO"] = "Two"
+            };
+
+            // Act
+            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
         #endregion
 
         #region ContainValue
