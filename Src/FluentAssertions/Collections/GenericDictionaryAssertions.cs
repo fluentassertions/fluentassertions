@@ -570,8 +570,8 @@ namespace FluentAssertions.Collections
         #region ContainKey
 
         /// <summary>
-        /// Asserts that the dictionary contains the specified key. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the dictionary contains the specified key.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="expected">The expected key</param>
         /// <param name="because">
@@ -592,8 +592,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the dictionary contains all of the specified keys. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the dictionary contains all of the specified keys.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="expected">The expected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
@@ -602,8 +602,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the dictionary contains all of the specified keys. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the dictionary contains all of the specified keys.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="expected">The expected keys</param>
         /// <param name="because">
@@ -661,7 +661,7 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> key.
-        /// Keys are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="unexpected">The unexpected key</param>
         /// <param name="because">
@@ -692,8 +692,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the dictionary does not contain any of the specified keys. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the dictionary does not contain any of the specified keys.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="unexpected">The unexpected keys</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
@@ -702,8 +702,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the dictionary does not contain any of the specified keys. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the dictionary does not contain any of the specified keys.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
         /// </summary>
         /// <param name="unexpected">The unexpected keys</param>
         /// <param name="because">
