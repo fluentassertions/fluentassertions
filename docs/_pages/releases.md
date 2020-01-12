@@ -10,6 +10,7 @@ sidebar:
 ## 6.0.0
 
 **What's New**
+* Add `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects.
 
 **Fixes**
 

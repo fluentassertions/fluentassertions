@@ -1069,6 +1069,7 @@ namespace FluentAssertions.Extensions
         public static System.DateTime November(this int day, int year) { }
         public static System.DateTime October(this int day, int year) { }
         public static System.DateTime September(this int day, int year) { }
+        public static System.DateTimeOffset WithOffset(this System.DateTime self, System.TimeSpan offset) { }
     }
     public static class FluentTimeSpanExtensions
     {

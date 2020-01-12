@@ -172,8 +172,8 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_datetimeoffset_value_is_equal_to_the_different_value()
         {
             // Arrange
-            var dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
-            var otherDateTime = new DateTimeOffset(11.March(2012), 1.Hours());
+            var dateTime = 10.March(2012).WithOffset(1.Hours());
+            var otherDateTime = 11.March(2012).WithOffset(1.Hours());
 
             // Act
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
@@ -574,8 +574,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_a_35ms_timespan_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 036).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 036).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(35));
@@ -2120,7 +2120,7 @@ namespace FluentAssertions.Specs
         public void When_date_is_not_within_50_hours_before_another_date_it_should_throw()
         {
             // Arrange
-            var target = new DateTimeOffset(10.April(2010).At(12, 0), 0.Hours());
+            var target = 10.April(2010).At(12, 0).WithOffset(0.Hours());
             DateTimeOffset subject = target - 50.Hours() - 1.Seconds();
 
             // Act
@@ -2183,7 +2183,7 @@ namespace FluentAssertions.Specs
         public void When_time_is_not_less_than_30s_after_another_time_it_should_throw()
         {
             // Arrange
-            var target = new DateTimeOffset(1.January(1).At(12, 0, 30), 1.Hours());
+            var target = 1.January(1).At(12, 0, 30).WithOffset(1.Hours());
             DateTimeOffset subject = target + 30.Seconds();
 
             // Act
@@ -2254,7 +2254,7 @@ namespace FluentAssertions.Specs
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            DateTimeOffset value = new DateTimeOffset(31.December(2016), 1.Hours());
+            DateTimeOffset value = 31.December(2016).WithOffset(1.Hours());
 
             // Act
             Action action = () => value.Should().BeOneOf(new[] { value + 1.Days(), value + 2.Days() }, "because it's true");
