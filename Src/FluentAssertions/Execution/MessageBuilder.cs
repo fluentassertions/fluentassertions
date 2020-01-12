@@ -91,10 +91,6 @@ namespace FluentAssertions.Execution
             string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
             string formattedMessage = string.Format(failureMessage, values);
 
-            var replacedCurlyBraces =
-                formattedMessage
-                    .Replace("{{{{", "{{")
-                    .Replace("}}}}", "}}");
             return formattedMessage;
         }
 
