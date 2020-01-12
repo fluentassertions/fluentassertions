@@ -12,6 +12,7 @@ sidebar:
 **What's New**
 
 **Fixes**
+* Reported actual value when it contained `{{{{` or `}}}}` (#1223)
 
 **Breaking Changes**
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
