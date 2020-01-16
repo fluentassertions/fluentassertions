@@ -1,4 +1,4 @@
-﻿#if NET45 || NET47 || NETCOREAPP1_1
+﻿﻿#if NET47
 
 using System;
 

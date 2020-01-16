@@ -67,7 +67,7 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
-#if NETCOREAPP2_1 || NETSTANDARD2_1
+
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
@@ -77,9 +77,8 @@ namespace FluentAssertions
         {
             return () => action(subject).AsTask();
         }
-#endif
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_1
+
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
@@ -89,7 +88,6 @@ namespace FluentAssertions
         {
             return () => action(subject).AsTask();
         }
-#endif
 
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
@@ -713,7 +711,7 @@ namespace FluentAssertions
             return new FunctionAssertions<T>(func, extractor);
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
+#if !NETSTANDARD2_0
 
         /// <summary>
         /// Starts monitoring <paramref name="eventSource"/> for its events.

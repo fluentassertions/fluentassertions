@@ -18,9 +18,7 @@ namespace FluentAssertions.Formatting
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
             new XmlNodeFormatter(),
-#endif
             new AttributeBasedFormatter(),
             new AggregateExceptionValueFormatter(),
             new XDocumentValueFormatter(),

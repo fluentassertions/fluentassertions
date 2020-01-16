@@ -8,9 +8,6 @@ namespace FluentAssertions.Execution
     /// Represents a chaining object returned from <see cref="AssertionScope.Given{T}"/> to continue the assertion using
     /// an object returned by a selector.
     /// </summary>
-#if NET45
-    [Serializable]
-#endif
     public class GivenSelector<T>
     {
         #region Private Definitions

@@ -1,4 +1,4 @@
-﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETStandard,Version=v1.3", FrameworkDisplayName="")]
+﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.0", FrameworkDisplayName="")]
 namespace FluentAssertions
 {
     public class AggregateExceptionExtractor : FluentAssertions.Specialized.IExtractExceptions
@@ -23,7 +23,9 @@ namespace FluentAssertions
     {
         public static TTo As<TTo>(this object subject) { }
         public static System.Func<System.Threading.Tasks.Task> Awaiting<T>(this T subject, System.Func<T, System.Threading.Tasks.Task> action) { }
+        public static System.Func<System.Threading.Tasks.Task> Awaiting<T>(this T subject, System.Func<T, System.Threading.Tasks.ValueTask> action) { }
         public static System.Func<System.Threading.Tasks.Task<TResult>> Awaiting<T, TResult>(this T subject, System.Func<T, System.Threading.Tasks.Task<TResult>> action) { }
+        public static System.Func<System.Threading.Tasks.Task<TResult>> Awaiting<T, TResult>(this T subject, System.Func<T, System.Threading.Tasks.ValueTask<TResult>> action) { }
         public static System.Action Enumerating(this System.Func<System.Collections.IEnumerable> enumerable) { }
         public static System.Action Enumerating<T>(this System.Func<System.Collections.Generic.IEnumerable<T>> enumerable) { }
         public static FluentAssertions.Specialized.ExecutionTime ExecutionTime(this System.Action action) { }
@@ -31,6 +33,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action) { }
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
+        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
         public static FluentAssertions.Types.MethodInfoSelectorAssertions Should(this FluentAssertions.Types.MethodInfoSelector methodSelector) { }
         public static FluentAssertions.Types.PropertyInfoSelectorAssertions Should(this FluentAssertions.Types.PropertyInfoSelector propertyInfoSelector) { }
@@ -208,6 +211,14 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<uint>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<uint> parent, uint distantValue, uint delta, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<ulong>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<ulong> parent, ulong distantValue, ulong delta, string because = "", params object[] becauseArgs) { }
     }
+    public static class ObjectAssertionsExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+    }
     public abstract class OccurrenceConstraint
     {
         protected OccurrenceConstraint(int expectedCount) { }
@@ -236,6 +247,11 @@ namespace FluentAssertions
         public static FluentAssertions.Types.TypeSelector Types(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Type type) { }
+    }
+    public static class XmlAssertionExtensions
+    {
+        public static FluentAssertions.Xml.XmlElementAssertions Should(this System.Xml.XmlElement actualValue) { }
+        public static FluentAssertions.Xml.XmlNodeAssertions Should(this System.Xml.XmlNode actualValue) { }
     }
 }
 namespace FluentAssertions.Collections
@@ -858,6 +874,33 @@ namespace FluentAssertions.Equivalency
 }
 namespace FluentAssertions.Events
 {
+    public class EventAssertions<T> : FluentAssertions.Primitives.ReferenceTypeAssertions<T, FluentAssertions.Events.EventAssertions<T>>
+    {
+        protected EventAssertions(FluentAssertions.Events.IMonitor<T> monitor) { }
+        protected override string Identifier { get; }
+        public void NotRaise(string eventName, string because = "", params object[] becauseArgs) { }
+        public void NotRaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Events.IEventRecorder Raise(string eventName, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Events.IEventRecorder RaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
+    }
+    public class EventMetadata
+    {
+        public EventMetadata(string eventName, System.Type handlerType) { }
+        public string EventName { get; }
+        public System.Type HandlerType { get; }
+    }
+    public class EventRecorder : FluentAssertions.Events.IEventRecorder, System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
+    {
+        public EventRecorder(object eventRaiser, string eventName, System.Func<System.DateTime> utcNow) { }
+        public System.Type EventHandlerType { get; }
+        public string EventName { get; }
+        public object EventObject { get; }
+        public void Attach(System.WeakReference subject, System.Reflection.EventInfo eventInfo) { }
+        public void Dispose() { }
+        public System.Collections.Generic.IEnumerator<FluentAssertions.Events.RecordedEvent> GetEnumerator() { }
+        public void RecordEvent(params object[] parameters) { }
+        public void Reset() { }
+    }
     public interface IEventRecorder : System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
     {
         System.Type EventHandlerType { get; }
@@ -865,6 +908,22 @@ namespace FluentAssertions.Events
         object EventObject { get; }
         void RecordEvent(params object[] parameters);
         void Reset();
+    }
+    public interface IMonitor<T> : System.IDisposable
+    {
+        FluentAssertions.Events.EventMetadata[] MonitoredEvents { get; }
+        FluentAssertions.Events.OccurredEvent[] OccurredEvents { get; }
+        T Subject { get; }
+        void Clear();
+        FluentAssertions.Events.IEventRecorder GetEventRecorder(string eventName);
+        FluentAssertions.Events.EventAssertions<T> Should();
+    }
+    public class OccurredEvent
+    {
+        public OccurredEvent() { }
+        public string EventName { get; set; }
+        public object[] Parameters { get; set; }
+        public System.DateTime TimestampUtc { get; set; }
     }
     public class RecordedEvent
     {
@@ -878,6 +937,7 @@ namespace FluentAssertions.Execution
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
+        protected AssertionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
     public class AssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
     {
@@ -1571,6 +1631,8 @@ namespace FluentAssertions.Reflection
         public AssemblyAssertions(System.Reflection.Assembly assembly) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Reflection.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params string[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Specialized
@@ -1978,5 +2040,33 @@ namespace FluentAssertions.Xml
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBe(System.Xml.Linq.XElement unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBeEquivalentTo(System.Xml.Linq.XElement unexpected, string because = "", params object[] becauseArgs) { }
+    }
+    public class XmlElementAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlElement, FluentAssertions.Xml.XmlElementAssertions>
+    {
+        public XmlElementAssertions(System.Xml.XmlElement xmlElement) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttributeWithNamespace(string expectedName, string expectedNamespace, string expectedValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XmlElementAssertions, System.Xml.XmlElement> HaveElement(string expectedName, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XmlElementAssertions, System.Xml.XmlElement> HaveElementWithNamespace(string expectedName, string expectedNamespace, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveInnerText(string expected, string because = "", params object[] becauseArgs) { }
+    }
+    public class XmlNodeAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlNode, FluentAssertions.Xml.XmlNodeAssertions>
+    {
+        public XmlNodeAssertions(System.Xml.XmlNode xmlNode) { }
+    }
+    public class XmlNodeAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
+        where TSubject : System.Xml.XmlNode
+        where TAssertions : FluentAssertions.Xml.XmlNodeAssertions<TSubject, TAssertions>
+    {
+        public XmlNodeAssertions(TSubject xmlNode) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Xml.XmlNode expected, string because = "", params object[] reasonArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Xml.XmlNode unexpected, string because = "", params object[] reasonArgs) { }
+    }
+    public class XmlNodeFormatter : FluentAssertions.Formatting.IValueFormatter
+    {
+        public XmlNodeFormatter() { }
+        public bool CanHandle(object value) { }
+        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
 }
