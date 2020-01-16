@@ -619,11 +619,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected subject to contain key \"greeting\"*");
-#else
                 .WithMessage("Expected actual to contain key \"greeting\"*");
-#endif
         }
 
         [Fact]
@@ -652,11 +648,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("*subject*keys*Int32*compatible types*IDictionary`2[System.String,System.String]*");
-#else
                 .WithMessage("*expectation*keys*Int32*compatible types*IDictionary`2[System.String,System.String]*");
-#endif
         }
 
         [Fact]
@@ -855,11 +847,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected subject to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
-#else
                 .WithMessage("Expected dictionary1 to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
-#endif
         }
 
         [Fact]
@@ -904,11 +892,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected subject to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
-#else
                 .WithMessage("Expected dictionary2 to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
-#endif
         }
 
         [Fact]
