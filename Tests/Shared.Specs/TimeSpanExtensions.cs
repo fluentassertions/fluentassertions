@@ -1,5 +1,4 @@
-﻿﻿#if NET47
-
+﻿
 using System;
 
 namespace FluentAssertions.Specs
@@ -44,4 +43,3 @@ namespace FluentAssertions.Specs
         }
     }
 }
-#endif

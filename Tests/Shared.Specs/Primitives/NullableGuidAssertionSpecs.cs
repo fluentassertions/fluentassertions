@@ -198,11 +198,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullableGuid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]

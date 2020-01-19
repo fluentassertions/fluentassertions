@@ -86,11 +86,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected object to be*, but found <null>*");
-#else
                 "Expected subject to be*, but found <null>*");
-#endif
         }
 
         [Fact]
@@ -3010,7 +3006,6 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
-#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
         [Fact]
         public void When_asserting_types_with_infinite_object_graphs_are_equivalent_it_should_not_overflow_the_stack()
         {
@@ -3026,7 +3021,6 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow<StackOverflowException>();
         }
 
-#endif
         [Fact]
         public void
             When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion

@@ -39,11 +39,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected object to be ClassWithCustomEqualMethod(2), but found ClassWithCustomEqualMethod(1).");
-#else
                 "Expected someObject to be ClassWithCustomEqualMethod(2), but found ClassWithCustomEqualMethod(1).");
-#endif
         }
 
         [Fact]
@@ -69,11 +65,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object to be ClassWithCustomEqualMethod(2), but found <null>.");
-#else
                 .WithMessage("Expected someObject to be ClassWithCustomEqualMethod(2), but found <null>.");
-#endif
         }
 
         [Fact]
@@ -89,11 +81,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-#if NETCOREAPP1_1
-                    "Expected object to be ClassWithCustomEqualMethod(2) because it should use the reason, but found ClassWithCustomEqualMethod(1).");
-#else
                     "Expected someObject to be ClassWithCustomEqualMethod(2) because it should use the reason, but found ClassWithCustomEqualMethod(1).");
-#endif
         }
 
         [Fact]
@@ -120,11 +108,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Did not expect object to be equal to ClassWithCustomEqualMethod(1).");
-#else
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1).");
-#endif
         }
 
         [Fact]
@@ -140,13 +124,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Did not expect object to be equal to ClassWithCustomEqualMethod(1) " +
-                "because we want to test the failure message.");
-#else
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1) " +
                 "because we want to test the failure message.");
-#endif
         }
 
         #endregion
@@ -189,11 +168,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .Where(e => e.Message.StartsWith(
-#if NETCOREAPP1_1
-                    "Expected object to be <null> because we want to test the failure message, but found System.Object"));
-#else
                     "Expected someObject to be <null> because we want to test the failure message, but found System.Object"));
-#endif
         }
 
         [Fact]
@@ -230,11 +205,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected object not to be <null> because we want to test the failure message.");
-#else
                 "Expected someObject not to be <null> because we want to test the failure message.");
-#endif
         }
 
         #endregion
@@ -346,11 +317,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected type to be System.Int32, but found <null>.");
-#else
                 .WithMessage("Expected someObject to be System.Int32, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -820,7 +787,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-        
+
         #region BeBinarySerializable
 
         [Fact]
@@ -1202,7 +1169,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-        
+
     }
 
     internal class DummyBaseClass
