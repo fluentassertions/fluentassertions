@@ -15,7 +15,6 @@ using Xunit.Sdk;
 public class AssertionScopeSpecsWithoutNamespace
 #pragma warning restore RCS1110 // Declare type inside namespace.
 {
-#if !NETCOREAPP1_1 && !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()
     {
@@ -25,7 +24,6 @@ public class AssertionScopeSpecsWithoutNamespace
         // Act / Assert
         type.Assembly.Should().DefineType(null, type.Name, "this class should not be inside a namespace");
     }
-#endif
 
     [Fact]
     public void When_the_test_method_is_not_inside_a_namespace_it_should_not_throw_a_NullReferenceException()
@@ -628,9 +626,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("*but found false*but found true*");
         }
 
-#if NET45
-    [Serializable]
-#endif
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new List<string>();
@@ -681,9 +676,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if NET45
-    [Serializable]
-#endif
         internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
         {
             public IEnumerable<string> FailureMessages => new string[0];

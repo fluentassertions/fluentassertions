@@ -1,4 +1,4 @@
-﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v2.0", FrameworkDisplayName="")]
+﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.0", FrameworkDisplayName="")]
 namespace FluentAssertions
 {
     public class AggregateExceptionExtractor : FluentAssertions.Specialized.IExtractExceptions
@@ -23,6 +23,7 @@ namespace FluentAssertions
     {
         public static TTo As<TTo>(this object subject) { }
         public static System.Func<System.Threading.Tasks.Task> Awaiting<T>(this T subject, System.Func<T, System.Threading.Tasks.Task> action) { }
+        public static System.Func<System.Threading.Tasks.Task> Awaiting<T>(this T subject, System.Func<T, System.Threading.Tasks.ValueTask> action) { }
         public static System.Func<System.Threading.Tasks.Task<TResult>> Awaiting<T, TResult>(this T subject, System.Func<T, System.Threading.Tasks.Task<TResult>> action) { }
         public static System.Func<System.Threading.Tasks.Task<TResult>> Awaiting<T, TResult>(this T subject, System.Func<T, System.Threading.Tasks.ValueTask<TResult>> action) { }
         public static System.Action Enumerating(this System.Func<System.Collections.IEnumerable> enumerable) { }

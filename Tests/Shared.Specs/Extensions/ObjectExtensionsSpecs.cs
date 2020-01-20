@@ -130,9 +130,7 @@ namespace FluentAssertions.Specs
                 true,
                 '\u0001',
                 new DateTime(1),
-#if !NETCOREAPP1_1
                 DBNull.Value,
-#endif
                 "1"
             };
         }

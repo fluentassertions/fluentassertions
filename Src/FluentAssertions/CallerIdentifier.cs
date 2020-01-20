@@ -15,8 +15,6 @@ namespace FluentAssertions
         public static Action<string> logger = str => { };
 #pragma warning restore CA2211
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
         public static string DetermineCallerIdentity()
         {
             string caller = null;
@@ -156,11 +154,5 @@ namespace FluentAssertions
             return candidate == "true" || candidate == "false";
         }
 
-#else
-        public static string DetermineCallerIdentity()
-        {
-            return null;
-        }
-#endif
     }
 }

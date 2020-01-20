@@ -53,11 +53,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Did not expect Guid to be empty because we want to test the failure message.");
-#else
                 "Did not expect Guid.Empty to be empty because we want to test the failure message.");
-#endif
         }
 
         #endregion

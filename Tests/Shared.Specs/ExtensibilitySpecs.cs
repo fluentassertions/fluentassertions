@@ -20,11 +20,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected boolean to be true because we don't work with old clients, but found False.");
-#else
                 "Expected myClient to be true because we don't work with old clients, but found False.");
-#endif
         }
     }
 
