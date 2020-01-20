@@ -55,7 +55,7 @@ theDatetime.Should().NotHaveHour(23);
 theDatetime.Should().NotHaveMinute(16);
 theDatetime.Should().NotHaveSecond(1);
 
-var theDatetimeOffset = 1.March(2010).AsUtc().ToDateTimeOffset(2.Hours());
+var theDatetimeOffset = 1.March(2010).AsUtc().WithOffset(2.Hours());
 
 theDatetimeOffset.Should().HaveOffset(2);
 theDatetimeOffset.Should().NotHaveOffset(3);

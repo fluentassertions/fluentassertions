@@ -11,6 +11,7 @@ sidebar:
 
 **What's New**
 * Added official support for .NET Core 3.0
+* Add `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects.
 
 **Fixes**
 
