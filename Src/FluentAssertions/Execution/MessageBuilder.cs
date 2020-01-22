@@ -91,7 +91,7 @@ namespace FluentAssertions.Execution
             string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
             string formattedMessage = string.Format(failureMessage, values);
 
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
+            return formattedMessage;
         }
 
         private string SanitizeReason(string reason)
