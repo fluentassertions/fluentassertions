@@ -1663,6 +1663,93 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotContainMatch
+
+        [Fact]
+        public void When_collection_doesnt_contain_a_match_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch("* failed");
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_collection_doesnt_contain_multiple_matches_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test", "pack" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch("* failed");
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_collection_contains_a_match_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch("* failed", "because {0}", "it shouldn't");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected collection {\"build succeded\", \"test failed\"} to not contain a match of \"* failed\" because it shouldn't.");
+        }
+
+        [Fact]
+        public void When_collection_contains_multiple_matches_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build failed", "test failed" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch("* failed", "because {0}", "it shouldn't");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected collection {\"build failed\", \"test failed\"} to not contain a match of \"* failed\" because it shouldn't.");
+        }
+
+        [Fact]
+        public void When_collection_contains_a_match_with_different_casing_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch("* Failed");
+
+            // Assert
+            action.Should().NotThrow<XunitException>();
+        }
+
+
+        [Fact]
+        public void When_asserting_null_collection_for_not_match_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = null;
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch(null);
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to not contain a match of <null>, but found <null>.");
+        }
+
+
+        #endregion
+
         #region SatisfyRespectively
 
         [Fact]

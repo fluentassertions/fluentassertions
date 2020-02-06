@@ -48,12 +48,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore30.Specs", "Tests\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Approval.Tests", "Tests\Approval.Tests\Approval.Tests.csproj", "{F5115158-A038-4D14-A04E-46E7863E40B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore21.Specs", "Tests\NetCore21.Specs\NetCore21.Specs.csproj", "{0CF100F2-CE71-41F4-9523-62AD78BD6961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore21.Specs", "Tests\NetCore21.Specs\NetCore21.Specs.csproj", "{0CF100F2-CE71-41F4-9523-62AD78BD6961}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
-		Tests\Shared.Specs\Shared.Specs.projitems*{442c9b50-6f91-4cba-8d4e-b470e5cc3d5f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
