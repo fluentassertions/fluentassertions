@@ -242,5 +242,56 @@ namespace FluentAssertions.Collections
                 }
             });
         }
+
+        /// <summary>
+        /// Asserts that the collection does not contain any string that matches a wildcard pattern.
+        /// </summary>
+        /// <param name="wildcardPattern">
+        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndWhichConstraint<StringCollectionAssertions, string> NotContainMatch(string wildcardPattern, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is object)
+                .FailWith("Expected {context:collection} to not contain a match of {0}{reason}, but found <null>.", wildcardPattern)
+                .Then
+                .ForCondition(NotContainsMatch(wildcardPattern))
+                .FailWith("Expected {context:collection} {0} to not contain a match of {1}{reason}.", Subject, wildcardPattern);
+
+            return new AndWhichConstraint<StringCollectionAssertions, string>(this, AllThatDontMatch(wildcardPattern));
+        }
+
+        private bool NotContainsMatch(string wildcardPattern)
+        {
+            using (var scope = new AssertionScope())
+            {
+                return Subject.All(item =>
+                {
+                    item.Should().NotMatch(wildcardPattern);
+                    return !scope.Discard().Any();
+                });
+            }
+        }
+
+        private IEnumerable<string> AllThatDontMatch(string wildcardPattern)
+        {
+            return Subject.Where(item =>
+            {
+                using (var scope = new AssertionScope())
+                {
+                    item.Should().NotMatch(wildcardPattern);
+                    return !scope.Discard().Any();
+                }
+            });
+        }
     }
 }
