@@ -262,12 +262,12 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is object)
-                .FailWith("Expected {context:collection} to not contain a match of {0}{reason}, but found <null>.", wildcardPattern)
+                .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
                 .Then
                 .ForCondition(NotContainsMatch(wildcardPattern))
-                .FailWith("Expected {context:collection} {0} to not contain a match of {1}{reason}.", Subject, wildcardPattern);
+                .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
 
-            return new AndWhichConstraint<StringCollectionAssertions, string>(this, AllThatDontMatch(wildcardPattern));
+            return new AndWhichConstraint<StringCollectionAssertions, string>(this, AllThatDoNotMatch(wildcardPattern));
         }
 
         private bool NotContainsMatch(string wildcardPattern)
@@ -282,7 +282,7 @@ namespace FluentAssertions.Collections
             }
         }
 
-        private IEnumerable<string> AllThatDontMatch(string wildcardPattern)
+        private IEnumerable<string> AllThatDoNotMatch(string wildcardPattern)
         {
             return Subject.Where(item =>
             {

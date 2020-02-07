@@ -11,7 +11,8 @@ sidebar:
 
 **What's New**
 * Added official support for .NET Core 3.0
-* Add `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects.
+* Added `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects.
+* Added `collectionOfStrings.Should().NotContainMatch()` to assert that the collection does not contain a string that matches a wildcard pattern 
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` (#1223)
