@@ -166,11 +166,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected boolean to be false because we want to test the failure message, but found <null>.");
-#else
                 .WithMessage("Expected nullableBoolean to be false because we want to test the failure message, but found <null>.");
-#endif
 
         }
 
@@ -186,11 +182,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected boolean to be true because we want to test the failure message, but found <null>.");
-#else
                 .WithMessage("Expected nullableBoolean to be true because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -264,11 +256,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected*nullable*boolean*not*False*because we want to test the failure message, but found False.");
-#else
                 .WithMessage("Expected*falseBoolean*not*False*because we want to test the failure message, but found False.");
-#endif
         }
 
         [Fact]
@@ -311,11 +299,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected*nullable*boolean*not*True*because we want to test the failure message, but found True.");
-#else
                 .WithMessage("Expected*falseBoolean*not*True*because we want to test the failure message, but found True.");
-#endif
         }
 
         [Fact]

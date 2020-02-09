@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,4 +57,3 @@ namespace FluentAssertions.Common
     }
 }
 
-#endif

@@ -43,6 +43,32 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_two_strings_differ_unexpectedly_containing_double_curly_closing_braces_it_should_throw()
+        {
+            // Act
+            const string expect = "}}";
+            const string actual = "}}}}";
+            Action act = () => actual.Should().Be(expect);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to be \"}}\" with a length of 2, but \"}}}}\" has a length of 4*");
+        }
+
+        [Fact]
+        public void When_two_strings_differ_unexpectedly_containing_double_curly_opening_braces_it_should_throw()
+        {
+            // Act
+            const string expect = "{{";
+            const string actual = "{{{{";
+            Action act = () => actual.Should().Be(expect);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to be \"{{\" with a length of 2, but \"{{{{\" has a length of 4*");
+        }
+
+        [Fact]
         public void When_the_expected_string_is_shorter_than_the_actual_string_it_should_throw()
         {
             // Act
@@ -113,11 +139,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string to be \"ABC\", but found <null>.");
-#else
                 "Expected someString to be \"ABC\", but found <null>.");
-#endif
         }
 
         [Fact]
@@ -213,11 +235,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string not to be \"\".");
-#else
                 "Expected actual not to be \"\".");
-#endif
         }
 
         [Fact]
@@ -240,11 +258,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string not to be <null>.");
-#else
                 "Expected someString not to be <null>.");
-#endif
         }
 
         [Fact]
@@ -256,11 +270,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string not to be <null> because we don't like null.");
-#else
                 "Expected someString not to be <null> because we don't like null.");
-#endif
         }
 
         #endregion
@@ -278,11 +288,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to be one of {\"def\", \"xyz\"}, but found \"abc\".");
-#else
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"}, but found \"abc\".");
-#endif
         }
 
         [Fact]
@@ -296,11 +302,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
-#else
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
-#endif
         }
 
         [Fact]
@@ -331,11 +333,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
-#else
                 .WithMessage("Expected subject to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
-#endif
         }
 
         [Fact]
@@ -362,11 +360,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to match*\"What\\? Are you deaf\\?\", but*\"What! Are you deaf!\" does not.");
-#else
                 .WithMessage("Expected subject to match*\"What\\? Are you deaf\\?\", but*\"What! Are you deaf!\" does not.");
-#endif
         }
 
         [Fact]
@@ -380,11 +374,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to match*\"*World*\", but*\"hello world\" does not.");
-#else
                 .WithMessage("Expected subject to match*\"*World*\", but*\"hello world\" does not.");
-#endif
         }
 
         #endregion
@@ -416,11 +406,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                    "Did not expect string to match*\"*world*\" because that's illegal, but*\"hello world\" matches.");
-#else
                     "Did not expect subject to match*\"*world*\" because that's illegal, but*\"hello world\" matches.");
-#endif
         }
 
         #endregion
@@ -438,11 +424,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string to match the equivalent of*\"h*earth!\" " +
-#else
                 "Expected subject to match the equivalent of*\"h*earth!\" " +
-#endif
                 "because that's the universal greeting, but*\"hello world!\" does not.");
         }
 
@@ -501,13 +483,8 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Did not expect string to match the equivalent of*\"*world*\" because that's illegal, " +
-                "but*\"hello WORLD\" matches.");
-#else
                 .WithMessage("Did not expect subject to match the equivalent of*\"*world*\" because that's illegal, " +
                 "but*\"hello WORLD\" matches.");
-#endif
         }
 
         [Fact]
@@ -553,11 +530,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
-#else
               .WithMessage("Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
-#endif
         }
 
         [Fact]
@@ -571,11 +544,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to match regex*\".*\" because it should be a string, but it was <null>.");
-#else
              .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
-#endif
         }
 
         [Fact]
@@ -605,11 +574,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-            .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.*");
-#else
              .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
-#endif
         }
 
         [Fact]
@@ -662,11 +627,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-              .WithMessage("Did not expect string to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
-#else
               .WithMessage("Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
-#endif
         }
 
         [Fact]
@@ -680,11 +641,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to not match regex*\".*\" because it should not be a string, but it was <null>.");
-#else
              .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
-#endif
         }
 
         [Fact]
@@ -714,11 +671,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-             .WithMessage("Cannot match string against \".**\" because it is not a valid regular expression.*");
-#else
              .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
-#endif
         }
 
         [Fact]
@@ -830,11 +783,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to start with \"ABC\", but found <null>.");
-#else
                 .WithMessage("Expected someString to start with \"ABC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -867,11 +816,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not start with \"AB\" because of some reason, but found \"ABC\".");
-#else
                 "Expected value that does not start with \"AB\" because of some reason, but found \"ABC\".");
-#endif
         }
 
         [Fact]
@@ -913,11 +858,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not start with \"ABC\", but found <null>.");
-#else
                 "Expected someString that does not start with \"ABC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1001,11 +942,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string <null> to end with \"ABC\".");
-#else
                 "Expected someString <null> to end with \"ABC\".");
-#endif
         }
 
         #endregion
@@ -1038,11 +975,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string \"ABC\" not to end with \"BC\" because of some reason.");
-#else
                 "Expected value \"ABC\" not to end with \"BC\" because of some reason.");
-#endif
         }
 
         [Fact]
@@ -1084,11 +1017,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not end with \"ABC\", but found <null>.");
-#else
                 "Expected someString that does not end with \"ABC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1176,11 +1105,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to start with equivalent of \"AbC\", but found <null>.");
-#else
                 .WithMessage("Expected someString to start with equivalent of \"AbC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1213,11 +1138,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
-#else
                 "Expected value that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
-#endif
         }
 
         [Fact]
@@ -1261,11 +1182,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not start with equivalent of \"ABC\", but found <null>.");
-#else
                 "Expected someString that does not start with equivalent of \"ABC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1349,11 +1266,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that ends with equivalent of \"abC\", but found <null>.");
-#else
                 "Expected someString that ends with equivalent of \"abC\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1386,11 +1299,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
-#else
                 "Expected value that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
-#endif
         }
 
         [Fact]
@@ -1432,11 +1341,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string that does not end with equivalent of \"Abc\", but found <null>.");
-#else
                 "Expected someString that does not end with equivalent of \"Abc\", but found <null>.");
-#endif
         }
 
         #endregion
@@ -1502,11 +1407,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string <null> to contain \"XYZ\" because that is required.");
-#else
                 "Expected someString <null> to contain \"XYZ\" because that is required.");
-#endif
         }
 
         #region Exactly
@@ -1921,11 +1822,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
-#else
                 .WithMessage("Expected someString to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -1966,11 +1863,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string not to be equivalent to \"abc\" because I say so, but they are.");
-#else
                 .WithMessage("Expected actual not to be equivalent to \"abc\" because I say so, but they are.");
-#endif
         }
 
         [Fact]
@@ -3064,11 +2957,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string to be empty because we want to test the failure message, but found \"ABC\".");
-#else
                 "Expected actual to be empty because we want to test the failure message, but found \"ABC\".");
-#endif
         }
 
         [Fact]
@@ -3082,11 +2971,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string to be empty because strings should never be null, but found <null>.");
-#else
                 "Expected nullString to be empty because strings should never be null, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -3123,11 +3008,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Did not expect string to be empty because we want to test the failure message.");
-#else
                 "Did not expect actual to be empty because we want to test the failure message.");
-#endif
         }
 
         #endregion
@@ -3168,11 +3049,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
-#else
                 "Expected actual with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
-#endif
         }
 
         #endregion
@@ -3219,11 +3096,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string not to be <null> or empty because a valid string is expected for str, but found \"\".");
-#else
                 "Expected str not to be <null> or empty because a valid string is expected for str, but found \"\".");
-#endif
         }
 
         [Fact]
@@ -3237,11 +3110,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string not to be <null> or empty because a valid string is expected for str, but found <null>.");
-#else
                 "Expected str not to be <null> or empty because a valid string is expected for str, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -3275,11 +3144,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected string to be <null> or empty because it was not initialized yet, but found \"hello\".");
-#else
                 "Expected str to be <null> or empty because it was not initialized yet, but found \"hello\".");
-#endif
         }
 
         #endregion
@@ -3330,11 +3195,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected string not to be <null> or whitespace, but found <null>.");
-#else
                 .WithMessage("Expected nullString not to be <null> or whitespace, but found <null>.");
-#endif
         }
 
         [Fact]

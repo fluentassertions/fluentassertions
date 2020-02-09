@@ -189,11 +189,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
-#else
                 .WithMessage("Expected propertyInfo ReadOnlyProperty to have a setter because we want to test the error message.");
-#endif
         }
 
         [Fact]
@@ -296,11 +292,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected property ReadWriteProperty not to have a setter because we want to test the error message.");
-#else
                 .WithMessage("Expected propertyInfo ReadWriteProperty not to have a setter because we want to test the error message.");
-#endif
         }
 
         [Fact]
@@ -315,11 +307,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected property WriteOnlyProperty not to have a setter because we want to test the error message.");
-#else
                 .WithMessage("Expected propertyInfo WriteOnlyProperty not to have a setter because we want to test the error message.");
-#endif
         }
 
         #endregion
@@ -338,11 +326,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected property ReadOnlyProperty not to have a getter because we want to test the error message.");
-#else
                 .WithMessage("Expected propertyInfo ReadOnlyProperty not to have a getter because we want to test the error message.");
-#endif
         }
 
         [Fact]
@@ -357,11 +341,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected property ReadWriteProperty not to have a getter because we want to test the error message.");
-#else
                 .WithMessage("Expected propertyInfo ReadWriteProperty not to have a getter because we want to test the error message.");
-#endif
         }
 
         [Fact]

@@ -82,11 +82,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-#if NETCOREAPP1_1
-                    "*Did not expect object to be equal to*1*because they represent different things.*");
-#else
                     "*Did not expect subject to be equal to*1*because they represent different things.*");
-#endif
         }
 
         [Fact]
@@ -221,11 +217,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object to be <null>, but found*");
-#else
                 .WithMessage("Expected subject to be <null>, but found*");
-#endif
         }
 
         [Fact]
@@ -254,11 +246,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object not to be <null>.");
-#else
                 .WithMessage("Expected subject not to be <null>.");
-#endif
         }
 
         #endregion
@@ -305,11 +293,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object to be between*and*, but found *.");
-#else
                 .WithMessage("Expected subject to be between*and*, but found *.");
-#endif
         }
 
         #endregion
@@ -342,11 +326,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object to not be between*and*, but found *.");
-#else
                 .WithMessage("Expected subject to not be between*and*, but found *.");
-#endif
         }
 
         [Fact]
@@ -394,11 +374,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*42*to be ranked as equal to*Forty two*because they represent the same number.");
-#else
                 .WithMessage("Expected subject*42*to be ranked as equal to*Forty two*because they represent the same number.");
-#endif
         }
 
         #endregion
@@ -431,11 +407,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
-#else
                 .WithMessage("Expected subject*Lead*not to be ranked as equal to*Lead*because they represent different concepts.");
-#endif
         }
 
         #endregion
@@ -469,11 +441,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*World*to be less than*City*because a city is smaller than the world.");
-#else
                 .WithMessage("Expected subject*World*to be less than*City*because a city is smaller than the world.");
-#endif
         }
 
         [Fact]
@@ -507,11 +475,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*World*to be less or equal to*City*because we want to order them.");
-#else
                 .WithMessage("Expected subject*World*to be less or equal to*City*because we want to order them.");
-#endif
         }
 
         [Fact]
@@ -587,11 +551,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*abc*to be greater than*def*because 'a' is smaller then 'e'.");
-#else
                 .WithMessage("Expected subject*abc*to be greater than*def*because 'a' is smaller then 'e'.");
-#endif
         }
 
         #endregion
@@ -611,11 +571,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected object*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.");
-#else
                 .WithMessage("Expected subject*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.");
-#endif
         }
 
         [Fact]

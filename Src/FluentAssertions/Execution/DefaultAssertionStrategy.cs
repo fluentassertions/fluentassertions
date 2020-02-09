@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
-#if NET45
-    [Serializable]
-#endif
     internal class DefaultAssertionStrategy : IAssertionStrategy
     {
         /// <summary>

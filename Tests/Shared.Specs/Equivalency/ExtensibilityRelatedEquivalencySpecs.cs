@@ -428,7 +428,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(
                 expected,
-                options => options.Using(new RelaxingDateTimeAssertionRule()));
+                options => options.Using(new RelaxingDateTimeEquivalencyStep()));
 
             // Assert
             act.Should().NotThrow();
@@ -451,15 +451,15 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(
                 expected,
-                options => options.Using(new RelaxingDateTimeAssertionRule()));
+                options => options.Using(new RelaxingDateTimeEquivalencyStep()));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*{typeof(RelaxingDateTimeAssertionRule).Name}*");
+                .WithMessage($"*{typeof(RelaxingDateTimeEquivalencyStep).Name}*");
         }
 
         [Fact]
-        public void When_multiple_assertion_rules_are_added_they_should_be_evaluated_last_to_first()
+        public void When_multiple_steps_are_added_they_should_be_evaluated_first_to_last()
         {
             // Arrange
             var subject = new
@@ -474,37 +474,36 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, opts => opts
-                .Using(new AlwaysFailOnDateTimesAssertionRule())
-                .Using(new RelaxingDateTimeAssertionRule()));
+                .Using(new RelaxingDateTimeEquivalencyStep())
+                .Using(new AlwaysFailOnDateTimesEquivalencyStep()));
 
             // Assert
             act.Should().NotThrow(
                 "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
-        internal class AlwaysFailOnDateTimesAssertionRule : IAssertionRule
+        internal class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
         {
-            public bool AssertEquality(IEquivalencyValidationContext context)
+            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
             {
-                if (context.Expectation is DateTime)
-                {
-                    throw new Exception("Failed");
-                }
-
-                return false;
+                return context.Expectation is DateTime;
             }
+
+            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config) =>
+                throw new Exception("Failed");
         }
 
-        internal class RelaxingDateTimeAssertionRule : IAssertionRule
+        internal class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
         {
-            public bool AssertEquality(IEquivalencyValidationContext context)
+            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
             {
-                if (context.Expectation is DateTime)
-                {
-                    ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
-                    return true;
-                }
-                return false;
+                return context.Expectation is DateTime;
+            }
+
+            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
+                return true;
             }
         }
 

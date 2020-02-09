@@ -54,11 +54,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be positive because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be positive because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -72,11 +68,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be positive because we want to test the failure message, but found -1s.");
-#else
                 "Expected timeSpan to be positive because we want to test the failure message, but found -1s.");
-#endif
         }
 
         [Fact]
@@ -126,11 +118,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be negative because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be negative because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -144,11 +132,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be negative because we want to test the failure message, but found 1s.");
-#else
                 "Expected timeSpan to be negative because we want to test the failure message, but found 1s.");
-#endif
         }
 
         [Fact]
@@ -291,11 +275,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be greater than 1s because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be greater than 1s because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -322,11 +302,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be greater than 2s because we want to test the failure message, but found 1s.");
-#else
                 "Expected actual to be greater than 2s because we want to test the failure message, but found 1s.");
-#endif
         }
 
         [Fact]
@@ -352,11 +328,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be greater or equal to 1s because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be greater or equal to 1s because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -394,11 +366,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be greater or equal to 2s because we want to test the failure message, but found 1s.");
-#else
                 "Expected actual to be greater or equal to 2s because we want to test the failure message, but found 1s.");
-#endif
         }
 
         [Fact]
@@ -438,11 +406,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be less than 1s because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be less than 1s because we want to test the failure message, but found <null>.");
-#endif
+            
         }
 
         [Fact]
@@ -469,11 +434,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be less than 1s because we want to test the failure message, but found 2s.");
-#else
                 "Expected actual to be less than 1s because we want to test the failure message, but found 2s.");
-#endif
         }
 
         [Fact]
@@ -499,11 +460,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be less or equal to 1s because we want to test the failure message, but found <null>.");
-#else
                 "Expected nullTimeSpan to be less or equal to 1s because we want to test the failure message, but found <null>.");
-#endif
         }
 
         [Fact]
@@ -541,11 +498,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-#if NETCOREAPP1_1
-                "Expected time to be less or equal to 1s because we want to test the failure message, but found 2s.");
-#else
                 "Expected actual to be less or equal to 1s because we want to test the failure message, but found 2s.");
-#endif
         }
 
         #region Be Close To

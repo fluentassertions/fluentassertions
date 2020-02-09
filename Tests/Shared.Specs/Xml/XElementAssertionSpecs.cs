@@ -203,11 +203,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-#if NETCOREAPP1_1
-                    "Expected XML element to be <null> because we want to test the failure message, but found <element />.");
-#else
                     "Expected element to be <null> because we want to test the failure message, but found <element />.");
-#endif
         }
 
         [Fact]
@@ -250,11 +246,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-#if NETCOREAPP1_1
-                .WithMessage("Expected XML element not to be <null> because we want to test the failure message.");
-#else
                 .WithMessage("Expected element not to be <null> because we want to test the failure message.");
-#endif
         }
 
         #endregion

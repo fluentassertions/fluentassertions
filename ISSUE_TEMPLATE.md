@@ -39,7 +39,7 @@ result.Should().Be('M');
 ### Versions
 
 * Which version of Fluent Assertions are you using?
-* Which .NET runtime and version are you targeting? E.g. .NET framework 4.6.1 or .NET Core 2.0.
+* Which .NET runtime and version are you targeting? E.g. .NET framework 4.6.1 or .NET Core 2.1.
 
 ### Additional Information
 

@@ -25,18 +25,6 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if NETSTANDARD1_3 || NETSTANDARD1_6
-                // For .NET Standard < 2.0, we need to attempt to load the assembly
-                try
-                {
-                    assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0, 0, 0, 0) });
-                    return assembly != null;
-                }
-                catch
-                {
-                    return false;
-                }
-#else
                 string prefix = AssemblyName + ",";
 
                 assembly = AppDomain.CurrentDomain
@@ -44,8 +32,6 @@ namespace FluentAssertions.Execution
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
 
                 return (assembly != null);
-#endif
-
             }
         }
 

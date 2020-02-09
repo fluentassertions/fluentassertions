@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             Func<IMemberInfo, bool> predicate = canHandle.Compile();
 
-            return ((context.SelectedMemberInfo != null) && predicate(context));
+            return predicate(context);
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
 
             bool subjectIsValidType =
                 AssertionScope.Current
-                    .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
+                    .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.SelectedMemberDescription + " from subject to be a {0}{reason}, but found a {1}.",
                         typeof(TSubject), context.Subject?.GetType());
 
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
                 AssertionScope.Current
                     .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.SelectedMemberDescription + " from expectation to be a {0}{reason}, but found a {1}.",
-                        typeof(TSubject), context.SelectedMemberInfo.MemberType);
+                        typeof(TSubject), context.Expectation?.GetType());
 
             if (subjectIsValidType && expectationIsValidType)
             {

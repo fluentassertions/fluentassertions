@@ -668,10 +668,6 @@ namespace FluentAssertions.Equivalency
         TSubject Subject { get; }
         FluentAssertions.Equivalency.SelectedMemberInfo SubjectProperty { get; }
     }
-    public interface IAssertionRule
-    {
-        bool AssertEquality(FluentAssertions.Equivalency.IEquivalencyValidationContext context);
-    }
     public interface IEquivalencyAssertionOptions
     {
         bool AllowInfiniteRecursion { get; }
@@ -804,7 +800,6 @@ namespace FluentAssertions.Equivalency
         public TSelf RespectingRuntimeTypes() { }
         public TSelf ThrowingOnMissingMembers() { }
         public override string ToString() { }
-        public TSelf Using(FluentAssertions.Equivalency.IAssertionRule assertionRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IEquivalencyStep equivalencyStep) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
@@ -1070,6 +1065,7 @@ namespace FluentAssertions.Extensions
         public static System.DateTime November(this int day, int year) { }
         public static System.DateTime October(this int day, int year) { }
         public static System.DateTime September(this int day, int year) { }
+        public static System.DateTimeOffset WithOffset(this System.DateTime self, System.TimeSpan offset) { }
     }
     public static class FluentTimeSpanExtensions
     {

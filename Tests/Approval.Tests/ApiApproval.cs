@@ -14,14 +14,11 @@ namespace Approval.Tests
     public class ApiApproval
     {
         [Theory]
-        [InlineData("FluentAssertions", "net45")]
         [InlineData("FluentAssertions", "net47")]
-        [InlineData("FluentAssertions", "netstandard1.3")]
-        [InlineData("FluentAssertions", "netstandard1.6")]
         [InlineData("FluentAssertions", "netstandard2.0")]
         [InlineData("FluentAssertions", "netstandard2.1")]
-        [InlineData("FluentAssertions", "netcoreapp2.0")]
         [InlineData("FluentAssertions", "netcoreapp2.1")]
+        [InlineData("FluentAssertions", "netcoreapp3.0")]
         [UseReporter(typeof(DiffReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void ApproveApi(string projectName, string frameworkVersion)
