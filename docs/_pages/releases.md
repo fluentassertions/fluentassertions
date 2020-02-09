@@ -7,6 +7,10 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 5.10.1
+**Fixes**
+* Added missing dependency on System.Xml - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
+
 ## 5.10.0
 
 **What's New**
