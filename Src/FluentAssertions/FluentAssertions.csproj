@@ -23,7 +23,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions/releases/</PackageReleaseNotes>
-    <Copyright>Copyright Dennis Doomen 2010-2019</Copyright>
+    <Copyright>Copyright Dennis Doomen 2010-2020</Copyright>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
@@ -65,10 +65,12 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
 </Project>
