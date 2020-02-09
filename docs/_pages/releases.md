@@ -32,6 +32,11 @@ sidebar:
 * Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
   * Set the `Subject` through the constructor instead.
 
+
+## 5.10.1
+**Fixes**
+* Added missing dependency on System.Xml - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
+
 ## 5.10.0
 
 **What's New**
