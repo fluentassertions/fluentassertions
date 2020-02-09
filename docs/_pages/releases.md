@@ -15,6 +15,7 @@ sidebar:
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` (#1223)
+* Changed dictionary assertion `NotContainKeys` to honour the key comparer if applicable[1233](https://github.com/fluentassertions/fluentassertions/pull/1233)
 
 **Breaking Changes**
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227)
