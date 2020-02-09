@@ -974,7 +974,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary contains the specified <paramref name="expected"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected key/value pairs.</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(params KeyValuePair<TKey, TValue>[] expected)
@@ -984,7 +985,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary contains the specified <paramref name="expected"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected key/value pairs.</param>
         /// <param name="because">
@@ -1062,7 +1064,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary contains the specified <paramref name="expected"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="because">
@@ -1080,7 +1083,9 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied
-        /// <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// <paramref name="key" />.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
@@ -1126,7 +1131,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="items"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="items">The unexpected key/value pairs</param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(params KeyValuePair<TKey, TValue>[] items)
@@ -1136,7 +1142,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="items"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="items">The unexpected key/value pairs</param>
         /// <param name="because">
@@ -1197,7 +1204,8 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="item"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="item">The unexpected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="because">
@@ -1215,7 +1223,9 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current dictionary does not contain the specified <paramref name="value" /> for the
-        /// supplied <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// supplied <paramref name="key" />.
+        /// Key comparison will honor the equality comparer of the dictionary when applicable.
+        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
