@@ -12,6 +12,7 @@ sidebar:
 **What's New**
 
 **Fixes**
+* Changed dictionary assertion `NotContainKeys` to honour the key comparer if applicable[1233](https://github.com/fluentassertions/fluentassertions/pull/1233)
 
 **Breaking Changes**
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
