@@ -1,11 +1,10 @@
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Matching
 {
     /// <summary>
-    /// Requires the expectation object to have a member with the exact same name.
+    /// Requires the subject to have a member with the exact same name as the expectation has.
     /// </summary>
     internal class MustMatchByNameRule : IMemberMatchingRule
     {
