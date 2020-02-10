@@ -1747,25 +1747,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect collection to contain a match of <null>, but found <null>.");
         }
 
-        [Fact]
-        public void When_collection_contains_multiple_matches_for_not_match_which_should_throw()
-        {
-            // Arrange
-            IEnumerable<string> collection = new string[] { "build succeded", "test failed", "pack failed" };
-
-            // Act
-            Action action = () =>
-            {
-                string item = collection.Should().NotContainMatch("* failed").Which;
-            };
-
-            // Assert
-            action.Should().Throw<XunitException>()
-               .WithMessage("Did not expect string item = collection {\"build succeded\", \"test failed\", \"pack failed\"} to contain a match of \"* failed\".");
-
-
-        }
-
 
         #endregion
 

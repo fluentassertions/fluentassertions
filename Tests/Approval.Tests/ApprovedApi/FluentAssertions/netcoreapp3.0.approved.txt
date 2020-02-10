@@ -430,7 +430,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.StringCollectionAssertions> Equal(System.Collections.Generic.IEnumerable<string> expected) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.StringCollectionAssertions> Equal(params string[] expected) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.StringCollectionAssertions> NotContain(System.Collections.Generic.IEnumerable<string> unexpected, string because = null, object becauseArg = null, params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Collections.StringCollectionAssertions, string> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.StringCollectionAssertions> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
     }
     public class WhichValueConstraint<TKey, TValue> : FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>>
     {
