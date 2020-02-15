@@ -71,19 +71,18 @@ namespace FluentAssertions.Equivalency
             };
         }
 
-        internal static IEquivalencyValidationContext CreateWithDifferentSubject(this IEquivalencyValidationContext context,
-            object convertedSubject, Type expectationType)
+        internal static IEquivalencyValidationContext Clone(this IEquivalencyValidationContext context)
         {
             return new EquivalencyValidationContext
             {
-                CompileTimeType = expectationType,
+                CompileTimeType = context.CompileTimeType,
                 Expectation = context.Expectation,
                 SelectedMemberDescription = context.SelectedMemberDescription,
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 SelectedMemberPath = context.SelectedMemberPath,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                Subject = convertedSubject,
+                Subject = context.Subject,
                 Tracer = context.Tracer
             };
         }

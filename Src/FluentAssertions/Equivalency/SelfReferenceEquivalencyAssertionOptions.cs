@@ -82,7 +82,7 @@ namespace FluentAssertions.Equivalency
             ConversionSelector = defaults.ConversionSelector.Clone();
 
             selectionRules.AddRange(defaults.SelectionRules);
-            userEquivalencySteps.AddRange(defaults.GetUserEquivalencySteps(ConversionSelector));
+            userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
@@ -128,8 +128,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.GetUserEquivalencySteps(ConversionSelector conversionSelector) =>
-            userEquivalencySteps.Concat(new[] { new TryConversionStep(conversionSelector) });
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps => userEquivalencySteps;
 
         public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
 
@@ -337,7 +336,7 @@ namespace FluentAssertions.Equivalency
         /// </param>
         public Restriction<TProperty> Using<TProperty>(Action<IAssertionContext<TProperty>> action)
         {
-            return new Restriction<TProperty>((TSelf)this, action);
+            return new Restriction<TProperty>((TSelf)this, ConversionSelector, action);
         }
 
         /// <summary>
@@ -613,6 +612,8 @@ namespace FluentAssertions.Equivalency
                 builder.Append("- ").AppendLine(rule.ToString());
             }
 
+            builder.Append("- ").AppendLine(ConversionSelector.ToString());
+
             return builder.ToString();
         }
 
@@ -623,10 +624,12 @@ namespace FluentAssertions.Equivalency
         {
             private readonly Action<IAssertionContext<TMember>> action;
             private readonly TSelf options;
+            private readonly ConversionSelector conversionSelector;
 
-            public Restriction(TSelf options, Action<IAssertionContext<TMember>> action)
+            public Restriction(TSelf options, ConversionSelector conversionSelector, Action<IAssertionContext<TMember>> action)
             {
                 this.options = options;
+                this.conversionSelector = conversionSelector;
                 this.action = action;
             }
 
@@ -650,14 +653,16 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public TSelf When(Expression<Func<IMemberInfo, bool>> predicate)
             {
-                options.userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStep<TMember>(predicate, action));
+                options.userEquivalencySteps.Insert(0,
+                    new AssertionRuleEquivalencyStep<TMember>(predicate, action));
+
                 return options;
             }
         }
 
         #region Non-fluent API
 
-        protected void RemoveSelectionRule<T>()
+        private void RemoveSelectionRule<T>()
             where T : IMemberSelectionRule
         {
             selectionRules.RemoveAll(selectionRule => selectionRule is T);

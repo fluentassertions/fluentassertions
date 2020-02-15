@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
         /// </summary>
-        object Subject { get; }
+        object Subject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on

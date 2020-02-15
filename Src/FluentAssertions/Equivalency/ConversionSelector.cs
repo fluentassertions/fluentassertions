@@ -8,7 +8,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>.
+    /// Collects the members that need to be converted by the <see cref="AutoConversionStep"/>.
     /// </summary>
     public class ConversionSelector
     {

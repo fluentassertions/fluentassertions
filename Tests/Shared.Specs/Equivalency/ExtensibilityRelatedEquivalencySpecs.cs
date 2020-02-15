@@ -554,6 +554,28 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_predicate_matches_after_auto_conversion_it_should_execute_the_assertion()
+        {
+            //Arrange
+            var expectation = new
+            {
+                ThisIsMyDateTime = DateTime.Now
+            };
+
+            var actual = new
+            {
+                ThisIsMyDateTime = expectation.ThisIsMyDateTime.ToString()
+            };
+
+            //Asserts
+            actual.Should().BeEquivalentTo(expectation,
+                options => options
+                    .WithAutoConversion()
+                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                    .WhenTypeIs<DateTime>());
+        }
+
         #endregion
 
         #region Equivalency Steps

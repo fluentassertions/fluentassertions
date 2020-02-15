@@ -560,7 +560,14 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
-        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> action) { }
+        public AssertionRuleEquivalencyStep(FluentAssertions.Equivalency.ConversionSelector conversionSelector, System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> action) { }
+        public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
+        public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
+        public override string ToString() { }
+    }
+    public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public AutoConversionStep() { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public override string ToString() { }
@@ -683,8 +690,8 @@ namespace FluentAssertions.Equivalency
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberSelectionRule> SelectionRules { get; }
         FluentAssertions.Equivalency.ITraceWriter TraceWriter { get; }
         bool UseRuntimeTyping { get; }
+        System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep> UserEquivalencySteps { get; }
         FluentAssertions.Equivalency.EqualityStrategy GetEqualityStrategy(System.Type type);
-        System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep> GetUserEquivalencySteps(FluentAssertions.Equivalency.ConversionSelector conversionSelector);
     }
     public interface IEquivalencyStep
     {
@@ -698,7 +705,7 @@ namespace FluentAssertions.Equivalency
         object Expectation { get; }
         bool IsRoot { get; }
         bool RootIsCollection { get; set; }
-        object Subject { get; }
+        object Subject { get; set; }
         FluentAssertions.Equivalency.ITraceWriter Tracer { get; set; }
         System.IDisposable TraceBlock(FluentAssertions.Equivalency.GetTraceMessage getMessage);
         void TraceSingle(FluentAssertions.Equivalency.GetTraceMessage getMessage);
@@ -795,8 +802,6 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingFields() { }
         public TSelf IncludingNestedObjects() { }
         public TSelf IncludingProperties() { }
-        protected void RemoveSelectionRule<T>()
-            where T : FluentAssertions.Equivalency.IMemberSelectionRule { }
         public TSelf RespectingDeclaredTypes() { }
         public TSelf RespectingRuntimeTypes() { }
         public TSelf ThrowingOnMissingMembers() { }
@@ -817,7 +822,7 @@ namespace FluentAssertions.Equivalency
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public class Restriction<TMember>
         {
-            public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
+            public Restriction(TSelf options, FluentAssertions.Equivalency.ConversionSelector conversionSelector, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
             public TSelf When(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
             public TSelf WhenTypeIs<TMemberType>() { }
         }
@@ -853,13 +858,6 @@ namespace FluentAssertions.Equivalency
         public static bool WhichGetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
         public static bool WhichSetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
         public static bool WhichSetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
-    }
-    public class TryConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public TryConversionStep(FluentAssertions.Equivalency.ConversionSelector selector) { }
-        public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
-        public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator structuralEqualityValidator, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
-        public override string ToString() { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {

@@ -10,21 +10,14 @@ namespace FluentAssertions.Equivalency
     /// <remarks>
     /// Whether or not the conversion is attempted depends on the <see cref="ConversionSelector"/>.
     /// </remarks>
-    public class TryConversionStep : IEquivalencyStep
+    public class AutoConversionStep : IEquivalencyStep
     {
-        private readonly ConversionSelector selector;
-
-        public TryConversionStep(ConversionSelector selector)
-        {
-            this.selector = selector;
-        }
-
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return selector.RequiresConversion(context);
+            return config.ConversionSelector.RequiresConversion(context);
         }
 
         /// <summary>
@@ -37,8 +30,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator,
-            IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             if ((context.Expectation is null) || (context.Subject is null))
             {
@@ -57,13 +49,12 @@ namespace FluentAssertions.Equivalency
             {
                 context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
 
-                IEquivalencyValidationContext newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
-
-                structuralEqualityValidator.AssertEqualityUsing(newContext);
-                return true;
+                context.Subject = convertedSubject;
             }
-
-            context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
+            else
+            {
+                context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
+            }
 
             return false;
         }
@@ -88,7 +79,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return selector.ToString();
+            return "";
         }
     }
 }
