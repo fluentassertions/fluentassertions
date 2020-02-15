@@ -321,7 +321,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Requires the expectation to have members which are equally named to members on the subject.
+        /// Requires the subject to have members which are equally named to members on the expectation.
         /// </summary>
         /// <returns></returns>
         public TSelf ThrowingOnMissingMembers()

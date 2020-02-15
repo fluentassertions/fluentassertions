@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
     internal static class EquivalencyAssertionOptionsExtensions
     {
         /// <summary>
-        /// Returns either the run-time or compile-time type of the subject based on the options provided by the caller.
+        /// Returns either the run-time or compile-time type of the expectation based on the options provided by the caller.
         /// </summary>
         /// <remarks>
         /// If the expectation is a nullable type, it should return the type of the wrapped object.
