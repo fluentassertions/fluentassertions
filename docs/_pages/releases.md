@@ -129,46 +129,46 @@ Kudos to [Lukas Grützmacher](https://github.com/lg2de), [Matthias Lischka](http
 ## 5.6.0
 
 **Fixes**
-* Provide opt-out to `AssertionOptions(o => o.WithStrictOrdering())` - #974 
-* Add collection assertion `ContainEquivalentOf` - #950
-* Add `Should().NotThrowAfter` assertion for actions - #942
+* Provide opt-out to `AssertionOptions(o => o.WithStrictOrdering())` -[#974](https://github.com/fluentassertions/fluentassertions/pull/974) 
+* Add collection assertion `ContainEquivalentOf` - [#950](https://github.com/fluentassertions/fluentassertions/pull/950)
+* Add `Should().NotThrowAfter` assertion for actions - [#942](https://github.com/fluentassertions/fluentassertions/pull/942)
 
 Kudos to @BrunoJuchli, @matthiaslischka and @frederik-h for these amazing additions. 
 
 ## 5.5.3
 
 **Fixes**
-* Performance fixes in `BeEquivalenTo` - #935 
-* Reverted 5.5.0 changes to `AssertionScope` to ensure binary compatibility - #977
+* Performance fixes in `BeEquivalenTo` - [#935](https://github.com/fluentassertions/fluentassertions/pull/935) 
+* Reverted 5.5.0 changes to `AssertionScope` to ensure binary compatibility - [#977](https://github.com/fluentassertions/fluentassertions/pull/977)
 
 ## 5.5.2
 
 **Fixes**
-* Allows `BeEquivalentTo` to handle a non-generic collection as the SUT - #975, #973
-* Optimized performance of `IncludeMemberByPathSelectionRule` - #969
+* Allows `BeEquivalentTo` to handle a non-generic collection as the SUT - [#975](https://github.com/fluentassertions/fluentassertions/pull/975), [#973](https://github.com/fluentassertions/fluentassertions/issues/973)
+* Optimized performance of `IncludeMemberByPathSelectionRule` - [#969](https://github.com/fluentassertions/fluentassertions/pull/969)
 
 ## 5.5.1
 
 **What's New**
-* Now provides a hint when strings differ in length and contain differences - #915, #907
-* Added `ThrowAsync`, `ThrowExactlyAsync` and `NotThrowAsync` - #931
-* Added support for `Should().Throw` and `Should().NotThrow` for `Func<T>` - #951
-* Added support for `private protected` access modifier - #932
-* Updated `BeApproximately` to support nullable types for both the subject and the expectation nullable - #934
-* Added `async` version of `ExecutionTime` to - #938
-* Updated `NotBeApproximately` to accepting nullable subject and expectation - #939
-* `type.Should().Be(type)` now support open generics - #954, #955 
+* Now provides a hint when strings differ in length and contain differences - [#915](https://github.com/fluentassertions/fluentassertions/pull/915), [#907](https://github.com/fluentassertions/fluentassertions/issues/907)
+* Added `ThrowAsync`, `ThrowExactlyAsync` and `NotThrowAsync` - [#931](https://github.com/fluentassertions/fluentassertions/pull/931)
+* Added support for `Should().Throw` and `Should().NotThrow` for `Func<T>` - [#951](https://github.com/fluentassertions/fluentassertions/pull/951)
+* Added support for `private protected` access modifier - [#932](https://github.com/fluentassertions/fluentassertions/pull/932)
+* Updated `BeApproximately` to support nullable types for both the subject and the expectation nullable - [#934](https://github.com/fluentassertions/fluentassertions/pull/934)
+* Added `async` version of `ExecutionTime` to - [#938](https://github.com/fluentassertions/fluentassertions/pull/938)
+* Updated `NotBeApproximately` to accepting nullable subject and expectation - [#939](https://github.com/fluentassertions/fluentassertions/pull/939)
+* `type.Should().Be(type)` now support open generics - [#954](https://github.com/fluentassertions/fluentassertions/issues/954), [#955](https://github.com/fluentassertions/fluentassertions/pull/955)
 
 **Fixes**
-* Minor performance improvements to prevent rendering messages if a test did not fail - #921, #915
-* Improve performance of `Should().AllBeEquivalentTo()` - #920, #914
-* Improve the presentation of enums to include the value and the number - #923, #897
-* `BeEquivalentTo` with `WithStrictOrdering` produced messy failure message - #918
-* Fixes detecting checking equivalency of a `null` subject to a dictionary - #933
-* Fixes duplicate conversions being mentioned in the output of the equivalency API - #941
-* Comparing an object graph against `IEnumerable` now works now as expected - #911
-* Selecting members during object graph assertions now better handles `new` overrides -#960, #956 
+* Minor performance improvements to prevent rendering messages if a test did not fail - [#921](https://github.com/fluentassertions/fluentassertions/pull/921), [#915](https://github.com/fluentassertions/fluentassertions/pull/915)
+* Improve performance of `Should().AllBeEquivalentTo()` - [#920](https://github.com/fluentassertions/fluentassertions/pull/920), [#914](https://github.com/fluentassertions/fluentassertions/issues/914)
+* Improve the presentation of enums to include the value and the number - [#923](https://github.com/fluentassertions/fluentassertions/pull/923), [#897](https://github.com/fluentassertions/fluentassertions/issues/897)
+* `BeEquivalentTo` with `WithStrictOrdering` produced messy failure message - [#918](https://github.com/fluentassertions/fluentassertions/issues/918)
+* Fixes detecting checking equivalency of a `null` subject to a dictionary - [#933](https://github.com/fluentassertions/fluentassertions/pull/933)
+* Fixes duplicate conversions being mentioned in the output of the equivalency API - [#941](https://github.com/fluentassertions/fluentassertions/pull/941)
+* Comparing an object graph against `IEnumerable` now works now as expected - [#911](https://github.com/fluentassertions/fluentassertions/pull/911)
+* Selecting members during object graph assertions now better handles `new` overrides - [#960](https://github.com/fluentassertions/fluentassertions/pull/960), [#956](https://github.com/fluentassertions/fluentassertions/issues/956) 
 
-**Note** In versions prior to 5.5, FA may have skipped certain properties in the equivalency comparison. #960 fixes this, so this may cause some breaking changes. 
+**Note** In versions prior to 5.5, FA may have skipped certain properties in the equivalency comparison. [#960](https://github.com/fluentassertions/fluentassertions/pull/960) fixes this, so this may cause some breaking changes. 
 
 Lots of kudos @jnyrup and @krajek for a majority for the work in this release.
