@@ -3483,6 +3483,82 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_throwing_on_missing_members_and_there_are_no_missing_members_should_not_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Version = 2,
+                Age = 36,
+            };
+
+            var expectation = new
+            {
+                Version = 2,
+                Age = 36
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.ThrowingOnMissingMembers());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_throwing_on_missing_members_and_there_is_a_missing_member_should_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Version = 2,
+                //Age = 36, //age is missing
+            };
+
+            var expectation = new
+            {
+                Version = 2,
+                Age = 36
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.ThrowingOnMissingMembers());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectation has member Age that the other object does not have*");
+        }
+
+        [Fact]
+        public void When_throwing_on_missing_members_and_there_is_an_additional_property_on_subject_should_not_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Version = 2,
+                Age = 36,
+                Additional = 13
+            };
+
+            var expectation = new
+            {
+                Version = 2,
+                Age = 36
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                options => options.ThrowingOnMissingMembers());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+
+
         #endregion
     }
 
