@@ -559,7 +559,7 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
-        public AssertionRuleEquivalencyStep(FluentAssertions.Equivalency.ConversionSelector conversionSelector, System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> action) { }
+        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public override string ToString() { }
