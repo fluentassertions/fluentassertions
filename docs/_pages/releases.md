@@ -32,6 +32,8 @@ sidebar:
   * Use the constructors taking a `subject` instead.
 * Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
   * Set the `Subject` through the constructor instead.
+* Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
+* Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 
 
 ## 5.10.1
