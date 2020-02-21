@@ -17,14 +17,10 @@ namespace FluentAssertions.Specs
             [Fact]
             public void When_injecting_a_null_configurer_it_should_throw()
             {
-                //-----------------------------------------------------------------------------------------------------------
                 // Arrange
-                //-----------------------------------------------------------------------------------------------------------
                 Action act = () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null);
 
-                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-                //-----------------------------------------------------------------------------------------------------------
                 act.Should().ThrowExactly<ArgumentNullException>()
                     .Which.ParamName.Should().Be("defaultsConfigurer");
             }

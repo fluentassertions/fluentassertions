@@ -5,9 +5,7 @@ namespace FluentAssertions.Execution
     /// <summary>
     /// Enables chaining multiple assertions on an <see cref="AssertionScope"/>.
     /// </summary>
-#if NET45
-    [Serializable]
-#endif
+
     public class Continuation
     {
         private readonly AssertionScope sourceScope;

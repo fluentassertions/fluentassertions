@@ -1,5 +1,4 @@
-﻿#if NET45 || NET47 || NETCOREAPP1_1
-
+﻿
 using System;
 
 namespace FluentAssertions.Specs
@@ -44,4 +43,3 @@ namespace FluentAssertions.Specs
         }
     }
 }
-#endif

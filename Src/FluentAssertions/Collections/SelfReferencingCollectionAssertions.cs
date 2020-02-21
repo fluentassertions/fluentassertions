@@ -669,5 +669,111 @@ namespace FluentAssertions.Collections
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements);
         }
+
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements, which meet
+        /// the criteria provided by the element inspectors.
+        /// </summary>
+        /// <param name="elementInspectors">
+        /// The element inspectors, which inspect each element in turn. The
+        /// total number of element inspectors must exactly match the number of elements in the collection.
+        /// </param>
+        public AndConstraint<TAssertions> SatisfyRespectively(params Action<T>[] elementInspectors)
+        {
+            return SatisfyRespectively(elementInspectors, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements, which meet
+        /// the criteria provided by the element inspectors.
+        /// </summary>
+        /// <param name="expected">
+        /// The element inspectors, which inspect each element in turn. The
+        /// total number of element inspectors must exactly match the number of elements in the collection.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
+
+            ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
+            if (!elementInspectors.Any())
+            {
+                throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
+                .ForCondition(!(Subject is null))
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(Subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
+            int elementsCount = Subject.Count();
+            int inspectorsCount = elementInspectors.Count;
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(elementsCount == inspectorsCount)
+                .FailWith("Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
+                    inspectorsCount, elementsCount);
+
+            string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+
+            if (failuresFromInspectors.Any())
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+        {
+            string[] collectionFailures;
+            using (var collectionScope = new AssertionScope())
+            {
+                int index = 0;
+                foreach ((T element, Action<T> inspector) in Subject.Zip(elementInspectors, (element, inspector) => (element, inspector)))
+                {
+                    string[] inspectorFailures;
+                    using (var itemScope = new AssertionScope())
+                    {
+                        inspector(element);
+                        inspectorFailures = itemScope.Discard();
+                    }
+
+                    if (inspectorFailures.Length > 0)
+                    {
+                        // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
+                        string failures = string.Join(Environment.NewLine, inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+                        collectionScope.AddPreFormattedFailure($"At index {index}:{Environment.NewLine}{failures}");
+                    }
+
+                    index++;
+                }
+
+                collectionFailures = collectionScope.Discard();
+            }
+
+            return collectionFailures;
+        }
     }
 }

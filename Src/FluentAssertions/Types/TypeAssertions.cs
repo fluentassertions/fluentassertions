@@ -219,16 +219,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes<TAttribute>();
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -245,7 +247,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
@@ -253,13 +255,15 @@ namespace FluentAssertions.Types
 
             BeDecoratedWith<TAttribute>(because, becauseArgs);
 
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith(isMatchingAttributePredicate))
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -272,16 +276,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes<TAttribute>();
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWithOrInherit<TAttribute>())
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
                     Subject, typeof(TAttribute));
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -298,7 +304,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWithOrInherit<TAttribute>(
+        public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
@@ -306,13 +312,15 @@ namespace FluentAssertions.Types
 
             BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes(isMatchingAttributePredicate);
+
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
+                .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
-            return new AndConstraint<TypeAssertions>(this);
+            return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -707,12 +715,12 @@ namespace FluentAssertions.Types
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
-            Execute.Assertion.ForCondition(propertyInfo != null)
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.");
-
-            Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
-                .BecauseOf(because, becauseArgs)
+                .ForCondition(propertyInfo != null)
+                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
+                .Then
+                .ForCondition(propertyInfo.PropertyType == propertyType)
                 .FailWith(string.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
                     propertyInfoDescription, propertyType));
 
@@ -1138,39 +1146,9 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'HaveImplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
-        {
-            return HaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type has an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The type to convert from.</typeparam>
-        /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
             return HaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type has an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
-        /// </summary>
-        /// <param name="sourceType">The type to convert from.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'HaveImplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
-        {
-            return HaveImplicitConversionOperator(sourceType, targetType, because, becauseArgs);
         }
 
         /// <summary>
@@ -1201,39 +1179,9 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'NotHaveImplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
-        {
-            return NotHaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type does not have an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The type to convert from.</typeparam>
-        /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
             return NotHaveImplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type does not have an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
-        /// </summary>
-        /// <param name="sourceType">The type to convert from.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'NotHaveImplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
-        {
-            return NotHaveImplicitConversionOperator(sourceType, targetType, because, becauseArgs);
         }
 
         /// <summary>
@@ -1264,39 +1212,9 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'HaveExplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
-        {
-            return HaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type has an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The type to convert from.</typeparam>
-        /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
             return HaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type has an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
-        /// </summary>
-        /// <param name="sourceType">The type to convert from.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'HaveExplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
-        {
-            return HaveExplicitConversionOperator(sourceType, targetType, because, becauseArgs);
         }
 
         /// <summary>
@@ -1327,39 +1245,9 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'NotHaveExplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
-        {
-            return NotHaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type does not have an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The type to convert from.</typeparam>
-        /// <typeparam name="TTarget">The type to convert to.</typeparam>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
         public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
         {
             return NotHaveExplicitConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current type does not have an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
-        /// </summary>
-        /// <param name="sourceType">The type to convert from.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="because" />.</param>
-        [Obsolete("This method is deprecated in favor of 'NotHaveExplicitConversionOperator' and will be removed in v6.X.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
-        {
-            return NotHaveExplicitConversionOperator(sourceType, targetType, because, becauseArgs);
         }
 
         /// <summary>

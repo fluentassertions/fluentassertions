@@ -19,21 +19,22 @@ namespace FluentAssertions.Equivalency
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
                 .FailWith(
-                    "Expected {context:subject} to be <null>, but found {0}.",
+                    "Expected {context:subject} to be <null>{reason}, but found {0}.",
                     context.Subject);
 
-            bool subjectIsNotNull =
-                AssertionScope.Current.ForCondition(
-                    !(context.Subject is null))
-                    .FailWith(
-                        "Expected {context:object} to be {0}{reason}, but found {1}.",
-                        context.Expectation,
-                        context.Subject);
+            bool subjectIsNotNull = AssertionScope.Current
+                .ForCondition(!(context.Subject is null))
+                .BecauseOf(context.Because, context.BecauseArgs)
+                .FailWith(
+                    "Expected {context:object} to be {0}{reason}, but found {1}.",
+                    context.Expectation,
+                    context.Subject);
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
+                SelectedMemberInfo[] selectedMembers = GetMembersFromExpectation(context, config).ToArray();
                 if (context.IsRoot && !selectedMembers.Any())
                 {
                     throw new InvalidOperationException(
@@ -76,14 +77,14 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context,
+        private IEnumerable<SelectedMemberInfo> GetMembersFromExpectation(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
-            foreach (IMemberSelectionRule selectionRule in config.SelectionRules)
+            foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
-                members = selectionRule.SelectMembers(members, context, config);
+                members = rule.SelectMembers(members, context, config);
             }
 
             return members;

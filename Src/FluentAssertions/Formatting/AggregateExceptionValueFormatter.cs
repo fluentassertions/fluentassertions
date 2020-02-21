@@ -17,22 +17,7 @@ namespace FluentAssertions.Formatting
             return value is AggregateException;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="context"> </param>
-        /// <param name="formatChild"></param>
-        /// <param name="processedObjects">
-        /// A collection of objects that
-        /// </param>
-        /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
             var exception = (AggregateException)value;

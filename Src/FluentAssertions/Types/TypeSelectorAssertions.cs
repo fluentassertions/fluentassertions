@@ -26,7 +26,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public IEnumerable<Type> Subject { get; private set; }
+        public IEnumerable<Type> Subject { get; }
 
         /// <summary>
         /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.

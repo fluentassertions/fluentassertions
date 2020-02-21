@@ -17,7 +17,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public IEnumerable<PropertyInfo> SubjectProperties { get; private set; }
+        public IEnumerable<PropertyInfo> SubjectProperties { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.

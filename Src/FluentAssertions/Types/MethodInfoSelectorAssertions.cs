@@ -18,7 +18,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
         /// </summary>
-        /// <param name="methodInfo">The methods to assert.</param>
+        /// <param name="methods">The methods to assert.</param>
         public MethodInfoSelectorAssertions(params MethodInfo[] methods)
         {
             SubjectMethods = methods;
@@ -27,7 +27,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public IEnumerable<MethodInfo> SubjectMethods { get; private set; }
+        public IEnumerable<MethodInfo> SubjectMethods { get; }
 
         /// <summary>
         /// Asserts that the selected methods are virtual.

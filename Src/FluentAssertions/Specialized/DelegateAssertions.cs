@@ -69,7 +69,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotThrow<TException>(string because = "", params object[] becauseArgs)
+        public AndConstraint<DelegateAssertions<TDelegate>> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specialized
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            NotThrow<TException>(exception, because, becauseArgs);
+            return NotThrow<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotThrow(string because = "", params object[] becauseArgs)
+        public AndConstraint<DelegateAssertions<TDelegate>> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is object)
@@ -101,7 +101,7 @@ namespace FluentAssertions.Specialized
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            NotThrow(exception, because, becauseArgs);
+            return NotThrow(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public AndConstraint<DelegateAssertions<TDelegate>> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is object)
@@ -194,7 +194,7 @@ namespace FluentAssertions.Specialized
                 exception = InvokeSubjectWithInterception();
                 if (exception is null)
                 {
-                    return;
+                    break;
                 }
 
                 Clock.Delay(pollInterval);
@@ -203,7 +203,10 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(exception is null)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+
+            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
         }
 
         protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
@@ -212,37 +215,41 @@ namespace FluentAssertions.Specialized
             TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
 
             Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
                 .ForCondition(exception != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
-
-            Execute.Assertion
+                .FailWith("but no exception was thrown.")
+                .Then
                 .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected a <{0}> to be thrown{reason}, but found <{1}>: {2}{3}.",
-                    typeof(TException), exception?.GetType(),
+                .FailWith("but found <{0}>: {1}{2}.",
+                    exception?.GetType(),
                     Environment.NewLine,
-                    exception);
+                    exception)
+                .Then
+                .ClearExpectation();
 
             return new ExceptionAssertions<TException>(expectedExceptions);
         }
 
-        protected void NotThrow(Exception exception, string because, object[] becauseArgs)
+        protected AndConstraint<DelegateAssertions<TDelegate>> NotThrow(Exception exception, string because, object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(exception is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+
+            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
         }
 
-        protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        protected AndConstraint<DelegateAssertions<TDelegate>> NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
         {
             IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
             Execute.Assertion
                 .ForCondition(!exceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
+
+            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
         }
 
         protected abstract void InvokeSubject();

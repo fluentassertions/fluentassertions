@@ -18,7 +18,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public Guid? Subject { get; private set; }
+        public Guid? Subject { get; }
 
         #region BeEmpty / NotBeEmpty
 

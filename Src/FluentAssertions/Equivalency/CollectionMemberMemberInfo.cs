@@ -18,14 +18,14 @@ namespace FluentAssertions.Equivalency
             return propertyPath.Substring(propertyPath.IndexOf('.') + 1);
         }
 
-        public SelectedMemberInfo SelectedMemberInfo { get; private set; }
+        public SelectedMemberInfo SelectedMemberInfo { get; }
 
-        public string SelectedMemberPath { get; private set; }
+        public string SelectedMemberPath { get; }
 
-        public string SelectedMemberDescription { get; private set; }
+        public string SelectedMemberDescription { get; }
 
-        public Type CompileTimeType { get; private set; }
+        public Type CompileTimeType { get; }
 
-        public Type RuntimeType { get; private set; }
+        public Type RuntimeType { get; }
     }
 }
