@@ -1854,7 +1854,7 @@ namespace FluentAssertions.Types
             where TBaseClass :  class { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeSealed(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeStatic(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<System.Type> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.ConstructorInfo> HaveConstructor(System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.ConstructorInfo> HaveDefaultConstructor(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.MethodInfo> HaveExplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
@@ -1892,7 +1892,7 @@ namespace FluentAssertions.Types
             where TBaseClass :  class { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<System.Type> NotHaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.ConstructorInfo> NotHaveConstructor(System.Collections.Generic.IEnumerable<System.Type> parameterTypes, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, System.Reflection.ConstructorInfo> NotHaveDefaultConstructor(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotHaveExplicitConversionOperator(System.Type sourceType, System.Type targetType, string because = "", params object[] becauseArgs) { }
