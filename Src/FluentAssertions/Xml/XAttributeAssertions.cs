@@ -54,7 +54,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
+                .ForCondition(!Subject.Name.Equals(unexpected.Name) || Subject.Value != unexpected.Value)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect XML attribute to be {0}{reason}.", unexpected);
 

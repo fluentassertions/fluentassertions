@@ -92,7 +92,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue)
                 .FailWith("but found <null>.")
                 .Then
-                .ForCondition(Subject.Value.CompareTo(expected) == 0)
+                .ForCondition(Subject.Value == expected)
                 .FailWith("but found {0}.", Subject.Value)
                 .Then
                 .ClearExpectation();
@@ -115,7 +115,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue || Subject.Value.CompareTo(unexpected) != 0)
+                .ForCondition(!Subject.HasValue || Subject.Value != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}.", unexpected);
 
