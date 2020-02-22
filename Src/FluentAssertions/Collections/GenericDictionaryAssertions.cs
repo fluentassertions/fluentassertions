@@ -434,7 +434,7 @@ namespace FluentAssertions.Collections
             foreach (var key in expected.Keys)
             {
                 Execute.Assertion
-                    .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
+                    .ForCondition(EqualityComparer<TValue>.Default.Equals(Subject[key], expected[key]))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
                     expected, Subject, key);
@@ -480,7 +480,7 @@ namespace FluentAssertions.Collections
 
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || (Subject.Keys.Any(key => !Subject[key].IsSameOrEqualTo(unexpected[key])));
+                    || (Subject.Keys.Any(key => !EqualityComparer<TValue>.Default.Equals(Subject[key], unexpected[key])));
 
             if (!foundDifference)
             {
@@ -1037,7 +1037,7 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !EqualityComparer<TValue>.Default.Equals(Subject[keyValuePair.Key], keyValuePair.Value)).ToArray();
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
@@ -1110,7 +1110,7 @@ namespace FluentAssertions.Collections
             if (Subject.TryGetValue(key, out TValue actual))
             {
                 Execute.Assertion
-                    .ForCondition(actual.IsSameOrEqualTo(value))
+                    .ForCondition(EqualityComparer<TValue>.Default.Equals(actual, value))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
@@ -1178,7 +1178,7 @@ namespace FluentAssertions.Collections
             if (keyValuePairsFound.Any())
             {
                 KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
-                    .Where(keyValuePair => Subject[keyValuePair.Key].IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                    .Where(keyValuePair => EqualityComparer<TValue>.Default.Equals(Subject[keyValuePair.Key], keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -1250,7 +1250,7 @@ namespace FluentAssertions.Collections
             if (Subject.TryGetValue(key, out TValue actual))
             {
                 Execute.Assertion
-                    .ForCondition(!actual.IsSameOrEqualTo(value))
+                    .ForCondition(!EqualityComparer<TValue>.Default.Equals(actual, value))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
             }
