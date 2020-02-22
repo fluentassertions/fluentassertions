@@ -244,21 +244,9 @@ namespace FluentAssertions.Collections
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)
         {
-            Func<T, T, bool> comparer = GetComparer();
-
-            AssertSubjectEquality(elements, comparer, string.Empty);
+            AssertSubjectEquality(elements, (T x, T y) => EqualityComparer<T>.Default.Equals(x, y), string.Empty);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        private static Func<T, T, bool> GetComparer()
-        {
-            if (typeof(T).GetTypeInfo().IsValueType)
-            {
-                return (T s, T e) => s.Equals(e);
-            }
-
-            return (T s, T e) => Equals(s, e);
         }
 
         /// <summary>

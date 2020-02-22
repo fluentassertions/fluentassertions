@@ -22,7 +22,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         public new AndConstraint<StringCollectionAssertions> Equal(params string[] expected)
         {
-            return base.Equal(expected.AsEnumerable());
+            return Equal(expected, (a, b) => a == b);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         public AndConstraint<StringCollectionAssertions> Equal(IEnumerable<string> expected)
         {
-            return base.Equal(expected);
+            return Equal(expected, (a, b) => a == b);
         }
 
         /// <summary>
@@ -281,7 +281,5 @@ namespace FluentAssertions.Collections
                 });
             }
         }
-
-        
     }
 }
