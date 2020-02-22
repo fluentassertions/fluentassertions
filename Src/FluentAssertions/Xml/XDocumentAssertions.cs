@@ -38,15 +38,9 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> Be(XDocument expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .ForCondition(Equals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected XML document to be {0}{reason}, ", expected)
-                .ForCondition(!(Subject is null))
-                .FailWith("but found <null>.")
-                .Then
-                .ForCondition(Subject.Equals(expected))
-                .FailWith("but found {0}.", Subject)
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected XML document to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -66,11 +60,8 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
+                .ForCondition(!Equals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!(Subject is null))
-                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected)
-                .Then
-                .ForCondition(!Subject.Equals(unexpected))
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);
