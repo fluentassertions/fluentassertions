@@ -8,24 +8,65 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     {
-        private readonly Expression<Func<IMemberInfo, bool>> canHandle;
+        private readonly Expression<Func<IMemberInfo, bool>> predicate;
+        private readonly Action<IAssertionContext<TSubject>> assertion;
+        private readonly AutoConversionStep converter = new AutoConversionStep();
 
-        private readonly Action<IAssertionContext<TSubject>> handle;
-
-        public AssertionRuleEquivalencyStep(Expression<Func<IMemberInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
+        public AssertionRuleEquivalencyStep(
+            Expression<Func<IMemberInfo, bool>> predicate,
+            Action<IAssertionContext<TSubject>> assertion)
         {
-            canHandle = predicate;
-            handle = action;
+            this.predicate = predicate;
+            this.assertion = assertion;
         }
 
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config) => true;
+
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config)
         {
-            Func<IMemberInfo, bool> predicate = canHandle.Compile();
+            bool success = false;
+            using (var scope = new AssertionScope())
+            {
+                // Try without conversion
+                if (AppliesTo(context))
+                {
+                    success = ExecuteAssertion(context);
+                }
+
+                bool converted = false;
+                if (!success && converter.CanHandle(context, config))
+                {
+                    // Convert into a child context
+                    context = context.Clone();
+                    converter.Handle(context, parent, config);
+                    converted = true;
+                }
+
+                if (converted && AppliesTo(context))
+                {
+                    // Try again after conversion
+                    success = ExecuteAssertion(context);
+                    if (success)
+                    {
+                        // If the assertion succeeded after conversion, discard the failures from
+                        // the previous attempt. If it didn't, let the scope throw with those failures.
+                        scope.Discard();
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        private bool AppliesTo(IEquivalencyValidationContext context)
+        {
+            Func<IMemberInfo, bool> predicate = this.predicate.Compile();
 
             return predicate(context);
         }
 
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        private bool ExecuteAssertion(IEquivalencyValidationContext context)
         {
             bool subjectIsNull = context.Subject is null;
 
@@ -45,7 +86,7 @@ namespace FluentAssertions.Equivalency
 
             if (subjectIsValidType && expectationIsValidType)
             {
-                handle(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
+                assertion(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
                 return true;
             }
 
@@ -61,7 +102,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Invoke Action<" + typeof(TSubject).Name + "> when " + canHandle.Body;
+            return "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
         }
     }
 }

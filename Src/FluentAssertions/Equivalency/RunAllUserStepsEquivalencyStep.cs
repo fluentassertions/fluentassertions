@@ -10,13 +10,13 @@ namespace FluentAssertions.Equivalency
     {
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return config.GetUserEquivalencySteps(config.ConversionSelector).Any(s => s.CanHandle(context, config));
+            return config.UserEquivalencySteps.Any(s => s.CanHandle(context, config));
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            foreach (IEquivalencyStep step in config.GetUserEquivalencySteps(config.ConversionSelector))
+            foreach (IEquivalencyStep step in config.UserEquivalencySteps)
             {
                 if (step.CanHandle(context, config) && step.Handle(context, parent, config))
                 {
