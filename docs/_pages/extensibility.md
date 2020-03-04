@@ -97,7 +97,7 @@ So in this case, our nicely created `ContainFile` extension method will display 
 
 Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
 
-You can hook-up your own formatters in several ways, but what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
+You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
 ```
 string Format(object value, FormattingContext context, FormatChild formatChild);
