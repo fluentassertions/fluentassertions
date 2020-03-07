@@ -263,9 +263,9 @@ namespace FluentAssertions.Collections
         protected CollectionAssertions(TSubject subject) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<T>> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<T>> AllBeOfType<T>(string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionEndsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpected> expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionEndsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actual, TExpected[] expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionStartsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpected> expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }

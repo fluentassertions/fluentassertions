@@ -3679,6 +3679,17 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_matching_a_collection_against_a_type_it_should_return_the_casted_items()
+        {
+            // Arrange
+            IEnumerable collection = new int[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().AllBeAssignableTo<int>()
+                .Which.Should().Equal(1, 2, 3);
+        }
+
+        [Fact]
         public void When_all_of_the_types_in_a_collection_match_the_type_or_subtype_it_should_succeed()
         {
             // Arrange
@@ -3772,6 +3783,17 @@ namespace FluentAssertions.Specs
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
+        }
+
+        [Fact]
+        public void When_matching_a_collection_against_an_exact_type_it_should_return_the_casted_items()
+        {
+            // Arrange
+            IEnumerable collection = new int[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().AllBeOfType<int>()
+                .Which.Should().Equal(1, 2, 3);
         }
 
         [Fact]
