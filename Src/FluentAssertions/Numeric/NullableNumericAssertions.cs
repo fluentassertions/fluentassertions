@@ -8,12 +8,14 @@ namespace FluentAssertions.Numeric
 {
     [DebuggerNonUserCode]
     public class NullableNumericAssertions<T> : NumericAssertions<T>
-        where T : struct
+        where T : struct, IComparable<T>
     {
         public NullableNumericAssertions(T? value)
             : base(value)
         {
         }
+
+        public new T? Subject => SubjectInternal;
 
         /// <summary>
         /// Asserts that a nullable numeric value is not <c>null</c>.
@@ -28,7 +30,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NullableNumericAssertions<T>> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -63,7 +65,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is null)
+                .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
@@ -105,7 +107,7 @@ namespace FluentAssertions.Numeric
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
             Execute.Assertion
-                .ForCondition(predicate.Compile()((T?)Subject))
+                .ForCondition(predicate.Compile()(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate.Body, Subject);
 
