@@ -1633,9 +1633,21 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TAssertions, IEnumerable<T>> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
-            return AllBeAssignableTo(typeof(T), because, becauseArgs);
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", typeof(T).FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => typeof(T).GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
+
+            return new AndWhichConstraint<TAssertions, IEnumerable<T>>((TAssertions)this, Subject.OfType<T>());
         }
 
         /// <summary>
@@ -1677,9 +1689,21 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<TAssertions, IEnumerable<T>> AllBeOfType<T>(string because = "", params object[] becauseArgs)
         {
-            return AllBeOfType(typeof(T), because, becauseArgs);
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", typeof(T).FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => typeof(T) == GetType(x)))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
+
+            return new AndWhichConstraint<TAssertions, IEnumerable<T>>((TAssertions)this, Subject.OfType<T>());
         }
 
         /// <summary>
