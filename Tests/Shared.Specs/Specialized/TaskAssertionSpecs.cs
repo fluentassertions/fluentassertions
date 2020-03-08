@@ -96,7 +96,7 @@ namespace FluentAssertions.Specs
             // Act
             Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
             taskFactory.SetResult(true);
-            timer.CompletesBeforeTimeout();
+            timer.Complete();
 
             // Assert
             action.Should().NotThrow();
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
-            timer.RunsIntoTimeout();
+            timer.Complete();
 
             // Assert
             action.Should().Throw<XunitException>();

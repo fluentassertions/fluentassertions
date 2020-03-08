@@ -711,6 +711,16 @@ namespace FluentAssertions
             return new FunctionAssertions<T>(func, extractor);
         }
 
+        /// <summary>
+        /// Returns a <see cref="TaskCompletionSourceAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="TaskCompletionSource{T}"/>.
+        /// </summary>
+        [Pure]
+        public static TaskCompletionSourceAssertions<T> Should<T>(this TaskCompletionSource<T> tcs)
+        {
+            return new TaskCompletionSourceAssertions<T>(tcs);
+        }
+
 #if !NETSTANDARD2_0
 
         /// <summary>

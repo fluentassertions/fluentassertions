@@ -36,13 +36,29 @@ namespace FluentAssertions.Specs
             elapsedTime += timeToDelay;
         }
 
+        public void Complete()
+        {
+            // the value is not relevant
+            delayTask.SetResult(true);
+        }
+
+        public void CompleteAfter(TimeSpan timeSpan)
+        {
+            this.Delay(timeSpan);
+
+            // the value is not relevant
+            delayTask.SetResult(true);
+        }
+
         public void CompletesBeforeTimeout()
         {
+            // the value is only relevant when IClock.Wait is involved
             delayTask.SetResult(true);
         }
 
         public void RunsIntoTimeout()
         {
+            // the value is only relevant when IClock.Wait is involved
             delayTask.SetResult(false);
         }
     }
