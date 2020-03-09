@@ -39,10 +39,10 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET Core 2.1 and 3.0, .NET Standard 2.0 and 2.1.
+Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET Core 2.1 and 3.1, .NET Standard 2.0 and 2.1.
 
 Because of that Fluent Assertions supports the following minimum platforms.
-*   .NET Core 2.1 and 3.0
+*   .NET Core 2.1 and 3.1
 *   .NET Framework 4.7 and later
 *   Mono 5.4, Xamarin.iOS 10.14, Xamarin.Mac 3.8 and Xamarin.Android 8.0
 *   Universal Windows Platform 10.0.16299 and later
@@ -82,6 +82,6 @@ The version numbers of Fluent Assertions releases comply to the [Semantic Versio
 
 ## What do you need to compile the solution?
 
-* Visual Studio 2019 or Jetbrains Rider and Build Tools 2017
+* Visual Studio 2019 (package ".NET desktop development" plus ".NET 4.7 target package") or Jetbrains Rider and Build Tools 2017
 * Windows 10
-* .NET Core SDK 3.0
+* .NET Core SDK 3.1

@@ -1,4 +1,4 @@
-﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.0", FrameworkDisplayName="")]
+﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.1", FrameworkDisplayName="")]
 namespace FluentAssertions
 {
     public class AggregateExceptionExtractor : FluentAssertions.Specialized.IExtractExceptions

@@ -3,7 +3,7 @@
 // it will often throw a PlatformNotSupport exception. See
 // https://docs.microsoft.com/en-us/dotnet/api/system.configuration.configurationmanager?view=netframework-4.8
 
-#if NET47 || NETCOREAPP2_1 || NETCOREAPP3_0
+#if NET47 || NETCOREAPP2_1 || NETCOREAPP3_1
 
 using System.Configuration;
 

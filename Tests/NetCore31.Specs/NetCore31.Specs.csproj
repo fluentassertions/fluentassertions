@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <AssemblyName>FluentAssertions.NetCore30.Specs</AssemblyName>
-    <RootNamespace>FluentAssertions.NetCore30.Specs</RootNamespace>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>FluentAssertions.NetCore31.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.NetCore31.Specs</RootNamespace>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
 
     <IsPackable>false</IsPackable>

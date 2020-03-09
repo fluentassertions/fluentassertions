@@ -18,7 +18,7 @@ namespace Approval.Tests
         [InlineData("FluentAssertions", "netstandard2.0")]
         [InlineData("FluentAssertions", "netstandard2.1")]
         [InlineData("FluentAssertions", "netcoreapp2.1")]
-        [InlineData("FluentAssertions", "netcoreapp3.0")]
+        [InlineData("FluentAssertions", "netcoreapp3.1")]
         [UseReporter(typeof(DiffReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void ApproveApi(string projectName, string frameworkVersion)

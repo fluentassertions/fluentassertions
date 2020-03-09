@@ -10,7 +10,7 @@ sidebar:
 ## 6.0.0
 
 **What's New**
-* Added official support for .NET Core 3.0
+* Added official support for .NET Core 3.1
 * Added `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects.
 * Added `collectionOfStrings.Should().NotContainMatch()` to assert that the collection does not contain a string that matches a wildcard pattern 
 * The `Using`/`When` option on `BeEquivalentTo` will now use the conversion rules when trying to match the predicate.
@@ -20,7 +20,7 @@ sidebar:
 * Changed dictionary assertion `NotContainKeys` to honour the key comparer if applicable[1233](https://github.com/fluentassertions/fluentassertions/pull/1233)
 
 **Breaking Changes**
-* Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227)
+* Dropped support for .NET Framework 4.5, .NET Core 2.0 and 3.0, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227)
 * Dropped support for older test frameworks such as MSTest v1, NSpec v1 and v2, XUnit v1, Gallio and MBUnit - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227)
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
   * Use the equivalent assertions without the typo "plict" instead.

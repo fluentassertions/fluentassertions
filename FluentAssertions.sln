@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net47.Specs", "Tests\Net47.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Tests\Benchmarks\Benchmarks.csproj", "{FCAFB0F1-79EA-4D49-813B-188D4BC4BE71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore30.Specs", "Tests\NetCore30.Specs\NetCore30.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore31.Specs", "Tests\NetCore31.Specs\NetCore31.Specs.csproj", "{05727385-DA56-4FC1-B44A-79DFECC3198A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Approval.Tests", "Tests\Approval.Tests\Approval.Tests.csproj", "{F5115158-A038-4D14-A04E-46E7863E40B9}"
 EndProject

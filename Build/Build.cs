@@ -86,7 +86,7 @@ class Build : NukeBuild
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore20.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("NetCore21.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore30.Specs"))));
+                    cc => cc.SetProjectFile(Solution.GetProject("NetCore31.Specs"))));
 
 
         });

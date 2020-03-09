@@ -41,7 +41,7 @@ namespace FluentAssertions.Common
         public static void ResetToDefaults()
         {
             Reflector = new FullFrameworkReflector();
-#if NET47 || NETCOREAPP2_1 || NETCOREAPP3_0
+#if NET47 || NETCOREAPP2_1 || NETCOREAPP3_1
             ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
 #else
             ConfigurationStore = new NullConfigurationStore();

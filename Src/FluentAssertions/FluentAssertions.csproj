@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net47;netcoreapp2.1;netcoreapp3.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net47;netcoreapp2.1;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -13,7 +13,7 @@
     <Authors>Dennis Doomen;Jonas Nyrup</Authors>
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests. Targets .NET Framework 4.7, .NET Core 2.1 and 3.0, as well as .NET Standard 2.0 and 2.1.
+      BDD-style unit tests. Targets .NET Framework 4.7, .NET Core 2.1 and 3.1, as well as .NET Standard 2.0 and 2.1.
       Supports the unit test frameworks MSTest2, NUnit3, XUnit2, MSpec, and NSpec3.
     </PackageDescription>
     <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
@@ -44,7 +44,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
