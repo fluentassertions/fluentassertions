@@ -17,7 +17,7 @@ namespace FluentAssertions.Specialized
 
         public TaskCompletionSourceAssertions(TaskCompletionSource<T> tcs, IClock clock)
         {
-            this.subject = tcs;
+            subject = tcs;
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
@@ -37,7 +37,7 @@ namespace FluentAssertions.Specialized
         public Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            return this.AssertAsync(timeSpan, because, becauseArgs,
+            return AssertAsync(timeSpan, because, becauseArgs,
                 "Expected {context} to complete within {0}{reason}, but found <null>.",
                 "Expected {context:task} to complete within {0}{reason}.",
                 new object[] { timeSpan });
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specialized
             string because = "", params object[] becauseArgs)
         {
             var timeSpan = AssertionOptions.TaskTimeout;
-            return this.AssertAsync(timeSpan, because, becauseArgs,
+            return AssertAsync(timeSpan, because, becauseArgs,
                 "Expected {context} to complete{reason}, but found <null>.",
                 "Expected {context:task} to complete{reason}.",
                 new object[0]);
@@ -77,29 +77,27 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failMessage1, failArgs);
 
-            using (var timeoutCancellationTokenSource = new CancellationTokenSource())
+            using var timeoutCancellationTokenSource = new CancellationTokenSource();
+            Task completedTask;
+            using (NoSynchronizationContextScope.Enter())
             {
-                Task completedTask;
-                using (NoSynchronizationContextScope.Enter())
-                {
-                    completedTask = await Task.WhenAny(
-                        this.subject.Task,
-                        Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
-                }
-
-                if (completedTask == this.subject.Task)
-                {
-                    timeoutCancellationTokenSource.Cancel();
-                    await completedTask;
-                }
-
-                Execute.Assertion
-                    .ForCondition(completedTask == this.subject.Task)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(failMessage2, failArgs);
-
-                return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, this.subject.Task.Result);
+                completedTask = await Task.WhenAny(
+                    subject.Task,
+                    Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
             }
+
+            if (completedTask == subject.Task)
+            {
+                timeoutCancellationTokenSource.Cancel();
+                await completedTask;
+            }
+
+            Execute.Assertion
+                .ForCondition(completedTask == subject.Task)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failMessage2, failArgs);
+
+            return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, subject.Task.Result);
         }
     }
 }
