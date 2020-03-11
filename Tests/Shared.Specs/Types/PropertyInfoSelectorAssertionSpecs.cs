@@ -239,6 +239,38 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().NotThrow();
         }
+
+        [Fact]
+        public void When_a_writable_property_is_expected_to_be_read_only_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithWritableProperties));
+
+            // Act
+            Action action = () => propertyInfoSelector.Should().NotBeWritable("because we want to test the error {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected selected properties to not have a setter because we want to test the error message, " +
+                    "but the following properties do:*" +
+                    "String FluentAssertions.Specs.ClassWithWritableProperties.ReadWriteProperty*" +
+                    "String FluentAssertions.Specs.ClassWithWritableProperties.ReadWriteProperty2");
+        }
+
+        [Fact]
+        public void When_read_only_properties_are_expected_to_not_be_writable_it_should_not_throw()
+        {
+            // Arrange
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyReadOnlyProperties));
+
+            // Act
+            Action action = () => propertyInfoSelector.Should().NotBeWritable();
+
+            // Assert
+            action.Should().NotThrow();
+        }
     }
 
     #region Internal classes used in unit tests
@@ -273,9 +305,22 @@ namespace FluentAssertions.Specs
         public string ReadWriteProperty { get { return ""; } set { } }
     }
 
+    internal class ClassWithWritableProperties
+    {
+        public string ReadOnlyProperty { get { return ""; } }
+        public string ReadWriteProperty { get { return ""; } set { } }
+        public string ReadWriteProperty2 { get { return ""; } set { } }
+    }
+
     internal class ClassWithOnlyWritableProperties
     {
         public string ReadWriteProperty { set { } }
+    }
+
+    internal class ClassWithOnlyReadOnlyProperties
+    {
+        public string ReadOnlyProperty { get { return ""; } }
+        public string ReadOnlyProperty2 { get { return ""; } }
     }
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
