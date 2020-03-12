@@ -1830,6 +1830,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs) { }
     }
     public class TypeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Type, FluentAssertions.Types.TypeAssertions>
     {
