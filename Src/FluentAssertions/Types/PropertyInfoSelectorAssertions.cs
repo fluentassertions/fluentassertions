@@ -110,7 +110,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected properties does not have a setter.
+        /// Asserts that the selected properties do not have a setter.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
