@@ -38,6 +38,8 @@ sidebar:
 * Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * The new extension on `TaskCompletionSource<T>` overlays the previously used assertions based on `ObjectAssertions`.
+* Removed `[Not]BeCloseTo` for `DateTime[Offset]` and `TimeSpan` that took an `int precision` - [#1278](https://github.com/fluentassertions/fluentassertions/pull/1278).
+  * Use the overloads that take a `TimeSpan precision` instead.
 
 ## 5.10.3
 **Fixes**

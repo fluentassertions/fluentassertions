@@ -236,33 +236,6 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="TimeSpan"/> is within the specified number of milliseconds (default = 20 ms)
-        /// from the specified <paramref name="nearbyTime"/> value.
-        /// </summary>
-        /// <remarks>
-        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="Be"/>.
-        /// </remarks>
-        /// <param name="nearbyTime">
-        /// The expected time to compare the actual value with.
-        /// </param>
-        /// <param name="precision">
-        /// The maximum amount of milliseconds which the two values may differ.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, int precision = 20, string because = "",
-            params object[] becauseArgs)
-        {
-            return BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
-        }
-
-        /// <summary>
         /// Asserts that the current <see cref="TimeSpan"/> is within the specified time
         /// from the specified <paramref name="nearbyTime"/> value.
         /// </summary>
@@ -297,33 +270,6 @@ namespace FluentAssertions.Primitives
                     nearbyTime, Subject ?? default(TimeSpan?));
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="TimeSpan"/> is not within the specified number of milliseconds (default = 20 ms)
-        /// from the specified <paramref name="distantTime"/> value.
-        /// </summary>
-        /// <remarks>
-        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="NotBe"/>.
-        /// </remarks>
-        /// <param name="distantTime">
-        /// The time to compare the actual value with.
-        /// </param>
-        /// <param name="precision">
-        /// The maximum amount of milliseconds which the two values may differ.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> NotBeCloseTo(TimeSpan distantTime, int precision = 20, string because = "",
-            params object[] becauseArgs)
-        {
-            return NotBeCloseTo(distantTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
         }
 
         /// <summary>

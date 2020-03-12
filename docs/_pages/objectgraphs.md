@@ -160,7 +160,7 @@ In addition to influencing the members that are including in the comparison, you
 
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options
-    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .When(info => info.SelectedMemberPath.EndsWith("Date")));
 ```
 
@@ -168,7 +168,7 @@ If you want to do this for all members of a certain type, you can shorten the ab
 
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options 
-    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .WhenTypeIs<DateTime>());
 ```
 
