@@ -1154,6 +1154,58 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_approximating_positive_infinity_float_towards_positive_infinity_it_should_not_throw()
+        {
+            // Arrange
+            float value = float.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(float.PositiveInfinity, 0.1F);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_approximating_negative_infinity_float_towards_negative_infinity_it_should_not_throw()
+        {
+            // Arrange
+            float value = float.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(float.NegativeInfinity, 0.1F);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_float_is_not_approximating_positive_infinity_it_should_throw()
+        {
+            // Arrange
+            float value = float.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(float.MaxValue, 0.1F);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_float_is_not_approximating_negative_infinity_it_should_throw()
+        {
+            // Arrange
+            float value = float.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(float.MinValue, 0.1F);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_a_nullable_float_has_no_value_it_should_throw()
         {
             // Arrange
@@ -1205,6 +1257,58 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => value.Should().NotBeApproximately(3.14F, 0.1F);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_not_approximating_a_float_towards_positive_infinity_and_should_not_approximate_it_should_not_throw()
+        {
+            // Arrange
+            float value = float.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(float.MaxValue, 0.1F);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_not_approximating_a_float_towards_negative_infinity_and_should_not_approximate_it_should_not_throw()
+        {
+            // Arrange
+            float value = float.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(float.MinValue, 0.1F);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_approximating_positive_infinity_float_towards_positive_infinity_and_should_not_approximate_it_should_throw()
+        {
+            // Arrange
+            float value = float.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(float.PositiveInfinity, 0.1F);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_not_approximating_negative_infinity_float_towards_negative_infinity_and_should_not_approximate_it_should_throw()
+        {
+            // Arrange
+            float value = float.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(float.NegativeInfinity, 0.1F);
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -1338,6 +1442,59 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>();
         }
 
+        [Fact]
+        public void When_approximating_positive_infinity_double_towards_positive_infinity_it_should_not_throw()
+        {
+            // Arrange
+            double value = double.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(double.PositiveInfinity, 0.1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_approximating_negative_infinity_double_towards_negative_infinity_it_should_not_throw()
+        {
+            // Arrange
+            double value = double.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(double.NegativeInfinity, 0.1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_double_is_not_approximating_positive_infinity_it_should_throw()
+        {
+            // Arrange
+            double value = double.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(double.MaxValue, 0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_double_is_not_approximating_negative_infinity_it_should_throw()
+        {
+            // Arrange
+            double value = double.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(double.MinValue, 0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+
         [InlineData(9D)]
         [InlineData(11D)]
         [Theory]
@@ -1399,6 +1556,58 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => value.Should().NotBeApproximately(3.14, 0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_not_approximating_a_double_towards_positive_infinity_and_should_not_approximate_it_should_not_throw()
+        {
+            // Arrange
+            double value = double.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(double.MaxValue, 0.1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_not_approximating_a_double_towards_negative_infinity_and_should_not_approximate_it_should_not_throw()
+        {
+            // Arrange
+            double value = double.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(double.MinValue, 0.1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_approximating_positive_infinity_double_towards_positive_infinity_and_should_not_approximate_it_should_throw()
+        {
+            // Arrange
+            double value = double.PositiveInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(double.PositiveInfinity, 0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_not_approximating_negative_infinity_double_towards_negative_infinity_and_should_not_approximate_it_should_throw()
+        {
+            // Arrange
+            double value = double.NegativeInfinity;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(double.NegativeInfinity, 0.1);
 
             // Assert
             act.Should().Throw<XunitException>();

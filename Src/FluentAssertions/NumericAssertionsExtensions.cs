@@ -741,9 +741,20 @@ namespace FluentAssertions
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(expectedValue - parent.Subject);
+            if (float.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -842,9 +853,20 @@ namespace FluentAssertions
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(expectedValue - parent.Subject);
+            if (double.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -1058,9 +1080,20 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
+            if (float.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -1157,10 +1190,20 @@ namespace FluentAssertions
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
+            if (double.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
-
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
 
