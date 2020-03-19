@@ -9,7 +9,6 @@ namespace FluentAssertions
     /// </summary>
     public static class NumericAssertionsExtensions
     {
-
         #region BeCloseTo
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
@@ -32,7 +31,7 @@ namespace FluentAssertions
             sbyte nearbyValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            sbyte actualValue = (sbyte)parent.Subject;
+            sbyte actualValue = parent.Subject;
             sbyte minValue = (sbyte)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -71,7 +70,7 @@ namespace FluentAssertions
             byte nearbyValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            byte actualValue = (byte)parent.Subject;
+            byte actualValue = parent.Subject;
             byte minValue = (byte)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -110,7 +109,7 @@ namespace FluentAssertions
             short nearbyValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            short actualValue = (short)parent.Subject;
+            short actualValue = parent.Subject;
             short minValue = (short)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -149,7 +148,7 @@ namespace FluentAssertions
             ushort nearbyValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            ushort actualValue = (ushort)parent.Subject;
+            ushort actualValue = parent.Subject;
             ushort minValue = (ushort)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -188,7 +187,7 @@ namespace FluentAssertions
             int nearbyValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            int actualValue = (int)parent.Subject;
+            int actualValue = parent.Subject;
             int minValue = (int)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -227,7 +226,7 @@ namespace FluentAssertions
             uint nearbyValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            uint actualValue = (uint)parent.Subject;
+            uint actualValue = parent.Subject;
             uint minValue = nearbyValue - delta;
             if (minValue > nearbyValue)
             {
@@ -266,7 +265,7 @@ namespace FluentAssertions
             long nearbyValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            long actualValue = (long)parent.Subject;
+            long actualValue = parent.Subject;
             long minValue = GetMinValue(nearbyValue, delta);
             long maxValue = GetMaxValue(nearbyValue, delta);
 
@@ -296,7 +295,7 @@ namespace FluentAssertions
             ulong nearbyValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            ulong actualValue = (ulong)parent.Subject;
+            ulong actualValue = parent.Subject;
             ulong minValue = nearbyValue - delta;
             if (minValue > nearbyValue)
             {
@@ -350,7 +349,7 @@ namespace FluentAssertions
             sbyte distantValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            sbyte actualValue = (sbyte)parent.Subject;
+            sbyte actualValue = parent.Subject;
             sbyte minValue = (sbyte)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -389,7 +388,7 @@ namespace FluentAssertions
             byte distantValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            byte actualValue = (byte)parent.Subject;
+            byte actualValue = parent.Subject;
             byte minValue = (byte)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -428,7 +427,7 @@ namespace FluentAssertions
             short distantValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            short actualValue = (short)parent.Subject;
+            short actualValue = parent.Subject;
             short minValue = (short)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -467,7 +466,7 @@ namespace FluentAssertions
             ushort distantValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            ushort actualValue = (ushort)parent.Subject;
+            ushort actualValue = parent.Subject;
             ushort minValue = (ushort)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -506,7 +505,7 @@ namespace FluentAssertions
             int distantValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            int actualValue = (int)parent.Subject;
+            int actualValue = parent.Subject;
             int minValue = (int)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -545,7 +544,7 @@ namespace FluentAssertions
             uint distantValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            uint actualValue = (uint)parent.Subject;
+            uint actualValue = parent.Subject;
             uint minValue = distantValue - delta;
             if (minValue > distantValue)
             {
@@ -584,7 +583,7 @@ namespace FluentAssertions
             long distantValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            long actualValue = (long)parent.Subject;
+            long actualValue = parent.Subject;
             long minValue = GetMinValue(distantValue, delta);
             long maxValue = GetMaxValue(distantValue, delta);
 
@@ -614,7 +613,7 @@ namespace FluentAssertions
             ulong distantValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            ulong actualValue = (ulong)parent.Subject;
+            ulong actualValue = parent.Subject;
             ulong minValue = distantValue - delta;
             if (minValue > distantValue)
             {
@@ -742,9 +741,20 @@ namespace FluentAssertions
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
+            if (float.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -843,9 +853,20 @@ namespace FluentAssertions
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(expectedValue - (double)parent.Subject);
+            if (double.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -944,7 +965,7 @@ namespace FluentAssertions
             decimal expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            decimal actualDifference = Math.Abs(expectedValue - (decimal)parent.Subject);
+            decimal actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
@@ -954,7 +975,7 @@ namespace FluentAssertions
         private static void FailIfDifferenceOutsidePrecision<T>(
             bool differenceWithinPrecision,
             NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct
+            string because, object[] becauseArgs) where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
@@ -1059,9 +1080,20 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(unexpectedValue - (float)parent.Subject);
+            if (float.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -1158,10 +1190,20 @@ namespace FluentAssertions
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(unexpectedValue - (double)parent.Subject);
+            if (double.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
-
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
 
@@ -1257,7 +1299,7 @@ namespace FluentAssertions
             decimal unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            decimal actualDifference = Math.Abs(unexpectedValue - (decimal)parent.Subject);
+            decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
@@ -1267,7 +1309,7 @@ namespace FluentAssertions
         private static void FailIfDifferenceWithinPrecision<T>(
             NumericAssertions<T> parent, bool differenceOutsidePrecision,
             T unexpectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct
+            string because, object[] becauseArgs) where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)

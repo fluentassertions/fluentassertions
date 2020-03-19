@@ -1270,9 +1270,10 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T>
-        where T :  struct
+        where T :  struct, System.IComparable<T>
     {
         public NullableNumericAssertions(T? value) { }
+        public T? Subject { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
@@ -1280,10 +1281,10 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
     public class NumericAssertions<T>
-        where T :  struct
+        where T :  struct, System.IComparable<T>
     {
-        public NumericAssertions(object value) { }
-        public System.IComparable Subject { get; }
+        public NumericAssertions(T value) { }
+        public T Subject { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<T>> Be(T? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
@@ -1836,6 +1837,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs) { }
     }
     public class TypeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Type, FluentAssertions.Types.TypeAssertions>
     {
