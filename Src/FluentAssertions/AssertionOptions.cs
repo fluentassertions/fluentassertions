@@ -1,8 +1,6 @@
 ﻿using System;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-using FluentAssertions.Extensions;
-using FluentAssertions.Specialized;
 
 namespace FluentAssertions
 {
@@ -16,7 +14,6 @@ namespace FluentAssertions
         static AssertionOptions()
         {
             EquivalencySteps = new EquivalencyStepCollection();
-            TaskTimeout = 30.Seconds();
         }
 
         public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
@@ -43,16 +40,5 @@ namespace FluentAssertions
         /// is structurally equivalent to another (collection of) object(s).
         /// </summary>
         public static EquivalencyStepCollection EquivalencySteps { get; }
-
-        /// <summary>
-        /// Gets or sets the timeout to wait for <see cref="Task"/> operations to complete.
-        /// </summary>
-        /// <remarks>
-        /// The option is used by
-        /// <list type="bullet">
-        /// <item><see cref="TaskCompletionSourceAssertions{T}"/></item>
-        /// </list>
-        /// </remarks>
-        public static TimeSpan TaskTimeout { get; set; }
     }
 }

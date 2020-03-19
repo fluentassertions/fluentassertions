@@ -15,17 +15,9 @@ var tcs = new TaskCompletionSource<bool>();
 await tcs.Should().CompleteWithinAsync(1.Seconds());
 ```
 
-In case the time range is not part of the behavior to be defined,
-you can use a specific overload defaulting to timeout defined at `AssertionOptions.TaskTimeout`.
+The assertion returns the result for subsequent value assertions.
 
 ```csharp
 var tcs = new TaskCompletionSource<bool>();
-await tcs.Should().CompleteAsync();
-```
-
-These assertions returns the result for subsequent value assertions.
-
-```csharp
-var tcs = new TaskCompletionSource<bool>();
-(await tcs.Should().CompleteAsync()).Which.Should().BeTrue();
+(await tcs.Should().CompleteWithinAsync(1.Seconds())).Which.Should().BeTrue();
 ```
