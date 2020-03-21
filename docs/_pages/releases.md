@@ -15,7 +15,7 @@ sidebar:
 * Added `collectionOfStrings.Should().NotContainMatch()` to assert that the collection does not contain a string that matches a wildcard pattern 
 * The `Using`/`When` option on `BeEquivalentTo` will now use the conversion rules when trying to match the predicate.
 * Added `NotBeWritable` to `PropertyInfoSelectorAssertions` to be able to assert that properties are not writable.
-* Added extension to assert `TaskCompletionSource<T>`
+* Added extension to assert `TaskCompletionSource<T>` - [#1267](https://github.com/fluentassertions/fluentassertions/pull/1267)
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` (#1223)

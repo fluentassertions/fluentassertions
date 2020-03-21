@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -32,7 +33,7 @@ namespace FluentAssertions.Specs
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = async() => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
+            Func<Task> action = async () => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
             subject.SetResult(42);
             timer.Complete();
 
@@ -48,7 +49,7 @@ namespace FluentAssertions.Specs
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = async() => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
+            Func<Task> action = async () => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
             subject.SetResult(99);
             timer.Complete();
 
@@ -71,6 +72,21 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to complete within 1s because test testArg.");
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        public void When_TCS_is_null_it_should_fail()
+        {
+            // Arrange
+            TaskCompletionSource<bool> subject = null;
+
+            // Act
+            Func<Task> action = () => subject.Should().CompleteWithinAsync(1.Seconds());
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to complete within 1s, but found <null>.");
         }
     }
 }
