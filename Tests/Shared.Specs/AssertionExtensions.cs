@@ -28,5 +28,10 @@ namespace FluentAssertions.Specs
         {
             return new FunctionAssertions<T>(func, extractor, clock);
         }
+
+        public static TaskCompletionSourceAssertions<T> Should<T>(this TaskCompletionSource<T> tcs, IClock clock)
+        {
+            return new TaskCompletionSourceAssertions<T>(tcs, clock);
+        }
     }
 }

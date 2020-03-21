@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             };
 
             taskFactory.SetResult(42);
-            timer.CompletesBeforeTimeout();
+            timer.Complete();
 
             // Assert
             action.Should().NotThrow();
@@ -124,7 +124,7 @@ namespace FluentAssertions.Specs
                 return func.Should(timer).CompleteWithinAsync(100.Milliseconds());
             };
 
-            timer.RunsIntoTimeout();
+            timer.Complete();
 
             // Assert
             action.Should().Throw<XunitException>();

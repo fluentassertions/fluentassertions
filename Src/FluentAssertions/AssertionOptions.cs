@@ -1,10 +1,6 @@
-﻿#region
-
-using System;
+﻿using System;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-
-#endregion
 
 namespace FluentAssertions
 {

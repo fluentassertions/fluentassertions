@@ -1249,8 +1249,7 @@ namespace FluentAssertions.Specs
 
             var clock = new FakeClock();
             var timer = clock.StartTimer();
-            clock.Delay(waitTime);
-            clock.CompletesBeforeTimeout();
+            clock.CompleteAfter(waitTime);
 
             Func<Task> throwLongerThanWaitTime = async () =>
             {

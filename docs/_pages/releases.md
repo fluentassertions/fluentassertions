@@ -15,6 +15,7 @@ sidebar:
 * Added `collectionOfStrings.Should().NotContainMatch()` to assert that the collection does not contain a string that matches a wildcard pattern 
 * The `Using`/`When` option on `BeEquivalentTo` will now use the conversion rules when trying to match the predicate.
 * Added `NotBeWritable` to `PropertyInfoSelectorAssertions` to be able to assert that properties are not writable.
+* Added extension to assert `TaskCompletionSource<T>` - [#1267](https://github.com/fluentassertions/fluentassertions/pull/1267)
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` (#1223)
@@ -36,6 +37,7 @@ sidebar:
   * Set the `Subject` through the constructor instead.
 * Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
+* The new extension on `TaskCompletionSource<T>` overlays the previously used assertions based on `ObjectAssertions`.
 
 ## 5.10.3
 **Fixes**
