@@ -86,6 +86,7 @@ namespace FluentAssertions.Xml.Equivalency
                         // No need to verify end element, if it doesn't match
                         // the start element it isn't valid XML, so the parser
                         // would handle that.
+                        currentNode.Pop();
                         currentNode = currentNode.Parent;
                         break;
 

@@ -54,14 +54,19 @@ namespace FluentAssertions.Xml.Equivalency
 
         public Node Parent { get; }
 
-        public Node Push(string name)
+        public Node Push(string localName)
         {
-            Node node = children.Find(e => e.name == name)
-                        ?? AddChildNode(name);
+            Node node = children.Find(e => e.name == localName)
+                        ?? AddChildNode(localName);
 
             node.count++;
 
             return node;
+        }
+
+        public void Pop()
+        {
+            children.Clear();
         }
 
         private Node AddChildNode(string name)
