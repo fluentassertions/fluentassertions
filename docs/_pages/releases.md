@@ -37,10 +37,16 @@ sidebar:
 * Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type> ` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 
+## 5.10.3
+**Fixes**
+* Fixed XPath index calculation in XML comparison when child node names are repeated in repeated parent nodes - [#1273](https://github.com/fluentassertions/fluentassertions/pull/1273)
 
-## 5.10.1
+## 5.10.2
 **Fixes**
 * Added missing dependency on System.Xml - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
+
+## 5.10.1
+This version was skipped.
 
 ## 5.10.0
 
