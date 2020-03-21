@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\AssemblyAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\DelegateAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExecutionTimeAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Specialized\SpanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\TaskAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\TaskOfTAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FakeClock.cs" />

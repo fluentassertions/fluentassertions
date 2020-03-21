@@ -179,6 +179,14 @@ namespace FluentAssertions
             return new XAttributeAssertions(actualValue);
         }
 
+#if NETSTANDARD2_1||NETCOREAPP3_0
+        [Pure]
+        public static SpanAssertions<T> Should<T>(this ReadOnlySpan<T> span)
+        {
+            return new SpanAssertions<T>(span.ToArray());
+        }
+#endif
+
         /// <summary>
         /// Forces enumerating a collection. Should be used to assert that a method that uses the
         /// <c>yield</c> keyword throws a particular exception.
