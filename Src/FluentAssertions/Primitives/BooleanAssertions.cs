@@ -73,7 +73,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<BooleanAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.Equals(expected))
+                .ForCondition(Subject.HasValue && Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
 

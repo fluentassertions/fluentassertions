@@ -57,6 +57,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_null_xml_document_is_equal_to_a_null_xml_document_it_should_succeed()
+        {
+            // Arrange
+            XDocument document = null;
+            XDocument otherXDocument = null;
+
+            // Act
+            Action act = () =>
+                document.Should().Be(otherXDocument);
+
+            // Assert
+            act.Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
         public void When_asserting_a_xml_document_is_equal_to_a_different_xml_document_it_should_fail_with_descriptive_message()
         {
             // Arrange
@@ -105,7 +120,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_null_xml_document_is_not_equal_to_some_xml_document_it_should_fail()
+        public void When_asserting_a_null_xml_document_is_not_equal_to_some_xml_document_it_should_succeed()
         {
             // Arrange
             XDocument document = null;
@@ -116,8 +131,23 @@ namespace FluentAssertions.Specs
                 document.Should().NotBe(someXDocument);
 
             // Assert
+            act.Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_a_null_xml_document_is_not_equal_to_a_null_xml_document_it_should_fail()
+        {
+            // Arrange
+            XDocument document = null;
+            XDocument someXDocument = null;
+
+            // Act
+            Action act = () =>
+                document.Should().NotBe(someXDocument);
+
+            // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*not expect XML document to be*, but found <null>*");
+                .WithMessage("Did not expect XML document to be <null>.");
         }
 
         [Fact]

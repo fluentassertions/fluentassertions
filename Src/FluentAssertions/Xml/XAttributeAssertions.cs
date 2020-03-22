@@ -32,7 +32,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
+                .ForCondition(Subject.Name == expected.Name && Subject.Value == expected.Value)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected XML attribute to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -54,7 +54,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
+                .ForCondition(!(Subject.Name == unexpected.Name && Subject.Value == unexpected.Value))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect XML attribute to be {0}{reason}.", unexpected);
 

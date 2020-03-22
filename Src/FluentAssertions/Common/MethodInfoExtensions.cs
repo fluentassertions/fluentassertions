@@ -18,7 +18,7 @@ namespace FluentAssertions.Common
 
         internal static bool IsAsync(this MethodInfo methodInfo)
         {
-            return methodInfo.GetMatchingAttributes<Attribute>(a => a.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute")).Any();
+            return methodInfo.GetMatchingAttributes<Attribute>(a => a.GetType().FullName == "System.Runtime.CompilerServices.AsyncStateMachineAttribute").Any();
         }
 
         internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
