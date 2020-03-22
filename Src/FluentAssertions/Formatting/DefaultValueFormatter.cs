@@ -53,7 +53,7 @@ namespace FluentAssertions.Formatting
         {
             string str = value.ToString();
 
-            return str is null || str.Equals(value.GetType().ToString());
+            return str is null || str == value.GetType().ToString();
         }
 
         private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)

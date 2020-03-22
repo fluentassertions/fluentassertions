@@ -547,7 +547,7 @@ namespace FluentAssertions.Common
             }
             else
             {
-                return type.IsSameOrEqualTo(definition) || type.IsDerivedFromOpenGeneric(definition);
+                return type == definition || type.IsDerivedFromOpenGeneric(definition);
             }
         }
 
@@ -556,7 +556,7 @@ namespace FluentAssertions.Common
             // check subject against definition
             TypeInfo subjectInfo = type.GetTypeInfo();
             if (subjectInfo.IsInterface && subjectInfo.IsGenericType &&
-                subjectInfo.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+                subjectInfo.GetGenericTypeDefinition() == definition)
             {
                 return true;
             }
@@ -566,12 +566,12 @@ namespace FluentAssertions.Common
                 .Select(i => i.GetTypeInfo())
                 .Where(i => i.IsGenericType)
                 .Select(i => i.GetGenericTypeDefinition())
-                .Any(d => d.IsSameOrEqualTo(definition));
+                .Contains(definition);
         }
 
         internal static bool IsDerivedFromOpenGeneric(this Type type, Type definition)
         {
-            if (type.IsSameOrEqualTo(definition))
+            if (type == definition)
             {
                 // do not consider a type to be derived from itself
                 return false;
@@ -581,7 +581,7 @@ namespace FluentAssertions.Common
             for (TypeInfo baseType = type.GetTypeInfo(); baseType != null;
                     baseType = baseType.BaseType?.GetTypeInfo())
             {
-                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition().IsSameOrEqualTo(definition))
+                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == definition)
                 {
                     return true;
                 }

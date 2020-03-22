@@ -97,7 +97,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<GuidAssertions> Be(Guid expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Equals(expected))
+                .ForCondition(Subject.HasValue && Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -118,7 +118,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<GuidAssertions> NotBe(Guid unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.Equals(unexpected))
+                .ForCondition(!Subject.HasValue || Subject.Value != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);
 
