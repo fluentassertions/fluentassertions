@@ -1366,7 +1366,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> BeAfter(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeRangeAssertions BeAtLeast(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> BeBefore(System.DateTime expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> BeCloseTo(System.DateTime nearbyTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> BeCloseTo(System.DateTime nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeRangeAssertions BeExactly(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> BeIn(System.DateTimeKind expectedKind, string because = "", params object[] becauseArgs) { }
@@ -1389,7 +1388,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBe(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeAfter(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeBefore(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeCloseTo(System.DateTime distantTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeCloseTo(System.DateTime distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeOnOrAfter(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeAssertions> NotBeOnOrBefore(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
@@ -1409,7 +1407,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> BeAfter(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions BeAtLeast(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> BeBefore(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> BeCloseTo(System.DateTimeOffset nearbyTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> BeCloseTo(System.DateTimeOffset nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions BeExactly(System.TimeSpan timeSpan) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions BeLessThan(System.TimeSpan timeSpan) { }
@@ -1432,7 +1429,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBe(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeAfter(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeBefore(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeCloseTo(System.DateTimeOffset distantTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeCloseTo(System.DateTimeOffset distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeOnOrAfter(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.DateTimeOffsetAssertions> NotBeOnOrBefore(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
@@ -1554,7 +1550,6 @@ namespace FluentAssertions.Primitives
         public SimpleTimeSpanAssertions(System.TimeSpan? value) { }
         public System.TimeSpan? Subject { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> Be(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BeCloseTo(System.TimeSpan nearbyTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BeCloseTo(System.TimeSpan nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BeGreaterOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BeGreaterThan(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
@@ -1563,7 +1558,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> NotBe(System.TimeSpan unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> NotBeCloseTo(System.TimeSpan distantTime, int precision = 20, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.SimpleTimeSpanAssertions> NotBeCloseTo(System.TimeSpan distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
     }
     public class StringAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<string, FluentAssertions.Primitives.StringAssertions>

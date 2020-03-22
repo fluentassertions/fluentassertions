@@ -345,7 +345,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
-                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                 .When(info => info.SelectedMemberPath.EndsWith("Date")));
 
             // Assert
@@ -377,7 +377,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options =>
                 options
-                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                     .WhenTypeIs<DateTime>());
 
             // Assert
@@ -502,7 +502,7 @@ namespace FluentAssertions.Specs
 
             public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {
-                ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
+                ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1.Minutes());
                 return true;
             }
         }
@@ -572,7 +572,7 @@ namespace FluentAssertions.Specs
             actual.Should().BeEquivalentTo(expectation,
                 options => options
                     .WithAutoConversion()
-                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                     .WhenTypeIs<DateTime>());
         }
 

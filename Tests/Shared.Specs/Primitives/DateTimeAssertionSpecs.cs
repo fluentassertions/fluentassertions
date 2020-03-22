@@ -426,7 +426,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 31), DateTimeKind.Utc);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -440,7 +440,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 31), DateTimeKind.Utc);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -455,7 +455,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -469,7 +469,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -499,7 +499,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -531,7 +531,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -545,7 +545,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -561,7 +561,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -575,7 +575,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -589,7 +589,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -604,7 +604,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -619,7 +619,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -634,7 +634,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.MinValue;
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 100);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -648,7 +648,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.MinValue;
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -663,7 +663,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.MaxValue;
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 100);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -677,7 +677,7 @@ namespace FluentAssertions.Specs
             DateTime nearbyTime = DateTime.MaxValue;
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()

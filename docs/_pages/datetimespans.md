@@ -72,11 +72,9 @@ theDatetime.Should().BeAtLeast(2.Days()).Before(deliveryDate);       // Equivale
 theDatetime.Should().BeExactly(24.Hours()).Before(appointment);      // Equivalent to ==
 ```
 
-To assert that a date/time is (not) within a specified number of milliseconds from another date/time value you can use this method.
+To assert that a date/time is (not) within a specified time span from another date/time value you can use this method.
 
 ```csharp
-theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2000); // 2000 milliseconds
-theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15));       // default is 20 milliseconds
 theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2.Seconds());
 
 theDatetime.Should().NotBeCloseTo(2.March(2010), 1.Hours());

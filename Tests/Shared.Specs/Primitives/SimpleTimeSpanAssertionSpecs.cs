@@ -407,7 +407,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected nullTimeSpan to be less than 1s because we want to test the failure message, but found <null>.");
-            
+
         }
 
         [Fact]
@@ -511,7 +511,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -525,7 +525,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -539,7 +539,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 20, "we want to test the error message");
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds(), "we want to test the error message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -555,7 +555,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 20, "we want to test the error message");
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds(), "we want to test the error message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -571,7 +571,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -620,7 +620,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 30.980s.");
@@ -634,7 +634,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
@@ -662,7 +662,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -676,7 +676,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().NotThrow();
@@ -690,7 +690,7 @@ namespace FluentAssertions.Specs
             var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.035s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.035s.");
@@ -704,7 +704,7 @@ namespace FluentAssertions.Specs
             TimeSpan nearbyTime = TimeSpan.FromHours(1);
 
             // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
