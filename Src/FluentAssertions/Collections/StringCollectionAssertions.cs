@@ -281,7 +281,5 @@ namespace FluentAssertions.Collections
                 });
             }
         }
-
-        
     }
 }
