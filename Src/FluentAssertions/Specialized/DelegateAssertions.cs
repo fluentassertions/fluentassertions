@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -12,7 +11,9 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Specialized
 {
     [DebuggerNonUserCode]
-    public abstract class DelegateAssertions<TDelegate> : ReferenceTypeAssertions<Delegate, DelegateAssertions<TDelegate>> where TDelegate : Delegate
+    public abstract class DelegateAssertions<TDelegate, TAssertions> : ReferenceTypeAssertions<TDelegate, DelegateAssertions<TDelegate, TAssertions>>
+        where TDelegate : Delegate
+        where TAssertions : DelegateAssertions<TDelegate, TAssertions>
     {
         private readonly IExtractExceptions extractor;
 
@@ -24,13 +25,7 @@ namespace FluentAssertions.Specialized
         {
             this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
-            Subject = @delegate;
         }
-
-        /// <summary>
-        /// Gets the <typeparamref name="TDelegate"/> that is being asserted.
-        /// </summary>
-        public new TDelegate Subject { get; }
 
         private protected IClock Clock { get; }
 
@@ -69,7 +64,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DelegateAssertions<TDelegate>> NotThrow<TException>(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
@@ -92,7 +87,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DelegateAssertions<TDelegate>> NotThrow(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is object)
@@ -167,7 +162,7 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public AndConstraint<DelegateAssertions<TDelegate>> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is object)
@@ -206,7 +201,7 @@ namespace FluentAssertions.Specialized
                 .ForCondition(exception is null)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
-            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
@@ -231,17 +226,17 @@ namespace FluentAssertions.Specialized
             return new ExceptionAssertions<TException>(expectedExceptions);
         }
 
-        protected AndConstraint<DelegateAssertions<TDelegate>> NotThrow(Exception exception, string because, object[] becauseArgs)
+        protected AndConstraint<TAssertions> NotThrow(Exception exception, string because, object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(exception is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
 
-            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected AndConstraint<DelegateAssertions<TDelegate>> NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
         {
             IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
             Execute.Assertion
@@ -249,7 +244,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
 
-            return new AndConstraint<DelegateAssertions<TDelegate>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected abstract void InvokeSubject();

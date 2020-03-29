@@ -20,6 +20,7 @@ sidebar:
 * Added `NotBe` to `BooleanAssertions` to be able to assert that a boolean is not the expected value - [#1290](https://github.com/fluentassertions/fluentassertions/pull/1290).
 * Make `DefaultValueFormatter` and `EnumerableValueFormatter` suitable for inheritance - [#1295](https://github.com/fluentassertions/fluentassertions/pull/1295).
 * Added support for dictionary assertions on `IReadOnlyDictionary<TKey, TValue>` - [#1298](https://github.com/fluentassertions/fluentassertions/pull/1298).
+* `GenericAsyncFunctionAssertions` now has `AndWhichConstraint` overloads for `NotThrow[Async]` and `NotThrowAfter[Async]` - [#1289](https://github.com/fluentassertions/fluentassertions/pull/1289).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).

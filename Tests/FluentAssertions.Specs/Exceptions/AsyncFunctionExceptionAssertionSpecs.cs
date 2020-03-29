@@ -1127,7 +1127,7 @@ namespace FluentAssertions.Specs
                     throw new ArgumentException("An exception was forced");
                 }
 
-                await Task.Delay(0);
+                await Task.Yield();
             };
 
             // Act
@@ -1156,7 +1156,7 @@ namespace FluentAssertions.Specs
                 {
                     throw new ArgumentException("An exception was forced");
                 }
-                await Task.Delay(0);
+                await Task.Yield();
             };
 
             // Act
@@ -1258,7 +1258,7 @@ namespace FluentAssertions.Specs
                     throw new ArgumentException("An exception was forced");
                 }
 
-                await Task.Delay(0);
+                await Task.Yield();
             };
 
             // Act
@@ -1288,7 +1288,7 @@ namespace FluentAssertions.Specs
                     throw new ArgumentException("An exception was forced");
                 }
 
-                await Task.Delay(0);
+                await Task.Yield();
             };
 
             // Act

@@ -438,7 +438,7 @@ namespace FluentAssertions.Specs
 
         #region NotThrowAfter
         [Fact]
-        public void When_subject_it_null_it_should_throw()
+        public void When_subject_is_null_it_should_throw()
         {
             // Arrange
             var waitTime = 0.Milliseconds();
@@ -562,11 +562,11 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            AndWhichConstraint<FunctionAssertions<int>, int> act =
-                throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval);
+            Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval)
+                    .Which.Should().Be(42);
 
             // Assert
-            act.Subject.Should().Be(42);
+            act.Should().NotThrow();
         }
 
         [Fact]

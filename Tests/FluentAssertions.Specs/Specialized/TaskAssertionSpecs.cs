@@ -22,7 +22,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_it_null_when_expecting_to_complete_it_should_throw()
+        public void When_subject_is_null_when_expecting_to_complete_it_should_throw()
         {
             // Arrange
             var timer = new FakeClock();
@@ -70,7 +70,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_it_null_when_expecting_to_complete_async_it_should_throw()
+        public void When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
         {
             // Arrange
             var timer = new FakeClock();
