@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Formatting
+﻿using System.Globalization;
+
+namespace FluentAssertions.Formatting
 {
     public class ByteValueFormatter : IValueFormatter
     {
@@ -17,7 +19,7 @@
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            return "0x" + ((byte)value).ToString("X2");
+            return "0x" + ((byte)value).ToString("X2", CultureInfo.InvariantCulture);
         }
     }
 }

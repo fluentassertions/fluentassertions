@@ -29,7 +29,7 @@ namespace FluentAssertions.Execution
 
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()
-                    .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
+                    .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
                 return (assembly != null);
             }

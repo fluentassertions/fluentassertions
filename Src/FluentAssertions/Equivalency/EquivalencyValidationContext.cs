@@ -48,8 +48,8 @@ namespace FluentAssertions.Equivalency
             {
                 // SMELL: That prefix should be obtained from some kind of constant
                 return (SelectedMemberDescription.Length == 0) ||
-                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") &&
-                        !SelectedMemberDescription.Contains("."));
+                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[", StringComparison.Ordinal) &&
+                        !SelectedMemberDescription.Contains(".", StringComparison.Ordinal));
             }
         }
 

@@ -64,7 +64,7 @@ namespace FluentAssertions.Equivalency
             conversionResult = null;
             try
             {
-                conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.CurrentCulture);
+                conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.InvariantCulture);
                 return true;
             }
             catch (FormatException)

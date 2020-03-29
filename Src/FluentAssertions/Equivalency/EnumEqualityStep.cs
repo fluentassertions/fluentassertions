@@ -108,7 +108,7 @@ namespace FluentAssertions.Equivalency
 
         private static decimal? ExtractDecimal(object o)
         {
-            return o != null ? Convert.ToDecimal(o) : (decimal?)null;
+            return o != null ? Convert.ToDecimal(o, CultureInfo.InvariantCulture) : (decimal?)null;
         }
     }
 }

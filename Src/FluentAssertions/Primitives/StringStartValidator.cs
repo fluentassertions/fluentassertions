@@ -27,8 +27,7 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                return (stringComparison == StringComparison.CurrentCultureIgnoreCase) ||
-                    (stringComparison == StringComparison.OrdinalIgnoreCase);
+                return stringComparison == StringComparison.OrdinalIgnoreCase;
             }
         }
 

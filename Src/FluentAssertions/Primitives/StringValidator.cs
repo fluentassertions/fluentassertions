@@ -60,7 +60,7 @@ namespace FluentAssertions.Primitives
 
         private static bool IsLongOrMultiline(string value)
         {
-            return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine);
+            return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine, StringComparison.Ordinal);
         }
 
         protected virtual bool ValidateAgainstSuperfluousWhitespace()

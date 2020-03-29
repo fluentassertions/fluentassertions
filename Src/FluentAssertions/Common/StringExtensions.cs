@@ -31,20 +31,20 @@ namespace FluentAssertions.Common
             int length = Math.Min(value.Length - index, 3);
             string formattedString = Formatter.ToString(value.Substring(index, length));
 
-            return $"{formattedString} (index {index})".Replace("{", "{{").Replace("}", "}}");
+            return $"{formattedString} (index {index})".EscapePlaceholders();
         }
 
         /// <summary>
         /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
         public static string EscapePlaceholders(this string value) =>
-            value.Replace("{", "{{").Replace("}", "}}");
+            value.Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal);
 
         /// <summary>
         /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
         internal static string UnescapePlaceholders(this string value) =>
-            value.Replace("{{", "{").Replace("}}", "}");
+            value.Replace("{{", "{", StringComparison.Ordinal).Replace("}}", "}", StringComparison.Ordinal);
 
         /// <summary>
         /// Joins a string with one or more other strings using a specified separator.
@@ -78,7 +78,7 @@ namespace FluentAssertions.Common
             }
 
             char[] charArray = @this.ToCharArray();
-            charArray[0] = char.ToUpper(charArray[0]);
+            charArray[0] = char.ToUpperInvariant(charArray[0]);
             return new string(charArray);
         }
 
@@ -95,7 +95,9 @@ namespace FluentAssertions.Common
 
         public static string RemoveNewLines(this string @this)
         {
-            return @this.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
+            return @this.Replace("\n", "", StringComparison.Ordinal)
+                        .Replace("\r", "", StringComparison.Ordinal)
+                        .Replace("\\r\\n", "", StringComparison.Ordinal);
         }
 
         /// <summary>

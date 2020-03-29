@@ -43,6 +43,8 @@ sidebar:
 * The new extension on `TaskCompletionSource<T>` overlays the previously used assertions based on `ObjectAssertions`.
 * Removed `[Not]BeCloseTo` for `DateTime[Offset]` and `TimeSpan` that took an `int precision` - [#1278](https://github.com/fluentassertions/fluentassertions/pull/1278).
   * Use the overloads that take a `TimeSpan precision` instead.
+* Aligned strings to be compared using `Ordinal[Ignorecase]` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
+* Changed `AutoConversion` to convert using `CultureInfo.InvariantCulture` instead of `CultureInfo.CurrentCulture` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
 
 ## 5.10.3
 **Fixes**

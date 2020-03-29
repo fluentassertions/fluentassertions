@@ -149,7 +149,7 @@ namespace FluentAssertions.Common
             string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
             string segmentPath = string.Join(".", reversedSegments);
 
-            return new MemberPath(declaringType, segmentPath.Replace(".[", "["));
+            return new MemberPath(declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
         }
     }
 }

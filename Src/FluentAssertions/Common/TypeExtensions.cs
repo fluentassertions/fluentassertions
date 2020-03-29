@@ -496,7 +496,7 @@ namespace FluentAssertions.Common
 
         private static bool IsAnonymousType(this Type type)
         {
-            bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType");
+            bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType", StringComparison.Ordinal);
 
             if (!nameContainsAnonymousType)
             {

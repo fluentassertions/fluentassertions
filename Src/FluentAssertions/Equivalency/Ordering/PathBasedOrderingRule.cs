@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency.Ordering
                 currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
             }
 
-            if (currentPropertyPath.Equals(path, StringComparison.CurrentCultureIgnoreCase))
+            if (currentPropertyPath.Equals(path, StringComparison.OrdinalIgnoreCase))
             {
                 return OrderStrictness.Strict;
             }
@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         private static bool ContainsIndexingQualifiers(string path)
         {
-            return path.Contains("[") && path.Contains("]");
+            return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
         }
 
         private string RemoveInitialIndexQualifier(string sourcePath)
