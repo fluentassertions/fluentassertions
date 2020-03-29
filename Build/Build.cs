@@ -1,5 +1,6 @@
 using Nuke.Common;
 using Nuke.Common.Execution;
+using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
@@ -60,7 +61,6 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
-
     Target ApiChecks => _ => _
         .DependsOn(Compile)
         .Executes(() =>
@@ -79,16 +79,15 @@ class Build : NukeBuild
                 .SetFramework("net47")
                 .AddTargetAssemblies(GlobFiles(
                     TestsDirectory,
-                    $"Net4*.Specs/bin/Debug/**/*.Specs.dll").NotEmpty()));
+                    "FluentAssertions.Specs/bin/Debug/net47/*.Specs.dll").NotEmpty()));
 
             DotNetTest(s => s
+                .SetProjectFile(Solution.GetProject("FluentAssertions.Specs"))
                 .SetConfiguration(Configuration.Debug)
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore20.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore21.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore30.Specs"))));
-
-
+                    cc => cc.SetFramework("netcoreapp2.0"),
+                    cc => cc.SetFramework("netcoreapp2.1"),
+                    cc => cc.SetFramework("netcoreapp3.0")));
         });
 
     Target TestFrameworks => _ => _
