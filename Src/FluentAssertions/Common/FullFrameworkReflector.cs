@@ -19,14 +19,14 @@ namespace FluentAssertions.Common
 
         private bool IsRelevant(Assembly ass)
         {
-            string assemblyName = ass.GetName().Name.ToLower();
+            string assemblyName = ass.GetName().Name;
 
-            return !assemblyName.StartsWith("microsoft.") &&
-                   !assemblyName.StartsWith("xunit") &&
-                   !assemblyName.StartsWith("jetbrains.") &&
-                   !assemblyName.StartsWith("system") &&
-                   !assemblyName.StartsWith("mscorlib") &&
-                   !assemblyName.StartsWith("newtonsoft");
+            return !assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("jetbrains.", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("system", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("newtonsoft", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsDynamic(Assembly assembly)

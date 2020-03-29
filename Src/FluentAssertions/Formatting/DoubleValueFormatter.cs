@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System;
 
 namespace FluentAssertions.Formatting
 {
@@ -38,7 +39,7 @@ namespace FluentAssertions.Formatting
 
             string formattedValue = doubleValue.ToString("R", CultureInfo.InvariantCulture);
 
-            return (formattedValue.IndexOf('.') == -1) && (formattedValue.IndexOf('E') == -1)
+            return (formattedValue.IndexOf('.', StringComparison.Ordinal) == -1) && (formattedValue.IndexOf('E', StringComparison.Ordinal) == -1)
                 ? formattedValue + ".0"
                 : formattedValue;
         }

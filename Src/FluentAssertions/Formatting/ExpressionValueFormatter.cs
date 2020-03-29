@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace FluentAssertions.Formatting
 {
@@ -19,7 +20,7 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            return value.ToString().Replace(" = ", " == ");
+            return value.ToString().Replace(" = ", " == ", StringComparison.Ordinal);
         }
     }
 }

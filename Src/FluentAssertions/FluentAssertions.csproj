@@ -33,6 +33,12 @@
     <OutputPath>..\..\Artifacts\Release</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="BannedSymbols.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="BannedSymbols.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="..\JetBrainsAnnotations.cs" Link="JetBrainsAnnotations.cs" />
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
@@ -52,5 +58,15 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

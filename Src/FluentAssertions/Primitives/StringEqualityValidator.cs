@@ -95,8 +95,7 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                return (comparisonMode == StringComparison.CurrentCultureIgnoreCase) ||
-                    (comparisonMode == StringComparison.OrdinalIgnoreCase);
+                return comparisonMode == StringComparison.OrdinalIgnoreCase;
             }
         }
     }

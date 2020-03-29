@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Equivalency;
@@ -565,7 +566,7 @@ namespace FluentAssertions.Specs
 
             var actual = new
             {
-                ThisIsMyDateTime = expectation.ThisIsMyDateTime.ToString()
+                ThisIsMyDateTime = expectation.ThisIsMyDateTime.ToString(CultureInfo.InvariantCulture)
             };
 
             //Asserts

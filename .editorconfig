@@ -121,3 +121,16 @@ csharp_space_between_method_declaration_name_and_open_parenthesis = false
 csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
+
+# FxCop Analyzers
+dotnet_diagnostic.CA1030.severity = none
+dotnet_diagnostic.CA1034.severity = none
+dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1304.severity = error
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1307.severity = error
+dotnet_diagnostic.CA1308.severity = error
+dotnet_diagnostic.CA1309.severity = error
+
+# Banned API Analyzers
+dotnet_diagnostic.RS0030.severity = error

@@ -1233,7 +1233,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => actual.Should().Equal(expected,
-                (a, e) => string.Equals(a, e.Value, StringComparison.CurrentCultureIgnoreCase));
+                (a, e) => string.Equals(a, e.Value, StringComparison.OrdinalIgnoreCase));
 
             // Assert
             action.Should().NotThrow();
@@ -1254,7 +1254,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => actual.Should().Equal(expected,
-                (a, e) => string.Equals(a, e.Value, StringComparison.CurrentCultureIgnoreCase));
+                (a, e) => string.Equals(a, e.Value, StringComparison.OrdinalIgnoreCase));
 
             // Assert
             action
