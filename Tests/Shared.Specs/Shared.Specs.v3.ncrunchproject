@@ -1,9 +1,0 @@
-﻿<ProjectConfiguration>
-  <Settings>
-    <FrameworkUtilisationTypeForGallio>Disabled</FrameworkUtilisationTypeForGallio>
-    <FrameworkUtilisationTypeForMSpec>Disabled</FrameworkUtilisationTypeForMSpec>
-    <FrameworkUtilisationTypeForMSTest>Disabled</FrameworkUtilisationTypeForMSTest>
-    <FrameworkUtilisationTypeForNUnit2>Disabled</FrameworkUtilisationTypeForNUnit2>
-    <NUnit3Enabled>False</NUnit3Enabled>
-  </Settings>
-</ProjectConfiguration>
