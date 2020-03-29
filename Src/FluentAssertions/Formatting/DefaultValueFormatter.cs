@@ -40,10 +40,7 @@ namespace FluentAssertions.Formatting
 
             if (HasDefaultToStringImplementation(value))
             {
-                if (true)
-                {
-                    return prefix + GetTypeAndPublicPropertyValues(value, context, formatChild);
-                }
+                return prefix + GetTypeAndPublicPropertyValues(value, context, formatChild);
             }
 
             return prefix + value;

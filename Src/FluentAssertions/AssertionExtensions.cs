@@ -67,7 +67,6 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
-
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
@@ -77,7 +76,6 @@ namespace FluentAssertions
         {
             return () => action(subject).AsTask();
         }
-
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it

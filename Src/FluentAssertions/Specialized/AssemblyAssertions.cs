@@ -19,7 +19,6 @@ namespace FluentAssertions.Reflection
         {
         }
 
-
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.
         /// </summary>
