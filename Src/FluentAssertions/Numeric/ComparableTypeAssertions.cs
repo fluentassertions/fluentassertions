@@ -30,7 +30,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
@@ -57,7 +57,7 @@ namespace FluentAssertions.Numeric
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
@@ -85,7 +85,7 @@ namespace FluentAssertions.Numeric
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
@@ -170,7 +170,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs)
         {
@@ -193,7 +193,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
@@ -216,7 +216,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs)
         {
@@ -239,7 +239,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string because = "", params object[] becauseArgs)
         {
@@ -262,7 +262,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs)
         {
@@ -291,7 +291,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
@@ -322,7 +322,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)

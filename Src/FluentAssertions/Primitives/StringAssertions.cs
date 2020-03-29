@@ -31,7 +31,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
@@ -63,7 +63,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> BeOneOf(IEnumerable<string> validValues, string because = "", params object[] becauseArgs)
         {
@@ -87,7 +87,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> BeEquivalentTo(string expected, string because = "",
             params object[] becauseArgs)
@@ -112,7 +112,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotBeEquivalentTo(string unexpected, string because = "",
             params object[] becauseArgs)
@@ -142,7 +142,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
         {
@@ -165,7 +165,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
@@ -186,7 +186,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
@@ -209,7 +209,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
@@ -236,7 +236,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
@@ -264,7 +264,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
@@ -304,7 +304,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
@@ -343,7 +343,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
         {
@@ -370,7 +370,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
         {
@@ -397,7 +397,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string because = "",
             params object[] becauseArgs)
@@ -425,7 +425,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
@@ -452,7 +452,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
@@ -495,7 +495,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
         {
@@ -531,7 +531,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string because = "", params object[] becauseArgs)
         {
@@ -574,7 +574,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
@@ -611,7 +611,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
         {
@@ -647,7 +647,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
@@ -680,7 +680,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
@@ -717,7 +717,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
@@ -751,7 +751,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> ContainAll(IEnumerable<string> values, string because = "", params object[] becauseArgs)
         {
@@ -788,7 +788,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> ContainAny(IEnumerable<string> values, string because = "", params object[] becauseArgs)
         {
@@ -824,7 +824,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotContain(string unexpected, string because = "",
             params object[] becauseArgs)
@@ -856,7 +856,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotContainAll(IEnumerable<string> values, string because = "",
             params object[] becauseArgs)
@@ -896,7 +896,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotContainAny(IEnumerable<string> values, string because = "",
             params object[] becauseArgs)
@@ -934,7 +934,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotContainEquivalentOf(string unexpected, string because = "",
             params object[] becauseArgs)
@@ -960,7 +960,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -980,7 +980,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -1001,7 +1001,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
         {

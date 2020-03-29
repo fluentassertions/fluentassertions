@@ -30,7 +30,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -57,7 +57,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -86,7 +86,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
         {
@@ -109,7 +109,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs)
         {
@@ -125,7 +125,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs)
         {
@@ -170,7 +170,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs)
         {
@@ -227,7 +227,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> Equal(IEnumerable expected, string because = "", params object[] becauseArgs)
         {
@@ -278,7 +278,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotEqual(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
@@ -326,7 +326,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
             string because = "", params object[] becauseArgs)
@@ -370,7 +370,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable expectation, string because = "", params object[] becauseArgs)
         {
@@ -401,7 +401,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable expectation,
             Func<EquivalencyAssertionOptions<IEnumerable>, EquivalencyAssertionOptions<IEnumerable>> config, string because = "",
@@ -449,7 +449,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
@@ -486,7 +486,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable unexpected, string because = "",
             params object[] becauseArgs)
@@ -555,7 +555,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
@@ -583,7 +583,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
@@ -643,7 +643,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
@@ -703,7 +703,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> Contain(IEnumerable expected, string because = "", params object[] becauseArgs)
         {
@@ -779,7 +779,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable expected, string because = "",
             params object[] becauseArgs)
@@ -826,7 +826,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -848,7 +848,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -867,7 +867,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -889,7 +889,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -944,7 +944,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -966,7 +966,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -985,7 +985,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -1007,7 +1007,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -1064,7 +1064,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expectedSuperset, string because = "",
             params object[] becauseArgs)
@@ -1105,7 +1105,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable unexpectedSuperset, string because = "",
             params object[] becauseArgs)
@@ -1146,7 +1146,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
@@ -1184,7 +1184,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
@@ -1233,7 +1233,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<TAssertions, object> HaveElementAt(int index, object element, string because = "",
             params object[] becauseArgs)
@@ -1277,7 +1277,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotContain(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
@@ -1340,7 +1340,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> IntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
@@ -1379,7 +1379,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotIntersectWith(IEnumerable otherCollection, string because = "",
             params object[] becauseArgs)
@@ -1430,7 +1430,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs)
         {
@@ -1484,7 +1484,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> EndWith(object element, string because = "", params object[] becauseArgs)
         {
@@ -1544,7 +1544,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveElementPreceding(object successor, object expectation, string because = "", params object[] becauseArgs)
         {
@@ -1587,7 +1587,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveElementSucceeding(object predecessor, object expectation, string because = "", params object[] becauseArgs)
         {
@@ -1631,7 +1631,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<TAssertions, IEnumerable<T>> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
@@ -1659,7 +1659,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
@@ -1687,7 +1687,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<TAssertions, IEnumerable<T>> AllBeOfType<T>(string because = "", params object[] becauseArgs)
         {
@@ -1715,7 +1715,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {

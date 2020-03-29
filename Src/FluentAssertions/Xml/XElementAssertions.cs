@@ -32,7 +32,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> Be(XElement expected, string because = "", params object[] becauseArgs)
         {
@@ -55,7 +55,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string because = "", params object[] becauseArgs)
         {
@@ -78,7 +78,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because = "", params object[] becauseArgs)
         {
@@ -103,7 +103,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because = "", params object[] becauseArgs)
         {
@@ -126,7 +126,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
         {
@@ -150,7 +150,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
             params object[] becauseArgs)
@@ -169,7 +169,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because = "",
             params object[] becauseArgs)
@@ -203,7 +203,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "", params object[] becauseArgs)
         {
@@ -220,7 +220,7 @@ namespace FluentAssertions.Xml
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "", params object[] becauseArgs)
         {

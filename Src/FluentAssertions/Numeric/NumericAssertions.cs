@@ -39,7 +39,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
         {
@@ -60,7 +60,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> Be(T? expected, string because = "", params object[] becauseArgs)
         {
@@ -83,7 +83,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
@@ -104,7 +104,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
         {
@@ -126,7 +126,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BePositive(string because = "", params object[] becauseArgs)
         {
@@ -146,7 +146,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeNegative(string because = "", params object[] becauseArgs)
         {
@@ -167,7 +167,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
@@ -188,7 +188,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
@@ -210,7 +210,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string because = "",
             params object[] becauseArgs)
@@ -232,7 +232,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
@@ -262,7 +262,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
@@ -293,7 +293,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> NotBeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
@@ -329,7 +329,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeOneOf(IEnumerable<T> validValues, string because = "",
             params object[] becauseArgs)
@@ -353,7 +353,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
@@ -381,7 +381,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
@@ -401,7 +401,7 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<NumericAssertions<T>> Match(Expression<Func<T, bool>> predicate,
             string because = "",

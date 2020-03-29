@@ -29,7 +29,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey : class
@@ -70,7 +70,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         {
@@ -125,7 +125,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -148,7 +148,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -171,7 +171,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -194,7 +194,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -220,7 +220,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -246,7 +246,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -269,7 +269,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -292,7 +292,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -315,7 +315,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -338,7 +338,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -364,7 +364,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -390,7 +390,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="args">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
@@ -515,7 +515,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             string because = "", params object[] becauseArgs)
@@ -545,7 +545,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,

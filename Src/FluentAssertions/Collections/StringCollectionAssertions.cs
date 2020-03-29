@@ -59,7 +59,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
         {
@@ -85,7 +85,7 @@ namespace FluentAssertions.Collections
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expectation,
             Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
@@ -132,7 +132,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> ContainInOrder(IEnumerable<string> expected, string because = "",
             params object[] becauseArgs)
@@ -160,7 +160,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because = null,
             object becauseArg = null,
@@ -181,7 +181,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> NotContain(IEnumerable<string> unexpected, string because = null,
             object becauseArg = null,
@@ -203,7 +203,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndWhichConstraint<StringCollectionAssertions, string> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
@@ -254,7 +254,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> NotContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)

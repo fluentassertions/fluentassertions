@@ -28,7 +28,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
@@ -82,7 +82,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
@@ -110,7 +110,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
         {
@@ -132,7 +132,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
@@ -160,7 +160,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
@@ -188,7 +188,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
@@ -216,7 +216,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
             params object[] becauseArgs)
@@ -254,7 +254,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
@@ -291,7 +291,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)

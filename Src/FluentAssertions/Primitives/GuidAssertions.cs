@@ -30,7 +30,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GuidAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -50,7 +50,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GuidAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
@@ -75,7 +75,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GuidAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
@@ -92,7 +92,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GuidAssertions> Be(Guid expected, string because = "", params object[] becauseArgs)
         {
@@ -113,7 +113,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<GuidAssertions> NotBe(Guid unexpected, string because = "", params object[] becauseArgs)
         {
