@@ -1100,8 +1100,11 @@ namespace FluentAssertions.Formatting
     public class DefaultValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DefaultValueFormatter() { }
-        public bool CanHandle(object value) { }
+        protected virtual int SpacesPerIndentionLevel { get; }
+        public virtual bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        protected virtual System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.SelectedMemberInfo> GetMembers(System.Type type) { }
+        protected virtual string TypeDisplayName(System.Type type) { }
     }
     public class DoubleValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
@@ -1112,7 +1115,8 @@ namespace FluentAssertions.Formatting
     public class EnumerableValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public EnumerableValueFormatter() { }
-        public bool CanHandle(object value) { }
+        protected virtual int MaxItems { get; }
+        public virtual bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class ExceptionValueFormatter : FluentAssertions.Formatting.IValueFormatter

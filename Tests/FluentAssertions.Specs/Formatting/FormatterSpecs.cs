@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -673,6 +674,88 @@ namespace FluentAssertions.Specs
             {
                 throw new XunitException("Should never be called");
             }
+        }
+
+        [Fact]
+        public void When_defining_a_custom_value_formatter_it_should_respect_the_overrides()
+        {
+            // Arrange
+            var value = new CustomClass();
+            var formatter = new CustomClassValueFormatter();
+            using var _ = new FormatterScope(formatter);
+
+            // Act
+            string str = Formatter.ToString(value);
+
+            // Assert
+            str.Should().Match(
+"*CustomClass" + Environment.NewLine +
+"{" + Environment.NewLine +
+"        IntProperty = 0" + Environment.NewLine +
+"}*");
+        }
+
+        private class CustomClass
+        {
+            public int IntProperty { get; set; }
+            public string StringProperty { get; set; }
+        }
+
+        private class CustomClassValueFormatter : DefaultValueFormatter
+        {
+            protected override int SpacesPerIndentionLevel => 8;
+
+            public override bool CanHandle(object value) => value is CustomClass;
+
+            protected override IEnumerable<SelectedMemberInfo> GetMembers(Type type) =>
+                base.GetMembers(type).Where(e => e.MemberType != typeof(string));
+
+            protected override string TypeDisplayName(Type type) => type.Name;
+        }
+
+        [Fact]
+        public void When_defining_a_custom_enumerable_value_formatter_it_should_respect_the_overrides()
+        {
+            // Arrange
+            var values = new CustomClass[]
+            {
+                new CustomClass{ IntProperty = 1 },
+                new CustomClass{ IntProperty = 2 }
+            };
+
+            var formatter = new SingleItemValueFormatter();
+            using var _ = new FormatterScope(formatter);
+
+            // Act
+            string str = Formatter.ToString(values);
+
+            // Assert
+            str.Should().Match(
+"{FluentAssertions.Specs.FormatterSpecs+CustomClass" + Environment.NewLine +
+"   {" + Environment.NewLine +
+"      IntProperty = 1" + Environment.NewLine +
+"      StringProperty = <null>" + Environment.NewLine +
+"   }, …1 more…}*");
+        }
+
+        private class SingleItemValueFormatter : EnumerableValueFormatter
+        {
+            protected override int MaxItems => 1;
+
+            public override bool CanHandle(object value) => value is IEnumerable<CustomClass>;
+        }
+
+        private sealed class FormatterScope : IDisposable
+        {
+            private readonly IValueFormatter formatter;
+
+            public FormatterScope(IValueFormatter formatter)
+            {
+                this.formatter = formatter;
+                Formatter.AddFormatter(formatter);
+            }
+
+            public void Dispose() => Formatter.RemoveFormatter(formatter);
         }
     }
 
