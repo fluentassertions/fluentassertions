@@ -611,6 +611,13 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
     }
+    public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
+        public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
+        public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
+        public override string ToString() { }
+    }
     public enum EqualityStrategy
     {
         Equals = 0,
@@ -811,6 +818,9 @@ namespace FluentAssertions.Equivalency
         public TSelf Using(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>.Restriction<TProperty> Using<TProperty>(System.Action<FluentAssertions.Equivalency.IAssertionContext<TProperty>> action) { }
+        public TSelf Using<T>(System.Collections.Generic.IEqualityComparer<T> comparer) { }
+        public TSelf Using<T, TEqualityComparer>()
+            where TEqualityComparer : System.Collections.Generic.IEqualityComparer<T>, new () { }
         public TSelf WithAutoConversion() { }
         public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf WithStrictOrdering() { }

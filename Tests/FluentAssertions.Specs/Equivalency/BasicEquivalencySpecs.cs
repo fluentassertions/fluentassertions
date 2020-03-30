@@ -2237,6 +2237,185 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_nested_property_is_equal_based_on_equality_comparer_it_should_not_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Timestamp = 22.March(2020).At(19, 30)
+            };
+
+            var expectation = new
+            {
+                Timestamp = 1.January(2020).At(7, 31)
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using<DateTime, DateTimeByYearComparer>());
+
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_nested_property_is_unequal_based_on_equality_comparer_it_should_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Timestamp = 22.March(2020)
+            };
+
+            var expectation = new
+            {
+                Timestamp = 1.January(2021)
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using(new DateTimeByYearComparer()));
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*equal*2021*DateTimeByYearComparer*2020*");
+        }
+
+        [Fact]
+        public void When_the_subjects_property_type_is_different_from_the_equality_comparer_it_should_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Timestamp = 1L
+            };
+
+            var expectation = new
+            {
+                Timestamp = 1.January(2021)
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using(new DateTimeByYearComparer()));
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*Timestamp*1L*");
+        }
+
+        private class DateTimeByYearComparer : IEqualityComparer<DateTime>
+        {
+            public bool Equals(DateTime x, DateTime y)
+            {
+                return x.Year == y.Year;
+            }
+
+            public int GetHashCode(DateTime obj) => obj.GetHashCode();
+        }
+
+        [Fact]
+        public void When_an_invalid_equality_comparer_is_provided_it_should_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Timestamp = 22.March(2020)
+            };
+
+            var expectation = new
+            {
+                Timestamp = 1.January(2021)
+            };
+
+            IEqualityComparer<DateTime> equalityComparer = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using(equalityComparer));
+
+            // Assert
+            act.Should()
+                .Throw<ArgumentNullException>()
+                .WithMessage("*comparer*");
+        }
+
+        [Fact]
+        public void When_the_compile_time_type_does_not_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
+        {
+            // Arrange
+            var subject = new
+            {
+                Property = (IInterface)new ConcreteClass("SomeString")
+            };
+
+            var expectation = new
+            {
+                Property = (IInterface)new ConcreteClass("SomeOtherString")
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt =>
+                opt.Using<ConcreteClass, ConcreteClassEqualityComparer>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_runtime_type_does_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
+        {
+            // Arrange
+            var subject = new
+            {
+                Property = (IInterface)new ConcreteClass("SomeString")
+            };
+
+            var expectation = new
+            {
+                Property = (IInterface)new ConcreteClass("SomeOtherString")
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt =>  opt
+                .RespectingRuntimeTypes()
+                .Using<ConcreteClass, ConcreteClassEqualityComparer>());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
+        }
+
+        private interface IInterface
+        {
+
+        }
+
+        private class ConcreteClass : IInterface
+        {
+            private string property;
+
+            public ConcreteClass(string propertyValue)
+            {
+                property = propertyValue;
+            }
+
+            public string GetProperty() => property;
+        }
+
+        private class ConcreteClassEqualityComparer : IEqualityComparer<ConcreteClass>
+        {
+            public bool Equals(ConcreteClass x, ConcreteClass y)
+            {
+                return x.GetProperty().Equals(y.GetProperty());
+            }
+
+            public int GetHashCode(ConcreteClass obj) => obj.GetProperty().GetHashCode();
+        }
+
         #endregion
 
         #region Member Conversion

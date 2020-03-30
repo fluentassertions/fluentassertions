@@ -423,6 +423,27 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Ensures the equivalency comparison will create and use an instance of <typeparamref name="TEqualityComparer"/>
+        /// that implements <see cref="IEqualityComparer{T}"/>, any time
+        /// when a property is of type <typeparamref name="T"/>.
+        /// </summary>
+        public TSelf Using<T, TEqualityComparer>() where TEqualityComparer : IEqualityComparer<T>, new()
+        {
+            return Using(new TEqualityComparer());
+        }
+
+        /// <summary>
+        /// Ensures the equivalency comparison will use the specified implementation of <see cref="IEqualityComparer{T}"/>
+        /// any time when a property is of type <typeparamref name="T"/>.
+        /// </summary>
+        public TSelf Using<T>(IEqualityComparer<T> comparer)
+        {
+            userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<T>(comparer));
+
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Causes all collections to be compared in the order in which the items appear in the expectation.
         /// </summary>
         public TSelf WithStrictOrdering()
