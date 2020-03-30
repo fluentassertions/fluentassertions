@@ -44,7 +44,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<DelegateAssertions<TDelegate>> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
@@ -90,7 +90,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<DelegateAssertions<TDelegate>> NotThrow(string because = "", params object[] becauseArgs)
         {
@@ -115,7 +115,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
@@ -164,7 +164,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
         public AndConstraint<DelegateAssertions<TDelegate>> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
