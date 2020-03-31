@@ -109,5 +109,39 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("*Expected*boolean*True*because we want to test the failure message, but found False.*");
         }
+
+        [Fact]
+        public void Should_succeed_when_asserting_boolean_value_not_to_be_equal_to_the_same_value()
+        {
+            // Act
+            Action action = () =>
+                true.Should().NotBe(false);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_boolean_value_not_to_be_equal_to_a_different_value()
+        {
+            // Act
+            Action action = () =>
+                true.Should().NotBe(true);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_boolean_value_not_to_be_equal_to_a_different_value()
+        {
+            // Act
+            Action action = () =>
+                true.Should().NotBe(true, "because we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("*Expected*boolean*True*because we want to test the failure message, but found True.*");
+        }
     }
 }

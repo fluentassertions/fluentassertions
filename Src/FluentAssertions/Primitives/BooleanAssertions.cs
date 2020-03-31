@@ -79,5 +79,26 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<BooleanAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the value is not equal to the specified <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<BooleanAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
+
+            return new AndConstraint<BooleanAssertions>(this);
+        }
     }
 }

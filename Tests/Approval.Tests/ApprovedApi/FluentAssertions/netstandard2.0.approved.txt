@@ -1323,6 +1323,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.BooleanAssertions> Be(bool expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.BooleanAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.BooleanAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.BooleanAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class DateTimeAssertions
     {
