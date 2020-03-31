@@ -1032,14 +1032,14 @@ namespace FluentAssertions.Specs
             string expectedPrefix = "Ab";
 
             // Act / Assert
-            actual.Should().StartWithEquivalent(expectedPrefix);
+            actual.Should().StartWithEquivalentOf(expectedPrefix);
         }
 
         [Fact]
         public void When_start_of_string_does_not_meet_equivalent_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().StartWithEquivalent("bc", "because it should start");
+            Action act = () => "ABC".Should().StartWithEquivalentOf("bc", "because it should start");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1051,7 +1051,7 @@ namespace FluentAssertions.Specs
         public void When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             // Act
-            Action act = () => "ABCDEFGHI".Should().StartWithEquivalent("abcddfghi", "it should {0}", "start");
+            Action act = () => "ABCDEFGHI".Should().StartWithEquivalentOf("abcddfghi", "it should {0}", "start");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1064,7 +1064,7 @@ namespace FluentAssertions.Specs
         public void When_start_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().StartWithEquivalent(null);
+            Action act = () => "ABC".Should().StartWithEquivalentOf(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
@@ -1075,7 +1075,7 @@ namespace FluentAssertions.Specs
         public void When_start_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().StartWithEquivalent("");
+            Action act = () => "ABC".Should().StartWithEquivalentOf("");
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1087,7 +1087,7 @@ namespace FluentAssertions.Specs
         public void When_start_of_string_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().StartWithEquivalent("abcdef");
+            Action act = () => "ABC".Should().StartWithEquivalentOf("abcdef");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1101,7 +1101,7 @@ namespace FluentAssertions.Specs
         {
             // Act
             string someString = null;
-            Action act = () => someString.Should().StartWithEquivalent("AbC");
+            Action act = () => someString.Should().StartWithEquivalentOf("AbC");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1197,7 +1197,7 @@ namespace FluentAssertions.Specs
             string expectedSuffix = "bC";
 
             // Act / Assert
-            actual.Should().EndWithEquivalent(expectedSuffix);
+            actual.Should().EndWithEquivalentOf(expectedSuffix);
         }
 
         [Fact]
@@ -1208,14 +1208,14 @@ namespace FluentAssertions.Specs
             string expectedSuffix = "AbC";
 
             // Act / Assert
-            actual.Should().EndWithEquivalent(expectedSuffix);
+            actual.Should().EndWithEquivalentOf(expectedSuffix);
         }
 
         [Fact]
         public void When_end_of_string_does_not_meet_equivalent_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWithEquivalent("ab", "because it should end");
+            Action act = () => "ABC".Should().EndWithEquivalentOf("ab", "because it should end");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1226,7 +1226,7 @@ namespace FluentAssertions.Specs
         public void When_end_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWithEquivalent(null);
+            Action act = () => "ABC".Should().EndWithEquivalentOf(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
@@ -1237,7 +1237,7 @@ namespace FluentAssertions.Specs
         public void When_end_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWithEquivalent("");
+            Action act = () => "ABC".Should().EndWithEquivalentOf("");
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1248,7 +1248,7 @@ namespace FluentAssertions.Specs
         public void When_string_ending_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWithEquivalent("00abc");
+            Action act = () => "ABC".Should().EndWithEquivalentOf("00abc");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1262,7 +1262,7 @@ namespace FluentAssertions.Specs
         {
             // Act
             string someString = null;
-            Action act = () => someString.Should().EndWithEquivalent("abC");
+            Action act = () => someString.Should().EndWithEquivalentOf("abC");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

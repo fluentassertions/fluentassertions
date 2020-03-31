@@ -1590,7 +1590,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> EndWith(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> EndWithEquivalent(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
@@ -1614,7 +1614,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> StartWith(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> StartWithEquivalent(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.StringAssertions> StartWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
     }
     public enum TimeSpanCondition
     {

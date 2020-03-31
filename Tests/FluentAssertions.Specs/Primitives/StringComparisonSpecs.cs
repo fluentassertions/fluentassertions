@@ -87,7 +87,7 @@ namespace FluentAssertions.Specs.Primitives
         public void When_comparing_strings_for_having_equivalent_prefix_it_should_ignore_culture(string subject, string expected)
         {
             // Act
-            Action act = () => subject.Should().StartWithEquivalent(expected);
+            Action act = () => subject.Should().StartWithEquivalentOf(expected);
 
             // Assert
             act.Should().NotThrow<XunitException>();
@@ -131,7 +131,7 @@ namespace FluentAssertions.Specs.Primitives
         public void When_comparing_strings_for_having_equivalent_suffix_it_should_ignore_culture(string subject, string expected)
         {
             // Act
-            Action act = () => subject.Should().EndWithEquivalent(expected);
+            Action act = () => subject.Should().EndWithEquivalentOf(expected);
 
             // Assert
             act.Should().NotThrow<XunitException>();
