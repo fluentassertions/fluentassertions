@@ -129,6 +129,40 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 }
 ```
 
+Say you want to customize the formatting of your `CustomClass` type to:
+* Increase the indentation from the default 3 to 8,
+* Exclude all `string` members and
+* Exclude the namespace of the type.
+
+An easy way to achieve this is by extending the `DefaultValueFormatter`.
+
+```csharp
+class CustomClassFormatter : DefaultValueFormatter
+{
+    protected override int SpacesPerIndentionLevel => 8;
+
+    public override bool CanHandle(object value) => value is CustomClass;
+
+    protected override IEnumerable<SelectedMemberInfo> GetMembers(Type type) =>
+        base.GetMembers(type).Where(e => e.MemberType != typeof(string));
+
+    protected override string TypeDisplayName(Type type) => type.Name;
+}
+```
+
+Per default the first 32 items are included when formatting an enumerable.
+That might be too many or too few depending on your data.
+To create a formatter that only prints out the first 5 items, when formatting an `IEnumerable<CustomClass>` you can extend the `EnumerableValueFormatter`.
+
+```c#
+class EnumerableCustomClassFormatter : EnumerableValueFormatter
+{
+    protected override int MaxItems => 5;
+
+    public override bool CanHandle(object value) => value is IEnumerable<CustomClass>;
+}
+```
+
 ## To be or not to be a value type ##
 
 The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively. 
