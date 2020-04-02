@@ -1,8 +1,9 @@
 namespace FluentAssertions.Collections
 {
-    public class WhichValueConstraint<TKey, TValue> : AndConstraint<GenericDictionaryAssertions<TKey, TValue>>
+    public class WhichValueConstraint<TKey, TValue, TAssertions> : AndConstraint<TAssertions>
+        where TAssertions : GenericDictionaryAssertions<TKey, TValue, TAssertions>
     {
-        public WhichValueConstraint(GenericDictionaryAssertions<TKey, TValue> parentConstraint, TValue value)
+        public WhichValueConstraint(TAssertions parentConstraint, TValue value)
             : base(parentConstraint)
         {
             WhichValue = value;

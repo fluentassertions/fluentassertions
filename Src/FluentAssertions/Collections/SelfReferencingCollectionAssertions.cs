@@ -18,6 +18,19 @@ namespace FluentAssertions.Collections
         public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
         {
         }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
+    /// </summary>
+    public class SelfReferencingCollectionAssertions<TCollection, T, TAssertions> :
+        CollectionAssertions<TCollection, TAssertions>
+        where TCollection : IEnumerable<T>
+        where TAssertions : SelfReferencingCollectionAssertions<TCollection, T, TAssertions>
+    {
+        public SelfReferencingCollectionAssertions(TCollection actualValue) : base(actualValue)
+        {
+        }
 
         /// <summary>
         /// Asserts that the number of items in the collection matches the supplied <paramref name="expected" /> amount.

@@ -1528,7 +1528,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             MethodInfo[] methodInfo =
-                typeof(StringCollectionAssertions).GetMethods(
+                typeof(StringCollectionAssertions<IEnumerable<string>>).GetMethods(
                     BindingFlags.Public | BindingFlags.Instance);
 
             // Act
@@ -1540,7 +1540,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             methods.Should().OnlyContain(method =>
-                typeof(AndConstraint<StringCollectionAssertions>)
+                typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>)
                     .GetTypeInfo()
                     .IsAssignableFrom(method.ReturnType.GetTypeInfo()));
         }

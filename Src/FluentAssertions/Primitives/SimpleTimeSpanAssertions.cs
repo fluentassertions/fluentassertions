@@ -8,7 +8,20 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class SimpleTimeSpanAssertions
+    public class SimpleTimeSpanAssertions : SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>
+    {
+        public SimpleTimeSpanAssertions(TimeSpan? value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
+    public class SimpleTimeSpanAssertions<TAssertions>
+        where TAssertions : SimpleTimeSpanAssertions<TAssertions>
     {
         public SimpleTimeSpanAssertions(TimeSpan? value)
         {
@@ -30,7 +43,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -43,7 +56,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -56,7 +69,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -69,7 +82,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -84,7 +97,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -97,7 +110,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -112,14 +125,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || Subject.Value.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}.", unexpected);
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -134,7 +147,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -147,7 +160,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -162,7 +175,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -175,7 +188,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -190,7 +203,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -203,7 +216,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -218,7 +231,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
+        public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -232,7 +245,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -256,7 +269,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
+        public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
             TimeSpan minimumValue = nearbyTime - precision;
@@ -269,7 +282,7 @@ namespace FluentAssertions.Primitives
                     precision,
                     nearbyTime, Subject ?? default(TimeSpan?));
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -293,7 +306,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
+        public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
             TimeSpan minimumValue = distantTime - precision;
@@ -306,7 +319,7 @@ namespace FluentAssertions.Primitives
                     precision,
                     distantTime, Subject ?? default(TimeSpan?));
 
-            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }
