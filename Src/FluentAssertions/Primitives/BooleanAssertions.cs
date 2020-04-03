@@ -8,6 +8,20 @@ namespace FluentAssertions.Primitives
     /// </summary>
     [DebuggerNonUserCode]
     public class BooleanAssertions
+        : BooleanAssertions<BooleanAssertions>
+    {
+        public BooleanAssertions(bool? value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a <see cref="bool"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
+    public class BooleanAssertions<TAssertions>
+        where TAssertions : BooleanAssertions<TAssertions>
     {
         public BooleanAssertions(bool? value)
         {
@@ -29,14 +43,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<BooleanAssertions> BeFalse(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<BooleanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -49,14 +63,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<BooleanAssertions> BeTrue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<BooleanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -70,14 +84,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<BooleanAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
 
-            return new AndConstraint<BooleanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -91,14 +105,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<BooleanAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
 
-            return new AndConstraint<BooleanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

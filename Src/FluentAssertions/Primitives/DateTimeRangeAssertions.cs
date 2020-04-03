@@ -14,11 +14,12 @@ namespace FluentAssertions.Primitives
     /// way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class DateTimeRangeAssertions
+    public class DateTimeRangeAssertions<TAssertions>
+        where TAssertions : DateTimeAssertions<TAssertions>
     {
         #region Private Definitions
 
-        private readonly DateTimeAssertions parentAssertions;
+        private readonly TAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
@@ -36,7 +37,7 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected internal DateTimeRangeAssertions(DateTimeAssertions parentAssertions, DateTime? subject,
+        protected internal DateTimeRangeAssertions(TAssertions parentAssertions, DateTime? subject,
             TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
@@ -60,7 +61,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string because = "",
+        public AndConstraint<TAssertions> Before(DateTime target, string because = "",
             params object[] becauseArgs)
         {
             bool success = Execute.Assertion
@@ -85,7 +86,7 @@ namespace FluentAssertions.Primitives
                 }
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string because = "",
+        public AndConstraint<TAssertions> After(DateTime target, string because = "",
             params object[] becauseArgs)
         {
             bool success = Execute.Assertion
@@ -126,7 +127,7 @@ namespace FluentAssertions.Primitives
                 }
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
         }
     }
 }
