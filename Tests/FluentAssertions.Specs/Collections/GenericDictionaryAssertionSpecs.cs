@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to have 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to contain 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [Fact]
@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare dictionary count against a <null> predicate.*");
+                "Cannot compare collection count against a <null> predicate.*");
         }
 
         [Fact]
@@ -239,7 +239,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected dictionary to contain 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
@@ -253,7 +253,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected dictionary to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -309,7 +309,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*not have*3*because we want to test the failure message*3*");
+                .WithMessage("*not contain*3*because we want to test the failure message*3*");
         }
 
         [Fact]
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specs
             Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*not have*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
         }
 
         #endregion
@@ -638,7 +638,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have 2 item(s), but count is 3.");
+                "Expected dictionary to have 2 item(s), but found 3.");
         }
 
         [Fact]
@@ -658,7 +658,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have 2 item(s) because we want to test the reason, but count is 3.");
+                "Expected dictionary to have 2 item(s) because we want to test the reason, but found 3.");
         }
 
         [Fact]
@@ -694,7 +694,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare dictionary count against a <null> collection.*");
+                "Cannot verify count against a <null> collection.*");
         }
 
         #endregion
@@ -734,7 +734,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not have 3 item(s), but count is 3.");
+                "Expected dictionary to not have 3 item(s), but found 3.");
         }
 
         [Fact]
@@ -754,7 +754,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not have 3 item(s) because we want to test the reason, but count is 3.");
+                "Expected dictionary to not have 3 item(s) because we want to test the reason, but found 3.");
         }
 
         [Fact]
@@ -790,7 +790,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare dictionary count against a <null> collection.*");
+                "Cannot verify count against a <null> collection.*");
         }
 
         [Fact]
@@ -858,7 +858,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to not have any items because we want to test the failure message, but found 1.");
+                .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1, One]}.");
         }
 
         [Fact]
@@ -911,7 +911,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected one or more items because we want to test the failure message, but found none.");
+                .WithMessage("Expected dictionary not to be empty because we want to test the failure message.");
         }
 
         [Fact]
@@ -2588,6 +2588,120 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        [Theory]
+        [MemberData(nameof(DictionariesData))]
+        public void When_comparing_dictionary_like_collections_for_equality_it_should_succeed<T1, T2>(T1 subject, T2 expected)
+            where T1 : IEnumerable<KeyValuePair<int, int>>
+            where T2 : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Act
+            Action act = () => subject.Should().Equal(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [MemberData(nameof(DictionariesData))]
+        public void When_comparing_dictionary_like_collections_for_inequality_it_should_throw<T1, T2>(T1 subject, T2 expected)
+            where T1 : IEnumerable<KeyValuePair<int, int>>
+            where T2 : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Act
+            Action act = () => subject.Should().NotEqual(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        public static IEnumerable<object[]> DictionariesData()
+        {
+            return from x in Dictionaries()
+                   from y in Dictionaries()
+                   select new[] { x, y };
+        }
+
+        [Theory]
+        [MemberData(nameof(SingleDictionaryData))]
+        public void When_a_dictionary_like_collection_contains_the_expected_key_it_should_succeed<T>(T subject)
+            where T : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Act
+            Action act = () => subject.Should().ContainKey(1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [MemberData(nameof(SingleDictionaryData))]
+        public void When_a_dictionary_like_collection_contains_the_expected_value_it_should_succeed<T>(T subject)
+            where T : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Act
+            Action act = () => subject.Should().ContainValue(42);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [MemberData(nameof(SingleDictionaryData))]
+        public void When_using_a_dictionary_like_collection_it_should_preserve_reference_equality<T>(T subject)
+            where T : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Act
+            Action act = () => subject.Should().BeSameAs(subject);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        public static IEnumerable<object[]> SingleDictionaryData() =>
+            Dictionaries().Select(x => new[] { x });
+
+        private static object[] Dictionaries()
+        {
+            return new object[]
+            {
+                new Dictionary<int, int>() { [1] = 42 },
+                new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
+                new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
+            };
+        }
+
+        /// <summary>
+        /// This class only implements <see cref="IReadOnlyDictionary{TKey, TValue}"/>,
+        /// as <see cref="ReadOnlyDictionary{TKey, TValue}"/> also implements <see cref="IDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        private class TrueReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+        {
+            private readonly IReadOnlyDictionary<TKey, TValue> dictionary;
+
+            public TrueReadOnlyDictionary(IReadOnlyDictionary<TKey, TValue> dictionary)
+            {
+                this.dictionary = dictionary;
+            }
+
+            public TValue this[TKey key] => dictionary[key];
+
+            public IEnumerable<TKey> Keys => dictionary.Keys;
+
+            public IEnumerable<TValue> Values => dictionary.Values;
+
+            public int Count => dictionary.Count;
+
+            public bool ContainsKey(TKey key) => dictionary.ContainsKey(key);
+
+            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => dictionary.GetEnumerator();
+
+            public bool TryGetValue(TKey key, out TValue value) => dictionary.TryGetValue(key, out value);
+
+            IEnumerator IEnumerable.GetEnumerator() => dictionary.GetEnumerator();
+        }
     }
 
     internal class TrackingTestDictionary : IDictionary<int, string>

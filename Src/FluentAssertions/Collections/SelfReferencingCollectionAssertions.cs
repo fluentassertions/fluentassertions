@@ -12,8 +12,8 @@ namespace FluentAssertions.Collections
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
-    public class SelfReferencingCollectionAssertions<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
-        where TAssertions : SelfReferencingCollectionAssertions<T, TAssertions>
+    public class SelfReferencingCollectionAssertions<T, TAssertions> : SelfReferencingCollectionAssertions<IEnumerable<T>, T, TAssertions>
+        where TAssertions : SelfReferencingCollectionAssertions<IEnumerable<T>, T, TAssertions>
     {
         public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
         {
@@ -21,7 +21,7 @@ namespace FluentAssertions.Collections
     }
 
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
+    /// Contains a number of methods to assert that an <typeparamref name="TAssertions"/> is in the expectation state.
     /// </summary>
     public class SelfReferencingCollectionAssertions<TCollection, T, TAssertions> :
         CollectionAssertions<TCollection, TAssertions>
@@ -57,7 +57,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .FailWith("Expected {context:collection} {0} to contain {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

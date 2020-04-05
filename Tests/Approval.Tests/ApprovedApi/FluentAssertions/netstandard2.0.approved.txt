@@ -88,7 +88,10 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this System.IComparable<T> comparableValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
-        public static FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+            where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
     }
@@ -345,37 +348,31 @@ namespace FluentAssertions.Collections
             where TKey :  class { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs) { }
     }
-    public class GenericDictionaryAssertions<TKey, TValue> : FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue, FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue>>
+    public class GenericDictionaryAssertions<TCollection, TKey, TValue> : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue>>
+        where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(System.Collections.Generic.IDictionary<TKey, TValue> dictionary) { }
+        public GenericDictionaryAssertions(TCollection keyValuePairs) { }
     }
-    public class GenericDictionaryAssertions<TKey, TValue, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TAssertions>
-        where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue, TAssertions>
+    public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, System.Collections.Generic.KeyValuePair<TKey, TValue>, TAssertions>
+        where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
+        where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
-        public GenericDictionaryAssertions(System.Collections.Generic.IDictionary<TKey, TValue> dictionary) { }
+        public GenericDictionaryAssertions(TCollection keyValuePairs) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(params System.Collections.Generic.KeyValuePair<, >[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.KeyValuePair<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(TKey key, TValue value, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Collections.WhichValueConstraint<TKey, TValue, TAssertions> ContainKey(TKey expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Collections.WhichValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainKeys(params TKey[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainKeys(System.Collections.Generic.IEnumerable<TKey> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TValue> ContainValue(TValue expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainValues(params TValue[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainValues(System.Collections.Generic.IEnumerable<TValue> expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IDictionary<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal<T>(T expected, string because = "", params object[] becauseArgs)
+            where T : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(params System.Collections.Generic.KeyValuePair<, >[] items) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> items, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.KeyValuePair<TKey, TValue> item, string because = "", params object[] becauseArgs) { }
@@ -386,9 +383,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContainValue(TValue unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainValues(params TValue[] unexpected) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainValues(System.Collections.Generic.IEnumerable<TValue> unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.Generic.IDictionary<TKey, TValue> unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotEqual<T>(T unexpected, string because = "", params object[] becauseArgs)
+            where T : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
     }
     public class NonGenericCollectionAssertions : FluentAssertions.Collections.NonGenericCollectionAssertions<System.Collections.IEnumerable, FluentAssertions.Collections.NonGenericCollectionAssertions>
     {
@@ -409,8 +405,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContain(object unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
     }
-    public class SelfReferencingCollectionAssertions<T, TAssertions> : FluentAssertions.Collections.CollectionAssertions<System.Collections.Generic.IEnumerable<T>, TAssertions>
-        where TAssertions : FluentAssertions.Collections.SelfReferencingCollectionAssertions<T, TAssertions>
+    public class SelfReferencingCollectionAssertions<T, TAssertions> : FluentAssertions.Collections.SelfReferencingCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, TAssertions>
+        where TAssertions : FluentAssertions.Collections.SelfReferencingCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, TAssertions>
     {
         public SelfReferencingCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue) { }
     }
@@ -471,8 +467,9 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<string> unexpected, string because = null, object becauseArg = null, params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
     }
-    public class WhichValueConstraint<TKey, TValue, TAssertions> : FluentAssertions.AndConstraint<TAssertions>
-        where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TKey, TValue, TAssertions>
+    public class WhichValueConstraint<TCollection, TKey, TValue, TAssertions> : FluentAssertions.AndConstraint<TAssertions>
+        where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
+        where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
         public WhichValueConstraint(TAssertions parentConstraint, TValue value) { }
         public TValue WhichValue { get; }

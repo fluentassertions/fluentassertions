@@ -1074,7 +1074,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected collection to contain 4 item(s) because we want to test the failure message, but found 3.");
+                    "Expected collection {\"one\", \"two\", \"three\"} to contain 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [Fact]
