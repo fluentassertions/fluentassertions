@@ -869,7 +869,7 @@ namespace FluentAssertions.Equivalency
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public class Restriction<TMember>
         {
-            public Restriction(TSelf options, FluentAssertions.Equivalency.ConversionSelector conversionSelector, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
+            public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
             public TSelf When(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
             public TSelf WhenTypeIs<TMemberType>() { }
         }

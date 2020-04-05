@@ -336,7 +336,7 @@ namespace FluentAssertions.Equivalency
         /// </param>
         public Restriction<TProperty> Using<TProperty>(Action<IAssertionContext<TProperty>> action)
         {
-            return new Restriction<TProperty>((TSelf)this, ConversionSelector, action);
+            return new Restriction<TProperty>((TSelf)this, action);
         }
 
         /// <summary>
@@ -645,12 +645,10 @@ namespace FluentAssertions.Equivalency
         {
             private readonly Action<IAssertionContext<TMember>> action;
             private readonly TSelf options;
-            private readonly ConversionSelector conversionSelector;
 
-            public Restriction(TSelf options, ConversionSelector conversionSelector, Action<IAssertionContext<TMember>> action)
+            public Restriction(TSelf options, Action<IAssertionContext<TMember>> action)
             {
                 this.options = options;
-                this.conversionSelector = conversionSelector;
                 this.action = action;
             }
 
