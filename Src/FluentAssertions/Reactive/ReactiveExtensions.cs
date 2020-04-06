@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using Microsoft.Reactive.Testing;
@@ -15,6 +16,16 @@ namespace FluentAssertions.Reactive
         /// Create a new <see cref="FluentTestObserver{TPayload}"/> subscribed to this <paramref name="observable"/>
         /// </summary>
         public static FluentTestObserver<T> Observe<T>(this IObservable<T> observable) => new FluentTestObserver<T>(observable);
+
+        /// <summary>
+        /// Create a new <see cref="FluentTestObserver{TPayload}"/> subscribed to this <paramref name="observable"/>
+        /// </summary>
+        public static FluentTestObserver<T> Observe<T>(this IObservable<T> observable, IScheduler scheduler) => new FluentTestObserver<T>(observable, scheduler);
+
+        /// <summary>
+        /// Create a new <see cref="FluentTestObserver{TPayload}"/> subscribed to this <paramref name="observable"/>
+        /// </summary>
+        public static FluentTestObserver<T> Observe<T>(this IObservable<T> observable, TestScheduler scheduler) => new FluentTestObserver<T>(observable, scheduler);
 
         /// <summary>
         /// Asserts that the recorded messages contain at lease one item which matches the <paramref name="predicate"/>

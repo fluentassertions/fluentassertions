@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using FluentAssertions.Specialized;
 using Microsoft.Reactive.Testing;
 
 namespace FluentAssertions.Reactive
@@ -17,6 +19,7 @@ namespace FluentAssertions.Reactive
     /// <typeparam name="TPayload"></typeparam>
     public class ReactiveAssertions<TPayload> : ReferenceTypeAssertions<IObservable<TPayload>, ReactiveAssertions<TPayload>>
     {
+        private readonly IExtractExceptions extractor = new AggregateExceptionExtractor();
         public FluentTestObserver<TPayload> Observer { get; }
 
         protected internal ReactiveAssertions(FluentTestObserver<TPayload> observer): base(observer.Subject)
@@ -39,7 +42,7 @@ namespace FluentAssertions.Reactive
         {
             IList<TPayload> notifications = new List<TPayload>();
             var assertion = Execute.Assertion
-                .WithExpectation($"Expected {{context}} to push at least {numberOfNotifications} {(numberOfNotifications == 1 ? "notification" : "notifications")}, ")
+                .WithExpectation($"Expected observable to push at least {numberOfNotifications} {(numberOfNotifications == 1 ? "notification" : "notifications")}, ")
                 .BecauseOf(because, becauseArgs);
 
             try
@@ -56,7 +59,9 @@ namespace FluentAssertions.Reactive
             }
             catch (Exception e)
             {
-                assertion.FailWith("but it failed with exception {0}.", e);
+                if(e is AggregateException aggregateException)
+                    e = aggregateException.InnerException;
+                assertion.FailWith("but it failed with a {0}.", e);
             }
 
             assertion
@@ -72,7 +77,7 @@ namespace FluentAssertions.Reactive
         {
             IList<TPayload> notifications = new List<TPayload>();
             var assertion = Execute.Assertion
-                .WithExpectation($"Expected {{context}} to push at least {numberOfNotifications} {(numberOfNotifications == 1 ? "notification" : "notifications")}, ")
+                .WithExpectation($"Expected observable to push at least {numberOfNotifications} {(numberOfNotifications == 1 ? "notification" : "notifications")}, ")
                 .BecauseOf(because, becauseArgs);
 
             try
@@ -88,7 +93,9 @@ namespace FluentAssertions.Reactive
             }
             catch (Exception e)
             {
-                assertion.FailWith("but it failed with exception {0}.", e);
+                if (e is AggregateException aggregateException)
+                    e = aggregateException.InnerException;
+                assertion.FailWith("but it failed with a {0}.", e);
             }
 
             assertion
@@ -140,7 +147,7 @@ namespace FluentAssertions.Reactive
             Execute.Assertion
                 .ForCondition(!anyNotifications)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to not push any notifications{reason}, but it did.");
+                .FailWith("Expected observable to not push any notifications{reason}, but it did.");
             
             return new AndConstraint<ReactiveAssertions<TPayload>>(this);
         }
@@ -155,53 +162,33 @@ namespace FluentAssertions.Reactive
         /// <summary>
         /// Asserts that the <see cref="IObservable{T}"/> observed by the <see cref="FluentTestObserver{TPayload}"/> fails within the specified <paramref name="timeout"/>. 
         /// </summary>
-        public AndWhichConstraint<ReactiveAssertions<TPayload>, Exception> Fail(TimeSpan timeout,
-            string because = "", params object[] becauseArgs)
+        public ExceptionAssertions<TException> Throw<TException>(TimeSpan timeout, string because = "", params object[] becauseArgs)
+            where TException : Exception
         {
-            var exception = Observer.RecordedNotificationStream
-                .Timeout(timeout)
-                .Catch(Observable.Empty<Recorded<Notification<TPayload>>>())
-                .FirstOrDefaultAsync(recorded => recorded.Value.Kind == NotificationKind.OnError)
-                .Select(recorded => recorded.Value.Exception)
-                .ToTask()
-                .ExecuteInDefaultSynchronizationContext();
-
-            Execute.Assertion
-                .ForCondition(exception != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to fail within {0}{reason}, but it did not.", timeout);
-            
-            return new AndWhichConstraint<ReactiveAssertions<TPayload>, Exception>(this, exception);
+            var notifications = GetRecordedNotifications(timeout).ExecuteInDefaultSynchronizationContext();
+            return Throw<TException>(notifications, because, becauseArgs);
         }
 
-        /// <inheritdoc cref="Fail(TimeSpan,string,object[])"/>
-        public async Task<AndWhichConstraint<ReactiveAssertions<TPayload>, Exception>> FailAsync(TimeSpan timeout,
+        /// <inheritdoc cref="Throw"/>
+        public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(TimeSpan timeout,
             string because = "", params object[] becauseArgs)
+            where TException : Exception
         {
-            var exception = await Observer.RecordedNotificationStream
-                .Timeout(timeout)
-                .Catch(Observable.Empty<Recorded<Notification<TPayload>>>())
-                .FirstOrDefaultAsync(recorded => recorded.Value.Kind == NotificationKind.OnError)
-                .Select(recorded => recorded.Value.Exception)
-                .ToTask();
-
-            Execute.Assertion
-                .ForCondition(exception != null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to fail within {0}{reason}, but it did not.", timeout);
-
-            return new AndWhichConstraint<ReactiveAssertions<TPayload>, Exception>(this, exception);
+            var notifications = await GetRecordedNotifications(timeout);
+            return Throw<TException>(notifications, because, becauseArgs);
         }
 
         /// <summary>
         /// Asserts that the <see cref="IObservable{T}"/> observed by the <see cref="FluentTestObserver{TPayload}"/> fails within the next 1 second. 
         /// </summary>
-        public AndWhichConstraint<ReactiveAssertions<TPayload>, Exception> Fail(string because = "", params object[] becauseArgs)
-            => Fail(TimeSpan.FromSeconds(1), because, becauseArgs);
+        public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+            => Throw<TException>(TimeSpan.FromSeconds(1), because, becauseArgs);
 
-        /// <inheritdoc cref="Fail(string,object[])"/>
-        public Task<AndWhichConstraint<ReactiveAssertions<TPayload>, Exception>> FailAsync(string because = "", params object[] becauseArgs)
-            => FailAsync(TimeSpan.FromSeconds(1), because, becauseArgs);
+        /// <inheritdoc cref="Throw(string,object[])"/>
+        public Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
+            where TException : Exception
+            => ThrowAsync<TException>(TimeSpan.FromSeconds(1), because, becauseArgs);
 
         /// <summary>
         /// Asserts that the <see cref="IObservable{T}"/> observed by the <see cref="FluentTestObserver{TPayload}"/> completes within the specified <paramref name="timeout"/>. 
@@ -209,37 +196,19 @@ namespace FluentAssertions.Reactive
         public AndConstraint<ReactiveAssertions<TPayload>> Complete(TimeSpan timeout,
             string because = "", params object[] becauseArgs)
         {
-            bool completed = Observer.RecordedNotificationStream
-                .Any(recorded => recorded.Value.Kind == NotificationKind.OnCompleted)
-                .Timeout(timeout)
-                .Catch(Observable.Return(false))
-                .ToTask()
-                .ExecuteInDefaultSynchronizationContext();
-            
-            Execute.Assertion
-                .ForCondition(completed)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to complete within {0}{reason}, but it did not.", timeout);
+            var notifications = GetRecordedNotifications(timeout).ExecuteInDefaultSynchronizationContext();
 
-            return new AndConstraint<ReactiveAssertions<TPayload>>(this);
+            return Complete(timeout, because, becauseArgs, notifications);
         }
+
 
         /// <inheritdoc cref="Complete(System.TimeSpan,string,object[])"/>
         public async Task<AndConstraint<ReactiveAssertions<TPayload>>> CompleteAsync(TimeSpan timeout,
             string because = "", params object[] becauseArgs)
         {
-            bool completed = await Observer.RecordedNotificationStream
-                .Any(recorded => recorded.Value.Kind == NotificationKind.OnCompleted)
-                .Timeout(timeout)
-                .Catch(Observable.Return(false))
-                .ToTask();
+            var notifications = await GetRecordedNotifications(timeout);
 
-            Execute.Assertion
-                .ForCondition(completed)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to complete within {0}{reason}, but it did not.", timeout);
-
-            return new AndConstraint<ReactiveAssertions<TPayload>>(this);
+            return Complete(timeout, because, becauseArgs, notifications);
         }
 
         /// <summary>
@@ -268,7 +237,7 @@ namespace FluentAssertions.Reactive
             Execute.Assertion
                 .ForCondition(!completed)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} to not complete{reason}, but it did.");
+                .FailWith("Expected observable to not complete{reason}, but it did.");
             
             return new AndConstraint<ReactiveAssertions<TPayload>>(this);
         }
@@ -278,5 +247,63 @@ namespace FluentAssertions.Reactive
         /// </summary>
         public AndConstraint<ReactiveAssertions<TPayload>> NotComplete(string because = "", params object[] becauseArgs)
             => NotComplete(TimeSpan.FromMilliseconds(100), because, becauseArgs);
+
+        protected Task<IList<Recorded<Notification<TPayload>>>> GetRecordedNotifications(TimeSpan timeout) =>
+            Observer.RecordedNotificationStream
+                .TakeUntil(recorded => recorded.Value.Kind == NotificationKind.OnError)
+                .TakeUntil(recorded => recorded.Value.Kind == NotificationKind.OnCompleted)
+                .Timeout(timeout)
+                .Catch(Observable.Empty<Recorded<Notification<TPayload>>>())
+                .ToList()
+                .ToTask();
+
+        protected ExceptionAssertions<TException> Throw<TException>(IList<Recorded<Notification<TPayload>>> notifications, string because, object[] becauseArgs)
+            where TException : Exception
+        {
+            var exception = notifications
+                .Where(r => r.Value.Kind == NotificationKind.OnError)
+                .Select(r => r.Value.Exception)
+                .FirstOrDefault();
+
+            TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected observable to throw a <{0}>{reason}, ", typeof(TException))
+                .ForCondition(exception != null)
+                .FailWith("but no exception was thrown.")
+                .Then
+                .ForCondition(expectedExceptions.Any())
+                .FailWith("but found <{0}>: {1}{2}.",
+                    exception?.GetType(),
+                    Environment.NewLine,
+                    exception)
+                .Then
+                .ClearExpectation();
+
+            return new ExceptionAssertions<TException>(expectedExceptions);
+        }
+
+        protected AndConstraint<ReactiveAssertions<TPayload>> Complete(TimeSpan timeout, string because, object[] becauseArgs, IList<Recorded<Notification<TPayload>>> notifications)
+        {
+            var exception = notifications
+                .Where(r => r.Value.Kind == NotificationKind.OnError)
+                .Select(r => r.Value.Exception)
+                .FirstOrDefault();
+
+            Execute.Assertion
+                .WithExpectation("Expected observable to complete within {0}{reason}, ", timeout)
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(exception is null)
+                .FailWith("but it failed with <{0}>: {1}{2}.",
+                    exception?.GetType(),
+                    Environment.NewLine,
+                    exception)
+                .Then
+                .ForCondition(notifications.Any(r => r.Value.Kind == NotificationKind.OnCompleted))
+                .FailWith("but it did not.");
+
+            return new AndConstraint<ReactiveAssertions<TPayload>>(this);
+        }
     }
 }
