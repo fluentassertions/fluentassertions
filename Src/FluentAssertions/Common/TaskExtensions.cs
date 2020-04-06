@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FluentAssertions.Common
 {
@@ -23,6 +24,15 @@ namespace FluentAssertions.Common
             using (NoSynchronizationContextScope.Enter())
             {
                 return action();
+            }
+        }
+
+        public static TResult ExecuteInDefaultSynchronizationContext<TResult>(this Task<TResult> task)
+        {
+            using (NoSynchronizationContextScope.Enter())
+            {
+                task.Wait();
+                return task.Result;
             }
         }
     }
