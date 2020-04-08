@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -321,6 +320,7 @@ namespace FluentAssertions.Collections
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -365,6 +365,7 @@ namespace FluentAssertions.Collections
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -390,6 +391,7 @@ namespace FluentAssertions.Collections
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -438,6 +440,7 @@ namespace FluentAssertions.Collections
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -550,6 +553,7 @@ namespace FluentAssertions.Collections
         /// and the result is equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -572,6 +576,7 @@ namespace FluentAssertions.Collections
         /// and the result is equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -1539,6 +1544,8 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the <paramref name="expectation"/> element directly precedes the <paramref name="successor"/>.
         /// </summary>
+        /// <param name="successor">The element that should succeed <paramref name="expectation"/>.</param>
+        /// <param name="expectation">The expected element that should precede <paramref name="successor"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1582,6 +1589,8 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the <paramref name="expectation"/> element directly succeeds the <paramref name="predecessor"/>.
         /// </summary>
+        /// <param name="predecessor">The element that should precede <paramref name="expectation"/>.</param>
+        /// <param name="expectation">The element that should succeed <paramref name="predecessor"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

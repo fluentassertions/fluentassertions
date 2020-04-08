@@ -167,7 +167,6 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected nullableBoolean to be false because we want to test the failure message, but found <null>.");
-
         }
 
         [Fact]

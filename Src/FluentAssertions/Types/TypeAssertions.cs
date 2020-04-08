@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,7 +17,7 @@ namespace FluentAssertions.Types
     public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="System.Object" /> class.
+        /// Initializes a new instance of the <see cref="TypeAssertions"/> class.
         /// </summary>
         public TypeAssertions(Type type) : base(type)
         {

@@ -69,7 +69,7 @@ namespace FluentAssertions.Events
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.Monitor"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs)

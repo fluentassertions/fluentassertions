@@ -46,17 +46,17 @@ namespace FluentAssertions.Specialized
         protected override string Identifier => "exception";
 
         /// <summary>
-        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
-        /// <param name = "expectedWildcardPattern">
+        /// <param name="expectedWildcardPattern">
         /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
-        /// <param name = "because">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
@@ -73,11 +73,11 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
-        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
         public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -107,11 +107,11 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
+        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name="TInnerException" /> (and not a derived exception type).
         /// </summary>
-        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
         public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -134,14 +134,14 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Asserts that the exception matches a particular condition.
         /// </summary>
-        /// <param name = "exceptionExpression">
+        /// <param name="exceptionExpression">
         /// The condition that the exception must match.
         /// </param>
-        /// <param name = "because">
+        /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "becauseArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,

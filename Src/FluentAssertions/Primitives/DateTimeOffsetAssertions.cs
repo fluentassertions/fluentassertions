@@ -117,7 +117,7 @@ namespace FluentAssertions.Primitives
             long distanceToMinInTicks = (nearbyTime - DateTimeOffset.MinValue).Ticks;
             DateTimeOffset minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
 
-            long distanceToMaxInTicks = (long)(DateTimeOffset.MaxValue - nearbyTime).Ticks;
+            long distanceToMaxInTicks = (DateTimeOffset.MaxValue - nearbyTime).Ticks;
             DateTimeOffset maximumValue = nearbyTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
             Execute.Assertion
@@ -125,7 +125,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
-                    nearbyTime, Subject ?? default(DateTimeOffset?));
+                    nearbyTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -720,7 +720,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -732,7 +732,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -745,7 +745,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -757,7 +757,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -769,7 +769,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
+        /// Returns a <see cref="DateTimeOffsetRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>
         /// <param name="timeSpan">

@@ -5,6 +5,7 @@
     <LangVersion>8.0</LangVersion>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>IDE0052</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

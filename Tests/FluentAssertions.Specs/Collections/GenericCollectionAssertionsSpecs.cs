@@ -1214,7 +1214,7 @@ namespace FluentAssertions.Specs
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().BeInAscendingOrder((IComparer<SomeClass>)null);
+            Action act = () => collection.Should().BeInAscendingOrder(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -1243,7 +1243,7 @@ namespace FluentAssertions.Specs
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().NotBeInAscendingOrder((IComparer<SomeClass>)null);
+            Action act = () => collection.Should().NotBeInAscendingOrder(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

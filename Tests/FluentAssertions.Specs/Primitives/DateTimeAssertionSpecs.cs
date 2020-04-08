@@ -847,7 +847,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
-
         }
 
         [Fact]

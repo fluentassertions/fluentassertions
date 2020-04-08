@@ -10,6 +10,9 @@ namespace FluentAssertions.Collections
     public class StringCollectionAssertions :
         StringCollectionAssertions<IEnumerable<string>>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
+        /// </summary>
         public StringCollectionAssertions(IEnumerable<string> actualValue)
             : base(actualValue)
         {
@@ -20,6 +23,9 @@ namespace FluentAssertions.Collections
         StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
         where TCollection : IEnumerable<string>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection}"/> class.
+        /// </summary>
         public StringCollectionAssertions(TCollection actualValue)
             : base(actualValue)
         {
@@ -31,6 +37,9 @@ namespace FluentAssertions.Collections
         where TCollection : IEnumerable<string>
         where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection, TAssertions}"/> class.
+        /// </summary>
         public StringCollectionAssertions(TCollection actualValue)
             : base(actualValue)
         {
@@ -75,6 +84,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -95,6 +105,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
+        /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -180,6 +191,9 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
+        /// <param name="becauseArg">
+        /// An object to format using the placeholders in <paramref name="because" />.
+        /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
@@ -200,6 +214,9 @@ namespace FluentAssertions.Collections
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArg">
+        /// An object to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.

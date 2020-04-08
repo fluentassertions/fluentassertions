@@ -23,7 +23,7 @@ namespace FluentAssertions.Execution
         public GivenSelector<TSubject> Then { get; }
 
         /// <summary>
-        /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith"/> to return a boolean.
+        /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith(string, object[])"/> to return a boolean.
         /// </summary>
         public static implicit operator bool(ContinuationOfGiven<TSubject> continuationOfGiven)
         {

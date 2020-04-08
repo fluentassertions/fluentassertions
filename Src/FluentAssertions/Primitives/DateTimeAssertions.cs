@@ -655,7 +655,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -667,7 +667,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -680,7 +680,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -692,7 +692,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
@@ -704,7 +704,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">

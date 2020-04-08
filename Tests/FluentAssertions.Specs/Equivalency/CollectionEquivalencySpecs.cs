@@ -1361,7 +1361,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
-                .Using<int>(ctx => ((int)ctx.Subject).Should().BeInRange(ctx.Expectation - 1, ctx.Expectation + 1))
+                .Using<int>(ctx => ctx.Subject.Should().BeInRange(ctx.Expectation - 1, ctx.Expectation + 1))
                 .WhenTypeIs<int>()
             );
 

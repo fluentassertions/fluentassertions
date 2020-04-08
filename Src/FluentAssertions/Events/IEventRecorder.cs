@@ -11,7 +11,7 @@ namespace FluentAssertions.Events
         /// <summary>
         /// Store information about a raised event
         /// </summary>
-        /// <param name = "parameters">Parameters the event was raised with</param>
+        /// <param name="parameters">Parameters the event was raised with</param>
         void RecordEvent(params object[] parameters);
 
         /// <summary>

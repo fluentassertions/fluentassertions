@@ -7,10 +7,6 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    /// <remarks>
-    /// I think (but did not try) this would have been easier using 'dynamic' but that is
-    /// precluded by some of the PCL targets.
-    /// </remarks>
     public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
         private static readonly MethodInfo AssertSameLengthMethod = new Func<IDictionary<object, object>, IDictionary<object, object>, bool>

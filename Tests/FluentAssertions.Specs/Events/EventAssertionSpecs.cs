@@ -3,15 +3,15 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-
+#if NET47
+using System.Reflection;
+using System.Reflection.Emit;
+#endif
 using FluentAssertions.Events;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
-
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace FluentAssertions.Specs
 {
