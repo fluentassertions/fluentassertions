@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
+#if !NETSTANDARD2_0
 using FluentAssertions.Events;
+#endif
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
@@ -129,7 +131,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
-        /// current <see cref="ExecutionTime"/>.
+        /// current <see cref="FluentAssertions.Specialized.ExecutionTime"/>.
         /// </summary>
         [Pure]
         public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
@@ -772,17 +774,18 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
-        /// <param name = "expectedWildcardPattern">
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="expectedWildcardPattern">
         /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
-        /// <param name = "because">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,

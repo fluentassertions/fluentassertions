@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency

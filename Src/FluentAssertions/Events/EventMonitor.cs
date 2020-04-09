@@ -93,7 +93,7 @@ namespace FluentAssertions.Events
             }
         }
 
-        private EventInfo[] GetPublicEvents(Type type)
+        private static EventInfo[] GetPublicEvents(Type type)
         {
             if (!type.IsInterface)
             {
@@ -120,11 +120,17 @@ namespace FluentAssertions.Events
         {
             if (!recorderMap.TryGetValue(eventInfo.Name, out _))
             {
+#pragma warning disable CA2000 // Ownership is transfered to recorderMap
                 var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow);
                 if (recorderMap.TryAdd(eventInfo.Name, recorder))
                 {
                     recorder.Attach(subject, eventInfo);
                 }
+                else
+                {
+                    recorder.Dispose();
+                }
+#pragma warning restore CA2000 
             }
         }
 

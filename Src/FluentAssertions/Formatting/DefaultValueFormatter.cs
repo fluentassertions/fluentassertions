@@ -20,7 +20,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Determines whether this instance can handle the specified value.
         /// </summary>
-        /// <param name = "value">The value.</param>
+        /// <param name="value">The value.</param>
         /// <returns>
         /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
         /// </returns>

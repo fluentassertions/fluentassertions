@@ -252,7 +252,7 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Expects the current collection to contain all the same elements in the same order as the collection identified by
-        /// <paramref name="elements" />. Elements are compared using their <see cref="T.Equals(object)" /> method.
+        /// <paramref name="elements" />. Elements are compared using their <see cref="object.Equals(object)" /> method.
         /// </summary>
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)

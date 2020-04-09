@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency

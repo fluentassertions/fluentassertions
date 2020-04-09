@@ -1921,7 +1921,6 @@ namespace FluentAssertions.Specs
 
                 "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
                     "but items {3, 6} are not part of the superset.");
-
         }
 
         [Fact]
@@ -2318,7 +2317,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected ints to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
-
         }
 
         #endregion

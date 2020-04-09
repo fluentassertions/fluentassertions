@@ -330,7 +330,10 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
-        /// <summary></summary>
+        /// <summary>
+        /// Overrides the comparison of subject and expectation to use provided <paramref name="action"/>
+        /// when the predicate is met.
+        /// </summary>
         /// <param name="action">
         /// The assertion to execute when the predicate is met.
         /// </param>
@@ -639,7 +642,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions.When" />
+        /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyAssertionOptions{T}" />
         /// </summary>
         public class Restriction<TMember>
         {

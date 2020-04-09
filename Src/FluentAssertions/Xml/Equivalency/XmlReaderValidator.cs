@@ -190,6 +190,5 @@ namespace FluentAssertions.Xml.Equivalency
 
             return null;
         }
-
     }
 }

@@ -22,12 +22,12 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>.
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, false.
+        /// true if the specified <see cref="object"/> is equal to the current <see cref="object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="System.Object"/>. </param><filterpriority>2</filterpriority>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
             if (!(obj is ObjectReference other))
@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         /// Serves as a hash function for a particular type.
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="System.Object"/>.
+        /// A hash code for the current <see cref="object"/>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()

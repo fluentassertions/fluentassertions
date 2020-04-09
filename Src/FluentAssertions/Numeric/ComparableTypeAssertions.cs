@@ -60,10 +60,9 @@ namespace FluentAssertions.Numeric
         /// <remarks>
         /// Objects are equivalent when both object graphs have equally named properties with the same value,
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
-        /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -83,9 +82,8 @@ namespace FluentAssertions.Numeric
         /// <remarks>
         /// Objects are equivalent when both object graphs have equally named properties with the same value,
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
-        /// items in the collection are structurally equal.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the

@@ -23,9 +23,10 @@ namespace FluentAssertions.Events
         private Action cleanup;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="EventRecorder"/> class.
         /// </summary>
-        /// <param name = "eventRaiser">The object events are recorded from</param>
-        /// <param name = "eventName">The name of the event that's recorded</param>
+        /// <param name="eventRaiser">The object events are recorded from</param>
+        /// <param name="eventName">The name of the event that's recorded</param>
         /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
         public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow)
         {

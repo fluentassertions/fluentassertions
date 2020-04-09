@@ -229,11 +229,20 @@ namespace FluentAssertions.Specialized
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
+        /// </summary>
+        /// <param name="action">The action of which the execution time must be asserted.</param>
         public ExecutionTime(Func<Task> action)
             : this(action, "the action")
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
+        /// </summary>
+        /// <param name="action">The action of which the execution time must be asserted.</param>
+        /// <param name="actionDescription">The description of the action to be asserted.</param>
         protected ExecutionTime(Action action, string actionDescription)
         {
             ActionDescription = actionDescription;
@@ -261,6 +270,11 @@ namespace FluentAssertions.Specialized
             });
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
+        /// </summary>
+        /// <param name="action">The action of which the execution time must be asserted.</param>
+        /// <param name="actionDescription">The description of the action to be asserted.</param>
         /// <remarks>
         /// This constructor is almost exact copy of the one accepting <see cref="Action"/>.
         /// The original constructor shall stay in place in order to keep backward-compatibility
@@ -309,7 +323,7 @@ namespace FluentAssertions.Specialized
     public class MemberExecutionTime<T> : ExecutionTime
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemberExecutionTime&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="MemberExecutionTime{T}"/> class.
         /// </summary>
         /// <param name="subject">The object that exposes the method or property.</param>
         /// <param name="action">A reference to the method or property to measure the execution time of.</param>

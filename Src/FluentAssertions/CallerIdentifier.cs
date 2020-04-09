@@ -155,6 +155,5 @@ namespace FluentAssertions
         {
             return candidate == "true" || candidate == "false";
         }
-
     }
 }

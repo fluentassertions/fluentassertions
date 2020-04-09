@@ -6,6 +6,9 @@ namespace FluentAssertions.Collections
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhichValueConstraint{TCollection, TKey, TValue, TAssertions}"/> class.
+        /// </summary>
         public WhichValueConstraint(TAssertions parentConstraint, TValue value)
             : base(parentConstraint)
         {

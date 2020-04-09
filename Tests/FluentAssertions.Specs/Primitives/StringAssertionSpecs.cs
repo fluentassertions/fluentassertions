@@ -3223,11 +3223,5 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-
-        private static string WrapMessageWithPunctuation(string msg, string because)
-        {
-            var ending = string.IsNullOrEmpty(because) ? "." : string.Format(" because {0}.", because);
-            return msg + ending;
-        }
     }
 }

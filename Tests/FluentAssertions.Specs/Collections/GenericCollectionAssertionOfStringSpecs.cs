@@ -1732,7 +1732,6 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow<XunitException>();
         }
 
-
         [Fact]
         public void When_asserting_null_collection_for_not_match_it_should_throw()
         {
@@ -1746,7 +1745,6 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect collection to contain a match of <null>, but found <null>.");
         }
-
 
         #endregion
 

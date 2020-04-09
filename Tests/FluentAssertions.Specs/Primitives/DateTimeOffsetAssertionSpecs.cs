@@ -847,7 +847,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be on or before <2016-06-03>, but it was <2016-06-04>.");
-
         }
 
         [Fact]
@@ -1886,7 +1885,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but <2010-04-08 09:59:59> differs 2d, 2h and 1s.");
-
         }
 
         [Fact]

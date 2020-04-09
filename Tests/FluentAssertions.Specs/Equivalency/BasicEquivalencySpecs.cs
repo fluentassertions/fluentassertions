@@ -1027,12 +1027,12 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage("Expected member Property*-*-*-*-*but*");
         }
 
-        class ClassWithGuidProperty
+        private class ClassWithGuidProperty
         {
             public string Property { get; set; } = Guid.NewGuid().ToString();
         }
 
-        class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
+        private class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
         }
@@ -2381,7 +2381,7 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expectation, opt =>  opt
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
                 .RespectingRuntimeTypes()
                 .Using<ConcreteClass, ConcreteClassEqualityComparer>());
 
@@ -2391,12 +2391,11 @@ namespace FluentAssertions.Specs
 
         private interface IInterface
         {
-
         }
 
         private class ConcreteClass : IInterface
         {
-            private string property;
+            private readonly string property;
 
             public ConcreteClass(string propertyValue)
             {
@@ -3843,7 +3842,7 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithAPrivateField : ClassWithOnlyAField
     {
-        private int value;
+        private readonly int value;
 
         public ClassWithAPrivateField(int value)
         {
@@ -4152,7 +4151,7 @@ namespace FluentAssertions.Specs
         protected string ProtectedField;
         internal string InternalField;
         protected internal string ProtectedInternalField;
-        private string PrivateField;
+        private readonly string PrivateField;
         private protected string PrivateProtectedField;
 
         public string PublicProperty { get; set; }

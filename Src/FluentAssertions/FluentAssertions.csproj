@@ -1,13 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net47;netcoreapp2.1;netcoreapp3.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>1701;1702;1705;1591;1574;1572;1573;419</NoWarn>
+    <NoWarn>1591;1573</NoWarn>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <OutputPath>..\..\Artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <Authors>Dennis Doomen;Jonas Nyrup</Authors>
@@ -25,12 +26,6 @@
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
     <Copyright>Copyright Dennis Doomen 2010-2020</Copyright>
     <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Artifacts\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Artifacts\Release</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="BannedSymbols.txt" />

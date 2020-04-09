@@ -8,3 +8,6 @@ dotnet_style_require_accessibility_modifiers = never:warning
 csharp_style_expression_bodied_properties = true:warning
 csharp_style_expression_bodied_indexers = true:warning
 csharp_style_expression_bodied_accessors = true:warning
+
+dotnet_diagnostic.IDE0044.severity = none
+dotnet_diagnostic.IDE0051.severity = none

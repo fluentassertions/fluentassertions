@@ -135,7 +135,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Clears the expectation set by <see cref="WithExpectation"/>.
+        /// Clears the expectation set by <see cref="AssertionScope.WithExpectation"/>.
         /// </summary>
         public ContinuationOfGiven<T> ClearExpectation()
         {

@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyValidationContext : IMemberInfo
     {
         /// <summary>
-        /// Gets the value of the <see cref="MatchingExpectationProperty"/>.
+        /// Gets the value of the expected object graph.
         /// </summary>
         object Expectation { get; }
 
@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency
         bool IsRoot { get; }
 
         /// <summary>
-        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
+        /// Gets the value of the subject object graph.
         /// </summary>
         object Subject { get; set; }
 

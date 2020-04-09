@@ -16,7 +16,7 @@ namespace FluentAssertions.Primitives
     public class StringAssertions : StringAssertions<StringAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="System.Object" /> class.
+        /// Initializes a new instance of the <see cref="StringAssertions"/> class.
         /// </summary>
         public StringAssertions(string value)
             : base(value)
@@ -32,7 +32,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : StringAssertions<TAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="System.Object" /> class.
+        /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
         /// </summary>
         public StringAssertions(string value) : base(value)
         {
