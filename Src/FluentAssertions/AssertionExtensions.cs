@@ -71,7 +71,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="NonGenericAsyncFunctionAssertions"/>
         /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, ValueTask> action)
@@ -81,7 +81,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="GenericAsyncFunctionAssertions{TResult}"/>
         /// </summary>
         [Pure]
         public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, ValueTask<TResult>> action)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -10,7 +9,7 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that a synchronous function yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class FunctionAssertions<T> : DelegateAssertions<Func<T>>
+    public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAssertions<T>>
     {
         public FunctionAssertions(Func<T> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
         {
@@ -18,13 +17,7 @@ namespace FluentAssertions.Specialized
 
         public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
         {
-            Subject = subject;
         }
-
-        /// <summary>
-        /// Gets the <see cref="Func{T}"/> that is being asserted.
-        /// </summary>
-        public new Func<T> Subject { get; }
 
         protected override void InvokeSubject()
         {
@@ -46,20 +39,12 @@ namespace FluentAssertions.Specialized
         public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+               .ForCondition(Subject is object)
+               .BecauseOf(because, becauseArgs)
+               .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-            try
-            {
-                T result = Subject();
-                return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
-            }
-            catch (Exception exception)
-            {
-                NotThrow(exception, because, becauseArgs);
-                return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
-            }
+            T result = FunctionAssertionHelpers.NotThrow(Subject, because, becauseArgs);
+            return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
         }
 
         /// <summary>
@@ -87,46 +72,13 @@ namespace FluentAssertions.Specialized
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
         public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
-            if (waitTime < TimeSpan.Zero)
-            {
-                throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-            }
-
-            if (pollInterval < TimeSpan.Zero)
-            {
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
-            }
-
             Execute.Assertion
                 .ForCondition(Subject is object)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            TimeSpan? invocationEndTime = null;
-            Exception exception = null;
-            ITimer timer = Clock.StartTimer();
-
-            while (invocationEndTime is null || invocationEndTime < waitTime)
-            {
-                try
-                {
-                    T result = Subject();
-                    return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
-                }
-                catch (Exception e)
-                {
-                    exception = e;
-                }
-
-                Clock.Delay(pollInterval);
-                invocationEndTime = timer.Elapsed;
-            }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-
-            return new AndWhichConstraint<FunctionAssertions<T>, T>(this, default(T));
+            T result = FunctionAssertionHelpers.NotThrowAfter(Subject, Clock, waitTime, pollInterval, because, becauseArgs);
+            return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
         }
     }
 }

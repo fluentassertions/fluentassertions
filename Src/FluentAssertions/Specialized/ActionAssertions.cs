@@ -8,7 +8,7 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an <see cref="Action"/> yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ActionAssertions : DelegateAssertions<Action>
+    public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
     {
         public ActionAssertions(Action subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
         {
@@ -16,13 +16,7 @@ namespace FluentAssertions.Specialized
 
         public ActionAssertions(Action subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
         {
-            Subject = subject;
         }
-
-        /// <summary>
-        /// Gets the <see cref="Action"/> that is being asserted.
-        /// </summary>
-        public new Action Subject { get; }
 
         protected override void InvokeSubject()
         {
