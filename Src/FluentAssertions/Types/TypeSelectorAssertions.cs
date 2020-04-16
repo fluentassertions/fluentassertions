@@ -291,6 +291,17 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the all <see cref="Type"/> are sealed classes
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public AndConstraint<TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
             var notSealedTypes = Subject.Where(type => !type.IsCSharpSealed()).ToArray();
@@ -299,6 +310,17 @@ namespace FluentAssertions.Types
                 .FailWith("Expected all types to be sealed{reason}, but the following types are not:{0}{1}.", Environment.NewLine, GetDescriptionsFor(notSealedTypes));
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the all <see cref="Type"/> are not sealed classes
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public AndConstraint<TypeSelectorAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
             var sealedTypes = Subject.Where(type => type.IsCSharpSealed()).ToArray();
