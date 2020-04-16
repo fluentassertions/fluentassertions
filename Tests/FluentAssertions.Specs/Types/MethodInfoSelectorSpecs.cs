@@ -242,6 +242,22 @@ namespace FluentAssertions.Specs
             // Assert
             methods.Should().ContainSingle();
         }
+        [Fact]
+        public void When_selecting_methods_return_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodReturnTypesSelector);
+
+            // Act
+            IEnumerable<Type> returnTypes = type.Methods().ReturnTypes().ToArray();
+
+            // Assert
+            returnTypes.Should()
+                .HaveCount(3)
+                .And.Contain(typeof(void))
+                .And.Contain(typeof(int))
+                .And.Contain(typeof(string));
+        }
     }
 
     #region Internal classes used in unit tests
@@ -307,6 +323,14 @@ namespace FluentAssertions.Specs
     {
         public override void PublicVirtualVoidMethodWithAttribute() { }
     }
+
+    internal class TestClassForMethodReturnTypesSelector
+    {
+        public void SomeMethod() { }
+        public int AnotherMethod() { return default; }
+        public string OneMoreMethod() { return default; }
+    }
+
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class DummyMethodNonInheritableAttributeAttribute : Attribute

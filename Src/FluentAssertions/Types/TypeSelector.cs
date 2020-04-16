@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
@@ -163,6 +164,95 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreNotUnderNamespace(string @namespace)
         {
             types = types.Where(t => !t.IsUnderNamespace(@namespace)).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is class
+        /// </summary>
+        public TypeSelector ThatAreClasses()
+        {
+            types = types.Where(t => t.IsClass).ToList();
+            return this;
+        }
+        /// <summary>
+        /// Determines whether the type is not a class
+        /// </summary>
+        public TypeSelector ThatAreNotClasses()
+        {
+            types = types.Where(t => !t.IsClass).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is a static class
+        /// </summary>
+        public TypeSelector ThatAreStaticClasses()
+        {
+            types = types.Where(t => t.IsCSharpStatic()).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is not a static class
+        /// </summary>
+        public TypeSelector ThatAreNotStaticClasses()
+        {
+            types = types.Where(t => !t.IsCSharpStatic()).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type satisfies the predicate passed
+        /// </summary>
+        public TypeSelector ThatAre(Func<Type, bool> predicate)
+        {
+            types = types.Where(predicate).ToList();
+            return this;
+        }
+        /// <summary>
+        /// Returns T for the types which are Task&lt;T&gt;; the type itself otherwise
+        /// </summary>
+        public TypeSelector UnwrapTaskTypes()
+        {
+            types = types.Select(type =>
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+                {
+                    return type.GetGenericArguments().Single();
+                }
+                return type == typeof(Task) ? typeof(void) : type;
+            }).ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Returns T for the types which are IEnumerable&lt;T&gt;; the type itself otherwise
+        /// </summary>
+        public TypeSelector UnwrapEnumerableTypes()
+        {
+            types = types
+                .Select(type =>
+                {
+                    if (type.IsGenericType)
+                    {
+                        if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                        {
+                            return type.GetGenericArguments().Single();
+                        }
+
+                        var iEnumerableDefinition = type.GetInterfaces()
+                            .SingleOrDefault(iType => iType.IsGenericType && iType.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                        if (iEnumerableDefinition != null)
+                        {
+                            return iEnumerableDefinition.GetGenericArguments().Single();
+                        }
+                    }
+
+                    return type;
+                }).ToList();
+
             return this;
         }
 

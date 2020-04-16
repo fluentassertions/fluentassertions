@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Threading.Tasks;
 using FluentAssertions.Types;
 
 using Internal.Main.Test;
+using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
+using Internal.StaticAndNonStaticClasses.Test;
+using Internal.UnwrapSelectorTestTypes.Test;
 using Xunit;
+using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
 namespace FluentAssertions.Specs
 {
@@ -415,6 +419,141 @@ namespace FluentAssertions.Specs
             // Assert
             filteredTypes.As<IEnumerable<Type>>().Should().ContainSingle();
         }
+
+        [Fact]
+        public void When_selecting_types_that_are_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotOnlyClassesClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.NotOnlyClasses.Test")
+                .ThatAreClasses();
+
+            // Assert
+            types.Should().ContainSingle()
+                .Which.Should().Be(typeof(NotOnlyClassesClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotOnlyClassesClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.NotOnlyClasses.Test")
+                .ThatAreNotClasses();
+
+            // Assert
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(INotOnlyClassesInterface))
+                .And.Contain(typeof(NotOnlyClassesEnumeration));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_static_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(StaticClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.StaticAndNonStaticClasses.Test")
+                .ThatAreStaticClasses();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(StaticClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_static_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(StaticClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.StaticAndNonStaticClasses.Test")
+                .ThatAreNotStaticClasses();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(NotAStaticClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_with_predicate_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(SomeBaseClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAre(t => t.GetCustomAttribute<SomeAttribute>() != null);
+
+            // Assert
+            types.Should()
+                .HaveCount(3)
+                .And.Contain(typeof(ClassWithSomeAttribute))
+                .And.Contain(typeof(ClassWithSomeAttributeDerived))
+                .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
+        }
+
+
+        [Fact]
+        public void When_unwrap_task_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(ClassToExploreItsMethodsReturnValues).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.UnwrapSelectorTestTypes.Test")
+                .Methods()
+                .ReturnTypes()
+                .UnwrapTaskTypes();
+
+            // Assert
+            types.Should()
+                // Void will be twice here - for void itself and for non-generic Task
+                .HaveCount(6)
+                .And.Contain(typeof(void))
+                .And.Contain(typeof(int))
+                .And.Contain(typeof(bool))
+                .And.Contain(typeof(List<string>))
+                .And.Contain(typeof(IEnumerable<long>));
+        }
+
+        [Fact]
+        public void When_unwrap_enumerable_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(ClassToExploreItsMethodsReturnValues).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.UnwrapSelectorTestTypes.Test")
+                .Methods()
+                .ReturnTypes()
+                .UnwrapEnumerableTypes();
+
+            // Assert
+            types.Should()
+                .HaveCount(6)
+                .And.Contain(typeof(void))
+                .And.Contain(typeof(int))
+                .And.Contain(typeof(Task))
+                .And.Contain(typeof(Task<bool>))
+                .And.Contain(typeof(string))
+                .And.Contain(typeof(long));
+        }
     }
 }
 
@@ -507,6 +646,43 @@ namespace Internal.Other.Test.Common
 {
     internal class SomeCommonClass
     {
+    }
+}
+
+namespace Internal.NotOnlyClasses.Test
+{
+    internal class NotOnlyClassesClass
+    {
+    }
+    internal enum NotOnlyClassesEnumeration
+    {
+    }
+    internal interface INotOnlyClassesInterface
+    {
+    }
+}
+
+namespace Internal.StaticAndNonStaticClasses.Test
+{
+    internal static class StaticClass
+    {
+    }
+    internal class NotAStaticClass
+    {
+    }
+}
+
+namespace Internal.UnwrapSelectorTestTypes.Test
+{
+    internal class ClassToExploreItsMethodsReturnValues
+    {
+        internal void Do() { }
+        internal int DoWithInt() { return default; }
+        internal Task DoWithTask() { return Task.CompletedTask; }
+        internal Task<bool> DoWithTaskBoolean() { return Task.FromResult(true); }
+        internal List<string> DoWithListOfString() { return default; }
+        internal IEnumerable<long> DoWithEnumerableOfBooleans() { return default; }
+        
     }
 }
 
