@@ -291,7 +291,22 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
-
+        public AndConstraint<TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs)
+        {
+            var notSealedTypes = Subject.Where(type => !type.IsCSharpSealed()).ToArray();
+            Execute.Assertion.ForCondition(!notSealedTypes.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all types to be sealed{reason}, but the following types are not:{0}{1}.", Environment.NewLine, GetDescriptionsFor(notSealedTypes));
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
+        public AndConstraint<TypeSelectorAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
+        {
+            var sealedTypes = Subject.Where(type => type.IsCSharpSealed()).ToArray();
+            Execute.Assertion.ForCondition(!sealedTypes.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all types not to be sealed{reason}, but the following types are:{0}{1}.", Environment.NewLine, GetDescriptionsFor(sealedTypes));
+            return new AndConstraint<TypeSelectorAssertions>(this);
+        }
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
             string[] descriptions = types.Select(GetDescriptionFor).ToArray();
