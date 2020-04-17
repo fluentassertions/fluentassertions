@@ -17,7 +17,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_derive_from_a_specific_class_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatDeriveFrom<SomeBaseClass>();
@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_derive_from_a_specific_generic_class_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).Assembly;
 
             // Act
             TypeSelector types = AllTypes.From(assembly).ThatDeriveFrom<SomeGenericBaseClass<int>>();
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_do_not_derive_from_a_specific_class_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_do_not_derive_from_a_specific_generic_class_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).Assembly;
 
             // Act
             TypeSelector types = AllTypes.From(assembly)
@@ -77,7 +77,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_implement_a_specific_interface_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassImplementingSomeInterface).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatImplement<ISomeInterface>();
@@ -93,7 +93,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_do_not_implement_a_specific_interface_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassImplementingSomeInterface).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_are_decorated_with_a_specific_attribute_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatAreDecoratedWith<SomeAttribute>();
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_are_not_decorated_with_a_specific_attribute_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatAreNotDecoratedWith<SomeAttribute>();
@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_from_specific_namespace_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatAreInNamespace("Internal.Other.Test");
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_other_than_from_specific_namespace_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly).ThatAreUnderNamespace("Internal.Other.Test");
@@ -188,7 +188,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_other_than_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
@@ -204,7 +204,7 @@ namespace FluentAssertions.Specs
         public void When_combining_type_selection_filters_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)

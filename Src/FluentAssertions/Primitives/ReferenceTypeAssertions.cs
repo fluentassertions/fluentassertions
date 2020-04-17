@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Reflection;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -157,7 +156,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context} to be {0}{reason}, but found <null>.", expectedType);
 
             Type subjectType = Subject.GetType();
-            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            if (expectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
             }
@@ -209,7 +208,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
 
             Type subjectType = Subject.GetType();
-            if (unexpectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            if (unexpectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
             }
@@ -261,7 +260,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
-            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            if (type.IsGenericTypeDefinition)
             {
                 isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
             }
@@ -309,7 +308,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);
 
             bool isAssignable;
-            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            if (type.IsGenericTypeDefinition)
             {
                 isAssignable = Subject.GetType().IsAssignableToOpenGeneric(type);
             }

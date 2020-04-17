@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -372,7 +371,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Type subjectType = SubjectInternal.GetType();
-            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            if (expectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
             }

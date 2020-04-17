@@ -21,7 +21,6 @@ namespace FluentAssertions.Events
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
             Module module = recorder.GetType()
-                .GetTypeInfo()
                 .Module;
 
             var eventHandler = new DynamicMethod(
@@ -55,8 +54,7 @@ namespace FluentAssertions.Events
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
 
                 // Box value-type parameters
-                if (parameters[index].GetTypeInfo()
-                    .IsValueType)
+                if (parameters[index].IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
@@ -128,8 +126,7 @@ namespace FluentAssertions.Events
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
-            if (d.GetTypeInfo()
-                .BaseType != typeof(MulticastDelegate))
+            if (d.BaseType != typeof(MulticastDelegate))
             {
                 return false;
             }

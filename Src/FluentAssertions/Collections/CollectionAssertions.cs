@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -1651,7 +1650,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => typeof(T).GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .ForCondition(subject => subject.All(x => typeof(T).IsAssignableFrom(GetType(x))))
                 .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
                 .Then
                 .ClearExpectation();
@@ -1679,7 +1678,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
                 .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
                 .Then
                 .ClearExpectation();

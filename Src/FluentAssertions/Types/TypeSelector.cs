@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
@@ -37,7 +36,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
+            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
 
@@ -46,7 +45,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDoNotDeriveFrom<TBase>()
         {
-            types = types.Where(type => !type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
+            types = types.Where(type => !type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
 
@@ -82,7 +81,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().IsDecoratedWith<TAttribute>())
+                .Where(t => t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -96,7 +95,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
+                .Where(t => t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -110,7 +109,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().IsDecoratedWith<TAttribute>())
+                .Where(t => !t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -124,7 +123,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
+                .Where(t => !t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
