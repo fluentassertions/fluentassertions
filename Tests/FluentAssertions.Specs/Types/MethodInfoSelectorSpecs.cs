@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
         public void When_selecting_methods_from_types_in_an_assembly_it_should_return_the_applicable_methods()
         {
             // Arrange
-            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             // Act
             IEnumerable<MethodInfo> methods = assembly.Types()
