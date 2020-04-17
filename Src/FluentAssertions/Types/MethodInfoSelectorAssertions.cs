@@ -206,8 +206,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected methods have access modifier
-        /// that matches the specified <paramref name="accessModifier"/>.
+        /// Asserts that the selected methods have specified <paramref name="accessModifier"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -225,8 +224,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected methods doesn't have access modifier
-        /// specified with <paramref name="accessModifier"/>.
+        /// Asserts that the selected methods don't have specified <paramref name="accessModifier"/>
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

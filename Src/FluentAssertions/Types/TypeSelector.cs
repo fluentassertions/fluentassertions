@@ -203,13 +203,14 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Determines whether the type satisfies the predicate passed
+        /// Allows to filter the types with the <paramref name="predicate"/> passed
         /// </summary>
         public TypeSelector ThatAre(Func<Type, bool> predicate)
         {
             types = types.Where(predicate).ToList();
             return this;
         }
+
         /// <summary>
         /// Returns T for the types which are Task&lt;T&gt;; the type itself otherwise
         /// </summary>
@@ -228,7 +229,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Returns T for the types which are IEnumerable&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are IEnumerable&lt;T&gt; or implement the IEnumerable&lt;T&gt;; the type itself otherwise
         /// </summary>
         public TypeSelector UnwrapEnumerableTypes()
         {
