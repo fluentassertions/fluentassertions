@@ -19,13 +19,13 @@ namespace FluentAssertions.Common
         public static bool IsDecoratedWith<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
-            return type.IsDefined(typeof(TAttribute), false);
+            return type.IsDefined(typeof(TAttribute), inherit: false);
         }
 
         public static bool IsDecoratedWith<TAttribute>(this TypeInfo type)
             where TAttribute : Attribute
         {
-            return type.IsDefined(typeof(TAttribute), false);
+            return type.IsDefined(typeof(TAttribute), inherit: false);
         }
 
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
@@ -34,19 +34,19 @@ namespace FluentAssertions.Common
             // Do not use MemberInfo.IsDefined
             // There is an issue with PropertyInfo and EventInfo preventing the inherit option to work.
             // https://github.com/dotnet/runtime/issues/30219
-            return Attribute.IsDefined(type, typeof(TAttribute), false);
+            return Attribute.IsDefined(type, typeof(TAttribute), inherit: false);
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
-            return type.IsDefined(typeof(TAttribute), true);
+            return type.IsDefined(typeof(TAttribute), inherit: true);
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type)
             where TAttribute : Attribute
         {
-            return type.IsDefined(typeof(TAttribute), true);
+            return type.IsDefined(typeof(TAttribute), inherit: true);
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type)
@@ -55,7 +55,7 @@ namespace FluentAssertions.Common
             // Do not use MemberInfo.IsDefined
             // There is an issue with PropertyInfo and EventInfo preventing the inherit option to work.
             // https://github.com/dotnet/runtime/issues/30219
-            return Attribute.IsDefined(type, typeof(TAttribute), true);
+            return Attribute.IsDefined(type, typeof(TAttribute), inherit: true);
         }
 
         public static bool IsDecoratedWith<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
@@ -79,19 +79,19 @@ namespace FluentAssertions.Common
         public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
+            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
+            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, true).Any();
+            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
         }
 
         internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
@@ -109,13 +109,13 @@ namespace FluentAssertions.Common
         internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes<TAttribute>(type, true);
+            return GetCustomAttributes<TAttribute>(type, inherit: true);
         }
 
         internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, true);
+            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true);
         }
 
         internal static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MemberInfo type, bool inherit = false)
@@ -362,7 +362,7 @@ namespace FluentAssertions.Common
 
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
-            MethodInfo getMethod = propertyInfo.GetGetMethod(true);
+            MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
             return getMethod != null && !getMethod.IsPrivate && !getMethod.IsFamily;
         }
 
