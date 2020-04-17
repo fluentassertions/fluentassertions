@@ -42,7 +42,7 @@ namespace FluentAssertions.Execution
                 return predecessor.FailWith(failReasonFunc);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, sourceSucceeded: false);
         }
 
         public Continuation FailWith(string message, params object[] args)
@@ -52,7 +52,7 @@ namespace FluentAssertions.Execution
                 return predecessor.FailWith(message, args);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, sourceSucceeded: false);
         }
 
         public IAssertionScope BecauseOf(string because, params object[] becauseArgs)

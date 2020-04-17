@@ -24,7 +24,7 @@ namespace FluentAssertions.Common
         internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(false).ToList();
+            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false).ToList();
 
             if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
             {

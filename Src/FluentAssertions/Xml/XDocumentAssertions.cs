@@ -85,7 +85,7 @@ namespace FluentAssertions.Xml
             using (XmlReader otherReader = expected.CreateReader())
             {
                 var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
-                xmlReaderValidator.Validate(true);
+                xmlReaderValidator.Validate(shouldBeEquivalent: true);
             }
 
             return new AndConstraint<XDocumentAssertions>(this);
@@ -109,7 +109,7 @@ namespace FluentAssertions.Xml
             using (XmlReader otherReader = unexpected.CreateReader())
             {
                 var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
-                xmlReaderValidator.Validate(false);
+                xmlReaderValidator.Validate(shouldBeEquivalent: false);
             }
 
             return new AndConstraint<XDocumentAssertions>(this);

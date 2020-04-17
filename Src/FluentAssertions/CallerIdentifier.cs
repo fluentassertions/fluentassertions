@@ -22,7 +22,7 @@ namespace FluentAssertions
 
             try
             {
-                StackTrace stack = new StackTrace(true);
+                StackTrace stack = new StackTrace(fNeedFileInfo: true);
 
                 foreach (StackFrame frame in stack.GetFrames())
                 {
