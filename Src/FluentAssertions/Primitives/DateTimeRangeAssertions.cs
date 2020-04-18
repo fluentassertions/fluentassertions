@@ -75,15 +75,22 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = target - subject.Value;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(actual >= TimeSpan.Zero)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} before {2}{reason}, but it is after by {3}.",
+                        subject, timeSpan, target, actual.Duration());
+
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                        " {1} before {2}{reason}, but it differs {3}.",
+                        subject, timeSpan, target, actual);
+                
             }
 
             return new AndConstraint<TAssertions>(parentAssertions);
@@ -116,15 +123,21 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = subject.Value - target;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} after {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(actual >= TimeSpan.Zero)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} after {2}{reason}, but it is before by {3}.",
+                        subject, timeSpan, target, actual.Duration());
+
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                        " {1} after {2}{reason}, but it differs {3}.",
+                        subject, timeSpan, target, actual);
             }
 
             return new AndConstraint<TAssertions>(parentAssertions);

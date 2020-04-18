@@ -1956,6 +1956,144 @@ namespace FluentAssertions.Specs
             subject.Should().BeLessThan(TimeSpan.FromSeconds(30)).After(target);
         }
 
+        [Fact]
+        public void When_asserting_subject_be_morethan_10_seconds_after_target_but_subject_is_before_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 15).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeMoreThan(10.Seconds()).After(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:15> to be more than 10s after <00:00:30>, but it is before by 15s.");
+        }
+
+        [Theory]
+        [InlineData(30, 20)] // edge case
+        [InlineData(30, 15)]
+        public void When_asserting_subject_be_atleast_10_seconds_after_target_but_subject_is_before_target_should_throw(int targetSeconds, int subjectSeconds)
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, subjectSeconds).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeAtLeast(10.Seconds()).After(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s after <00:00:30>, but it is before by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_be_exactly_10_seconds_after_target_but_subject_is_before_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 20).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeExactly(10.Seconds()).After(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:20> to be exactly 10s after <00:00:30>, but it is before by 10s.");
+        }
+
+        [Theory]
+        [InlineData(30, 20)] // edge case
+        [InlineData(30, 25)]
+        public void When_asserting_subject_be_within_10_seconds_after_target_but_subject_is_before_target_should_throw(int targetSeconds, int subjectSeconds)
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, subjectSeconds).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeWithin(10.Seconds()).After(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s after <00:00:30>, but it is before by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_be_lessthan_10_seconds_after_target_but_subject_is_before_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 25).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeLessThan(10.Seconds()).After(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:25> to be less than 10s after <00:00:30>, but it is before by 5s.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_be_morethan_10_seconds_before_target_but_subject_is_after_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 45).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeMoreThan(10.Seconds()).Before(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:45> to be more than 10s before <00:00:30>, but it is after by 15s.");
+        }
+
+        [Theory]
+        [InlineData(30, 40)] // edge case
+        [InlineData(30, 45)]
+        public void When_asserting_subject_be_atleast_10_seconds_before_target_but_subject_is_after_target_should_throw(int targetSeconds, int subjectSeconds)
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, subjectSeconds).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeAtLeast(10.Seconds()).Before(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s before <00:00:30>, but it is after by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_be_exactly_10_seconds_before_target_but_subject_is_after_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 40).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeExactly(10.Seconds()).Before(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:40> to be exactly 10s before <00:00:30>, but it is after by 10s.");
+        }
+
+        [Theory]
+        [InlineData(30, 40)] // edge case
+        [InlineData(30, 35)]
+        public void When_asserting_subject_be_within_10_seconds_before_target_but_subject_is_after_target_should_throw(int targetSeconds, int subjectSeconds)
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, subjectSeconds).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeWithin(10.Seconds()).Before(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s before <00:00:30>, but it is after by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_be_lessthan_10_seconds_before_target_but_subject_is_after_target_should_throw()
+        {
+            // Arrange
+            var target = 1.January(0001).At(0, 0, 30).WithOffset(0.Hours());
+            var subject = 1.January(0001).At(0, 0, 45).WithOffset(0.Hours());
+
+            // Act / Assert
+            Action action = () => subject.Should().BeLessThan(10.Seconds()).Before(target);
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected subject <00:00:45> to be less than 10s before <00:00:30>, but it is after by 15s.");
+        }
+
         #endregion
 
         [Fact]
