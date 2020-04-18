@@ -587,10 +587,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    subject.Should().MatchRegex(invalidRegex);
-                }
+                using var _ = new AssertionScope();
+                subject.Should().MatchRegex(invalidRegex);
             };
 
             // Assert
@@ -684,10 +682,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    subject.Should().NotMatchRegex(invalidRegex);
-                }
+                using var _ = new AssertionScope();
+                subject.Should().NotMatchRegex(invalidRegex);
             };
 
             // Assert

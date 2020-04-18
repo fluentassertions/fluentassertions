@@ -141,10 +141,8 @@ namespace FluentAssertions.Specs
             {
                 nestedScope.FailWith("Failure2");
 
-                using (var deeplyNestedScope = new AssertionScope())
-                {
-                    deeplyNestedScope.FailWith("Failure3");
-                }
+                using var deeplyNestedScope = new AssertionScope();
+                deeplyNestedScope.FailWith("Failure3");
             }
 
             // Act
@@ -175,11 +173,9 @@ namespace FluentAssertions.Specs
             {
                 nestedScope.FailWith("Failure2");
 
-                using (var deeplyNestedScope = new AssertionScope())
-                {
-                    deeplyNestedScope.FailWith("Failure3");
-                    deeplyNestedScope.Discard();
-                }
+                using var deeplyNestedScope = new AssertionScope();
+                deeplyNestedScope.FailWith("Failure3");
+                deeplyNestedScope.Discard();
             }
 
             // Act
@@ -235,10 +231,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope("foo"))
-                {
-                    new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
-                }
+                using var _ = new AssertionScope("foo");
+                new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
             };
 
             // Assert
@@ -252,12 +246,10 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    var values = new Dictionary<int, int>();
-                    values.Should().ContainKey(0);
-                    values.Should().ContainKey(1);
-                }
+                using var _ = new AssertionScope();
+                var values = new Dictionary<int, int>();
+                values.Should().ContainKey(0);
+                values.Should().ContainKey(1);
             };
 
             // Assert
@@ -271,12 +263,10 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    var values = new List<int>();
-                    values.Should().ContainSingle();
-                    values.Should().ContainSingle();
-                }
+                using var _ = new AssertionScope();
+                var values = new List<int>();
+                values.Should().ContainSingle();
+                values.Should().ContainSingle();
             };
 
             // Assert
@@ -291,12 +281,10 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    var item = string.Empty;
-                    item.Should().BeOfType<int>();
-                    item.Should().BeOfType<long>();
-                }
+                using var _ = new AssertionScope();
+                var item = string.Empty;
+                item.Should().BeOfType<int>();
+                item.Should().BeOfType<long>();
             };
 
             // Assert
@@ -312,12 +300,10 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    var item = string.Empty;
-                    item.Should().BeAssignableTo<int>();
-                    item.Should().BeAssignableTo<long>();
-                }
+                using var _ = new AssertionScope();
+                var item = string.Empty;
+                item.Should().BeAssignableTo<int>();
+                item.Should().BeAssignableTo<long>();
             };
 
             // Assert
@@ -378,10 +364,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope("{}"))
-                {
-                    default(Array).Should().Equal(3, 2, 1);
-                }
+                using var _ = new AssertionScope("{}");
+                default(Array).Should().Equal(3, 2, 1);
             };
 
             // Assert
@@ -560,10 +544,8 @@ namespace FluentAssertions.Specs
         [Fact]
         public async Task When_using_AssertionScope_across_thread_boundaries_it_should_work()
         {
-            using (var semaphore = new SemaphoreSlim(0, 1))
-            {
-                await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
-            }
+            using var semaphore = new SemaphoreSlim(0, 1);
+            await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
         }
 
         private static async Task SemaphoreYieldAndWait(SemaphoreSlim semaphore)

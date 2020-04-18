@@ -19,10 +19,8 @@ namespace FluentAssertions.Common
 
         public bool Wait(Task task, TimeSpan timeout)
         {
-            using (NoSynchronizationContextScope.Enter())
-            {
-                return task.Wait(timeout);
-            }
+            using var _ = NoSynchronizationContextScope.Enter();
+            return task.Wait(timeout);
         }
 
         public ITimer StartTimer() => new StopwatchTimer();
