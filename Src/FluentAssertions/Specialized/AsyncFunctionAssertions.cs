@@ -81,26 +81,24 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-            using (var timeoutCancellationTokenSource = new CancellationTokenSource())
+            using var timeoutCancellationTokenSource = new CancellationTokenSource();
+            TTask task = Subject.ExecuteInDefaultSynchronizationContext();
+
+            Task completedTask =
+                await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+
+            if (completedTask == task)
             {
-                TTask task = Subject.ExecuteInDefaultSynchronizationContext();
-
-                Task completedTask =
-                    await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
-
-                if (completedTask == task)
-                {
-                    timeoutCancellationTokenSource.Cancel();
-                    await completedTask;
-                }
-
-                Execute.Assertion
-                    .ForCondition(completedTask == task)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-
-                return new AndConstraint<TAssertions>((TAssertions)this);
+                timeoutCancellationTokenSource.Cancel();
+                await completedTask;
             }
+
+            Execute.Assertion
+                .ForCondition(completedTask == task)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
