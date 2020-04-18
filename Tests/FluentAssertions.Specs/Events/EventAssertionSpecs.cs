@@ -489,6 +489,22 @@ namespace FluentAssertions.Specs
             ((object)innerScope).Should().NotBeSameAs(outerScope);
         }
 
+        [Fact]
+        public void When_monitoring_an_object_with_invalid_property_expression_it_should_throw()
+        {
+            // Arrange
+            var eventSource = new EventRaisingClass();
+            using var monitor = eventSource.Monitor();
+            Func<EventRaisingClass, int> func = e => e.SomeOtherProperty;
+
+            // Act
+            Action act = () => monitor.Should().RaisePropertyChangeFor(e => func(e));
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .Which.ParamName.Should().Be("expression");
+        }
+
         #endregion
 
         #region Metadata
@@ -714,6 +730,8 @@ namespace FluentAssertions.Specs
         public class EventRaisingClass : INotifyPropertyChanged
         {
             public string SomeProperty { get; set; }
+
+            public int SomeOtherProperty { get; set; }
 
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
