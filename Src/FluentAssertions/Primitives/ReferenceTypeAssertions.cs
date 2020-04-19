@@ -149,6 +149,8 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
@@ -201,6 +203,8 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
+
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
@@ -253,6 +257,8 @@ namespace FluentAssertions.Primitives
         /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
@@ -301,6 +307,8 @@ namespace FluentAssertions.Primitives
         /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)

@@ -1671,6 +1671,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
@@ -1727,6 +1729,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
