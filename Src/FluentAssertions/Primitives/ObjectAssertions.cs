@@ -208,8 +208,9 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "",
+        public AndConstraint<ObjectAssertions> HaveFlag<TEnum>(TEnum expectedFlag, string because = "",
             params object[] becauseArgs)
+            where TEnum : struct, Enum
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -237,8 +238,9 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "",
+        public AndConstraint<ObjectAssertions> NotHaveFlag<TEnum>(TEnum unexpectedFlag, string because = "",
             params object[] becauseArgs)
+            where TEnum : struct, Enum
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
