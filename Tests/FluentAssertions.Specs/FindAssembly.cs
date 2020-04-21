@@ -6,7 +6,7 @@ namespace FluentAssertions
     {
         public static Assembly Containing<T>()
         {
-            return typeof(T).GetTypeInfo().Assembly;
+            return typeof(T).Assembly;
         }
     }
 }

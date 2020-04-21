@@ -259,25 +259,21 @@ namespace FluentAssertions.Collections
 
         private bool ContainsMatch(string wildcardPattern)
         {
-            using (var scope = new AssertionScope())
+            using var scope = new AssertionScope();
+            return Subject.Any(item =>
             {
-                return Subject.Any(item =>
-                {
-                    item.Should().Match(wildcardPattern);
-                    return !scope.Discard().Any();
-                });
-            }
+                item.Should().Match(wildcardPattern);
+                return !scope.Discard().Any();
+            });
         }
 
         private IEnumerable<string> AllThatMatch(string wildcardPattern)
         {
             return Subject.Where(item =>
             {
-                using (var scope = new AssertionScope())
-                {
-                    item.Should().Match(wildcardPattern);
-                    return !scope.Discard().Any();
-                }
+                using var scope = new AssertionScope();
+                item.Should().Match(wildcardPattern);
+                return !scope.Discard().Any();
             });
         }
 
@@ -310,14 +306,12 @@ namespace FluentAssertions.Collections
 
         private bool NotContainsMatch(string wildcardPattern)
         {
-            using (var scope = new AssertionScope())
+            using var scope = new AssertionScope();
+            return Subject.All(item =>
             {
-                return Subject.All(item =>
-                {
-                    item.Should().NotMatch(wildcardPattern);
-                    return !scope.Discard().Any();
-                });
-            }
+                item.Should().NotMatch(wildcardPattern);
+                return !scope.Discard().Any();
+            });
         }
     }
 }

@@ -81,7 +81,7 @@ namespace FluentAssertions.Types
         public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
             bool isAssignable;
-            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            if (type.IsGenericTypeDefinition)
             {
                 isAssignable = Subject.IsAssignableToOpenGeneric(type);
             }
@@ -123,7 +123,7 @@ namespace FluentAssertions.Types
         public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
             bool isAssignable;
-            if (type.GetTypeInfo().IsGenericTypeDefinition)
+            if (type.IsGenericTypeDefinition)
             {
                 isAssignable = Subject.IsAssignableToOpenGeneric(type);
             }
@@ -433,7 +433,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
         public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
-            if (!interfaceType.GetTypeInfo().IsInterface)
+            if (!interfaceType.IsInterface)
             {
                 throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
             }
@@ -467,7 +467,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
         public AndConstraint<TypeAssertions> NotImplement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
-            if (!interfaceType.GetTypeInfo().IsInterface)
+            if (!interfaceType.IsInterface)
             {
                 throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
             }
@@ -501,19 +501,19 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
         public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
-            if (baseType.GetTypeInfo().IsInterface)
+            if (baseType.IsInterface)
             {
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
             bool isDerivedFrom;
-            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            if (baseType.IsGenericTypeDefinition)
             {
                 isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
             }
             else
             {
-                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
+                isDerivedFrom = Subject.IsSubclassOf(baseType);
             }
 
             Execute.Assertion.ForCondition(isDerivedFrom)
@@ -545,19 +545,19 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
         public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
-            if (baseType.GetTypeInfo().IsInterface)
+            if (baseType.IsInterface)
             {
                 throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
             }
 
             bool isDerivedFrom;
-            if (baseType.GetTypeInfo().IsGenericTypeDefinition)
+            if (baseType.IsGenericTypeDefinition)
             {
                 isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
             }
             else
             {
-                isDerivedFrom = Subject.GetTypeInfo().IsSubclassOf(baseType);
+                isDerivedFrom = Subject.IsSubclassOf(baseType);
             }
 
             Execute.Assertion
@@ -1276,8 +1276,7 @@ namespace FluentAssertions.Types
 
         private void AssertThatSubjectIsClass()
         {
-            TypeInfo typeInfo = Subject.GetTypeInfo();
-            if (typeInfo.IsInterface || typeInfo.IsValueType || typeof(Delegate).IsAssignableFrom(typeInfo.BaseType))
+            if (Subject.IsInterface || Subject.IsValueType || typeof(Delegate).IsAssignableFrom(Subject.BaseType))
             {
                 throw new InvalidOperationException($"{Subject} must be a class.");
             }

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specialized;
 using Xunit;
 using Xunit.Sdk;
 
@@ -441,13 +442,27 @@ namespace FluentAssertions.Specs
             {
                 // I know it's not meant to be used like this,
                 // but since you can, it should still give consistent results
-                Specialized.ExecutionTime time = someAction.ExecutionTime();
+                ExecutionTime time = someAction.ExecutionTime();
                 time.Should().BeGreaterThan(100.Milliseconds());
                 time.Should().BeGreaterThan(200.Milliseconds());
             };
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_on_null_execution_it_should_throw()
+        {
+            // Arrange
+            ExecutionTime executionTime = null;
+
+            // Act
+            Action act = () => new ExecutionTimeAssertions(executionTime);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("executionTime");
         }
         #endregion
 

@@ -8,7 +8,8 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     {
-        private readonly Expression<Func<IMemberInfo, bool>> predicate;
+        private readonly Func<IMemberInfo, bool> predicate;
+        private readonly string description;
         private readonly Action<IAssertionContext<TSubject>> assertion;
         private readonly AutoConversionStep converter = new AutoConversionStep();
 
@@ -16,8 +17,9 @@ namespace FluentAssertions.Equivalency
             Expression<Func<IMemberInfo, bool>> predicate,
             Action<IAssertionContext<TSubject>> assertion)
         {
-            this.predicate = predicate;
+            this.predicate = predicate.Compile();
             this.assertion = assertion;
+            description = predicate.ToString();
         }
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config) => true;
@@ -59,12 +61,7 @@ namespace FluentAssertions.Equivalency
             return success;
         }
 
-        private bool AppliesTo(IEquivalencyValidationContext context)
-        {
-            Func<IMemberInfo, bool> predicate = this.predicate.Compile();
-
-            return predicate(context);
-        }
+        private bool AppliesTo(IEquivalencyValidationContext context) => predicate(context);
 
         private bool ExecuteAssertion(IEquivalencyValidationContext context)
         {
@@ -102,7 +99,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
+            return "Invoke Action<" + typeof(TSubject).Name + "> when " + description;
         }
     }
 }

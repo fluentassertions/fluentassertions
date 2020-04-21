@@ -419,11 +419,9 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    throwingFunction.Should().NotThrow()
-                        .And.BeNull();
-                }
+                using var _ = new AssertionScope();
+                throwingFunction.Should().NotThrow()
+                    .And.BeNull();
             };
 
             // Assert
@@ -580,11 +578,9 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
-                        .And.BeNull();
-                }
+                using var _ = new AssertionScope();
+                throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
+                    .And.BeNull();
             };
 
             // Assert

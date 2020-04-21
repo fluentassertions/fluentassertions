@@ -22,7 +22,7 @@ namespace FluentAssertions
 
             try
             {
-                StackTrace stack = new StackTrace(true);
+                StackTrace stack = new StackTrace(fNeedFileInfo: true);
 
                 foreach (StackFrame frame in stack.GetFrames())
                 {
@@ -115,18 +115,16 @@ namespace FluentAssertions
 
             try
             {
-                using (StreamReader reader = new StreamReader(File.OpenRead(fileName)))
+                using StreamReader reader = new StreamReader(File.OpenRead(fileName));
+                string line;
+                int currentLine = 1;
+
+                while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)
                 {
-                    string line;
-                    int currentLine = 1;
-
-                    while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)
-                    {
-                        currentLine++;
-                    }
-
-                    return (currentLine == expectedLineNumber) ? line : null;
+                    currentLine++;
                 }
+
+                return (currentLine == expectedLineNumber) ? line : null;
             }
             catch
             {

@@ -1541,8 +1541,7 @@ namespace FluentAssertions.Specs
             // Assert
             methods.Should().OnlyContain(method =>
                 typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>)
-                    .GetTypeInfo()
-                    .IsAssignableFrom(method.ReturnType.GetTypeInfo()));
+                    .IsAssignableFrom(method.ReturnType));
         }
 
         #region ContainMatch

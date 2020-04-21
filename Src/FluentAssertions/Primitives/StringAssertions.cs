@@ -1001,7 +1001,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Length > 0)
+                .ForCondition(Subject is null || Subject.Length > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} to be empty{reason}.");
 
@@ -1022,8 +1022,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Length == expected)
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is object)
+                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>", expected)
+                .Then
+                .ForCondition(Subject.Length == expected)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
                     expected, Subject, Subject.Length);
 

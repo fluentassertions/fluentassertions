@@ -587,10 +587,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    subject.Should().MatchRegex(invalidRegex);
-                }
+                using var _ = new AssertionScope();
+                subject.Should().MatchRegex(invalidRegex);
             };
 
             // Assert
@@ -684,10 +682,8 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    subject.Should().NotMatchRegex(invalidRegex);
-                }
+                using var _ = new AssertionScope();
+                subject.Should().NotMatchRegex(invalidRegex);
             };
 
             // Assert
@@ -2985,6 +2981,16 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_null_string_to_not_be_empty_it_should_succeed()
+        {
+            // Arrange
+            string actual = null;
+
+            // Act / Assert
+            actual.Should().NotBeEmpty();
+        }
+
+        [Fact]
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
             // Arrange
@@ -3023,6 +3029,19 @@ namespace FluentAssertions.Specs
 
             // Act / Assert
             actual.Should().HaveLength(3);
+        }
+
+        [Fact]
+        public void When_asserting_string_length_on_null_string_it_should_fail()
+        {
+            // Arrange
+            string actual = null;
+
+            // Act
+            Action act = () => actual.Should().HaveLength(0);
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

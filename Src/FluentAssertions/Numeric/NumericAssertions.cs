@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -371,10 +370,12 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
-            Type subjectType = SubjectInternal.GetType();
-            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
+            Type subjectType = SubjectInternal?.GetType();
+            if (expectedType.IsGenericTypeDefinition && subjectType?.IsGenericType == true)
             {
-                subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
+                (subjectType?.GetGenericTypeDefinition()).Should().Be(expectedType, because, becauseArgs);
             }
             else
             {
@@ -399,6 +400,13 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
+
+            Execute.Assertion
+                .ForCondition(SubjectInternal.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type not to be " + unexpectedType + "{reason}, but found <null>.");
+
             SubjectInternal.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);

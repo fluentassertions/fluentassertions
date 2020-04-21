@@ -126,17 +126,15 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var binaryFormatter = new BinaryFormatter
             {
-                var binaryFormatter = new BinaryFormatter
-                {
-                    Binder = new SimpleBinder(subject.GetType())
-                };
+                Binder = new SimpleBinder(subject.GetType())
+            };
 
-                binaryFormatter.Serialize(stream, subject);
-                stream.Position = 0;
-                return binaryFormatter.Deserialize(stream);
-            }
+            binaryFormatter.Serialize(stream, subject);
+            stream.Position = 0;
+            return binaryFormatter.Deserialize(stream);
         }
 
         private class SimpleBinder : SerializationBinder
@@ -163,13 +161,11 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingDataContractSerializer(object subject)
         {
-            using (var stream = new MemoryStream())
-            {
-                var serializer = new DataContractSerializer(subject.GetType());
-                serializer.WriteObject(stream, subject);
-                stream.Position = 0;
-                return serializer.ReadObject(stream);
-            }
+            using var stream = new MemoryStream();
+            var serializer = new DataContractSerializer(subject.GetType());
+            serializer.WriteObject(stream, subject);
+            stream.Position = 0;
+            return serializer.ReadObject(stream);
         }
 
         /// <summary>
@@ -208,14 +204,12 @@ namespace FluentAssertions
 
         private static object CreateCloneUsingXmlSerializer(object subject)
         {
-            using (var stream = new MemoryStream())
-            {
-                var binaryFormatter = new XmlSerializer(subject.GetType());
-                binaryFormatter.Serialize(stream, subject);
+            using var stream = new MemoryStream();
+            var binaryFormatter = new XmlSerializer(subject.GetType());
+            binaryFormatter.Serialize(stream, subject);
 
-                stream.Position = 0;
-                return binaryFormatter.Deserialize(stream);
-            }
+            stream.Position = 0;
+            return binaryFormatter.Deserialize(stream);
         }
     }
 }

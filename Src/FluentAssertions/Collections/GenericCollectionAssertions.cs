@@ -603,12 +603,10 @@ namespace FluentAssertions.Collections
 
         private static IEnumerable<TExpectation> RepeatAsManyAsIterator<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
         {
-            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            using IEnumerator<T> enumerator = enumerable.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                while (enumerator.MoveNext())
-                {
-                    yield return value;
-                }
+                yield return value;
             }
         }
     }

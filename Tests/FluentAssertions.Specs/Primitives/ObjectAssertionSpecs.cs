@@ -213,6 +213,34 @@ namespace FluentAssertions.Specs
         #region BeOfType / NotBeOfType
 
         [Fact]
+        public void When_object_type_is_matched_against_null_type_exactly_it_should_throw()
+        {
+            // Arrange
+            var someObject = new object();
+
+            // Act
+            Action act = () => someObject.Should().BeOfType(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectedType");
+        }
+
+        [Fact]
+        public void When_object_type_is_matched_negatively_against_null_type_exactly_it_should_throw()
+        {
+            // Arrange
+            var someObject = new object();
+
+            // Act
+            Action act = () => someObject.Should().NotBeOfType(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("unexpectedType");
+        }
+
+        [Fact]
         public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
         {
             // Arrange
@@ -239,6 +267,48 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_object_is_matched_against_a_null_type_it_should_throw()
+        {
+            // Arrange
+            int valueTypeObject = 42;
+
+            // Act
+            Action act = () => valueTypeObject.Should().BeOfType(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectedType");
+        }
+
+        [Fact]
+        public void When_null_object_is_matched_against_a_type_it_should_throw()
+        {
+            // Arrange
+            int? valueTypeObject = null;
+
+            // Act
+            Action act = () => valueTypeObject.Should().BeOfType(typeof(int), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*type to be System.Int32*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_object_is_matched_negatively_against_a_null_type_it_should_throw()
+        {
+            // Arrange
+            int valueTypeObject = 42;
+
+            // Act
+            Action act = () => valueTypeObject.Should().NotBeOfType(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("unexpectedType");
+        }
+
+        [Fact]
         public void When_object_type_is_value_type_and_doesnt_match_received_type_as_expected_should_not_fail_and_assert_correctly()
         {
             // Arrange
@@ -249,6 +319,20 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_null_object_is_matched_negatively_against_a_type_it_should_throw()
+        {
+            // Arrange
+            int? valueTypeObject = null;
+
+            // Act
+            Action act = () => valueTypeObject.Should().NotBeOfType(typeof(int), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*type not to be System.Int32*because we want to test the failure message*");
         }
 
         [Fact]
@@ -360,6 +444,20 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region BeAssignableTo
+
+        [Fact]
+        public void When_object_type_is_matched_against_null_type_it_should_throw()
+        {
+            // Arrange
+            var someObject = new object();
+
+            // Act
+            Action act = () => someObject.Should().BeAssignableTo(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("type");
+        }
 
         [Fact]
         public void When_its_own_type_it_should_succeed()
@@ -495,6 +593,20 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region NotBeAssignableTo
+
+        [Fact]
+        public void When_object_type_is_matched_negatively_against_null_type_it_should_throw()
+        {
+            // Arrange
+            var someObject = new object();
+
+            // Act
+            Action act = () => someObject.Should().NotBeAssignableTo(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("type");
+        }
 
         [Fact]
         public void When_its_own_type_and_asserting_not_assignable_it_should_fail_with_a_useful_message()

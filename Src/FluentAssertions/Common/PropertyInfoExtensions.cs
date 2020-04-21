@@ -6,7 +6,7 @@ namespace FluentAssertions.Common
     {
         internal static bool IsVirtual(this PropertyInfo property)
         {
-            MethodInfo methodInfo = property.GetGetMethod(true) ?? property.GetSetMethod(true);
+            MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
             return !methodInfo.IsNonVirtual();
         }
     }

@@ -12,9 +12,11 @@ namespace FluentAssertions.Common
         /// </summary>
         public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
         {
+            Func<char, char, bool> comparer = GetCharComparer(stringComparison);
+
             for (int index = 0; index < value.Length; index++)
             {
-                if ((index >= expected.Length) || !value[index].ToString().Equals(expected[index].ToString(), stringComparison))
+                if ((index >= expected.Length) || !comparer(value[index], expected[index]))
                 {
                     return index;
                 }
@@ -22,6 +24,11 @@ namespace FluentAssertions.Common
 
             return -1;
         }
+
+        private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
+            stringComparison == StringComparison.Ordinal
+                ? (Func<char, char, bool>)((x, y) => x == y)
+                : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
 
         /// <summary>
         /// Gets the quoted three characters at the specified index of a string, including the index itself.

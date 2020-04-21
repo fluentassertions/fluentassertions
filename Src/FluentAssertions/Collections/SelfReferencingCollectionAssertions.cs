@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -266,7 +265,7 @@ namespace FluentAssertions.Collections
 
         private static Func<T, T, bool> GetComparer()
         {
-            if (typeof(T).GetTypeInfo().IsValueType)
+            if (typeof(T).IsValueType)
             {
                 return (T s, T e) => s.Equals(e);
             }
