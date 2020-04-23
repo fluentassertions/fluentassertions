@@ -219,7 +219,12 @@ namespace FluentAssertions.Types
         {
             var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
             var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" + Environment.NewLine + GetDescriptionsFor(methods);
-            Execute.Assertion.ForCondition(!methods.Any()).BecauseOf(because, becauseArgs).FailWith(message);
+
+            Execute.Assertion
+                .ForCondition(!methods.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(message);
+
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
 
@@ -237,7 +242,12 @@ namespace FluentAssertions.Types
         {
             var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
             var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" + Environment.NewLine + GetDescriptionsFor(methods);
-            Execute.Assertion.ForCondition(!methods.Any()).BecauseOf(because, becauseArgs).FailWith(message);
+
+            Execute.Assertion
+                .ForCondition(!methods.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(message);
+
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
 

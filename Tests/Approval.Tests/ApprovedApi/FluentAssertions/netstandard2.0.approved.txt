@@ -228,18 +228,25 @@ namespace FluentAssertions
     }
     public static class TypeEnumerableExtensions
     {
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAre(this System.Collections.Generic.IEnumerable<System.Type> types, System.Func<System.Type, bool> predicate) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreDecoratedWith<TAttribute>(this System.Collections.Generic.IEnumerable<System.Type> types)
             where TAttribute : System.Attribute { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreDecoratedWithOrInherit<TAttribute>(this System.Collections.Generic.IEnumerable<System.Type> types)
             where TAttribute : System.Attribute { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreInNamespace(this System.Collections.Generic.IEnumerable<System.Type> types, string @namespace) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotDecoratedWith<TAttribute>(this System.Collections.Generic.IEnumerable<System.Type> types)
             where TAttribute : System.Attribute { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotDecoratedWithOrInherit<TAttribute>(this System.Collections.Generic.IEnumerable<System.Type> types)
             where TAttribute : System.Attribute { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotStaticClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreStaticClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreUnderNamespace(this System.Collections.Generic.IEnumerable<System.Type> types, string @namespace) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatDeriveFrom<T>(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatImplement<T>(this System.Collections.Generic.IEnumerable<System.Type> types) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> UnwrapEnumerableTypes(this System.Collections.Generic.IEnumerable<System.Type> types) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> UnwrapTaskTypes(this System.Collections.Generic.IEnumerable<System.Type> types) { }
     }
     public static class TypeExtensions
     {
@@ -1885,6 +1892,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.MethodInfoSelector ThatDoNotReturnVoid { get; }
         public FluentAssertions.Types.MethodInfoSelector ThatReturnVoid { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.MethodInfo> GetEnumerator() { }
+        public FluentAssertions.Types.TypeSelector ReturnTypes() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
@@ -1902,11 +1910,13 @@ namespace FluentAssertions.Types
         public MethodInfoSelectorAssertions(params System.Reflection.MethodInfo[] methods) { }
         protected string Context { get; }
         public System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo> SubjectMethods { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> Be(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBe(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
@@ -2047,23 +2057,30 @@ namespace FluentAssertions.Types
         public TypeSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
         public TypeSelector(System.Type type) { }
         public System.Collections.Generic.IEnumerator<System.Type> GetEnumerator() { }
+        public FluentAssertions.Types.TypeSelector ThatAre(System.Func<System.Type, bool> predicate) { }
+        public FluentAssertions.Types.TypeSelector ThatAreClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreInNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotStaticClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreStaticClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotImplement<TInterface>() { }
         public FluentAssertions.Types.TypeSelector ThatImplement<TInterface>() { }
         public System.Type[] ToArray() { }
+        public FluentAssertions.Types.TypeSelector UnwrapEnumerableTypes() { }
+        public FluentAssertions.Types.TypeSelector UnwrapTaskTypes() { }
     }
     public class TypeSelectorAssertions
     {
@@ -2077,6 +2094,7 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
@@ -2085,6 +2103,7 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeSealed(string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Xml
