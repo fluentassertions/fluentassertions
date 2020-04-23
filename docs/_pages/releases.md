@@ -21,6 +21,18 @@ sidebar:
 * Make `DefaultValueFormatter` and `EnumerableValueFormatter` suitable for inheritance - [#1295](https://github.com/fluentassertions/fluentassertions/pull/1295).
 * Added support for dictionary assertions on `IReadOnlyDictionary<TKey, TValue>` - [#1298](https://github.com/fluentassertions/fluentassertions/pull/1298).
 * `GenericAsyncFunctionAssertions` now has `AndWhichConstraint` overloads for `NotThrow[Async]` and `NotThrowAfter[Async]` - [#1289](https://github.com/fluentassertions/fluentassertions/pull/1289).
+* Added `ReturnTypes` to `MethodInfoSelector` to get all return types from all the methods selected
+* Added `Be` to `MethodInfoSelector` to check that methods have specified access modifier
+* Added `NotBe` to `MethodInfoSelector` to check that methods doesn't have specified access modifier
+* Added `ThatAreClasses` to `TypeSelector`
+* Added `ThatAreNotClasses` to `TypeSelector`
+* Added `ThatAreStaticClasses` to `TypeSelector`
+* Added `ThatAreNotStaticClasses` to `TypeSelector`
+* Added `ThatAre` to `TypeSelector` to filter types with specified predicate
+* Added `UnwrapEnumerableTypes` to `TypeSelector` to get the `T` type from types implementing `IEnumerable<T>`
+* Added `UnwrapTaskTypes` to `TypeSelector` to get the `T` type for any type that are `Task<T>`
+* Added `BeSealed` to `TypeSelectorAssertions`
+* Added `NotBeSealed` to `TypeSelectorAssertions`
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
