@@ -1804,7 +1804,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be more than 1d before <2009-10-02> because we like that, but <2009-10-01> differs 1d.");
+                "Expected subject <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it is behind by 1d.");
         }
 
         [Fact]
@@ -1830,7 +1830,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be at least 1d before <2009-10-02> because we like that, but <2009-10-01 01:00:00> differs 23h.");
+                "Expected subject <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it is behind by 23h.");
         }
 
         [Fact]
@@ -1857,7 +1857,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be exactly 20m before <12:55:00> because 20 minutes is enough, but <12:36:00> differs 19m.");
+                "Expected subject <12:36:00> to be exactly 20m before <12:55:00> because 20 minutes is enough, but it is behind by 19m.");
         }
 
         [Fact]
@@ -1884,7 +1884,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but <2010-04-08 09:59:59> differs 2d, 2h and 1s.");
+                "Expected subject <2010-04-08 09:59:59> to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but it is behind by 2d, 2h and 1s.");
         }
 
         [Fact]
@@ -1942,7 +1942,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be less than 30s after <12:00:30 +1h> because 30s is the max, but <12:01:00 +1h> differs 30s.");
+                "Expected subject <12:01:00 +1h> to be less than 30s after <12:00:30 +1h> because 30s is the max, but it is ahead by 30s.");
         }
 
         [Fact]
@@ -1966,7 +1966,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeMoreThan(10.Seconds()).After(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:15> to be more than 10s after <00:00:30>, but it is before by 15s.");
+                .WithMessage("Expected subject <00:00:15> to be more than 10s after <00:00:30>, but it is behind by 15s.");
         }
 
         [Theory]
@@ -1981,7 +1981,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeAtLeast(10.Seconds()).After(target);
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s after <00:00:30>, but it is before by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s after <00:00:30>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -1994,7 +1994,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeExactly(10.Seconds()).After(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:20> to be exactly 10s after <00:00:30>, but it is before by 10s.");
+                .WithMessage("Expected subject <00:00:20> to be exactly 10s after <00:00:30>, but it is behind by 10s.");
         }
 
         [Theory]
@@ -2009,7 +2009,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeWithin(10.Seconds()).After(target);
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s after <00:00:30>, but it is before by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s after <00:00:30>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2022,7 +2022,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeLessThan(10.Seconds()).After(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:25> to be less than 10s after <00:00:30>, but it is before by 5s.");
+                .WithMessage("Expected subject <00:00:25> to be less than 10s after <00:00:30>, but it is behind by 5s.");
         }
 
         [Fact]
@@ -2035,7 +2035,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeMoreThan(10.Seconds()).Before(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45> to be more than 10s before <00:00:30>, but it is after by 15s.");
+                .WithMessage("Expected subject <00:00:45> to be more than 10s before <00:00:30>, but it is ahead by 15s.");
         }
 
         [Theory]
@@ -2050,7 +2050,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeAtLeast(10.Seconds()).Before(target);
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s before <00:00:30>, but it is after by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s before <00:00:30>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2063,7 +2063,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeExactly(10.Seconds()).Before(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:40> to be exactly 10s before <00:00:30>, but it is after by 10s.");
+                .WithMessage("Expected subject <00:00:40> to be exactly 10s before <00:00:30>, but it is ahead by 10s.");
         }
 
         [Theory]
@@ -2078,7 +2078,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeWithin(10.Seconds()).Before(target);
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s before <00:00:30>, but it is after by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s before <00:00:30>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2091,7 +2091,7 @@ namespace FluentAssertions.Specs
             // Act / Assert
             Action action = () => subject.Should().BeLessThan(10.Seconds()).Before(target);
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45> to be less than 10s before <00:00:30>, but it is after by 15s.");
+                .WithMessage("Expected subject <00:00:45> to be less than 10s before <00:00:30>, but it is ahead by 15s.");
         }
 
         #endregion
