@@ -432,7 +432,8 @@ namespace FluentAssertions.Specs
                 .ThatAreClasses();
 
             // Assert
-            types.Should().ContainSingle()
+            types.Should()
+                .ContainSingle()
                 .Which.Should().Be(typeof(NotOnlyClassesClass));
         }
 

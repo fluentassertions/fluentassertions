@@ -260,7 +260,12 @@ namespace FluentAssertions.Specs
                 methodSelector.Should().Be(CSharpAccessModifier.Public);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to be Public" +
+                             ", but the following methods are not:*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
         [Fact]
@@ -276,8 +281,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
-                             " because we want to test the error message," +
-                             " but the following methods are not:*" +
+                             " because we want to test the error message" +
+                             ", but the following methods are not:*" +
                              "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
                              "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
                              "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
@@ -308,7 +313,10 @@ namespace FluentAssertions.Specs
                 methodSelector.Should().NotBe(CSharpAccessModifier.Public);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to not be Public" +
+                             ", but the following methods are:*" +
+                             "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
         }
 
         [Fact]
@@ -324,8 +332,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
-                             " because we want to test the error message," +
-                             " but the following methods are:*" +
+                             " because we want to test the error message" +
+                             ", but the following methods are:*" +
                              "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
         }
     }
