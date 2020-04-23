@@ -19,9 +19,9 @@ namespace FluentAssertions.Equivalency
 
         public override Type MemberType => propertyInfo.PropertyType;
 
-        internal override CSharpAccessModifier GetGetAccessModifier() => propertyInfo.GetGetMethod(true).GetCSharpAccessModifier();
+        internal override CSharpAccessModifier GetGetAccessModifier() => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier GetSetAccessModifier() => propertyInfo.GetSetMethod(true).GetCSharpAccessModifier();
+        internal override CSharpAccessModifier GetSetAccessModifier() => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
 
         public override object GetValue(object obj, object[] index)
         {

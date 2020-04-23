@@ -62,7 +62,7 @@ namespace FluentAssertions.Common
             {
                 try
                 {
-                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, true);
+                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, ignoreCase: true);
                 }
                 catch (ArgumentException)
                 {

@@ -12,18 +12,14 @@ namespace FluentAssertions.Common
     {
         public static void ExecuteInDefaultSynchronizationContext(this Action action)
         {
-            using (NoSynchronizationContextScope.Enter())
-            {
-                action();
-            }
+            using var _ = NoSynchronizationContextScope.Enter();
+            action();
         }
 
         public static TResult ExecuteInDefaultSynchronizationContext<TResult>(this Func<TResult> action)
         {
-            using (NoSynchronizationContextScope.Enter())
-            {
-                return action();
-            }
+            using var _ = NoSynchronizationContextScope.Enter();
+            return action();
         }
     }
 }

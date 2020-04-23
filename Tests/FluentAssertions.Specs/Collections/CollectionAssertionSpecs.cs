@@ -3667,6 +3667,20 @@ namespace FluentAssertions.Specs
         #region ShouldAllBeAssignableTo
 
         [Fact]
+        public void When_the_types_in_a_collection_is_matched_against_a_null_type_it_should_throw()
+        {
+            // Arrange
+            IEnumerable collection = new int[0];
+
+            // Act
+            Action act = () => collection.Should().AllBeAssignableTo(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectedType");
+        }
+
+        [Fact]
         public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
         {
             // Arrange
@@ -3772,6 +3786,20 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region ShouldAllBeOfType
+
+        [Fact]
+        public void When_the_types_in_a_collection_is_matched_against_a_null_type_exactly_it_should_throw()
+        {
+            // Arrange
+            IEnumerable collection = new int[0];
+
+            // Act
+            Action act = () => collection.Should().AllBeOfType(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectedType");
+        }
 
         [Fact]
         public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -1651,7 +1650,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => typeof(T).GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .ForCondition(subject => subject.All(x => typeof(T).IsAssignableFrom(GetType(x))))
                 .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
                 .Then
                 .ClearExpectation();
@@ -1672,6 +1671,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
@@ -1679,7 +1680,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => subject.All(x => x != null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(subject => subject.All(x => expectedType.GetTypeInfo().IsAssignableFrom(GetType(x).GetTypeInfo())))
+                .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
                 .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
                 .Then
                 .ClearExpectation();
@@ -1728,6 +1729,8 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)

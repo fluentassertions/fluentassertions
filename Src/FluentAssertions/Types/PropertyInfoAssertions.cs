@@ -102,7 +102,7 @@ namespace FluentAssertions.Types
         {
             Subject.Should().BeWritable(because, becauseArgs);
 
-            Subject.GetSetMethod(true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            Subject.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -164,7 +164,7 @@ namespace FluentAssertions.Types
         {
             Subject.Should().BeReadable(because, becauseArgs);
 
-            Subject.GetGetMethod(true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            Subject.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }

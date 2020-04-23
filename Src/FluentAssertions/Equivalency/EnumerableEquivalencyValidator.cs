@@ -36,17 +36,13 @@ namespace FluentAssertions.Equivalency
             {
                 if (Recursive)
                 {
-                    using (context.TraceBlock(path => $"Structurally comparing {subject} and expectation {expectation} at {path}"))
-                    {
-                        AssertElementGraphEquivalency(subject, expectation);
-                    }
+                    using var _ = context.TraceBlock(path => $"Structurally comparing {subject} and expectation {expectation} at {path}");
+                    AssertElementGraphEquivalency(subject, expectation);
                 }
                 else
                 {
-                    using (context.TraceBlock(path => $"Comparing subject {subject} and expectation {expectation} at {path} using simple value equality"))
-                    {
-                        subject.Should().BeEquivalentTo(expectation);
-                    }
+                    using var _ = context.TraceBlock(path => $"Comparing subject {subject} and expectation {expectation} at {path} using simple value equality");
+                    subject.Should().BeEquivalentTo(expectation);
                 }
             }
         }
@@ -93,19 +89,17 @@ namespace FluentAssertions.Equivalency
             {
                 T expectation = expectations[index];
 
-                using (context.TraceBlock(path =>
-                    $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+                using var _ = context.TraceBlock(path =>
+                    $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}");
+                bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
+                if (!succeeded)
                 {
-                    bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
-                    if (!succeeded)
+                    failedCount++;
+                    if (failedCount >= FailedItemsFastFailThreshold)
                     {
-                        failedCount++;
-                        if (failedCount >= FailedItemsFastFailThreshold)
-                        {
-                            context.TraceSingle(path =>
-                                $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {path}");
-                            break;
-                        }
+                        context.TraceSingle(path =>
+                            $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {path}");
+                        break;
                     }
                 }
             }
@@ -118,19 +112,17 @@ namespace FluentAssertions.Equivalency
             {
                 T expectation = expectations[index];
 
-                using (context.TraceBlock(path =>
-                    $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
+                using var _ = context.TraceBlock(path =>
+                    $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]");
+                bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
+                if (!succeeded)
                 {
-                    bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
-                    if (!succeeded)
+                    failedCount++;
+                    if (failedCount >= FailedItemsFastFailThreshold)
                     {
-                        failedCount++;
-                        if (failedCount >= FailedItemsFastFailThreshold)
-                        {
-                            context.TraceSingle(path =>
-                                $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
-                            break;
-                        }
+                        context.TraceSingle(path =>
+                            $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {path}");
+                        break;
                     }
                 }
             }
@@ -150,21 +142,19 @@ namespace FluentAssertions.Equivalency
                 index = unmatchedSubjectIndexes[metaIndex];
                 object subject = subjects[index];
 
-                using (context.TraceBlock(getMessage))
-                {
-                    string[] failures = TryToMatch(subject, expectation, expectationIndex);
+                using var _ = context.TraceBlock(getMessage);
+                string[] failures = TryToMatch(subject, expectation, expectationIndex);
 
-                    results.AddSet(index, failures);
-                    if (results.ContainsSuccessfulSet())
-                    {
-                        context.TraceSingle(_ => "It's a match");
-                        indexToBeRemoved = metaIndex;
-                        break;
-                    }
-                    else
-                    {
-                        context.TraceSingle(_ => $"Contained {failures.Length} failures");
-                    }
+                results.AddSet(index, failures);
+                if (results.ContainsSuccessfulSet())
+                {
+                    context.TraceSingle(_ => "It's a match");
+                    indexToBeRemoved = metaIndex;
+                    break;
+                }
+                else
+                {
+                    context.TraceSingle(_ => $"Contained {failures.Length} failures");
                 }
             }
 
@@ -183,28 +173,24 @@ namespace FluentAssertions.Equivalency
 
         private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
         {
-            using (var scope = new AssertionScope())
-            {
-                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subject, expectation));
+            using var scope = new AssertionScope();
+            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subject, expectation));
 
-                return scope.Discard();
-            }
+            return scope.Discard();
         }
 
         private bool StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
         {
-            using (var scope = new AssertionScope())
-            {
-                object subject = subjects[expectationIndex];
-                string indexString = expectationIndex.ToString();
-                IEquivalencyValidationContext equivalencyValidationContext =
-                    context.CreateForCollectionItem(indexString, subject, expectation);
+            using var scope = new AssertionScope();
+            object subject = subjects[expectationIndex];
+            string indexString = expectationIndex.ToString();
+            IEquivalencyValidationContext equivalencyValidationContext =
+                context.CreateForCollectionItem(indexString, subject, expectation);
 
-                parent.AssertEqualityUsing(equivalencyValidationContext);
+            parent.AssertEqualityUsing(equivalencyValidationContext);
 
-                bool failed = scope.HasFailures();
-                return !failed;
-            }
+            bool failed = scope.HasFailures();
+            return !failed;
         }
     }
 }

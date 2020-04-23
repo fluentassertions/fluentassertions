@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             Type typeFromThisAssembly = typeof(ObjectAssertions);
 
             Type typeFromOtherAssembly =
-                typeof(TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
+                typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 
 #pragma warning restore 436
 

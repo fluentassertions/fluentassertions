@@ -195,33 +195,31 @@ namespace FluentAssertions.Specialized
 
             public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
             {
-                using (new AssertionScope())
+                using var _ = new AssertionScope();
+                var results = new AssertionResultSet();
+
+                foreach (string message in messages)
                 {
-                    var results = new AssertionResultSet();
-
-                    foreach (string message in messages)
+                    using (var scope = new AssertionScope())
                     {
-                        using (var scope = new AssertionScope())
-                        {
-                            scope.Context = Context;
+                        scope.Context = Context;
 
-                            message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
+                        message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 
-                            results.AddSet(message, scope.Discard());
-                        }
-
-                        if (results.ContainsSuccessfulSet())
-                        {
-                            break;
-                        }
+                        results.AddSet(message, scope.Discard());
                     }
 
-                    foreach (string failure in results.SelectClosestMatchFor())
+                    if (results.ContainsSuccessfulSet())
                     {
-                        string replacedCurlyBraces =
-                            failure.EscapePlaceholders();
-                        AssertionScope.Current.FailWith(replacedCurlyBraces);
+                        break;
                     }
+                }
+
+                foreach (string failure in results.SelectClosestMatchFor())
+                {
+                    string replacedCurlyBraces =
+                        failure.EscapePlaceholders();
+                    AssertionScope.Current.FailWith(replacedCurlyBraces);
                 }
             }
         }
