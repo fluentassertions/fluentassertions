@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs
 
 
         [Fact]
-        public void When_asserting_methods_have_specified_accessor_it_should_succeed()
+        public void When_all_methods_have_specified_accessor_it_should_succeed()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
@@ -250,7 +250,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_methods_does_not_have_specified_accessor_it_should_throw()
+        public void When_not_all_methods_have_specified_accessor_it_should_throw()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
@@ -264,7 +264,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_methods_does_not_have_specified_accessor_it_should_throw_with_descriptive_message()
+        public void When_not_all_methods_have_specified_accessor_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
@@ -284,7 +284,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_methods_does_not_have_specified_accessor_it_should_succeed()
+        public void When_all_methods_does_not_have_specified_accessor_it_should_succeed()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
@@ -298,7 +298,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_methods_have_specified_accessor_it_should_throw()
+        public void When_any_method_have_specified_accessor_it_should_throw()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_methods_have_specified_accessor_it_should_throw_with_descriptive_message()
+        public void When_any_method_have_specified_accessor_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
