@@ -232,9 +232,7 @@ namespace FluentAssertions.Specs
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
         }
-
-
-
+        
         [Fact]
         public void When_all_methods_have_specified_accessor_it_should_succeed()
         {

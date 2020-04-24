@@ -242,6 +242,7 @@ namespace FluentAssertions.Specs
             // Assert
             methods.Should().ContainSingle();
         }
+
         [Fact]
         public void When_selecting_methods_return_types_it_should_return_the_correct_types()
         {
@@ -330,7 +331,6 @@ namespace FluentAssertions.Specs
         public int AnotherMethod() { return default; }
         public string OneMoreMethod() { return default; }
     }
-
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class DummyMethodNonInheritableAttributeAttribute : Attribute

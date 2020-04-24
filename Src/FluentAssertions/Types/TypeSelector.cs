@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 
@@ -187,7 +186,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Determines whether the type is a static class
         /// </summary>
-        public TypeSelector ThatAreStaticClasses()
+        public TypeSelector ThatAreStatic()
         {
             types = types.Where(t => t.IsCSharpStatic()).ToList();
             return this;
@@ -196,7 +195,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Determines whether the type is not a static class
         /// </summary>
-        public TypeSelector ThatAreNotStaticClasses()
+        public TypeSelector ThatAreNotStatic()
         {
             types = types.Where(t => !t.IsCSharpStatic()).ToList();
             return this;
@@ -212,13 +211,17 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Returns T for the types which are Task&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are Task&lt;T&gt; or ValueTask&lt;T&gt;; the type itself otherwise
         /// </summary>
         public TypeSelector UnwrapTaskTypes()
         {
             types = types.Select(type =>
             {
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+                {
+                    return type.GetGenericArguments().Single();
+                }
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
                 {
                     return type.GetGenericArguments().Single();
                 }
@@ -233,27 +236,33 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector UnwrapEnumerableTypes()
         {
-            types = types
-                .Select(type =>
+            var unwrappedTypes = new List<Type>();
+            foreach (Type type in types)
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                 {
-                    if (type.IsGenericType)
+                    unwrappedTypes.Add(type.GetGenericArguments().Single());
+                }
+                else
+                {
+                    var iEnumerableImplementations = type
+                        .GetInterfaces()
+                        .Where(iType => iType.IsGenericType && iType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                        .Select(ied => ied.GetGenericArguments().Single())
+                        .ToList();
+
+                    if (iEnumerableImplementations.Any())
                     {
-                        if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                        {
-                            return type.GetGenericArguments().Single();
-                        }
-
-                        var iEnumerableDefinition = type.GetInterfaces()
-                            .SingleOrDefault(iType => iType.IsGenericType && iType.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-                        if (iEnumerableDefinition != null)
-                        {
-                            return iEnumerableDefinition.GetGenericArguments().Single();
-                        }
+                        unwrappedTypes.AddRange(iEnumerableImplementations);
                     }
+                    else
+                    {
+                        unwrappedTypes.Add(type);
+                    }
+                }
+            }
 
-                    return type;
-                }).ToList();
-
+            types = unwrappedTypes;
             return this;
         }
 

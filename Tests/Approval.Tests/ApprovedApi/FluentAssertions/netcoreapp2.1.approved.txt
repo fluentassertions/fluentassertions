@@ -241,8 +241,8 @@ namespace FluentAssertions
             where TAttribute : System.Attribute { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotDecoratedWithOrInherit<TAttribute>(this System.Collections.Generic.IEnumerable<System.Type> types)
             where TAttribute : System.Attribute { }
-        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotStaticClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
-        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreStaticClasses(this System.Collections.Generic.IEnumerable<System.Type> types) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreNotStatic(this System.Collections.Generic.IEnumerable<System.Type> types) { }
+        public static System.Collections.Generic.IEnumerable<System.Type> ThatAreStatic(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatAreUnderNamespace(this System.Collections.Generic.IEnumerable<System.Type> types, string @namespace) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatDeriveFrom<T>(this System.Collections.Generic.IEnumerable<System.Type> types) { }
         public static System.Collections.Generic.IEnumerable<System.Type> ThatImplement<T>(this System.Collections.Generic.IEnumerable<System.Type> types) { }
@@ -2114,9 +2114,9 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
-        public FluentAssertions.Types.TypeSelector ThatAreNotStaticClasses() { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
-        public FluentAssertions.Types.TypeSelector ThatAreStaticClasses() { }
+        public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }

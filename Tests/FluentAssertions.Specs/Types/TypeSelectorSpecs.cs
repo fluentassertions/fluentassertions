@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -464,7 +465,7 @@ namespace FluentAssertions.Specs
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
                 .ThatAreInNamespace("Internal.StaticAndNonStaticClasses.Test")
-                .ThatAreStaticClasses();
+                .ThatAreStatic();
 
             // Assert
             types.Should()
@@ -481,7 +482,7 @@ namespace FluentAssertions.Specs
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
                 .ThatAreInNamespace("Internal.StaticAndNonStaticClasses.Test")
-                .ThatAreNotStaticClasses();
+                .ThatAreNotStatic();
 
             // Assert
             types.Should()
@@ -511,49 +512,33 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_unwrap_task_types_it_should_return_the_correct_types()
         {
-            // Arrange
-            Assembly assembly = typeof(ClassToExploreItsMethodsReturnValues).GetTypeInfo().Assembly;
-
-            // Act
-            IEnumerable<Type> types = AllTypes.From(assembly)
-                .ThatAreInNamespace("Internal.UnwrapSelectorTestTypes.Test")
+            IEnumerable<Type> types = typeof(ClassToExploreUnwrappedTaskTypes)
                 .Methods()
                 .ReturnTypes()
                 .UnwrapTaskTypes();
 
-            // Assert
             types.Should()
-                // Void will be twice here - for void itself and for non-generic Task
-                .HaveCount(6)
-                .And.Contain(typeof(void))
+                .HaveCount(4)
                 .And.Contain(typeof(int))
-                .And.Contain(typeof(bool))
-                .And.Contain(typeof(List<string>))
-                .And.Contain(typeof(IEnumerable<long>));
+                .And.Contain(typeof(void))
+                .And.Contain(typeof(string))
+                .And.Contain(typeof(bool));
         }
 
         [Fact]
         public void When_unwrap_enumerable_types_it_should_return_the_correct_types()
         {
-            // Arrange
-            Assembly assembly = typeof(ClassToExploreItsMethodsReturnValues).GetTypeInfo().Assembly;
-
-            // Act
-            IEnumerable<Type> types = AllTypes.From(assembly)
-                .ThatAreInNamespace("Internal.UnwrapSelectorTestTypes.Test")
+            IEnumerable<Type> types = typeof(ClassToExploreUnwrappedEnumerableTypes)
                 .Methods()
                 .ReturnTypes()
                 .UnwrapEnumerableTypes();
 
-            // Assert
             types.Should()
-                .HaveCount(6)
-                .And.Contain(typeof(void))
+                .HaveCount(4)
+                .And.Contain(typeof(IEnumerable))
+                .And.Contain(typeof(bool))
                 .And.Contain(typeof(int))
-                .And.Contain(typeof(Task))
-                .And.Contain(typeof(Task<bool>))
-                .And.Contain(typeof(string))
-                .And.Contain(typeof(long));
+                .And.Contain(typeof(string));
         }
     }
 }
@@ -655,9 +640,11 @@ namespace Internal.NotOnlyClasses.Test
     internal class NotOnlyClassesClass
     {
     }
+
     internal enum NotOnlyClassesEnumeration
     {
     }
+
     internal interface INotOnlyClassesInterface
     {
     }
@@ -668,6 +655,7 @@ namespace Internal.StaticAndNonStaticClasses.Test
     internal static class StaticClass
     {
     }
+
     internal class NotAStaticClass
     {
     }
@@ -675,15 +663,31 @@ namespace Internal.StaticAndNonStaticClasses.Test
 
 namespace Internal.UnwrapSelectorTestTypes.Test
 {
-    internal class ClassToExploreItsMethodsReturnValues
+    internal class ClassToExploreUnwrappedTaskTypes
     {
-        internal void Do() { }
         internal int DoWithInt() { return default; }
         internal Task DoWithTask() { return Task.CompletedTask; }
-        internal Task<bool> DoWithTaskBoolean() { return Task.FromResult(true); }
-        internal List<string> DoWithListOfString() { return default; }
-        internal IEnumerable<long> DoWithEnumerableOfBooleans() { return default; }
-        
+        internal Task<string> DoWithIntTask() { return Task.FromResult(string.Empty); }
+        internal ValueTask<bool> DoWithBoolValueTask() { return new ValueTask<bool>(false); }
+    }
+
+    internal class ClassToExploreUnwrappedEnumerableTypes
+    {
+        internal IEnumerable DoWithTask() { return default; }
+        internal List<bool> DoWithIntTask() { return default; }
+        internal ClassImplementingMultipleEnumerable DoWithBoolValueTask() { return default; }
+    }
+
+    internal class ClassImplementingMultipleEnumerable : IEnumerable<int>, IEnumerable<string>
+    {
+        private readonly IEnumerable<int> integers = new int[0];
+        private readonly IEnumerable<string> strings = new string[0];
+
+        public IEnumerator<int> GetEnumerator() => integers.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)integers).GetEnumerator();
+
+        IEnumerator<string> IEnumerable<string>.GetEnumerator() => strings.GetEnumerator();
     }
 }
 

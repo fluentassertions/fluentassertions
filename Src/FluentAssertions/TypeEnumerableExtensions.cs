@@ -96,17 +96,17 @@ namespace FluentAssertions
         /// <summary>
         /// Filters to only include types that are static classes.
         /// </summary>
-        public static IEnumerable<Type> ThatAreStaticClasses(this IEnumerable<Type> types)
+        public static IEnumerable<Type> ThatAreStatic(this IEnumerable<Type> types)
         {
-            return new TypeSelector(types).ThatAreStaticClasses();
+            return new TypeSelector(types).ThatAreStatic();
         }
 
         /// <summary>
         /// Filters to only include types that are not static classes.
         /// </summary>
-        public static IEnumerable<Type> ThatAreNotStaticClasses(this IEnumerable<Type> types)
+        public static IEnumerable<Type> ThatAreNotStatic(this IEnumerable<Type> types)
         {
-            return new TypeSelector(types).ThatAreNotStaticClasses();
+            return new TypeSelector(types).ThatAreNotStatic();
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns T for the types which are <see cref="Task{T}" />; the type itself otherwise
+        /// Returns T for the types which are Task&lt;T&gt; or ValueTask&lt;T&gt;; the type itself otherwise
         /// </summary>
         public static IEnumerable<Type> UnwrapTaskTypes(this IEnumerable<Type> types)
         {

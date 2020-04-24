@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
         {
             var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
 
-            types.ThatAreStaticClasses()
+            types.ThatAreStatic()
                 .Should()
                 .ContainSingle()
                 .Which.Should().Be(typeof(AStaticClass));
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs
         {
             var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
 
-            types.ThatAreNotStaticClasses()
+            types.ThatAreNotStatic()
                 .Should()
                 .ContainSingle()
                 .Which.Should().Be(typeof(JustAClass));
