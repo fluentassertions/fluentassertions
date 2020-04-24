@@ -11,6 +11,7 @@ sidebar:
 
 **Breaking Changes**
 * Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)
+* Moved `[Not]HaveFlag` from `ObjectAssertions` to `EnumAssertions` - [#1375](https://github.com/fluentassertions/fluentassertions/pull/1375).
 
 ## 6.0.0 Alpha 1
 
