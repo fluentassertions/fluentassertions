@@ -118,7 +118,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns T for the types which are Task&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are <see cref="Task{T}" />; the type itself otherwise
         /// </summary>
         public static IEnumerable<Type> UnwrapTaskTypes(this IEnumerable<Type> types)
         {
