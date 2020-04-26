@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1889,6 +1890,140 @@ namespace FluentAssertions.Specs
 
             // Act / Assert
             collection.Should().ContainEquivalentOf(boxedValue);
+        }
+
+        #endregion
+
+        #region Not Contain Equivalent Of
+
+        [Fact]
+        public void When_collection_contains_object_equal_to_another_it_should_throw()
+        {
+            // Arrange
+            var item = 1;
+            IEnumerable collection = new[] { 0, 1 };
+
+            // Act
+            Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {0, 1} not to contain*because we want to test the failure message, " +
+                                                             "but found one at index 1.*With configuration*");
+        }
+
+        [Fact]
+        public void When_collection_contains_several_objects_equal_to_another_it_should_throw()
+        {
+            // Arrange
+            var item = 1;
+            IEnumerable collection = new[] { 0, 1, 1 };
+
+            // Act
+            Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {0, 1, 1} not to contain*because we want to test the failure message, " +
+                                                             "but found several at indices {1, 2}.*With configuration*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_to_contain_equivalent_but_collection_is_null_it_should_throw()
+        {
+            // Arrange
+            var item = 1;
+            IEnumerable collection = null;
+
+            // Act
+            Action act = () => collection.Should().NotContainEquivalentOf(item);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*but collection is <null>.");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_NotContainEquivalentOf_it_should_throw()
+        {
+            // Arrange
+            IEnumerable collection = null;
+            object item = null;
+
+            // Act
+            Action act = () => collection.Should().NotContainEquivalentOf(item, config: null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
+        public void When_asserting_empty_collection_to_not_contain_equivalent_it_should_succeed()
+        {
+            // Arrange
+            IEnumerable collection = new int[0];
+            int item = 4;
+
+            // Act / Assert
+            collection.Should().NotContainEquivalentOf(item);
+        }
+
+        [Fact]
+        public void When_collection_does_not_contain_object_equivalent_of_unexpected_it_should_succeed()
+        {
+            // Arrange
+            IEnumerable collection = new[] { 1, 2, 3 };
+            int item = 4;
+
+            // Act / Assert
+            collection.Should().NotContainEquivalentOf(item);
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_equivalent_it_should_respect_config()
+        {
+            // Arrange
+            IEnumerable collection = new[]
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 18
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 18
+                }
+            };
+            var item = new Customer { Name = "John", Age = 20 };
+
+            // Act
+            Action act = () => collection.Should().NotContainEquivalentOf(item, options => options.Excluding(x => x.Age));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Exclude member root.Age*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_equivalent_it_should_allow_combining_inside_assertion_scope()
+        {
+            // Arrange
+            IEnumerable collection = new[] { 1, 2, 3 };
+            int another = 3;
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    collection.Should().NotContainEquivalentOf(another, "because we want to test {0}", "first message")
+                        .And
+                        .HaveCount(4, "because we want to test {0}", "second message");
+                }
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
+                                                             "Expected*4 item(s)*because*second message*but*.");
         }
 
         #endregion
