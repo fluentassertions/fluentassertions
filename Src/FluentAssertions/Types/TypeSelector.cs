@@ -167,7 +167,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Determines whether the type is class
+        /// Determines whether the type is a class
         /// </summary>
         public TypeSelector ThatAreClasses()
         {
