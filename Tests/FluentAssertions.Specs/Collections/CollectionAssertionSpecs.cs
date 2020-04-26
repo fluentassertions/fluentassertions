@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -2000,6 +2001,29 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Exclude member root.Age*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_equivalent_it_should_allow_combining_inside_assertion_scope()
+        {
+            // Arrange
+            IEnumerable collection = new[] { 1, 2, 3 };
+            int another = 3;
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    collection.Should().NotContainEquivalentOf(another, "because we want to test {0}", "first message")
+                        .And
+                        .HaveCount(4, "because we want to test {0}", "second message");
+                }
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
+                                                             "Expected*4 item(s)*because*second message*but*.");
         }
 
         #endregion
