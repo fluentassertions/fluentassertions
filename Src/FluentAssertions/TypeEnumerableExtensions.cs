@@ -102,7 +102,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Filters to only include types that are not static classes.
+        /// Filters to only include types that are not static.
         /// </summary>
         public static IEnumerable<Type> ThatAreNotStatic(this IEnumerable<Type> types)
         {
