@@ -184,7 +184,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Determines whether the type is a static class
+        /// Determines whether the type is static
         /// </summary>
         public TypeSelector ThatAreStatic()
         {
