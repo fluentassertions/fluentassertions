@@ -293,7 +293,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the all <see cref="Type"/> are sealed classes
+        /// Asserts that the selected types are sealed
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
