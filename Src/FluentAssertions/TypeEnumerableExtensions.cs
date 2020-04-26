@@ -94,7 +94,7 @@ namespace FluentAssertions
             return new TypeSelector(types).ThatAreNotClasses();
         }
         /// <summary>
-        /// Filters to only include types that are static classes.
+        /// Filters to only include types that are static.
         /// </summary>
         public static IEnumerable<Type> ThatAreStatic(this IEnumerable<Type> types)
         {
