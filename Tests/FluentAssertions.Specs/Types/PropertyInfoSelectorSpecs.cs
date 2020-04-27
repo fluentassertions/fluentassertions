@@ -217,6 +217,20 @@ namespace FluentAssertions.Specs
             // Assert
             properties.Should().ContainSingle();
         }
+
+        [Fact]
+        public void When_selecting_properties_return_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Type type = typeof(TestClassForPropertySelector);
+
+            // Act
+            IEnumerable<Type> returnTypes = type.Properties().ReturnTypes().ToArray();
+
+            // Assert
+            returnTypes.Should()
+                .BeEquivalentTo(typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int));
+        }
     }
 
     #region Internal classes used in unit tests

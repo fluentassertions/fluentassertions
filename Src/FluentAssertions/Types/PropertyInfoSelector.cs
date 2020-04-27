@@ -109,6 +109,17 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Select return types of the properties
+        /// </summary>
+        /// <returns></returns>
+        public TypeSelector ReturnTypes()
+        {
+            var returnTypes = selectedProperties.Select(mi => mi.PropertyType);
+
+            return new TypeSelector(returnTypes);
+        }
+
+        /// <summary>
         /// The resulting <see cref="PropertyInfo"/> objects.
         /// </summary>
         public PropertyInfo[] ToArray()
