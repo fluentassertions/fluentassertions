@@ -647,5 +647,31 @@ namespace FluentAssertions.Specs
         public void ZeroOptions() { }
     }
 
+    internal class ClassWithPublicMethods
+    {
+        public void PublicDoNothing()
+        {
+        }
+
+        public void DoNothingWithParameter(int i)
+        {
+        }
+    }
+
+    internal class ClassWithNonPublicMethods
+    {
+        protected void PublicDoNothing()
+        {
+        }
+
+        internal void DoNothingWithParameter(int i)
+        {
+        }
+
+        private void DoNothingWithAnotherParameter(string i)
+        {
+        }
+    }
+
     #endregion
 }

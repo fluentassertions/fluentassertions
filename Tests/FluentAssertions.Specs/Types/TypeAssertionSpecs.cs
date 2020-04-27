@@ -1592,6 +1592,39 @@ namespace FluentAssertions.Specs
                 .WithMessage(exceptionMessage);
         }
 
+        [Fact]
+        public void When_all_types_are_sealed_it_succeeds()
+        {
+            // Arrange 
+            var types = new TypeSelector(new[]
+            {
+                typeof(Sealed)
+            });
+
+            // Act / Assert
+            types.Should().BeSealed();
+        }
+
+        [Fact]
+        public void When_any_type_is_not_sealed_it_fails_with_a_meaningful_message()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(Sealed),
+                typeof(Abstract)
+            });
+
+            // Act
+            Action act = () => types.Should().BeSealed("it's {0} important", "very");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types to be sealed because it's very important, but the following types are not:"
+                             + "*Abstract*"
+                             + ".");
+        }
+
         #endregion
 
         #region NotBeSealed
@@ -1646,6 +1679,39 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_all_types_are_not_sealed_it_succeeds()
+        {
+            // Arrange 
+            var types = new TypeSelector(new[]
+            {
+                typeof(Abstract)
+            });
+
+            // Act / Assert
+            types.Should().NotBeSealed();
+        }
+
+        [Fact]
+        public void When_any_type_is_sealed_it_fails_with_a_meaningful_message()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(Abstract),
+                typeof(Sealed)
+            });
+
+            // Act
+            Action act = () => types.Should().NotBeSealed("it's {0} important", "very");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all types not to be sealed because it's very important, but the following types are:"
+                             + "*Sealed*"
+                             + ".");
         }
 
         #endregion

@@ -21,6 +21,13 @@ sidebar:
 * Make `DefaultValueFormatter` and `EnumerableValueFormatter` suitable for inheritance - [#1295](https://github.com/fluentassertions/fluentassertions/pull/1295).
 * Added support for dictionary assertions on `IReadOnlyDictionary<TKey, TValue>` - [#1298](https://github.com/fluentassertions/fluentassertions/pull/1298).
 * `GenericAsyncFunctionAssertions` now has `AndWhichConstraint` overloads for `NotThrow[Async]` and `NotThrowAfter[Async]` - [#1289](https://github.com/fluentassertions/fluentassertions/pull/1289).
+* Added `ReturnTypes` to `MethodInfoSelector` to get all return types from all the methods selected
+* Added `[Not]Be` to `MethodInfoSelector` to check that methods [don't] have specified access modifier
+* Added `ThatAre[Not]Classes`, `ThatAre[Not]Static` selectors to `TypeSelector`
+* Added `ThatSatisfy` to `TypeSelector` to filter types with specified predicate
+* Added `UnwrapEnumerableTypes` to `TypeSelector` to get the `T` type from types implementing `IEnumerable<T>`
+* Added `UnwrapTaskTypes` to `TypeSelector` to get the `T` type for any type that are `Task<T>`  or `ValueTask<T>`
+* Added `[Not]BeSealed` to `TypeSelectorAssertions`
 * Added `collection.Should().NotContainEquivalentTo` to use object graph comparison rules to assert absence of an element in the collection - [#1318](https://github.com/fluentassertions/fluentassertions/pull/1318).
 
 **Fixes**

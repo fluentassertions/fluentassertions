@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Common;
 using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
@@ -230,6 +231,108 @@ namespace FluentAssertions.Specs
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice*" +
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
+        }
+        
+        [Fact]
+        public void When_all_methods_have_specified_accessor_it_should_succeed()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().Be(CSharpAccessModifier.Public);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_not_all_methods_have_specified_accessor_it_should_throw()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().Be(CSharpAccessModifier.Public);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to be Public" +
+                             ", but the following methods are not:*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+        }
+
+        [Fact]
+        public void When_not_all_methods_have_specified_accessor_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().Be(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to be Public" +
+                             " because we want to test the error message" +
+                             ", but the following methods are not:*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+        }
+
+        [Fact]
+        public void When_all_methods_does_not_have_specified_accessor_it_should_succeed()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().NotBe(CSharpAccessModifier.Public);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_any_method_have_specified_accessor_it_should_throw()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().NotBe(CSharpAccessModifier.Public);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to not be Public" +
+                             ", but the following methods are:*" +
+                             "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
+        }
+
+        [Fact]
+        public void When_any_method_have_specified_accessor_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithPublicMethods));
+
+            // Act
+            Action act = () =>
+                methodSelector.Should().NotBe(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods to not be Public" +
+                             " because we want to test the error message" +
+                             ", but the following methods are:*" +
+                             "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using FluentAssertions.Types;
 
 namespace FluentAssertions
@@ -76,6 +76,62 @@ namespace FluentAssertions
         public static IEnumerable<Type> ThatImplement<T>(this IEnumerable<Type> types)
         {
             return new TypeSelector(types).ThatImplement<T>();
+        }
+
+        /// <summary>
+        /// Filters to only include types that are classes.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreClasses(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).ThatAreClasses();
+        }
+
+        /// <summary>
+        /// Filters to only include types that are not classes.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreNotClasses(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).ThatAreNotClasses();
+        }
+
+        /// <summary>
+        /// Filters to only include types that are static.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreStatic(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).ThatAreStatic();
+        }
+
+        /// <summary>
+        /// Filters to only include types that are not static.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreNotStatic(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).ThatAreNotStatic();
+        }
+
+        /// <summary>
+        /// Filters to only include types that satisfies the <paramref name="predicate"/> passed.
+        /// </summary>
+        public static IEnumerable<Type> ThatSatisfy(this IEnumerable<Type> types, Func<Type, bool> predicate)
+        {
+            return new TypeSelector(types).ThatSatisfy(predicate);
+        }
+
+        /// <summary>
+        /// Returns T for the types which are <see cref="Task{T}" /> or <see cref="ValueTask{TResult}" />; the type itself otherwise
+        /// </summary>
+        public static IEnumerable<Type> UnwrapTaskTypes(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).UnwrapTaskTypes();
+        }
+
+        /// <summary>
+        /// Returns T for the types which are <see cref="IEnumerable{T}"/> or implement the <see cref="IEnumerable{T}"/>; the type itself otherwise
+        /// </summary>
+        public static IEnumerable<Type> UnwrapEnumerableTypes(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).UnwrapEnumerableTypes();
         }
     }
 }
