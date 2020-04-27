@@ -425,15 +425,13 @@ namespace FluentAssertions.Specs
         public void When_selecting_types_that_are_classes_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(NotOnlyClassesClass).GetType().Assembly;
+            TypeSelector types = new[] { typeof(NotOnlyClassesClass), typeof(NotOnlyClassesEnumeration), typeof(INotOnlyClassesInterface) }.Types();
 
             // Act
-            IEnumerable<Type> types = AllTypes.From(assembly)
-                .ThatAreInNamespace("Internal.NotOnlyClasses.Test")
-                .ThatAreClasses();
+            IEnumerable<Type> filteredTypes = types.ThatAreClasses();
 
             // Assert
-            types.Should()
+            filteredTypes.Should()
                 .ContainSingle()
                 .Which.Should().Be(typeof(NotOnlyClassesClass));
         }
