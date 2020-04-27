@@ -113,9 +113,9 @@ namespace FluentAssertions
         /// <summary>
         /// Filters to only include types that satisfies the <paramref name="predicate"/> passed.
         /// </summary>
-        public static IEnumerable<Type> ThatAre(this IEnumerable<Type> types, Func<Type, bool> predicate)
+        public static IEnumerable<Type> ThatSatisfy(this IEnumerable<Type> types, Func<Type, bool> predicate)
         {
-            return new TypeSelector(types).ThatAre(predicate);
+            return new TypeSelector(types).ThatSatisfy(predicate);
         }
 
         /// <summary>

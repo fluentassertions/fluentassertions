@@ -24,7 +24,7 @@ sidebar:
 * Added `ReturnTypes` to `MethodInfoSelector` to get all return types from all the methods selected
 * Added `[Not]Be` to `MethodInfoSelector` to check that methods [don't] have specified access modifier
 * Added `ThatAre[Not]Classes`, `ThatAre[Not]Static` selectors to `TypeSelector`
-* Added `ThatAre` to `TypeSelector` to filter types with specified predicate
+* Added `ThatSatisfy` to `TypeSelector` to filter types with specified predicate
 * Added `UnwrapEnumerableTypes` to `TypeSelector` to get the `T` type from types implementing `IEnumerable<T>`
 * Added `UnwrapTaskTypes` to `TypeSelector` to get the `T` type for any type that are `Task<T>`  or `ValueTask<T>`
 * Added `[Not]BeSealed` to `TypeSelectorAssertions`

@@ -496,7 +496,7 @@ namespace FluentAssertions.Specs
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
-                .ThatAre(t => t.GetCustomAttribute<SomeAttribute>() != null);
+                .ThatSatisfy(t => t.GetCustomAttribute<SomeAttribute>() != null);
 
             // Assert
             types.Should()

@@ -205,7 +205,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Allows to filter the types with the <paramref name="predicate"/> passed
         /// </summary>
-        public TypeSelector ThatAre(Func<Type, bool> predicate)
+        public TypeSelector ThatSatisfy(Func<Type, bool> predicate)
         {
             types = types.Where(predicate).ToList();
             return this;

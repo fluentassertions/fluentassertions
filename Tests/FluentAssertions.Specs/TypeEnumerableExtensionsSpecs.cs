@@ -151,7 +151,7 @@ namespace FluentAssertions.Specs
         {
             var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
 
-            types.ThatAre(t => t.IsCSharpStatic())
+            types.ThatSatisfy(t => t.IsCSharpStatic())
                 .Should()
                 .ContainSingle()
                 .Which.Should().Be(typeof(AStaticClass));
