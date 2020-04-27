@@ -507,8 +507,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassWithSomeAttributeDerived))
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
-
-
+        
         [Fact]
         public void When_unwrap_task_types_it_should_return_the_correct_types()
         {
@@ -518,11 +517,7 @@ namespace FluentAssertions.Specs
                 .UnwrapTaskTypes();
 
             types.Should()
-                .HaveCount(4)
-                .And.Contain(typeof(int))
-                .And.Contain(typeof(void))
-                .And.Contain(typeof(string))
-                .And.Contain(typeof(bool));
+                .BeEquivalentTo(typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool));
         }
 
         [Fact]
@@ -667,6 +662,7 @@ namespace Internal.UnwrapSelectorTestTypes.Test
     {
         internal int DoWithInt() { return default; }
         internal Task DoWithTask() { return Task.CompletedTask; }
+        internal ValueTask DoWithValueTask() { return new ValueTask(); }
         internal Task<string> DoWithIntTask() { return Task.FromResult(string.Empty); }
         internal ValueTask<bool> DoWithBoolValueTask() { return new ValueTask<bool>(false); }
     }

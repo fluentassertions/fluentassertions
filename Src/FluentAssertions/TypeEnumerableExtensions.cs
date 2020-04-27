@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using FluentAssertions.Types;
 
 namespace FluentAssertions
@@ -93,6 +93,7 @@ namespace FluentAssertions
         {
             return new TypeSelector(types).ThatAreNotClasses();
         }
+
         /// <summary>
         /// Filters to only include types that are static.
         /// </summary>
@@ -118,7 +119,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns T for the types which are <see cref="Task{T}" /> or <see cref="ValueTask{T}" />; the type itself otherwise
+        /// Returns T for the types which are <see cref="Task{T}" /> or <see cref="ValueTask{TResult}" />; the type itself otherwise
         /// </summary>
         public static IEnumerable<Type> UnwrapTaskTypes(this IEnumerable<Type> types)
         {
@@ -126,7 +127,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns T for the types which are IEnumerable&lt;T&gt; or implement the IEnumerable&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are <see cref="IEnumerable{T}"/> or implement the <see cref="IEnumerable{T}"/>; the type itself otherwise
         /// </summary>
         public static IEnumerable<Type> UnwrapEnumerableTypes(this IEnumerable<Type> types)
         {

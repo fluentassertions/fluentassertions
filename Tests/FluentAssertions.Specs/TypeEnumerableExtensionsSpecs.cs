@@ -192,6 +192,7 @@ namespace TypeEnumerableExtensionsSpecs.BaseNamespace
 
     }
 }
+
 namespace TypeEnumerableExtensionsSpecs.BaseNamespace.Nested
 {
     internal class NestedNamespaceClass

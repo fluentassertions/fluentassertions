@@ -333,6 +333,7 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<TypeSelectorAssertions>(this);
         }
+
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
             string[] descriptions = types.Select(GetDescriptionFor).ToArray();

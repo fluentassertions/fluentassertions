@@ -657,6 +657,7 @@ namespace FluentAssertions.Specs
         {
         }
     }
+
     internal class ClassWithNonPublicMethods
     {
         protected void PublicDoNothing()

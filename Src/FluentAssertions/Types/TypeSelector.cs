@@ -174,6 +174,7 @@ namespace FluentAssertions.Types
             types = types.Where(t => t.IsClass).ToList();
             return this;
         }
+
         /// <summary>
         /// Determines whether the type is not a class
         /// </summary>
@@ -211,7 +212,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Returns T for the types which are Task&lt;T&gt; or ValueTask&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are <see cref="Task{T}"/> or <see cref="ValueTask{T}"/>; the type itself otherwise
         /// </summary>
         public TypeSelector UnwrapTaskTypes()
         {
@@ -225,14 +226,14 @@ namespace FluentAssertions.Types
                 {
                     return type.GetGenericArguments().Single();
                 }
-                return type == typeof(Task) ? typeof(void) : type;
+                return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
             }).ToList();
 
             return this;
         }
 
         /// <summary>
-        /// Returns T for the types which are IEnumerable&lt;T&gt; or implement the IEnumerable&lt;T&gt;; the type itself otherwise
+        /// Returns T for the types which are <see cref="IEnumerable{T}"/> or implement the <see cref="IEnumerable{T}"/>; the type itself otherwise
         /// </summary>
         public TypeSelector UnwrapEnumerableTypes()
         {
