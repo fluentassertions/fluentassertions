@@ -126,7 +126,7 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<TAssertions>(parentAssertions);
         }
 
-        private static string PositionRelativeToTarget(DateTimeOffset actual, DateTimeOffset target)
+        private static string PositionRelativeToTarget(DateTime actual, DateTime target)
         {
             return actual - target >= TimeSpan.Zero ? "ahead" : "behind";
         }
