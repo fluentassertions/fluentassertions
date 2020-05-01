@@ -600,8 +600,6 @@ namespace FluentAssertions.Specs
 
             // Act / Assert
             f.Should().NotThrow<ArgumentException>();
-
-            //.Which.Should().Be(12); <- this is invalid, because NotThrow<T> does not guarantee that no exception was thrown.
         }
 
         [Fact]
