@@ -56,9 +56,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatImplement<TInterface>()
         {
             types = types.Where(t =>
-                typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 
@@ -68,9 +68,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatDoNotImplement<TInterface>()
         {
             types = types.Where(t =>
-                !typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        !typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 

@@ -31,15 +31,15 @@ namespace FluentAssertions.Primitives
             return assertion
                 .ForCondition(subject.Length == expected.Length)
                 .FailWith(() =>
-                    {
-                        string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
+                {
+                    string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
 
-                        string message = ExpectationDescription +
-                                         "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
+                    string message = ExpectationDescription +
+                                        "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
-                        return new FailReason(message, expected, expected.Length, subject, subject.Length);
-                    }
-               ).SourceSucceeded;
+                    return new FailReason(message, expected, expected.Length, subject, subject.Length);
+                })
+                .SourceSucceeded;
         }
 
         private string GetMismatchSegmentForStringsOfDifferentLengths()
