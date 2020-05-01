@@ -22,10 +22,7 @@ namespace FluentAssertions.Events
         /// </summary>
         EventAssertions<T> Should();
 
-        /// <summary>
-        /// Gets an object that tracks the occurrences of a particular <paramref name="eventName"/>.
-        /// </summary>
-        IEventRecorder GetEventRecorder(string eventName);
+        IEventRecording GetRecordingFor(string eventName);
 
         /// <summary>
         /// Gets the metadata of all the events that are currently being monitored.

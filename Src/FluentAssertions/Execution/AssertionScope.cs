@@ -224,9 +224,29 @@ namespace FluentAssertions.Execution
             }
         }
 
+        /// <summary>
+        /// Registers a failure message that does not contain any formatting placeholders.
+        /// </summary>
+        public Continuation FailWith(string message)
+        {
+            return FailWith(() => new FailReason(message, new object[0]));
+        }
+
+        /// <summary>
+        /// Registers a failure message with optional formatting arguments.
+        /// </summary>
         public Continuation FailWith(string message, params object[] args)
         {
             return FailWith(() => new FailReason(message, args));
+        }
+
+        /// <summary>
+        /// Registers a failure message, but postpones evaluation of the formatting arguments until the assertion really fails.
+        /// </summary>
+        public Continuation FailWith(string message, params Func<object>[] argProviders)
+        {
+            return FailWith(() => new FailReason(message,
+                argProviders.Select(a => a()).ToArray()));
         }
 
         private string GetIdentifier()

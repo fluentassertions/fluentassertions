@@ -558,9 +558,9 @@ namespace FluentAssertions.Specs
             public string Description { get; set; }
 
             public string Field;
-#pragma warning disable 169, IDE0044, CA1823
+#pragma warning disable 169, CA1823, IDE0044
             private string privateField;
-#pragma warning restore CA1823, IDE0044, 169
+#pragma warning restore 169, CA1823, IDE0044
         }
 
         public class Stuff<TChild> : BaseStuff

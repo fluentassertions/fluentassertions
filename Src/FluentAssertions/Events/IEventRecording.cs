@@ -4,21 +4,10 @@ using System.Collections.Generic;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// Records raised events for one event on one object
+    /// Represents an (active) recording of all events that happen(ed) while monitoring an object.
     /// </summary>
-    public interface IEventRecorder : IEnumerable<RecordedEvent>, IDisposable
+    public interface IEventRecording : IEnumerable<OccurredEvent>
     {
-        /// <summary>
-        /// Store information about a raised event
-        /// </summary>
-        /// <param name="parameters">Parameters the event was raised with</param>
-        void RecordEvent(params object[] parameters);
-
-        /// <summary>
-        /// Resets the event recorder, removing any events recorded thus far.
-        /// </summary>
-        void Reset();
-
         /// <summary>
         /// The object events are recorded from
         /// </summary>

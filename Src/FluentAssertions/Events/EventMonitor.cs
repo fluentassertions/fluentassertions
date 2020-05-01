@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD2_0
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +16,8 @@ namespace FluentAssertions.Events
     {
         private readonly WeakReference subject;
 
-        private readonly ConcurrentDictionary<string, IEventRecorder> recorderMap =
-            new ConcurrentDictionary<string, IEventRecorder>();
+        private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
+            new ConcurrentDictionary<string, EventRecorder>();
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
@@ -32,8 +34,9 @@ namespace FluentAssertions.Events
         {
             get
             {
-                return recorderMap.ToArray()
-                    .Select(r => new EventMetadata(r.Value.EventName, r.Value.EventHandlerType))
+                return recorderMap
+                    .Values
+                    .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
                     .ToArray();
             }
         }
@@ -43,17 +46,11 @@ namespace FluentAssertions.Events
             get
             {
                 IEnumerable<OccurredEvent> query =
-                    from mapItem in recorderMap.ToArray()
-                    let eventName = mapItem.Key
-                    let recorder = mapItem.Value
-                    from occurrence in mapItem.Value
-                    orderby occurrence.TimestampUtc
-                    select new OccurredEvent
-                    {
-                        EventName = eventName,
-                        Parameters = occurrence.Parameters.ToArray(),
-                        TimestampUtc = occurrence.TimestampUtc
-                    };
+                    from eventName in recorderMap.Keys
+                    let recording = GetRecordingFor(eventName)
+                    from @event in recording
+                    orderby @event.TimestampUtc
+                    select @event;
 
                 return query.ToArray();
             }
@@ -61,7 +58,7 @@ namespace FluentAssertions.Events
 
         public void Clear()
         {
-            foreach (IEventRecorder recorder in recorderMap.Values)
+            foreach (EventRecorder recorder in recorderMap.Values)
             {
                 recorder.Reset();
             }
@@ -70,6 +67,16 @@ namespace FluentAssertions.Events
         public EventAssertions<T> Should()
         {
             return new EventAssertions<T>(this);
+        }
+
+        public IEventRecording GetRecordingFor(string eventName)
+        {
+            if (!recorderMap.TryGetValue(eventName, out EventRecorder recorder))
+            {
+                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
+            }
+
+            return recorder;
         }
 
         private void Attach(Type typeDefiningEventsToMonitor, Func<DateTime> utcNow)
@@ -106,7 +113,7 @@ namespace FluentAssertions.Events
 
         public void Dispose()
         {
-            foreach (IEventRecorder recorder in recorderMap.Values)
+            foreach (EventRecorder recorder in recorderMap.Values)
             {
                 recorder.Dispose();
             }
@@ -118,28 +125,14 @@ namespace FluentAssertions.Events
         {
             if (!recorderMap.TryGetValue(eventInfo.Name, out _))
             {
-#pragma warning disable CA2000 // Ownership is transfered to recorderMap
                 var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow);
                 if (recorderMap.TryAdd(eventInfo.Name, recorder))
                 {
                     recorder.Attach(subject, eventInfo);
                 }
-                else
-                {
-                    recorder.Dispose();
-                }
-#pragma warning restore CA2000
             }
-        }
-
-        public IEventRecorder GetEventRecorder(string eventName)
-        {
-            if (!recorderMap.TryGetValue(eventName, out IEventRecorder recorder))
-            {
-                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
-            }
-
-            return recorder;
         }
     }
 }
+
+#endif

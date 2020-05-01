@@ -145,9 +145,9 @@ namespace FluentAssertions
     }
     public static class EventRaisingExtensions
     {
-        public static FluentAssertions.Events.IEventRecorder WithArgs<T>(this FluentAssertions.Events.IEventRecorder eventRecorder, params System.Linq.Expressions.Expression<>[] predicates) { }
-        public static FluentAssertions.Events.IEventRecorder WithArgs<T>(this FluentAssertions.Events.IEventRecorder eventRecorder, System.Linq.Expressions.Expression<System.Func<T, bool>> predicate) { }
-        public static FluentAssertions.Events.IEventRecorder WithSender(this FluentAssertions.Events.IEventRecorder eventRecorder, object expectedSender) { }
+        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, params System.Linq.Expressions.Expression<>[] predicates) { }
+        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, System.Linq.Expressions.Expression<System.Func<T, bool>> predicate) { }
+        public static FluentAssertions.Events.IEventRecording WithSender(this FluentAssertions.Events.IEventRecording eventRecording, object expectedSender) { }
     }
     public static class Exactly
     {
@@ -931,8 +931,8 @@ namespace FluentAssertions.Events
         protected override string Identifier { get; }
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs) { }
         public void NotRaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Events.IEventRecorder Raise(string eventName, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Events.IEventRecorder RaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Events.IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Events.IEventRecording RaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
     }
     public class EventMetadata
     {
@@ -940,25 +940,11 @@ namespace FluentAssertions.Events
         public string EventName { get; }
         public System.Type HandlerType { get; }
     }
-    public sealed class EventRecorder : FluentAssertions.Events.IEventRecorder, System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
-    {
-        public EventRecorder(object eventRaiser, string eventName, System.Func<System.DateTime> utcNow) { }
-        public System.Type EventHandlerType { get; }
-        public string EventName { get; }
-        public object EventObject { get; }
-        public void Attach(System.WeakReference subject, System.Reflection.EventInfo eventInfo) { }
-        public void Dispose() { }
-        public System.Collections.Generic.IEnumerator<FluentAssertions.Events.RecordedEvent> GetEnumerator() { }
-        public void RecordEvent(params object[] parameters) { }
-        public void Reset() { }
-    }
-    public interface IEventRecorder : System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
+    public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable
     {
         System.Type EventHandlerType { get; }
         string EventName { get; }
         object EventObject { get; }
-        void RecordEvent(params object[] parameters);
-        void Reset();
     }
     public interface IMonitor<T> : System.IDisposable
     {
@@ -966,7 +952,7 @@ namespace FluentAssertions.Events
         FluentAssertions.Events.OccurredEvent[] OccurredEvents { get; }
         T Subject { get; }
         void Clear();
-        FluentAssertions.Events.IEventRecorder GetEventRecorder(string eventName);
+        FluentAssertions.Events.IEventRecording GetRecordingFor(string eventName);
         FluentAssertions.Events.EventAssertions<T> Should();
     }
     public class OccurredEvent
@@ -974,12 +960,6 @@ namespace FluentAssertions.Events
         public OccurredEvent() { }
         public string EventName { get; set; }
         public object[] Parameters { get; set; }
-        public System.DateTime TimestampUtc { get; set; }
-    }
-    public class RecordedEvent
-    {
-        public RecordedEvent(System.DateTime utcNow, object monitoredObject, params object[] parameters) { }
-        public System.Collections.Generic.IEnumerable<object> Parameters { get; }
         public System.DateTime TimestampUtc { get; set; }
     }
 }
@@ -1007,6 +987,8 @@ namespace FluentAssertions.Execution
         public string[] Discard() { }
         public void Dispose() { }
         public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.AssertionScope ForCondition(bool condition) { }
         public T Get<T>(string key) { }

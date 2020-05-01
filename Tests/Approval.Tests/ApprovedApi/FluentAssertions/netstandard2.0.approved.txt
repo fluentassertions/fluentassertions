@@ -940,6 +940,8 @@ namespace FluentAssertions.Execution
         public string[] Discard() { }
         public void Dispose() { }
         public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.AssertionScope ForCondition(bool condition) { }
         public T Get<T>(string key) { }
