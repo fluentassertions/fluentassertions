@@ -30,7 +30,7 @@ namespace FluentAssertions.Formatting
 
         private static bool IsScanningEnabled
         {
-            get { return (Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled); }
+            get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
         }
 
         /// <inheritdoc />
@@ -89,9 +89,9 @@ namespace FluentAssertions.Formatting
             Configuration configuration = Configuration.Current;
             ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
-            return ((mode == ValueFormatterDetectionMode.Scan) || (
+            return (mode == ValueFormatterDetectionMode.Scan) || (
                 (mode == ValueFormatterDetectionMode.Specific) &&
-                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase)));
+                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

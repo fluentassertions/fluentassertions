@@ -1469,8 +1469,8 @@ namespace FluentAssertions.Specs
         public void When_character_collections_are_equivalent_it_should_not_throw()
         {
             // Arrange
-            char[] list1 = ("abc123ab").ToCharArray();
-            char[] list2 = ("abc123ab").ToCharArray();
+            char[] list1 = "abc123ab".ToCharArray();
+            char[] list2 = "abc123ab".ToCharArray();
 
             // Act / Assert
             list1.Should().BeEquivalentTo(list2);
@@ -1709,7 +1709,7 @@ namespace FluentAssertions.Specs
         public void When_character_collection_does_contain_equivalent_it_should_succeed()
         {
             // Arrange
-            char[] collection = ("abc123ab").ToCharArray();
+            char[] collection = "abc123ab".ToCharArray();
             char item = 'c';
 
             // Act / Assert

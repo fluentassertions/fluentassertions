@@ -48,7 +48,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
+                .ForCondition(Subject.HasValue && (Subject.Value == Guid.Empty))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
 
@@ -68,7 +68,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
+                .ForCondition(Subject.HasValue && (Subject.Value != Guid.Empty))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:Guid} to be empty{reason}.");
 

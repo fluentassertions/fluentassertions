@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D / 3D)
+                    Value = 1D / 3D
                 };
 
                 var expected = new
@@ -112,7 +112,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D / 3D)
+                    Value = 1D / 3D
                 };
 
                 var expected = new
@@ -132,7 +132,7 @@ namespace FluentAssertions.Specs
             {
                 var actual = new
                 {
-                    Value = (1D / 3D)
+                    Value = 1D / 3D
                 };
 
                 var expected = new

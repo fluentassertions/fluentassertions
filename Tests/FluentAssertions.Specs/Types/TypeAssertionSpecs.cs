@@ -849,7 +849,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -880,7 +880,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -958,7 +958,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1059,7 +1059,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1090,7 +1090,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1169,7 +1169,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1254,7 +1254,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1269,7 +1269,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1344,7 +1344,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1427,7 +1427,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1442,7 +1442,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1497,7 +1497,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => types.Should()
-                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled,
                     "because we {0}", "do");
 
             // Assert
@@ -1516,7 +1516,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => types.Should()
-                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled,
                     "because we {0}", "do");
 
             // Assert

@@ -905,7 +905,7 @@ namespace FluentAssertions.Specs
 
             Action throwLongerThanWaitTime = () =>
             {
-                if (timer.Elapsed < (waitTime.Multiply(1.5)))
+                if (timer.Elapsed < waitTime.Multiply(1.5))
                 {
                     throw new ArgumentException("An exception was forced");
                 }

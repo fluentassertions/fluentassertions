@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value is XAttribute);
+            return value is XAttribute;
         }
 
         /// <inheritdoc />

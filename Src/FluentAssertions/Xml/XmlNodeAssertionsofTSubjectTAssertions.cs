@@ -38,7 +38,7 @@ namespace FluentAssertions.Xml
                 xmlReaderValidator.Validate(shouldBeEquivalent: true);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)(this));
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>

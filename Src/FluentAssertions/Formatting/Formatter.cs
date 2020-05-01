@@ -194,7 +194,7 @@ namespace FluentAssertions.Formatting
                 pathStack.Pop();
             }
 
-            public int Depth => (pathStack.Count - 1);
+            public int Depth => pathStack.Count - 1;
 
             public override string ToString()
             {

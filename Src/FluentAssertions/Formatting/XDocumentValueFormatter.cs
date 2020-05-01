@@ -6,7 +6,7 @@ namespace FluentAssertions.Formatting
     {
         public bool CanHandle(object value)
         {
-            return (value is XDocument);
+            return value is XDocument;
         }
 
         /// <inheritdoc />

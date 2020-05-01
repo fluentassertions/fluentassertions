@@ -16,7 +16,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value is XElement);
+            return value is XElement;
         }
 
         /// <inheritdoc />

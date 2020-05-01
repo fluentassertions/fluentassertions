@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             var someObject = new object();
 
             // Act / Assert
-            someObject.Should().Match(o => (o != null));
+            someObject.Should().Match(o => o != null);
         }
 
         [Fact]

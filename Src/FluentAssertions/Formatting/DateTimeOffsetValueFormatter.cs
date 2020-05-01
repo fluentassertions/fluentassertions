@@ -104,7 +104,7 @@ namespace FluentAssertions.Formatting
 
         private static bool HasMilliSeconds(DateTimeOffset dateTime)
         {
-            return (dateTime.Millisecond > 0);
+            return dateTime.Millisecond > 0;
         }
 
         private static bool HasMicroSeconds(DateTimeOffset dateTime)

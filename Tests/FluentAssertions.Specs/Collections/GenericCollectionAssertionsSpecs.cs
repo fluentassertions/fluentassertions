@@ -268,7 +268,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 2, 3 };
-            Expression<Func<int, bool>> expression = (item => (item == 2));
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -282,7 +282,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             IEnumerable<int> collection = Enumerable.Empty<int>();
-            Expression<Func<int, bool>> expression = (item => (item == 2));
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -300,7 +300,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             const IEnumerable<int> collection = null;
-            Expression<Func<int, bool>> expression = (item => (item == 2));
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -318,7 +318,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 3 };
-            Expression<Func<int, bool>> expression = (item => (item == 2));
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
-            Expression<Func<int, bool>> expression = (item => (item == 2));
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -356,7 +356,7 @@ namespace FluentAssertions.Specs
             IEnumerable<int> collection = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().ContainSingle(item => (item == 2)).Which.Should().BeGreaterThan(4);
+            Action act = () => collection.Should().ContainSingle(item => item == 2).Which.Should().BeGreaterThan(4);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");

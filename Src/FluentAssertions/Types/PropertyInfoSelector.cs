@@ -43,7 +43,7 @@ namespace FluentAssertions.Types
                 selectedProperties = selectedProperties.Where(property =>
                 {
                     MethodInfo getter = property.GetGetMethod(nonPublic: true);
-                    return ((getter != null) && (getter.IsPublic || getter.IsAssembly));
+                    return (getter != null) && (getter.IsPublic || getter.IsAssembly);
                 });
 
                 return this;

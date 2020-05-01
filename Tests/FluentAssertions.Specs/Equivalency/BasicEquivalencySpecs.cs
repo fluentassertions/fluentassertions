@@ -2075,7 +2075,7 @@ namespace FluentAssertions.Specs
             var subject = new
             {
                 Age = 36,
-                Birthdate = (DateTime?)(new DateTime(1973, 9, 20)),
+                Birthdate = (DateTime?)new DateTime(1973, 9, 20),
                 Name = "Dennis"
             };
 
