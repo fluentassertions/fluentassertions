@@ -17,19 +17,19 @@ namespace FluentAssertions.Primitives
 
         protected override bool ValidateAgainstSuperfluousWhitespace()
         {
-            return assertion
-                .ForCondition(!((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode)))
-                .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
+            return Assertion
+                .ForCondition(!((Expected.Length > Subject.Length) && Expected.TrimEnd().Equals(Subject, comparisonMode)))
+                .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", Expected)
                 .Then
-                .ForCondition(!((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode)))
-                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected)
+                .ForCondition(!((Subject.Length > Expected.Length) && Subject.TrimEnd().Equals(Expected, comparisonMode)))
+                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", Expected)
                 .SourceSucceeded;
         }
 
         protected override bool ValidateAgainstLengthDifferences()
         {
-            return assertion
-                .ForCondition(subject.Length == expected.Length)
+            return Assertion
+                .ForCondition(Subject.Length == Expected.Length)
                 .FailWith(() =>
                 {
                     string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
@@ -37,14 +37,14 @@ namespace FluentAssertions.Primitives
                     string message = ExpectationDescription +
                                         "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
-                    return new FailReason(message, expected, expected.Length, subject, subject.Length);
+                    return new FailReason(message, Expected, Expected.Length, Subject, Subject.Length);
                 })
                 .SourceSucceeded;
         }
 
         private string GetMismatchSegmentForStringsOfDifferentLengths()
         {
-            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+            int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
 
             // If there is no difference it means that either
             // * subject starts with expected or
@@ -52,33 +52,33 @@ namespace FluentAssertions.Primitives
             if (indexOfMismatch == -1)
             {
                 // If subject is shorter we are sure that expected starts with subject
-                if (subject.Length < expected.Length)
+                if (Subject.Length < Expected.Length)
                 {
                     // Subject is shorter so we point at its last character.
                     // We would like to point at next character as it is the real
                     // index of first mismatch, but we need to point at character existing in
                     // subject, so the next best thing is the last subject character.
-                    indexOfMismatch = Math.Max(0, subject.Length - 1);
+                    indexOfMismatch = Math.Max(0, Subject.Length - 1);
                 }
                 else
                 {
                     // If subject is longer we are sure that subject starts with expected
                     // and we point at first character after expected.
-                    indexOfMismatch = expected.Length;
+                    indexOfMismatch = Expected.Length;
                 }
             }
 
-            return subject.IndexedSegmentAt(indexOfMismatch);
+            return Subject.IndexedSegmentAt(indexOfMismatch);
         }
 
         protected override void ValidateAgainstMismatch()
         {
-            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+            int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
             if (indexOfMismatch != -1)
             {
-                assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    expected, subject);
+                Assertion.FailWith(
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                    Expected, Subject);
             }
         }
 
