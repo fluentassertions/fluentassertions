@@ -87,7 +87,7 @@ namespace FluentAssertions.Xml
             XmlAttribute attribute = Subject.Attributes[expectedName, expectedNamespace];
 
             string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? "" : "{" + expectedNamespace + "}")
+                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : "{" + expectedNamespace + "}")
                 + expectedName;
 
             Execute.Assertion
@@ -150,7 +150,7 @@ namespace FluentAssertions.Xml
             XmlElement element = Subject[expectedName, expectedNamespace];
 
             string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? "" : "{" + expectedNamespace + "}")
+                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : "{" + expectedNamespace + "}")
                 + expectedName;
 
             Execute.Assertion

@@ -880,7 +880,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         public AndConstraint<TAssertions> ContainInOrder(params object[] expected)
         {
-            return ContainInOrder(expected, "");
+            return ContainInOrder(expected, string.Empty);
         }
 
         /// <summary>

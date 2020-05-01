@@ -41,7 +41,7 @@ namespace FluentAssertions.Formatting
                 return "default";
             }
 
-            string sign = (timeSpan.Ticks >= 0) ? "" : "-";
+            string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
 
             if (fragments.Count == 1)
             {

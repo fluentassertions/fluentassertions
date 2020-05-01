@@ -32,7 +32,7 @@ namespace FluentAssertions.Formatting
 
             if (enumerable.Any())
             {
-                string postfix = "";
+                string postfix = string.Empty;
 
                 if (enumerable.Count > MaxItems)
                 {

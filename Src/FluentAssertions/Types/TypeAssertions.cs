@@ -156,7 +156,7 @@ namespace FluentAssertions.Types
         {
             if (actual == expected)
             {
-                return "";
+                return string.Empty;
             }
 
             string expectedType = expected?.FullName ?? "<null>";
@@ -702,7 +702,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -745,7 +745,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -928,7 +928,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -1003,7 +1003,7 @@ namespace FluentAssertions.Types
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
-            string methodInfoDescription = "";
+            string methodInfoDescription = string.Empty;
 
             if (methodInfo != null)
             {

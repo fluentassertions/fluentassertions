@@ -104,7 +104,7 @@ namespace FluentAssertions.Execution
                 return StartsWithBlank(reason) ? reason : " " + reason;
             }
 
-            return "";
+            return string.Empty;
         }
 
         // SMELL: looks way too complex just to retain the leading whitespace

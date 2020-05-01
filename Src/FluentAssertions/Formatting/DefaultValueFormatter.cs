@@ -37,7 +37,7 @@ namespace FluentAssertions.Formatting
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
 
-            string prefix = context.UseLineBreaks ? Environment.NewLine : "";
+            string prefix = context.UseLineBreaks ? Environment.NewLine : string.Empty;
 
             if (HasDefaultToStringImplementation(value))
             {

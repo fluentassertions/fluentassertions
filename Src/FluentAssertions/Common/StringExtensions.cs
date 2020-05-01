@@ -101,9 +101,9 @@ namespace FluentAssertions.Common
 
         public static string RemoveNewLines(this string @this)
         {
-            return @this.Replace("\n", "", StringComparison.Ordinal)
-                        .Replace("\r", "", StringComparison.Ordinal)
-                        .Replace("\\r\\n", "", StringComparison.Ordinal);
+            return @this.Replace("\n", string.Empty, StringComparison.Ordinal)
+                        .Replace("\r", string.Empty, StringComparison.Ordinal)
+                        .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace FluentAssertions.Common
         /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
         public static int CountSubstring(this string @this, string substring, StringComparison comparisonType)
         {
-            string actual = @this ?? "";
-            string search = substring ?? "";
+            string actual = @this ?? string.Empty;
+            string search = substring ?? string.Empty;
 
             int count = 0;
             int index = 0;
