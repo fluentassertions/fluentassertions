@@ -430,7 +430,8 @@ namespace FluentAssertions.Equivalency
         /// that implements <see cref="IEqualityComparer{T}"/>, any time
         /// when a property is of type <typeparamref name="T"/>.
         /// </summary>
-        public TSelf Using<T, TEqualityComparer>() where TEqualityComparer : IEqualityComparer<T>, new()
+        public TSelf Using<T, TEqualityComparer>()
+            where TEqualityComparer : IEqualityComparer<T>, new()
         {
             return Using(new TEqualityComparer());
         }

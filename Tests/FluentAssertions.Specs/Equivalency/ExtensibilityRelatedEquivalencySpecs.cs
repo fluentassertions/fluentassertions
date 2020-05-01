@@ -661,7 +661,8 @@ namespace FluentAssertions.Specs
             act.Should().Throw<NotSupportedException>();
         }
 
-        internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep where TException : Exception, new()
+        internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep
+            where TException : Exception, new()
         {
             public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {

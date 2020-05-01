@@ -238,7 +238,8 @@ namespace FluentAssertions.Specialized
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs)
+            where TException : Exception
         {
             IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
             Execute.Assertion

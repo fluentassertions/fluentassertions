@@ -976,7 +976,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceOutsidePrecision<T>(
             bool differenceWithinPrecision,
             NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct, IComparable<T>
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
@@ -1311,7 +1312,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceWithinPrecision<T>(
             NumericAssertions<T> parent, bool differenceOutsidePrecision,
             T unexpectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct, IComparable<T>
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)

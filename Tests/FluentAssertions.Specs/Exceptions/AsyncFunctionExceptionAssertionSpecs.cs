@@ -1314,13 +1314,15 @@ namespace FluentAssertions.Specs
             throw new TException();
         }
 
-        public async Task ThrowAggregateExceptionAsync<TException>() where TException : Exception, new()
+        public async Task ThrowAggregateExceptionAsync<TException>()
+            where TException : Exception, new()
         {
             await Task.Yield();
             throw new AggregateException(new TException());
         }
 
-        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>() where TException : Exception, new()
+        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>()
+            where TException : Exception, new()
         {
             await Task.Yield();
             throw new AggregateException(new TException());
