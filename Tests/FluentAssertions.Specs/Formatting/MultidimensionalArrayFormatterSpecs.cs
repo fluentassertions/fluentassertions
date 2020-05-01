@@ -24,9 +24,35 @@ namespace FluentAssertions.Specs
         public static IEnumerable<object[]> MultiDimensionalArrayData =>
             new List<object[]>
             {
-                new object[] { new int[0, 0], "{empty}" },
-                new object[] { new int[,] { { 1, 2 }, { 3, 4 } }, "{{1, 2}, {3, 4}}" },
-                new object[] { new int[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } }, "{{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}}" },
+                new object[]
+                {
+                    new int[0, 0],
+                    "{empty}"
+                },
+                new object[]
+                {
+                    new int[,]
+                    {
+                        { 1, 2 },
+                        { 3, 4 }
+                    },
+                    "{{1, 2}, {3, 4}}"
+                },
+                new object[]
+                {
+                    new int[,,]
+                    {
+                        {
+                            { 1, 2, 3 },
+                            { 4, 5, 6 }
+                        },
+                        {
+                            { 7, 8, 9 },
+                            { 10, 11, 12 }
+                        }
+                    },
+                    "{{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}}"
+                },
             };
 
         [Fact]
