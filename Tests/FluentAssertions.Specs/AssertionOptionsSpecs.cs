@@ -39,7 +39,7 @@ namespace FluentAssertions.Specs
                 {
                     IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
                     return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
-                        e => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
+                        _ => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
                     );
                 });
             }
@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
         {
             protected override void Dispose(bool disposing)
             {
-                AssertionOptions.AssertEquivalencyUsing(options => new EquivalencyAssertionOptions());
+                AssertionOptions.AssertEquivalencyUsing(_ => new EquivalencyAssertionOptions());
 
                 base.Dispose(disposing);
             }

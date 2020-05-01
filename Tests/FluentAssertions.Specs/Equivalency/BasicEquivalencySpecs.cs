@@ -3910,7 +3910,7 @@ namespace FluentAssertions.Specs
     internal class ClassWithCctorAndNonDefaultConstructor
     {
         static ClassWithCctorAndNonDefaultConstructor() { }
-        public ClassWithCctorAndNonDefaultConstructor(int i) { }
+        public ClassWithCctorAndNonDefaultConstructor(int _) { }
     }
 
     internal class MyCompanyLogo

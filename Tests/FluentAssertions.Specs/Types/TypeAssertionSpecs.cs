@@ -3879,12 +3879,12 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
-        private ClassWithMembers(string overload) { }
+        private ClassWithMembers(string _) { }
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
         internal string this[string str] { private get { return str; } set { } }
         protected internal string this[int i] { get { return i.ToString(); } private set { } }
         private void VoidMethod() { }
-        private void VoidMethod(string overload) { }
+        private void VoidMethod(string _) { }
     }
 
     public class ClassExplicitlyImplementingInterface : IExplicitInterface
@@ -3898,7 +3898,7 @@ namespace FluentAssertions.Specs
         void IExplicitInterface.ExplicitMethod() { }
         void IExplicitInterface.ExplicitMethod(string overload) { }
         public void ExplicitImplicitMethod() { }
-        public void ExplicitImplicitMethod(string overload) { }
+        public void ExplicitImplicitMethod(string _) { }
         void IExplicitInterface.ExplicitImplicitMethod() { }
         void IExplicitInterface.ExplicitImplicitMethod(string overload) { }
     }

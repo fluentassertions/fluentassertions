@@ -709,7 +709,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsync())
+                .Awaiting(_ => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>();
 
             // Assert
@@ -724,7 +724,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsync())
+                .Awaiting(_ => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>()
                     .And.NotBeNull();
 
@@ -744,7 +744,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsyncValueTask())
+                .Awaiting(_ => asyncObject.SucceedAsyncValueTask())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -799,7 +799,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.ReturnTaskInt())
+                .Awaiting(_ => asyncObject.ReturnTaskInt())
                 .Should().NotThrow<InvalidOperationException>();
 
             // Assert
@@ -818,7 +818,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.ReturnValueTaskInt())
+                .Awaiting(_ => asyncObject.ReturnValueTaskInt())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------

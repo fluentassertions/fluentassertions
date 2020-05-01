@@ -19,7 +19,7 @@ namespace FluentAssertions.Specs
                 {
                     MaxDegreeOfParallelism = 8
                 },
-                e =>
+                _ =>
                 {
                     Configuration.Current.ValueFormatterAssembly = string.Empty;
                     var mode = Configuration.Current.ValueFormatterDetectionMode;

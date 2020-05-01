@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             throw new InvalidOperationException();
         }
 
-        private static int Throws(int number)
+        private static int Throws(int _)
         {
             throw new InvalidOperationException();
         }
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
             throw new InvalidOperationException();
         }
 
-        private static async Task<int> ThrowsAsync(int number)
+        private static async Task<int> ThrowsAsync(int _)
         {
             await Task.Yield();
             throw new InvalidOperationException();

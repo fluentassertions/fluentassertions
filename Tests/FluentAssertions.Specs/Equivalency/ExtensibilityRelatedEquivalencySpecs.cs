@@ -520,10 +520,10 @@ namespace FluentAssertions.Specs
                 () =>
                     subject.Should().BeEquivalentTo(expected,
                         opts =>
-                            opts.Using<object>(context => throw new Exception())
-                                .When(s => true)
-                                .Using<object>(context => { })
-                                .When(s => true));
+                            opts.Using<object>(_ => throw new Exception())
+                                .When(_ => true)
+                                .Using<object>(_ => { })
+                                .When(_ => true));
 
             // Assert
             act.Should().NotThrow(

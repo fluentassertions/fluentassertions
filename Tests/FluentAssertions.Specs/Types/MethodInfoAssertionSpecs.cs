@@ -635,7 +635,7 @@ namespace FluentAssertions.Specs
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public ClassWithMethodWithImplementationAttribute() { }
 
-        public ClassWithMethodWithImplementationAttribute(string ignoreMe) { }
+        public ClassWithMethodWithImplementationAttribute(string _) { }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void DoNotInlineMe() { }
@@ -653,7 +653,7 @@ namespace FluentAssertions.Specs
         {
         }
 
-        public void DoNothingWithParameter(int i)
+        public void DoNothingWithParameter(int _)
         {
         }
     }
@@ -664,11 +664,11 @@ namespace FluentAssertions.Specs
         {
         }
 
-        internal void DoNothingWithParameter(int i)
+        internal void DoNothingWithParameter(int _)
         {
         }
 
-        private void DoNothingWithAnotherParameter(string i)
+        private void DoNothingWithAnotherParameter(string _)
         {
         }
     }

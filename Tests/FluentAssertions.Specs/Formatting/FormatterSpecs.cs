@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs
             }
 
             [ValueFormatter]
-            public static string Foo(SomeOtherClassWithCustomFormatter value)
+            public static string Foo(SomeOtherClassWithCustomFormatter _)
             {
                 throw new XunitException("Should never be called");
             }
