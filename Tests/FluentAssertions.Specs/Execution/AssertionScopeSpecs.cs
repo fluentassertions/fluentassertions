@@ -11,32 +11,6 @@ using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-#pragma warning disable RCS1110 // Declare type inside namespace.
-public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110 // Declare type inside namespace.
-{
-    [Fact]
-    public void This_class_should_not_be_inside_a_namespace()
-    {
-        // Arrange
-        Type type = typeof(AssertionScopeSpecsWithoutNamespace);
-
-        // Act / Assert
-        type.Assembly.Should().DefineType(null, type.Name, "this class should not be inside a namespace");
-    }
-
-    [Fact]
-    public void When_the_test_method_is_not_inside_a_namespace_it_should_not_throw_a_NullReferenceException()
-    {
-        // Act
-        Action act = () => 1.Should().Be(2, "we don't want a NullReferenceException");
-
-        // Assert
-        act.Should().ThrowExactly<XunitException>()
-            .WithMessage("*we don't want a NullReferenceException*");
-    }
-}
-
 namespace FluentAssertions.Specs
 {
     public class AssertionScopeSpecs
@@ -672,5 +646,31 @@ namespace FluentAssertions.Specs
                 // do nothing
             }
         }
+    }
+}
+
+#pragma warning disable RCS1110 // Declare type inside namespace.
+public class AssertionScopeSpecsWithoutNamespace
+#pragma warning restore RCS1110 // Declare type inside namespace.
+{
+    [Fact]
+    public void This_class_should_not_be_inside_a_namespace()
+    {
+        // Arrange
+        Type type = typeof(AssertionScopeSpecsWithoutNamespace);
+
+        // Act / Assert
+        type.Assembly.Should().DefineType(null, type.Name, "this class should not be inside a namespace");
+    }
+
+    [Fact]
+    public void When_the_test_method_is_not_inside_a_namespace_it_should_not_throw_a_NullReferenceException()
+    {
+        // Act
+        Action act = () => 1.Should().Be(2, "we don't want a NullReferenceException");
+
+        // Assert
+        act.Should().ThrowExactly<XunitException>()
+            .WithMessage("*we don't want a NullReferenceException*");
     }
 }

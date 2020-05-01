@@ -5,10 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    // Due to tests that call Configuration.Current
-    [CollectionDefinition("ConfigurationSpecs", DisableParallelization = true)]
-    public class ConfigurationSpecsDefinition { }
-
     [Collection("ConfigurationSpecs")]
     public class ConfigurationSpecs
     {
@@ -34,4 +30,8 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
     }
+
+    // Due to tests that call Configuration.Current
+    [CollectionDefinition("ConfigurationSpecs", DisableParallelization = true)]
+    public class ConfigurationSpecsDefinition { }
 }

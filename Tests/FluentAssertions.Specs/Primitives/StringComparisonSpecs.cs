@@ -6,10 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Primitives
 {
-    // Due to CulturedTheory changing CultureInfo
-    [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
-    public class StringComparisonDefinition { }
-
     [Collection(nameof(StringComparisonSpecs))]
     public class StringComparisonSpecs
     {
@@ -280,4 +276,8 @@ namespace FluentAssertions.Specs.Primitives
             }
         }
     }
+
+    // Due to CulturedTheory changing CultureInfo
+    [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
+    public class StringComparisonDefinition { }
 }

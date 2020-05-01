@@ -11,10 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    // Due to the tests that call Configuration.Current
-    [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-    public class FormatterSpecsDefinition { }
-
     [Collection("FormatterSpecs")]
     public class FormatterSpecs
     {
@@ -758,6 +754,10 @@ namespace FluentAssertions.Specs
             public void Dispose() => Formatter.RemoveFormatter(formatter);
         }
     }
+
+    // Due to the tests that call Configuration.Current
+    [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
+    public class FormatterSpecsDefinition { }
 
     internal class ExceptionThrowingClass
     {
