@@ -15,7 +15,8 @@ namespace FluentAssertions.Collections
     [DebuggerNonUserCode]
     public class NonGenericCollectionAssertions : NonGenericCollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
-        public NonGenericCollectionAssertions(IEnumerable collection) : base(collection)
+        public NonGenericCollectionAssertions(IEnumerable collection)
+            : base(collection)
         {
         }
     }
@@ -28,7 +29,8 @@ namespace FluentAssertions.Collections
         where TCollection : IEnumerable
         where TAssertions : NonGenericCollectionAssertions<TCollection, TAssertions>
     {
-        public NonGenericCollectionAssertions(TCollection collection) : base(collection)
+        public NonGenericCollectionAssertions(TCollection collection)
+            : base(collection)
         {
         }
 

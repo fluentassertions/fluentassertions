@@ -19,7 +19,8 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeAssertions"/> class.
         /// </summary>
-        public TypeAssertions(Type type) : base(type)
+        public TypeAssertions(Type type)
+            : base(type)
         {
         }
 

@@ -14,7 +14,8 @@ namespace FluentAssertions.Xml
         where TSubject : XmlNode
         where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
     {
-        public XmlNodeAssertions(TSubject xmlNode) : base(xmlNode)
+        public XmlNodeAssertions(TSubject xmlNode)
+            : base(xmlNode)
         {
         }
 

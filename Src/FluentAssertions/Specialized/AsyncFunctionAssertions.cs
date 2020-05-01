@@ -15,11 +15,13 @@ namespace FluentAssertions.Specialized
         where TTask : Task
         where TAssertions : AsyncFunctionAssertions<TTask, TAssertions>
     {
-        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
+        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor)
+            : this(subject, extractor, new Clock())
         {
         }
 
-        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
+        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, IClock clock)
+            : base(subject, extractor, clock)
         {
         }
 

@@ -19,7 +19,8 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
         /// </summary>
-        public XDocumentAssertions(XDocument document) : base(document)
+        public XDocumentAssertions(XDocument document)
+            : base(document)
         {
         }
 

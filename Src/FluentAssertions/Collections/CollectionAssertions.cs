@@ -16,7 +16,8 @@ namespace FluentAssertions.Collections
         where TSubject : IEnumerable
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
     {
-        protected CollectionAssertions(TSubject subject) : base(subject)
+        protected CollectionAssertions(TSubject subject)
+            : base(subject)
         {
         }
 

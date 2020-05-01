@@ -17,11 +17,13 @@ namespace FluentAssertions.Specialized
     {
         private readonly IExtractExceptions extractor;
 
-        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : this(@delegate, extractor, new Clock())
+        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
+            : this(@delegate, extractor, new Clock())
         {
         }
 
-        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock) : base(@delegate)
+        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
+            : base(@delegate)
         {
             this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));

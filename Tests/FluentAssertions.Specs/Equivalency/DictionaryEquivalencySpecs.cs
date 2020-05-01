@@ -289,7 +289,8 @@ namespace FluentAssertions.Specs
 
         public class SomeDerivedKeyClass : SomeBaseKeyClass
         {
-            public SomeDerivedKeyClass(int id) : base(id)
+            public SomeDerivedKeyClass(int id)
+                : base(id)
             {
             }
         }

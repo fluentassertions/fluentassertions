@@ -26,7 +26,8 @@ namespace FluentAssertions.Specialized
 
         #endregion
 
-        public ExceptionAssertions(IEnumerable<TException> exceptions) : base(exceptions)
+        public ExceptionAssertions(IEnumerable<TException> exceptions)
+            : base(exceptions)
         {
         }
 

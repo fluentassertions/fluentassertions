@@ -11,11 +11,13 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAssertions<T>>
     {
-        public FunctionAssertions(Func<T> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
+        public FunctionAssertions(Func<T> subject, IExtractExceptions extractor)
+            : this(subject, extractor, new Clock())
         {
         }
 
-        public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
+        public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, IClock clock)
+            : base(subject, extractor, clock)
         {
         }
 

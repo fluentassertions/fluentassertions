@@ -13,7 +13,8 @@ namespace FluentAssertions.Numeric
     [DebuggerNonUserCode]
     public class ComparableTypeAssertions<T> : ComparableTypeAssertions<T, ComparableTypeAssertions<T>>
     {
-        public ComparableTypeAssertions(IComparable<T> value) : base(value)
+        public ComparableTypeAssertions(IComparable<T> value)
+            : base(value)
         {
         }
     }
@@ -27,7 +28,8 @@ namespace FluentAssertions.Numeric
     {
         private const int Equal = 0;
 
-        public ComparableTypeAssertions(IComparable<T> value) : base(value)
+        public ComparableTypeAssertions(IComparable<T> value)
+            : base(value)
         {
         }
 
