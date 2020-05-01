@@ -13,9 +13,9 @@ namespace FluentAssertions.Specs
     /// </remarks>
     internal class FakeClock : IClock
     {
-        private TimeSpan elapsedTime = TimeSpan.Zero;
-
         private readonly TaskCompletionSource<bool> delayTask = new TaskCompletionSource<bool>();
+
+        private TimeSpan elapsedTime = TimeSpan.Zero;
 
         Task IClock.DelayAsync(TimeSpan delay, CancellationToken cancellationToken)
         {

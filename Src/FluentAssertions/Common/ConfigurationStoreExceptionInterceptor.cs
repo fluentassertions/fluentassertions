@@ -2,9 +2,9 @@
 {
     internal class ConfigurationStoreExceptionInterceptor : IConfigurationStore
     {
-        private bool underlyingStoreUnavailable;
-
         private readonly IConfigurationStore configurationStore;
+
+        private bool underlyingStoreUnavailable;
 
         public ConfigurationStoreExceptionInterceptor(IConfigurationStore configurationStore)
         {

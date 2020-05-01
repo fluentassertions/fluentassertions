@@ -20,6 +20,14 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
+        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
+
+        private readonly List<Type> referenceTypes = new List<Type>();
+
+        private readonly List<Type> valueTypes = new List<Type>();
+
+        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
 
@@ -49,13 +57,6 @@ namespace FluentAssertions.Equivalency
         private bool includeProperties;
 
         private bool includeFields;
-
-        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
-
-        private readonly List<Type> referenceTypes = new List<Type>();
-        private readonly List<Type> valueTypes = new List<Type>();
-
-        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
 
         #endregion
 
