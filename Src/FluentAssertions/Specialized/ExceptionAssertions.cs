@@ -22,7 +22,7 @@ namespace FluentAssertions.Specialized
     {
         #region Private Definitions
 
-        private static readonly ExceptionMessageAssertion outerMessageAssertion = new ExceptionMessageAssertion();
+        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new ExceptionMessageAssertion();
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specialized
                 .ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
+            OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
 
             return this;
         }

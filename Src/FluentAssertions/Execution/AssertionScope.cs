@@ -22,7 +22,7 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-        private static readonly AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
+        private static readonly AsyncLocal<AssertionScope> CurrentScope = new AsyncLocal<AssertionScope>();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
@@ -312,12 +312,12 @@ namespace FluentAssertions.Execution
 
         private static AssertionScope GetCurrentAssertionScope()
         {
-            return current.Value;
+            return CurrentScope.Value;
         }
 
         private static void SetCurrentAssertionScope(AssertionScope scope)
         {
-            current.Value = scope;
+            CurrentScope.Value = scope;
         }
 
         #region Explicit Implementation to support the interface

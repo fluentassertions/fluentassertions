@@ -265,9 +265,9 @@ namespace FluentAssertions.Specialized
 
             Func<Task> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
 
-            return assertionTask();
+            return AssertionTaskAsync();
 
-            async Task<AndConstraint<TAssertions>> assertionTask()
+            async Task<AndConstraint<TAssertions>> AssertionTaskAsync()
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;

@@ -4148,11 +4148,11 @@ namespace FluentAssertions.Specs
     public class ClassWithAllAccessModifiersForMembers
     {
         public string PublicField;
-        protected string ProtectedField;
+        protected string protectedField;
         internal string InternalField;
         protected internal string ProtectedInternalField;
-        private readonly string PrivateField;
-        private protected string PrivateProtectedField;
+        private readonly string privateField;
+        private protected string privateProtectedField;
 
         public string PublicProperty { get; set; }
         public string ReadOnlyProperty { get; private set; }
@@ -4168,11 +4168,11 @@ namespace FluentAssertions.Specs
             string protectedInternalValue, string privateValue, string privateProtectedValue)
         {
             PublicField = publicValue;
-            ProtectedField = protectedValue;
+            protectedField = protectedValue;
             InternalField = internalValue;
             ProtectedInternalField = protectedInternalValue;
-            PrivateField = privateValue;
-            PrivateProtectedField = privateProtectedValue;
+            privateField = privateValue;
+            privateProtectedField = privateProtectedValue;
 
             PublicProperty = publicValue;
             ReadOnlyProperty = privateValue;

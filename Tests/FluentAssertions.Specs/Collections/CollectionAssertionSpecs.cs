@@ -4024,11 +4024,11 @@ namespace FluentAssertions.Specs
 
     internal class CountingNonGenericEnumerable : IEnumerable
     {
-        private readonly IEnumerable _backingSet;
+        private readonly IEnumerable backingSet;
 
         public CountingNonGenericEnumerable(IEnumerable backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4036,17 +4036,17 @@ namespace FluentAssertions.Specs
         public IEnumerator GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
     }
 
     internal class CountingGenericEnumerable<TElement> : IEnumerable<TElement>
     {
-        private readonly IEnumerable<TElement> _backingSet;
+        private readonly IEnumerable<TElement> backingSet;
 
         public CountingGenericEnumerable(IEnumerable<TElement> backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
             GetEnumeratorCallCount = 0;
         }
 
@@ -4055,7 +4055,7 @@ namespace FluentAssertions.Specs
         public IEnumerator<TElement> GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -4066,11 +4066,11 @@ namespace FluentAssertions.Specs
 
     internal class CountingNonGenericCollection : ICollection
     {
-        private readonly ICollection _backingSet;
+        private readonly ICollection backingSet;
 
         public CountingNonGenericCollection(ICollection backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4078,7 +4078,7 @@ namespace FluentAssertions.Specs
         public IEnumerator GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
@@ -4090,7 +4090,7 @@ namespace FluentAssertions.Specs
             get
             {
                 GetCountCallCount++;
-                return _backingSet.Count;
+                return backingSet.Count;
             }
         }
 
@@ -4100,11 +4100,11 @@ namespace FluentAssertions.Specs
 
     internal class CountingGenericCollection<TElement> : ICollection<TElement>
     {
-        private readonly ICollection<TElement> _backingSet;
+        private readonly ICollection<TElement> backingSet;
 
         public CountingGenericCollection(ICollection<TElement> backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4112,7 +4112,7 @@ namespace FluentAssertions.Specs
         public IEnumerator<TElement> GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -4133,7 +4133,7 @@ namespace FluentAssertions.Specs
             get
             {
                 GetCountCallCount++;
-                return _backingSet.Count;
+                return backingSet.Count;
             }
         }
 

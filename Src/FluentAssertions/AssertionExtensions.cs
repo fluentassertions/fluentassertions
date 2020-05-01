@@ -27,7 +27,7 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
@@ -699,7 +699,7 @@ namespace FluentAssertions
         [Pure]
         public static ActionAssertions Should(this Action action)
         {
-            return new ActionAssertions(action, extractor);
+            return new ActionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -709,7 +709,7 @@ namespace FluentAssertions
         [Pure]
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new NonGenericAsyncFunctionAssertions(action, extractor);
+            return new NonGenericAsyncFunctionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -719,7 +719,7 @@ namespace FluentAssertions
         [Pure]
         public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new GenericAsyncFunctionAssertions<T>(action, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action, Extractor);
         }
 
         /// <summary>
@@ -729,7 +729,7 @@ namespace FluentAssertions
         [Pure]
         public static FunctionAssertions<T> Should<T>(this Func<T> func)
         {
-            return new FunctionAssertions<T>(func, extractor);
+            return new FunctionAssertions<T>(func, Extractor);
         }
 
         /// <summary>

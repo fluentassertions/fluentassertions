@@ -14,9 +14,9 @@ namespace FluentAssertions.Formatting
     {
         #region Private Definitions
 
-        private static readonly List<IValueFormatter> customFormatters = new List<IValueFormatter>();
+        private static readonly List<IValueFormatter> CustomFormatters = new List<IValueFormatter>();
 
-        private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
+        private static readonly List<IValueFormatter> DefaultFormatters = new List<IValueFormatter>
         {
             new XmlNodeFormatter(),
             new AttributeBasedFormatter(),
@@ -60,7 +60,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// A list of objects responsible for formatting the objects represented by placeholders.
         /// </summary>
-        public static IEnumerable<IValueFormatter> Formatters => customFormatters.Concat(defaultFormatters);
+        public static IEnumerable<IValueFormatter> Formatters => CustomFormatters.Concat(DefaultFormatters);
 
         /// <summary>
         /// Returns a human-readable representation of a particular object.
@@ -142,9 +142,9 @@ namespace FluentAssertions.Formatting
         /// </summary>
         public static void RemoveFormatter(IValueFormatter formatter)
         {
-            if (customFormatters.Contains(formatter))
+            if (CustomFormatters.Contains(formatter))
             {
-                customFormatters.Remove(formatter);
+                CustomFormatters.Remove(formatter);
             }
         }
 
@@ -153,9 +153,9 @@ namespace FluentAssertions.Formatting
         /// </summary>
         public static void AddFormatter(IValueFormatter formatter)
         {
-            if (!customFormatters.Contains(formatter))
+            if (!CustomFormatters.Contains(formatter))
             {
-                customFormatters.Insert(0, formatter);
+                CustomFormatters.Insert(0, formatter);
             }
         }
 
