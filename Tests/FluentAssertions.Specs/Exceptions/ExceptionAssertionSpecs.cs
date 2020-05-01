@@ -650,7 +650,7 @@ namespace FluentAssertions.Specs
                     throw new Exception("No exclamation marks allowed.");
                 }
 
-                yield return char.ToUpper(character);
+                yield return char.ToUpperInvariant(character);
             }
         }
 

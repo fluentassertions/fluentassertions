@@ -211,7 +211,7 @@ namespace FluentAssertions.Specs
 
             public new virtual bool Equals(object obj)
             {
-                return (obj is VirtualClass other) && other.Property.Equals(Property);
+                return (obj is VirtualClass other) && other.Property == Property;
             }
         }
 
@@ -2408,7 +2408,7 @@ namespace FluentAssertions.Specs
         {
             public bool Equals(ConcreteClass x, ConcreteClass y)
             {
-                return x.GetProperty().Equals(y.GetProperty());
+                return x.GetProperty() == y.GetProperty();
             }
 
             public int GetHashCode(ConcreteClass obj) => obj.GetProperty().GetHashCode();
@@ -3696,9 +3696,7 @@ namespace FluentAssertions.Specs
             // Arrange
             var subject = new
             {
-                Version = 2,
-
-                //Age = 36, //age is missing
+                Version = 2
             };
 
             var expectation = new
@@ -3999,7 +3997,7 @@ namespace FluentAssertions.Specs
 
         public override bool Equals(object obj)
         {
-            return (obj is CustomerType other) && Code.Equals(other.Code);
+            return (obj is CustomerType other) && Code == other.Code;
         }
 
         public override int GetHashCode()
@@ -4019,7 +4017,7 @@ namespace FluentAssertions.Specs
                 return false;
             }
 
-            return a.Code.Equals(b.Code);
+            return a.Code == b.Code;
         }
 
         public static bool operator !=(CustomerType a, CustomerType b)
@@ -4215,7 +4213,7 @@ namespace FluentAssertions.Specs
 
         protected bool Equals(ClassWithValueSemanticsOnSingleProperty other)
         {
-            return string.Equals(Key, other.Key);
+            return Key == other.Key;
         }
 
         public override bool Equals(object obj)
@@ -4307,7 +4305,7 @@ namespace FluentAssertions.Specs
 
         public override bool Equals(object obj)
         {
-            return ((ValueObject)obj).Value.Equals(Value);
+            return ((ValueObject)obj).Value == Value;
         }
 
         public override int GetHashCode()

@@ -15,7 +15,9 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             bool ordinal = string.Equals(subject, expected, StringComparison.OrdinalIgnoreCase);
+#pragma warning disable CA1309 // Verifies that test data behaves differently in current vs invariant culture
             bool currentCulture = string.Equals(subject, expected, StringComparison.CurrentCultureIgnoreCase);
+#pragma warning restore CA1309
 
             // Assert
             ordinal.Should().Be(!currentCulture, "Turkish distinguishes between a dotted and a non-dotted 'i'");
@@ -27,7 +29,9 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             bool ordinal = string.Equals(subject, expected, StringComparison.Ordinal);
+#pragma warning disable CA1309 // Verifies that test data behaves differently in current vs invariant culture
             bool currentCulture = string.Equals(subject, expected, StringComparison.CurrentCulture);
+#pragma warning restore CA1309
 
             // Assert
             ordinal.Should().Be(!currentCulture,
