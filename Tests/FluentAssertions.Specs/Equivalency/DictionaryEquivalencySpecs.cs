@@ -273,12 +273,12 @@ namespace FluentAssertions.Specs
                     return false;
                 }
 
-                return this.Id == other.Id;
+                return Id == other.Id;
             }
 
             public override bool Equals(object obj)
             {
-                return this.Equals(obj as SomeBaseKeyClass);
+                return Equals(obj as SomeBaseKeyClass);
             }
 
             public override string ToString()

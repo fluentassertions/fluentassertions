@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs
 
         public void CompleteAfter(TimeSpan timeSpan)
         {
-            this.Delay(timeSpan);
+            Delay(timeSpan);
 
             // the value is not relevant
             delayTask.SetResult(true);
