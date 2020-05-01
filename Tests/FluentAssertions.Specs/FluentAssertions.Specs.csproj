@@ -5,7 +5,9 @@
     <LangVersion>8.0</LangVersion>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>IDE0052</NoWarn>
+    <!-- https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md -->
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn),IDE0052,1573,1591,1712</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
