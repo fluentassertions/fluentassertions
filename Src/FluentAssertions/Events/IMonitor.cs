@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD2_0
-
-using System;
+﻿using System;
 
 namespace FluentAssertions.Events
 {
@@ -84,5 +82,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-
-#endif

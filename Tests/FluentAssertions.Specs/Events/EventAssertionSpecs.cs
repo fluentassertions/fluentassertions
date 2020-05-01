@@ -1,6 +1,4 @@
-﻿#if !NETCOREAPP2_0
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 #if NET47
@@ -759,5 +757,3 @@ namespace FluentAssertions.Specs
         }
     }
 }
-
-#endif

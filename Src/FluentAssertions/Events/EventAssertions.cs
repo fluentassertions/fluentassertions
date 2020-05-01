@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD2_0
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -159,5 +157,3 @@ namespace FluentAssertions.Events
         protected override string Identifier => "subject";
     }
 }
-
-#endif

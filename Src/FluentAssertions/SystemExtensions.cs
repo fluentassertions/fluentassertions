@@ -1,5 +1,4 @@
-﻿#if NET47 || NETSTANDARD2_0
-namespace System
+﻿namespace System
 {
     internal static class SystemExtensions
     {
@@ -16,4 +15,3 @@ namespace System
             str.IndexOf(value, comparison) != -1;
     }
 }
-#endif

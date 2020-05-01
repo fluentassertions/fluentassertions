@@ -142,12 +142,6 @@ namespace FluentAssertions
             where TStep : FluentAssertions.Equivalency.IEquivalencyStep { }
         public void Reset() { }
     }
-    public static class EventRaisingExtensions
-    {
-        public static FluentAssertions.Events.IEventRecorder WithArgs<T>(this FluentAssertions.Events.IEventRecorder eventRecorder, params System.Linq.Expressions.Expression<>[] predicates) { }
-        public static FluentAssertions.Events.IEventRecorder WithArgs<T>(this FluentAssertions.Events.IEventRecorder eventRecorder, System.Linq.Expressions.Expression<System.Func<T, bool>> predicate) { }
-        public static FluentAssertions.Events.IEventRecorder WithSender(this FluentAssertions.Events.IEventRecorder eventRecorder, object expectedSender) { }
-    }
     public static class Exactly
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
@@ -920,23 +914,6 @@ namespace FluentAssertions.Equivalency
         public ValueTypeEquivalencyStep() { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator structuralEqualityValidator, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
-    }
-}
-namespace FluentAssertions.Events
-{
-    public interface IEventRecorder : System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
-    {
-        System.Type EventHandlerType { get; }
-        string EventName { get; }
-        object EventObject { get; }
-        void RecordEvent(params object[] parameters);
-        void Reset();
-    }
-    public class RecordedEvent
-    {
-        public RecordedEvent(System.DateTime utcNow, object monitoredObject, params object[] parameters) { }
-        public System.Collections.Generic.IEnumerable<object> Parameters { get; }
-        public System.DateTime TimestampUtc { get; set; }
     }
 }
 namespace FluentAssertions.Execution

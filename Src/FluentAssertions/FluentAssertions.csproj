@@ -37,6 +37,20 @@
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" PrivateAssets="all" />
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <Compile Remove="Events/*.cs" />
+    <Compile Remove="EventRaisingExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" !('$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netstandard2.0') ">
+    <Compile Remove="SystemExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netcoreapp2.1' Or '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <Compile Remove="Common/NullConfigurationStore.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" !('$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netcoreapp2.1' Or '$(TargetFramework)' == 'netcoreapp3.0') ">
+    <Compile Remove="Common/AppSettingsConfigurationStore.cs" />
+    <Compile Remove="Common/ConfigurationStoreExceptionInterceptor.cs" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
   </ItemGroup>
