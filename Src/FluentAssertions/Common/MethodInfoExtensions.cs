@@ -52,9 +52,7 @@ namespace FluentAssertions.Common
             int implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;
 
-            MethodImplOptions implementationOptions =
-                (MethodImplOptions)
-                implementationFlagsMatchingImplementationOptions;
+            MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
 
             if (implementationOptions != 0)
             {

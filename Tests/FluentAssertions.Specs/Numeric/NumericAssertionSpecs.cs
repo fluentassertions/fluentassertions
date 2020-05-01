@@ -1494,7 +1494,6 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>();
         }
 
-
         [InlineData(9D)]
         [InlineData(11D)]
         [Theory]
@@ -3330,7 +3329,6 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Match
-
 
         [Fact]
         public void When_value_satisfies_predicate_it_should_not_throw()

@@ -536,7 +536,6 @@ namespace FluentAssertions.Common
             // The CLR type system does not consider anything to be assignable to an open generic type.
             // For the purposes of test assertions, the user probably means that the subject type is
             // assignable to any generic type based on the given generic type definition.
-
             if (definition.IsInterface)
             {
                 return type.IsImplementationOfOpenGeneric(definition);

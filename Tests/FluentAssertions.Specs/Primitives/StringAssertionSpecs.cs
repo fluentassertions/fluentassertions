@@ -2525,6 +2525,7 @@ namespace FluentAssertions.Specs
         #region Contain Equivalent Of
 
         [InlineData("aa", "A")]
+
         // ReSharper disable once StringLiteralTypo
         [InlineData("aCCa", "acca")]
         [Theory]

@@ -1,5 +1,4 @@
-﻿
-using System.Xml;
+﻿using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -28,4 +27,3 @@ namespace FluentAssertions.Xml
         }
     }
 }
-

@@ -505,7 +505,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassWithSomeAttributeDerived))
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
-        
+
         [Fact]
         public void When_unwrap_task_types_it_should_return_the_correct_types()
         {
@@ -659,16 +659,22 @@ namespace Internal.UnwrapSelectorTestTypes.Test
     internal class ClassToExploreUnwrappedTaskTypes
     {
         internal int DoWithInt() { return default; }
+
         internal Task DoWithTask() { return Task.CompletedTask; }
+
         internal ValueTask DoWithValueTask() { return new ValueTask(); }
+
         internal Task<string> DoWithIntTask() { return Task.FromResult(string.Empty); }
+
         internal ValueTask<bool> DoWithBoolValueTask() { return new ValueTask<bool>(false); }
     }
 
     internal class ClassToExploreUnwrappedEnumerableTypes
     {
         internal IEnumerable DoWithTask() { return default; }
+
         internal List<bool> DoWithIntTask() { return default; }
+
         internal ClassImplementingMultipleEnumerable DoWithBoolValueTask() { return default; }
     }
 

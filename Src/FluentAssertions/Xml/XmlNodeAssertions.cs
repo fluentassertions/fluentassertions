@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Xml;
 
 namespace FluentAssertions.Xml
@@ -15,4 +14,3 @@ namespace FluentAssertions.Xml
         { }
     }
 }
-

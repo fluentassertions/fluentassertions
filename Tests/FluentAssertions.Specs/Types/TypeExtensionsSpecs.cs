@@ -149,6 +149,7 @@ namespace FluentAssertions.Specs
 
 #pragma warning disable IDE1006, SA1300 // These two functions mimic the compiler generated conversion operators
             public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => typeWithFakeConversionOperators.value;
+
             public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => (byte)typeWithFakeConversionOperators.value;
 #pragma warning restore SA1300, IDE1006
         }

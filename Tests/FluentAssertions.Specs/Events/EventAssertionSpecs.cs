@@ -483,6 +483,7 @@ namespace FluentAssertions.Specs
 
             // Act
             using var innerScope = eventSource.Monitor();
+
             // Assert
             ((object)innerScope).Should().NotBeSameAs(outerScope);
         }
@@ -704,6 +705,7 @@ namespace FluentAssertions.Specs
         public class TestEventRaising : IEventRaisingInterface, IEventRaisingInterface2
         {
             public event EventHandler InterfaceEvent;
+
             public event EventHandler Interface2Event;
 
             public void RaiseBothEvents()

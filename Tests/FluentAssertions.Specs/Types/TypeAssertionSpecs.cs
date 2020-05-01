@@ -1595,7 +1595,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_types_are_sealed_it_succeeds()
         {
-            // Arrange 
+            // Arrange
             var types = new TypeSelector(new[]
             {
                 typeof(Sealed)
@@ -1684,7 +1684,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_types_are_not_sealed_it_succeeds()
         {
-            // Arrange 
+            // Arrange
             var types = new TypeSelector(new[]
             {
                 typeof(Abstract)
@@ -3843,6 +3843,7 @@ namespace FluentAssertions.Specs
     public class DummyClassAttribute : Attribute
     {
         public string Name { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public DummyClassAttribute(string name, bool isEnabled)
@@ -3879,40 +3880,65 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
+
         private ClassWithMembers(string _) { }
+
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
+
         internal string this[string str] { private get { return str; } set { } }
+
         protected internal string this[int i] { get { return i.ToString(); } private set { } }
+
         private void VoidMethod() { }
+
         private void VoidMethod(string _) { }
     }
 
     public class ClassExplicitlyImplementingInterface : IExplicitInterface
     {
         public string ImplicitStringProperty { get { return null; } private set { } }
+
         string IExplicitInterface.ExplicitStringProperty { set { } }
+
         public string ExplicitImplicitStringProperty { get; set; }
+
         string IExplicitInterface.ExplicitImplicitStringProperty { get; set; }
+
         public void ImplicitMethod() { }
+
         public void ImplicitMethod(string overload) { }
+
         void IExplicitInterface.ExplicitMethod() { }
+
         void IExplicitInterface.ExplicitMethod(string overload) { }
+
         public void ExplicitImplicitMethod() { }
+
         public void ExplicitImplicitMethod(string _) { }
+
         void IExplicitInterface.ExplicitImplicitMethod() { }
+
         void IExplicitInterface.ExplicitImplicitMethod(string overload) { }
     }
 
     public interface IExplicitInterface
     {
         string ImplicitStringProperty { get; }
+
         string ExplicitStringProperty { set; }
+
         string ExplicitImplicitStringProperty { get; set; }
+
         void ImplicitMethod();
+
         void ImplicitMethod(string overload);
+
         void ExplicitMethod();
+
         void ExplicitMethod(string overload);
+
         void ExplicitImplicitMethod();
+
         void ExplicitImplicitMethod(string overload);
     }
 
@@ -3945,6 +3971,7 @@ namespace FluentAssertions.Specs
         }
 
         public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) => typeWithConversionOperators.value;
+
         public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) => (byte)typeWithConversionOperators.value;
     }
 

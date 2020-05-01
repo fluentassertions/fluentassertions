@@ -1333,6 +1333,7 @@ namespace FluentAssertions.Specs
                 new SomeClass { Text = "" },
                 new SomeClass { Text = null }
             };
+
             // Act
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
 
@@ -1352,6 +1353,7 @@ namespace FluentAssertions.Specs
                 new SomeClass { Text = "" },
                 new SomeClass { Text = null }
             };
+
             // Act
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
 
@@ -1419,6 +1421,7 @@ namespace FluentAssertions.Specs
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "three" }
             };
+
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
 
@@ -1439,6 +1442,7 @@ namespace FluentAssertions.Specs
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "three" }
             };
+
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
 
@@ -1564,8 +1568,8 @@ namespace FluentAssertions.Specs
             // Arrange
             var customers = new[]
             {
-                new CustomerWithItems { Age = 21, Items = new[] {1, 2} },
-                new CustomerWithItems { Age = 22, Items = new[] {3} }
+                new CustomerWithItems { Age = 21, Items = new[] { 1, 2 } },
+                new CustomerWithItems { Age = 22, Items = new[] { 3 } }
             };
 
             // Act

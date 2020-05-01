@@ -55,6 +55,7 @@ namespace FluentAssertions.Specs
         private class B
         {
             public A X { get; set; }
+
             public A Y { get; set; }
         }
 
@@ -161,13 +162,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "Stuff_2",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 }
             };
 
@@ -177,13 +178,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "WRONG_DESCRIPTION",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 }
             };
 
@@ -546,13 +547,16 @@ namespace FluentAssertions.Specs
         public class BaseStuff
         {
             public int StuffId { get; set; }
+
             public string Description { get; set; }
         }
 
         public class StuffWithAField
         {
             public int StuffId { get; set; }
+
             public string Description { get; set; }
+
             public string Field;
 #pragma warning disable 169
             private string privateField;
@@ -694,6 +698,7 @@ namespace FluentAssertions.Specs
         private class CustomClass
         {
             public int IntProperty { get; set; }
+
             public string StringProperty { get; set; }
         }
 
@@ -715,8 +720,8 @@ namespace FluentAssertions.Specs
             // Arrange
             var values = new CustomClass[]
             {
-                new CustomClass{ IntProperty = 1 },
-                new CustomClass{ IntProperty = 2 }
+                new CustomClass { IntProperty = 1 },
+                new CustomClass { IntProperty = 2 }
             };
 
             var formatter = new SingleItemValueFormatter();

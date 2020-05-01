@@ -128,7 +128,7 @@ namespace FluentAssertions.Events
                 {
                     recorder.Dispose();
                 }
-#pragma warning restore CA2000 
+#pragma warning restore CA2000
             }
         }
 

@@ -166,6 +166,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
             where TExpectedKey : TSubjectKey
+
             // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
             // but it is valid. This constraint is implicitly enforced by the
             // AssertIsCompatiblyTypedDictionary method which is called before

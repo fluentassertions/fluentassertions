@@ -2053,7 +2053,6 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-
                 "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
                     "but items {3, 6} are not part of the superset.");
         }
@@ -4095,6 +4094,7 @@ namespace FluentAssertions.Specs
         }
 
         public object SyncRoot { get; private set; }
+
         public bool IsSynchronized { get { return true; } }
     }
 
@@ -4121,9 +4121,13 @@ namespace FluentAssertions.Specs
         }
 
         public void Add(TElement item) { throw new NotImplementedException(); }
+
         public void Clear() { throw new NotImplementedException(); }
+
         public bool Contains(TElement item) { throw new NotImplementedException(); }
+
         public void CopyTo(TElement[] array, int arrayIndex) { throw new NotImplementedException(); }
+
         public bool Remove(TElement item) { throw new NotImplementedException(); }
 
         public int GetCountCallCount { get; private set; }

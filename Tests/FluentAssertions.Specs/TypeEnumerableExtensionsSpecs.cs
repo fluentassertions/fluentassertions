@@ -189,7 +189,6 @@ namespace TypeEnumerableExtensionsSpecs.BaseNamespace
 {
     internal class BaseNamespaceClass
     {
-
     }
 }
 
@@ -197,7 +196,6 @@ namespace TypeEnumerableExtensionsSpecs.BaseNamespace.Nested
 {
     internal class NestedNamespaceClass
     {
-
     }
 }
 
@@ -205,24 +203,22 @@ namespace TypeEnumerableExtensionsSpecs.Internal
 {
     internal interface IJustAnInterface
     {
-
     }
+
     internal class JustAClass
     {
-
     }
+
     internal static class AStaticClass
     {
-
     }
 
     internal class SomeBaseClass
     {
-
     }
+
     internal class SomeClassDerivedFromSomeBaseClass : SomeBaseClass
     {
-
     }
 
     internal class ClassImplementingJustAnInterface : IJustAnInterface
@@ -232,12 +228,12 @@ namespace TypeEnumerableExtensionsSpecs.Internal
     [Some]
     internal class ClassWithSomeAttribute
     {
-
     }
+
     internal class ClassDerivedFromClassWithSomeAttribute : ClassWithSomeAttribute
     {
-
     }
+
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     internal class SomeAttribute : Attribute
     {

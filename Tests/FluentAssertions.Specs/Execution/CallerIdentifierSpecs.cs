@@ -1,5 +1,4 @@
-﻿
-using Xunit;
+﻿using Xunit;
 using Xunit.Sdk;
 using FluentAssertions;
 using System;
@@ -14,7 +13,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => System.SystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
         }
 
@@ -24,7 +23,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => System.Data.NestedSystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
         }
 
@@ -34,7 +33,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected actualCaller to be*");
         }
     }
@@ -75,4 +74,3 @@ namespace System.Data
         }
     }
 }
-

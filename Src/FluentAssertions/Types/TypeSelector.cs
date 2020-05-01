@@ -222,10 +222,12 @@ namespace FluentAssertions.Types
                 {
                     return type.GetGenericArguments().Single();
                 }
+
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
                 {
                     return type.GetGenericArguments().Single();
                 }
+
                 return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
             }).ToList();
 

@@ -408,10 +408,12 @@ namespace FluentAssertions.Specs
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
+
             return other.Key == Key;
         }
 
@@ -421,14 +423,17 @@ namespace FluentAssertions.Specs
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != typeof(ClassWithCustomEqualMethod))
             {
                 return false;
             }
+
             return Equals((ClassWithCustomEqualMethod)obj);
         }
 

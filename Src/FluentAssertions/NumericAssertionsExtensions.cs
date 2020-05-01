@@ -10,6 +10,7 @@ namespace FluentAssertions
     public static class NumericAssertionsExtensions
     {
         #region BeCloseTo
+
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
         /// </summary>
@@ -1204,6 +1205,7 @@ namespace FluentAssertions
 
                 FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
             }
+
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
 

@@ -628,7 +628,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
-
         [Fact]
         public void When_async_method_throws_exception_through_ValueTask_and_no_exception_was_expected_it_should_fail()
         {
@@ -665,7 +664,6 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().NotThrow();
         }
-
 
         [Fact]
         public void When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
@@ -827,7 +825,6 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
-
         [Fact]
         public void When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
@@ -865,7 +862,6 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
-
 
         [Fact]
         public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
@@ -1156,6 +1152,7 @@ namespace FluentAssertions.Specs
                 {
                     throw new ArgumentException("An exception was forced");
                 }
+
                 await Task.Yield();
             };
 

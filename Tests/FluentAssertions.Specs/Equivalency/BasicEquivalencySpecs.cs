@@ -2255,7 +2255,6 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(expectation,
                 opt => opt.Using<DateTime, DateTimeByYearComparer>());
 
-
             // Assert
             act.Should().NotThrow();
         }
@@ -2755,6 +2754,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().Which.Message
+
                 // Checking exception message exactly is against general guidelines
                 // but in that case it was done on purpose, so that we have at least single
                 // test confirming that whole mechanism of gathering description from
@@ -2810,12 +2810,14 @@ namespace FluentAssertions.Specs
             }
 
             public string MainValue { get; set; }
+
             public IList<StringSubContainer> SubValues { get; set; }
         }
 
         public class MyClass2
         {
             public StringContainer One { get; set; }
+
             public StringContainer Two { get; set; }
         }
 
@@ -3103,6 +3105,7 @@ namespace FluentAssertions.Specs
         public class Parent
         {
             public Child Child1 { get; set; }
+
             public Child Child2 { get; set; }
         }
 
@@ -3115,6 +3118,7 @@ namespace FluentAssertions.Specs
             }
 
             public Parent Parent { get; set; }
+
             public int Stuff { get; set; }
         }
 
@@ -3298,6 +3302,7 @@ namespace FluentAssertions.Specs
         internal class LogbookEntryProjection
         {
             public virtual LogbookCode Logbook { get; set; }
+
             public virtual ICollection<LogbookRelation> LogbookRelations { get; set; }
         }
 
@@ -3692,6 +3697,7 @@ namespace FluentAssertions.Specs
             var subject = new
             {
                 Version = 2,
+
                 //Age = 36, //age is missing
             };
 
@@ -3734,8 +3740,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().NotThrow();
         }
-
-
 
         #endregion
     }
@@ -3910,26 +3914,32 @@ namespace FluentAssertions.Specs
     internal class ClassWithCctorAndNonDefaultConstructor
     {
         static ClassWithCctorAndNonDefaultConstructor() { }
+
         public ClassWithCctorAndNonDefaultConstructor(int _) { }
     }
 
     internal class MyCompanyLogo
     {
         public string Url { get; set; }
+
         public MyCompany Company { get; set; }
+
         public MyUser CreatedBy { get; set; }
     }
 
     internal class MyUser
     {
         public string Name { get; set; }
+
         public MyCompany Company { get; set; }
     }
 
     internal class MyCompany
     {
         public string Name { get; set; }
+
         public MyCompanyLogo Logo { get; set; }
+
         public List<MyUser> Users { get; set; }
     }
 
@@ -3940,8 +3950,11 @@ namespace FluentAssertions.Specs
         protected string ProtectedProperty { get; set; }
 
         public string Name { get; set; }
+
         public int Age { get; set; }
+
         public DateTime Birthdate { get; set; }
+
         public long Id { get; set; }
 
         public void SetProtected(string value)
@@ -3967,8 +3980,11 @@ namespace FluentAssertions.Specs
     public class CustomerDto
     {
         public long Version { get; set; }
+
         public string Name { get; set; }
+
         public int Age { get; set; }
+
         public DateTime Birthdate { get; set; }
     }
 
@@ -4155,11 +4171,17 @@ namespace FluentAssertions.Specs
         private protected string privateProtectedField;
 
         public string PublicProperty { get; set; }
+
         public string ReadOnlyProperty { get; private set; }
+
         public string WriteOnlyProperty { private get; set; }
+
         protected string ProtectedProperty { get; set; }
+
         internal string InternalProperty { get; set; }
+
         protected internal string ProtectedInternalProperty { get; set; }
+
         private string PrivateProperty { get; set; }
 
         private protected string PrivateProtectedProperty { get; set; }
@@ -4188,6 +4210,7 @@ namespace FluentAssertions.Specs
     public class ClassWithValueSemanticsOnSingleProperty
     {
         public string Key { get; set; }
+
         public string NestedProperty { get; set; }
 
         protected bool Equals(ClassWithValueSemanticsOnSingleProperty other)
@@ -4224,12 +4247,14 @@ namespace FluentAssertions.Specs
     public class Root
     {
         public string Text { get; set; }
+
         public Level1 Level { get; set; }
     }
 
     public class Level1
     {
         public string Text { get; set; }
+
         public Level2 Level { get; set; }
     }
 
@@ -4241,12 +4266,14 @@ namespace FluentAssertions.Specs
     public class RootDto
     {
         public string Text { get; set; }
+
         public Level1Dto Level { get; set; }
     }
 
     public class Level1Dto
     {
         public string Text { get; set; }
+
         public Level2Dto Level { get; set; }
     }
 
@@ -4258,12 +4285,14 @@ namespace FluentAssertions.Specs
     public class CyclicRoot
     {
         public string Text { get; set; }
+
         public CyclicLevel1 Level { get; set; }
     }
 
     public class CyclicRootWithValueObject
     {
         public ValueObject Object { get; set; }
+
         public CyclicLevelWithValueObject Level { get; set; }
     }
 
@@ -4290,24 +4319,28 @@ namespace FluentAssertions.Specs
     public class CyclicLevel1
     {
         public string Text { get; set; }
+
         public CyclicRoot Root { get; set; }
     }
 
     public class CyclicLevelWithValueObject
     {
         public ValueObject Object { get; set; }
+
         public CyclicRootWithValueObject Root { get; set; }
     }
 
     public class CyclicRootDto
     {
         public string Text { get; set; }
+
         public CyclicLevel1Dto Level { get; set; }
     }
 
     public class CyclicLevel1Dto
     {
         public string Text { get; set; }
+
         public CyclicRootDto Root { get; set; }
     }
 

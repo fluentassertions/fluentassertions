@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
@@ -148,4 +147,3 @@ namespace FluentAssertions.Specs
     {
     }
 }
-

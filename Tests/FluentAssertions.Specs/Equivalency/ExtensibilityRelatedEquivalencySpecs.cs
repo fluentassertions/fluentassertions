@@ -558,7 +558,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_a_predicate_matches_after_auto_conversion_it_should_execute_the_assertion()
         {
-            //Arrange
+            // Arrange
             var expectation = new
             {
                 ThisIsMyDateTime = DateTime.Now
@@ -569,7 +569,7 @@ namespace FluentAssertions.Specs
                 ThisIsMyDateTime = expectation.ThisIsMyDateTime.ToString(CultureInfo.InvariantCulture)
             };
 
-            //Asserts
+            // Assert
             actual.Should().BeEquivalentTo(expectation,
                 options => options
                     .WithAutoConversion()

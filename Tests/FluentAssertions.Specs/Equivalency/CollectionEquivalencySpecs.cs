@@ -22,6 +22,7 @@ namespace FluentAssertions.Specs
         public class MyClass : IInterface
         {
             public int InterfaceProperty { get; set; }
+
             public int ClassProperty { get; set; }
         }
 
@@ -131,6 +132,7 @@ namespace FluentAssertions.Specs
         public class MyObject
         {
             public string MyString { get; set; }
+
             public MyChildObject Child { get; set; }
         }
 
@@ -331,6 +333,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             const int commonLength = 11;
+
             // Subjects contains different values, because we want to distinguish them in the assertion message
             var subject = new int[commonLength] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var expectation = Enumerable.Repeat(20, commonLength).ToArray();

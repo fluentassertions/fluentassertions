@@ -328,7 +328,9 @@ namespace FluentAssertions.Specs
     internal class TestClassForMethodReturnTypesSelector
     {
         public void SomeMethod() { }
+
         public int AnotherMethod() { return default; }
+
         public string OneMoreMethod() { return default; }
     }
 

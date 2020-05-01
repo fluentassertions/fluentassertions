@@ -879,7 +879,6 @@ namespace FluentAssertions.Specs
 
         #region Match
 
-
         [Fact]
         public void When_nullable_value_satisfies_predicate_it_should_not_throw()
         {

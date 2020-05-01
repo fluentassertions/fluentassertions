@@ -1049,6 +1049,7 @@ namespace FluentAssertions.Specs
         internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -1060,6 +1061,7 @@ namespace FluentAssertions.Specs
         internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public BinarySerializableClassNotRestoringAllProperties()
@@ -1148,6 +1150,7 @@ namespace FluentAssertions.Specs
         public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public XmlSchema GetSchema()

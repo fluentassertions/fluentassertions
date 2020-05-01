@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -165,4 +164,3 @@ namespace FluentAssertions.Xml
         }
     }
 }
-

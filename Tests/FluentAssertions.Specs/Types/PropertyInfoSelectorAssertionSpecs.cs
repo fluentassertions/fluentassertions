@@ -301,14 +301,18 @@ namespace FluentAssertions.Specs
     internal class ClassWithReadOnlyProperties
     {
         public string ReadOnlyProperty { get { return ""; } }
+
         public string ReadOnlyProperty2 { get { return ""; } }
+
         public string ReadWriteProperty { get { return ""; } set { } }
     }
 
     internal class ClassWithWritableProperties
     {
         public string ReadOnlyProperty { get { return ""; } }
+
         public string ReadWriteProperty { get { return ""; } set { } }
+
         public string ReadWriteProperty2 { get { return ""; } set { } }
     }
 
@@ -320,6 +324,7 @@ namespace FluentAssertions.Specs
     internal class ClassWithOnlyReadOnlyProperties
     {
         public string ReadOnlyProperty { get { return ""; } }
+
         public string ReadOnlyProperty2 { get { return ""; } }
     }
 
