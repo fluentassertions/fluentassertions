@@ -149,7 +149,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Determines whether the specified method has a special name (like properties and events).
         /// </summary>
-        private bool HasSpecialName(MethodInfo method)
+        private static bool HasSpecialName(MethodInfo method)
         {
             return (method.Attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName;
         }

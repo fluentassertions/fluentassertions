@@ -77,7 +77,7 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        private IEnumerable<SelectedMemberInfo> GetMembersFromExpectation(IEquivalencyValidationContext context,
+        private static IEnumerable<SelectedMemberInfo> GetMembersFromExpectation(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();

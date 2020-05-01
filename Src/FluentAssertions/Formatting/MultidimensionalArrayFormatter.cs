@@ -89,17 +89,17 @@ namespace FluentAssertions.Formatting
             return sb.ToString();
         }
 
-        private bool IsFirstIteration(Array arr, int index, int dimension)
+        private static bool IsFirstIteration(Array arr, int index, int dimension)
         {
             return index == arr.GetLowerBound(dimension);
         }
 
-        private bool IsInnerMostLoop(Array arr, int index)
+        private static bool IsInnerMostLoop(Array arr, int index)
         {
             return index == arr.Rank - 1;
         }
 
-        private bool IsLastIteration(Array arr, int index, int dimension)
+        private static bool IsLastIteration(Array arr, int index, int dimension)
         {
             return index >= arr.GetUpperBound(dimension);
         }
