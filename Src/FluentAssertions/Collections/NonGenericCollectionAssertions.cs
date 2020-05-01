@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
