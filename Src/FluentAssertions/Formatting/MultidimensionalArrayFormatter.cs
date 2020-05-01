@@ -51,7 +51,9 @@ namespace FluentAssertions.Formatting
                     enumerator.MoveNext();
                     sb.Append(formatChild(string.Join("-", dimensionIndices), enumerator.Current));
                     if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
+                    {
                         sb.Append(", ");
+                    }
 
                     ++dimensionIndices[currentLoopIndex];
                 }
@@ -70,11 +72,15 @@ namespace FluentAssertions.Formatting
                     --currentLoopIndex;
 
                     if (currentLoopIndex < 0)
+                    {
                         break;
+                    }
 
                     currentDimensionIndex = dimensionIndices[currentLoopIndex];
                     if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
+                    {
                         sb.Append(", ");
+                    }
 
                     ++dimensionIndices[currentLoopIndex];
                 }
