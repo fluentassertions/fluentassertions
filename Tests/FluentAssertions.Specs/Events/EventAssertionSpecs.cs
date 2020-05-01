@@ -733,9 +733,9 @@ namespace FluentAssertions.Specs
 
             public int SomeOtherProperty { get; set; }
 
-            public event PropertyChangedEventHandler PropertyChanged = delegate { };
+            public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
 
-            public event Action<string, int, string> NonConventionalEvent = delegate { };
+            public event Action<string, int, string> NonConventionalEvent = (_, __, ___) => { };
 
             public void RaiseNonConventionalEvent(string first, int second, string third)
             {
