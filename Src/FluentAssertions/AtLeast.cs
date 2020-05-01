@@ -13,7 +13,9 @@
         private sealed class AtLeastTimesConstraint : OccurrenceConstraint
         {
             internal AtLeastTimesConstraint(int expectedCount)
-                : base(expectedCount) { }
+                : base(expectedCount)
+            {
+            }
 
             internal override string Mode => "at least";
 

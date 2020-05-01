@@ -11,7 +11,9 @@
         private sealed class LessThanTimesConstraint : OccurrenceConstraint
         {
             internal LessThanTimesConstraint(int expectedCount)
-                : base(expectedCount) { }
+                : base(expectedCount)
+            {
+            }
 
             internal override string Mode => "less than";
 

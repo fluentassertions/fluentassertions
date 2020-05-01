@@ -11,6 +11,7 @@ namespace FluentAssertions.Xml
     {
         public XmlNodeAssertions(XmlNode xmlNode)
             : base(xmlNode)
-        { }
+        {
+        }
     }
 }
