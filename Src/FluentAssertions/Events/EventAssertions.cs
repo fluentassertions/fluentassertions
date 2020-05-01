@@ -14,8 +14,9 @@ namespace FluentAssertions.Events
     /// </summary>
     public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
-        private readonly IMonitor<T> monitor;
         private const string PropertyChangedEventName = "PropertyChanged";
+
+        private readonly IMonitor<T> monitor;
 
         protected internal EventAssertions(IMonitor<T> monitor)
             : base(monitor.Subject)
