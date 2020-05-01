@@ -458,7 +458,7 @@ namespace FluentAssertions.Specs
             ExecutionTime executionTime = null;
 
             // Act
-            Action act = () => new ExecutionTimeAssertions(executionTime);
+            Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

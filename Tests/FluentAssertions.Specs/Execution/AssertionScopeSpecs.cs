@@ -559,7 +559,7 @@ namespace FluentAssertions.Specs
             IAssertionStrategy strategy = null;
 
             // Arrange / Act
-            Action act = () => new AssertionScope(strategy);
+            Func<AssertionScope> act = () => new AssertionScope(strategy);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
