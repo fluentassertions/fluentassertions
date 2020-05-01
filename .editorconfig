@@ -128,7 +128,10 @@ csharp_space_between_square_brackets = false
 # FxCop Analyzers
 dotnet_diagnostic.CA1030.severity = none
 dotnet_diagnostic.CA1034.severity = none
-dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1062.severity = suggestion
+dotnet_code_quality.CA1062.exclude_extension_method_this_parameter = true
+dotnet_code_quality.exclude_extension_method_this_parameter = true
+dotnet_code_quality.null_check_validation_methods = ThrowIfArgumentIsNull
 dotnet_diagnostic.CA1304.severity = error
 dotnet_diagnostic.CA1305.severity = none
 dotnet_diagnostic.CA1307.severity = error
@@ -153,7 +156,98 @@ dotnet_diagnostic.IDE0051.severity = error
 dotnet_diagnostic.IDE0052.severity = error
 
 # IDE0055: Fix formatting
-dotnet_diagnostic.IDE0055.severity = suggestion
+dotnet_diagnostic.IDE0055.severity = error
 
 # CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
 dotnet_diagnostic.CS1574.severity = error
+
+# StyleCop
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+# SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
+dotnet_diagnostic.SA1116.severity = none
+# SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line.
+dotnet_diagnostic.SA1117.severity = none
+# SA1200: Using directive should appear within a namespace declaration
+dotnet_diagnostic.SA1200.severity = none
+# SA1124: Do not use regions
+dotnet_diagnostic.SA1124.severity = none
+# SA1201: A property should not follow a method
+dotnet_diagnostic.SA1201.severity = none
+# SA1202: 'public' members should come before 'private' members
+dotnet_diagnostic.SA1202.severity = none
+# SA1204: Static members should appear before non-static members
+dotnet_diagnostic.SA1204.severity = none
+# SA1312: variable should begin with lower-case letter
+dotnet_diagnostic.SA1312.severity = suggestion # re-enable if using statements can be discarded
+# SA1313: parameter should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = suggestion # re-enable when parameters discards are available
+# SA1316: Tuple element names should use correct casing
+dotnet_diagnostic.SA1316.severity = none
+# SA1404: Code analysis suppression should have justification
+dotnet_diagnostic.SA1404.severity = none
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = suggestion
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = suggestion
+# SA1611: The documentation for parameter is missing
+dotnet_diagnostic.SA1611.severity = suggestion
+# SA1612: The parameter documentation for parameter should be at position
+dotnet_diagnostic.SA1612.severity = suggestion
+# SA1614: Element parameter documentation should have text
+dotnet_diagnostic.SA1614.severity = suggestion
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = none
+# SA1616: Element return value documentation should have text
+dotnet_diagnostic.SA1616.severity = suggestion
+# SA1618: The documentation for type parameter is missing
+dotnet_diagnostic.SA1618.severity = suggestion
+# SA1623: The property's documentation summary text should begin with: 'Gets'
+dotnet_diagnostic.SA1623.severity = none
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = none
+# SA1633: The file header is missing or not located at the top of the file
+dotnet_diagnostic.SA1633.severity = none
+# SA1642: Constructor summary documentation should begin with standard text
+dotnet_diagnostic.SA1642.severity = suggestion
+
+# CSharpGuidelines
+dotnet_diagnostic.AV1561.max_parameter_count = 5
+# AV1008: Class should be non-static or its name should be suffixed with Extensions
+dotnet_diagnostic.AV1008.severity = none
+# AV1010: Type hides inherited member
+dotnet_diagnostic.AV1010.severity = none
+# AV1130: Return type in signature for Type should be a collection interface instead of a concrete type
+dotnet_diagnostic.AV1130.severity = none
+# AV1135: null is returned from method which has return type of string, collection or task
+dotnet_diagnostic.AV1135.severity = none # re-enable if we can distinguish between string, collection and task
+# AV1210: Catch a specific exception instead of Exception, SystemException or ApplicationException
+dotnet_diagnostic.AV1210.severity = none
+# AV1500: Method 'CallerIdentifier.DetermineCallerIdentity()' contains 10 statements, which exceeds the maximum of 7 statements
+dotnet_diagnostic.AV1500.severity = none
+# AV1532: Loop statement contains nested loop
+dotnet_diagnostic.AV1532.severity = suggestion
+# AV1535: Missing block in case or default clause of switch statement
+dotnet_diagnostic.AV1535.severity = none # re-enable if we can adjust the formatting to not indent the scope braces
+# AV1551: Method overload with the most parameters should be virtual
+dotnet_diagnostic.AV1551.severity = none
+# AV1555: Avoid using non-(nullable-)boolean named arguments
+dotnet_diagnostic.AV1555.severity = suggestion
+# AV1561: Method contains 5 parameters, which exceeds the maximum of 3 parameters
+dotnet_diagnostic.AV1561.severity = suggestion
+# AV1564: Parameter in public or internal member is of type bool or bool?
+dotnet_diagnostic.AV1564.severity = suggestion
+# AV1706: Parameter 'p' should have a more descriptive name
+dotnet_diagnostic.AV1706.severity = suggestion
+# AV1708: Type name contains term that should be avoided
+dotnet_diagnostic.AV1708.severity = suggestion
+# AV1710: Field contains the name of its containing type
+dotnet_diagnostic.AV1710.severity = none
+# AV2202: Replace call to Nullable<T>.HasValue with null check
+dotnet_diagnostic.AV2202.severity = none
+# AV2305: Missing XML comment for internally visible type or member
+dotnet_diagnostic.AV2305.severity = none
+# AV2407: Region should be removed
+dotnet_diagnostic.AV2407.severity = none

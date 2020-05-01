@@ -1,0 +1,10 @@
+[*.cs]
+
+# IDE0052: Remove unread private members
+dotnet_diagnostic.IDE0052.severity = none
+
+# IDE0044: Add readonly modifier
+dotnet_style_readonly_field = true:none
+
+# IDE0040: Add accessibility modifiers
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:none
