@@ -586,14 +586,8 @@ namespace FluentAssertions.Specs
         {
             private readonly List<string> failureMessages = new List<string>();
 
-            /// <summary>
-            /// Returns the messages for the assertion failures that happened until now.
-            /// </summary>
             public IEnumerable<string> FailureMessages => failureMessages;
 
-            /// <summary>
-            /// Discards and returns the failure messages that happened up to now.
-            /// </summary>
             public IEnumerable<string> DiscardFailures()
             {
                 var discardedFailures = failureMessages.ToArray();
@@ -601,9 +595,6 @@ namespace FluentAssertions.Specs
                 return discardedFailures;
             }
 
-            /// <summary>
-            /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
-            /// </summary>
             public void ThrowIfAny(IDictionary<string, object> context)
             {
                 if (failureMessages.Any())
@@ -623,9 +614,6 @@ namespace FluentAssertions.Specs
                 }
             }
 
-            /// <summary>
-            /// Instructs the strategy to handle a assertion failure.
-            /// </summary>
             public void HandleFailure(string message)
             {
                 failureMessages.Add(message);
