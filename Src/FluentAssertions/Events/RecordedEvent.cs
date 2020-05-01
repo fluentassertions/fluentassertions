@@ -38,7 +38,10 @@ namespace FluentAssertions.Events
                     (parameter is WeakReference weakReference) ? weakReference.Target : parameter).ToArray();
             }
 
-            private set { parameters = value.ToArray(); }
+            private set
+            {
+                parameters = value.ToArray();
+            }
         }
     }
 }
