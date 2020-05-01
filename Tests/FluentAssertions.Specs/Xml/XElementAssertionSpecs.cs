@@ -47,13 +47,13 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var expected =
-                new XElement("parent"
-                    , new XElement("child"
-                        , new XElement("grandChild")));
+                new XElement("parent",
+                    new XElement("child",
+                        new XElement("grandChild")));
             var actual =
-                new XElement("parent"
-                    , new XElement("child"
-                        , new XElement("grandChild2")));
+                new XElement("parent",
+                    new XElement("child",
+                        new XElement("grandChild2")));
 
             // Act
             Action act = () => actual.Should().Be(expected);
@@ -97,13 +97,13 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var differentElement =
-                new XElement("parent"
-                    , new XElement("child"
-                        , new XElement("grandChild")));
+                new XElement("parent",
+                    new XElement("child",
+                        new XElement("grandChild")));
             var element =
-                new XElement("parent"
-                    , new XElement("child"
-                        , new XElement("grandChild2")));
+                new XElement("parent",
+                    new XElement("child",
+                        new XElement("grandChild2")));
 
             // Act
             Action act = () => element.Should().NotBe(differentElement);
