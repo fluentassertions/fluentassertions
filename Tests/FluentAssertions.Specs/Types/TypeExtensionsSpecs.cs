@@ -138,7 +138,7 @@ namespace FluentAssertions.Specs
 
         private class InheritingType : InheritedType { }
 
-        private struct TypeWithFakeConversionOperators
+        private readonly struct TypeWithFakeConversionOperators
         {
             private readonly int value;
 

@@ -3960,7 +3960,7 @@ namespace FluentAssertions.Specs
         protected internal interface IProtectedInternalInterface { }
     }
 
-    internal struct TypeWithConversionOperators
+    internal readonly struct TypeWithConversionOperators
     {
         private readonly int value;
 
