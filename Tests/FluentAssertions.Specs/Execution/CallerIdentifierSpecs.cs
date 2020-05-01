@@ -41,7 +41,7 @@ namespace FluentAssertions.Specs
 
 namespace System
 {
-    public class SystemNamespaceClass
+    public static class SystemNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
@@ -53,7 +53,7 @@ namespace System
 
 namespace SystemPrefixed
 {
-    public class SystemPrefixedNamespaceClass
+    public static class SystemPrefixedNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
@@ -65,7 +65,7 @@ namespace SystemPrefixed
 
 namespace System.Data
 {
-    public class NestedSystemNamespaceClass
+    public static class NestedSystemNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
