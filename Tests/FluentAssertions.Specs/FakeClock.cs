@@ -62,16 +62,4 @@ namespace FluentAssertions.Specs
             delayTask.SetResult(false);
         }
     }
-
-    internal class TestTimer : ITimer
-    {
-        private readonly Func<TimeSpan> getElapsed;
-
-        public TestTimer(Func<TimeSpan> getElapsed)
-        {
-            this.getElapsed = getElapsed;
-        }
-
-        public TimeSpan Elapsed => getElapsed();
-    }
 }
