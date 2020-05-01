@@ -531,7 +531,7 @@ namespace FluentAssertions.Specs
                     EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
                     HandlerType = typeof(PropertyChangedEventHandler)
                 }
-             });
+            });
         }
 
         [Fact]

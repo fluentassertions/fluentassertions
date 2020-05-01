@@ -1230,7 +1230,7 @@ namespace FluentAssertions.Specs
                new { Value = "Two" },
                new { Value = "Three" },
                new { Value = "Four" }
-           };
+            };
 
             // Act
             Action action = () => actual.Should().Equal(expected,
@@ -1251,7 +1251,7 @@ namespace FluentAssertions.Specs
                new { Value = "Two" },
                new { Value = "Three" },
                new { Value = "Five" }
-           };
+            };
 
             // Act
             Action action = () => actual.Should().Equal(expected,
