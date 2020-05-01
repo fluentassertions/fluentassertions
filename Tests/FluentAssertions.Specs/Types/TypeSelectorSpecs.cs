@@ -662,7 +662,7 @@ namespace Internal.UnwrapSelectorTestTypes.Test
 
         internal Task DoWithTask() { return Task.CompletedTask; }
 
-        internal ValueTask DoWithValueTask() { return new ValueTask(); }
+        internal ValueTask DoWithValueTask() { return default; }
 
         internal Task<string> DoWithIntTask() { return Task.FromResult(string.Empty); }
 

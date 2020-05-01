@@ -843,7 +843,7 @@ namespace FluentAssertions.Specs
             {
                 Name = "someDto",
                 Age = 1,
-                Birthdate = new DateTime()
+                Birthdate = default(DateTime)
             });
 
             // Assert
@@ -866,7 +866,7 @@ namespace FluentAssertions.Specs
             {
                 Name = "someDto",
                 Age = 1,
-                Birthdate = new DateTime()
+                Birthdate = default(DateTime)
             })
             .And.HaveCount(3);
 

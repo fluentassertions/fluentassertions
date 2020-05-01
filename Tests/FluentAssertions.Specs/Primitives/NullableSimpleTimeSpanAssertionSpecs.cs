@@ -11,7 +11,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_with_a_value_to_have_a_value()
         {
             // Arrange
-            TimeSpan? nullableTimeSpan = new TimeSpan();
+            TimeSpan? nullableTimeSpan = default(TimeSpan);
 
             // Act / Assert
             nullableTimeSpan.Should().HaveValue();
@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_be_null()
         {
             // Arrange
-            TimeSpan? nullableTimeSpan = new TimeSpan();
+            TimeSpan? nullableTimeSpan = default(TimeSpan);
 
             // Act / Assert
             nullableTimeSpan.Should().NotBeNull();
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_have_a_value()
         {
             // Arrange
-            TimeSpan? nullableTimeSpan = new TimeSpan();
+            TimeSpan? nullableTimeSpan = default(TimeSpan);
 
             // Act
             Action act = () => nullableTimeSpan.Should().NotHaveValue();
@@ -105,7 +105,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_be_null()
         {
             // Arrange
-            TimeSpan? nullableTimeSpan = new TimeSpan();
+            TimeSpan? nullableTimeSpan = default(TimeSpan);
 
             // Act
             Action act = () => nullableTimeSpan.Should().BeNull();
@@ -193,8 +193,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_nullable_TimeSpan_is_equal_to_the_same_nullable_TimeSpan_it_should_succeed()
         {
             // Arrange
-            TimeSpan? nullableTimeSpanA = new TimeSpan();
-            TimeSpan? nullableTimeSpanB = new TimeSpan();
+            TimeSpan? nullableTimeSpanA = default(TimeSpan);
+            TimeSpan? nullableTimeSpanB = default(TimeSpan);
 
             // Act
             Action action = () => nullableTimeSpanA.Should().Be(nullableTimeSpanB);
@@ -207,13 +207,13 @@ namespace FluentAssertions.Specs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            TimeSpan? nullableTimeSpan = new TimeSpan();
+            TimeSpan? nullableTimeSpan = default(TimeSpan);
 
             // Act / Assert
             nullableTimeSpan.Should()
                 .HaveValue()
                 .And
-                .Be(new TimeSpan());
+                .Be(default(TimeSpan));
         }
     }
 }
