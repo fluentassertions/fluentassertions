@@ -87,7 +87,6 @@ namespace FluentAssertions.Events
         /// <summary>
         /// Enumerate raised events
         /// </summary>
-        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             lock (lockable)

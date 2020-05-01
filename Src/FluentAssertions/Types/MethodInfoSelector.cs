@@ -131,7 +131,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Select return types of the methods
         /// </summary>
-        /// <returns></returns>
         public TypeSelector ReturnTypes()
         {
             var returnTypes = selectedMethods.Select(mi => mi.ReturnType);

@@ -111,7 +111,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Select return types of the properties
         /// </summary>
-        /// <returns></returns>
         public TypeSelector ReturnTypes()
         {
             var returnTypes = selectedProperties.Select(mi => mi.PropertyType);

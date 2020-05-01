@@ -93,7 +93,6 @@ namespace FluentAssertions.Common
         /// Appends tab character at the beginning of each line in a string.
         /// </summary>
         /// <param name="this"></param>
-        /// <returns></returns>
         public static string IndentLines(this string @this)
         {
             return string.Join(Environment.NewLine,
@@ -112,7 +111,6 @@ namespace FluentAssertions.Common
         /// </summary>
         /// <param name="substring">The substring to search for.</param>
         /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
-        /// <returns></returns>
         public static int CountSubstring(this string @this, string substring, StringComparison comparisonType)
         {
             string actual = @this ?? "";

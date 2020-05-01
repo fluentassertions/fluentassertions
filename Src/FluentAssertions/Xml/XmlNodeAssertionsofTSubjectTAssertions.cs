@@ -53,7 +53,6 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        /// <returns></returns>
         public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] reasonArgs)
         {
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
