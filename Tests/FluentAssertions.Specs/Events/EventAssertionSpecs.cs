@@ -744,7 +744,9 @@ namespace FluentAssertions.Specs
 
             public void RaiseEventWithoutSender()
             {
+#pragma warning disable AV1235 // 'sender' is deliberately null
                 PropertyChanged(null, new PropertyChangedEventArgs(""));
+#pragma warning restore AV1235
             }
 
             public void RaiseEventWithSender()

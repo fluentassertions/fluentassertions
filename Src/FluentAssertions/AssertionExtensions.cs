@@ -787,6 +787,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+#pragma warning disable AV1755 // Changing would be a breaking change
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,
             string expectedWildcardPattern,
@@ -796,5 +797,6 @@ namespace FluentAssertions
         {
             return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
+#pragma warning restore AV1755
     }
 }

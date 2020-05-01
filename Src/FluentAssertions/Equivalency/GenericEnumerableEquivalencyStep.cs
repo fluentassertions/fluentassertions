@@ -10,8 +10,10 @@ namespace FluentAssertions.Equivalency
 {
     public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
+#pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
         private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
             (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
+#pragma warning restore SA1110
 
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
