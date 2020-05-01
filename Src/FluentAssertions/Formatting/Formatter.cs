@@ -65,12 +65,12 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Returns a human-readable representation of a particular object.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <param name="useLineBreaks">
         /// Indicates whether the formatter should use line breaks when the specific <see cref="IValueFormatter"/> supports it.
         /// </param>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public static string ToString(object value, bool useLineBreaks = false)
         {
