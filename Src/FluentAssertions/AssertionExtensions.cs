@@ -766,11 +766,11 @@ namespace FluentAssertions
         /// <remarks>
         /// Has been introduced to allow casting objects without breaking the fluent API.
         /// </remarks>
-        /// <typeparam name="TTo"></typeparam>
+        /// <typeparam name="TTo">The <see cref="Type"/> to cast <paramref name="subject"/> to</typeparam>
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default;
+            return subject is TTo to ? to : default;
         }
 
         /// <summary>
