@@ -1,7 +1,7 @@
-﻿using Xunit;
-using Xunit.Sdk;
+﻿using System;
 using FluentAssertions;
-using System;
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {

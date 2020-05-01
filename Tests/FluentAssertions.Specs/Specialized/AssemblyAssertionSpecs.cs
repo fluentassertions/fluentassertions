@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Xunit;
-using Xunit.Sdk;
 using AssemblyA;
 using AssemblyB;
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
