@@ -40,6 +40,7 @@ namespace FluentAssertions.Equivalency.Selection
             return members;
         }
 
+        /// <inheritdoc />
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {

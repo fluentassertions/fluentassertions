@@ -45,6 +45,7 @@ namespace FluentAssertions.Equivalency.Matching
             return subjectMember.DeclaringType.IsInstanceOfType(expectation);
         }
 
+        /// <inheritdoc />
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {

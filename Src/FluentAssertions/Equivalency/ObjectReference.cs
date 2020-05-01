@@ -27,7 +27,8 @@ namespace FluentAssertions.Equivalency
         /// <returns>
         /// true if the specified <see cref="object"/> is equal to the current <see cref="object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="object"/>. </param><filterpriority>2</filterpriority>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="object"/>. </param>
+        /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
             if (!(obj is ObjectReference other))
