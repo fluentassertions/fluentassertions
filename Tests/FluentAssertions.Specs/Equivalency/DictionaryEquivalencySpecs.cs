@@ -419,9 +419,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
-            ()
+        public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {
             // Arrange
             var expected = new
@@ -746,8 +744,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
-            ()
+        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
         {
             // Arrange
             var expected = new

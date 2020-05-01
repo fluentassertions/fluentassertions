@@ -550,9 +550,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_subject_throws_an_exception_without_expected_inner_exception_and_has_reason_it_should_throw_with_clear_description
-            ()
+        public void When_subject_throws_an_exception_without_expected_inner_exception_and_has_reason_it_should_throw_with_clear_description()
         {
             try
             {
@@ -719,9 +717,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_exceptions_are_thrown_and_the_assertion_assumes_there_can_only_be_one_it_should_fail
-            ()
+        public void When_two_exceptions_are_thrown_and_the_assertion_assumes_there_can_only_be_one_it_should_fail()
         {
             // Arrange
             Does testSubject = Does.Throw(new AggregateException(new Exception(), new Exception()));

@@ -109,8 +109,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_type_is_equal_to_same_type_from_different_assembly_it_fails_with_assembly_qualified_name
-            ()
+        public void When_type_is_equal_to_same_type_from_different_assembly_it_fails_with_assembly_qualified_name()
         {
             // Arrange
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec

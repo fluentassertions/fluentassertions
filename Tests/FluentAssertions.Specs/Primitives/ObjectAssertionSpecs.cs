@@ -405,8 +405,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name
-            ()
+        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
         {
             // Arrange
             var assertionsFromOtherAssembly = new object().Should();

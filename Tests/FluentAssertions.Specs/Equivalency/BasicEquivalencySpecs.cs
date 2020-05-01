@@ -1657,9 +1657,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void
-            When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
-            ()
+        public void When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored()
         {
             // Arrange
             object class1 = new ClassWithSomeFieldsAndProperties
@@ -1765,9 +1763,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void
-            When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
-            ()
+        public void When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
         {
             // Arrange
             object class1 = new ClassWithSomeFieldsAndProperties
@@ -1903,9 +1899,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
-            ()
+        public void When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference()
         {
             // Arrange
             var subject =
@@ -1977,9 +1971,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
-            ()
+        public void When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference()
         {
             // Arrange
             var subject =
@@ -2215,9 +2207,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivalent_according_to_the_declared_type_it_should_succeed
-            ()
+        public void When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivalent_according_to_the_declared_type_it_should_succeed()
         {
             // Arrange
             var subject = new
@@ -3204,9 +3194,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
-            ()
+        public void When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
         {
             // Arrange
             var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
@@ -3237,9 +3225,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
-            ()
+        public void When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
         {
             // Arrange
             var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
