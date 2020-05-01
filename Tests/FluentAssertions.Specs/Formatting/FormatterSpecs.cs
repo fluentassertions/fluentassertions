@@ -522,13 +522,13 @@ namespace FluentAssertions.Specs
         public void When_formatting_a_pending_task_it_should_return_the_task_status()
         {
             // Arrange
-            Task<int> bar = Task.Delay(100000).ContinueWith(_ => 42);
+            Task<int> bar = new TaskCompletionSource<int>().Task;
 
             // Act
             string result = Formatter.ToString(bar);
 
             // Assert
-            result.Should().Be("System.Threading.Tasks.ContinuationResultTaskFromTask`1[System.Int32] {Status=WaitingForActivation}");
+            result.Should().Be("System.Threading.Tasks.Task`1[System.Int32] {Status=WaitingForActivation}");
         }
 
         [Fact]
@@ -558,9 +558,9 @@ namespace FluentAssertions.Specs
             public string Description { get; set; }
 
             public string Field;
-#pragma warning disable 169
+#pragma warning disable 169, IDE0044, CA1823
             private string privateField;
-#pragma warning restore 169
+#pragma warning restore CA1823, IDE0044, 169
         }
 
         public class Stuff<TChild> : BaseStuff
