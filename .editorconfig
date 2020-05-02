@@ -184,6 +184,8 @@ dotnet_diagnostic.SA1312.severity = suggestion # re-enable if using statements c
 dotnet_diagnostic.SA1313.severity = suggestion # re-enable when parameters discards are available
 # SA1316: Tuple element names should use correct casing
 dotnet_diagnostic.SA1316.severity = none
+# SA1402: File may only contain a single type. Handled better by AV1507
+dotnet_diagnostic.SA1402.severity = none
 # SA1404: Code analysis suppression should have justification
 dotnet_diagnostic.SA1404.severity = none
 # SA1413: Use trailing comma in multi-line initializers
