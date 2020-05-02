@@ -12,7 +12,7 @@ namespace FluentAssertions.Events
     /// Records activity for a single event.
     /// </summary>
     [DebuggerNonUserCode]
-    public class EventRecorder : IEventRecorder
+    public sealed class EventRecorder : IEventRecorder
     {
         private readonly Func<DateTime> utcNow;
         private readonly BlockingCollection<RecordedEvent> raisedEvents = new BlockingCollection<RecordedEvent>();

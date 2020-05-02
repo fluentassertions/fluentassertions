@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     /// If the parent scope has captured a failed assertion, this class ensures that successive assertions
     /// are no longer evaluated.
     /// </remarks>
-    public class ContinuedAssertionScope : IAssertionScope
+    public sealed class ContinuedAssertionScope : IAssertionScope
     {
         private readonly AssertionScope predecessor;
         private readonly bool predecessorSucceeded;

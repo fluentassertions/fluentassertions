@@ -940,7 +940,7 @@ namespace FluentAssertions.Events
         public string EventName { get; }
         public System.Type HandlerType { get; }
     }
-    public class EventRecorder : FluentAssertions.Events.IEventRecorder, System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
+    public sealed class EventRecorder : FluentAssertions.Events.IEventRecorder, System.Collections.Generic.IEnumerable<FluentAssertions.Events.RecordedEvent>, System.Collections.IEnumerable, System.IDisposable
     {
         public EventRecorder(object eventRaiser, string eventName, System.Func<System.DateTime> utcNow) { }
         public System.Type EventHandlerType { get; }
@@ -990,7 +990,7 @@ namespace FluentAssertions.Execution
         public AssertionFailedException(string message) { }
         protected AssertionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
-    public class AssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
+    public sealed class AssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
     {
         public AssertionScope() { }
         public AssertionScope(FluentAssertions.Execution.IAssertionStrategy assertionStrategy) { }
@@ -1028,7 +1028,7 @@ namespace FluentAssertions.Execution
         public FluentAssertions.Execution.GivenSelector<TSubject> Then { get; }
         public static bool op_Implicit(FluentAssertions.Execution.ContinuationOfGiven<TSubject> continuationOfGiven) { }
     }
-    public class ContinuedAssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
+    public sealed class ContinuedAssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
     {
         public ContinuedAssertionScope(FluentAssertions.Execution.AssertionScope predecessor, bool predecessorSucceeded) { }
         public bool Succeeded { get; }
