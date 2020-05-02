@@ -225,6 +225,8 @@ dotnet_diagnostic.AV1130.severity = none
 dotnet_diagnostic.AV1135.severity = none # re-enable if we can distinguish between string, collection and task
 # AV1210: Catch a specific exception instead of Exception, SystemException or ApplicationException
 dotnet_diagnostic.AV1210.severity = none
+# AV1250: Evaluate LINQ query before returning it
+dotnet_diagnostic.AV1250.severity = suggestion
 # AV1500: Method 'CallerIdentifier.DetermineCallerIdentity()' contains 10 statements, which exceeds the maximum of 7 statements
 dotnet_diagnostic.AV1500.severity = none
 # AV1532: Loop statement contains nested loop
