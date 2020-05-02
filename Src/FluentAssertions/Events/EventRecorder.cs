@@ -71,6 +71,8 @@ namespace FluentAssertions.Events
                 cleanup = null;
                 eventObject = null;
             }
+
+            raisedEvents.Dispose();
         }
 
         /// <summary>
