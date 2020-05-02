@@ -32,8 +32,10 @@ namespace FluentAssertions.Xml.Equivalency
             if (skipOnce)
             {
                 skipOnce = false;
+                return;
             }
-            else if (reader.Read())
+
+            if (reader.Read())
             {
                 reader.MoveToContent();
             }

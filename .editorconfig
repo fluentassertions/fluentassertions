@@ -235,6 +235,8 @@ dotnet_diagnostic.AV1500.severity = none
 dotnet_diagnostic.AV1532.severity = suggestion
 # AV1535: Missing block in case or default clause of switch statement
 dotnet_diagnostic.AV1535.severity = none # re-enable if we can adjust the formatting to not indent the scope braces
+# AV1537: If-else-if construct should end with an unconditional else clause
+dotnet_diagnostic.AV1537.severity = suggestion
 # AV1551: Method overload with the most parameters should be virtual
 dotnet_diagnostic.AV1551.severity = none
 # AV1555: Avoid using non-(nullable-)boolean named arguments
