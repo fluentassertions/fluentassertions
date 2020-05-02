@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             var someObject = new object();
 
             // Act / Assert
-            someObject.Should().Match(o => (o != null));
+            someObject.Should().Match(o => o != null);
         }
 
         [Fact]
@@ -392,9 +392,6 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithCustomEqualMethod
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref = "T:System.Object" /> class.
-        /// </summary>
         public ClassWithCustomEqualMethod(int key)
         {
             Key = key;
@@ -408,10 +405,12 @@ namespace FluentAssertions.Specs
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
+
             return other.Key == Key;
         }
 
@@ -421,14 +420,17 @@ namespace FluentAssertions.Specs
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != typeof(ClassWithCustomEqualMethod))
             {
                 return false;
             }
+
             return Equals((ClassWithCustomEqualMethod)obj);
         }
 
@@ -447,13 +449,6 @@ namespace FluentAssertions.Specs
             return !Equals(left, right);
         }
 
-        /// <summary>
-        /// Returns a <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
-        /// </summary>
-        /// <returns>
-        /// A <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return string.Format("ClassWithCustomEqualMethod({0})", Key);

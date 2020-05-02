@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Xml;
 using FluentAssertions.Primitives;
 using FluentAssertions.Xml.Equivalency;
@@ -14,7 +13,8 @@ namespace FluentAssertions.Xml
         where TSubject : XmlNode
         where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
     {
-        public XmlNodeAssertions(TSubject xmlNode) : base(xmlNode)
+        public XmlNodeAssertions(TSubject xmlNode)
+            : base(xmlNode)
         {
         }
 
@@ -38,7 +38,7 @@ namespace FluentAssertions.Xml
                 xmlReaderValidator.Validate(shouldBeEquivalent: true);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)(this));
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -53,7 +53,6 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        /// <returns></returns>
         public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] reasonArgs)
         {
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
@@ -72,4 +71,3 @@ namespace FluentAssertions.Xml
         protected override string Identifier => "Xml Node";
     }
 }
-

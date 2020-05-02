@@ -20,7 +20,9 @@ namespace FluentAssertions.Specs.CultureAwareTesting
             var cultures = Reflector.ConvertArguments(ctorArgs, new[] { typeof(string[]) }).Cast<string[]>().Single();
 
             if (cultures == null || cultures.Length == 0)
+            {
                 cultures = new[] { "en-US", "fr-FR" };
+            }
 
             TestMethodDisplay methodDisplay = discoveryOptions.MethodDisplayOrDefault();
             TestMethodDisplayOptions methodDisplayOptions = discoveryOptions.MethodDisplayOptionsOrDefault();

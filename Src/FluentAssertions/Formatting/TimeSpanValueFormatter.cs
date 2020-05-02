@@ -10,7 +10,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <returns>
         /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
@@ -41,7 +41,7 @@ namespace FluentAssertions.Formatting
                 return "default";
             }
 
-            string sign = (timeSpan.Ticks >= 0) ? "" : "-";
+            string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
 
             if (fragments.Count == 1)
             {

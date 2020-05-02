@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Xml;
 
 namespace FluentAssertions.Xml
@@ -12,7 +11,7 @@ namespace FluentAssertions.Xml
     {
         public XmlNodeAssertions(XmlNode xmlNode)
             : base(xmlNode)
-        { }
+        {
+        }
     }
 }
-

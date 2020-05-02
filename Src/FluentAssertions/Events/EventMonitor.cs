@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD2_0
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +128,7 @@ namespace FluentAssertions.Events
                 {
                     recorder.Dispose();
                 }
-#pragma warning restore CA2000 
+#pragma warning restore CA2000
             }
         }
 
@@ -145,5 +143,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-
-#endif

@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD2_0
-
-using System;
+﻿using System;
 
 namespace FluentAssertions.Events
 {
@@ -40,49 +38,4 @@ namespace FluentAssertions.Events
         /// </summary>
         OccurredEvent[] OccurredEvents { get; }
     }
-
-    /// <summary>
-    /// Represents an occurrence of a particular event.
-    /// </summary>
-    public class OccurredEvent
-    {
-        /// <summary>
-        /// The name of the event as defined on the monitored object.
-        /// </summary>
-        public string EventName { get; set; }
-
-        /// <summary>
-        /// The parameters that were passed to the event handler.
-        /// </summary>
-        public object[] Parameters { get; set; }
-
-        /// <summary>
-        /// The exact date and time of the occurrence in <see cref="DateTimeKind.Local"/>.
-        /// </summary>
-        public DateTime TimestampUtc { get; set; }
-    }
-
-    /// <summary>
-    /// Provides the metadata of a monitored event.
-    /// </summary>
-    public class EventMetadata
-    {
-        /// <summary>
-        /// The name of the event member on the monitored object
-        /// </summary>
-        public string EventName { get; }
-
-        /// <summary>
-        /// The type of the event handler and event args.
-        /// </summary>
-        public Type HandlerType { get; }
-
-        public EventMetadata(string eventName, Type handlerType)
-        {
-            EventName = eventName;
-            HandlerType = handlerType;
-        }
-    }
 }
-
-#endif

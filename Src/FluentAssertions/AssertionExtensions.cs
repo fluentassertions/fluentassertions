@@ -27,7 +27,7 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
@@ -699,7 +699,7 @@ namespace FluentAssertions
         [Pure]
         public static ActionAssertions Should(this Action action)
         {
-            return new ActionAssertions(action, extractor);
+            return new ActionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -709,7 +709,7 @@ namespace FluentAssertions
         [Pure]
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new NonGenericAsyncFunctionAssertions(action, extractor);
+            return new NonGenericAsyncFunctionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -719,7 +719,7 @@ namespace FluentAssertions
         [Pure]
         public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new GenericAsyncFunctionAssertions<T>(action, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action, Extractor);
         }
 
         /// <summary>
@@ -729,7 +729,7 @@ namespace FluentAssertions
         [Pure]
         public static FunctionAssertions<T> Should<T>(this Func<T> func)
         {
-            return new FunctionAssertions<T>(func, extractor);
+            return new FunctionAssertions<T>(func, Extractor);
         }
 
         /// <summary>
@@ -766,11 +766,11 @@ namespace FluentAssertions
         /// <remarks>
         /// Has been introduced to allow casting objects without breaking the fluent API.
         /// </remarks>
-        /// <typeparam name="TTo"></typeparam>
+        /// <typeparam name="TTo">The <see cref="Type"/> to cast <paramref name="subject"/> to</typeparam>
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default;
+            return subject is TTo to ? to : default;
         }
 
         /// <summary>
@@ -787,6 +787,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+#pragma warning disable AV1755 // Changing would be a breaking change
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,
             string expectedWildcardPattern,
@@ -796,5 +797,6 @@ namespace FluentAssertions
         {
             return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
+#pragma warning restore AV1755
     }
 }

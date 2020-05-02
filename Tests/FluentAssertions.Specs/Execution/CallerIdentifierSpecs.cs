@@ -1,8 +1,7 @@
-﻿
+﻿using System;
+using FluentAssertions;
 using Xunit;
 using Xunit.Sdk;
-using FluentAssertions;
-using System;
 
 namespace FluentAssertions.Specs
 {
@@ -14,7 +13,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => System.SystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
         }
 
@@ -24,7 +23,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => System.Data.NestedSystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
         }
 
@@ -34,7 +33,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.DetermineCallerIdentityInNamespace();
 
-            //Assert
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected actualCaller to be*");
         }
     }
@@ -42,7 +41,7 @@ namespace FluentAssertions.Specs
 
 namespace System
 {
-    public class SystemNamespaceClass
+    public static class SystemNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
@@ -54,7 +53,7 @@ namespace System
 
 namespace SystemPrefixed
 {
-    public class SystemPrefixedNamespaceClass
+    public static class SystemPrefixedNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
@@ -66,7 +65,7 @@ namespace SystemPrefixed
 
 namespace System.Data
 {
-    public class NestedSystemNamespaceClass
+    public static class NestedSystemNamespaceClass
     {
         public static void DetermineCallerIdentityInNamespace()
         {
@@ -75,4 +74,3 @@ namespace System.Data
         }
     }
 }
-

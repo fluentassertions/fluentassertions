@@ -113,13 +113,13 @@ namespace FluentAssertions.Specs
                 (sbyte)1,
                 (short)1,
                 (ushort)1,
-                (int)1,
-                (uint)1,
-                (long)1,
-                (ulong)1,
-                (float)1,
-                (double)1,
-                (decimal)1,
+                1,
+                1U,
+                1L,
+                1UL,
+                1F,
+                1D,
+                1M,
             };
         }
 

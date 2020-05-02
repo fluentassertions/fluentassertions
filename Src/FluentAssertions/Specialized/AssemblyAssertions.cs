@@ -15,7 +15,8 @@ namespace FluentAssertions.Reflection
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
         /// </summary>
-        public AssemblyAssertions(Assembly assembly) : base(assembly)
+        public AssemblyAssertions(Assembly assembly)
+            : base(assembly)
         {
         }
 

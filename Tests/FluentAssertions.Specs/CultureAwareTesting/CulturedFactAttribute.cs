@@ -6,6 +6,6 @@ namespace FluentAssertions.Specs.CultureAwareTesting
     [XunitTestCaseDiscoverer("FluentAssertions.Specs.CultureAwareTesting.CulturedFactAttributeDiscoverer", "FluentAssertions.Specs")]
     public sealed class CulturedFactAttribute : FactAttribute
     {
-        public CulturedFactAttribute(params string[] cultures) { }
+        public CulturedFactAttribute(params string[] _) { }
     }
 }

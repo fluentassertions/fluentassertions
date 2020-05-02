@@ -8,7 +8,7 @@ namespace FluentAssertions.Common
     /// </summary>
     public static class Services
     {
-        private static readonly object lockable = new object();
+        private static readonly object Lockable = new object();
         private static Configuration configuration;
 
         static Services()
@@ -22,7 +22,7 @@ namespace FluentAssertions.Common
         {
             get
             {
-                lock (lockable)
+                lock (Lockable)
                 {
                     if (configuration is null)
                     {

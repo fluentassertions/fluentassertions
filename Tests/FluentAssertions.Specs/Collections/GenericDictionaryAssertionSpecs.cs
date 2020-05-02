@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 using System.Linq;
 using Xunit;
 using Xunit.Sdk;
@@ -1362,7 +1362,7 @@ namespace FluentAssertions.Specs
                     return true;
                 }
 
-                if (obj.GetType() != this.GetType())
+                if (obj.GetType() != GetType())
                 {
                     return false;
                 }
@@ -2675,8 +2675,8 @@ namespace FluentAssertions.Specs
         /// This class only implements <see cref="IReadOnlyDictionary{TKey, TValue}"/>,
         /// as <see cref="ReadOnlyDictionary{TKey, TValue}"/> also implements <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
+        /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
         private class TrueReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
         {
             private readonly IReadOnlyDictionary<TKey, TValue> dictionary;

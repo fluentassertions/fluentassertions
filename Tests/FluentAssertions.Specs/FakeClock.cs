@@ -13,9 +13,9 @@ namespace FluentAssertions.Specs
     /// </remarks>
     internal class FakeClock : IClock
     {
-        private TimeSpan elapsedTime = TimeSpan.Zero;
-
         private readonly TaskCompletionSource<bool> delayTask = new TaskCompletionSource<bool>();
+
+        private TimeSpan elapsedTime = TimeSpan.Zero;
 
         Task IClock.DelayAsync(TimeSpan delay, CancellationToken cancellationToken)
         {
@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs
 
         public void CompleteAfter(TimeSpan timeSpan)
         {
-            this.Delay(timeSpan);
+            Delay(timeSpan);
 
             // the value is not relevant
             delayTask.SetResult(true);
@@ -61,17 +61,5 @@ namespace FluentAssertions.Specs
             // the value is only relevant when IClock.Wait is involved
             delayTask.SetResult(false);
         }
-    }
-
-    internal class TestTimer : ITimer
-    {
-        private readonly Func<TimeSpan> getElapsed;
-
-        public TestTimer(Func<TimeSpan> getElapsed)
-        {
-            this.getElapsed = getElapsed;
-        }
-
-        public TimeSpan Elapsed => getElapsed();
     }
 }

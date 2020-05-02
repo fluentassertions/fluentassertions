@@ -11,32 +11,6 @@ using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-#pragma warning disable RCS1110 // Declare type inside namespace.
-public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110 // Declare type inside namespace.
-{
-    [Fact]
-    public void This_class_should_not_be_inside_a_namespace()
-    {
-        // Arrange
-        Type type = typeof(AssertionScopeSpecsWithoutNamespace);
-
-        // Act / Assert
-        type.Assembly.Should().DefineType(null, type.Name, "this class should not be inside a namespace");
-    }
-
-    [Fact]
-    public void When_the_test_method_is_not_inside_a_namespace_it_should_not_throw_a_NullReferenceException()
-    {
-        // Act
-        Action act = () => 1.Should().Be(2, "we don't want a NullReferenceException");
-
-        // Assert
-        act.Should().ThrowExactly<XunitException>()
-            .WithMessage("*we don't want a NullReferenceException*");
-    }
-}
-
 namespace FluentAssertions.Specs
 {
     public class AssertionScopeSpecs
@@ -585,7 +559,7 @@ namespace FluentAssertions.Specs
             IAssertionStrategy strategy = null;
 
             // Arrange / Act
-            Action act = () => new AssertionScope(strategy);
+            Func<AssertionScope> act = () => new AssertionScope(strategy);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -612,14 +586,8 @@ namespace FluentAssertions.Specs
         {
             private readonly List<string> failureMessages = new List<string>();
 
-            /// <summary>
-            /// Returns the messages for the assertion failures that happened until now.
-            /// </summary>
             public IEnumerable<string> FailureMessages => failureMessages;
 
-            /// <summary>
-            /// Discards and returns the failure messages that happened up to now.
-            /// </summary>
             public IEnumerable<string> DiscardFailures()
             {
                 var discardedFailures = failureMessages.ToArray();
@@ -627,9 +595,6 @@ namespace FluentAssertions.Specs
                 return discardedFailures;
             }
 
-            /// <summary>
-            /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
-            /// </summary>
             public void ThrowIfAny(IDictionary<string, object> context)
             {
                 if (failureMessages.Any())
@@ -649,9 +614,6 @@ namespace FluentAssertions.Specs
                 }
             }
 
-            /// <summary>
-            /// Instructs the strategy to handle a assertion failure.
-            /// </summary>
             public void HandleFailure(string message)
             {
                 failureMessages.Add(message);
@@ -672,5 +634,31 @@ namespace FluentAssertions.Specs
                 // do nothing
             }
         }
+    }
+}
+
+#pragma warning disable RCS1110 // Declare type inside namespace.
+public class AssertionScopeSpecsWithoutNamespace
+#pragma warning restore RCS1110 // Declare type inside namespace.
+{
+    [Fact]
+    public void This_class_should_not_be_inside_a_namespace()
+    {
+        // Arrange
+        Type type = typeof(AssertionScopeSpecsWithoutNamespace);
+
+        // Act / Assert
+        type.Assembly.Should().DefineType(null, type.Name, "this class should not be inside a namespace");
+    }
+
+    [Fact]
+    public void When_the_test_method_is_not_inside_a_namespace_it_should_not_throw_a_NullReferenceException()
+    {
+        // Act
+        Action act = () => 1.Should().Be(2, "we don't want a NullReferenceException");
+
+        // Assert
+        act.Should().ThrowExactly<XunitException>()
+            .WithMessage("*we don't want a NullReferenceException*");
     }
 }

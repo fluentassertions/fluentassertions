@@ -1,6 +1,4 @@
-﻿#if !NETCOREAPP2_0
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 #if NET47
@@ -485,6 +483,7 @@ namespace FluentAssertions.Specs
 
             // Act
             using var innerScope = eventSource.Monitor();
+
             // Assert
             ((object)innerScope).Should().NotBeSameAs(outerScope);
         }
@@ -532,7 +531,7 @@ namespace FluentAssertions.Specs
                     EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
                     HandlerType = typeof(PropertyChangedEventHandler)
                 }
-             });
+            });
         }
 
         [Fact]
@@ -706,6 +705,7 @@ namespace FluentAssertions.Specs
         public class TestEventRaising : IEventRaisingInterface, IEventRaisingInterface2
         {
             public event EventHandler InterfaceEvent;
+
             public event EventHandler Interface2Event;
 
             public void RaiseBothEvents()
@@ -733,9 +733,9 @@ namespace FluentAssertions.Specs
 
             public int SomeOtherProperty { get; set; }
 
-            public event PropertyChangedEventHandler PropertyChanged = delegate { };
+            public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
 
-            public event Action<string, int, string> NonConventionalEvent = delegate { };
+            public event Action<string, int, string> NonConventionalEvent = (_, __, ___) => { };
 
             public void RaiseNonConventionalEvent(string first, int second, string third)
             {
@@ -744,7 +744,9 @@ namespace FluentAssertions.Specs
 
             public void RaiseEventWithoutSender()
             {
+#pragma warning disable AV1235 // 'sender' is deliberately null
                 PropertyChanged(null, new PropertyChangedEventArgs(""));
+#pragma warning restore AV1235
             }
 
             public void RaiseEventWithSender()
@@ -759,5 +761,3 @@ namespace FluentAssertions.Specs
         }
     }
 }
-
-#endif

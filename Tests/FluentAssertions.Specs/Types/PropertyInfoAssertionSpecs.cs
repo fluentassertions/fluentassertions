@@ -554,10 +554,15 @@ namespace FluentAssertions.Specs
         private class ClassWithProperties
         {
             public string ReadOnlyProperty { get { return ""; } }
+
             public string ReadPrivateWriteProperty { get; private set; }
+
             public string ReadWriteProperty { get; set; }
+
             public string WritePrivateReadProperty { private get; set; }
+
             public string WriteOnlyProperty { set { } }
+
             public string StringProperty { get; set; }
         }
 

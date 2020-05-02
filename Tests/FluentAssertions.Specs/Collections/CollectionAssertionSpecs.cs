@@ -1230,7 +1230,7 @@ namespace FluentAssertions.Specs
                new { Value = "Two" },
                new { Value = "Three" },
                new { Value = "Four" }
-           };
+            };
 
             // Act
             Action action = () => actual.Should().Equal(expected,
@@ -1251,7 +1251,7 @@ namespace FluentAssertions.Specs
                new { Value = "Two" },
                new { Value = "Three" },
                new { Value = "Five" }
-           };
+            };
 
             // Act
             Action action = () => actual.Should().Equal(expected,
@@ -1469,8 +1469,8 @@ namespace FluentAssertions.Specs
         public void When_character_collections_are_equivalent_it_should_not_throw()
         {
             // Arrange
-            char[] list1 = ("abc123ab").ToCharArray();
-            char[] list2 = ("abc123ab").ToCharArray();
+            char[] list1 = "abc123ab".ToCharArray();
+            char[] list2 = "abc123ab".ToCharArray();
 
             // Act / Assert
             list1.Should().BeEquivalentTo(list2);
@@ -1709,7 +1709,7 @@ namespace FluentAssertions.Specs
         public void When_character_collection_does_contain_equivalent_it_should_succeed()
         {
             // Arrange
-            char[] collection = ("abc123ab").ToCharArray();
+            char[] collection = "abc123ab".ToCharArray();
             char item = 'c';
 
             // Act / Assert
@@ -2053,7 +2053,6 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-
                 "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
                     "but items {3, 6} are not part of the superset.");
         }
@@ -4024,11 +4023,11 @@ namespace FluentAssertions.Specs
 
     internal class CountingNonGenericEnumerable : IEnumerable
     {
-        private readonly IEnumerable _backingSet;
+        private readonly IEnumerable backingSet;
 
         public CountingNonGenericEnumerable(IEnumerable backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4036,17 +4035,17 @@ namespace FluentAssertions.Specs
         public IEnumerator GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
     }
 
     internal class CountingGenericEnumerable<TElement> : IEnumerable<TElement>
     {
-        private readonly IEnumerable<TElement> _backingSet;
+        private readonly IEnumerable<TElement> backingSet;
 
         public CountingGenericEnumerable(IEnumerable<TElement> backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
             GetEnumeratorCallCount = 0;
         }
 
@@ -4055,7 +4054,7 @@ namespace FluentAssertions.Specs
         public IEnumerator<TElement> GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -4066,11 +4065,11 @@ namespace FluentAssertions.Specs
 
     internal class CountingNonGenericCollection : ICollection
     {
-        private readonly ICollection _backingSet;
+        private readonly ICollection backingSet;
 
         public CountingNonGenericCollection(ICollection backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4078,7 +4077,7 @@ namespace FluentAssertions.Specs
         public IEnumerator GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
@@ -4090,21 +4089,22 @@ namespace FluentAssertions.Specs
             get
             {
                 GetCountCallCount++;
-                return _backingSet.Count;
+                return backingSet.Count;
             }
         }
 
         public object SyncRoot { get; private set; }
+
         public bool IsSynchronized { get { return true; } }
     }
 
     internal class CountingGenericCollection<TElement> : ICollection<TElement>
     {
-        private readonly ICollection<TElement> _backingSet;
+        private readonly ICollection<TElement> backingSet;
 
         public CountingGenericCollection(ICollection<TElement> backingSet)
         {
-            _backingSet = backingSet;
+            this.backingSet = backingSet;
         }
 
         public int GetEnumeratorCallCount { get; private set; }
@@ -4112,7 +4112,7 @@ namespace FluentAssertions.Specs
         public IEnumerator<TElement> GetEnumerator()
         {
             GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
+            return backingSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -4121,9 +4121,13 @@ namespace FluentAssertions.Specs
         }
 
         public void Add(TElement item) { throw new NotImplementedException(); }
+
         public void Clear() { throw new NotImplementedException(); }
+
         public bool Contains(TElement item) { throw new NotImplementedException(); }
+
         public void CopyTo(TElement[] array, int arrayIndex) { throw new NotImplementedException(); }
+
         public bool Remove(TElement item) { throw new NotImplementedException(); }
 
         public int GetCountCallCount { get; private set; }
@@ -4133,7 +4137,7 @@ namespace FluentAssertions.Specs
             get
             {
                 GetCountCallCount++;
-                return _backingSet.Count;
+                return backingSet.Count;
             }
         }
 

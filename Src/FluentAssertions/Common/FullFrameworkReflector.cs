@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace FluentAssertions.Common
                 .SelectMany(GetExportedTypes).ToArray();
         }
 
-        private bool IsRelevant(Assembly ass)
+        private static bool IsRelevant(Assembly ass)
         {
             string assemblyName = ass.GetName().Name;
 
@@ -56,4 +55,3 @@ namespace FluentAssertions.Common
         }
     }
 }
-

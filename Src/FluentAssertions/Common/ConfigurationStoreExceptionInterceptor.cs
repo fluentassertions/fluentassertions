@@ -1,11 +1,10 @@
-﻿#if NET47 || NETCOREAPP2_1 || NETCOREAPP3_0
-namespace FluentAssertions.Common
+﻿namespace FluentAssertions.Common
 {
     internal class ConfigurationStoreExceptionInterceptor : IConfigurationStore
     {
-        private bool underlyingStoreUnavailable;
-
         private readonly IConfigurationStore configurationStore;
+
+        private bool underlyingStoreUnavailable;
 
         public ConfigurationStoreExceptionInterceptor(IConfigurationStore configurationStore)
         {
@@ -31,4 +30,3 @@ namespace FluentAssertions.Common
         }
     }
 }
-#endif

@@ -22,7 +22,7 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-        private static readonly AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
+        private static readonly AsyncLocal<AssertionScope> CurrentScope = new AsyncLocal<AssertionScope>();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
@@ -115,7 +115,7 @@ namespace FluentAssertions.Execution
             {
                 try
                 {
-                    string becauseOrEmpty = because ?? "";
+                    string becauseOrEmpty = because ?? string.Empty;
                     return (becauseArgs?.Any() == true) ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
@@ -148,7 +148,7 @@ namespace FluentAssertions.Execution
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);
-                string reason = localReason?.Invoke() ?? "";
+                string reason = localReason?.Invoke() ?? string.Empty;
                 string identifier = GetIdentifier();
 
                 return messageBuilder.Build(message, args, reason, contextData, identifier, fallbackIdentifier);
@@ -186,7 +186,7 @@ namespace FluentAssertions.Execution
         {
             return FailWith(() =>
             {
-                string localReason = reason?.Invoke() ?? "";
+                string localReason = reason?.Invoke() ?? string.Empty;
                 var messageBuilder = new MessageBuilder(useLineBreaks);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
@@ -312,12 +312,12 @@ namespace FluentAssertions.Execution
 
         private static AssertionScope GetCurrentAssertionScope()
         {
-            return current.Value;
+            return CurrentScope.Value;
         }
 
         private static void SetCurrentAssertionScope(AssertionScope scope)
         {
-            current.Value = scope;
+            CurrentScope.Value = scope;
         }
 
         #region Explicit Implementation to support the interface

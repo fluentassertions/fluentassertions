@@ -273,12 +273,12 @@ namespace FluentAssertions.Specs
                     return false;
                 }
 
-                return this.Id == other.Id;
+                return Id == other.Id;
             }
 
             public override bool Equals(object obj)
             {
-                return this.Equals(obj as SomeBaseKeyClass);
+                return Equals(obj as SomeBaseKeyClass);
             }
 
             public override string ToString()
@@ -289,7 +289,8 @@ namespace FluentAssertions.Specs
 
         public class SomeDerivedKeyClass : SomeBaseKeyClass
         {
-            public SomeDerivedKeyClass(int id) : base(id)
+            public SomeDerivedKeyClass(int id)
+                : base(id)
             {
             }
         }
@@ -360,7 +361,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        // #930
         public void When_a_dictionary_is_compared_to_null_it_should_not_throw_a_NullReferenceException()
         {
             // Arrange
@@ -375,7 +375,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        // #930
         public void When_a_null_dictionary_is_compared_to_null_it_should_not_throw()
         {
             // Arrange
@@ -420,9 +419,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
-            ()
+        public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {
             // Arrange
             var expected = new
@@ -747,8 +744,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
-            ()
+        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
         {
             // Arrange
             var expected = new

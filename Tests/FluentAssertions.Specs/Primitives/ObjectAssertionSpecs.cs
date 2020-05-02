@@ -405,8 +405,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name
-            ()
+        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
         {
             // Arrange
             var assertionsFromOtherAssembly = new object().Should();
@@ -1049,6 +1048,7 @@ namespace FluentAssertions.Specs
         internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -1060,6 +1060,7 @@ namespace FluentAssertions.Specs
         internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public BinarySerializableClassNotRestoringAllProperties()
@@ -1148,6 +1149,7 @@ namespace FluentAssertions.Specs
         public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
         {
             public string Name { get; set; }
+
             public DateTime BirthDay { get; set; }
 
             public XmlSchema GetSchema()

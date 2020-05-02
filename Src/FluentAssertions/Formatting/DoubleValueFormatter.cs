@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System;
+﻿using System;
+using System.Globalization;
 
 namespace FluentAssertions.Formatting
 {

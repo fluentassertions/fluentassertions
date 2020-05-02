@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
             Action subject = () => { };
 
             // Act
-            Action act = () => new ActionAssertions(subject, extractor: null);
+            Func<ActionAssertions> act = () => new ActionAssertions(subject, extractor: null);
 
             // Act
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -28,7 +28,7 @@ namespace FluentAssertions.Specs
             IExtractExceptions extractor = new AggregateExceptionExtractor();
 
             // Act
-            Action act = () => new ActionAssertions(subject, extractor, clock: null);
+            Func<ActionAssertions> act = () => new ActionAssertions(subject, extractor, clock: null);
 
             // Act
             act.Should().ThrowExactly<ArgumentNullException>()

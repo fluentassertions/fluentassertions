@@ -22,6 +22,7 @@ namespace FluentAssertions.Specs
         public class MyClass : IInterface
         {
             public int InterfaceProperty { get; set; }
+
             public int ClassProperty { get; set; }
         }
 
@@ -131,6 +132,7 @@ namespace FluentAssertions.Specs
         public class MyObject
         {
             public string MyString { get; set; }
+
             public MyChildObject Child { get; set; }
         }
 
@@ -331,6 +333,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             const int commonLength = 11;
+
             // Subjects contains different values, because we want to distinguish them in the assertion message
             var subject = new int[commonLength] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var expectation = Enumerable.Repeat(20, commonLength).ToArray();
@@ -363,9 +366,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
-            ()
+        public void When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
         {
             // Arrange
             var logbook = new BasicEquivalencySpecs.LogbookCode("SomeKey");
@@ -404,9 +405,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_contains_less_items_than_expected_it_should_throw
-            ()
+        public void When_a_collection_contains_less_items_than_expected_it_should_throw()
         {
             // Arrange
             var expected = new
@@ -451,9 +450,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_contains_more_items_than_expected_it_should_throw
-            ()
+        public void When_a_collection_contains_more_items_than_expected_it_should_throw()
         {
             // Arrange
             var expected = new
@@ -498,9 +495,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw
-            ()
+        public void When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
         {
             // Arrange
             var expected = new
@@ -566,9 +561,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw
-            ()
+        public void When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
         {
             // Arrange
             var expected = new
@@ -618,9 +611,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw
-            ()
+        public void When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
         {
             // Arrange
             var subject = new
@@ -651,9 +642,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw
-            ()
+        public void When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -738,9 +727,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
-            ()
+        public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {
             // Arrange
             var expected = new
@@ -784,9 +771,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail
-            ()
+        public void When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
         {
             // Arrange
             IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
@@ -828,9 +813,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type
-            ()
+        public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
         {
             // Arrange
             ICollection collection1 = new List<Car> { new Car() };
@@ -860,7 +843,7 @@ namespace FluentAssertions.Specs
             {
                 Name = "someDto",
                 Age = 1,
-                Birthdate = new DateTime()
+                Birthdate = default(DateTime)
             });
 
             // Assert
@@ -883,7 +866,7 @@ namespace FluentAssertions.Specs
             {
                 Name = "someDto",
                 Age = 1,
-                Birthdate = new DateTime()
+                Birthdate = default(DateTime)
             })
             .And.HaveCount(3);
 
@@ -949,9 +932,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type
-            ()
+        public void When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
         {
             // Arrange
             IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
@@ -1223,9 +1204,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type
-            ()
+        public void When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
             // Arrange
             ICollection collection1 = new NonGenericCollection(new[] { new Customer() });
@@ -1418,9 +1397,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_no_collection_item_matches_it_should_report_the_closest_match
-            ()
+        public void When_no_collection_item_matches_it_should_report_the_closest_match()
         {
             // Arrange
             var subject = new List<Customer>
@@ -1830,9 +1807,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference
-            ()
+        public void When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
         {
             // Arrange
             var company1 = new MyCompany { Name = "Company" };
@@ -1855,9 +1830,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_subject_contains_less_items_than_expected_it_should_throw
-            ()
+        public void When_the_subject_contains_less_items_than_expected_it_should_throw()
         {
             // Arrange
             var subject = new List<Customer>
@@ -1897,9 +1870,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_subject_contains_more_items_than_expected_it_should_throw
-            ()
+        public void When_the_subject_contains_more_items_than_expected_it_should_throw()
         {
             // Arrange
             var subject = new List<Customer>
@@ -1939,9 +1910,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed
-            ()
+        public void When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed()
         {
             // Arrange
             var subject = new List<Customer>
@@ -1997,9 +1966,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw
-            ()
+        public void When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw()
         {
             // Arrange
             var subject = new List<Customer>
@@ -2045,9 +2012,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw
-            ()
+        public void When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
         {
             // Arrange
             var subject = new List<Customer>
@@ -2191,9 +2156,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw
-            ()
+        public void When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw()
         {
             // Arrange
             var subject = new List<Customer>
@@ -2436,9 +2399,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
-            ()
+        public void When_two_ordered_lists_are_structurally_equivalent_it_should_succeed()
         {
             // Arrange
             var subject = new List<Customer>
@@ -2577,9 +2538,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed
-            ()
+        public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed()
         {
             // Arrange
             var subject = new[]
@@ -2623,9 +2582,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void
-            When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
-            ()
+        public void When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
         {
             // Arrange
             var subject = new[]

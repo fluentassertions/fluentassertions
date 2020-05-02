@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD2_0
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,10 +14,12 @@ namespace FluentAssertions.Events
     /// </summary>
     public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
-        private readonly IMonitor<T> monitor;
         private const string PropertyChangedEventName = "PropertyChanged";
 
-        protected internal EventAssertions(IMonitor<T> monitor) : base(monitor.Subject)
+        private readonly IMonitor<T> monitor;
+
+        protected internal EventAssertions(IMonitor<T> monitor)
+            : base(monitor.Subject)
         {
             this.monitor = monitor;
         }
@@ -159,5 +159,3 @@ namespace FluentAssertions.Events
         protected override string Identifier => "subject";
     }
 }
-
-#endif

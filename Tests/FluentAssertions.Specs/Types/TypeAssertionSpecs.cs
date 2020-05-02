@@ -109,8 +109,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_type_is_equal_to_same_type_from_different_assembly_it_fails_with_assembly_qualified_name
-            ()
+        public void When_type_is_equal_to_same_type_from_different_assembly_it_fails_with_assembly_qualified_name()
         {
             // Arrange
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
@@ -850,7 +849,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -881,7 +880,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -959,7 +958,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1060,7 +1059,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1091,7 +1090,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1170,7 +1169,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1255,7 +1254,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1270,7 +1269,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1345,7 +1344,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 types.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled, "because we do");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1428,7 +1427,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -1443,7 +1442,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1498,7 +1497,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => types.Should()
-                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled,
                     "because we {0}", "do");
 
             // Assert
@@ -1517,7 +1516,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => types.Should()
-                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled),
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled,
                     "because we {0}", "do");
 
             // Assert
@@ -1595,7 +1594,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_types_are_sealed_it_succeeds()
         {
-            // Arrange 
+            // Arrange
             var types = new TypeSelector(new[]
             {
                 typeof(Sealed)
@@ -1684,7 +1683,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_all_types_are_not_sealed_it_succeeds()
         {
-            // Arrange 
+            // Arrange
             var types = new TypeSelector(new[]
             {
                 typeof(Abstract)
@@ -3843,6 +3842,7 @@ namespace FluentAssertions.Specs
     public class DummyClassAttribute : Attribute
     {
         public string Name { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public DummyClassAttribute(string name, bool isEnabled)
@@ -3879,40 +3879,65 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
-        private ClassWithMembers(string overload) { }
+
+        private ClassWithMembers(string _) { }
+
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
+
         internal string this[string str] { private get { return str; } set { } }
+
         protected internal string this[int i] { get { return i.ToString(); } private set { } }
+
         private void VoidMethod() { }
-        private void VoidMethod(string overload) { }
+
+        private void VoidMethod(string _) { }
     }
 
     public class ClassExplicitlyImplementingInterface : IExplicitInterface
     {
         public string ImplicitStringProperty { get { return null; } private set { } }
+
         string IExplicitInterface.ExplicitStringProperty { set { } }
+
         public string ExplicitImplicitStringProperty { get; set; }
+
         string IExplicitInterface.ExplicitImplicitStringProperty { get; set; }
+
         public void ImplicitMethod() { }
+
         public void ImplicitMethod(string overload) { }
+
         void IExplicitInterface.ExplicitMethod() { }
+
         void IExplicitInterface.ExplicitMethod(string overload) { }
+
         public void ExplicitImplicitMethod() { }
-        public void ExplicitImplicitMethod(string overload) { }
+
+        public void ExplicitImplicitMethod(string _) { }
+
         void IExplicitInterface.ExplicitImplicitMethod() { }
+
         void IExplicitInterface.ExplicitImplicitMethod(string overload) { }
     }
 
     public interface IExplicitInterface
     {
         string ImplicitStringProperty { get; }
+
         string ExplicitStringProperty { set; }
+
         string ExplicitImplicitStringProperty { get; set; }
+
         void ImplicitMethod();
+
         void ImplicitMethod(string overload);
+
         void ExplicitMethod();
+
         void ExplicitMethod(string overload);
+
         void ExplicitImplicitMethod();
+
         void ExplicitImplicitMethod(string overload);
     }
 
@@ -3935,7 +3960,7 @@ namespace FluentAssertions.Specs
         protected internal interface IProtectedInternalInterface { }
     }
 
-    internal struct TypeWithConversionOperators
+    internal readonly struct TypeWithConversionOperators
     {
         private readonly int value;
 
@@ -3945,6 +3970,7 @@ namespace FluentAssertions.Specs
         }
 
         public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) => typeWithConversionOperators.value;
+
         public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) => (byte)typeWithConversionOperators.value;
     }
 

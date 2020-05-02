@@ -137,7 +137,7 @@ namespace FluentAssertions.Collections
 
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || (subjectKeys.Any(key => !GetValue(Subject, key).IsSameOrEqualTo(GetValue(unexpected, key))));
+                    || subjectKeys.Any(key => !GetValue(Subject, key).IsSameOrEqualTo(GetValue(unexpected, key)));
 
             if (!foundDifference)
             {

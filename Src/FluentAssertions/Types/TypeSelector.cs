@@ -56,9 +56,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatImplement<TInterface>()
         {
             types = types.Where(t =>
-                typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 
@@ -68,9 +68,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatDoNotImplement<TInterface>()
         {
             types = types.Where(t =>
-                !typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        !typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 
@@ -222,10 +222,12 @@ namespace FluentAssertions.Types
                 {
                     return type.GetGenericArguments().Single();
                 }
+
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
                 {
                     return type.GetGenericArguments().Single();
                 }
+
                 return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
             }).ToList();
 

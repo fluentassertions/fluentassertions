@@ -48,7 +48,9 @@ namespace FluentAssertions.Xml.Equivalency
 
                 Failure failure = null;
 
+#pragma warning disable IDE0010 // The default case handles the many missing cases
                 switch (subjectIterator.NodeType)
+#pragma warning restore IDE0010
                 {
                     case XmlNodeType.Element:
                         failure = ValidateStartElement();

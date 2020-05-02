@@ -1,5 +1,3 @@
-#if !NETSTANDARD2_0
-
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -89,7 +87,6 @@ namespace FluentAssertions.Events
         /// <summary>
         /// Enumerate raised events
         /// </summary>
-        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             lock (lockable)
@@ -124,5 +121,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-
-#endif

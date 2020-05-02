@@ -12,7 +12,8 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
     {
-        public MethodInfoAssertions(MethodInfo methodInfo) : base(methodInfo)
+        public MethodInfoAssertions(MethodInfo methodInfo)
+            : base(methodInfo)
         {
         }
 

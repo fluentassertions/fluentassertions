@@ -10,6 +10,7 @@ namespace FluentAssertions
     public static class NumericAssertionsExtensions
     {
         #region BeCloseTo
+
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
         /// </summary>
@@ -975,7 +976,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceOutsidePrecision<T>(
             bool differenceWithinPrecision,
             NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct, IComparable<T>
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
@@ -1204,6 +1206,7 @@ namespace FluentAssertions
 
                 FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
             }
+
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
 
@@ -1309,7 +1312,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceWithinPrecision<T>(
             NumericAssertions<T> parent, bool differenceOutsidePrecision,
             T unexpectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct, IComparable<T>
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,17 +23,5 @@ namespace FluentAssertions.Common
         }
 
         public ITimer StartTimer() => new StopwatchTimer();
-    }
-
-    internal class StopwatchTimer : ITimer
-    {
-        private readonly Stopwatch stopwatch;
-
-        public StopwatchTimer()
-        {
-            stopwatch = Stopwatch.StartNew();
-        }
-
-        public TimeSpan Elapsed => stopwatch.Elapsed;
     }
 }

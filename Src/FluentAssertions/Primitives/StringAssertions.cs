@@ -34,7 +34,8 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
         /// </summary>
-        public StringAssertions(string value) : base(value)
+        public StringAssertions(string value)
+            : base(value)
         {
         }
 
@@ -965,7 +966,7 @@ namespace FluentAssertions.Primitives
 
         private static bool Contains(string actual, string expected, StringComparison comparison)
         {
-            return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
+            return (actual ?? string.Empty).IndexOf(expected ?? string.Empty, comparison) >= 0;
         }
 
         /// <summary>

@@ -16,7 +16,8 @@ namespace FluentAssertions.Collections
         where TSubject : IEnumerable
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
     {
-        protected CollectionAssertions(TSubject subject) : base(subject)
+        protected CollectionAssertions(TSubject subject)
+            : base(subject)
         {
         }
 
@@ -879,7 +880,7 @@ namespace FluentAssertions.Collections
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         public AndConstraint<TAssertions> ContainInOrder(params object[] expected)
         {
-            return ContainInOrder(expected, "");
+            return ContainInOrder(expected, string.Empty);
         }
 
         /// <summary>
@@ -1684,12 +1685,12 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private bool HasPredecessor(object successor, IEnumerable<object> subject)
+        private static bool HasPredecessor(object successor, IEnumerable<object> subject)
         {
             return !ReferenceEquals(subject.First(), successor);
         }
 
-        private object PredecessorOf(object successor, IEnumerable<object> subject)
+        private static object PredecessorOf(object successor, IEnumerable<object> subject)
         {
             IList<object> collection = subject.ConvertOrCastToList();
             int index = collection.IndexOf(successor);
@@ -1729,12 +1730,12 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private bool HasSuccessor(object predecessor, IEnumerable<object> subject)
+        private static bool HasSuccessor(object predecessor, IEnumerable<object> subject)
         {
             return !ReferenceEquals(subject.Last(), predecessor);
         }
 
-        private object SuccessorOf(object predecessor, IEnumerable<object> subject)
+        private static object SuccessorOf(object predecessor, IEnumerable<object> subject)
         {
             IList<object> collection = subject.ConvertOrCastToList();
             int index = collection.IndexOf(predecessor);

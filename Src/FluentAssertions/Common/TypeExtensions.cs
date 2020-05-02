@@ -370,7 +370,6 @@ namespace FluentAssertions.Common
         /// Check if the type is declared as abstract.
         /// </summary>
         /// <param name="type">Type to be checked</param>
-        /// <returns></returns>
         public static bool IsCSharpAbstract(this Type type)
         {
             return type.IsAbstract && !type.IsSealed;
@@ -380,7 +379,6 @@ namespace FluentAssertions.Common
         /// Check if the type is declared as sealed.
         /// </summary>
         /// <param name="type">Type to be checked</param>
-        /// <returns></returns>
         public static bool IsCSharpSealed(this Type type)
         {
             return type.IsSealed && !type.IsAbstract;
@@ -390,7 +388,6 @@ namespace FluentAssertions.Common
         /// Check if the type is declared as static.
         /// </summary>
         /// <param name="type">Type to be checked</param>
-        /// <returns></returns>
         public static bool IsCSharpStatic(this Type type)
         {
             return type.IsSealed && type.IsAbstract;
@@ -539,7 +536,6 @@ namespace FluentAssertions.Common
             // The CLR type system does not consider anything to be assignable to an open generic type.
             // For the purposes of test assertions, the user probably means that the subject type is
             // assignable to any generic type based on the given generic type definition.
-
             if (definition.IsInterface)
             {
                 return type.IsImplementationOfOpenGeneric(definition);

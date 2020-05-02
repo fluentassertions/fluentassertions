@@ -12,6 +12,7 @@ namespace FluentAssertions.Equivalency.Matching
             return subject.GetType().FindMember(expectedMember.Name, expectedMember.MemberType);
         }
 
+        /// <inheritdoc />
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {

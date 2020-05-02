@@ -628,7 +628,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
-
         [Fact]
         public void When_async_method_throws_exception_through_ValueTask_and_no_exception_was_expected_it_should_fail()
         {
@@ -665,7 +664,6 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().NotThrow();
         }
-
 
         [Fact]
         public void When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
@@ -709,7 +707,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsync())
+                .Awaiting(_ => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>();
 
             // Assert
@@ -724,7 +722,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsync())
+                .Awaiting(_ => asyncObject.SucceedAsync())
                 .Should().NotThrow<InvalidOperationException>()
                     .And.NotBeNull();
 
@@ -744,7 +742,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.SucceedAsyncValueTask())
+                .Awaiting(_ => asyncObject.SucceedAsyncValueTask())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -799,7 +797,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.ReturnTaskInt())
+                .Awaiting(_ => asyncObject.ReturnTaskInt())
                 .Should().NotThrow<InvalidOperationException>();
 
             // Assert
@@ -818,7 +816,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
-                .Awaiting(x => asyncObject.ReturnValueTaskInt())
+                .Awaiting(_ => asyncObject.ReturnValueTaskInt())
                 .Should().NotThrow<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
@@ -826,7 +824,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.Should().NotThrow();
         }
-
 
         [Fact]
         public void When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
@@ -865,7 +862,6 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
-
 
         [Fact]
         public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
@@ -1156,6 +1152,7 @@ namespace FluentAssertions.Specs
                 {
                     throw new ArgumentException("An exception was forced");
                 }
+
                 await Task.Yield();
             };
 
@@ -1317,13 +1314,15 @@ namespace FluentAssertions.Specs
             throw new TException();
         }
 
-        public async Task ThrowAggregateExceptionAsync<TException>() where TException : Exception, new()
+        public async Task ThrowAggregateExceptionAsync<TException>()
+            where TException : Exception, new()
         {
             await Task.Yield();
             throw new AggregateException(new TException());
         }
 
-        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>() where TException : Exception, new()
+        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>()
+            where TException : Exception, new()
         {
             await Task.Yield();
             throw new AggregateException(new TException());

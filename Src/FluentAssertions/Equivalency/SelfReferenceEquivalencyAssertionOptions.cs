@@ -20,6 +20,14 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
+        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
+
+        private readonly List<Type> referenceTypes = new List<Type>();
+
+        private readonly List<Type> valueTypes = new List<Type>();
+
+        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
 
@@ -33,9 +41,9 @@ namespace FluentAssertions.Equivalency
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#pragma warning disable CA1051 // TODO: fix in 6.0
+#pragma warning disable CA1051, SA1401 // TODO: fix in 6.0
         protected readonly OrderingRuleCollection orderingRules = new OrderingRuleCollection();
-#pragma warning restore CA1051
+#pragma warning restore SA1401, CA1051
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool isRecursive;
@@ -49,13 +57,6 @@ namespace FluentAssertions.Equivalency
         private bool includeProperties;
 
         private bool includeFields;
-
-        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
-
-        private readonly List<Type> referenceTypes = new List<Type>();
-        private readonly List<Type> valueTypes = new List<Type>();
-
-        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
 
         #endregion
 
@@ -322,7 +323,6 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Requires the subject to have members which are equally named to members on the expectation.
         /// </summary>
-        /// <returns></returns>
         public TSelf ThrowingOnMissingMembers()
         {
             ClearMatchingRules();
@@ -430,7 +430,8 @@ namespace FluentAssertions.Equivalency
         /// that implements <see cref="IEqualityComparer{T}"/>, any time
         /// when a property is of type <typeparamref name="T"/>.
         /// </summary>
-        public TSelf Using<T, TEqualityComparer>() where TEqualityComparer : IEqualityComparer<T>, new()
+        public TSelf Using<T, TEqualityComparer>()
+            where TEqualityComparer : IEqualityComparer<T>, new()
         {
             return Using(new TEqualityComparer());
         }

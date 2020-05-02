@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, ITestFramework> Frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
         {
             ["mspec"] = new MSpecFramework(),
             ["nspec3"] = new NSpecFramework(),
@@ -45,7 +45,7 @@ namespace FluentAssertions.Execution
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
             if (string.IsNullOrEmpty(frameworkName)
-                || !frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+                || !Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
                 return null;
             }
@@ -62,7 +62,7 @@ namespace FluentAssertions.Execution
 
         private static ITestFramework AttemptToDetectUsingDynamicScanning()
         {
-            return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
+            return Frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
         }
     }
 }

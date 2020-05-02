@@ -19,7 +19,8 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeAssertions"/> class.
         /// </summary>
-        public TypeAssertions(Type type) : base(type)
+        public TypeAssertions(Type type)
+            : base(type)
         {
         }
 
@@ -155,7 +156,7 @@ namespace FluentAssertions.Types
         {
             if (actual == expected)
             {
-                return "";
+                return string.Empty;
             }
 
             string expectedType = expected?.FullName ?? "<null>";
@@ -587,7 +588,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -606,7 +606,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -625,7 +624,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -644,7 +642,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -663,7 +660,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -682,7 +678,6 @@ namespace FluentAssertions.Types
         /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
-        /// <returns></returns>
         public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
         {
             AssertThatSubjectIsClass();
@@ -707,7 +702,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -750,7 +745,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -933,7 +928,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
-            string propertyInfoDescription = "";
+            string propertyInfoDescription = string.Empty;
 
             if (propertyInfo != null)
             {
@@ -1008,7 +1003,7 @@ namespace FluentAssertions.Types
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
-            string methodInfoDescription = "";
+            string methodInfoDescription = string.Empty;
 
             if (methodInfo != null)
             {

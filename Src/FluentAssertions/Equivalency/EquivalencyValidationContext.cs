@@ -11,8 +11,8 @@ namespace FluentAssertions.Equivalency
 
         public EquivalencyValidationContext()
         {
-            SelectedMemberDescription = "";
-            SelectedMemberPath = "";
+            SelectedMemberDescription = string.Empty;
+            SelectedMemberPath = string.Empty;
         }
 
         public SelectedMemberInfo SelectedMemberInfo { get; set; }

@@ -14,7 +14,8 @@ namespace FluentAssertions.Collections
     public class SelfReferencingCollectionAssertions<T, TAssertions> : SelfReferencingCollectionAssertions<IEnumerable<T>, T, TAssertions>
         where TAssertions : SelfReferencingCollectionAssertions<IEnumerable<T>, T, TAssertions>
     {
-        public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
+        public SelfReferencingCollectionAssertions(IEnumerable<T> actualValue)
+            : base(actualValue)
         {
         }
     }
@@ -27,7 +28,8 @@ namespace FluentAssertions.Collections
         where TCollection : IEnumerable<T>
         where TAssertions : SelfReferencingCollectionAssertions<TCollection, T, TAssertions>
     {
-        public SelfReferencingCollectionAssertions(TCollection actualValue) : base(actualValue)
+        public SelfReferencingCollectionAssertions(TCollection actualValue)
+            : base(actualValue)
         {
         }
 

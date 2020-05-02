@@ -12,7 +12,10 @@
 
         private sealed class ExactlyTimesConstraint : OccurrenceConstraint
         {
-            internal ExactlyTimesConstraint(int expectedCount) : base(expectedCount) { }
+            internal ExactlyTimesConstraint(int expectedCount)
+                : base(expectedCount)
+            {
+            }
 
             internal override string Mode => "exactly";
 

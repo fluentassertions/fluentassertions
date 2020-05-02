@@ -31,7 +31,7 @@ namespace FluentAssertions.Execution
                     .GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
-                return (assembly != null);
+                return assembly != null;
             }
         }
 

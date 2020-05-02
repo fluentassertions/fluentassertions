@@ -17,11 +17,13 @@ namespace FluentAssertions.Specialized
     {
         private readonly IExtractExceptions extractor;
 
-        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : this(@delegate, extractor, new Clock())
+        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
+            : this(@delegate, extractor, new Clock())
         {
         }
 
-        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock) : base(@delegate)
+        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
+            : base(@delegate)
         {
             this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -236,7 +238,8 @@ namespace FluentAssertions.Specialized
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
+        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs)
+            where TException : Exception
         {
             IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
             Execute.Assertion

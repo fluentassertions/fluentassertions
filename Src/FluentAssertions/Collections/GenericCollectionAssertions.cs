@@ -498,7 +498,7 @@ namespace FluentAssertions.Collections
                     propertyExpression.GetMemberPath());
         }
 
-        private IOrderedEnumerable<T> ConvertToOrderedEnumerable<TSelector>(
+        private static IOrderedEnumerable<T> ConvertToOrderedEnumerable<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression,
             IComparer<TSelector> comparer,
             SortOrder direction,
@@ -513,7 +513,7 @@ namespace FluentAssertions.Collections
             return expectation;
         }
 
-        private string GetExpressionOrderString<TSelector>(Expression<Func<T, TSelector>> propertyExpression)
+        private static string GetExpressionOrderString<TSelector>(Expression<Func<T, TSelector>> propertyExpression)
         {
             string orderString = propertyExpression.GetMemberPath().ToString();
 

@@ -8,11 +8,13 @@ namespace FluentAssertions.Specialized
 {
     public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
     {
-        public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
+        public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
+            : this(subject, extractor, new Clock())
         {
         }
 
-        public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
+        public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock)
+            : base(subject, extractor, clock)
         {
         }
 
@@ -217,9 +219,9 @@ namespace FluentAssertions.Specialized
 
             Func<Task<TResult>> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
 
-            return assertionTask();
+            return AssertionTaskAsync();
 
-            async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> assertionTask()
+            async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;

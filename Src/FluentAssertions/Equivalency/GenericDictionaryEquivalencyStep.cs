@@ -9,11 +9,13 @@ namespace FluentAssertions.Equivalency
 {
     public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
+#pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
         private static readonly MethodInfo AssertSameLengthMethod = new Func<IDictionary<object, object>, IDictionary<object, object>, bool>
             (AssertSameLength).GetMethodInfo().GetGenericMethodDefinition();
 
         private static readonly MethodInfo AssertDictionaryEquivalenceMethod = new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions, IDictionary<object, object>, IDictionary<object, object>>
             (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
+#pragma warning restore SA1110
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
@@ -166,6 +168,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
             where TExpectedKey : TSubjectKey
+
             // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
             // but it is valid. This constraint is implicitly enforced by the
             // AssertIsCompatiblyTypedDictionary method which is called before

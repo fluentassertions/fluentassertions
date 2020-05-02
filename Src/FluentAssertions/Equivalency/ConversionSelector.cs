@@ -15,6 +15,7 @@ namespace FluentAssertions.Equivalency
         private class ConversionSelectorRule
         {
             public Func<IMemberInfo, bool> Predicate { get; }
+
             public string Description { get; }
 
             public ConversionSelectorRule(Func<IMemberInfo, bool> predicate, string description)

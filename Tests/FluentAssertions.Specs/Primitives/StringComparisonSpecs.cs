@@ -6,10 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Primitives
 {
-    // Due to CulturedTheory changing CultureInfo
-    [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
-    public class StringComparisonDefinition { }
-
     [Collection(nameof(StringComparisonSpecs))]
     public class StringComparisonSpecs
     {
@@ -19,7 +15,9 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             bool ordinal = string.Equals(subject, expected, StringComparison.OrdinalIgnoreCase);
+#pragma warning disable CA1309 // Verifies that test data behaves differently in current vs invariant culture
             bool currentCulture = string.Equals(subject, expected, StringComparison.CurrentCultureIgnoreCase);
+#pragma warning restore CA1309
 
             // Assert
             ordinal.Should().Be(!currentCulture, "Turkish distinguishes between a dotted and a non-dotted 'i'");
@@ -31,7 +29,9 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             bool ordinal = string.Equals(subject, expected, StringComparison.Ordinal);
+#pragma warning disable CA1309 // Verifies that test data behaves differently in current vs invariant culture
             bool currentCulture = string.Equals(subject, expected, StringComparison.CurrentCulture);
+#pragma warning restore CA1309
 
             // Assert
             ordinal.Should().Be(!currentCulture,
@@ -280,4 +280,8 @@ namespace FluentAssertions.Specs.Primitives
             }
         }
     }
+
+    // Due to CulturedTheory changing CultureInfo
+    [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
+    public class StringComparisonDefinition { }
 }

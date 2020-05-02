@@ -36,7 +36,6 @@ namespace FluentAssertions.Specs
                     "Expected*SameInstanceIsNotEqualClass*because they have the same property values, but found*SameInstanceIsNotEqualClass*.");
         }
 
-
         [Fact]
         public void When_two_instances_are_not_equal_it_should_throw()
         {
@@ -404,6 +403,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().NotBeRankedEquallyTo(other, "they represent different concepts");
+
             // Assert
             act
                 .Should().Throw<XunitException>()
@@ -630,10 +630,12 @@ namespace FluentAssertions.Specs
         public SameInstanceIsNotEqualClass()
         {
         }
+
         public override bool Equals(object obj)
         {
             return false;
         }
+
         public override int GetHashCode()
         {
             return 1;
@@ -643,6 +645,7 @@ namespace FluentAssertions.Specs
     public class EquatableOfInt
     {
         public int Value { get; set; }
+
         public EquatableOfInt(int value)
         {
             Value = value;
@@ -652,10 +655,12 @@ namespace FluentAssertions.Specs
         {
             return Value == ((EquatableOfInt)obj).Value;
         }
+
         public override int GetHashCode()
         {
             return Value.GetHashCode();
         }
+
         public override string ToString()
         {
             return Value.ToString();

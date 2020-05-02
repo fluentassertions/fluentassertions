@@ -5,10 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    // Due to tests that call Configuration.Current
-    [CollectionDefinition("ConfigurationSpecs", DisableParallelization = true)]
-    public class ConfigurationSpecsDefinition { }
-
     [Collection("ConfigurationSpecs")]
     public class ConfigurationSpecs
     {
@@ -23,7 +19,7 @@ namespace FluentAssertions.Specs
                 {
                     MaxDegreeOfParallelism = 8
                 },
-                e =>
+                _ =>
                 {
                     Configuration.Current.ValueFormatterAssembly = string.Empty;
                     var mode = Configuration.Current.ValueFormatterDetectionMode;
@@ -34,4 +30,8 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
     }
+
+    // Due to tests that call Configuration.Current
+    [CollectionDefinition("ConfigurationSpecs", DisableParallelization = true)]
+    public class ConfigurationSpecsDefinition { }
 }

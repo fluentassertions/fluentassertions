@@ -12,7 +12,10 @@
 
         private sealed class AtMostTimesConstraint : OccurrenceConstraint
         {
-            internal AtMostTimesConstraint(int expectedCount) : base(expectedCount) { }
+            internal AtMostTimesConstraint(int expectedCount)
+                : base(expectedCount)
+            {
+            }
 
             internal override string Mode => "at most";
 

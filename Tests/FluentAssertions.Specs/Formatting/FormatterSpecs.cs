@@ -11,10 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    // Due to the tests that call Configuration.Current
-    [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-    public class FormatterSpecsDefinition { }
-
     [Collection("FormatterSpecs")]
     public class FormatterSpecs
     {
@@ -59,6 +55,7 @@ namespace FluentAssertions.Specs
         private class B
         {
             public A X { get; set; }
+
             public A Y { get; set; }
         }
 
@@ -165,13 +162,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "Stuff_2",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 }
             };
 
@@ -181,13 +178,13 @@ namespace FluentAssertions.Specs
                 {
                     StuffId = 1,
                     Description = "Stuff_1",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 },
                 new Stuff<int>
                 {
                     StuffId = 2,
                     Description = "WRONG_DESCRIPTION",
-                    Children = new List<int> {1, 2, 3, 4}
+                    Children = new List<int> { 1, 2, 3, 4 }
                 }
             };
 
@@ -525,13 +522,13 @@ namespace FluentAssertions.Specs
         public void When_formatting_a_pending_task_it_should_return_the_task_status()
         {
             // Arrange
-            Task<int> bar = Task.Delay(100000).ContinueWith(_ => 42);
+            Task<int> bar = new TaskCompletionSource<int>().Task;
 
             // Act
             string result = Formatter.ToString(bar);
 
             // Assert
-            result.Should().Be("System.Threading.Tasks.ContinuationResultTaskFromTask`1[System.Int32] {Status=WaitingForActivation}");
+            result.Should().Be("System.Threading.Tasks.Task`1[System.Int32] {Status=WaitingForActivation}");
         }
 
         [Fact]
@@ -550,17 +547,20 @@ namespace FluentAssertions.Specs
         public class BaseStuff
         {
             public int StuffId { get; set; }
+
             public string Description { get; set; }
         }
 
         public class StuffWithAField
         {
             public int StuffId { get; set; }
+
             public string Description { get; set; }
+
             public string Field;
-#pragma warning disable 169
+#pragma warning disable 169, IDE0044, CA1823
             private string privateField;
-#pragma warning restore 169
+#pragma warning restore CA1823, IDE0044, 169
         }
 
         public class Stuff<TChild> : BaseStuff
@@ -670,7 +670,7 @@ namespace FluentAssertions.Specs
             }
 
             [ValueFormatter]
-            public static string Foo(SomeOtherClassWithCustomFormatter value)
+            public static string Foo(SomeOtherClassWithCustomFormatter _)
             {
                 throw new XunitException("Should never be called");
             }
@@ -698,6 +698,7 @@ namespace FluentAssertions.Specs
         private class CustomClass
         {
             public int IntProperty { get; set; }
+
             public string StringProperty { get; set; }
         }
 
@@ -719,8 +720,8 @@ namespace FluentAssertions.Specs
             // Arrange
             var values = new CustomClass[]
             {
-                new CustomClass{ IntProperty = 1 },
-                new CustomClass{ IntProperty = 2 }
+                new CustomClass { IntProperty = 1 },
+                new CustomClass { IntProperty = 2 }
             };
 
             var formatter = new SingleItemValueFormatter();
@@ -758,6 +759,10 @@ namespace FluentAssertions.Specs
             public void Dispose() => Formatter.RemoveFormatter(formatter);
         }
     }
+
+    // Due to the tests that call Configuration.Current
+    [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
+    public class FormatterSpecsDefinition { }
 
     internal class ExceptionThrowingClass
     {
