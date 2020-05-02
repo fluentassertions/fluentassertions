@@ -162,6 +162,8 @@ dotnet_diagnostic.IDE0055.severity = error
 dotnet_diagnostic.CS1574.severity = error
 
 # StyleCop
+# SA1028: Code should not contain trailing whitespace
+dotnet_diagnostic.SA1028.severity = suggestion
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
 # SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
@@ -221,6 +223,8 @@ dotnet_diagnostic.AV1561.max_parameter_count = 5
 dotnet_diagnostic.AV1008.severity = none
 # AV1010: Type hides inherited member
 dotnet_diagnostic.AV1010.severity = none
+# AV1115: Member or local function contains the word 'and', which suggests doing multiple things
+dotnet_diagnostic.AV1115.severity = suggestion
 # AV1130: Return type in signature for Type should be a collection interface instead of a concrete type
 dotnet_diagnostic.AV1130.severity = none
 # AV1135: null is returned from method which has return type of string, collection or task
