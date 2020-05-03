@@ -12,7 +12,7 @@ namespace FluentAssertions.Common
             {
                 IDictionary<TKey, TValue> dictionary => dictionary.Keys,
                 IReadOnlyDictionary<TKey, TValue> readOnlyDictionary => readOnlyDictionary.Keys,
-                _ => collection.Select(kvp => kvp.Key),
+                _ => collection.Select(kvp => kvp.Key).ToList(),
             };
         }
 
@@ -23,7 +23,7 @@ namespace FluentAssertions.Common
             {
                 IDictionary<TKey, TValue> dictionary => dictionary.Values,
                 IReadOnlyDictionary<TKey, TValue> readOnlyDictionary => readOnlyDictionary.Values,
-                _ => collection.Select(kvp => kvp.Value),
+                _ => collection.Select(kvp => kvp.Value).ToList(),
             };
         }
 
