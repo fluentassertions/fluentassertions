@@ -37,22 +37,17 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        /// <remarks>
-        /// You must call <see cref="AssertionExtensions.Monitor"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public IEventRecorder Raise(string eventName, string because = "", params object[] becauseArgs)
+        public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
         {
-            IEventRecorder eventRecorder = monitor.GetEventRecorder(eventName);
-
-            if (!eventRecorder.Any())
+            IEventRecording recording = monitor.GetRecordingFor(eventName);
+            if (!recording.Any())
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", monitor.Subject, eventName);
             }
 
-            return eventRecorder;
+            return recording;
         }
 
         /// <summary>
@@ -68,14 +63,10 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        /// <remarks>
-        /// You must call <see cref="AssertionExtensions.Monitor"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
         {
-            IEventRecorder eventRecorder = monitor.GetEventRecorder(eventName);
-            if (eventRecorder.Any())
+            IEventRecording events = monitor.GetRecordingFor(eventName);
+            if (events.Any())
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -97,17 +88,13 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        /// <remarks>
-        /// You must call <see cref="AssertionExtensions.Monitor"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public IEventRecorder RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
+        public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
             string because = "", params object[] becauseArgs)
         {
-            IEventRecorder eventRecorder = monitor.GetEventRecorder(PropertyChangedEventName);
+            IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
             string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
-            if (!eventRecorder.Any())
+            if (!recording.Any())
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -115,7 +102,7 @@ namespace FluentAssertions.Events
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
 
-            return eventRecorder.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
+            return recording.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
         }
 
         /// <summary>
@@ -131,18 +118,14 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        /// <remarks>
-        /// You must call <see cref="AssertionExtensions.Monitor"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
         public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
             string because = "", params object[] becauseArgs)
         {
-            IEventRecorder eventRecorder = monitor.GetEventRecorder(PropertyChangedEventName);
+            IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
 
             string propertyName = propertyExpression.GetPropertyInfo().Name;
 
-            if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
+            if (recording.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -151,7 +134,7 @@ namespace FluentAssertions.Events
             }
         }
 
-        private static string GetAffectedPropertyName(RecordedEvent @event)
+        private static string GetAffectedPropertyName(OccurredEvent @event)
         {
             return @event.Parameters.OfType<PropertyChangedEventArgs>().Single().PropertyName;
         }

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Events
 {
@@ -12,12 +12,11 @@ namespace FluentAssertions.Events
     /// Records activity for a single event.
     /// </summary>
     [DebuggerNonUserCode]
-    public sealed class EventRecorder : IEventRecorder
+    internal sealed class EventRecorder : IEventRecording, IDisposable
     {
         private readonly Func<DateTime> utcNow;
         private readonly BlockingCollection<RecordedEvent> raisedEvents = new BlockingCollection<RecordedEvent>();
         private readonly object lockable = new object();
-        private WeakReference eventObject;
         private Action cleanup;
 
         /// <summary>
@@ -36,11 +35,7 @@ namespace FluentAssertions.Events
         /// <summary>
         /// The object events are recorded from
         /// </summary>
-        public object EventObject
-        {
-            get => eventObject?.Target;
-            private set => eventObject = new WeakReference(value);
-        }
+        public object EventObject { get; private set; }
 
         /// <inheritdoc />
         public string EventName { get; }
@@ -69,42 +64,20 @@ namespace FluentAssertions.Events
             {
                 cleanup?.Invoke();
                 cleanup = null;
-                eventObject = null;
-            }
-
-            raisedEvents.Dispose();
-        }
-
-        /// <summary>
-        /// Enumerate raised events
-        /// </summary>
-        public IEnumerator<RecordedEvent> GetEnumerator()
-        {
-            lock (lockable)
-            {
-                return raisedEvents.ToList().GetEnumerator();
-            }
-        }
-
-        /// <summary>
-        /// Enumerate raised events
-        /// </summary>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            lock (lockable)
-            {
-                return raisedEvents.ToList().GetEnumerator();
+                EventObject = null;
+                raisedEvents.Dispose();
             }
         }
 
         /// <summary>
         /// Called by the auto-generated IL, to record information about a raised event.
         /// </summary>
+        [UsedImplicitly]
         public void RecordEvent(params object[] parameters)
         {
             lock (lockable)
             {
-                raisedEvents.Add(new RecordedEvent(utcNow(), EventObject, parameters));
+                raisedEvents.Add(new RecordedEvent(utcNow(), parameters));
             }
         }
 
@@ -119,6 +92,21 @@ namespace FluentAssertions.Events
                 {
                     raisedEvents.TryTake(out _);
                 }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerator<OccurredEvent> GetEnumerator()
+        {
+            foreach (RecordedEvent @event in raisedEvents.ToArray())
+            {
+                yield return new OccurredEvent
+                {
+                    EventName = EventName,
+                    Parameters = @event.Parameters,
+                    TimestampUtc = @event.TimestampUtc
+                };
             }
         }
     }

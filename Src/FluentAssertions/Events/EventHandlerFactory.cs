@@ -13,7 +13,7 @@ namespace FluentAssertions.Events
         /// Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
         /// when invoked.
         /// </summary>
-        public static Delegate GenerateHandler(Type eventSignature, IEventRecorder recorder)
+        public static Delegate GenerateHandler(Type eventSignature, EventRecorder recorder)
         {
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
@@ -27,7 +27,7 @@ namespace FluentAssertions.Events
                 AppendParameterListThisReference(parameters),
                 module);
 
-            MethodInfo methodToCall = typeof(IEventRecorder).GetMethod("RecordEvent",
+            MethodInfo methodToCall = typeof(EventRecorder).GetMethod(nameof(EventRecorder.RecordEvent),
                 BindingFlags.Instance | BindingFlags.Public);
 
             ILGenerator ilGen = eventHandler.GetILGenerator();
@@ -108,8 +108,7 @@ namespace FluentAssertions.Events
         private static Type[] AppendParameterListThisReference(Type[] parameters)
         {
             var newList = new Type[parameters.Length + 1];
-
-            newList[0] = typeof(IEventRecorder);
+            newList[0] = typeof(EventRecorder);
 
             for (var index = 0; index < parameters.Length; index++)
             {

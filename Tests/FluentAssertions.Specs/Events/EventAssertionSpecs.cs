@@ -1,17 +1,18 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-#if NET47
+﻿#if NET47
 using System.Reflection;
 using System.Reflection.Emit;
 #endif
+
+using System;
+using System.ComponentModel;
+using System.Linq;
 using FluentAssertions.Events;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Events
 {
     [Collection("EventMonitoring")]
     public class EventAssertionSpecs
@@ -125,7 +126,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"Expected sender {Formatter.ToString(subject)}, but found <null>.");
+                .WithMessage($"Expected sender {Formatter.ToString(subject)}, but found {{<null>}}.");
         }
 
         [Fact]
@@ -288,6 +289,23 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_predicate_based_parameter_assertion_expects_more_parameters_then_an_event_has_it_should_throw()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+            // Act
+            Action act = () => monitor
+                .Should().Raise(nameof(EventRaisingClass.NonConventionalEvent))
+                .WithArgs<string>(null, null, null, args => args == "fourth argument");
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithMessage("*4 parameters*String*, but*2*");
+        }
+
+        [Fact]
         public void When_a_non_conventional_event_with_a_specific_argument_was_not_raised_it_should_throw()
         {
             // Arrange
@@ -324,6 +342,73 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected at least one event with arguments matching \"(args == \"" + wrongArgument +
                 "\")\", but found none.");
+        }
+
+        [Fact]
+        public void When_a_specific_event_is_expected_it_should_return_only_relevant_events()
+        {
+            // Arrange
+            var observable = new EventRaisingClass();
+            using var monitor = observable.Monitor();
+
+            // Act
+            observable.RaiseEventWithSpecificSender("Foo");
+            observable.RaiseEventWithSpecificSender("Bar");
+            observable.RaiseNonConventionalEvent("don't care", 123, "don't care");
+
+            // Assert
+            var recording = monitor
+                .Should()
+                .Raise(nameof(observable.PropertyChanged));
+
+            recording.EventName.Should().Be(nameof(observable.PropertyChanged));
+            recording.EventObject.Should().BeSameAs(observable);
+            recording.EventHandlerType.Should().Be(typeof(PropertyChangedEventHandler));
+            recording.Should().HaveCount(2, "because only two property changed events were raised");
+        }
+
+        [Fact]
+        public void When_a_specific_sender_is_expected_it_should_return_only_relevant_events()
+        {
+            // Arrange
+            var observable = new EventRaisingClass();
+            using var monitor = observable.Monitor();
+
+            // Act
+            observable.RaiseEventWithSpecificSender(observable);
+            observable.RaiseEventWithSpecificSender(new object());
+
+            // Assert
+            var recording = monitor
+                .Should()
+                .Raise(nameof(observable.PropertyChanged))
+                .WithSender(observable);
+
+            recording.Should().ContainSingle().Which.Parameters.First().Should().BeSameAs(observable);
+        }
+
+        [Fact]
+        public void When_constraints_are_specified_it_should_filter_the_events_based_on_those_constraints()
+        {
+            // Arrange
+            var observable = new EventRaisingClass();
+            using var monitor = observable.Monitor();
+
+            // Act
+            observable.RaiseEventWithSenderAndPropertyName("Foo");
+            observable.RaiseEventWithSenderAndPropertyName("Boo");
+
+            // Assert
+            var recording = monitor
+                .Should()
+                .Raise(nameof(observable.PropertyChanged))
+                .WithSender(observable)
+                .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "Boo");
+
+            recording
+                .Should().ContainSingle("because we were expecting a specific property change")
+                .Which.Parameters.Last().Should().BeOfType<PropertyChangedEventArgs>()
+                .Which.PropertyName.Should().Be("Boo");
         }
 
         #endregion
@@ -556,7 +641,6 @@ namespace FluentAssertions.Specs
         }
 
 #if NET47 // DefineDynamicAssembly is obsolete in .NET Core
-
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()
         {
@@ -578,7 +662,7 @@ namespace FluentAssertions.Specs
             using var eventMonitor = eventSource.Monitor();
 
             // Act
-            Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
+            Action action = () => eventMonitor.GetRecordingFor("SomeEvent");
 
             // Assert
             action.Should().Throw<InvalidOperationException>()
@@ -629,7 +713,7 @@ namespace FluentAssertions.Specs
             using var eventMonitor = eventSource.Monitor<IEventRaisingInterface>();
 
             // Act
-            Action action = () => eventMonitor.GetEventRecorder("PropertyChanged");
+            Action action = () => eventMonitor.GetRecordingFor("PropertyChanged");
 
             // Assert
             action.Should().Throw<InvalidOperationException>()
@@ -640,7 +724,7 @@ namespace FluentAssertions.Specs
         public void When_an_object_raises_two_events_it_should_provide_the_data_about_those_occurrences()
         {
             // Arrange
-            DateTime utcNow = 17.September(2017).At(21, 00);
+            DateTime utcNow = 17.September(2017).At(21, 00).AsUtc();
 
             var eventSource = new EventRaisingClass();
             using var monitor = eventSource.Monitor(() => utcNow);
@@ -725,7 +809,9 @@ namespace FluentAssertions.Specs
             event EventHandler Interface2Event;
         }
 
-        public interface IInheritsEventRaisingInterface : IEventRaisingInterface { }
+        public interface IInheritsEventRaisingInterface : IEventRaisingInterface
+        {
+        }
 
         public class EventRaisingClass : INotifyPropertyChanged
         {
@@ -752,6 +838,11 @@ namespace FluentAssertions.Specs
             public void RaiseEventWithSender()
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
+            }
+
+            public void RaiseEventWithSpecificSender(object sender)
+            {
+                PropertyChanged(sender, new PropertyChangedEventArgs(""));
             }
 
             public void RaiseEventWithSenderAndPropertyName(string propertyName)
