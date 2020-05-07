@@ -15,6 +15,8 @@ namespace FluentAssertions.Specs
 {
     public class AssertionScopeSpecs
     {
+        #region Lifecycle Management
+
         [Fact]
         public void When_disposed_it_should_throw_any_failures()
         {
@@ -167,6 +169,130 @@ namespace FluentAssertions.Specs
                 exception.Message.Should().NotContain("Failure3");
             }
         }
+
+        [Fact]
+        public async Task When_using_AssertionScope_across_thread_boundaries_it_should_work()
+        {
+            using var semaphore = new SemaphoreSlim(0, 1);
+            await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
+        }
+
+        private static async Task SemaphoreYieldAndWait(SemaphoreSlim semaphore)
+        {
+            await Task.Yield();
+            var scope = new AssertionScope();
+            await semaphore.WaitAsync();
+            scope.Should().BeSameAs(AssertionScope.Current);
+        }
+
+        private static async Task SemaphoreYieldAndRelease(SemaphoreSlim semaphore)
+        {
+            await Task.Yield();
+            var scope = new AssertionScope();
+            semaphore.Release();
+            scope.Should().BeSameAs(AssertionScope.Current);
+        }
+
+        [Fact]
+        public void When_custom_strategy_used_respect_its_behavior()
+        {
+            // Arrange
+            var scope = new AssertionScope(new FailWithStupidMessageAssertionStrategy());
+
+            // Act
+            Action act = () => scope.FailWith("Failure 1");
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("Good luck with understanding what's going on!");
+        }
+
+        [Fact]
+        public void When_custom_strategy_is_null_it_should_throw()
+        {
+            // Arrange
+            IAssertionStrategy strategy = null;
+
+            // Arrange / Act
+            Func<AssertionScope> act = () => new AssertionScope(strategy);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("assertionStrategy");
+        }
+
+        [Fact]
+        public void When_using_a_custom_strategy_it_should_include_failure_messages_of_all_failing_assertions()
+        {
+            // Arrange
+            var scope = new AssertionScope(new CustomAssertionStrategy());
+            false.Should().BeTrue();
+            true.Should().BeFalse();
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*but found false*but found true*");
+        }
+
+        public class CustomAssertionStrategy : IAssertionStrategy
+        {
+            private readonly List<string> failureMessages = new List<string>();
+
+            public IEnumerable<string> FailureMessages => failureMessages;
+
+            public IEnumerable<string> DiscardFailures()
+            {
+                var discardedFailures = failureMessages.ToArray();
+                failureMessages.Clear();
+                return discardedFailures;
+            }
+
+            public void ThrowIfAny(IDictionary<string, object> context)
+            {
+                if (failureMessages.Any())
+                {
+                    var builder = new StringBuilder();
+                    builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
+
+                    if (context.Any())
+                    {
+                        foreach (KeyValuePair<string, object> pair in context)
+                        {
+                            builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                        }
+                    }
+
+                    Services.ThrowException(builder.ToString());
+                }
+            }
+
+            public void HandleFailure(string message)
+            {
+                failureMessages.Add(message);
+            }
+        }
+
+        internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
+        {
+            public IEnumerable<string> FailureMessages => new string[0];
+
+            public void HandleFailure(string message) =>
+                Services.ThrowException("Good luck with understanding what's going on!");
+
+            public IEnumerable<string> DiscardFailures() => new string[0];
+
+            public void ThrowIfAny(IDictionary<string, object> context)
+            {
+                // do nothing
+            }
+        }
+
+        #endregion
+
+        #region Message Formatting
 
         [Fact]
         public void When_the_same_failure_is_handled_twice_or_more_it_should_still_report_it_once()
@@ -515,125 +641,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("*SomeValue*AnotherValue*");
         }
 
-        [Fact]
-        public async Task When_using_AssertionScope_across_thread_boundaries_it_should_work()
-        {
-            using var semaphore = new SemaphoreSlim(0, 1);
-            await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
-        }
-
-        private static async Task SemaphoreYieldAndWait(SemaphoreSlim semaphore)
-        {
-            await Task.Yield();
-            var scope = new AssertionScope();
-            await semaphore.WaitAsync();
-            scope.Should().BeSameAs(AssertionScope.Current);
-        }
-
-        private static async Task SemaphoreYieldAndRelease(SemaphoreSlim semaphore)
-        {
-            await Task.Yield();
-            var scope = new AssertionScope();
-            semaphore.Release();
-            scope.Should().BeSameAs(AssertionScope.Current);
-        }
-
-        [Fact]
-        public void When_custom_strategy_used_respect_its_behavior()
-        {
-            // Arrange
-            var scope = new AssertionScope(new FailWithStupidMessageAssertionStrategy());
-
-            // Act
-            Action act = () => scope.FailWith("Failure 1");
-
-            // Assert
-            act.Should().ThrowExactly<XunitException>()
-                .WithMessage("Good luck with understanding what's going on!");
-        }
-
-        [Fact]
-        public void When_custom_strategy_is_null_it_should_throw()
-        {
-            // Arrange
-            IAssertionStrategy strategy = null;
-
-            // Arrange / Act
-            Func<AssertionScope> act = () => new AssertionScope(strategy);
-
-            // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("assertionStrategy");
-        }
-
-        [Fact]
-        public void When_using_a_custom_strategy_it_should_include_failure_messages_of_all_failing_assertions()
-        {
-            // Arrange
-            var scope = new AssertionScope(new CustomAssertionStrategy());
-            false.Should().BeTrue();
-            true.Should().BeFalse();
-
-            // Act
-            Action act = scope.Dispose;
-
-            // Assert
-            act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*but found false*but found true*");
-        }
-
-        public class CustomAssertionStrategy : IAssertionStrategy
-        {
-            private readonly List<string> failureMessages = new List<string>();
-
-            public IEnumerable<string> FailureMessages => failureMessages;
-
-            public IEnumerable<string> DiscardFailures()
-            {
-                var discardedFailures = failureMessages.ToArray();
-                failureMessages.Clear();
-                return discardedFailures;
-            }
-
-            public void ThrowIfAny(IDictionary<string, object> context)
-            {
-                if (failureMessages.Any())
-                {
-                    var builder = new StringBuilder();
-                    builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
-
-                    if (context.Any())
-                    {
-                        foreach (KeyValuePair<string, object> pair in context)
-                        {
-                            builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
-                        }
-                    }
-
-                    Services.ThrowException(builder.ToString());
-                }
-            }
-
-            public void HandleFailure(string message)
-            {
-                failureMessages.Add(message);
-            }
-        }
-
-        internal class FailWithStupidMessageAssertionStrategy : IAssertionStrategy
-        {
-            public IEnumerable<string> FailureMessages => new string[0];
-
-            public void HandleFailure(string message) =>
-                Services.ThrowException("Good luck with understanding what's going on!");
-
-            public IEnumerable<string> DiscardFailures() => new string[0];
-
-            public void ThrowIfAny(IDictionary<string, object> context)
-            {
-                // do nothing
-            }
-        }
+        #endregion
     }
 }
 
