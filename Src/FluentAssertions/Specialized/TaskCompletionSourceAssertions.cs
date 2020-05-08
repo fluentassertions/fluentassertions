@@ -57,13 +57,9 @@ namespace FluentAssertions.Specialized
                 .FailWith(failMessage1, failArgs);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
-            Task completedTask;
-            using (NoSynchronizationContextScope.Enter())
-            {
-                completedTask = await Task.WhenAny(
-                    subject.Task,
-                    Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
-            }
+            Task completedTask = await Task.WhenAny(
+                subject.Task,
+                Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
 
             if (completedTask == subject.Task)
             {

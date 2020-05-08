@@ -84,7 +84,7 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
-            TTask task = Subject.ExecuteInDefaultSynchronizationContext();
+            TTask task = Subject.Invoke();
 
             Task completedTask =
                 await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
@@ -130,7 +130,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
+            Exception exception = await InvokeWithInterceptionAsync(Subject.Invoke);
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -161,7 +161,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
+            Exception exception = await InvokeWithInterceptionAsync(Subject.Invoke);
             return Throw<TException>(exception, because, becauseArgs);
         }
 
@@ -184,7 +184,7 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                await Subject.ExecuteInDefaultSynchronizationContext();
+                await Subject();
             }
             catch (Exception exception)
             {
@@ -265,7 +265,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            Func<Task> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
+            Func<Task> wrappedSubject = Subject.Invoke;
 
             return AssertionTaskAsync();
 

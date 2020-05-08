@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -146,6 +147,25 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>();
+        }
+
+        [UIFact]
+        public async Task When_task_is_checking_synchronization_context_on_UI_thread_it_should_succeed()
+        {
+            // Arrange
+            Func<Task> task = CheckContextAsync;
+
+            // Act
+            Func<Task> action = () => this.Awaiting(x => task()).Should().CompleteWithinAsync(1.Seconds());
+
+            // Assert
+            await action.Should().NotThrowAsync();
+
+            async Task CheckContextAsync()
+            {
+                await Task.Delay(1);
+                SynchronizationContext.Current.Should().NotBeNull();
+            }
         }
     }
 }

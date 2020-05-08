@@ -73,7 +73,7 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
-            Task<TResult> task = Subject.ExecuteInDefaultSynchronizationContext();
+            Task<TResult> task = Subject.Invoke();
 
             Task completedTask =
                 await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
@@ -166,7 +166,7 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                TResult result = await Subject.ExecuteInDefaultSynchronizationContext();
+                TResult result = await Subject.Invoke();
                 return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
             }
             catch (Exception exception)
@@ -217,7 +217,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            Func<Task<TResult>> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
+            Func<Task<TResult>> wrappedSubject = Subject.Invoke;
 
             return AssertionTaskAsync();
 
