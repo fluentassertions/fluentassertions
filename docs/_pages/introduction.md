@@ -6,6 +6,7 @@ classes: wide
 redirect_from:
   - /examples
   - /documentation
+  - /documentation/
   - /documentation.html
 sidebar:
   nav: "sidebar"
