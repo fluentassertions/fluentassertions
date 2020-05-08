@@ -102,8 +102,39 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [UIFact]
+        public void When_task_completes_on_UI_thread_fast_async_it_should_succeed()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            taskFactory.SetResult(true);
+            timer.Complete();
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
         [Fact]
         public void When_task_completes_slow_async_it_should_fail()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            timer.Complete();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [UIFact]
+        public void When_task_completes_on_UI_thread_slow_async_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();

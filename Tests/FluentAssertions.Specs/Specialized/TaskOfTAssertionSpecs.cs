@@ -218,12 +218,52 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [UIFact]
+        public void When_task_does_not_throw_async_on_UI_thread_it_should_succeed()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
+            {
+                Func<Task<int>> func = () => taskFactory.Task;
+
+                (await func.Should(timer).NotThrowAsync())
+                    .Which.Should().Be(42);
+            };
+
+            taskFactory.SetResult(42);
+            timer.Complete();
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
         [Fact]
         public void When_task_throws_async_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
-            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                Func<Task<int>> func = () => throw new AggregateException();
+
+                return func.Should(timer).NotThrowAsync();
+            };
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [UIFact]
+        public void When_task_throws_async_on_UI_thread_it_should_fail()
+        {
+            // Arrange
+            var timer = new FakeClock();
 
             // Act
             Func<Task> action = () =>
@@ -499,8 +539,72 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
+        [UIFact]
+        public void When_no_exception_should_be_thrown_async_on_UI_thread_after_wait_time_but_it_was_it_should_throw()
+        {
+            // Arrange
+            var waitTime = 2.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.CompleteAfter(waitTime);
+
+            Func<Task<int>> throwLongerThanWaitTime = async () =>
+            {
+                if (timer.Elapsed <= waitTime.Multiply(1.5))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Yield();
+                return 42;
+            };
+
+            // Act
+            Func<Task> action = () => throwLongerThanWaitTime.Should(clock)
+                .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
+        }
+
         [Fact]
         public void When_no_exception_should_be_thrown_async_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 6.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.Delay(waitTime);
+
+            Func<Task<int>> throwShorterThanWaitTime = async () =>
+            {
+                if (timer.Elapsed <= waitTime.Divide(12))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Yield();
+                return 42;
+            };
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                (await throwShorterThanWaitTime.Should(clock).NotThrowAfterAsync(waitTime, pollInterval))
+                    .Which.Should().Be(42);
+            };
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [UIFact]
+        public void When_no_exception_should_be_thrown_async_on_UI_thread_after_wait_time_and_none_was_it_should_not_throw()
         {
             // Arrange
             var waitTime = 6.Seconds();
