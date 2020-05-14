@@ -25,7 +25,8 @@ namespace FluentAssertions.Equivalency
                 .ForCondition(context.Subject is T)
                 .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), context.Subject)
                 .Then
-                .ForCondition(comparer.Equals((T)context.Subject, (T)context.Expectation))
+                .Given(() => comparer.Equals((T)context.Subject, (T)context.Expectation))
+                .ForCondition(isEqual => isEqual)
                 .FailWith("Expected {context:object} to be equal to {1} according to {0}{because}, but {2} was not.",
                     comparer.ToString(), context.Expectation, context.Subject);
 
