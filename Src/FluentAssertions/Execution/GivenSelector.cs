@@ -10,20 +10,16 @@ namespace FluentAssertions.Execution
     /// </summary>
     public class GivenSelector<T>
     {
-        #region Private Definitions
-
-        private readonly T subject;
-        private readonly bool predecessorSucceeded;
         private readonly AssertionScope predecessor;
+        private readonly bool continueAsserting;
+        private readonly T subject;
 
-        #endregion
-
-        public GivenSelector(Func<T> selector, bool predecessorSucceeded, AssertionScope predecessor)
+        internal GivenSelector(Func<T> selector, AssertionScope predecessor, bool continueAsserting)
         {
-            this.predecessorSucceeded = predecessorSucceeded;
             this.predecessor = predecessor;
+            this.continueAsserting = continueAsserting;
 
-            subject = predecessorSucceeded ? selector() : default;
+            subject = continueAsserting ? selector() : default;
         }
 
         /// <summary>
@@ -40,7 +36,10 @@ namespace FluentAssertions.Execution
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            predecessor.ForCondition(predicate(subject));
+            if (continueAsserting)
+            {
+                predecessor.ForCondition(predicate(subject));
+            }
 
             return this;
         }
@@ -59,7 +58,7 @@ namespace FluentAssertions.Execution
         {
             Guard.ThrowIfArgumentIsNull(selector, nameof(selector));
 
-            return new GivenSelector<TOut>(() => selector(subject), predecessorSucceeded, predecessor);
+            return new GivenSelector<TOut>(() => selector(subject), predecessor, continueAsserting);
         }
 
         /// <summary>
@@ -97,8 +96,13 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params Func<T, object>[] args)
         {
-            object[] mappedArguments = args.Select(a => a(subject)).ToArray();
-            return FailWith(message, mappedArguments);
+            if (continueAsserting)
+            {
+                object[] mappedArguments = args.Select(a => a(subject)).ToArray();
+                return FailWith(message, mappedArguments);
+            }
+
+            return new ContinuationOfGiven<T>(this, succeeded: false);
         }
 
         /// <summary>
@@ -123,15 +127,13 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params object[] args)
         {
-            bool succeeded = predecessorSucceeded;
-
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
-                Continuation continuation = predecessor.FailWith(message, args);
-                succeeded = continuation.SourceSucceeded;
+                bool success = predecessor.FailWith(message, args);
+                return new ContinuationOfGiven<T>(this, success);
             }
 
-            return new ContinuationOfGiven<T>(this, succeeded);
+            return new ContinuationOfGiven<T>(this, succeeded: false);
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace FluentAssertions.Execution
         public ContinuationOfGiven<T> ClearExpectation()
         {
             predecessor.ClearExpectation();
-            return new ContinuationOfGiven<T>(this, predecessorSucceeded);
+            return new ContinuationOfGiven<T>(this, predecessor.Succeeded);
         }
     }
 }

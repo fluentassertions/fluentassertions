@@ -35,8 +35,7 @@ namespace FluentAssertions.Primitives
         {
             return Assertion
                 .ForCondition(Subject.Length >= Expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", Expected, Subject)
-                .SourceSucceeded;
+                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", Expected, Subject);
         }
 
         protected override void ValidateAgainstMismatch()

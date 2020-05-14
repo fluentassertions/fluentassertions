@@ -167,12 +167,13 @@ namespace FluentAssertions.Execution
         {
             expectation = null;
 
-            return new Continuation(this, !succeeded.HasValue || succeeded.Value);
+            // SMELL: Isn't this always going to return null? Or this method also called without FailWidth (which sets the success state to null)
+            return new Continuation(this, Succeeded);
         }
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return new GivenSelector<T>(selector, !succeeded.HasValue || succeeded.Value, this);
+            return new GivenSelector<T>(selector, this, continueAsserting: !succeeded.HasValue || succeeded.Value);
         }
 
         public AssertionScope ForCondition(bool condition)
@@ -202,7 +203,8 @@ namespace FluentAssertions.Execution
         {
             try
             {
-                if (!succeeded.HasValue || !succeeded.Value)
+                bool failed = !succeeded.HasValue || !succeeded.Value;
+                if (failed)
                 {
                     string result = failReasonFunc();
 
@@ -216,7 +218,7 @@ namespace FluentAssertions.Execution
                     succeeded = false;
                 }
 
-                return new Continuation(this, succeeded.Value);
+                return new Continuation(this, continueAsserting: !failed);
             }
             finally
             {
