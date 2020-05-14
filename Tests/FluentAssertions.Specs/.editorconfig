@@ -107,3 +107,6 @@ dotnet_diagnostic.SA1602.severity = none
 dotnet_diagnostic.SA1611.severity = none
 # SA1615: Element return value should be documented
 dotnet_diagnostic.SA1615.severity = none
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = suggestion
