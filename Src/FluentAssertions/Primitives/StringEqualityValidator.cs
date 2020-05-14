@@ -22,8 +22,7 @@ namespace FluentAssertions.Primitives
                 .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", Expected)
                 .Then
                 .ForCondition(!((Subject.Length > Expected.Length) && Subject.TrimEnd().Equals(Expected, comparisonMode)))
-                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", Expected)
-                .SourceSucceeded;
+                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", Expected);
         }
 
         protected override bool ValidateAgainstLengthDifferences()
@@ -38,8 +37,7 @@ namespace FluentAssertions.Primitives
                                         "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
                     return new FailReason(message, Expected, Expected.Length, Subject, Subject.Length);
-                })
-                .SourceSucceeded;
+                });
         }
 
         private string GetMismatchSegmentForStringsOfDifferentLengths()

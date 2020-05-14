@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Specs.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -639,6 +640,98 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<XunitException>()
                 .WithMessage("*SomeValue*AnotherValue*");
+        }
+
+        #endregion
+
+        #region Chaining API
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one()
+        {
+            bool succeeded = false;
+
+            // Act
+            try
+            {
+                Execute.Assertion
+                    .ForCondition(condition: true)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith("Second assertion");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                succeeded = (e is XunitException xUnitException) && xUnitException.Message.Contains("Second");
+            }
+
+            if (!succeeded)
+            {
+                throw new XunitException("Expected the second assertion to fail");
+            }
+        }
+
+        [Fact]
+        public void When_a_given_is_used_before_an_assertion_then_the_result_should_be_available_for_evaluation()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .Given(() => new[] { "a", "b" })
+                .ForCondition(collection => collection.Length > 0)
+                .FailWith("First assertion");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_evaluate_the_succeeding_given_statement()
+        {
+            // Arrange
+            using var _ = new AssertionScope(new IgnoringFailuresAssertionStrategy());
+
+            // Act / Assert
+            Execute.Assertion
+                .ForCondition(false)
+                .FailWith("First assertion")
+                .Then
+                .Given<object>(() => throw new InvalidOperationException());
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure()
+        {
+            // Arrange
+            using var scope = new AssertionScope();
+
+            // Act
+            Execute.Assertion
+                .ForCondition(false)
+                .FailWith("First assertion")
+                .Then
+                .ForCondition(false)
+                .FailWith("Second assertion");
+
+            string[] failures = scope.Discard();
+            scope.Dispose();
+
+            Assert.Single(failures);
+            Assert.Contains("First assertion", failures);
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_evaluate_the_succeeding_given_statement()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .Given<object>(() => throw new InvalidOperationException());
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(act);
         }
 
         #endregion

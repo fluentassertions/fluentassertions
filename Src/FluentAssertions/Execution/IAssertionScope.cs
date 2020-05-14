@@ -99,11 +99,6 @@ namespace FluentAssertions.Execution
         IAssertionScope UsingLineBreaks { get; }
 
         /// <summary>
-        /// Gets a value indicating whether or not the last assertion executed through this scope succeeded.
-        /// </summary>
-        bool Succeeded { get; }
-
-        /// <summary>
         /// Discards and returns the failures that happened up to now.
         /// </summary>
         string[] Discard();

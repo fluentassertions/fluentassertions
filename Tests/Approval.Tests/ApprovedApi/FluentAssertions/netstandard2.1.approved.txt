@@ -999,21 +999,16 @@ namespace FluentAssertions.Execution
     }
     public class Continuation
     {
-        public Continuation(FluentAssertions.Execution.AssertionScope sourceScope, bool sourceSucceeded) { }
-        public bool SourceSucceeded { get; }
         public FluentAssertions.Execution.IAssertionScope Then { get; }
         public static bool op_Implicit(FluentAssertions.Execution.Continuation continuation) { }
     }
     public class ContinuationOfGiven<TSubject>
     {
-        public ContinuationOfGiven(FluentAssertions.Execution.GivenSelector<TSubject> parent, bool succeeded) { }
         public FluentAssertions.Execution.GivenSelector<TSubject> Then { get; }
         public static bool op_Implicit(FluentAssertions.Execution.ContinuationOfGiven<TSubject> continuationOfGiven) { }
     }
     public sealed class ContinuedAssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
     {
-        public ContinuedAssertionScope(FluentAssertions.Execution.AssertionScope predecessor, bool predecessorSucceeded) { }
-        public bool Succeeded { get; }
         public FluentAssertions.Execution.IAssertionScope UsingLineBreaks { get; }
         public FluentAssertions.Execution.IAssertionScope BecauseOf(string because, params object[] becauseArgs) { }
         public FluentAssertions.Execution.Continuation ClearExpectation() { }
@@ -1038,7 +1033,6 @@ namespace FluentAssertions.Execution
     }
     public class GivenSelector<T>
     {
-        public GivenSelector(System.Func<T> selector, bool predecessorSucceeded, FluentAssertions.Execution.AssertionScope predecessor) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> ClearExpectation() { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params System.Func<, >[] args) { }
@@ -1048,7 +1042,6 @@ namespace FluentAssertions.Execution
     }
     public interface IAssertionScope : System.IDisposable
     {
-        bool Succeeded { get; }
         FluentAssertions.Execution.IAssertionScope UsingLineBreaks { get; }
         FluentAssertions.Execution.IAssertionScope BecauseOf(string because, params object[] becauseArgs);
         FluentAssertions.Execution.Continuation ClearExpectation();
