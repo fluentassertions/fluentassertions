@@ -2069,7 +2069,9 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
@@ -2078,7 +2080,9 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeInNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeSealed(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Xml
