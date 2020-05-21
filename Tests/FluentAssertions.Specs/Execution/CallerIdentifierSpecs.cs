@@ -36,6 +36,20 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected actualCaller to be*");
         }
+
+        [Fact]
+        public void When_variable_name_contains_Should_it_should_identify_the_entire_variable_name_as_the_caller()
+        {
+            // Arrange
+            string fooShould = "bar";
+
+            // Act
+            Action act = () => fooShould.Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected fooShould to be <null>*");
+        }
     }
 }
 

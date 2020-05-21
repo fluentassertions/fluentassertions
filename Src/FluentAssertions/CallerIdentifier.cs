@@ -85,10 +85,10 @@ namespace FluentAssertions
 
                 logger(statement);
 
-                int indexOfShould = statement.IndexOf("Should", StringComparison.Ordinal);
+                int indexOfShould = statement.IndexOf(".Should", StringComparison.Ordinal);
                 if (indexOfShould != -1)
                 {
-                    string candidate = statement.Substring(0, indexOfShould - 1);
+                    string candidate = statement.Substring(0, indexOfShould);
 
                     logger(candidate);
 
