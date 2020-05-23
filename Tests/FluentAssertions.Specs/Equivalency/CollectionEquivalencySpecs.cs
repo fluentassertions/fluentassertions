@@ -930,6 +930,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_some_string_subject_items_are_in_different_case_than_expectation_object_it_should_throw()
+        {
+            // Arrange
+            var subject = new[] { "one", "One", "ONE" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one");
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected item[1] to be \"one\", but \"One\" differs near \"One\" (index 0).*" +
+                "Expected item[2] to be \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
+        }
+
+        [Fact]
         public void When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
         {
             // Arrange
