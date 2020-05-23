@@ -851,6 +851,19 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_all_string_subject_items_are_equivalent_to_expectation_object_it_should_succeed()
+        {
+            // Arrange
+            var subject = new List<string> { "one", "one", "one" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one");
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_allow_chaining()
         {
             // Arrange
@@ -875,6 +888,19 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_all_string_subject_items_are_equivalent_to_expectation_object_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new List<string> { "one", "one", "one" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one").And.HaveCount(3);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             // Arrange
@@ -889,6 +915,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_some_string_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
+        {
+            // Arrange
+            var subject = new[] { "one", "two", "six" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one");
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected item[1] to be \"one\", but \"two\" differs near \"two\" (index 0).*" +
+                "Expected item[2] to be \"one\", but \"six\" differs near \"six\" (index 0).*");
+        }
+
+        [Fact]
         public void When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
         {
             // Arrange
@@ -900,6 +941,21 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>().Which
                 .Message.Should().Contain("item[9] to be 1, but found 2")
+                .And.NotContain("item[10]");
+        }
+
+        [Fact]
+        public void When_more_than_10_string_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
+        {
+            // Arrange
+            var subject = Enumerable.Repeat("two", 11);
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one");
+
+            // Assert
+            action.Should().Throw<XunitException>().Which
+                .Message.Should().Contain("item[9] to be \"one\", but \"two\" differs near \"two\" (index 0)")
                 .And.NotContain("item[10]");
         }
 
@@ -920,6 +976,34 @@ namespace FluentAssertions.Specs
                 try
                 {
                     subject.Should().AllBeEquivalentTo(1);
+                }
+                catch
+                {
+                    // ignored, we only care about execution time
+                }
+            };
+
+            // Assert
+            action.ExecutionTime().Should().BeLessThan(1.Seconds());
+        }
+
+        [Fact]
+        public void When_some_string_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
+        {
+            // Arrange
+            const int N = 100000;
+            var subject = new List<string>(N) { "one" };
+            for (int i = 1; i < N; i++)
+            {
+                subject.Add("two");
+            }
+
+            // Act
+            Action action = () =>
+            {
+                try
+                {
+                    subject.Should().AllBeEquivalentTo("one");
                 }
                 catch
                 {
@@ -1555,6 +1639,19 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_string_collection_subject_is_empty_and_expectation_is_object_succeed()
+        {
+            // Arrange
+            var subject = new List<string>();
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one");
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_injecting_a_null_config_to_AllBeEquivalentTo_it_should_throw()
         {
             // Arrange
@@ -1562,6 +1659,20 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo('g', config: null);
+
+            // Assert
+            action.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().Be("config");
+        }
+
+        [Fact]
+        public void When_injecting_a_null_config_to_AllBeEquivalentTo_for_string_collection_it_should_throw()
+        {
+            // Arrange
+            var subject = new List<string>();
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one", config: null);
 
             // Assert
             action.Should().ThrowExactly<ArgumentNullException>()
@@ -1582,6 +1693,19 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_all_string_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_succeed()
+        {
+            // Arrange
+            var subject = new List<string> { "one", "one" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one", opt => opt);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_not_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_fail()
         {
             // Arrange
@@ -1596,6 +1720,20 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_not_all_string_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_fail()
+        {
+            // Arrange
+            var subject = new List<string> { "one", "two" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one", opt => opt, "we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("*we want to test the failure message*");
+        }
+
+        [Fact]
         public void When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_allow_chaining()
         {
             // Arrange
@@ -1603,6 +1741,20 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt)
+                .And.HaveCount(2);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_all_string_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_allow_chaining()
+        {
+            // Arrange
+            var subject = new List<string> { "one", "one" };
+
+            // Act
+            Action action = () => subject.Should().AllBeEquivalentTo("one", opt => opt)
                 .And.HaveCount(2);
 
             // Assert
