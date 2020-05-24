@@ -91,18 +91,31 @@ namespace FluentAssertions.Events
         public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
             string because = "", params object[] becauseArgs)
         {
-            IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
             string propertyName = propertyExpression?.GetPropertyInfo().Name;
+
+            IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
 
             if (!recording.Any())
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
+                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
 
-            return recording.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
+            var actualPropertyNames = recording
+                .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
+                .Select(eventArgs => eventArgs.PropertyName)
+                .Distinct()
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(actualPropertyNames.Contains(propertyName))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
+                    monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
+
+            return recording;
         }
 
         /// <summary>
