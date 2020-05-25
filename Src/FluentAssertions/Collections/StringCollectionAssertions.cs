@@ -145,11 +145,8 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equivalent to a given object.
+        /// Asserts that all elements in a collection of objects are equal to a given object.
         /// </summary>
-        /// <remarks>
-        /// The two collections are equivalent when they both contain the same strings in any order.
-        /// </remarks>
         /// <param name="expectation">An expected <see cref="string"/> element.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
@@ -158,18 +155,15 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeEquivalentTo(string expectation,
+        public AndConstraint<TAssertions> AllBe(string expectation,
             string because = "", params object[] becauseArgs)
         {
-            return AllBeEquivalentTo(expectation, options => options, because, becauseArgs);
+            return AllBe(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equivalent to a given object.
+        /// Asserts that all elements in a collection of objects are equal to a given object.
         /// </summary>
-        /// <remarks>
-        /// The two collections are equivalent when they both contain the same strings in any order.
-        /// </remarks>
         /// <param name="expectation">An expected <see cref="string"/> element.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
@@ -184,7 +178,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeEquivalentTo(string expectation,
+        public AndConstraint<TAssertions> AllBe(string expectation,
             Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
             string because = "",
             params object[] becauseArgs)
