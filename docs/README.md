@@ -12,7 +12,7 @@ The Fluent Assertions [landing page](https://fluentassertions.com) is using Jeky
 ### Building
 
 * Clone this repository
-* `cd` into the root of the repository
+* `cd` into the `root/docs` directory of the repository
 * Install the Ruby Devkit using `ridk install` followed by option 3.
 * Run `bundle install`. 
 * Run `bundle exec jekyll serve`. To have it monitor your working directory for changes, add the `--incremental` option. 
