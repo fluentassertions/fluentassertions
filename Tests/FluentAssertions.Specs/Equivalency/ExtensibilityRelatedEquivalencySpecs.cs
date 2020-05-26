@@ -154,6 +154,50 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Ordering Rules
+
+        [Fact]
+        public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+        {
+            // Arrange
+            var subject = new[] { "First", "Second" };
+            var expected = new[] { "First", "Second" };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(
+                expected,
+                options => options.Using(new StrictOrderingRule()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            // Arrange
+            var subject = new[] { "First", "Second" };
+            var expected = new[] { "Second", "First" };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(
+                expected,
+                options => options.Using(new StrictOrderingRule()));
+
+            act.Should().Throw<XunitException>()
+                .WithMessage(string.Format("*{0}*", typeof(StrictOrderingRule).Name));
+        }
+
+        internal class StrictOrderingRule : IOrderingRule
+        {
+            public OrderStrictness Evaluate(IMemberInfo memberInfo)
+            {
+                return OrderStrictness.Strict;
+            }
+        }
+
+        #endregion
+
         #region Assertion Rules
 
         [Fact]
