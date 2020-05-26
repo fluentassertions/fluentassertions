@@ -828,7 +828,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_all_string_subject_items_are_equal_to_expectation_object_it_should_succeed()
+        public void When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_succeed()
         {
             // Arrange
             var subject = new List<string> { "one", "one", "one" };
@@ -841,7 +841,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_all_string_subject_items_are_equal_to_expectation_object_it_should_allow_chaining()
+        public void When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_allow_chaining()
         {
             // Arrange
             var subject = new List<string> { "one", "one", "one" };
@@ -854,7 +854,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_some_string_subject_items_are_not_equal_to_expectation_object_it_should_throw()
+        public void When_some_string_in_the_collection_is_not_equal_to_the_expected_string_it_should_throw()
         {
             // Arrange
             var subject = new[] { "one", "two", "six" };
@@ -869,7 +869,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_some_string_subject_items_are_in_different_case_than_expectation_object_it_should_throw()
+        public void When_some_string_in_the_collection_is_in_different_case_than_expected_string_it_should_throw()
         {
             // Arrange
             var subject = new[] { "one", "One", "ONE" };
@@ -884,7 +884,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_more_than_10_string_subjects_items_are_not_equal_to_expectation_only_10_are_reported()
+        public void When_more_than_10_strings_in_the_collection_are_not_equal_to_expected_string_only_10_are_reported()
         {
             // Arrange
             var subject = Enumerable.Repeat("two", 11);
@@ -899,7 +899,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_some_string_subject_items_are_not_equal_to_expectation_for_huge_table_execution_time_should_still_be_short()
+        public void When_some_strings_in_the_collection_are_not_equal_to_expected_string_for_huge_table_execution_time_should_still_be_short()
         {
             // Arrange
             const int N = 100000;
