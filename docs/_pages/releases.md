@@ -30,6 +30,7 @@ sidebar:
 * Added `[Not]BeSealed` to `TypeSelectorAssertions`
 * Added `collection.Should().NotContainEquivalentTo` to use object graph comparison rules to assert absence of an element in the collection - [#1318](https://github.com/fluentassertions/fluentassertions/pull/1318).
 * Added `[Not]BeInNamespace` and `[NotBeUnderNamespace]` to `TypeSelectorAssertions` - [#1329](https://github.com/fluentassertions/fluentassertions/pull/1329).
+* Added `AllBe` to `StringCollectionAssertions` to be able to assert that all strings in collection are equal to the specified string - [#1332](https://github.com/fluentassertions/fluentassertions/pull/1332).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
