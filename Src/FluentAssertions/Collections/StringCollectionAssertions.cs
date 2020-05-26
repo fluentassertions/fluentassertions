@@ -145,9 +145,9 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equal to a given object.
+        /// Asserts that all strings in a collection of strings are equal to the given string.
         /// </summary>
-        /// <param name="expectation">An expected <see cref="string"/> element.</param>
+        /// <param name="expectation">An expected <see cref="string"/>.</param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -162,9 +162,9 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects are equal to a given object.
+        /// Asserts that all strings in a collection of strings are equal to the given string.
         /// </summary>
-        /// <param name="expectation">An expected <see cref="string"/> element.</param>
+        /// <param name="expectation">An expected <see cref="string"/>.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
