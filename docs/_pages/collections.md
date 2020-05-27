@@ -55,6 +55,7 @@ collection.Should().OnlyContain(x => x < 10);
 collection.Should().ContainItemsAssignableTo<int>();
 
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
+collection.Should().NotContainInOrder(new[] { 5, 1, 2 });
 
 collection.Should().NotContain(82);
 collection.Should().NotContain(new[] { 82, 83 });
