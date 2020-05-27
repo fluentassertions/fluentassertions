@@ -62,7 +62,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
+                .WithMessage($"*{nameof(ExcludeForeignKeysSelectionRule)}*");
         }
 
         internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
+                .WithMessage($"*{nameof(ForeignKeyMatchingRule)}*");
         }
 
         internal class ForeignKeyMatchingRule : IMemberMatchingRule
@@ -185,7 +185,7 @@ namespace FluentAssertions.Specs
                 options => options.Using(new StrictOrderingRule()));
 
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(StrictOrderingRule).Name));
+                .WithMessage($"*{nameof(StrictOrderingRule)}*");
         }
 
         internal class StrictOrderingRule : IOrderingRule
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*{typeof(RelaxingDateTimeEquivalencyStep).Name}*");
+                .WithMessage($"*{nameof(RelaxingDateTimeEquivalencyStep)}*");
         }
 
         [Fact]
