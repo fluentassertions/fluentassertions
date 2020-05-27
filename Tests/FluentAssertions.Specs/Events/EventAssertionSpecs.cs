@@ -491,7 +491,7 @@ namespace FluentAssertions.Specs.Events
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
-                " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
+                " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not*");
         }
 
         [Fact]
@@ -507,7 +507,7 @@ namespace FluentAssertions.Specs.Events
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
-                " to raise event \"PropertyChanged\" for property <null>, but it did not.");
+                " to raise event \"PropertyChanged\" for property <null>, but it did not*");
         }
 
         [Fact]
@@ -539,6 +539,24 @@ namespace FluentAssertions.Specs.Events
             // Assert
             outerMonitor.Should().Raise("InterfaceEvent");
             innerMonitor.Should().Raise("Interface2Event");
+        }
+
+        [Fact]
+        public void When_the_property_changed_event_was_raised_for_the_wrong_property_it_should_throw_and_include_the_actual_properties_raised()
+        {
+            // Arrange
+            var bar = new EventRaisingClass();
+            using var monitor = bar.Monitor();
+            bar.RaiseEventWithSenderAndPropertyName("OtherProperty1");
+            bar.RaiseEventWithSenderAndPropertyName("OtherProperty2");
+            bar.RaiseEventWithSenderAndPropertyName("OtherProperty2");
+
+            // Act
+            Action act = () => monitor.Should().RaisePropertyChangeFor(b => bar.SomeProperty);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*property*SomeProperty*but*OtherProperty1*OtherProperty2*");
         }
 
         #endregion

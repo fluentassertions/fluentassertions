@@ -417,6 +417,14 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Adds an ordering rule to the ones already added by default, and which is evaluated after all existing rules.
+        /// </summary>
+        public TSelf Using(IOrderingRule orderingRule)
+        {
+            return AddOrderingRule(orderingRule);
+        }
+
+        /// <summary>
         /// Adds an equivalency step rule to the ones already added by default, and which is evaluated before previous
         /// user-registered steps
         /// </summary>
@@ -705,6 +713,12 @@ namespace FluentAssertions.Equivalency
         private TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
             matchingRules.Insert(0, matchingRule);
+            return (TSelf)this;
+        }
+
+        private TSelf AddOrderingRule(IOrderingRule orderingRule)
+        {
+            orderingRules.Add(orderingRule);
             return (TSelf)this;
         }
 
