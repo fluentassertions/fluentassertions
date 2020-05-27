@@ -1480,6 +1480,130 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+
+            // Act / Assert
+            collection.Should().NotContainInOrder("two", "one");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_an_ordered_item_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+
+            // Act / Assert
+            collection.Should().NotContainInOrder("four", "one");
+        }
+
+        [Fact]
+        public void When_a_collection_contains_less_items_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two" };
+
+            // Act / Assert
+            collection.Should().NotContainInOrder("one", "two", "three");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_a_range_twice_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "one", "three", "twelve", "two", "two" };
+
+            // Act / Assert
+            collection.Should().NotContainInOrder("one", "two", "one", "one", "two");
+        }
+
+        [Fact]
+        public void When_asserting_collection_does_not_contain_some_values_in_order_but_collection_is_null_it_should_not_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = null;
+
+            // Act / Assert
+            collection.Should().NotContainInOrder("four");
+        }
+
+        [Fact]
+        public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "two", "three" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInOrder(new[] { "one", "two", "three" }, "that's what we expect");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {\"one\", \"two\", \"two\", \"three\"} to not contain items {\"one\", \"two\", \"three\"} " +
+                "in order because that's what we expect, but items appeared in order ending at index 3.");
+        }
+
+        [Fact]
+        public void When_collection_contains_contain_the_same_items_in_the_same_order_with_null_value_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", null, "two", "three" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInOrder("one", null, "three");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {\"one\", <null>, \"two\", \"three\"} to not contain items {\"one\", <null>, \"three\"} in order, " +
+                "but items appeared in order ending at index 3.");
+        }
+
+        [Fact]
+        public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "three", "two" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInOrder("one", "two", "three");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {\"one\", \"two\", \"three\", \"two\"} to not contain items {\"one\", \"two\", \"three\"} in order, " +
+                "but items appeared in order ending at index 2.");
+        }
+
+        [Fact]
+        public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "one", "twelve", "two" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInOrder("one", "two", "one", "twelve", "two");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {\"one\", \"two\", \"one\", \"twelve\", \"two\"} to not contain items " +
+                "{\"one\", \"two\", \"one\", \"twelve\", \"two\"} in order, but items appeared in order ending at index 4.");
+        }
+
+        [Fact]
+        public void When_passing_in_null_while_checking_for_absence_of_ordered_containment_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInOrder(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify absence of ordered containment against a <null> collection.*");
+        }
+
+        [Fact]
         public void When_two_collections_containing_nulls_are_equal_it_should_not_throw()
         {
             // Arrange
