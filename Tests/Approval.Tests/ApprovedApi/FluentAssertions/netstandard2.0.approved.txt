@@ -442,6 +442,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(System.Collections.Generic.IEnumerable<System.Action<T>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith<TExpected>(System.Collections.Generic.IEnumerable<TExpected> expectation, System.Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected static System.Collections.Generic.IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, System.Collections.Generic.IEnumerable<T> enumerable) { }
     }
     public class StringCollectionAssertions : FluentAssertions.Collections.StringCollectionAssertions<System.Collections.Generic.IEnumerable<string>>
     {
@@ -457,6 +458,8 @@ namespace FluentAssertions.Collections
         where TAssertions : FluentAssertions.Collections.StringCollectionAssertions<TCollection, TAssertions>
     {
         public StringCollectionAssertions(TCollection actualValue) { }
+        public FluentAssertions.AndConstraint<TAssertions> AllBe(string expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> AllBe(string expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }

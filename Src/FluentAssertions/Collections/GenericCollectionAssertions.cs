@@ -590,24 +590,5 @@ namespace FluentAssertions.Collections
 
             return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
-
-        private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
-        {
-            if (enumerable is null)
-            {
-                return Enumerable.Empty<TExpectation>();
-            }
-
-            return RepeatAsManyAsIterator(value, enumerable);
-        }
-
-        private static IEnumerable<TExpectation> RepeatAsManyAsIterator<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
-        {
-            using IEnumerator<T> enumerator = enumerable.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                yield return value;
-            }
-        }
     }
 }

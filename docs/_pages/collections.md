@@ -85,8 +85,9 @@ collection.Should().BeInDescendingOrder();
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
 
-IEnumerable<string> stringCollection = new[] { "build succeded", "test failed" };
+IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
 stringCollection.Should().ContainMatch("* failed");
+stringCollection.Should().AllBe("build succeeded");
 ```
 
 In order to assert presence of an equivalent item in a collection applying [Object graph comparison](/objectgraphs) rules, use this:

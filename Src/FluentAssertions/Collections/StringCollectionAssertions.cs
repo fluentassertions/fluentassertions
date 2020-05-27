@@ -145,6 +145,61 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that all strings in a collection of strings are equal to the given string.
+        /// </summary>
+        /// <param name="expectation">An expected <see cref="string"/>.</param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBe(string expectation,
+            string because = "", params object[] becauseArgs)
+        {
+            return AllBe(expectation, options => options, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all strings in a collection of strings are equal to the given string.
+        /// </summary>
+        /// <param name="expectation">An expected <see cref="string"/>.</param>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBe(string expectation,
+            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(config, nameof(config));
+
+            string[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
+
+            // Because we have just manually created the collection based on single element
+            // we are sure that we can force strict ordering, because ordering does not matter in terms
+            // of correctness. On the other hand we do not want to change ordering rules for nested objects
+            // in case user needs to use them. Strict ordering improves algorithmic complexity
+            // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
+            // execution times.
+            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig =
+                x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.SelectedMemberPath));
+
+            return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
+        }
+
+        /// <summary>
         /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
