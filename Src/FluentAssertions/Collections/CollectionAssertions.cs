@@ -934,6 +934,80 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts the current collection does not contain the specified elements in the exact same order, not necessarily consecutive.
+        /// </summary>
+        /// <remarks>
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </remarks>
+        /// <param name="unexpected">A <see cref="System.Array"/> with the unexpected elements.</param>
+        public AndConstraint<TAssertions> NotContainInOrder(params object[] unexpected)
+        {
+            return NotContainInOrder(unexpected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not contain the specified elements in the exact same order, not necessarily consecutive.
+        /// </summary>
+        /// <remarks>
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </remarks>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotContainInOrder(IEnumerable unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify absence of ordered containment against a <null> collection.");
+
+            if (ReferenceEquals(Subject, null))
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            IList<object> unexpectedItems = unexpected.ConvertOrCastToList<object>();
+            IList<object> actualItems = Subject.ConvertOrCastToList<object>();
+
+            if (unexpectedItems.Count > actualItems.Count)
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            var actualItemsSkipped = 0;
+            for (int index = 0; index < unexpectedItems.Count && actualItems.Any(); index++)
+            {
+                object unexpectedItem = unexpectedItems[index];
+
+                actualItems = actualItems.SkipWhile(actualItem =>
+                {
+                    actualItemsSkipped++;
+                    return !actualItem.IsSameOrEqualTo(unexpectedItem);
+                }).ToArray();
+
+                if (actualItems.Any())
+                {
+                    if (index == unexpectedItems.Count - 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
+                                "but items appeared in order ending at index {2}.",
+                                Subject, unexpected, actualItemsSkipped - 1);
+                    }
+
+                    actualItems = actualItems.Skip(1).ToArray();
+                }
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Expects the current collection to have all elements in ascending order. Elements are compared
         /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
