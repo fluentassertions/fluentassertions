@@ -856,6 +856,7 @@ namespace FluentAssertions.Equivalency
         public TSelf Using(FluentAssertions.Equivalency.IEquivalencyStep equivalencyStep) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
+        public TSelf Using(FluentAssertions.Equivalency.IOrderingRule orderingRule) { }
         public FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>.Restriction<TProperty> Using<TProperty>(System.Action<FluentAssertions.Equivalency.IAssertionContext<TProperty>> action) { }
         public TSelf Using<T>(System.Collections.Generic.IEqualityComparer<T> comparer) { }
         public TSelf Using<T, TEqualityComparer>()

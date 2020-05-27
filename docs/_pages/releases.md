@@ -30,6 +30,7 @@ sidebar:
 * Added `[Not]BeSealed` to `TypeSelectorAssertions`
 * Added `collection.Should().NotContainEquivalentTo` to use object graph comparison rules to assert absence of an element in the collection - [#1318](https://github.com/fluentassertions/fluentassertions/pull/1318).
 * Added `[Not]BeInNamespace` and `[NotBeUnderNamespace]` to `TypeSelectorAssertions` - [#1329](https://github.com/fluentassertions/fluentassertions/pull/1329).
+* The `Using` option on `BeEquivalentTo` and on `AssertionOptions.AssertEquivalencyUsing` now supports custom `IOrderingRule` implementations [#1337](https://github.com/fluentassertions/fluentassertions/pull/1337).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).

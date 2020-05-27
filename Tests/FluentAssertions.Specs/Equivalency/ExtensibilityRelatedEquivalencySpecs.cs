@@ -62,7 +62,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
+                .WithMessage($"*{nameof(ExcludeForeignKeysSelectionRule)}*");
         }
 
         internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
+                .WithMessage($"*{nameof(ForeignKeyMatchingRule)}*");
         }
 
         internal class ForeignKeyMatchingRule : IMemberMatchingRule
@@ -149,6 +149,50 @@ namespace FluentAssertions.Specs
                 }
 
                 return SelectedMemberInfo.Create(subject.GetType().GetRuntimeProperty(name));
+            }
+        }
+
+        #endregion
+
+        #region Ordering Rules
+
+        [Fact]
+        public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+        {
+            // Arrange
+            var subject = new[] { "First", "Second" };
+            var expected = new[] { "First", "Second" };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(
+                expected,
+                options => options.Using(new StrictOrderingRule()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            // Arrange
+            var subject = new[] { "First", "Second" };
+            var expected = new[] { "Second", "First" };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(
+                expected,
+                options => options.Using(new StrictOrderingRule()));
+
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*{nameof(StrictOrderingRule)}*");
+        }
+
+        internal class StrictOrderingRule : IOrderingRule
+        {
+            public OrderStrictness Evaluate(IMemberInfo memberInfo)
+            {
+                return OrderStrictness.Strict;
             }
         }
 
@@ -456,7 +500,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*{typeof(RelaxingDateTimeEquivalencyStep).Name}*");
+                .WithMessage($"*{nameof(RelaxingDateTimeEquivalencyStep)}*");
         }
 
         [Fact]
