@@ -978,7 +978,7 @@ namespace FluentAssertions.Collections
             }
 
             var actualItemsSkipped = 0;
-            for (int index = 0; index < unexpectedItems.Count && actualItems.Any(); index++)
+            for (int index = 0; index < unexpectedItems.Count; index++)
             {
                 object unexpectedItem = unexpectedItems[index];
 
@@ -1001,6 +1001,10 @@ namespace FluentAssertions.Collections
                     }
 
                     actualItems = actualItems.Skip(1).ToArray();
+                }
+                else
+                {
+                    return new AndConstraint<TAssertions>((TAssertions)this);
                 }
             }
 
