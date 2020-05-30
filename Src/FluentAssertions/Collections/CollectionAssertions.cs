@@ -964,7 +964,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify absence of ordered containment against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
