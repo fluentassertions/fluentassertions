@@ -2498,13 +2498,16 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_collection_does_not_contain_some_values_in_order_but_collection_is_null_it_should_not_throw()
+        public void When_asserting_collection_does_not_contain_some_values_in_order_but_collection_is_null_it_should_throw()
         {
             // Arrange
             IEnumerable collection = null;
 
-            // Act / Assert
-            collection.Should().NotContainInOrder(4);
+            // Act
+            Action act = () => collection.Should().NotContainInOrder(4);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
         }
 
         [Fact]
