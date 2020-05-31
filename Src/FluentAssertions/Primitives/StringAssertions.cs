@@ -678,10 +678,10 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
 
             Execute.Assertion
-                .ForCondition(occurrenceConstraint.Assert(actual))
+                .ForOccurrences(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {{expectedOccurrences}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -748,10 +748,10 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
 
             Execute.Assertion
-                .ForCondition(occurrenceConstraint.Assert(actual))
+                .ForOccurrences(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrences}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
