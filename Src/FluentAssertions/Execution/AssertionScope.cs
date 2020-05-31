@@ -185,8 +185,8 @@ namespace FluentAssertions.Execution
 
         /// <summary>
         /// Makes assertion fail when <paramref name="actualOccurrences"/> does not match <paramref name="constraint"/>.
-        /// The occurrence description in natural language could then be specified with {expectedOccurrences} placeholder in
-        /// <see cref="FluentAssertions.Execution.AssertionScope.FailWith(string, object[])"/> and its overloaded versions.
+        /// The occurrence description in natural language could then be inserted in failure message by using {expectedOccurrences} placeholder in
+        /// message parameters of <see cref="FluentAssertions.Execution.AssertionScope.FailWith(string, object[])"/> and its overloaded versions.
         /// </summary>
         /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
         /// <param name="actualOccurrences">The number of actual occurrences.</param>
