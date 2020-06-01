@@ -678,7 +678,7 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
 
             Execute.Assertion
-                .ForOccurrences(occurrenceConstraint, actual)
+                .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {{context:string}} {{0}} to contain {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
@@ -748,7 +748,7 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
 
             Execute.Assertion
-                .ForOccurrences(occurrenceConstraint, actual)
+                .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",

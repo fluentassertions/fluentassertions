@@ -190,7 +190,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
         /// <param name="actualOccurrences">The number of actual occurrences.</param>
-        public AssertionScope ForOccurrences(OccurrenceConstraint constraint, int actualOccurrences)
+        public AssertionScope ForConstraint(OccurrenceConstraint constraint, int actualOccurrences)
         {
             constraint.RegisterReportables(this);
             succeeded = constraint.Assert(actualOccurrences);
