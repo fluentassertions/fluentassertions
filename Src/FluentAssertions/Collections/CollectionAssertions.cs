@@ -964,10 +964,14 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify absence of ordered containment against a <null> collection.");
 
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Cannot verify absence of ordered containment in a <null> collection.");
+            if (Subject is null)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Cannot verify absence of ordered containment in a <null> collection.");
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
 
             IList<object> unexpectedItems = unexpected.ConvertOrCastToList<object>();
             IList<object> actualItems = Subject.ConvertOrCastToList<object>();
