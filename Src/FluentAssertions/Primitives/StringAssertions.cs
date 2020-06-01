@@ -681,7 +681,7 @@ namespace FluentAssertions.Primitives
                 .ForOccurrences(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain {{1}} {{expectedOccurrences}}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -751,7 +751,7 @@ namespace FluentAssertions.Primitives
                 .ForOccurrences(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrences}}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);

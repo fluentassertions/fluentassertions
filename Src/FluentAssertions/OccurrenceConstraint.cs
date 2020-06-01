@@ -24,7 +24,7 @@ namespace FluentAssertions
 
         internal void RegisterReportables(AssertionScope scope)
         {
-            scope.AddReportable("expectedOccurrences", $"{Mode} {ExpectedCount.Times()}");
+            scope.AddReportable("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
         }
     }
 }
