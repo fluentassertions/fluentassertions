@@ -44,3 +44,10 @@ xDocument.Should().HaveElement("child")
   .Which.Should().BeOfType<XElement>()
     .And.HaveAttribute("attr", "1");
 ```
+
+Validate document by XSD
+```csharp
+string xsdSample = Resources.SomeXsd;
+
+xDocument.Should().BeValidByXsd(xsdSample);
+```

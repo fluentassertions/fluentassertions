@@ -9,6 +9,24 @@ namespace FluentAssertions.Specs
 {
     public class XDocumentAssertionSpecs
     {
+        private const string XsdSample = @"<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' elementFormDefault='qualified'>
+                <xsd:element name='PurchaseOrder' type='PurchaseOrderType'/>
+                <xsd:complexType name='PurchaseOrderType'>
+                    <xsd:sequence>
+                        <xsd:element name='ShipTo' type='USAddress' maxOccurs='2'/>
+                        <xsd:element name='BillTo' type='USAddress'/>
+                    </xsd:sequence>
+                    <xsd:attribute name='OrderDate' type='xsd:date'/>
+                </xsd:complexType>
+                <xsd:complexType name='USAddress'>
+                    <xsd:sequence>
+                        <xsd:element name='name' type='xsd:string'/>
+                        <xsd:element name='street' type='xsd:string'/>
+                    </xsd:sequence>
+                    <xsd:attribute name='country' type='xsd:NMTOKEN' fixed='US'/>
+                </xsd:complexType>
+            </xsd:schema>";
+
         #region Be / NotBe
 
         [Fact]
@@ -1006,6 +1024,56 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the element name is <null>*");
+        }
+
+        #endregion
+
+        #region xsd
+
+        [Fact]
+        public void Xsd_validation_for_valid_xml_should_work()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<PurchaseOrder xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                    <ShipTo>
+                        <name>Shepard</name>
+                        <street>Street</street>
+                    </ShipTo>
+                    <BillTo>
+                        <name>Billy</name>
+                        <street>Street</street>
+                    </BillTo>
+                </PurchaseOrder>");
+
+            // Act
+            Action act = () => document.Should().BeValidByXsd(XsdSample);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Xsd_validation_for_invalid_xml_should_throw()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<PurchaseOrder xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                    <BillTo>
+                        <name>Billy</name>
+                        <street>Street</street>
+                    </BillTo>
+                    <ShipTo>
+                        <name>Shepard</name>
+                        <street>Street</street>
+                    </ShipTo>
+                </PurchaseOrder>");
+
+            // Act
+            Action act = () => document.Should().BeValidByXsd(XsdSample, " because we want to test the failure message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected XML document to match XSD because we want to test the failure message*");
         }
 
         #endregion

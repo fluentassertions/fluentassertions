@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Schema;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -112,6 +114,44 @@ namespace FluentAssertions.Xml
                 var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
                 xmlReaderValidator.Validate(shouldBeEquivalent: false);
             }
+
+            return new AndConstraint<XDocumentAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that document is valid by XSD schema.
+        /// </summary>
+        /// <param name="xsd">XDS schema.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <returns>Instance of <see cref="AndConstraint{T}"/>.</returns>
+        public AndConstraint<XDocumentAssertions> BeValidByXsd(string xsd, string because = "", params object[] becauseArgs)
+        {
+            var isValid = true;
+            var errorMessage = default(string);
+            var schemaSet = new XmlSchemaSet();
+
+            using var textReader = new StringReader(xsd);
+            using var xmlReader = XmlReader.Create(textReader);
+
+            schemaSet.Add(string.Empty, xmlReader);
+            schemaSet.Compile();
+
+            Subject.Validate(schemaSet, (o, e) =>
+            {
+                isValid = false;
+                errorMessage = e.Message;
+            });
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(isValid)
+                .FailWith("Expected XML document to match XSD{reason}, but failed with {0}.", errorMessage);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
