@@ -1,37 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
 {
     [DebuggerNonUserCode]
-    public abstract class DelegateAssertions<TDelegate, TAssertions> : ReferenceTypeAssertions<TDelegate, DelegateAssertions<TDelegate, TAssertions>>
+    public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAssertionsBase<TDelegate, TAssertions>
         where TDelegate : Delegate
         where TAssertions : DelegateAssertions<TDelegate, TAssertions>
     {
-        private readonly IExtractExceptions extractor;
-
         protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
-            : this(@delegate, extractor, new Clock())
+            : base(@delegate, extractor, new Clock())
         {
         }
 
         private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
-            : base(@delegate)
+            : base(@delegate, extractor, clock)
         {
-            this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
-            Clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
-
-        private protected IClock Clock { get; }
-
-        private protected virtual bool CanHandleAsync => false;
 
         /// <summary>
         /// Asserts that the current <see cref="Delegate" /> throws an exception of type <typeparamref name="TException"/>.
@@ -206,50 +195,6 @@ namespace FluentAssertions.Specialized
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
-            where TException : Exception
-        {
-            TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
-                .ForCondition(exception != null)
-                .FailWith("but no exception was thrown.")
-                .Then
-                .ForCondition(expectedExceptions.Any())
-                .FailWith("but found <{0}>: {1}{2}.",
-                    exception?.GetType(),
-                    Environment.NewLine,
-                    exception)
-                .Then
-                .ClearExpectation();
-
-            return new ExceptionAssertions<TException>(expectedExceptions);
-        }
-
-        protected AndConstraint<TAssertions> NotThrow(Exception exception, string because, object[] becauseArgs)
-        {
-            Execute.Assertion
-                .ForCondition(exception is null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs)
-            where TException : Exception
-        {
-            IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
-            Execute.Assertion
-                .ForCondition(!exceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
         protected abstract void InvokeSubject();
 
         private Exception InvokeSubjectWithInterception()
@@ -270,7 +215,7 @@ namespace FluentAssertions.Specialized
 
         private void FailIfSubjectIsAsyncVoid()
         {
-            if (!CanHandleAsync && Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
+            if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
             {
                 throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
             }

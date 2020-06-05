@@ -23,12 +23,6 @@ namespace FluentAssertions.Specs
             return delayTask.Task;
         }
 
-        bool IClock.Wait(Task task, TimeSpan timeout)
-        {
-            delayTask.Task.GetAwaiter().GetResult();
-            return delayTask.Task.Result;
-        }
-
         public ITimer StartTimer() => new TestTimer(() => elapsedTime);
 
         public void Delay(TimeSpan timeToDelay)

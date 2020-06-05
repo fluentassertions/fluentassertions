@@ -11,7 +11,7 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an asynchronous method yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertions<Func<TTask>, TAssertions>
+    public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBase<Func<TTask>, TAssertions>
         where TTask : Task
         where TAssertions : AsyncFunctionAssertions<TTask, TAssertions>
     {
@@ -26,43 +26,6 @@ namespace FluentAssertions.Specialized
         }
 
         protected override string Identifier => "async function";
-
-        private protected override bool CanHandleAsync => true;
-
-        protected override void InvokeSubject()
-        {
-            Subject.ExecuteInDefaultSynchronizationContext().GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// Asserts that the current <typeparamref name="TTask"/> will complete within specified time.
-        /// </summary>
-        /// <param name="timeSpan">The allowed time span for the operation.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> CompleteWithin(
-            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
-        {
-            Execute.Assertion
-                .ForCondition(Subject is object)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
-
-            TTask task = Subject.ExecuteInDefaultSynchronizationContext();
-            bool completed = Clock.Wait(task, timeSpan);
-
-            Execute.Assertion
-                .ForCondition(completed)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
 
         /// <summary>
         /// Asserts that the current <typeparamref name="TTask"/> will complete within the specified time.
@@ -184,7 +147,7 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                await Subject();
+                await Subject.Invoke();
             }
             catch (Exception exception)
             {
@@ -214,7 +177,7 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                await Subject.ExecuteInDefaultSynchronizationContext();
+                await Subject.Invoke();
             }
             catch (Exception exception)
             {
