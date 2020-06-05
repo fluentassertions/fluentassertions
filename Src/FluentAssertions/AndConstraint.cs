@@ -7,7 +7,7 @@ namespace FluentAssertions
     {
         public T And { get; }
 
-        public bool FooBar2 { get; }
+        public bool FooBar3 { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AndConstraint{T}"/> class.
