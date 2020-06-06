@@ -228,6 +228,32 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts the current collection of strings does not contain the specified strings in the exact same order, not necessarily consecutive.
+        /// </summary>
+        /// <param name="unexpected">An <see cref="System.Array"/> of <see cref="string"/> with the unexpected elements.</param>
+        public AndConstraint<TAssertions> NotContainInOrder(params string[] unexpected)
+        {
+            return base.NotContainInOrder(unexpected.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Asserts the current collection of strings does not contain the specified strings in the exact same order, not necessarily consecutive.
+        /// </summary>
+        /// <param name="unexpected">An <see cref="IEnumerable{String}"/> with the unexpected elements.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotContainInOrder(IEnumerable<string> unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            return base.NotContainInOrder(unexpected, because, becauseArgs);
+        }
+
+        /// <summary>
         /// Expects the current collection to contain the specified elements in any order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
