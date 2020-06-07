@@ -952,6 +952,7 @@ namespace FluentAssertions.Execution
         public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.AssertionScope ForCondition(bool condition) { }
+        public FluentAssertions.Execution.AssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
         public T Get<T>(string key) { }
         public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
         public bool HasFailures() { }

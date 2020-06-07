@@ -1,4 +1,6 @@
 ﻿using System;
+using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions
 {
@@ -19,5 +21,10 @@ namespace FluentAssertions
         internal abstract string Mode { get; }
 
         internal abstract bool Assert(int actual);
+
+        internal void RegisterReportables(AssertionScope scope)
+        {
+            scope.AddReportable("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
+        }
     }
 }
