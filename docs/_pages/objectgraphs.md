@@ -136,19 +136,19 @@ This behavior can be changed:
 ```csharp
 // Include Fields
 orderDto.Should().BeEquivalentTo(order, options => options
-    .IncludingFields();
+    .IncludingFields());
 
 // Include Properties
 orderDto.Should().BeEquivalentTo(order, options => options
-    .IncludingProperties();
+    .IncludingProperties());
 
 // Exclude Fields
 orderDto.Should().BeEquivalentTo(order, options => options
-    .ExcludingFields();
+    .ExcludingFields());
 
 // Exclude Properties
 orderDto.Should().BeEquivalentTo(order, options => options
-    .ExcludingProperties();
+    .ExcludingProperties());
 ```
 
 This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s.
