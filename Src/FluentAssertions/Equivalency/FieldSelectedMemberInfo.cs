@@ -30,8 +30,8 @@ namespace FluentAssertions.Equivalency
 
         public override Type MemberType => fieldInfo.FieldType;
 
-        internal override CSharpAccessModifier GetGetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
+        public override CSharpAccessModifier GetGetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
 
-        internal override CSharpAccessModifier GetSetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
+        public override CSharpAccessModifier GetSetAccessModifier() => fieldInfo.GetCSharpAccessModifier();
     }
 }
