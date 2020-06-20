@@ -827,6 +827,8 @@ namespace FluentAssertions.Equivalency
         public abstract System.Type DeclaringType { get; }
         public abstract System.Type MemberType { get; }
         public abstract string Name { get; }
+        public abstract FluentAssertions.Common.CSharpAccessModifier GetGetAccessModifier();
+        public abstract FluentAssertions.Common.CSharpAccessModifier GetSetAccessModifier();
         public abstract object GetValue(object obj, object[] index);
         public static FluentAssertions.Equivalency.SelectedMemberInfo Create(System.Reflection.FieldInfo fieldInfo) { }
         public static FluentAssertions.Equivalency.SelectedMemberInfo Create(System.Reflection.PropertyInfo propertyInfo) { }
