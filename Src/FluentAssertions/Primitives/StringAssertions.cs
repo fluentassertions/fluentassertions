@@ -1114,6 +1114,86 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that a string is uppercase.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeUpper(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject?.All(char.IsUpper) == true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to be upper{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a string is not uppercase.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeUpper(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject is null || Subject.Any(ch => !char.IsUpper(ch)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {context:string} to be upper{reason}.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a string is lowercase.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeLower(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject?.All(char.IsLower) == true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to be lower{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a string is not lowercase.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeLower(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject is null || Subject.Any(ch => !char.IsLower(ch)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {context:string} to be lower{reason}.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
         private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
         {
             Guard.ThrowIfArgumentIsNull(values, nameof(values), "Cannot assert string containment of values in null collection");

@@ -3243,5 +3243,220 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        #region (Not) Upper
+
+        [Fact]
+        public void Should_succeed_when_asserting_upper_string_to_be_upper()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act / Assert
+            actual.Should().BeUpper();
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_non_upper_string_to_be_upper()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act
+            Action act = () => actual.Should().BeUpper();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_non_upper_string_to_be_upper()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act
+            Action act = () => actual.Should().BeUpper("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                @"Expected actual to be upper because we want to test the failure message, but found ""abc"".");
+        }
+
+        [Fact]
+        public void When_checking_for_an_upper_string_and_it_is_null_it_should_throw()
+        {
+            // Arrange
+            string nullString = null;
+
+            // Act
+            Action act = () => nullString.Should().BeUpper("because strings should never be {0}", "null");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected nullString to be upper because strings should never be null, but found <null>.");
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_non_upper_string_to_be_non_upper()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act / Assert
+            actual.Should().NotBeUpper();
+        }
+
+        [Fact]
+        public void When_asserting_null_string_to_not_be_upper_it_should_succeed()
+        {
+            // Arrange
+            string actual = null;
+
+            // Act / Assert
+            actual.Should().NotBeUpper();
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_upper_string_not_to_be_upper()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act
+            Action act = () => actual.Should().NotBeUpper();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_upper_string_not_to_be_upper()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act
+            Action act = () => actual.Should().NotBeUpper("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect actual to be upper because we want to test the failure message.");
+        }
+
+        #endregion (Not) Upper
+
+        #region (Not) Lower
+
+        [Fact]
+        public void Should_succeed_when_asserting_lower_string_to_be_lower()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act / Assert
+            actual.Should().BeLower();
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_empty_string_to_be_lower()
+        {
+            // Arrange
+            string actual = "";
+
+            // Act / Assert
+            actual.Should().BeLower();
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_non_lower_string_to_be_lower()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act
+            Action act = () => actual.Should().BeLower();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_non_lower_string_to_be_lower()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act
+            Action act = () => actual.Should().BeLower("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected actual to be lower because we want to test the failure message, but found \"ABC\".");
+        }
+
+        [Fact]
+        public void When_checking_for_a_lower_string_and_it_is_null_it_should_throw()
+        {
+            // Arrange
+            string nullString = null;
+
+            // Act
+            Action act = () => nullString.Should().BeLower("because strings should never be {0}", "null");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected nullString to be lower because strings should never be null, but found <null>.");
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_non_lower_string_to_be_upper()
+        {
+            // Arrange
+            string actual = "ABC";
+
+            // Act / Assert
+            actual.Should().NotBeLower();
+        }
+
+        [Fact]
+        public void When_asserting_null_string_to_not_be_lower_it_should_succeed()
+        {
+            // Arrange
+            string actual = null;
+
+            // Act / Assert
+            actual.Should().NotBeLower();
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_lower_string_to_be_upper()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act
+            Action act = () => actual.Should().NotBeLower();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_lower_string_to_be_not_lower()
+        {
+            // Arrange
+            string actual = "abc";
+
+            // Act
+            Action act = () => actual.Should().NotBeLower("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect actual to be lower because we want to test the failure message.");
+        }
+
+        #endregion (Not) Lower
+
     }
 }
