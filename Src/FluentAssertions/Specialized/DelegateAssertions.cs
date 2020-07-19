@@ -7,6 +7,9 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a synchronous method yields the expected result.
+    /// </summary>
     [DebuggerNonUserCode]
     public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAssertionsBase<TDelegate, TAssertions>
         where TDelegate : Delegate

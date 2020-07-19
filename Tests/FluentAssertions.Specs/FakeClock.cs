@@ -43,17 +43,5 @@ namespace FluentAssertions.Specs
             // the value is not relevant
             delayTask.SetResult(true);
         }
-
-        public void CompletesBeforeTimeout()
-        {
-            // the value is only relevant when IClock.Wait is involved
-            delayTask.SetResult(true);
-        }
-
-        public void RunsIntoTimeout()
-        {
-            // the value is only relevant when IClock.Wait is involved
-            delayTask.SetResult(false);
-        }
     }
 }

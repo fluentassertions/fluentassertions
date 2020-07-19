@@ -778,6 +778,22 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
         }
 
         [Fact]
+        public async Task When_ValueTask_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        {
+            // Arrange
+            var asyncObject = new AsyncClass();
+
+            // Act
+            Func<Task> action = () => asyncObject
+                .Awaiting(x => x.ThrowValueTaskIntAsync<ArgumentException>(true))
+                .Should().NotThrowAsync<ArgumentException>();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
+        }
+
+        [Fact]
         public async Task When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             // Arrange
@@ -790,7 +806,7 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
             // Act
             Func<Task> action = () => task
                 .Should().ThrowAsync<AggregateException>()
-                .WithInnerException<AggregateException, InvalidOperationException>(); // TODO How to remove duplicate generic argument?
+                .WithInnerException<AggregateException, InvalidOperationException>();
 
             // Assert
             await action.Should().NotThrowAsync();
@@ -1207,6 +1223,19 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
         }
 
         public async Task<int> ThrowTaskIntAsync<TException>(bool throwException)
+            where TException : Exception, new()
+        {
+            await Task.Yield();
+
+            if (throwException)
+            {
+                throw new TException();
+            }
+
+            return 123;
+        }
+
+        public async ValueTask<int> ThrowValueTaskIntAsync<TException>(bool throwException)
             where TException : Exception, new()
         {
             await Task.Yield();

@@ -93,7 +93,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.Invoke);
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -124,7 +124,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.Invoke);
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
             return Throw<TException>(exception, because, becauseArgs);
         }
 
@@ -228,8 +228,6 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            Func<Task> wrappedSubject = Subject.Invoke;
-
             return AssertionTaskAsync();
 
             async Task<AndConstraint<TAssertions>> AssertionTaskAsync()
@@ -240,7 +238,7 @@ namespace FluentAssertions.Specialized
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    exception = await InvokeWithInterceptionAsync(wrappedSubject);
+                    exception = await InvokeWithInterceptionAsync(Subject);
                     if (exception is null)
                     {
                         return new AndConstraint<TAssertions>((TAssertions)this);

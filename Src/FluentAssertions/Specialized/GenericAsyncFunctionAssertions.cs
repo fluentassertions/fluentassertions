@@ -127,8 +127,6 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            Func<Task<TResult>> wrappedSubject = Subject.Invoke;
-
             return AssertionTaskAsync();
 
             async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
@@ -141,7 +139,7 @@ namespace FluentAssertions.Specialized
                 {
                     try
                     {
-                        TResult result = await wrappedSubject();
+                        TResult result = await Subject.Invoke();
                         return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
                     }
                     catch (Exception ex)

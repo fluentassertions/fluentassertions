@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -7,6 +8,10 @@ using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a method yields the expected result.
+    /// </summary>
+    [DebuggerNonUserCode]
     public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : ReferenceTypeAssertions<TDelegate, DelegateAssertionsBase<TDelegate, TAssertions>>
         where TDelegate : Delegate
         where TAssertions : DelegateAssertionsBase<TDelegate, TAssertions>
