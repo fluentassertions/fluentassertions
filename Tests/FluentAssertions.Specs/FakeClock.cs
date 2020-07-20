@@ -23,12 +23,6 @@ namespace FluentAssertions.Specs
             return delayTask.Task;
         }
 
-        bool IClock.Wait(Task task, TimeSpan timeout)
-        {
-            delayTask.Task.GetAwaiter().GetResult();
-            return delayTask.Task.Result;
-        }
-
         public ITimer StartTimer() => new TestTimer(() => elapsedTime);
 
         public void Delay(TimeSpan timeToDelay)
@@ -48,18 +42,6 @@ namespace FluentAssertions.Specs
 
             // the value is not relevant
             delayTask.SetResult(true);
-        }
-
-        public void CompletesBeforeTimeout()
-        {
-            // the value is only relevant when IClock.Wait is involved
-            delayTask.SetResult(true);
-        }
-
-        public void RunsIntoTimeout()
-        {
-            // the value is only relevant when IClock.Wait is involved
-            delayTask.SetResult(false);
         }
     }
 }

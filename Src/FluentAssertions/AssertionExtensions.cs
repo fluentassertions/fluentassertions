@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
-using FluentAssertions.Common;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
@@ -126,7 +125,7 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new ExecutionTime(action.ExecuteInDefaultSynchronizationContext);
+            return new ExecutionTime(action);
         }
 
         /// <summary>
@@ -773,6 +772,8 @@ namespace FluentAssertions
             return subject is TTo to ? to : default;
         }
 
+#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
+
         /// <summary>
         /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
@@ -787,7 +788,6 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-#pragma warning disable AV1755 // Changing would be a breaking change
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,
             string expectedWildcardPattern,
@@ -797,6 +797,25 @@ namespace FluentAssertions
         {
             return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
+
+        /// <summary>
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
+        /// </summary>
+        /// <typeparam name="TException">The expected type of the exception.</typeparam>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
+            this Task<ExceptionAssertions<TException>> task,
+            string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+            where TInnerException : Exception
+        {
+            return (await task).WithInnerException<TInnerException>(because, becauseArgs);
+        }
+
 #pragma warning restore AV1755
     }
 }

@@ -51,12 +51,6 @@ If you're dealing with a `Task`, you can also assert that it completed within a 
 
 ```csharp
 Func<Task> someAsyncWork = () => SomethingReturningATask();
-someAsyncWork.Should().CompleteWithin(100.Milliseconds());
-```
-
-This will result in a blocking call, but going fully `async` is supported too:
-
-```csharp
 await someAsyncWork.Should().CompleteWithinAsync(100.Milliseconds());
 ```
 
@@ -65,7 +59,7 @@ If the `Task` is generic and returns a value, you can use that to write a contin
 ```csharp
 Func<Task<int>> someAsyncFunc;
 
-someAsyncFunc.Should().CompleteWithin(100.Milliseconds()).Which.Should().Be(42);
+(await someAsyncFunc.Should().CompleteWithinAsync(100.Milliseconds())).Which.Should().Be(42);
 ```
 
 A fully `async` version is available as well.

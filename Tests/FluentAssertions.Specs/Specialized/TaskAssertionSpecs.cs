@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -22,55 +23,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_is_null_when_expecting_to_complete_it_should_throw()
-        {
-            // Arrange
-            var timer = new FakeClock();
-            var timeSpan = 0.Milliseconds();
-            Func<Task> action = null;
-
-            // Act
-            Action testAction = () => action.Should().CompleteWithin(
-                timeSpan, "because we want to test the failure {0}", "message");
-
-            // Assert
-            testAction.Should().Throw<XunitException>()
-                .WithMessage("*because we want to test the failure message*found <null>*");
-        }
-
-        [Fact]
-        public void When_task_completes_fast_it_should_succeed()
-        {
-            // Arrange
-            var timer = new FakeClock();
-            var taskFactory = new TaskCompletionSource<bool>();
-
-            // Act
-            Action action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
-            taskFactory.SetResult(true);
-            timer.CompletesBeforeTimeout();
-
-            // Assert
-            action.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_task_completes_slow_it_should_fail()
-        {
-            // Arrange
-            var timer = new FakeClock();
-            var taskFactory = new TaskCompletionSource<bool>();
-
-            // Act
-            Action action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
-            timer.RunsIntoTimeout();
-
-            // Assert
-            action.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
+        public async Task When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
         {
             // Arrange
             var timer = new FakeClock();
@@ -82,12 +35,12 @@ namespace FluentAssertions.Specs
                 timeSpan, "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
         [Fact]
-        public void When_task_completes_fast_async_it_should_succeed()
+        public async Task When_task_completes_fast_async_it_should_succeed()
         {
             // Arrange
             var timer = new FakeClock();
@@ -99,11 +52,27 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
+        }
+
+        [UIFact]
+        public async Task When_task_completes_on_UI_thread_fast_async_it_should_succeed()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            taskFactory.SetResult(true);
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_task_completes_slow_async_it_should_fail()
+        public async Task When_task_completes_slow_async_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -114,7 +83,41 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [UIFact]
+        public async Task When_task_completes_on_UI_thread_slow_async_it_should_fail()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [UIFact]
+        public async Task When_task_is_checking_synchronization_context_on_UI_thread_it_should_succeed()
+        {
+            // Arrange
+            Func<Task> task = CheckContextAsync;
+
+            // Act
+            Func<Task> action = () => this.Awaiting(x => task()).Should().CompleteWithinAsync(1.Seconds());
+
+            // Assert
+            await action.Should().NotThrowAsync();
+
+            async Task CheckContextAsync()
+            {
+                await Task.Delay(1);
+                SynchronizationContext.Current.Should().NotBeNull();
+            }
         }
     }
 }
