@@ -21,7 +21,7 @@
     <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;Gallio;MbUnit;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
+    <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
