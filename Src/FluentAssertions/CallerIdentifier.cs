@@ -13,7 +13,7 @@ namespace FluentAssertions
     public static class CallerIdentifier
     {
 #pragma warning disable CA2211, SA1401, SA1307 // TODO: fix in 6.0
-        public static Action<string> logger = str => { };
+        public static Action<string> logger = _ => { };
 #pragma warning restore SA1307, SA1401, CA2211
 
         public static string DetermineCallerIdentity()

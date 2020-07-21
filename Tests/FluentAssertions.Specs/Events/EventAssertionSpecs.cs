@@ -552,7 +552,7 @@ namespace FluentAssertions.Specs.Events
             bar.RaiseEventWithSenderAndPropertyName("OtherProperty2");
 
             // Act
-            Action act = () => monitor.Should().RaisePropertyChangeFor(b => bar.SomeProperty);
+            Action act = () => monitor.Should().RaisePropertyChangeFor(b => b.SomeProperty);
 
             // Assert
             act.Should().Throw<XunitException>()
