@@ -29,15 +29,4 @@ namespace FluentAssertions.Common
         /// </summary>
         ITimer StartTimer();
     }
-
-    /// <summary>
-    /// Abstracts a stopwatch
-    /// </summary>
-    public interface ITimer
-    {
-        /// <summary>
-        /// The time elapsed since the timer was created through <see cref="IClock.StartTimer"/>.
-        /// </summary>
-        TimeSpan Elapsed { get; }
-    }
 }
