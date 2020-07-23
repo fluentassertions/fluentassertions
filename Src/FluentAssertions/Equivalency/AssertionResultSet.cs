@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency
 
             KeyValuePair<object, string[]> bestMatch = bestResultSets.FirstOrDefault(r => r.Key.Equals(key));
 
-            if (bestMatch.Equals(default(KeyValuePair<object, string[]>)))
+            if ((bestMatch.Key, bestMatch.Value) == default)
             {
                 return bestResultSets[0].Value;
             }

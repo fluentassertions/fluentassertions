@@ -94,15 +94,13 @@ Talking about the `async` keyword, you can also verify that an asynchronously ex
 Func<Task> act = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
 await act.Should().ThrowAsync<InvalidOperationException>();
 await act.Should().NotThrowAsync();
-act.Should().Throw<InvalidOperationException>();
-act.Should().NotThrow();
 ```
 
 Alternatively, you can use the `Awaiting` method like this:
 
 ```csharp
 Func<Task> act = () => asyncObject.Awaiting(async x => await x.ThrowAsync<ArgumentException>());
-act.Should().Throw<ArgumentException>();
+await act.Should().ThrowAsync<ArgumentException>();
 ```
 
 Both give you the same results, so it's just a matter of personal preference.
@@ -121,9 +119,8 @@ Func<Task> act = async () =>
     await Task.CompletedTask;
 };
 
-act.Should().Throw<ArgumentException>();
+await act.Should().ThrowAsync<ArgumentException>();
 await act.Should().NotThrowAfterAsync(2.Seconds(), 100.Milliseconds());
-act.Should().NotThrowAfter(2.Seconds(), 100.Milliseconds());
 ```
 
 If you prefer single-statement assertions, consider using the `FluentActions` static class, which has `Invoking`, `Awaiting`, and `Enumerating` methods:
@@ -144,8 +141,8 @@ Invoking(() => MyClass.Create(null)).Should().Throw<ArgumentNullException>();
 
 ### Automatic AggregateException unwrapping ###
 
-.NET 4.0 and later includes the `AggregateException` type. This exception type is typically thrown by methods which return either `Task` or `Task<TResult>` and are executed synchronously, instead of using `async` and `await`. This type contains a collection of inner exceptions which are aggregated. 
+.NET 4.0 and later includes the `AggregateException` type. This exception type is typically thrown by methods which return either `Task` or `Task<TResult>` and are executed synchronously, instead of using `async` and `await`. This type contains a collection of inner exceptions which are aggregated.
 
 Methods such as `Throw<TException>`, `ThrowAsync<TException>`, `NotThrow<TException>` and `NotThrowAsync<TException>` described above will also work for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
 
-However, the `ThrowExactly<TException>` and `ThrowExactlyAsync<TException>` methods will only work for exceptions that aren't aggregated. If you are asserting that an exception type other than `AggregateException` is thrown, an `AggregateException` must not be thrown, even if it contains an inner exception of the asserted type. 
+However, the `ThrowExactly<TException>` and `ThrowExactlyAsync<TException>` methods will only work for exceptions that aren't aggregated. If you are asserting that an exception type other than `AggregateException` is thrown, an `AggregateException` must not be thrown, even if it contains an inner exception of the asserted type.

@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyValidationContext : IMemberInfo
     {
         /// <summary>
-        /// Gets the value of the <see cref="MatchingExpectationProperty"/>.
+        /// Gets the value of the expected object graph.
         /// </summary>
         object Expectation { get; }
 
@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
         string Because { get; }
 
         /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="Because"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="Because" />.
         /// </summary>
         object[] BecauseArgs { get; }
 
@@ -29,9 +29,9 @@ namespace FluentAssertions.Equivalency
         bool IsRoot { get; }
 
         /// <summary>
-        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
+        /// Gets the value of the subject object graph.
         /// </summary>
-        object Subject { get; }
+        object Subject { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on

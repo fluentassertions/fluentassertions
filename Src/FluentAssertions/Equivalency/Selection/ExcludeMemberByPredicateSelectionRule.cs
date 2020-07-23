@@ -26,6 +26,7 @@ namespace FluentAssertions.Equivalency.Selection
             return selectedMembers.Where(p => !predicate(new NestedSelectionContext(context, p))).ToArray();
         }
 
+        /// <inheritdoc />
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {

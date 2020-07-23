@@ -1,10 +1,6 @@
 using System;
 using System.Linq;
-#if !NET45
 using System.Threading;
-#else
-using System.Runtime.Remoting.Messaging;
-#endif
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
@@ -16,10 +12,7 @@ namespace FluentAssertions.Execution
     /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
     /// using <c>async</c> or <c>await</c>.
     /// </remarks>
-#if NET45
-    [Serializable]
-#endif
-    public class AssertionScope : IAssertionScope
+    public sealed class AssertionScope : IAssertionScope
     {
         #region Private Definitions
 
@@ -29,9 +22,7 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
         private bool useLineBreaks;
 
-#if !NET45
-        private static readonly AsyncLocal<AssertionScope> current = new AsyncLocal<AssertionScope>();
-#endif
+        private static readonly AsyncLocal<AssertionScope> CurrentScope = new AsyncLocal<AssertionScope>();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
@@ -124,7 +115,7 @@ namespace FluentAssertions.Execution
             {
                 try
                 {
-                    string becauseOrEmpty = because ?? "";
+                    string becauseOrEmpty = because ?? string.Empty;
                     return (becauseArgs?.Any() == true) ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
@@ -157,7 +148,7 @@ namespace FluentAssertions.Execution
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(useLineBreaks);
-                string reason = localReason?.Invoke() ?? "";
+                string reason = localReason?.Invoke() ?? string.Empty;
                 string identifier = GetIdentifier();
 
                 return messageBuilder.Build(message, args, reason, contextData, identifier, fallbackIdentifier);
@@ -176,12 +167,13 @@ namespace FluentAssertions.Execution
         {
             expectation = null;
 
-            return new Continuation(this, !succeeded.HasValue || succeeded.Value);
+            // SMELL: Isn't this always going to return null? Or this method also called without FailWidth (which sets the success state to null)
+            return new Continuation(this, Succeeded);
         }
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return new GivenSelector<T>(selector, !succeeded.HasValue || succeeded.Value, this);
+            return new GivenSelector<T>(selector, this, continueAsserting: !succeeded.HasValue || succeeded.Value);
         }
 
         public AssertionScope ForCondition(bool condition)
@@ -191,11 +183,26 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        /// <summary>
+        /// Makes assertion fail when <paramref name="actualOccurrences"/> does not match <paramref name="constraint"/>.
+        /// The occurrence description in natural language could then be inserted in failure message by using {expectedOccurrence} placeholder in
+        /// message parameters of <see cref="FluentAssertions.Execution.AssertionScope.FailWith(string, object[])"/> and its overloaded versions.
+        /// </summary>
+        /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
+        /// <param name="actualOccurrences">The number of actual occurrences.</param>
+        public AssertionScope ForConstraint(OccurrenceConstraint constraint, int actualOccurrences)
+        {
+            constraint.RegisterReportables(this);
+            succeeded = constraint.Assert(actualOccurrences);
+
+            return this;
+        }
+
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
             return FailWith(() =>
             {
-                string localReason = reason?.Invoke() ?? "";
+                string localReason = reason?.Invoke() ?? string.Empty;
                 var messageBuilder = new MessageBuilder(useLineBreaks);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
@@ -211,7 +218,8 @@ namespace FluentAssertions.Execution
         {
             try
             {
-                if (!succeeded.HasValue || !succeeded.Value)
+                bool failed = !succeeded.HasValue || !succeeded.Value;
+                if (failed)
                 {
                     string result = failReasonFunc();
 
@@ -225,7 +233,7 @@ namespace FluentAssertions.Execution
                     succeeded = false;
                 }
 
-                return new Continuation(this, succeeded.Value);
+                return new Continuation(this, continueAsserting: !failed);
             }
             finally
             {
@@ -233,9 +241,29 @@ namespace FluentAssertions.Execution
             }
         }
 
+        /// <summary>
+        /// Registers a failure message that does not contain any formatting placeholders.
+        /// </summary>
+        public Continuation FailWith(string message)
+        {
+            return FailWith(() => new FailReason(message, new object[0]));
+        }
+
+        /// <summary>
+        /// Registers a failure message with optional formatting arguments.
+        /// </summary>
         public Continuation FailWith(string message, params object[] args)
         {
             return FailWith(() => new FailReason(message, args));
+        }
+
+        /// <summary>
+        /// Registers a failure message, but postpones evaluation of the formatting arguments until the assertion really fails.
+        /// </summary>
+        public Continuation FailWith(string message, params Func<object>[] argProviders)
+        {
+            return FailWith(() => new FailReason(message,
+                argProviders.Select(a => a()).ToArray()));
         }
 
         private string GetIdentifier()
@@ -321,20 +349,12 @@ namespace FluentAssertions.Execution
 
         private static AssertionScope GetCurrentAssertionScope()
         {
-#if !NET45
-            return current.Value;
-#else
-            return (AssertionScope)CallContext.LogicalGetData("this");
-#endif
+            return CurrentScope.Value;
         }
 
         private static void SetCurrentAssertionScope(AssertionScope scope)
         {
-#if !NET45
-            current.Value = scope;
-#else
-            CallContext.LogicalSetData("this", scope);
-#endif
+            CurrentScope.Value = scope;
         }
 
         #region Explicit Implementation to support the interface

@@ -129,6 +129,16 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Select return types of the methods
+        /// </summary>
+        public TypeSelector ReturnTypes()
+        {
+            var returnTypes = selectedMethods.Select(mi => mi.ReturnType);
+
+            return new TypeSelector(returnTypes);
+        }
+
+        /// <summary>
         /// The resulting <see cref="MethodInfo"/> objects.
         /// </summary>
         public MethodInfo[] ToArray()
@@ -139,7 +149,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Determines whether the specified method has a special name (like properties and events).
         /// </summary>
-        private bool HasSpecialName(MethodInfo method)
+        private static bool HasSpecialName(MethodInfo method)
         {
             return (method.Attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName;
         }

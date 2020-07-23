@@ -17,7 +17,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public IEnumerable<PropertyInfo> SubjectProperties { get; private set; }
+        public IEnumerable<PropertyInfo> SubjectProperties { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
@@ -36,7 +36,7 @@ namespace FluentAssertions.Types
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
         {
@@ -63,7 +63,7 @@ namespace FluentAssertions.Types
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
@@ -90,7 +90,7 @@ namespace FluentAssertions.Types
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> BeWritable(string because = "", params object[] becauseArgs)
         {
@@ -109,9 +109,41 @@ namespace FluentAssertions.Types
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the selected properties do not have a setter.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
+        {
+            PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
+
+            string failureMessage =
+                "Expected selected properties to not have a setter{reason}, but the following properties do:" +
+                Environment.NewLine +
+                GetDescriptionsFor(writableProperties);
+
+            Execute.Assertion
+                .ForCondition(!writableProperties.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<PropertyInfoSelectorAssertions>(this);
+        }
+
         private PropertyInfo[] GetAllReadOnlyPropertiesFromSelection()
         {
             return SubjectProperties.Where(property => !property.CanWrite).ToArray();
+        }
+
+        private PropertyInfo[] GetAllWritablePropertiesFromSelection()
+        {
+            return SubjectProperties.Where(property => property.CanWrite).ToArray();
         }
 
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
@@ -142,7 +174,7 @@ namespace FluentAssertions.Types
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
@@ -170,7 +202,7 @@ namespace FluentAssertions.Types
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute

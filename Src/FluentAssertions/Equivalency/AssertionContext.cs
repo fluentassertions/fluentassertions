@@ -12,11 +12,11 @@ namespace FluentAssertions.Equivalency
             BecauseArgs = becauseArgs;
         }
 
-        public SelectedMemberInfo SubjectProperty { get; private set; }
+        public SelectedMemberInfo SubjectProperty { get; }
 
-        public TSubject Subject { get; private set; }
+        public TSubject Subject { get; }
 
-        public TSubject Expectation { get; private set; }
+        public TSubject Expectation { get; }
 
         public string Because { get; set; }
 

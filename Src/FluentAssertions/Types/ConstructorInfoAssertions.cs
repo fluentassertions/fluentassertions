@@ -13,7 +13,8 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="ConstructorInfoAssertions"/> class.
         /// </summary>
         /// <param name="constructorInfo">The constructorInfo from which to select properties.</param>
-        public ConstructorInfoAssertions(ConstructorInfo constructorInfo) : base(constructorInfo)
+        public ConstructorInfoAssertions(ConstructorInfo constructorInfo)
+            : base(constructorInfo)
         {
         }
 

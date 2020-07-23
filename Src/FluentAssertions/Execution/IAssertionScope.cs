@@ -94,14 +94,9 @@ namespace FluentAssertions.Execution
         IAssertionScope WithDefaultIdentifier(string identifier);
 
         /// <summary>
-        /// Indicates that every argument passed into <see cref="FailWith"/> is displayed on a separate line.
+        /// Indicates that every argument passed into <see cref="FailWith(string, object[])"/> is displayed on a separate line.
         /// </summary>
         IAssertionScope UsingLineBreaks { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether or not the last assertion executed through this scope succeeded.
-        /// </summary>
-        bool Succeeded { get; }
 
         /// <summary>
         /// Discards and returns the failures that happened up to now.

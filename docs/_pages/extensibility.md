@@ -97,7 +97,7 @@ So in this case, our nicely created `ContainFile` extension method will display 
 
 Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
 
-You can hook-up your own formatters in several ways, but what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
+You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
 ```
 string Format(object value, FormattingContext context, FormatChild formatChild);
@@ -126,6 +126,40 @@ public class DirectoryInfoValueFormatter : IValueFormatter
         var info = (DirectoryInfo)value;
         return $"{newline}{padding} {info.FullName} ({info.GetFiles().Length} files, {info.GetDirectories().Length} directories)";
     }
+}
+```
+
+Say you want to customize the formatting of your `CustomClass` type to:
+* Increase the indentation from the default 3 to 8,
+* Exclude all `string` members and
+* Exclude the namespace of the type.
+
+An easy way to achieve this is by extending the `DefaultValueFormatter`.
+
+```csharp
+class CustomClassFormatter : DefaultValueFormatter
+{
+    protected override int SpacesPerIndentionLevel => 8;
+
+    public override bool CanHandle(object value) => value is CustomClass;
+
+    protected override IEnumerable<SelectedMemberInfo> GetMembers(Type type) =>
+        base.GetMembers(type).Where(e => e.MemberType != typeof(string));
+
+    protected override string TypeDisplayName(Type type) => type.Name;
+}
+```
+
+Per default the first 32 items are included when formatting an enumerable.
+That might be too many or too few depending on your data.
+To create a formatter that only prints out the first 5 items, when formatting an `IEnumerable<CustomClass>` you can extend the `EnumerableValueFormatter`.
+
+```c#
+class EnumerableCustomClassFormatter : EnumerableValueFormatter
+{
+    protected override int MaxItems => 5;
+
+    public override bool CanHandle(object value) => value is IEnumerable<CustomClass>;
 }
 ```
 

@@ -9,8 +9,8 @@ namespace FluentAssertions
     /// </summary>
     public static class NumericAssertionsExtensions
     {
-
         #region BeCloseTo
+
         /// <summary>
         /// Asserts an integral value is close to another value within a specified value.
         /// </summary>
@@ -26,13 +26,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<sbyte>> BeCloseTo(this NumericAssertions<sbyte> parent,
             sbyte nearbyValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            sbyte actualValue = (sbyte)parent.Subject;
+            sbyte actualValue = parent.Subject;
             sbyte minValue = (sbyte)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -65,13 +65,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<byte>> BeCloseTo(this NumericAssertions<byte> parent,
             byte nearbyValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            byte actualValue = (byte)parent.Subject;
+            byte actualValue = parent.Subject;
             byte minValue = (byte)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -104,13 +104,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<short>> BeCloseTo(this NumericAssertions<short> parent,
             short nearbyValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            short actualValue = (short)parent.Subject;
+            short actualValue = parent.Subject;
             short minValue = (short)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -143,13 +143,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<ushort>> BeCloseTo(this NumericAssertions<ushort> parent,
             ushort nearbyValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            ushort actualValue = (ushort)parent.Subject;
+            ushort actualValue = parent.Subject;
             ushort minValue = (ushort)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -182,13 +182,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<int>> BeCloseTo(this NumericAssertions<int> parent,
             int nearbyValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            int actualValue = (int)parent.Subject;
+            int actualValue = parent.Subject;
             int minValue = (int)(nearbyValue - delta);
             if (minValue > nearbyValue)
             {
@@ -221,13 +221,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<uint>> BeCloseTo(this NumericAssertions<uint> parent,
             uint nearbyValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            uint actualValue = (uint)parent.Subject;
+            uint actualValue = parent.Subject;
             uint minValue = nearbyValue - delta;
             if (minValue > nearbyValue)
             {
@@ -260,13 +260,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<long>> BeCloseTo(this NumericAssertions<long> parent,
             long nearbyValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            long actualValue = (long)parent.Subject;
+            long actualValue = parent.Subject;
             long minValue = GetMinValue(nearbyValue, delta);
             long maxValue = GetMaxValue(nearbyValue, delta);
 
@@ -290,13 +290,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<ulong>> BeCloseTo(this NumericAssertions<ulong> parent,
             ulong nearbyValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            ulong actualValue = (ulong)parent.Subject;
+            ulong actualValue = parent.Subject;
             ulong minValue = nearbyValue - delta;
             if (minValue > nearbyValue)
             {
@@ -344,13 +344,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<sbyte>> NotBeCloseTo(this NumericAssertions<sbyte> parent,
             sbyte distantValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            sbyte actualValue = (sbyte)parent.Subject;
+            sbyte actualValue = parent.Subject;
             sbyte minValue = (sbyte)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -383,13 +383,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<byte>> NotBeCloseTo(this NumericAssertions<byte> parent,
             byte distantValue, byte delta, string because = "",
             params object[] becauseArgs)
         {
-            byte actualValue = (byte)parent.Subject;
+            byte actualValue = parent.Subject;
             byte minValue = (byte)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -422,13 +422,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<short>> NotBeCloseTo(this NumericAssertions<short> parent,
             short distantValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            short actualValue = (short)parent.Subject;
+            short actualValue = parent.Subject;
             short minValue = (short)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -461,13 +461,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<ushort>> NotBeCloseTo(this NumericAssertions<ushort> parent,
             ushort distantValue, ushort delta, string because = "",
             params object[] becauseArgs)
         {
-            ushort actualValue = (ushort)parent.Subject;
+            ushort actualValue = parent.Subject;
             ushort minValue = (ushort)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -500,13 +500,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<int>> NotBeCloseTo(this NumericAssertions<int> parent,
             int distantValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            int actualValue = (int)parent.Subject;
+            int actualValue = parent.Subject;
             int minValue = (int)(distantValue - delta);
             if (minValue > distantValue)
             {
@@ -539,13 +539,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<uint>> NotBeCloseTo(this NumericAssertions<uint> parent,
             uint distantValue, uint delta, string because = "",
             params object[] becauseArgs)
         {
-            uint actualValue = (uint)parent.Subject;
+            uint actualValue = parent.Subject;
             uint minValue = distantValue - delta;
             if (minValue > distantValue)
             {
@@ -578,13 +578,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<long>> NotBeCloseTo(this NumericAssertions<long> parent,
             long distantValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            long actualValue = (long)parent.Subject;
+            long actualValue = parent.Subject;
             long minValue = GetMinValue(distantValue, delta);
             long maxValue = GetMaxValue(distantValue, delta);
 
@@ -608,13 +608,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<ulong>> NotBeCloseTo(this NumericAssertions<ulong> parent,
             ulong distantValue, ulong delta, string because = "",
             params object[] becauseArgs)
         {
-            ulong actualValue = (ulong)parent.Subject;
+            ulong actualValue = parent.Subject;
             ulong minValue = distantValue - delta;
             if (minValue > distantValue)
             {
@@ -663,7 +663,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
             float expectedValue, float precision, string because = "",
@@ -696,7 +696,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
             float? expectedValue, float precision, string because = "",
@@ -736,15 +736,26 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
+            if (float.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -764,7 +775,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
             double expectedValue, double precision, string because = "",
@@ -797,7 +808,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
             double? expectedValue, double precision, string because = "",
@@ -837,15 +848,26 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(expectedValue - (double)parent.Subject);
+            if (double.IsPositiveInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(expectedValue))
+            {
+                FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(expectedValue - parent.Subject);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -865,7 +887,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
             decimal expectedValue, decimal precision, string because = "",
@@ -898,7 +920,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
             decimal? expectedValue, decimal precision, string because = "",
@@ -938,13 +960,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<decimal>> BeApproximately(this NumericAssertions<decimal> parent,
             decimal expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            decimal actualDifference = Math.Abs(expectedValue - (decimal)parent.Subject);
+            decimal actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
 
@@ -954,7 +976,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceOutsidePrecision<T>(
             bool differenceWithinPrecision,
             NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceWithinPrecision)
@@ -982,7 +1005,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
             float unexpectedValue, float precision, string because = "",
@@ -1013,7 +1036,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
             float? unexpectedValue, float precision, string because = "",
@@ -1053,15 +1076,26 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<float>> NotBeApproximately(this NumericAssertions<float> parent,
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
-            float actualDifference = Math.Abs(unexpectedValue - (float)parent.Subject);
+            if (float.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else if (float.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            }
+            else
+            {
+                float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
@@ -1081,7 +1115,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
             double unexpectedValue, double precision, string because = "",
@@ -1112,7 +1146,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
             double? unexpectedValue, double precision, string because = "",
@@ -1152,15 +1186,26 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<double>> NotBeApproximately(this NumericAssertions<double> parent,
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(unexpectedValue - (double)parent.Subject);
+            if (double.IsPositiveInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else if (double.IsNegativeInfinity(unexpectedValue))
+            {
+                FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            }
+            else
+            {
+                double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+                FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            }
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }
@@ -1180,7 +1225,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
             decimal unexpectedValue, decimal precision, string because = "",
@@ -1211,7 +1256,7 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
             decimal? unexpectedValue, decimal precision, string because = "",
@@ -1251,13 +1296,13 @@ namespace FluentAssertions
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<NumericAssertions<decimal>> NotBeApproximately(this NumericAssertions<decimal> parent,
             decimal unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
-            decimal actualDifference = Math.Abs(unexpectedValue - (decimal)parent.Subject);
+            decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
 
@@ -1267,7 +1312,8 @@ namespace FluentAssertions
         private static void FailIfDifferenceWithinPrecision<T>(
             NumericAssertions<T> parent, bool differenceOutsidePrecision,
             T unexpectedValue, T precision, T actualDifference,
-            string because, object[] becauseArgs) where T : struct
+            string because, object[] becauseArgs)
+            where T : struct, IComparable<T>
         {
             Execute.Assertion
                 .ForCondition(differenceOutsidePrecision)

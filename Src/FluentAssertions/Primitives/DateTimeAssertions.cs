@@ -14,7 +14,24 @@ namespace FluentAssertions.Primitives
     /// for a more fluent way of specifying a <see cref="DateTime"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class DateTimeAssertions
+    public class DateTimeAssertions : DateTimeAssertions<DateTimeAssertions>
+    {
+        public DateTimeAssertions(DateTime? value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a <see cref="DateTime"/> is in the expected state.
+    /// </summary>
+    /// <remarks>
+    /// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+    /// for a more fluent way of specifying a <see cref="DateTime"/>.
+    /// </remarks>
+    [DebuggerNonUserCode]
+    public class DateTimeAssertions<TAssertions>
+        where TAssertions : DateTimeAssertions<TAssertions>
     {
         public DateTimeAssertions(DateTime? value)
         {
@@ -24,7 +41,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public DateTime? Subject { get; private set; }
+        public DateTime? Subject { get; }
 
         /// <summary>
         /// Asserts that the current <see cref="DateTime"/> is exactly equal to the <paramref name="expected"/> value.
@@ -35,9 +52,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Be(DateTime expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(DateTime expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value == expected))
@@ -45,7 +62,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
                     expected, Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -57,9 +74,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBe(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -67,34 +84,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:date and time} not to be {0}{reason}, but it is.", unexpected);
 
-            return new AndConstraint<DateTimeAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/>  is within the specified number of milliseconds (default = 20 ms)
-        /// from the specified <paramref name="nearbyTime"/> value.
-        /// </summary>
-        /// <remarks>
-        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="Be(DateTime, string, object[])"/>.
-        /// </remarks>
-        /// <param name="nearbyTime">
-        /// The expected time to compare the actual value with.
-        /// </param>
-        /// <param name="precision">
-        /// The maximum amount of milliseconds which the two values may differ.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string because = "",
-            params object[] becauseArgs)
-        {
-            return BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -116,9 +106,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
+        public AndConstraint<TAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
             long distanceToMinInTicks = (nearbyTime - DateTime.MinValue).Ticks;
@@ -134,34 +124,7 @@ namespace FluentAssertions.Primitives
                     precision,
                     nearbyTime, Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/>  is not within the specified number of milliseconds (default = 20 ms)
-        /// from the specified <paramref name="distantTime"/> value.
-        /// </summary>
-        /// <remarks>
-        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="NotBe(DateTime, string, object[])"/>.
-        /// </remarks>
-        /// <param name="distantTime">
-        /// The time to compare the actual value with.
-        /// </param>
-        /// <param name="precision">
-        /// The maximum amount of milliseconds which the two values must differ.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeCloseTo(DateTime distantTime, int precision = 20, string because = "",
-            params object[] becauseArgs)
-        {
-            return NotBeCloseTo(distantTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -183,9 +146,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
+        public AndConstraint<TAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
             long distanceToMinInTicks = (distantTime - DateTime.MinValue).Ticks;
@@ -202,7 +165,7 @@ namespace FluentAssertions.Primitives
                     precision,
                     distantTime, Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -214,9 +177,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected, string because = "",
+        public AndConstraint<TAssertions> BeBefore(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -225,7 +188,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:the date and time} to be before {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -237,9 +200,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeBefore(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeBefore(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             return BeOnOrAfter(unexpected, because, becauseArgs);
@@ -254,9 +217,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected, string because = "",
+        public AndConstraint<TAssertions> BeOnOrBefore(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -265,7 +228,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -277,9 +240,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeOnOrBefore(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeOnOrBefore(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             return BeAfter(unexpected, because, becauseArgs);
@@ -294,9 +257,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string because = "",
+        public AndConstraint<TAssertions> BeAfter(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -305,7 +268,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:the date and time} to be after {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -317,9 +280,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeAfter(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeAfter(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             return BeOnOrBefore(unexpected, because, becauseArgs);
@@ -334,9 +297,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected, string because = "",
+        public AndConstraint<TAssertions> BeOnOrAfter(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -345,7 +308,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but found {1}.", expected,
                     Subject ?? default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -357,9 +320,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeOnOrAfter(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeOnOrAfter(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             return BeBefore(unexpected, because, becauseArgs);
@@ -374,9 +337,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -389,7 +352,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -401,9 +364,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -414,7 +377,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
                     Subject.Value.Year);
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -426,9 +389,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -441,7 +404,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -453,9 +416,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -468,7 +431,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -480,9 +443,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -495,7 +458,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -507,9 +470,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -522,7 +485,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -534,9 +497,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -549,7 +512,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -561,9 +524,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -576,7 +539,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -588,9 +551,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveMinute(int expected, string because = "",
+        public AndConstraint<TAssertions> HaveMinute(int expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -604,7 +567,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -616,9 +579,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveMinute(int unexpected, string because = "",
+        public AndConstraint<TAssertions> NotHaveMinute(int unexpected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -632,7 +595,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -644,9 +607,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveSecond(int expected, string because = "",
+        public AndConstraint<TAssertions> HaveSecond(int expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -660,7 +623,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -672,9 +635,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotHaveSecond(int unexpected, string because = "",
+        public AndConstraint<TAssertions> NotHaveSecond(int unexpected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -688,68 +651,68 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The amount of time that the current <see cref="DateTime"/>  should exceed compared to another <see cref="DateTime"/>.
         /// </param>
-        public DateTimeRangeAssertions BeMoreThan(TimeSpan timeSpan)
+        public DateTimeRangeAssertions<TAssertions> BeMoreThan(TimeSpan timeSpan)
         {
-            return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.MoreThan, timeSpan);
+            return new DateTimeRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.MoreThan, timeSpan);
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The amount of time that the current <see cref="DateTime"/>  should be equal or exceed compared to
         /// another <see cref="DateTime"/>.
         /// </param>
-        public DateTimeRangeAssertions BeAtLeast(TimeSpan timeSpan)
+        public DateTimeRangeAssertions<TAssertions> BeAtLeast(TimeSpan timeSpan)
         {
-            return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.AtLeast, timeSpan);
+            return new DateTimeRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.AtLeast, timeSpan);
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The amount of time that the current <see cref="DateTime"/>  should differ exactly compared to another <see cref="DateTime"/>.
         /// </param>
-        public DateTimeRangeAssertions BeExactly(TimeSpan timeSpan)
+        public DateTimeRangeAssertions<TAssertions> BeExactly(TimeSpan timeSpan)
         {
-            return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.Exactly, timeSpan);
+            return new DateTimeRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Exactly, timeSpan);
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The amount of time that the current <see cref="DateTime"/>  should be within another <see cref="DateTime"/>.
         /// </param>
-        public DateTimeRangeAssertions BeWithin(TimeSpan timeSpan)
+        public DateTimeRangeAssertions<TAssertions> BeWithin(TimeSpan timeSpan)
         {
-            return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.Within, timeSpan);
+            return new DateTimeRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Within, timeSpan);
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="DateTimeRangeAssertions{TAssertions}"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
         /// The maximum amount of time that the current <see cref="DateTime"/>  should differ compared to another <see cref="DateTime"/>.
         /// </param>
-        public DateTimeRangeAssertions BeLessThan(TimeSpan timeSpan)
+        public DateTimeRangeAssertions<TAssertions> BeLessThan(TimeSpan timeSpan)
         {
-            return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.LessThan, timeSpan);
+            return new DateTimeRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.LessThan, timeSpan);
         }
 
         /// <summary>
@@ -761,9 +724,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeSameDateAs(DateTime expected, string because = "",
+        public AndConstraint<TAssertions> BeSameDateAs(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             DateTime expectedDate = expected.Date;
@@ -779,7 +742,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -791,9 +754,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeSameDateAs(DateTime unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeSameDateAs(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
             DateTime unexpectedDate = unexpected.Date;
@@ -809,7 +772,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -818,7 +781,7 @@ namespace FluentAssertions.Primitives
         /// <param name="validValues">
         /// The values that are valid.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOneOf(params DateTime?[] validValues)
+        public AndConstraint<TAssertions> BeOneOf(params DateTime?[] validValues)
         {
             return BeOneOf(validValues, string.Empty);
         }
@@ -829,7 +792,7 @@ namespace FluentAssertions.Primitives
         /// <param name="validValues">
         /// The values that are valid.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOneOf(params DateTime[] validValues)
+        public AndConstraint<TAssertions> BeOneOf(params DateTime[] validValues)
         {
             return BeOneOf(validValues.Cast<DateTime?>());
         }
@@ -845,9 +808,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOneOf(IEnumerable<DateTime> validValues, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime> validValues, string because = "", params object[] becauseArgs)
         {
             return BeOneOf(validValues.Cast<DateTime?>(), because, becauseArgs);
         }
@@ -863,16 +826,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:date and time} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -886,9 +849,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeIn(DateTimeKind expectedKind, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeIn(DateTimeKind expectedKind, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -901,7 +864,7 @@ namespace FluentAssertions.Primitives
                 .Then
                 .ClearExpectation();
 
-            return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

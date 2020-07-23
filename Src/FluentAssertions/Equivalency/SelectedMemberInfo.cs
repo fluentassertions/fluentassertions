@@ -47,12 +47,12 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the access modifier for the getter of this member.
         /// </summary>
-        internal abstract CSharpAccessModifier GetGetAccessModifier();
+        public abstract CSharpAccessModifier GetGetAccessModifier();
 
         /// <summary>
         /// Gets the access modifier for the setter of this member.
         /// </summary>
-        internal abstract CSharpAccessModifier GetSetAccessModifier();
+        public abstract CSharpAccessModifier GetSetAccessModifier();
 
         /// <summary>
         /// Returns the member value of a specified object with optional index values for indexed properties or methods.

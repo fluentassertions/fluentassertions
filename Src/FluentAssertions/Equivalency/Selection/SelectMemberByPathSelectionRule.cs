@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -30,7 +31,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         private static bool ContainsIndexingQualifiers(string path)
         {
-            return path.Contains("[") && path.Contains("]");
+            return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
         }
 
         private string RemoveInitialIndexQualifier(string propertyPath)

@@ -1,12 +1,10 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
-namespace FluentAssertions.Common
+﻿namespace FluentAssertions.Common
 {
     internal class ConfigurationStoreExceptionInterceptor : IConfigurationStore
     {
-        private bool underlyingStoreUnavailable;
-
         private readonly IConfigurationStore configurationStore;
+
+        private bool underlyingStoreUnavailable;
 
         public ConfigurationStoreExceptionInterceptor(IConfigurationStore configurationStore)
         {
@@ -32,5 +30,3 @@ namespace FluentAssertions.Common
         }
     }
 }
-
-#endif

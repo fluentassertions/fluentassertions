@@ -28,18 +28,16 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEquality(EquivalencyValidationContext context)
         {
-            using (var scope = new AssertionScope())
+            using var scope = new AssertionScope();
+            scope.AddReportable("configuration", config.ToString());
+
+            scope.BecauseOf(context.Because, context.BecauseArgs);
+
+            AssertEqualityUsing(context);
+
+            if (context.Tracer != null)
             {
-                scope.AddReportable("configuration", config.ToString());
-
-                scope.BecauseOf(context.Because, context.BecauseArgs);
-
-                AssertEqualityUsing(context);
-
-                if (context.Tracer != null)
-                {
-                    scope.AddReportable("trace", context.Tracer.ToString());
-                }
+                scope.AddReportable("trace", context.Tracer.ToString());
             }
         }
 

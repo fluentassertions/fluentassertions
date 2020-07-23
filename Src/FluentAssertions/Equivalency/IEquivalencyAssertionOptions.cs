@@ -53,7 +53,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> GetUserEquivalencySteps(ConversionSelector conversionSelector);
+        IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
 
         /// <summary>
         /// Gets a value indicating whether the runtime type of the expectation should be used rather than the declared type.
@@ -84,12 +84,12 @@ namespace FluentAssertions.Equivalency
     public enum EqualityStrategy
     {
         /// <summary>
-        /// The object overrides <see cref="object.Equals"/>, so use that.
+        /// The object overrides <see cref="object.Equals(object)"/>, so use that.
         /// </summary>
         Equals,
 
         /// <summary>
-        /// The object does not seem to override <see cref="object.Equals"/>, so compare by members
+        /// The object does not seem to override <see cref="object.Equals(object)"/>, so compare by members
         /// </summary>
         Members,
 

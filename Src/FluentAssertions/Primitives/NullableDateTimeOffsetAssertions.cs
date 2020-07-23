@@ -12,7 +12,24 @@ namespace FluentAssertions.Primitives
     /// for a more fluent way of specifying a <see cref="DateTime"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class NullableDateTimeOffsetAssertions : DateTimeOffsetAssertions
+    public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions<NullableDateTimeOffsetAssertions>
+    {
+        public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
+            : base(expected)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable <see cref="DateTimeOffset"/> is in the expected state.
+    /// </summary>
+    /// <remarks>
+    /// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+    /// for a more fluent way of specifying a <see cref="DateTime"/>.
+    /// </remarks>
+    [DebuggerNonUserCode]
+    public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAssertions<TAssertions>
+        where TAssertions : NullableDateTimeOffsetAssertions<TAssertions>
     {
         public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
             : base(expected)
@@ -27,16 +44,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableDateTimeOffsetAssertions> HaveValue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
 
-            return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -47,9 +64,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableDateTimeOffsetAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
             return HaveValue(because, becauseArgs);
         }
@@ -62,9 +79,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableDateTimeOffsetAssertions> NotHaveValue(string because = "",
+        public AndConstraint<TAssertions> NotHaveValue(string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -72,7 +89,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);
 
-            return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -83,9 +100,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableDateTimeOffsetAssertions> BeNull(string because = "",
+        public AndConstraint<TAssertions> BeNull(string because = "",
             params object[] becauseArgs)
         {
             return NotHaveValue(because, becauseArgs);
@@ -100,9 +117,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> Be(DateTimeOffset? expected, string because = "",
+        public AndConstraint<TAssertions> Be(DateTimeOffset? expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -110,7 +127,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.", expected, Subject);
 
-            return new AndConstraint<DateTimeOffsetAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

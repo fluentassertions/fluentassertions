@@ -113,6 +113,7 @@ namespace FluentAssertions
             return new List<IEquivalencyStep>(12)
             {
                 new RunAllUserStepsEquivalencyStep(),
+                new AutoConversionStep(),
                 new ReferenceEqualityEquivalencyStep(),
                 new GenericDictionaryEquivalencyStep(),
                 new DictionaryEquivalencyStep(),

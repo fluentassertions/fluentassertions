@@ -11,29 +11,59 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an asynchronous method yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class AsyncFunctionAssertions : DelegateAssertions<Func<Task>>
+    public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBase<Func<TTask>, TAssertions>
+        where TTask : Task
+        where TAssertions : AsyncFunctionAssertions<TTask, TAssertions>
     {
-        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor) : this(subject, extractor, new Clock())
+        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor)
+            : this(subject, extractor, new Clock())
         {
         }
 
-        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock) : base(subject, extractor, clock)
+        public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, IClock clock)
+            : base(subject, extractor, clock)
         {
-            Subject = subject;
         }
-
-        /// <summary>
-        /// Gets the <see cref="Func{Task}"/> that is being asserted.
-        /// </summary>
-        public new Func<Task> Subject { get; }
 
         protected override string Identifier => "async function";
 
-        private protected override bool CanHandleAsync => true;
-
-        protected override void InvokeSubject()
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TTask"/> will complete within the specified time.
+        /// </summary>
+        /// <param name="timeSpan">The allowed time span for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public async Task<AndConstraint<TAssertions>> CompleteWithinAsync(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            Subject.ExecuteInDefaultSynchronizationContext().GetAwaiter().GetResult();
+            Execute.Assertion
+                .ForCondition(Subject is object)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
+
+            using var timeoutCancellationTokenSource = new CancellationTokenSource();
+            TTask task = Subject.Invoke();
+
+            Task completedTask =
+                await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+
+            if (completedTask == task)
+            {
+                timeoutCancellationTokenSource.Cancel();
+                await completedTask;
+            }
+
+            Execute.Assertion
+                .ForCondition(completedTask == task)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -47,7 +77,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
@@ -63,7 +93,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -83,7 +113,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "",
             params object[] becauseArgs)
@@ -94,7 +124,7 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-            Exception exception = await InvokeWithInterceptionAsync(Subject.ExecuteInDefaultSynchronizationContext);
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
             return Throw<TException>(exception, because, becauseArgs);
         }
 
@@ -106,9 +136,9 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task NotThrowAsync(string because = "", params object[] becauseArgs)
+        public async Task<AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is object)
@@ -117,12 +147,14 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                await Subject.ExecuteInDefaultSynchronizationContext();
+                await Subject.Invoke();
             }
             catch (Exception exception)
             {
                 NotThrow(exception, because, becauseArgs);
             }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -133,9 +165,9 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
+        public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
@@ -145,12 +177,14 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                await Subject.ExecuteInDefaultSynchronizationContext();
+                await Subject.Invoke();
             }
             catch (Exception exception)
             {
                 NotThrow<TException>(exception, because, becauseArgs);
             }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -173,10 +207,10 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public Task NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -194,11 +228,9 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-            Func<Task> wrappedSubject = Subject.ExecuteInDefaultSynchronizationContext;
+            return AssertionTaskAsync();
 
-            return assertionTask();
-
-            async Task assertionTask()
+            async Task<AndConstraint<TAssertions>> AssertionTaskAsync()
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
@@ -206,10 +238,10 @@ namespace FluentAssertions.Specialized
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    exception = await InvokeWithInterceptionAsync(wrappedSubject);
+                    exception = await InvokeWithInterceptionAsync(Subject);
                     if (exception is null)
                     {
-                        return;
+                        return new AndConstraint<TAssertions>((TAssertions)this);
                     }
 
                     await Clock.DelayAsync(pollInterval, CancellationToken.None);
@@ -219,6 +251,8 @@ namespace FluentAssertions.Specialized
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
         }
 

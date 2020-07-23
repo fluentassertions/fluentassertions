@@ -179,3 +179,9 @@ docs/_site
 docs/codekit-config.json
 docs/Gemfile.lock
 docs/node_modules
+
+# Approval Tests
+*.received.txt
+
+# Documentation file needed for StyleCop.Analyzers
+Tests/FluentAssertions.Specs/FluentAssertions.Specs.xml

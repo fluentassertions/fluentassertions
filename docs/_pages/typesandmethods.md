@@ -63,6 +63,30 @@ typeof(MyController).Methods()
     "because all Actions with HttpPost require ValidateAntiForgeryToken");
 ```
 
+You can also perform assertions on all of methods return types to check class contract.
+Like this:
+
+```csharp
+typeof(MyDataReader).Methods()
+  .ReturnTypes()
+  .Properties()
+  .Should()
+  .NotBeWritable("all the return types should be immutable");
+```
+
+If the methods return types are `IEnumerable<T>` or `Task<T>` you can unwrap underlying types to with `UnwrapTaskTypes` and `UnwrapEnumerableTypes` methods.
+Like this:
+
+```csharp
+typeof(MyDataReader).Methods()
+  .ReturnTypes()
+  .UnwrapTaskTypes()
+  .UnwrapEnumerableTypes()
+  .Properties()
+  .Should()
+  .NotBeWritable("all the return types should be immutable");
+```
+
 If you also want to assert that an attribute has a specific property value, use this syntax.
 
 ```csharp
@@ -76,7 +100,9 @@ You can assert methods or properties from all types in an assembly that apply to
 var types = typeof(ClassWithSomeAttribute).Assembly.Types()
   .ThatAreDecoratedWith<SomeAttribute>()
   .ThatImplement<ISomeInterface>()
-  .ThatAreInNamespace("Internal.Main.Test");
+  .ThatAreUnderNamespace("Internal.Main.Test");
+
+types.Should().BeInNamespace("Internal.Main.Test.ISomeInterfaceTests");
 
 var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();

@@ -76,7 +76,6 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Creates a new set of options based on the current instance which acts on a <see cref="IEnumerable{TSubject}"/>
         /// </summary>
-        /// <returns></returns>
         public EquivalencyAssertionOptions<IEnumerable<TExpectation>> AsCollection()
         {
             return new EquivalencyAssertionOptions<IEnumerable<TExpectation>>(

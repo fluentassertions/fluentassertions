@@ -2,7 +2,6 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 using FluentAssertions.Execution;
 
 #endregion
@@ -18,8 +17,8 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetExpectationType(context);
 
-            return (subjectType?.GetTypeInfo().IsEnum == true) ||
-                   (context.Expectation?.GetType().GetTypeInfo().IsEnum == true);
+            return (subjectType?.IsEnum == true) ||
+                   (context.Expectation?.GetType().IsEnum == true);
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace FluentAssertions.Equivalency
                 return "null";
             }
 
-            if (o.GetType().GetTypeInfo().IsEnum)
+            if (o.GetType().IsEnum)
             {
                 string typePart = o.GetType().Name;
                 string namePart = Enum.GetName(o.GetType(), o);
@@ -108,7 +107,7 @@ namespace FluentAssertions.Equivalency
 
         private static decimal? ExtractDecimal(object o)
         {
-            return o != null ? Convert.ToDecimal(o) : (decimal?)null;
+            return o != null ? Convert.ToDecimal(o, CultureInfo.InvariantCulture) : (decimal?)null;
         }
     }
 }

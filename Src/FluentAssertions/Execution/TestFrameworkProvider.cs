@@ -9,20 +9,13 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, ITestFramework> Frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
         {
-            ["gallio"] = new GallioTestFramework(),
             ["mspec"] = new MSpecFramework(),
-            ["nspec"] = new NSpec1Framework(),
-            ["nspec2"] = new NSpecFramework(),
             ["nspec3"] = new NSpecFramework(),
-            ["mbunit"] = new MbUnitTestFramework(),
             ["nunit"] = new NUnitTestFramework(),
-            ["mstest"] = new MSTestFramework(),
             ["mstestv2"] = new MSTestFrameworkV2(),
-            ["xunit"] = new XUnitTestFramework(),
             ["xunit2"] = new XUnit2TestFramework(),
-
             ["fallback"] = new FallbackTestFramework()
         };
 
@@ -52,7 +45,7 @@ namespace FluentAssertions.Execution
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
             if (string.IsNullOrEmpty(frameworkName)
-                || !frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+                || !Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
                 return null;
             }
@@ -69,7 +62,7 @@ namespace FluentAssertions.Execution
 
         private static ITestFramework AttemptToDetectUsingDynamicScanning()
         {
-            return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
+            return Frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
         }
     }
 }
