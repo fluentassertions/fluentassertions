@@ -7,8 +7,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
-using FluentAssertions.Common;
+#if !NETSTANDARD2_0
 using FluentAssertions.Events;
+#endif
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
@@ -25,7 +26,7 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
@@ -67,29 +68,25 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
-#if NETCOREAPP2_1 || NETSTANDARD2_1
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="NonGenericAsyncFunctionAssertions"/>
         /// </summary>
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, ValueTask> action)
         {
             return () => action(subject).AsTask();
         }
-#endif
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_1
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
-        /// with any of the assertions from <see cref="AsyncFunctionAssertions"/>
+        /// with any of the assertions from <see cref="GenericAsyncFunctionAssertions{TResult}"/>
         /// </summary>
         [Pure]
         public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, ValueTask<TResult>> action)
         {
             return () => action(subject).AsTask();
         }
-#endif
 
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
@@ -128,12 +125,12 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new ExecutionTime(action.ExecuteInDefaultSynchronizationContext);
+            return new ExecutionTime(action);
         }
 
         /// <summary>
         /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
-        /// current <see cref="ExecutionTime"/>.
+        /// current <see cref="FluentAssertions.Specialized.ExecutionTime"/>.
         /// </summary>
         [Pure]
         public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
@@ -290,13 +287,34 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
         {
-            return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
+            return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
+        /// </summary>
+        [Pure]
+        public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+        {
+            return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+        /// current <typeparamref name="TCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+            where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
+        {
+            return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
         }
 
         /// <summary>
@@ -680,7 +698,7 @@ namespace FluentAssertions
         [Pure]
         public static ActionAssertions Should(this Action action)
         {
-            return new ActionAssertions(action, extractor);
+            return new ActionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -690,7 +708,7 @@ namespace FluentAssertions
         [Pure]
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
         {
-            return new NonGenericAsyncFunctionAssertions(action, extractor);
+            return new NonGenericAsyncFunctionAssertions(action, Extractor);
         }
 
         /// <summary>
@@ -700,7 +718,7 @@ namespace FluentAssertions
         [Pure]
         public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
         {
-            return new GenericAsyncFunctionAssertions<T>(action, extractor);
+            return new GenericAsyncFunctionAssertions<T>(action, Extractor);
         }
 
         /// <summary>
@@ -710,10 +728,20 @@ namespace FluentAssertions
         [Pure]
         public static FunctionAssertions<T> Should<T>(this Func<T> func)
         {
-            return new FunctionAssertions<T>(func, extractor);
+            return new FunctionAssertions<T>(func, Extractor);
         }
 
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
+        /// <summary>
+        /// Returns a <see cref="TaskCompletionSourceAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="TaskCompletionSource{T}"/>.
+        /// </summary>
+        [Pure]
+        public static TaskCompletionSourceAssertions<T> Should<T>(this TaskCompletionSource<T> tcs)
+        {
+            return new TaskCompletionSourceAssertions<T>(tcs);
+        }
+
+#if !NETSTANDARD2_0
 
         /// <summary>
         /// Starts monitoring <paramref name="eventSource"/> for its events.
@@ -737,25 +765,28 @@ namespace FluentAssertions
         /// <remarks>
         /// Has been introduced to allow casting objects without breaking the fluent API.
         /// </remarks>
-        /// <typeparam name="TTo"></typeparam>
+        /// <typeparam name="TTo">The <see cref="Type"/> to cast <paramref name="subject"/> to</typeparam>
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default;
+            return subject is TTo to ? to : default;
         }
 
+#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
+
         /// <summary>
-        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
-        /// <param name = "expectedWildcardPattern">
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="expectedWildcardPattern">
         /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
-        /// <param name = "because">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
             this Task<ExceptionAssertions<TException>> task,
@@ -766,5 +797,25 @@ namespace FluentAssertions
         {
             return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
         }
+
+        /// <summary>
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
+        /// </summary>
+        /// <typeparam name="TException">The expected type of the exception.</typeparam>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
+            this Task<ExceptionAssertions<TException>> task,
+            string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+            where TInnerException : Exception
+        {
+            return (await task).WithInnerException<TInnerException>(because, becauseArgs);
+        }
+
+#pragma warning restore AV1755
     }
 }

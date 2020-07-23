@@ -55,6 +55,7 @@ collection.Should().OnlyContain(x => x < 10);
 collection.Should().ContainItemsAssignableTo<int>();
 
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
+collection.Should().NotContainInOrder(new[] { 5, 1, 2 });
 
 collection.Should().NotContain(82);
 collection.Should().NotContain(new[] { 82, 83 });
@@ -63,6 +64,8 @@ collection.Should().NotContain(x => x > 10);
 
 object boxedValue = 2;
 collection.Should().ContainEquivalentOf(boxedValue); // Compared by object equivalence
+object unexpectedBoxedValue = 82;
+collection.Should().NotContainEquivalentOf(unexpectedBoxedValue); // Compared by object equivalence
 
 const int successor = 5;
 const int predecessor = 5;
@@ -83,11 +86,17 @@ collection.Should().BeInDescendingOrder();
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
 
-IEnumerable<string> stringCollection = new[] { "build succeded", "test failed" };
+IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
 stringCollection.Should().ContainMatch("* failed");
+stringCollection.Should().AllBe("build succeeded");
 ```
 
-The `collection.Should().ContainEquivalentOf(boxedValue)` asserts that a collection contains at least one object that is equivalent to the expected object. The comparison is governed by the same rules and options as the [Object graph comparison](/objectgraphs).
+In order to assert presence of an equivalent item in a collection applying [Object graph comparison](/objectgraphs) rules, use this:
+
+```csharp
+collection.Should().ContainEquivalentOf(boxedValue);
+collection.Should().NotContainEquivalentOf(unexpectedBoxedValue)
+```
 
 Those last two methods can be used to assert a collection contains items in ascending or descending order.
 For simple types that might be fine, but for more complex types, it requires you to implement `IComparable`, something that doesn't make a whole lot of sense in all cases.

@@ -23,7 +23,7 @@ namespace FluentAssertions.Execution
         IEnumerable<string> DiscardFailures();
 
         /// <summary>
-        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+        /// Will throw a combined exception for any failures have been collected.
         /// </summary>
         void ThrowIfAny(IDictionary<string, object> context);
     }

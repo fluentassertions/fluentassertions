@@ -1,10 +1,6 @@
-﻿#region
-
-using System;
+﻿using System;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-
-#endregion
 
 namespace FluentAssertions
 {
@@ -43,6 +39,6 @@ namespace FluentAssertions
         /// Represents a mutable collection of steps that are executed while asserting a (collection of) object(s)
         /// is structurally equivalent to another (collection of) object(s).
         /// </summary>
-        public static EquivalencyStepCollection EquivalencySteps { get; private set; }
+        public static EquivalencyStepCollection EquivalencySteps { get; }
     }
 }

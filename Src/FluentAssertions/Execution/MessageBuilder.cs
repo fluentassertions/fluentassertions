@@ -80,7 +80,7 @@ namespace FluentAssertions.Execution
             {
                 string key = match.Groups["key"].Value;
                 string contextualTags = contextData.AsStringOrDefault(key);
-                string contextualTagsSubstituted = contextualTags?.Replace("{", "{{").Replace("}", "}}");
+                string contextualTagsSubstituted = contextualTags?.EscapePlaceholders();
 
                 return contextualTagsSubstituted ?? match.Groups["default"].Value;
             });
@@ -91,7 +91,7 @@ namespace FluentAssertions.Execution
             string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
             string formattedMessage = string.Format(failureMessage, values);
 
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
+            return formattedMessage;
         }
 
         private string SanitizeReason(string reason)
@@ -99,12 +99,12 @@ namespace FluentAssertions.Execution
             if (!string.IsNullOrEmpty(reason))
             {
                 reason = EnsurePrefix("because", reason);
-                reason = reason.Replace("{", "{{").Replace("}", "}}");
+                reason = reason.EscapePlaceholders();
 
                 return StartsWithBlank(reason) ? reason : " " + reason;
             }
 
-            return "";
+            return string.Empty;
         }
 
         // SMELL: looks way too complex just to retain the leading whitespace
@@ -113,7 +113,7 @@ namespace FluentAssertions.Execution
             string leadingBlanks = ExtractLeadingBlanksFrom(text);
             string textWithoutLeadingBlanks = text.Substring(leadingBlanks.Length);
 
-            return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)
+            return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
                 ? leadingBlanks + prefix + " " + textWithoutLeadingBlanks
                 : text;
         }

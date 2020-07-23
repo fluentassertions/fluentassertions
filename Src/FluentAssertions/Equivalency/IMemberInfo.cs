@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency
     public interface IMemberInfo
     {
         /// <summary>
-        /// Gets the <see cref="SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
+        /// Gets the <see cref="Equivalency.SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
         /// object represents the root object.
         /// </summary>
         SelectedMemberInfo SelectedMemberInfo { get; }

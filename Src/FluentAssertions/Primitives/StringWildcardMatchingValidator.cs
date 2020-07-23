@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -18,12 +19,12 @@ namespace FluentAssertions.Primitives
 
             if (!isMatch && !Negate)
             {
-                assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+                Assertion.FailWith(ExpectationDescription + "but {1} does not.", Expected, Subject);
             }
 
             if (isMatch && Negate)
             {
-                assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+                Assertion.FailWith(ExpectationDescription + "but {1} matches.", Expected, Subject);
             }
         }
 
@@ -31,15 +32,19 @@ namespace FluentAssertions.Primitives
         {
             RegexOptions options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
-            string input = CleanNewLines(subject);
-            string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
+            string input = CleanNewLines(Subject);
+            string pattern = ConvertWildcardToRegEx(CleanNewLines(Expected));
 
             return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
         }
 
         private static string ConvertWildcardToRegEx(string wildcardExpression)
         {
-            return "^" + Regex.Escape(wildcardExpression).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+            return "^"
+                + Regex.Escape(wildcardExpression)
+                 .Replace("\\*", ".*", StringComparison.Ordinal)
+                 .Replace("\\?", ".", StringComparison.Ordinal)
+                + "$";
         }
 
         private string CleanNewLines(string input)

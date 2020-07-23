@@ -12,7 +12,24 @@ namespace FluentAssertions.Primitives
     /// for a more fluent way of specifying a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class NullableSimpleTimeSpanAssertions : SimpleTimeSpanAssertions
+    public class NullableSimpleTimeSpanAssertions : NullableSimpleTimeSpanAssertions<NullableSimpleTimeSpanAssertions>
+    {
+        public NullableSimpleTimeSpanAssertions(TimeSpan? value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.
+    /// </summary>
+    /// <remarks>
+    /// You can use the <see cref="FluentAssertions.Extensions.FluentTimeSpanExtensions"/>
+    /// for a more fluent way of specifying a <see cref="TimeSpan"/>.
+    /// </remarks>
+    [DebuggerNonUserCode]
+    public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAssertions<TAssertions>
+        where TAssertions : NullableSimpleTimeSpanAssertions<TAssertions>
     {
         public NullableSimpleTimeSpanAssertions(TimeSpan? value)
             : base(value)
@@ -27,16 +44,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableSimpleTimeSpanAssertions> HaveValue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
-            return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -47,9 +64,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableSimpleTimeSpanAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
             return HaveValue(because, becauseArgs);
         }
@@ -62,16 +79,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableSimpleTimeSpanAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -82,9 +99,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableSimpleTimeSpanAssertions> BeNull(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
         {
             return NotHaveValue(because, becauseArgs);
         }
@@ -98,9 +115,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableSimpleTimeSpanAssertions> Be(TimeSpan? expected, string because = "",
+        public AndConstraint<TAssertions> Be(TimeSpan? expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -108,7 +125,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
-            return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

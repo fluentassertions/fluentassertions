@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Represents a rule that defines which members of the subject-under-test to include while comparing
+    /// Represents a rule that defines which members of the expectation to include while comparing
     /// two objects for structural equality.
     /// </summary>
     public interface IMemberSelectionRule
@@ -14,11 +14,11 @@ namespace FluentAssertions.Equivalency
         bool IncludesMembers { get; }
 
         /// <summary>
-        /// Adds or removes properties to/from the collection of subject members that must be included while
+        /// Adds or removes properties or fields to/from the collection of members that must be included while
         /// comparing two objects for structural equality.
         /// </summary>
         /// <param name="selectedMembers">
-        /// A collection of members that was prepopulated by other selection rules. Can be empty.</param>
+        /// A collection of members that was pre-populated by other selection rules. Can be empty.</param>
         /// <param name="context"></param>
         /// <param name="config"></param>
         /// <returns>

@@ -20,7 +20,7 @@ namespace FluentAssertions.Primitives
 
         public bool IsMatchedBy(TimeSpan actual, TimeSpan expected)
         {
-            return lambda(actual, expected);
+            return lambda(actual, expected) && actual >= TimeSpan.Zero;
         }
     }
 }

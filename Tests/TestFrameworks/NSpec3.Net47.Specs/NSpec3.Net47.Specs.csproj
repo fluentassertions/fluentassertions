@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+    <RootNamespace>NSpec3.Specs</RootNamespace>
+    <AssemblyName>NSpec3.Specs</AssemblyName>
+    <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NSpec" Version="3.1.0" />
+  </ItemGroup>
+</Project>

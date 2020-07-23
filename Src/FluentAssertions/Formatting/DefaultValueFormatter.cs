@@ -9,21 +9,22 @@ namespace FluentAssertions.Formatting
 {
     public class DefaultValueFormatter : IValueFormatter
     {
-        #region Private Definitions
-
         private const int RootLevel = 0;
-        private const int SpacesPerIndentionLevel = 3;
 
-        #endregion
+        /// <summary>
+        /// The number of spaces to indent the members of this object by.
+        /// </summary>
+        /// <remarks>The default value is 3.</remarks>
+        protected virtual int SpacesPerIndentionLevel { get; } = 3;
 
         /// <summary>
         /// Determines whether this instance can handle the specified value.
         /// </summary>
-        /// <param name = "value">The value.</param>
+        /// <param name="value">The value.</param>
         /// <returns>
         /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanHandle(object value)
+        public virtual bool CanHandle(object value)
         {
             return true;
         }
@@ -36,27 +37,40 @@ namespace FluentAssertions.Formatting
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
 
-            string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
+            string prefix = context.UseLineBreaks ? Environment.NewLine : string.Empty;
 
             if (HasDefaultToStringImplementation(value))
             {
-                if (true)
-                {
-                    return prefix + GetTypeAndPublicPropertyValues(value, context, formatChild);
-                }
+                return prefix + GetTypeAndMemberValues(value, context, formatChild);
             }
 
             return prefix + value;
         }
 
+        /// <summary>
+        /// Selects which members of <paramref name="type"/> to format.
+        /// </summary>
+        /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+        /// <returns>The members of <paramref name="type"/> that will be included when formatting this object.</returns>
+        /// <remarks>The default is all non-private members.</remarks>
+        protected virtual IEnumerable<SelectedMemberInfo> GetMembers(Type type) => type.GetNonPrivateMembers();
+
+        /// <summary>
+        /// Selects the name to display for <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+        /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
+        /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
+        protected virtual string TypeDisplayName(Type type) => type.FullName;
+
         private static bool HasDefaultToStringImplementation(object value)
         {
             string str = value.ToString();
 
-            return str is null || str.Equals(value.GetType().ToString());
+            return str is null || str == value.GetType().ToString();
         }
 
-        private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)
+        private string GetTypeAndMemberValues(object obj, FormattingContext context, FormatChild formatChild)
         {
             var builder = new StringBuilder();
 
@@ -67,14 +81,14 @@ namespace FluentAssertions.Formatting
             }
 
             Type type = obj.GetType();
-            builder.AppendLine(type.FullName);
+            builder.AppendLine(TypeDisplayName(type));
             builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
 
-            IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
-            foreach (SelectedMemberInfo propertyInfo in properties.OrderBy(pi => pi.Name))
+            IEnumerable<SelectedMemberInfo> members = GetMembers(type);
+            foreach (SelectedMemberInfo memberInfo in members.OrderBy(mi => mi.Name))
             {
-                string propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, context, formatChild);
-                builder.AppendLine(propertyValueText);
+                string memberValueText = GetMemberValueTextFor(obj, memberInfo, context, formatChild);
+                builder.AppendLine(memberValueText);
             }
 
             builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('}');
@@ -82,26 +96,26 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private static string GetPropertyValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, FormattingContext context, FormatChild formatChild)
+        private string GetMemberValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, FormattingContext context, FormatChild formatChild)
         {
-            object propertyValue;
+            object memberValue;
 
             try
             {
-                propertyValue = selectedMemberInfo.GetValue(value, null);
+                memberValue = selectedMemberInfo.GetValue(value, null);
             }
             catch (Exception ex)
             {
-                propertyValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
+                memberValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
             }
 
             return string.Format("{0}{1} = {2}",
                 CreateWhitespaceForLevel(context.Depth + 1),
                 selectedMemberInfo.Name,
-                formatChild(selectedMemberInfo.Name, propertyValue));
+                formatChild(selectedMemberInfo.Name, memberValue));
         }
 
-        private static string CreateWhitespaceForLevel(int level)
+        private string CreateWhitespaceForLevel(int level)
         {
             return new string(' ', level * SpacesPerIndentionLevel);
         }

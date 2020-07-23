@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency
         string Because { get; set; }
 
         /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="Because"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="Because" />.
         /// </summary>
         object[] BecauseArgs { get; set; }
     }

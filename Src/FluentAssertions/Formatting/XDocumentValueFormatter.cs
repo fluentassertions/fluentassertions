@@ -6,7 +6,7 @@ namespace FluentAssertions.Formatting
     {
         public bool CanHandle(object value)
         {
-            return (value is XDocument);
+            return value is XDocument;
         }
 
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace FluentAssertions.Formatting
                 : FormatDocumentWithoutRoot();
         }
 
-        private string FormatDocumentWithoutRoot()
+        private static string FormatDocumentWithoutRoot()
         {
             return "[XML document without root element]";
         }

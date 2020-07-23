@@ -7,9 +7,6 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
-#if NET45
-    [Serializable]
-#endif
     internal class CollectingAssertionStrategy : IAssertionStrategy
     {
         private readonly List<string> failureMessages = new List<string>();
@@ -30,7 +27,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+        /// Will throw a combined exception for any failures have been collected.
         /// </summary>
         public void ThrowIfAny(IDictionary<string, object> context)
         {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Types
@@ -37,7 +37,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
+            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
 
@@ -46,7 +46,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDoNotDeriveFrom<TBase>()
         {
-            types = types.Where(type => !type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
+            types = types.Where(type => !type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
 
@@ -56,9 +56,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatImplement<TInterface>()
         {
             types = types.Where(t =>
-                typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 
@@ -68,9 +68,9 @@ namespace FluentAssertions.Types
         public TypeSelector ThatDoNotImplement<TInterface>()
         {
             types = types.Where(t =>
-                !typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+                        !typeof(TInterface).IsAssignableFrom(t)
+                        && (t != typeof(TInterface)))
+                    .ToList();
             return this;
         }
 
@@ -82,7 +82,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().IsDecoratedWith<TAttribute>())
+                .Where(t => t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -96,7 +96,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
+                .Where(t => t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -110,7 +110,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().IsDecoratedWith<TAttribute>())
+                .Where(t => !t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
             return this;
@@ -124,7 +124,7 @@ namespace FluentAssertions.Types
         {
             types = types
 
-                .Where(t => !t.GetTypeInfo().IsDecoratedWithOrInherit<TAttribute>())
+                .Where(t => !t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
             return this;
@@ -163,6 +163,109 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreNotUnderNamespace(string @namespace)
         {
             types = types.Where(t => !t.IsUnderNamespace(@namespace)).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is a class
+        /// </summary>
+        public TypeSelector ThatAreClasses()
+        {
+            types = types.Where(t => t.IsClass).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is not a class
+        /// </summary>
+        public TypeSelector ThatAreNotClasses()
+        {
+            types = types.Where(t => !t.IsClass).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is static
+        /// </summary>
+        public TypeSelector ThatAreStatic()
+        {
+            types = types.Where(t => t.IsCSharpStatic()).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether the type is not static
+        /// </summary>
+        public TypeSelector ThatAreNotStatic()
+        {
+            types = types.Where(t => !t.IsCSharpStatic()).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Allows to filter the types with the <paramref name="predicate"/> passed
+        /// </summary>
+        public TypeSelector ThatSatisfy(Func<Type, bool> predicate)
+        {
+            types = types.Where(predicate).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Returns T for the types which are <see cref="Task{T}"/> or <see cref="ValueTask{T}"/>; the type itself otherwise
+        /// </summary>
+        public TypeSelector UnwrapTaskTypes()
+        {
+            types = types.Select(type =>
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+                {
+                    return type.GetGenericArguments().Single();
+                }
+
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
+                {
+                    return type.GetGenericArguments().Single();
+                }
+
+                return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
+            }).ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Returns T for the types which are <see cref="IEnumerable{T}"/> or implement the <see cref="IEnumerable{T}"/>; the type itself otherwise
+        /// </summary>
+        public TypeSelector UnwrapEnumerableTypes()
+        {
+            var unwrappedTypes = new List<Type>();
+            foreach (Type type in types)
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    unwrappedTypes.Add(type.GetGenericArguments().Single());
+                }
+                else
+                {
+                    var iEnumerableImplementations = type
+                        .GetInterfaces()
+                        .Where(iType => iType.IsGenericType && iType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                        .Select(ied => ied.GetGenericArguments().Single())
+                        .ToList();
+
+                    if (iEnumerableImplementations.Any())
+                    {
+                        unwrappedTypes.AddRange(iEnumerableImplementations);
+                    }
+                    else
+                    {
+                        unwrappedTypes.Add(type);
+                    }
+                }
+            }
+
+            types = unwrappedTypes;
             return this;
         }
 

@@ -3,32 +3,45 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IComparable"/> is in the expected state.
+    /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T>
-        where T : struct
+    public class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
+        where T : struct, IComparable<T>
     {
-        public NumericAssertions(object value)
+        public NumericAssertions(T value)
+            : base(value)
         {
-            if (!(value is null))
-            {
-                Subject = value as IComparable;
-                if (Subject is null)
-                {
-                    throw new InvalidOperationException("This class only supports types implementing IComparable.");
-                }
-            }
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
+    public class NumericAssertions<T, TAssertions>
+        where T : struct, IComparable<T>
+        where TAssertions : NumericAssertions<T, TAssertions>
+    {
+        public NumericAssertions(T value)
+            : this((T?)value)
+        {
         }
 
-        public IComparable Subject { get; private set; }
+        private protected NumericAssertions(T? value)
+        {
+            SubjectInternal = value;
+        }
+
+        public T Subject => SubjectInternal.Value;
+
+        private protected T? SubjectInternal { get; }
 
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.
@@ -39,16 +52,16 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) == 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -60,16 +73,18 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> Be(T? expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject is null && !expected.HasValue) || (!(Subject is null) && Subject.CompareTo(expected) == 0))
+                .ForCondition(
+                    (!SubjectInternal.HasValue && !expected.HasValue)
+                    || (SubjectInternal.HasValue && expected.HasValue && SubjectInternal.Value.CompareTo(expected.Value) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -81,16 +96,16 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> NotBe(T unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is null || Subject.CompareTo(unexpected) != 0)
+                .ForCondition(!SubjectInternal.HasValue || SubjectInternal.Value.CompareTo(unexpected) != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -102,16 +117,18 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject is null == unexpected.HasValue) || (!(Subject is null) && Subject.CompareTo(unexpected) != 0))
+                .ForCondition(
+                    (!SubjectInternal.HasValue == unexpected.HasValue)
+                    || (SubjectInternal.HasValue && unexpected.HasValue && SubjectInternal.Value.CompareTo(unexpected.Value) != 0))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -122,16 +139,16 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BePositive(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) > 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(default(T)) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be positive{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:value} to be positive{reason}, but found {0}.", SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -142,16 +159,16 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeNegative(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(default(T)) < 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(default(T)) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -163,16 +180,16 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) < 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -184,17 +201,17 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string because = "",
+        public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) <= 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -206,17 +223,17 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string because = "",
+        public AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) > 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -228,17 +245,17 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "",
+        public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && Subject.CompareTo(expected) >= 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}.", expected, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -258,18 +275,18 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "",
+        public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && (Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
+                .ForCondition(SubjectInternal.HasValue && (SubjectInternal.Value.CompareTo(minimumValue) >= 0) && (SubjectInternal.Value.CompareTo(maximumValue) <= 0))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be between {0} and {1}{reason}, but found {2}.",
-                    minimumValue, maximumValue, Subject);
+                    minimumValue, maximumValue, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -289,18 +306,18 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> NotBeInRange(T minimumValue, T maximumValue, string because = "",
+        public AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && !((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0)))
+                .ForCondition(SubjectInternal.HasValue && !((SubjectInternal.Value.CompareTo(minimumValue) >= 0) && (SubjectInternal.Value.CompareTo(maximumValue) <= 0)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not be between {0} and {1}{reason}, but found {2}.",
-                    minimumValue, maximumValue, Subject);
+                    minimumValue, maximumValue, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -309,7 +326,7 @@ namespace FluentAssertions.Numeric
         /// <param name="validValues">
         /// The values that are valid.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeOneOf(params T[] validValues)
+        public AndConstraint<TAssertions> BeOneOf(params T[] validValues)
         {
             return BeOneOf(validValues, string.Empty);
         }
@@ -325,17 +342,17 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeOneOf(IEnumerable<T> validValues, string because = "",
+        public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject is null) && validValues.Contains((T)Subject))
+                .ForCondition(SubjectInternal.HasValue && validValues.Contains((T)SubjectInternal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+                .FailWith("Expected {context:value} to be one of {0}{reason}, but found {1}.", validValues, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -349,21 +366,23 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
-            Type subjectType = Subject.GetType();
-            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
+            Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+
+            Type subjectType = SubjectInternal?.GetType();
+            if (expectedType.IsGenericTypeDefinition && subjectType?.IsGenericType == true)
             {
-                subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
+                (subjectType?.GetGenericTypeDefinition()).Should().Be(expectedType, because, becauseArgs);
             }
             else
             {
                 subjectType.Should().Be(expectedType, because, becauseArgs);
             }
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -377,13 +396,20 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
         {
-            Subject.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
+            Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            Execute.Assertion
+                .ForCondition(SubjectInternal.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type not to be " + unexpectedType + "{reason}, but found <null>.");
+
+            SubjectInternal.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -397,20 +423,20 @@ namespace FluentAssertions.Numeric
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> Match(Expression<Func<T, bool>> predicate,
+        public AndConstraint<TAssertions> Match(Expression<Func<T, bool>> predicate,
             string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
             Execute.Assertion
-                .ForCondition(predicate.Compile()((T)Subject))
+                .ForCondition(predicate.Compile()((T)SubjectInternal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to match {0}{reason}, but found {1}.", predicate.Body, Subject);
+                .FailWith("Expected {context:value} to match {0}{reason}, but found {1}.", predicate.Body, SubjectInternal);
 
-            return new AndConstraint<NumericAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

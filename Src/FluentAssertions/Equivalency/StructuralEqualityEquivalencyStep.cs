@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.IsRoot || config.IsRecursive);
+            return context.IsRoot || config.IsRecursive;
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                SelectedMemberInfo[] selectedMembers = GetSelectedMembers(context, config).ToArray();
+                SelectedMemberInfo[] selectedMembers = GetMembersFromExpectation(context, config).ToArray();
                 if (context.IsRoot && !selectedMembers.Any())
                 {
                     throw new InvalidOperationException(
@@ -77,14 +77,14 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context,
+        private static IEnumerable<SelectedMemberInfo> GetMembersFromExpectation(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
-            foreach (IMemberSelectionRule selectionRule in config.SelectionRules)
+            foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
-                members = selectionRule.SelectMembers(members, context, config);
+                members = rule.SelectMembers(members, context, config);
             }
 
             return members;

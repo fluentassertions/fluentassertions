@@ -38,32 +38,30 @@ namespace FluentAssertions.Common
         /// <returns>Index at which two sequences have elements that are not equal, or -1 if enumerables are equal</returns>
         public static int IndexOfFirstDifferenceWith<TFirst, TSecond>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, bool> equalityComparison)
         {
-            using (IEnumerator<TFirst> firstEnumerator = first.GetEnumerator())
-            using (IEnumerator<TSecond> secondEnumerator = second.GetEnumerator())
+            using IEnumerator<TFirst> firstEnumerator = first.GetEnumerator();
+            using IEnumerator<TSecond> secondEnumerator = second.GetEnumerator();
+            int index = 0;
+            while (true)
             {
-                int index = 0;
-                while (true)
+                bool isFirstCompleted = !firstEnumerator.MoveNext();
+                bool isSecondCompleted = !secondEnumerator.MoveNext();
+
+                if (isFirstCompleted && isSecondCompleted)
                 {
-                    bool isFirstCompleted = !firstEnumerator.MoveNext();
-                    bool isSecondCompleted = !secondEnumerator.MoveNext();
-
-                    if (isFirstCompleted && isSecondCompleted)
-                    {
-                        return -1;
-                    }
-
-                    if (isFirstCompleted ^ isSecondCompleted)
-                    {
-                        return index;
-                    }
-
-                    if (!equalityComparison(firstEnumerator.Current, secondEnumerator.Current))
-                    {
-                        return index;
-                    }
-
-                    index++;
+                    return -1;
                 }
+
+                if (isFirstCompleted ^ isSecondCompleted)
+                {
+                    return index;
+                }
+
+                if (!equalityComparison(firstEnumerator.Current, secondEnumerator.Current))
+                {
+                    return index;
+                }
+
+                index++;
             }
         }
     }

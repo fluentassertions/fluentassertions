@@ -9,28 +9,30 @@ namespace FluentAssertions.Execution
     /// If the parent scope has captured a failed assertion, this class ensures that successive assertions
     /// are no longer evaluated.
     /// </remarks>
-#if NET45
-    [Serializable]
-#endif
-    public class ContinuedAssertionScope : IAssertionScope
+    public sealed class ContinuedAssertionScope : IAssertionScope
     {
         private readonly AssertionScope predecessor;
-        private readonly bool predecessorSucceeded;
+        private readonly bool continueAsserting;
 
-        public ContinuedAssertionScope(AssertionScope predecessor, bool predecessorSucceeded)
+        internal ContinuedAssertionScope(AssertionScope predecessor, bool continueAsserting)
         {
-            this.predecessorSucceeded = predecessorSucceeded;
             this.predecessor = predecessor;
+            this.continueAsserting = continueAsserting;
         }
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return predecessor.Given(selector);
+            if (continueAsserting)
+            {
+                return predecessor.Given(selector);
+            }
+
+            return new GivenSelector<T>(() => default, predecessor, continueAsserting: false);
         }
 
         public IAssertionScope ForCondition(bool condition)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.ForCondition(condition);
             }
@@ -40,34 +42,39 @@ namespace FluentAssertions.Execution
 
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.FailWith(failReasonFunc);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, continueAsserting: false);
         }
 
         public Continuation FailWith(string message, params object[] args)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.FailWith(message, args);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, continueAsserting: false);
         }
 
         public IAssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
-            return predecessor.BecauseOf(because, becauseArgs);
+            if (continueAsserting)
+            {
+                return predecessor.BecauseOf(because, becauseArgs);
+            }
+
+            return this;
         }
 
         public Continuation ClearExpectation()
         {
             predecessor.ClearExpectation();
 
-            return new Continuation(predecessor, predecessorSucceeded);
+            return new Continuation(predecessor, continueAsserting);
         }
 
         public IAssertionScope WithExpectation(string message, params object[] args)
@@ -81,8 +88,6 @@ namespace FluentAssertions.Execution
         }
 
         public IAssertionScope UsingLineBreaks => predecessor.UsingLineBreaks;
-
-        public bool Succeeded => predecessor.Succeeded;
 
         public string[] Discard()
         {

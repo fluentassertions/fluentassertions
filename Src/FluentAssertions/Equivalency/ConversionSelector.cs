@@ -8,13 +8,14 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>.
+    /// Collects the members that need to be converted by the <see cref="AutoConversionStep"/>.
     /// </summary>
     public class ConversionSelector
     {
         private class ConversionSelectorRule
         {
             public Func<IMemberInfo, bool> Predicate { get; }
+
             public string Description { get; }
 
             public ConversionSelectorRule(Func<IMemberInfo, bool> predicate, string description)

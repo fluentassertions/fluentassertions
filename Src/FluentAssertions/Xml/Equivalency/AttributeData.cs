@@ -1,5 +1,3 @@
-using System;
-
 namespace FluentAssertions.Xml.Equivalency
 {
     internal class AttributeData

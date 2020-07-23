@@ -27,29 +27,27 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                return (stringComparison == StringComparison.CurrentCultureIgnoreCase) ||
-                    (stringComparison == StringComparison.OrdinalIgnoreCase);
+                return stringComparison == StringComparison.OrdinalIgnoreCase;
             }
         }
 
         protected override bool ValidateAgainstLengthDifferences()
         {
-            return assertion
-                .ForCondition(subject.Length >= expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject)
-                .SourceSucceeded;
+            return Assertion
+                .ForCondition(Subject.Length >= Expected.Length)
+                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", Expected, Subject);
         }
 
         protected override void ValidateAgainstMismatch()
         {
-            bool isMismatch = !subject.StartsWith(expected, stringComparison);
+            bool isMismatch = !Subject.StartsWith(Expected, stringComparison);
             if (isMismatch)
             {
-                int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
+                int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, stringComparison);
 
-                assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    expected, subject);
+                Assertion.FailWith(
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                    Expected, Subject);
             }
         }
     }

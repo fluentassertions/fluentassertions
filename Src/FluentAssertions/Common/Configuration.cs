@@ -7,11 +7,11 @@ namespace FluentAssertions.Common
     {
         #region Private Definitions
 
+        private readonly object propertiesAccessLock = new object();
         private readonly IConfigurationStore store;
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;
         private string testFrameworkName;
-        private readonly object propertiesAccessLock = new object();
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace FluentAssertions.Common
             {
                 try
                 {
-                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, true);
+                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, ignoreCase: true);
                 }
                 catch (ArgumentException)
                 {

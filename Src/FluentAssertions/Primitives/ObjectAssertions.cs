@@ -11,7 +11,8 @@ namespace FluentAssertions.Primitives
     /// </summary>
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
-        public ObjectAssertions(object value) : base(value)
+        public ObjectAssertions(object value)
+            : base(value)
         {
         }
 
@@ -24,7 +25,7 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs)
         {
@@ -73,12 +74,12 @@ namespace FluentAssertions.Primitives
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -101,9 +102,9 @@ namespace FluentAssertions.Primitives
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -123,6 +124,8 @@ namespace FluentAssertions.Primitives
 
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
+
+            return new AndConstraint<ObjectAssertions>(this);
         }
 
         /// <summary>
@@ -140,14 +143,14 @@ namespace FluentAssertions.Primitives
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<ObjectAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             string because = "",
             params object[] becauseArgs)
         {
-            NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
+            return NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -170,9 +173,9 @@ namespace FluentAssertions.Primitives
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<ObjectAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
             string because = "",
@@ -191,6 +194,8 @@ namespace FluentAssertions.Primitives
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} not to be equivalent to {0}, but they are.", unexpected);
+
+            return new AndConstraint<ObjectAssertions>(this);
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
-using System.Xml;
+﻿using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -29,5 +27,3 @@ namespace FluentAssertions.Xml
         }
     }
 }
-
-#endif

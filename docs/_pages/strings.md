@@ -55,12 +55,12 @@ theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
 
 theString.Should().StartWith("This");
 theString.Should().NotStartWith("This");
-theString.Should().StartWithEquivalent("this");
+theString.Should().StartWithEquivalentOf("this");
 theString.Should().NotStartWithEquivalentOf("this");
 
 theString.Should().EndWith("a String");
 theString.Should().NotEndWith("a String");
-theString.Should().EndWithEquivalent("a string");
+theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
