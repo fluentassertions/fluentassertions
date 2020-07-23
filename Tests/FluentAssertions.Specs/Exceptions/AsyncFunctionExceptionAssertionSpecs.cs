@@ -113,6 +113,28 @@ namespace FluentAssertions.Specs
             await act.Should().ThrowAsync<AggregateException>().WithMessage("That was wrong as well.");
         }
 
+        [Fact]
+        public async Task When_async_method_throws_a_nested_AggregateException_it_should_provide_unwrapped_exception_to_predicate()
+        {
+            // Arrange
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+
+            // Act & Assert
+            await act.Should().ThrowAsync<ArgumentException>()
+                .Where(i => i.Message == "That was wrong.");
+        }
+
+        [Fact]
+        public async Task When_async_method_throws_a_flat_AggregateException_it_should_provide_it_to_predicate()
+        {
+            // Arrange
+            Func<Task> act = () => throw new AggregateException("That was wrong as well.");
+
+            // Act & Assert
+            await act.Should().ThrowAsync<AggregateException>()
+                .Where(i => i.Message == "That was wrong as well.");
+        }
+
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
