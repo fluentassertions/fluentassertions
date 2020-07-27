@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptions to follow file structure?
 {
+    [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
     public class AsyncFunctionExceptionAssertionSpecs
     {
         [Fact]
@@ -23,20 +25,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_method_throws_an_empty_AggregateException_it_should_fail()
-        {
-            // Arrange
-            Func<Task> act = () => throw new AggregateException();
-
-            // Act
-            Action act2 = () => act.Should().NotThrow();
-
-            // Assert
-            act2.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_subject_is_null_when_expecting_an_exception_it_should_throw()
+        public async Task When_subject_is_null_when_expecting_an_exception_it_should_throw()
         {
             // Arrange
             Func<Task> action = null;
@@ -46,12 +35,12 @@ namespace FluentAssertions.Specs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
         [Fact]
-        public void When_subject_is_null_when_not_expecting_a_generic_exception_it_should_throw()
+        public async Task When_subject_is_null_when_not_expecting_a_generic_exception_it_should_throw()
         {
             // Arrange
             Func<Task> action = null;
@@ -61,12 +50,12 @@ namespace FluentAssertions.Specs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
         [Fact]
-        public void When_subject_is_null_when_not_expecting_an_exception_it_should_throw()
+        public async Task When_subject_is_null_when_not_expecting_an_exception_it_should_throw()
         {
             // Arrange
             Func<Task> action = null;
@@ -76,7 +65,7 @@ namespace FluentAssertions.Specs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
@@ -93,8 +82,31 @@ namespace FluentAssertions.Specs
             await act2.Should().ThrowAsync<XunitException>();
         }
 
+        [UIFact]
+        public async Task When_async_method_throws_an_empty_AggregateException_on_UI_thread_it_should_fail()
+        {
+            // Arrange
+            Func<Task> act = () => throw new AggregateException();
+
+            // Act
+            Func<Task> act2 = () => act.Should().NotThrowAsync();
+
+            // Assert
+            await act2.Should().ThrowAsync<XunitException>();
+        }
+
         [Fact]
         public async Task When_async_method_throws_a_nested_AggregateException_it_should_provide_the_message()
+        {
+            // Arrange
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+
+            // Act & Assert
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
+        }
+
+        [UIFact]
+        public async Task When_async_method_throws_a_nested_AggregateException_on_UI_thread_it_should_provide_the_message()
         {
             // Arrange
             Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
@@ -138,16 +150,16 @@ namespace FluentAssertions.Specs
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
-        public void When_the_expected_exception_is_wrapped_it_should_succeed<T>(Func<Task> action, T _)
+        public async Task When_the_expected_exception_is_wrapped_async_it_should_succeed<T>(Func<Task> action, T _)
             where T : Exception
         {
             // Act/Assert
-            action.Should().Throw<T>();
+            await action.Should().ThrowAsync<T>();
         }
 
-        [Theory]
+        [UITheory]
         [MemberData(nameof(AggregateExceptionTestData))]
-        public async Task When_the_expected_exception_is_wrapped_async_it_should_succeed<T>(Func<Task> action, T _)
+        public async Task When_the_expected_exception_is_wrapped_on_UI_thread_async_it_should_succeed<T>(Func<Task> action, T _)
             where T : Exception
         {
             // Act/Assert
@@ -156,19 +168,19 @@ namespace FluentAssertions.Specs
 
         [Theory]
         [MemberData(nameof(AggregateExceptionTestData))]
-        public void When_the_expected_exception_is_not_wrapped_it_should_fail<T>(Func<Task> action, T _)
+        public async Task When_the_expected_exception_is_not_wrapped_async_it_should_fail<T>(Func<Task> action, T _)
             where T : Exception
         {
             // Act
-            Action act2 = () => action.Should().NotThrow<T>();
+            Func<Task> act2 = () => action.Should().NotThrowAsync<T>();
 
             // Assert
-            act2.Should().Throw<XunitException>();
+            await act2.Should().ThrowAsync<XunitException>();
         }
 
-        [Theory]
+        [UITheory]
         [MemberData(nameof(AggregateExceptionTestData))]
-        public async Task When_the_expected_exception_is_not_wrapped_async_it_should_fail<T>(Func<Task> action, T _)
+        public async Task When_the_expected_exception_is_not_wrapped_on_UI_thread_async_it_should_fail<T>(Func<Task> action, T _)
             where T : Exception
         {
             // Act
@@ -234,156 +246,134 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()
+        public async Task When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentNullException>())
-                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
         [Fact]
-        public void When_subject_ValueTask_throws_subclass_of_expected_exact_exception_it_should_fail()
+        public async Task When_subject_ValueTask_throws_subclass_of_expected_exact_exception_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentNullException>())
-                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
         [Fact]
-        public void When_subject_throws_aggregate_exception_and_not_expected_exact_exception_it_should_fail()
+        public async Task When_subject_throws_aggregate_exception_and_not_expected_exact_exception_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAggregateExceptionAsync<ArgumentException>())
-                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
         }
 
         [Fact]
-        public void When_subject_throws_aggregate_exception_and_not_expected_exact_exception_through_ValueTask_it_should_fail()
+        public async Task When_subject_throws_aggregate_exception_and_not_expected_exact_exception_through_ValueTask_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAggregateExceptionAsyncValueTask<ArgumentException>())
-                .Should().ThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
         }
 
         [Fact]
-        public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
+        public async Task When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act / Assert
-            asyncObject
+            await asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentNullException>())
-                .Should().ThrowExactly<ArgumentNullException>();
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
         [Fact]
-        public void When_subject_throws_the_expected_exact_exception_through_ValueTask_it_should_succeed()
+        public async Task When_subject_throws_the_expected_exact_exception_through_ValueTask_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            asyncObject
+            await asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentNullException>())
-                .Should().ThrowExactly<ArgumentNullException>();
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
         [Fact]
-        public void When_async_method_throws_expected_exception_it_should_succeed()
+        public async Task When_async_method_throws_expected_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentException>())
-                .Should().Throw<ArgumentException>();
+                .Should().ThrowAsync<ArgumentException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_throws_expected_exception__through_ValueTask_it_should_succeed()
+        public async Task When_async_method_throws_expected_exception__through_ValueTask_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
-                .Should().Throw<ArgumentException>();
+                .Should().ThrowAsync<ArgumentException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_subject_is_null_it_should_be_null()
+        public async Task When_subject_is_null_it_should_be_null()
         {
             // Arrange
             Func<Task> subject = null;
 
             // Act
-            Action action = () => subject.Should().NotThrow();
+            Func<Task> action = () => subject.Should().NotThrowAsync();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("*found <null>*");
         }
 
@@ -401,135 +391,114 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_expected_exception_it_should_fail()
+        public async Task When_async_method_does_not_throw_expected_exception_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.SucceedAsync())
-                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowAsync<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_expected_exception_through_ValueTask_it_should_fail()
+        public async Task When_async_method_does_not_throw_expected_exception_through_ValueTask_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.SucceedAsyncValueTask())
-                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowAsync<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
         }
 
         [Fact]
-        public void When_async_method_throws_unexpected_exception_it_should_fail()
+        public async Task When_async_method_throws_unexpected_exception_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentException>())
-                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowAsync<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
         }
 
         [Fact]
-        public void When_async_method_throws_unexpected_exception_through_ValueTask_it_should_fail()
+        public async Task When_async_method_throws_unexpected_exception_through_ValueTask_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
-                .Should().Throw<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                .Should().ThrowAsync<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
+        public async Task When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.SucceedAsync())
-                .Should().NotThrow();
+                .Should().NotThrowAsync();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_exception_it_should_allow_chaining()
+        public async Task When_async_method_does_not_throw_exception_through_ValueTask_and_that_was_expected_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
-                .Awaiting(x => x.SucceedAsync())
-                .Should().NotThrow()
-                    .And.NotBeNull();
-
-            // Assert
-            action.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_async_method_does_not_throw_exception_through_ValueTask_and_that_was_expected_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var asyncObject = new AsyncClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.SucceedAsyncValueTask())
-                .Should().NotThrow();
+                .Should().NotThrowAsync();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
         public async Task When_async_method_does_not_throw_async_exception_and_that_was_expected_it_should_succeed()
+        {
+            // Arrange
+            var asyncObject = new AsyncClass();
+
+            // Act
+            Func<Task> action = () => asyncObject.SucceedAsync();
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [UIFact]
+        public async Task When_async_method_does_not_throw_async_exception_on_UI_thread_and_that_was_expected_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
@@ -555,29 +524,29 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_function_of_task_int_in_async_method_throws_the_expected_exception_it_should_succeed()
+        public async Task When_function_of_task_int_in_async_method_throws_the_expected_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
             Func<Task<int>> f = () => asyncObject.ThrowTaskIntAsync<ArgumentNullException>(true);
 
             // Act / Assert
-            f.Should().Throw<ArgumentNullException>();
+            await f.Should().ThrowAsync<ArgumentNullException>();
         }
 
         [Fact]
-        public void When_function_of_task_int_in_async_method_throws_not_excepted_exception_it_should_succeed()
+        public async Task When_function_of_task_int_in_async_method_throws_not_excepted_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
             Func<Task<int>> f = () => asyncObject.ThrowTaskIntAsync<InvalidOperationException>(true);
 
             // Act / Assert
-            f.Should().NotThrow<ArgumentNullException>();
+            await f.Should().NotThrowAsync<ArgumentNullException>();
         }
 
         [Fact]
-        public void When_subject_is_null_when_expecting_an_exact_exception_it_should_throw()
+        public async Task When_subject_is_null_when_expecting_an_exact_exception_it_should_throw()
         {
             // Arrange
             Func<Task> action = null;
@@ -587,7 +556,7 @@ namespace FluentAssertions.Specs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
@@ -634,78 +603,79 @@ namespace FluentAssertions.Specs
             await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
         }
 
-        [Fact]
-        public void When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
+        [UIFact]
+        public async Task When_subject_throws_on_UI_thread_expected_async_exact_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
-                .Awaiting(x => x.ThrowAsync<ArgumentException>())
-                .Should().NotThrow();
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
+        }
+
+        [Fact]
+        public async Task When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
+        {
+            // Arrange
+            var asyncObject = new AsyncClass();
+
+            // Act
+            Func<Task> action = () => asyncObject
+                .Awaiting(x => x.ThrowAsync<ArgumentException>())
+                .Should().NotThrowAsync();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
         [Fact]
-        public void When_async_method_throws_exception_through_ValueTask_and_no_exception_was_expected_it_should_fail()
+        public async Task When_async_method_throws_exception_through_ValueTask_and_no_exception_was_expected_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
-                .Should().NotThrow();
+                .Should().NotThrowAsync();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect any exception, but found System.ArgumentException*");
         }
 
         [Fact]
-        public void When_async_method_throws_exception_and_expected_not_to_throw_another_one_it_should_succeed()
+        public async Task When_async_method_throws_exception_and_expected_not_to_throw_another_one_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentException>())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
+        public async Task When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
@@ -722,171 +692,131 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_async_method_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
+        public async Task When_async_method_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(_ => asyncObject.SucceedAsync())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_succeeds_it_should_allow_chaining()
+        public async Task When_async_method_succeeds_and_expected_not_to_throw_particular_exception_through_ValueTask_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
-                .Awaiting(_ => asyncObject.SucceedAsync())
-                .Should().NotThrow<InvalidOperationException>()
-                    .And.NotBeNull();
-
-            // Assert
-            action.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_async_method_succeeds_and_expected_not_to_throw_particular_exception_through_ValueTask_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var asyncObject = new AsyncClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(_ => asyncObject.SucceedAsyncValueTask())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        public async Task When_async_method_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsync<ArgumentException>())
-                .Should().NotThrow<ArgumentException>();
+                .Should().NotThrowAsync<ArgumentException>();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found*");
         }
 
         [Fact]
-        public void When_async_method_throws_exception_expected_through_ValueTask_not_to_be_thrown_it_should_fail()
+        public async Task When_async_method_throws_exception_expected_through_ValueTask_not_to_be_thrown_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowAsyncValueTask<ArgumentException>())
-                .Should().NotThrow<ArgumentException>();
+                .Should().NotThrowAsync<ArgumentException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found*");
         }
 
         [Fact]
-        public void When_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
+        public async Task When_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(_ => asyncObject.ReturnTaskInt())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_ValueTask_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
+        public async Task When_ValueTask_async_method_of_T_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(_ => asyncObject.ReturnValueTaskInt())
-                .Should().NotThrow<InvalidOperationException>();
+                .Should().NotThrowAsync<InvalidOperationException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        public async Task When_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
             // Arrange
             var asyncObject = new AsyncClass();
 
             // Act
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowTaskIntAsync<ArgumentException>(true))
-                .Should().NotThrow<ArgumentException>();
+                .Should().NotThrowAsync<ArgumentException>();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
 
         [Fact]
-        public void When_ValueTask_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
+        public async Task When_ValueTask_async_method_of_T_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
-            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncObject
+            Func<Task> action = () => asyncObject
                 .Awaiting(x => x.ThrowValueTaskIntAsync<ArgumentException>(true))
-                .Should().NotThrow<ArgumentException>();
+                .Should().NotThrowAsync<ArgumentException>();
 
-            //-----------------------------------------------------------------------------------------------------------
             // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found System.ArgumentException*");
         }
 
         [Fact]
-        public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
+        public async Task When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             // Arrange
             Func<Task> task = async () =>
@@ -896,16 +826,16 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action action = () => task
-                .Should().Throw<AggregateException>()
-                .WithInnerException<InvalidOperationException>();
+            Func<Task> action = () => task
+                .Should().ThrowAsync<AggregateException>()
+                .WithInnerException<AggregateException, InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_throws_aggregate_exception_containing_expected_exception_it_should_succeed()
+        public async Task When_async_method_throws_aggregate_exception_containing_expected_exception_it_should_succeed()
         {
             // Arrange
             Func<Task> task = async () =>
@@ -915,15 +845,15 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action action = () => task
-                .Should().Throw<InvalidOperationException>();
+            Func<Task> action = () => task
+                .Should().ThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_throws_the_expected_exception_it_should_succeed()
+        public async Task When_async_method_throws_the_expected_exception_it_should_succeed()
         {
             // Arrange
             Func<Task> task = async () =>
@@ -933,15 +863,15 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action action = () => task
-                .Should().Throw<InvalidOperationException>();
+            Func<Task> action = () => task
+                .Should().ThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_the_expected_inner_exception_it_should_fail()
+        public async Task When_async_method_does_not_throw_the_expected_inner_exception_it_should_fail()
         {
             // Arrange
             Func<Task> task = async () =>
@@ -951,16 +881,16 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action action = () => task
-                .Should().Throw<AggregateException>()
-                .WithInnerException<InvalidOperationException>();
+            Func<Task> action = () => task
+                .Should().ThrowAsync<AggregateException>()
+                .WithInnerException<AggregateException, InvalidOperationException>();
 
             // Assert
-            action.Should().Throw<XunitException>().WithMessage("*InvalidOperation*Argument*");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
 
         [Fact]
-        public void When_async_method_does_not_throw_the_expected_exception_it_should_fail()
+        public async Task When_async_method_does_not_throw_the_expected_exception_it_should_fail()
         {
             // Arrange
             Func<Task> task = async () =>
@@ -970,11 +900,11 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action action = () => task
-                .Should().Throw<InvalidOperationException>();
+            Func<Task> action = () => task
+                .Should().ThrowAsync<InvalidOperationException>();
 
             // Assert
-            action.Should().Throw<XunitException>().WithMessage("*InvalidOperation*Argument*");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
 
         [Fact]
@@ -1033,163 +963,45 @@ namespace FluentAssertions.Specs
             action.Should().Throw<InvalidOperationException>("*async*void*");
         }
 
-        #region NotThrowAfter
-
-        [Fact]
-        public void When_wait_time_is_negative_for_async_func_executed_with_wait_it_should_throw()
-        {
-            // Arrange
-            var waitTime = -1.Milliseconds();
-            var pollInterval = 10.Milliseconds();
-
-            var asyncObject = new AsyncClass();
-            Func<Task> someFunc = () => asyncObject.SucceedAsync();
-
-            // Act
-            Action act = () => someFunc.Should().NotThrowAfter(waitTime, pollInterval);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of waitTime must be non-negative*");
-        }
-
-        [Fact]
-        public void When_wait_time_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
-        {
-            // Arrange
-            var waitTime = 0.Milliseconds();
-            var pollInterval = 10.Milliseconds();
-
-            var clock = new FakeClock();
-            var asyncObject = new AsyncClass();
-            Func<Task> someFunc = () => asyncObject.SucceedAsync();
-
-            // Act
-            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_poll_interval_is_negative_for_async_func_executed_with_wait_it_should_throw()
-        {
-            // Arrange
-            var waitTime = 10.Milliseconds();
-            var pollInterval = -1.Milliseconds();
-
-            var asyncObject = new AsyncClass();
-            Func<Task> someFunc = () => asyncObject.SucceedAsync();
-
-            // Act
-            Action act = () => someFunc.Should().NotThrowAfter(waitTime, pollInterval);
-
-            // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of pollInterval must be non-negative*");
-        }
-
-        [Fact]
-        public void When_poll_interval_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
-        {
-            // Arrange
-            var waitTime = 10.Milliseconds();
-            var pollInterval = 0.Milliseconds();
-
-            var clock = new FakeClock();
-            var asyncObject = new AsyncClass();
-            Func<Task> someFunc = () => asyncObject.SucceedAsync();
-
-            // Act
-            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_async_func_does_not_throw_it_should_allow_chaining()
-        {
-            // Arrange
-            var waitTime = 0.Milliseconds();
-            var pollInterval = 0.Milliseconds();
-
-            var clock = new FakeClock();
-            var asyncObject = new AsyncClass();
-            Func<Task> someFunc = () => asyncObject.SucceedAsync();
-
-            // Act
-            Action act = () => someFunc.Should(clock).NotThrowAfter(waitTime, pollInterval)
-                .And.NotBeNull();
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void
-            When_no_exception_should_be_thrown_for_async_func_executed_with_wait_after_wait_time_but_it_was_it_should_throw()
-        {
-            // Arrange
-            var waitTime = 2.Seconds();
-            var pollInterval = 10.Milliseconds();
-
-            var clock = new FakeClock();
-            var timer = clock.StartTimer();
-            clock.Delay(waitTime);
-
-            Func<Task> throwLongerThanWaitTime = async () =>
-            {
-                if (timer.Elapsed <= waitTime.Multiply(1.5))
-                {
-                    throw new ArgumentException("An exception was forced");
-                }
-
-                await Task.Yield();
-            };
-
-            // Act
-            Action action = () => throwLongerThanWaitTime.Should(clock)
-                .NotThrowAfter(waitTime, pollInterval, "we passed valid arguments");
-
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
-        }
-
-        [Fact]
-        public void When_no_exception_should_be_thrown_for_async_func_executed_with_wait_after_wait_time_and_none_was_it_should_not_throw()
-        {
-            // Arrange
-            var waitTime = 6.Seconds();
-            var pollInterval = 10.Milliseconds();
-
-            var clock = new FakeClock();
-            var timer = clock.StartTimer();
-            clock.Delay(waitTime);
-
-            Func<Task> throwShorterThanWaitTime = async () =>
-            {
-                if (timer.Elapsed <= waitTime.Divide(12))
-                {
-                    throw new ArgumentException("An exception was forced");
-                }
-
-                await Task.Yield();
-            };
-
-            // Act
-            Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        #endregion
-
         #region NotThrowAfterAsync
         [Fact]
-        public void When_subject_is_null_for_async_func_it_should_throw()
+        public async Task When_wait_time_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 0.Milliseconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
+
+            // Act
+            Func<Task> act = () => someFunc.Should(clock).NotThrowAfterAsync(waitTime, pollInterval);
+
+            // Assert
+            await act.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task When_poll_interval_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 10.Milliseconds();
+            var pollInterval = 0.Milliseconds();
+
+            var clock = new FakeClock();
+            var asyncObject = new AsyncClass();
+            Func<Task> someFunc = () => asyncObject.SucceedAsync();
+
+            // Act
+            Func<Task> act = () => someFunc.Should(clock).NotThrowAfterAsync(waitTime, pollInterval);
+
+            // Assert
+            await act.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task When_subject_is_null_for_async_func_it_should_throw()
         {
             // Arrange
             var waitTime = 0.Milliseconds();
@@ -1201,12 +1013,12 @@ namespace FluentAssertions.Specs
                 waitTime, pollInterval, "because we want to test the failure {0}", "message");
 
             // Assert
-            testAction.Should().Throw<XunitException>()
+            await testAction.Should().ThrowAsync<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
         [Fact]
-        public void When_wait_time_is_negative_for_async_func_it_should_throw()
+        public async Task When_wait_time_is_negative_for_async_func_it_should_throw()
         {
             // Arrange
             var waitTime = -1.Milliseconds();
@@ -1219,12 +1031,12 @@ namespace FluentAssertions.Specs
             Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
                 .WithMessage("* value of waitTime must be non-negative*");
         }
 
         [Fact]
-        public void When_poll_interval_is_negative_for_async_func_it_should_throw()
+        public async Task When_poll_interval_is_negative_for_async_func_it_should_throw()
         {
             // Arrange
             var waitTime = 10.Milliseconds();
@@ -1237,12 +1049,12 @@ namespace FluentAssertions.Specs
             Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
                 .WithMessage("* value of pollInterval must be non-negative*");
         }
 
         [Fact]
-        public void When_no_exception_should_be_thrown_for_null_async_func_after_wait_time_it_should_throw()
+        public async Task When_no_exception_should_be_thrown_for_null_async_func_after_wait_time_it_should_throw()
         {
             // Arrange
             var waitTime = 2.Seconds();
@@ -1255,12 +1067,12 @@ namespace FluentAssertions.Specs
                 .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("*but found <null>*");
         }
 
         [Fact]
-        public void When_no_exception_should_be_thrown_for_async_func_after_wait_time_but_it_was_it_should_throw()
+        public async Task When_no_exception_should_be_thrown_for_async_func_after_wait_time_but_it_was_it_should_throw()
         {
             // Arrange
             var waitTime = 2.Seconds();
@@ -1285,12 +1097,42 @@ namespace FluentAssertions.Specs
                 .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
+        }
+
+        [UIFact]
+        public async Task When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_but_it_was_it_should_throw()
+        {
+            // Arrange
+            var waitTime = 2.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.CompleteAfter(waitTime);
+
+            Func<Task> throwLongerThanWaitTime = async () =>
+            {
+                if (timer.Elapsed <= waitTime.Multiply(1.5))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Yield();
+            };
+
+            // Act
+            Func<Task> action = () => throwLongerThanWaitTime.Should(clock)
+                .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
         [Fact]
-        public void When_no_exception_should_be_thrown_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
+        public async Task When_no_exception_should_be_thrown_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
         {
             // Arrange
             var waitTime = 6.Seconds();
@@ -1314,9 +1156,36 @@ namespace FluentAssertions.Specs
             Func<Task> act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfterAsync(waitTime, pollInterval);
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
+        [UIFact]
+        public async Task When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
+        {
+            // Arrange
+            var waitTime = 6.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.Delay(waitTime);
+
+            Func<Task> throwShorterThanWaitTime = async () =>
+            {
+                if (timer.Elapsed <= waitTime.Divide(12))
+                {
+                    throw new ArgumentException("An exception was forced");
+                }
+
+                await Task.Yield();
+            };
+
+            // Act
+            Func<Task> act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfterAsync(waitTime, pollInterval);
+
+            // Assert
+            await act.Should().NotThrowAsync();
+        }
         #endregion
     }
 

@@ -20,12 +20,12 @@ namespace FluentAssertions.Specs.Primitives
 #pragma warning restore CA1309
 
             // Assert
-            ordinal.Should().Be(!currentCulture, "Turkish distinguishes between a dotted and a non-dotted 'i'");
+            ordinal.Should().NotBe(currentCulture, "Turkish distinguishes between a dotted and a non-dotted 'i'");
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
-        public void When_comparing_Mandarin_diacritics_they_should_be_the_same(string subject, string expected)
+        public void When_comparing_the_same_digit_from_different_cultures_they_should_be_equal(string subject, string expected)
         {
             // Act
             bool ordinal = string.Equals(subject, expected, StringComparison.Ordinal);
@@ -34,8 +34,8 @@ namespace FluentAssertions.Specs.Primitives
 #pragma warning restore CA1309
 
             // Assert
-            ordinal.Should().Be(!currentCulture,
-                "Mandarin does not distinguish between the vertical order of macron and umlaut diacritics");
+            ordinal.Should().NotBe(currentCulture,
+                "These two symbols happened to be culturewise identical on both ICU (net5.0, linux, macOS) and NLS (netfx and netcoreapp on windows)");
         }
 
         [CulturedTheory("tr-TR")]
@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().NotThrow();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_equality_it_should_ignore_culture(string subject, string expected)
         {
@@ -60,7 +60,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_having_prefix_it_should_ignore_culture(string subject, string expected)
         {
@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_not_having_prefix_it_should_ignore_culture(string subject, string expected)
         {
@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_having_suffix_it_should_ignore_culture(string subject, string expected)
         {
@@ -115,7 +115,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_not_having_suffix_it_should_ignore_culture(string subject, string expected)
         {
@@ -170,7 +170,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_containing_equal_it_should_ignore_culture(string subject, string expected)
         {
@@ -181,7 +181,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_containing_all_equals_it_should_ignore_culture(string subject, string expected)
         {
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_containing_any_equals_it_should_ignore_culture(string subject, string expected)
         {
@@ -203,7 +203,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().Throw<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_containing_one_equal_it_should_ignore_culture(string subject, string expected)
         {
@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().NotThrow<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_not_containing_equal_it_should_ignore_culture(string subject, string expected)
         {
@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().NotThrow<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_not_containing_all_equals_it_should_ignore_culture(string subject, string expected)
         {
@@ -247,7 +247,7 @@ namespace FluentAssertions.Specs.Primitives
             act.Should().NotThrow<XunitException>();
         }
 
-        [CulturedTheory("zh-CN")]
+        [CulturedTheory("tr-TR")]
         [MemberData(nameof(EqualityData))]
         public void When_comparing_strings_for_not_containing_any_equals_it_should_ignore_culture(string subject, string expected)
         {
@@ -273,10 +273,10 @@ namespace FluentAssertions.Specs.Primitives
         {
             get
             {
-                const string MacronAboveUmlat = "ǖ";
-                const string UmlautAboveMacron = "ṻ";
+                const string SinhalaLithDigitEight = "෮";
+                const string MyanmarTaiLaingDigitEight = "꧸";
 
-                return new List<object[]> { new object[] { MacronAboveUmlat, UmlautAboveMacron } };
+                return new List<object[]> { new object[] { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight } };
             }
         }
     }

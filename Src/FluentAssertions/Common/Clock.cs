@@ -16,12 +16,6 @@ namespace FluentAssertions.Common
             return Task.Delay(delay, cancellationToken);
         }
 
-        public bool Wait(Task task, TimeSpan timeout)
-        {
-            using var _ = NoSynchronizationContextScope.Enter();
-            return task.Wait(timeout);
-        }
-
         public ITimer StartTimer() => new StopwatchTimer();
     }
 }

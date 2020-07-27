@@ -10,7 +10,7 @@ namespace FluentAssertions.Specs
     public class TaskCompletionSourceAssertionSpecs
     {
         [Fact]
-        public void When_TCS_completes_in_time_it_should_succeed()
+        public async Task When_TCS_completes_in_time_it_should_succeed()
         {
             // Arrange
             var subject = new TaskCompletionSource<bool>();
@@ -22,11 +22,11 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_TCS_completes_in_time_and_result_is_expected_it_should_succeed()
+        public async Task When_TCS_completes_in_time_and_result_is_expected_it_should_succeed()
         {
             // Arrange
             var subject = new TaskCompletionSource<int>();
@@ -38,11 +38,11 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_TCS_completes_in_time_and_result_is_not_expected_it_should_fail()
+        public async Task When_TCS_completes_in_time_and_result_is_not_expected_it_should_fail()
         {
             // Arrange
             var subject = new TaskCompletionSource<int>();
@@ -54,12 +54,12 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected * to be 42, but found 99.");
         }
 
         [Fact]
-        public void When_TCS_did_not_complete_in_time_it_should_fail()
+        public async Task When_TCS_did_not_complete_in_time_it_should_fail()
         {
             // Arrange
             var subject = new TaskCompletionSource<bool>();
@@ -70,13 +70,13 @@ namespace FluentAssertions.Specs
             timer.Complete();
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected subject to complete within 1s because test testArg.");
         }
 
         [Fact]
         [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
-        public void When_TCS_is_null_it_should_fail()
+        public async Task When_TCS_is_null_it_should_fail()
         {
             // Arrange
             TaskCompletionSource<bool> subject = null;
@@ -85,7 +85,7 @@ namespace FluentAssertions.Specs
             Func<Task> action = () => subject.Should().CompleteWithinAsync(1.Seconds());
 
             // Assert
-            action.Should().Throw<XunitException>()
+            await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected subject to complete within 1s, but found <null>.");
         }
     }
