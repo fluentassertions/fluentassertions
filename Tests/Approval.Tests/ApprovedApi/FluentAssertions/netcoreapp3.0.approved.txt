@@ -1690,12 +1690,12 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeLower(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params string[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<string> validValues, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeUpper(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainAll(params string[] values) { }
@@ -1713,10 +1713,10 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeLower(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeUpper(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeUpperCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainAll(params string[] values) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainAll(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }

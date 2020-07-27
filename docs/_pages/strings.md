@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-For asserting whether a string is null, empty or contains whitespace only, you have a wide range of methods to your disposal.
+For asserting whether a string is null, empty, contains whitespace only, or is in upper/lower case, you have a wide range of methods to your disposal.
 
 ```csharp
 string theString = "";
@@ -18,6 +18,10 @@ theString.Should().NotBeEmpty("because the string is not empty");
 theString.Should().HaveLength(0);
 theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace only
 theString.Should().NotBeNullOrWhiteSpace();
+theString.Should().BeUpperCase();
+theString.Should().NotBeUpperCase();
+theString.Should().BeLowerCase();
+theString.Should().NotBeLowerCase();
 ```
 
 Obviously you’ll find all the methods you would expect for string assertions.

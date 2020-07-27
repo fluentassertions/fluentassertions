@@ -1115,7 +1115,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string is uppercase.
+        /// Asserts that all characters in a string are in upper casing.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1124,18 +1124,18 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeUpper(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject?.All(char.IsUpper) == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be upper{reason}, but found {0}.", Subject);
+                .FailWith("Expected all characters in {context:string} to be upper cased{reason}, but found {0}.", Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string is not uppercase.
+        /// Asserts that all characters in a string are not in upper casing.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1144,18 +1144,18 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeUpper(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeUpperCased(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is null || Subject.Any(ch => !char.IsUpper(ch)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} to be upper{reason}.");
+                .FailWith("Did not expect any characters in {context:string} to be upper cased{reason}.");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string is lowercase.
+        /// Asserts that all characters in a string are in lower casing.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1164,18 +1164,18 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeLower(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject?.All(char.IsLower) == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to be lower{reason}, but found {0}.", Subject);
+                .FailWith("Expected all characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string is not lowercase.
+        /// Asserts that all characters in a string are not in upper casing.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1184,12 +1184,12 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeLower(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is null || Subject.Any(ch => !char.IsLower(ch)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:string} to be lower{reason}.");
+                .FailWith("Did not expect any characters in {context:string} to be lower cased{reason}.");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
