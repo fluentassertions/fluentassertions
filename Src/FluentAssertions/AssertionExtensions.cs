@@ -821,6 +821,7 @@ namespace FluentAssertions
             return (await task).Where(exceptionExpression, because, becauseArgs);
         }
 
+        /// <summary>
         /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
         /// <typeparam name="TException">The expected type of the exception.</typeparam>
