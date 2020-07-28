@@ -34,6 +34,7 @@ sidebar:
 * Added `AllBe` to `StringCollectionAssertions` to be able to assert that all strings in collection are equal to the specified string - [#1332](https://github.com/fluentassertions/fluentassertions/pull/1332).
 * Added `ForConstraint` method to `AssertionScope` to open up `OccurenceConstraint` for usage in custom assertion extensions - [#1341](https://github.com/fluentassertions/fluentassertions/pull/1341).
 * Added `NotContainInOrder` to `CollectionAssertions` and `StringCollectionAssertions` to be able to assert that the collection does not contain the specified elements in the exact same order, not necessarily consecutive - [#1339](https://github.com/fluentassertions/fluentassertions/pull/1339).
+* Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
