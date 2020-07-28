@@ -18,10 +18,10 @@ theString.Should().NotBeEmpty("because the string is not empty");
 theString.Should().HaveLength(0);
 theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace only
 theString.Should().NotBeNullOrWhiteSpace();
-theString.Should().BeUpperCase();
-theString.Should().NotBeUpperCase();
-theString.Should().BeLowerCase();
-theString.Should().NotBeLowerCase();
+theString.Should().BeUpperCased();
+theString.Should().NotBeUpperCased();
+theString.Should().BeLowerCased();
+theString.Should().NotBeLowerCased();
 ```
 
 Obviously you’ll find all the methods you would expect for string assertions.
