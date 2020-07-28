@@ -57,7 +57,7 @@ namespace FluentAssertions.Formatting
             {
                 HandleValueFormatterDetectionModeChanges();
 
-                return formatters ?? (formatters = FindCustomFormatters());
+                return formatters ??= FindCustomFormatters();
             }
         }
 

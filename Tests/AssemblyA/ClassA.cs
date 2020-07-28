@@ -7,7 +7,7 @@ namespace AssemblyA
     {
         public void DoSomething()
         {
-            var classB = new ClassB();
+            _ = new ClassB();
         }
     }
 }

@@ -40,8 +40,8 @@ namespace FluentAssertions.Equivalency
         }
 
         private string[] GetPathElements() => pathElements
-            ?? (pathElements = path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
-                    .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries));
+            ??= path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
+                    .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 
         private bool IsParentOf(ObjectReference other)
         {

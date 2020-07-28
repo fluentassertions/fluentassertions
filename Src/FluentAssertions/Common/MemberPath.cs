@@ -57,7 +57,7 @@ namespace FluentAssertions.Common
         }
 
         private string[] GetSegments() =>
-            segments ?? (segments = dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries));
+            segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         public override string ToString()
         {
