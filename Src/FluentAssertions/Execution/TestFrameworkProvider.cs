@@ -15,8 +15,7 @@ namespace FluentAssertions.Execution
             ["nspec3"] = new NSpecFramework(),
             ["nunit"] = new NUnitTestFramework(),
             ["mstestv2"] = new MSTestFrameworkV2(),
-            ["xunit2"] = new XUnit2TestFramework(),
-            ["fallback"] = new FallbackTestFramework()
+            ["xunit2"] = new XUnit2TestFramework()
         };
 
         private static ITestFramework testFramework;
@@ -36,7 +35,8 @@ namespace FluentAssertions.Execution
         private static ITestFramework DetectFramework()
         {
             ITestFramework detectedFramework = AttemptToDetectUsingAppSetting()
-                ?? AttemptToDetectUsingDynamicScanning();
+                ?? AttemptToDetectUsingDynamicScanning()
+                ?? new FallbackTestFramework();
 
             return detectedFramework;
         }
