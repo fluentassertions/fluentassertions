@@ -44,17 +44,28 @@ namespace FluentAssertions.Execution
         private static ITestFramework AttemptToDetectUsingAppSetting()
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
-            if (string.IsNullOrEmpty(frameworkName)
-                || !Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+            if (string.IsNullOrEmpty(frameworkName))
             {
                 return null;
             }
 
+            if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+            {
+                var message = string.Format("FluentAssertions was configured to use {0} but the requested test framework is not supported. " +
+                    "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+
+                throw new Exception(message);
+            }
+
             if (!framework.IsAvailable)
             {
-                throw new Exception(
-                    "FluentAssertions was configured to use " + frameworkName +
-                    " but the required test framework assembly could not be found");
+                var message = framework is LateBoundTestFramework lateBoundTestFramework
+                    ? string.Format("FluentAssertions was configured to use {0} but the required test framework assembly {1} could not be found. " +
+                        "Please use one of the supported frameworks: {2}", frameworkName, lateBoundTestFramework.AssemblyName, string.Join(", ", Frameworks.Keys))
+                    : string.Format("FluentAssertions was configured to use {0} but the required test framework could not be found. " +
+                        "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+
+                throw new Exception(message);
             }
 
             return framework;

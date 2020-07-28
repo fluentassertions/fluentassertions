@@ -75,6 +75,7 @@ sidebar:
 * Removed `Succeeded` and `SourceSucceeded` from `Continuation` and `IAssertionScope` - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Removed synchronous assertions on asynchronous operations (`Throw`, `NotThrow`, `CompleteWithin`, ...) [#1324](https://github.com/fluentassertions/fluentassertions/pull/1324)
 * Do not modify `SynchronizationContext.Current` while asserting asynchronous operations. In case hitting deadlocks in your tests please check whether you mix synchronous and asynchronous operations. [#1324](https://github.com/fluentassertions/fluentassertions/pull/1324)
+* Requesting an unsupported test framework via `Services.Configuration.TestFrameworkName` or `"FluentAssertions.TestFramework"` now throws an exception instead of using the fallback - [#1366](https://github.com/fluentassertions/fluentassertions/pull/1366).
 
 ## 5.10.3
 **Fixes**
