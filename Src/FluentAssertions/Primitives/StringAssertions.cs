@@ -1175,7 +1175,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that all characters in a string are not in upper casing.
+        /// Asserts that all characters in a string are not in lower casing.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
