@@ -799,6 +799,29 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Asserts that the exception matches a particular condition.
+        /// </summary>
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="exceptionExpression">
+        /// The condition that the exception must match.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public static async Task<ExceptionAssertions<TException>> Where<TException>(
+            this Task<ExceptionAssertions<TException>> task,
+            Expression<Func<TException, bool>> exceptionExpression,
+            string because = "", params object[] becauseArgs)
+            where TException : Exception
+        {
+            return (await task).Where(exceptionExpression, because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
         /// <typeparam name="TException">The expected type of the exception.</typeparam>
