@@ -9,15 +9,27 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="object"/> is in the expected state.
     /// </summary>
-    public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
+    public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     {
         public ObjectAssertions(object value)
             : base(value)
         {
         }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a <typeparamref name="TSubject"/> is in the expected state.
+    /// </summary>
+    public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : ObjectAssertions<TSubject, TAssertions>
+    {
+        public ObjectAssertions(TSubject value)
+            : base(value)
+        {
+        }
 
         /// <summary>
-        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that a <typeparamref name="TSubject"/> equals another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
@@ -27,19 +39,20 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
-                .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", expected,
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
                     Subject);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that an object does not equal another object using its <see cref="object.Equals(object)" /> method.
+        /// Asserts that a <typeparamref name="TSubject"/> does not equal another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> method.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
@@ -49,14 +62,15 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBe(object unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -76,7 +90,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
             return BeEquivalentTo(expectation, config => config, because, becauseArgs);
@@ -104,7 +118,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -125,7 +139,7 @@ namespace FluentAssertions.Primitives
             var equivalencyValidator = new EquivalencyValidator(options);
             equivalencyValidator.AssertEquality(context);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -145,7 +159,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             string because = "",
             params object[] becauseArgs)
@@ -175,7 +189,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
             string because = "",
@@ -193,9 +207,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} not to be equivalent to {0}, but they are.", unexpected);
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Expected {context} not to be equivalent to {0}, but they are.", unexpected);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -209,7 +224,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "",
+        public AndConstraint<TAssertions> HaveFlag(Enum expectedFlag, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -224,7 +239,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(@enum => @enum.HasFlag(expectedFlag))
                 .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", _ => expectedFlag, @enum => @enum);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -238,7 +253,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "",
+        public AndConstraint<TAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -253,7 +268,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(@enum => !@enum.HasFlag(unexpectedFlag))
                 .FailWith("Did not expect the enum to have flag {0}{reason}.", unexpectedFlag);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>

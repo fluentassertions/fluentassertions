@@ -1578,18 +1578,23 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
-    public class ObjectAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
+    public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
         public ObjectAssertions(object value) { }
+    }
+    public class ObjectAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : FluentAssertions.Primitives.ObjectAssertions<TSubject, TAssertions>
+    {
+        public ObjectAssertions(TSubject value) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> HaveFlag(System.Enum expectedFlag, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBe(object unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotHaveFlag(System.Enum unexpectedFlag, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveFlag(System.Enum expectedFlag, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag(System.Enum unexpectedFlag, string because = "", params object[] becauseArgs) { }
     }
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>

@@ -36,6 +36,7 @@ sidebar:
 * Added `NotContainInOrder` to `CollectionAssertions` and `StringCollectionAssertions` to be able to assert that the collection does not contain the specified elements in the exact same order, not necessarily consecutive - [#1339](https://github.com/fluentassertions/fluentassertions/pull/1339).
 * Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
 * Added `[Not]BeUpperCased` and `[Not]BeLowerCased` to `StringAssertions` to be able to assert that a string is in upper or lower casing or not - [#1357](https://github.com/fluentassertions/fluentassertions/pull/1357).
+* Added `ObjectAssertions<TSubject, TAssertions>` to ease creation of custom assertion classes - [#1371](https://github.com/fluentassertions/fluentassertions/pull/1371).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
