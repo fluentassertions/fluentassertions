@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         private const BindingFlags PublicMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -17,12 +16,6 @@ namespace FluentAssertions.Common
             PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         public static bool IsDecoratedWith<TAttribute>(this Type type)
-            where TAttribute : Attribute
-        {
-            return type.IsDefined(typeof(TAttribute), inherit: false);
-        }
-
-        public static bool IsDecoratedWith<TAttribute>(this TypeInfo type)
             where TAttribute : Attribute
         {
             return type.IsDefined(typeof(TAttribute), inherit: false);
@@ -43,12 +36,6 @@ namespace FluentAssertions.Common
             return type.IsDefined(typeof(TAttribute), inherit: true);
         }
 
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type)
-            where TAttribute : Attribute
-        {
-            return type.IsDefined(typeof(TAttribute), inherit: true);
-        }
-
         public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type)
             where TAttribute : Attribute
         {
@@ -59,12 +46,6 @@ namespace FluentAssertions.Common
         }
 
         public static bool IsDecoratedWith<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : Attribute
-        {
-            return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
-        }
-
-        public static bool IsDecoratedWith<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
@@ -82,43 +63,31 @@ namespace FluentAssertions.Common
             return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
         }
 
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this TypeInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : Attribute
-        {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
-        }
-
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : Attribute
-        {
-            return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
-        }
-
-        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
+        public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type);
         }
 
-        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate);
         }
 
-        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
+        public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type, inherit: true);
         }
 
-        internal static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true);
         }
 
-        internal static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MemberInfo type, bool inherit = false)
+        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MemberInfo type, bool inherit = false)
             where TAttribute : Attribute
         {
             // Do not use MemberInfo.GetCustomAttributes.
@@ -174,23 +143,7 @@ namespace FluentAssertions.Common
                    property.Name == otherProperty.Name;
         }
 
-        public static bool IsSameOrInherits(this Type actualType, Type expectedType)
-        {
-            return actualType == expectedType ||
-                   expectedType.IsAssignableFrom(actualType);
-        }
-
-        /// <summary>
-        /// NOTE: This method does not give the expected results with open generics
-        /// </summary>
-        public static bool Implements(this Type type, Type expectedBaseType)
-        {
-            return
-                expectedBaseType.IsAssignableFrom(type)
-                && type != expectedBaseType;
-        }
-
-        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        public static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
@@ -450,21 +403,7 @@ namespace FluentAssertions.Common
                 .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
-        public static MethodInfo GetImplicitConversionOperator(this Type type, Type sourceType, Type targetType)
-        {
-            return type
-                .GetConversionOperators(sourceType, targetType, name => name == "op_Implicit")
-                .SingleOrDefault();
-        }
-
-        public static MethodInfo GetExplicitConversionOperator(this Type type, Type sourceType, Type targetType)
-        {
-            return type
-                .GetConversionOperators(sourceType, targetType, name => name == "op_Explicit")
-                .SingleOrDefault();
-        }
-
-        private static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType,
+        public static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType,
             Func<string, bool> predicate)
         {
             return type
@@ -479,59 +418,7 @@ namespace FluentAssertions.Common
                     && m.GetParameters()[0].ParameterType == sourceType);
         }
 
-        public static bool HasValueSemantics(this Type type)
-        {
-            return type.OverridesEquals() &&
-                   !type.IsAnonymousType() && !type.IsTuple() && !IsKeyValuePair(type);
-        }
-
-        private static bool IsKeyValuePair(Type type)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
-        }
-
-        private static bool IsAnonymousType(this Type type)
-        {
-            bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType", StringComparison.Ordinal);
-
-            if (!nameContainsAnonymousType)
-            {
-                return false;
-            }
-
-            bool hasCompilerGeneratedAttribute =
-                type.IsDecoratedWith<CompilerGeneratedAttribute>();
-
-            return hasCompilerGeneratedAttribute;
-        }
-
-        private static bool IsTuple(this Type type)
-        {
-            if (!type.IsGenericType)
-            {
-                return false;
-            }
-
-            Type openType = type.GetGenericTypeDefinition();
-            return openType == typeof(ValueTuple<>)
-                   || openType == typeof(ValueTuple<,>)
-                   || openType == typeof(ValueTuple<,,>)
-                   || openType == typeof(ValueTuple<,,,>)
-                   || openType == typeof(ValueTuple<,,,,>)
-                   || openType == typeof(ValueTuple<,,,,,>)
-                   || openType == typeof(ValueTuple<,,,,,,>)
-                   || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]))
-                   || openType == typeof(Tuple<>)
-                   || openType == typeof(Tuple<,>)
-                   || openType == typeof(Tuple<,,>)
-                   || openType == typeof(Tuple<,,,>)
-                   || openType == typeof(Tuple<,,,,>)
-                   || openType == typeof(Tuple<,,,,,>)
-                   || openType == typeof(Tuple<,,,,,,>)
-                   || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
-        }
-
-        internal static bool IsAssignableToOpenGeneric(this Type type, Type definition)
+        public static bool IsAssignableToOpenGeneric(this Type type, Type definition)
         {
             // The CLR type system does not consider anything to be assignable to an open generic type.
             // For the purposes of test assertions, the user probably means that the subject type is
@@ -546,7 +433,7 @@ namespace FluentAssertions.Common
             }
         }
 
-        internal static bool IsImplementationOfOpenGeneric(this Type type, Type definition)
+        private static bool IsImplementationOfOpenGeneric(this Type type, Type definition)
         {
             // check subject against definition
             if (type.IsInterface && type.IsGenericType &&
@@ -562,7 +449,7 @@ namespace FluentAssertions.Common
                 .Contains(definition);
         }
 
-        internal static bool IsDerivedFromOpenGeneric(this Type type, Type definition)
+        public static bool IsDerivedFromOpenGeneric(this Type type, Type definition)
         {
             if (type == definition)
             {
@@ -583,7 +470,7 @@ namespace FluentAssertions.Common
             return false;
         }
 
-        internal static bool IsUnderNamespace(this Type type, string @namespace)
+        public static bool IsUnderNamespace(this Type type, string @namespace)
         {
             return IsGlobalNamespace()
                 || IsExactNamespace()

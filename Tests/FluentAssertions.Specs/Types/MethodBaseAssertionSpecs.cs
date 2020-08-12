@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 

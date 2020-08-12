@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Common
 {
     /// <summary>
     /// Implements extensions to <see cref="TimeSpan"/> available in .NET Core 2, but not in .NET Framework.

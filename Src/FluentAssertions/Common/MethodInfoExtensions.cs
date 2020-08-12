@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace FluentAssertions.Common
 {
-    public static class MethodInfoExtensions
+    internal static class MethodInfoExtensions
     {
         /// <summary>
         /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
