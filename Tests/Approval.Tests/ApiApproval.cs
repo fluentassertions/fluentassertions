@@ -39,7 +39,32 @@ namespace Approval.Tests
             Approvals.Verify(
                 WriterFactory.CreateTextWriter(publicApi),
                 new ApprovalNamer(projectName, frameworkVersion),
-                Approvals.GetReporter());
+                DetermineReporter());
+        }
+
+        private static IApprovalFailureReporter DetermineReporter()
+        {
+            IApprovalFailureReporter approvalFailureReporter = Approvals.GetReporter();
+
+            string typeName = Environment.GetEnvironmentVariable("ApiApproval.Reporter");
+
+            if (!string.IsNullOrWhiteSpace(typeName))
+            {
+                if (!typeName.Contains("."))
+                {
+                    typeName = "ApprovalTests.Reporters." + typeName;
+                }
+
+                if (!typeName.EndsWith("Reporter"))
+                {
+                    typeName += "Reporter";
+                }
+
+                Type type = typeof(IApprovalFailureReporter).Assembly.GetType(typeName, throwOnError: true, ignoreCase: true);
+                approvalFailureReporter = (IApprovalFailureReporter)Activator.CreateInstance(type);
+            }
+
+            return approvalFailureReporter;
         }
 
         private class ApprovalNamer : IApprovalNamer
