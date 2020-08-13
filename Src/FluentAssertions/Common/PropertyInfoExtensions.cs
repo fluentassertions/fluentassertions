@@ -2,7 +2,7 @@
 
 namespace FluentAssertions.Common
 {
-    public static class PropertyInfoExtensions
+    internal static class PropertyInfoExtensions
     {
         internal static bool IsVirtual(this PropertyInfo property)
         {

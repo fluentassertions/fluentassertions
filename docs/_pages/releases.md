@@ -9,6 +9,11 @@ sidebar:
 
 ## 6.0.0
 
+**Breaking Changes**
+* Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)
+
+## 6.0.0 Alpha 1
+
 **What's New**
 * Added official support for .NET Core 3.0 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Added `WithOffset` extension method on `DateTime` for easier creation of `DateTimeOffset` objects - [#1235](https://github.com/fluentassertions/fluentassertions/pull/1235).

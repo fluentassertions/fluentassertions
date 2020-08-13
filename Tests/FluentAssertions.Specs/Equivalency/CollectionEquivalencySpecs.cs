@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
             public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
                 IMemberInfo context, IEquivalencyAssertionOptions config)
             {
-                return context.CompileTimeType.GetNonPrivateProperties().Select(SelectedMemberInfo.Create);
+                return context.CompileTimeType.GetProperties().Select(SelectedMemberInfo.Create);
             }
 
             bool IMemberSelectionRule.IncludesMembers => OverridesStandardIncludeRules;
@@ -1593,7 +1593,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_selection_rules_are_configured_they_should_be_evaluated_from_right_to_left()
+        public void When_selection_rules_are_configured_they_should_be_evaluated_from_last_to_first()
         {
             // Arrange
             var list1 = new[] { new { Value = 3 } };

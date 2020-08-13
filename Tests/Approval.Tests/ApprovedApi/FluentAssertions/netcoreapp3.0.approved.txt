@@ -509,7 +509,6 @@ namespace FluentAssertions.Common
         InvalidForCSharp = 5,
         PrivateProtected = 6,
     }
-    public static class CSharpAccessModifierExtensions { }
     public class Configuration
     {
         public Configuration(FluentAssertions.Common.IConfigurationStore store) { }
@@ -541,12 +540,17 @@ namespace FluentAssertions.Common
     {
         System.TimeSpan Elapsed { get; }
     }
-    public static class MethodInfoExtensions { }
-    public static class ObjectExtensions
+    public static class InternalObjectExtensions
     {
         public static bool IsSameOrEqualTo(this object actual, object expected) { }
     }
-    public static class PropertyInfoExtensions { }
+    public static class InternalTypeExtensions
+    {
+        public static System.Reflection.MethodInfo GetExplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
+        public static System.Reflection.MethodInfo GetImplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
+        public static bool HasValueSemantics(this System.Type type) { }
+        public static bool IsSameOrInherits(this System.Type actualType, System.Type expectedType) { }
+    }
     public static class Services
     {
         public static FluentAssertions.Common.Configuration Configuration { get; }
@@ -554,58 +558,6 @@ namespace FluentAssertions.Common
         public static FluentAssertions.Common.IReflector Reflector { get; set; }
         public static System.Action<string> ThrowException { get; set; }
         public static void ResetToDefaults() { }
-    }
-    public static class TypeExtensions
-    {
-        public static System.Reflection.FieldInfo FindField(this System.Type type, string fieldName, System.Type preferredType) { }
-        public static FluentAssertions.Equivalency.SelectedMemberInfo FindMember(this System.Type type, string memberName, System.Type preferredType) { }
-        public static System.Reflection.PropertyInfo FindProperty(this System.Type type, string propertyName, System.Type preferredType) { }
-        public static System.Reflection.ConstructorInfo GetConstructor(this System.Type type, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
-        public static System.Reflection.MethodInfo GetExplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
-        public static System.Reflection.MethodInfo GetImplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
-        public static System.Reflection.PropertyInfo GetIndexerByParameterTypes(this System.Type type, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
-        public static System.Reflection.MethodInfo GetMethod(this System.Type type, string methodName, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
-        public static System.Collections.Generic.IEnumerable<System.Reflection.FieldInfo> GetNonPrivateFields(this System.Type typeToReflect) { }
-        public static System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.SelectedMemberInfo> GetNonPrivateMembers(this System.Type typeToReflect) { }
-        public static System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo> GetNonPrivateProperties(this System.Type typeToReflect, System.Collections.Generic.IEnumerable<string> filter = null) { }
-        public static System.Reflection.MethodInfo GetParameterlessMethod(this System.Type type, string methodName) { }
-        public static System.Reflection.PropertyInfo GetPropertyByName(this System.Type type, string propertyName) { }
-        public static bool HasExplicitlyImplementedProperty(this System.Type type, System.Type interfaceType, string propertyName) { }
-        public static bool HasMethod(this System.Type type, string methodName, System.Collections.Generic.IEnumerable<System.Type> parameterTypes) { }
-        public static bool HasParameterlessMethod(this System.Type type, string methodName) { }
-        public static bool HasValueSemantics(this System.Type type) { }
-        public static bool Implements(this System.Type type, System.Type expectedBaseType) { }
-        public static bool IsCSharpAbstract(this System.Type type) { }
-        public static bool IsCSharpSealed(this System.Type type) { }
-        public static bool IsCSharpStatic(this System.Type type) { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Reflection.MemberInfo type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Reflection.TypeInfo type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Type type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Reflection.TypeInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWith<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Reflection.MemberInfo type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Reflection.TypeInfo type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Type type)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Reflection.MemberInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Reflection.TypeInfo type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this System.Type type, System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : System.Attribute { }
-        public static bool IsEquivalentTo(this FluentAssertions.Equivalency.SelectedMemberInfo property, FluentAssertions.Equivalency.SelectedMemberInfo otherProperty) { }
-        public static bool IsIndexer(this System.Reflection.PropertyInfo member) { }
-        public static bool IsSameOrInherits(this System.Type actualType, System.Type expectedType) { }
-        public static bool OverridesEquals(this System.Type type) { }
     }
     public enum ValueFormatterDetectionMode
     {

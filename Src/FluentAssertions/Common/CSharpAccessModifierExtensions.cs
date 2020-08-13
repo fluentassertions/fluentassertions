@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    public static class CSharpAccessModifierExtensions
+    internal static class CSharpAccessModifierExtensions
     {
         internal static CSharpAccessModifier GetCSharpAccessModifier(this MethodBase methodBase)
         {

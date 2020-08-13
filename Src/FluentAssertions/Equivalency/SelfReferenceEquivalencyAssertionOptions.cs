@@ -181,7 +181,6 @@ namespace FluentAssertions.Equivalency
                 else
                 {
                     bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
-
                     if (hasValueSemantics)
                     {
                         strategy = EqualityStrategy.Equals;

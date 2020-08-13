@@ -3,7 +3,8 @@ using System.Globalization;
 
 namespace FluentAssertions.Common
 {
-    public static class ObjectExtensions
+    // NOTE: These extension methods are covered by tests separately and therefore need to be public.
+    public static class InternalObjectExtensions
     {
         public static bool IsSameOrEqualTo(this object actual, object expected)
         {
