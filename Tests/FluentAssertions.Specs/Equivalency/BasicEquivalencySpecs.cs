@@ -596,6 +596,56 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage("Expected item[0].Id to be *-*, but found *-*");
         }
 
+        [Fact]
+        public void When_defining_comparing_by_members_with_callback_that_returns_false_then_the_normal_equality_strategy_process_should_be_used()
+        {
+            // Arrange
+            var subject = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "key",
+                NestedProperty = "SomeValue"
+            };
+
+            var expected = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "key",
+                NestedProperty = "OtherValue"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options
+                .ComparingByMembers(t => false));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_defining_comparing_by_members_with_callback_it_should_use_force_members_strategy_if_a_callback_returning_true_is_found()
+        {
+            // Arrange
+            var subject = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "key",
+                NestedProperty = "SomeValue"
+            };
+
+            var expected = new ClassWithValueSemanticsOnSingleProperty
+            {
+                Key = "key",
+                NestedProperty = "OtherValue"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options
+                .ComparingByMembers(t => false)
+                .ComparingByMembers(t => t == typeof(ClassWithValueSemanticsOnSingleProperty)));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                $"*NestedProperty*OtherValue*SomeValue*");
+        }
+
         #endregion
 
         #region Selection Rules

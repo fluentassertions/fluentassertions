@@ -22,6 +22,8 @@ namespace FluentAssertions.Equivalency
 
         private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
 
+        private readonly List<Func<Type, bool>> comparingByMembers = new List<Func<Type, bool>>();
+
         private readonly List<Type> referenceTypes = new List<Type>();
 
         private readonly List<Type> valueTypes = new List<Type>();
@@ -160,40 +162,45 @@ namespace FluentAssertions.Equivalency
 
         bool IEquivalencyAssertionOptions.IncludeFields => includeFields;
 
+        private EqualityStrategy? TryGetEqualityStrategyFromCallbacks(Type type)
+        {
+            foreach (var callback in comparingByMembers)
+            {
+                var callbackResult = callback(type);
+                if (callbackResult)
+                {
+                    return EqualityStrategy.ForceMembers;
+                }
+            }
+
+            return null;
+        }
+
         EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
         {
-            EqualityStrategy strategy;
+            var callbackResult = TryGetEqualityStrategyFromCallbacks(type);
+            if (callbackResult != null)
+            {
+                return callbackResult.Value;
+            }
 
             if (referenceTypes.Any(type.IsSameOrInherits))
             {
-                strategy = EqualityStrategy.ForceMembers;
-            }
-            else if (valueTypes.Any(type.IsSameOrInherits))
-            {
-                strategy = EqualityStrategy.ForceEquals;
-            }
-            else
-            {
-                if (getDefaultEqualityStrategy != null)
-                {
-                    strategy = getDefaultEqualityStrategy(type);
-                }
-                else
-                {
-                    bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
-
-                    if (hasValueSemantics)
-                    {
-                        strategy = EqualityStrategy.Equals;
-                    }
-                    else
-                    {
-                        strategy = EqualityStrategy.Members;
-                    }
-                }
+                return EqualityStrategy.ForceMembers;
             }
 
-            return strategy;
+            if (valueTypes.Any(type.IsSameOrInherits))
+            {
+                return EqualityStrategy.ForceEquals;
+            }
+
+            if (getDefaultEqualityStrategy != null)
+            {
+                return getDefaultEqualityStrategy(type);
+            }
+
+            bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
+            return hasValueSemantics ? EqualityStrategy.Equals : EqualityStrategy.Members;
         }
 
         public ITraceWriter TraceWriter { get; private set; }
@@ -536,6 +543,12 @@ namespace FluentAssertions.Equivalency
             }
 
             referenceTypes.Add(typeof(T));
+            return (TSelf)this;
+        }
+
+        public TSelf ComparingByMembers(Func<Type, bool> predicate)
+        {
+            comparingByMembers.Add(predicate);
             return (TSelf)this;
         }
 

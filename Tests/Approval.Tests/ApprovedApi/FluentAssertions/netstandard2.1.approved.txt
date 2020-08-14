@@ -854,6 +854,7 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.ITraceWriter TraceWriter { get; }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
+        public TSelf ComparingByMembers(System.Func<System.Type, bool> predicate) { }
         public TSelf ComparingByMembers<T>() { }
         public TSelf ComparingByValue<T>() { }
         public TSelf ComparingEnumsByName() { }
