@@ -44,6 +44,7 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should(this System.DateTimeOffset? actualValue) { }
+        public static FluentAssertions.Primitives.EnumAssertions Should(this System.Enum @enum) { }
         public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
         public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
@@ -1443,6 +1444,21 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTime target, string because = "", params object[] becauseArgs) { }
     }
+    public class EnumAssertions : FluentAssertions.Primitives.EnumAssertions<System.Enum, FluentAssertions.Primitives.EnumAssertions>
+    {
+        public EnumAssertions(System.Enum subject) { }
+    }
+    public class EnumAssertions<TEnum, TAssertions> : FluentAssertions.Primitives.ObjectAssertions<TEnum, TAssertions>
+        where TEnum : System.Enum
+        where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
+    {
+        public EnumAssertions(TEnum subject) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<TAssertions> HaveFlag<T>(T expectedFlag, string because = "", params object[] becauseArgs)
+            where T :  struct, TEnum { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag<T>(T unexpectedFlag, string because = "", params object[] becauseArgs)
+            where T :  struct, TEnum { }
+    }
     public class GuidAssertions : FluentAssertions.Primitives.GuidAssertions<FluentAssertions.Primitives.GuidAssertions>
     {
         public GuidAssertions(System.Guid? value) { }
@@ -1542,11 +1558,9 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveFlag(System.Enum expectedFlag, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag(System.Enum unexpectedFlag, string because = "", params object[] becauseArgs) { }
     }
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
