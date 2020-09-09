@@ -895,6 +895,7 @@ namespace FluentAssertions.Execution
         public AssertionScope() { }
         public AssertionScope(FluentAssertions.Execution.IAssertionStrategy assertionStrategy) { }
         public AssertionScope(string context) { }
+        public int AssertionCount { get; }
         public string Context { get; set; }
         public bool Succeeded { get; }
         public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }

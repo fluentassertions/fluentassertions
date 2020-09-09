@@ -238,6 +238,66 @@ namespace FluentAssertions.Specs
                 .WithMessage("*but found false*but found true*");
         }
 
+        [Fact]
+        public void When_performing_two_assertions_the_assertion_count_should_be_two()
+        {
+            // Arrange
+            using var scope = new AssertionScope();
+
+            // Act
+            false.Should().BeFalse();
+            true.Should().BeTrue();
+
+            // Assert
+            scope.AssertionCount.Should().Be(2);
+        }
+
+        [Fact]
+        public void When_performing_three_chained_assertions_the_assertion_count_should_be_three()
+        {
+            // Arrange
+            using var scope = new AssertionScope();
+            var date = new DateTime(1990, 1, 1);
+
+            // Act
+            date.Should().BeAfter(new DateTime(1980, 1, 1))
+                .And.BeBefore(new DateTime(2000, 1, 1))
+                .And.NotBe(DateTime.MinValue);
+
+            // Assert
+            scope.AssertionCount.Should().Be(3);
+        }
+
+        [Fact]
+        public void When_performing_no_assertions_the_assertion_count_should_be_zero()
+        {
+            // Arrange
+            using var scope = new AssertionScope();
+
+            // Act
+
+            // Assert
+            scope.AssertionCount.Should().Be(0);
+        }
+
+        [Fact]
+        public void When_disposing_the_assertion_scope_new_assertions_should_not_count()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+
+            // Act
+            false.Should().BeFalse();
+            true.Should().BeTrue();
+
+            // Assert
+            Assert.Equal(2, scope.AssertionCount); // Using Assert.Equal instead of scope.AssertionCount.Should() in order not to capture a 3rd assertion
+            scope.Dispose();
+            false.Should().BeFalse();
+            true.Should().BeTrue();
+            scope.AssertionCount.Should().Be(2);
+        }
+
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new List<string>();
