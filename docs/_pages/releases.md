@@ -7,18 +7,18 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 5.10.3
+## [5.10.3](https://www.nuget.org/packages/FluentAssertions/5.10.3)
 **Fixes**
 * Fixed XPath index calculation in XML comparison when child node names are repeated in repeated parent nodes - [#1273](https://github.com/fluentassertions/fluentassertions/pull/1273)
 
-## 5.10.2
+## [5.10.2](https://www.nuget.org/packages/FluentAssertions/5.10.2)
 **Fixes**
 * Added missing dependency on System.Xml - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
 
 ## 5.10.1
 This version was skipped.
 
-## 5.10.0
+## [5.10.0](https://www.nuget.org/packages/FluentAssertions/5.10.0)
 
 **What's New**
 * Added `string.Should().NotBeEquivalentTo` - [#1134](https://github.com/fluentassertions/fluentassertions/pull/1134)
@@ -52,7 +52,7 @@ Thanks to contributors [Ronald Kroon](https://github.com/ronaldkroon), [Daniel P
 
 And special thanks to [Matthias Koch](https://github.com/matkoch) to switch us over to the awesome [Nuke build system](https://nuke.build/). 
 
-## 5.9.0
+## [5.9.0](https://www.nuget.org/packages/FluentAssertions/5.9.0)
 
 **What's New**
 * Added `Match` method to (nullable) numeric assertions - [#1112](https://github.com/fluentassertions/fluentassertions/pull/1112) 
@@ -63,7 +63,7 @@ And special thanks to [Matthias Koch](https://github.com/matkoch) to switch us o
 
 Special thanks to contributors [@liklainy](https://github.com/Liklainy) and [Amaury Levé](https://github.com/Evangelink).
 
-## 5.8.0
+## [5.8.0](https://www.nuget.org/packages/FluentAssertions/5.8.0)
 
 **What's New**
 * Added thread-safety to tests using `AssertionScope` while running many `async` tests concurrently - [#1091](https://github.com/fluentassertions/fluentassertions/pull/1091)
@@ -78,7 +78,7 @@ Special thanks to contributors [@liklainy](https://github.com/Liklainy) and [Ama
 
 Kudos to [conklinb](https://github.com/conklinb) and [Amaury Levé](https://github.com/Evangelink) for notable contributions and my partner-in-crime [Jonas Nyrup](https://github.com/jnyrup) for some of the fixes, a lot of (internal) quality improvements and his critical eye. 
 
-## 5.7.0
+## [5.7.0](https://www.nuget.org/packages/FluentAssertions/5.7.0)
 
 **What's New**
 * Added official support for .NET Core 3 (Preview 5 or later) - [#1057](https://github.com/fluentassertions/fluentassertions/pull/1057)
@@ -106,7 +106,7 @@ Kudos to [conklinb](https://github.com/conklinb) and [Amaury Levé](https://gith
 
 Kudos to [Lukas Grützmacher](https://github.com/lg2de), [Matthias Lischka](https://github.com/matthiaslischka), [Christoffer Lette](https://github.com/Lette), [Ed Ball](https://github.com/ejball), [David Omid](https://github.com/davidomid), [mu88](https://github.com/mu88), [Dmitriy Maksimov](https://github.com/DmitriyMaksimov) and [Ivan Shimko](https://github.com/vanashimko) for the contributions and [Jonas Nyrup](https://github.com/jnyrup) to make this release possible again. 
 
-## 5.6.0
+## [5.6.0](https://www.nuget.org/packages/FluentAssertions/5.6.0)
 
 **Fixes**
 * Provide opt-out to `AssertionOptions(o => o.WithStrictOrdering())` -[#974](https://github.com/fluentassertions/fluentassertions/pull/974) 
@@ -115,19 +115,19 @@ Kudos to [Lukas Grützmacher](https://github.com/lg2de), [Matthias Lischka](http
 
 Kudos to @BrunoJuchli, @matthiaslischka and @frederik-h for these amazing additions. 
 
-## 5.5.3
+## [5.5.3](https://www.nuget.org/packages/FluentAssertions/5.5.3)
 
 **Fixes**
 * Performance fixes in `BeEquivalenTo` - [#935](https://github.com/fluentassertions/fluentassertions/pull/935) 
 * Reverted 5.5.0 changes to `AssertionScope` to ensure binary compatibility - [#977](https://github.com/fluentassertions/fluentassertions/pull/977)
 
-## 5.5.2
+## [5.5.2](https://www.nuget.org/packages/FluentAssertions/5.5.2)
 
 **Fixes**
 * Allows `BeEquivalentTo` to handle a non-generic collection as the SUT - [#975](https://github.com/fluentassertions/fluentassertions/pull/975), [#973](https://github.com/fluentassertions/fluentassertions/issues/973)
 * Optimized performance of `IncludeMemberByPathSelectionRule` - [#969](https://github.com/fluentassertions/fluentassertions/pull/969)
 
-## 5.5.1
+## [5.5.1](https://www.nuget.org/packages/FluentAssertions/5.5.1)
 
 **What's New**
 * Now provides a hint when strings differ in length and contain differences - [#915](https://github.com/fluentassertions/fluentassertions/pull/915), [#907](https://github.com/fluentassertions/fluentassertions/issues/907)
