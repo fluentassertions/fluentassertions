@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -355,7 +355,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_constructor_is_not_decorated_with_MethodImpl_attribute_and_it_is_not_it_succeeds()
         {
             // Arrange
-            ConstructorInfo constructorMethodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(new List<Type> { typeof(string) });
+            ConstructorInfo constructorMethodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(new[] { typeof(string) });
 
             // Act
             Action act = () =>

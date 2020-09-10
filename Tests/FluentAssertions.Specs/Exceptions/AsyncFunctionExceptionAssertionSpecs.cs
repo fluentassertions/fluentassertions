@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 

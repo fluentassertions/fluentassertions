@@ -129,6 +129,13 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns an <see cref="EnumAssertions"/> object that can be used to assert the
+        /// current <see cref="Enum"/>.
+        /// </summary>
+        public static EnumAssertions Should(this Enum @enum)
+            => new EnumAssertions(@enum);
+
+        /// <summary>
         /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
         /// current <see cref="FluentAssertions.Specialized.ExecutionTime"/>.
         /// </summary>
