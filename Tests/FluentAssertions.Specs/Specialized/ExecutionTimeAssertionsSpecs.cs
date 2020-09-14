@@ -341,6 +341,21 @@ namespace FluentAssertions.Specs
 
         #region BeCloseTo
         [Fact]
+        public void When_asserting_that_execution_time_is_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var subject = new SleepingClass();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(200)).Should().BeCloseTo(100.Milliseconds(),
+                -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_the_execution_time_of_a_member_is_not_close_to_a_limit_it_should_throw()
         {
             // Arrange

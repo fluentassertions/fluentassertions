@@ -503,6 +503,21 @@ namespace FluentAssertions.Specs
         #region Be Close To
 
         [Fact]
+        public void When_asserting_that_time_is_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var time = new TimeSpan(1, 12, 15, 30, 980);
+            var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
+
+            // Act
+            Action act = () => time.Should().BeCloseTo(nearbyTime, -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_time_is_less_then_but_close_to_another_value_it_should_succeed()
         {
             // Arrange
@@ -610,6 +625,21 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Not Be Close To
+
+        [Fact]
+        public void When_asserting_that_time_is_not_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var time = new TimeSpan(1, 12, 15, 30, 980);
+            var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
 
         [Fact]
         public void When_asserting_subject_time_is_not_close_to_a_later_time_it_should_throw()

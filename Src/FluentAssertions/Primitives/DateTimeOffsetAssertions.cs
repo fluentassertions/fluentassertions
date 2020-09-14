@@ -114,6 +114,11 @@ namespace FluentAssertions.Primitives
             string because = "",
             params object[] becauseArgs)
         {
+            if (precision < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             long distanceToMinInTicks = (nearbyTime - DateTimeOffset.MinValue).Ticks;
             DateTimeOffset minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
 
@@ -154,6 +159,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeCloseTo(DateTimeOffset distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             long distanceToMinInTicks = (distantTime - DateTimeOffset.MinValue).Ticks;
             DateTimeOffset minimumValue = distantTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
 
