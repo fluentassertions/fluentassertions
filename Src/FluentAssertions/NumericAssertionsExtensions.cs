@@ -669,6 +669,11 @@ namespace FluentAssertions
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
@@ -702,6 +707,11 @@ namespace FluentAssertions
             float? expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -742,6 +752,11 @@ namespace FluentAssertions
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (float.IsPositiveInfinity(expectedValue))
             {
                 FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, float.NaN, because, becauseArgs);
@@ -781,6 +796,11 @@ namespace FluentAssertions
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
@@ -814,6 +834,11 @@ namespace FluentAssertions
             double? expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
@@ -854,6 +879,11 @@ namespace FluentAssertions
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (double.IsPositiveInfinity(expectedValue))
             {
                 FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision, double.NaN, because, becauseArgs);
@@ -893,6 +923,11 @@ namespace FluentAssertions
             decimal expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
@@ -926,6 +961,11 @@ namespace FluentAssertions
             decimal? expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null && expectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
@@ -966,6 +1006,11 @@ namespace FluentAssertions
             decimal expectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             decimal actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
@@ -1011,6 +1056,11 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject != null)
             {
                 var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
@@ -1042,6 +1092,11 @@ namespace FluentAssertions
             float? unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -1082,6 +1137,11 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (float.IsPositiveInfinity(unexpectedValue))
             {
                 FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, float.NaN, because, becauseArgs);
@@ -1121,6 +1181,11 @@ namespace FluentAssertions
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject != null)
             {
                 var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
@@ -1152,6 +1217,11 @@ namespace FluentAssertions
             double? unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
@@ -1192,6 +1262,11 @@ namespace FluentAssertions
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (double.IsPositiveInfinity(unexpectedValue))
             {
                 FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision, double.NaN, because, becauseArgs);
@@ -1231,6 +1306,11 @@ namespace FluentAssertions
             decimal unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject != null)
             {
                 var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
@@ -1262,6 +1342,11 @@ namespace FluentAssertions
             decimal? unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             if (parent.Subject is null ^ unexpectedValue is null)
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
@@ -1302,6 +1387,11 @@ namespace FluentAssertions
             decimal unexpectedValue, decimal precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);

@@ -272,6 +272,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             TimeSpan minimumValue = nearbyTime - precision;
             TimeSpan maximumValue = nearbyTime + precision;
 
@@ -309,6 +314,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
             params object[] becauseArgs)
         {
+            if (precision < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             TimeSpan minimumValue = distantTime - precision;
             TimeSpan maximumValue = distantTime + precision;
 

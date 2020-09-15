@@ -209,6 +209,35 @@ namespace FluentAssertions.Specs
         #region Be Approximately
 
         [Fact]
+        public void When_approximating_a_nullable_double_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            double? value = 3.1415927;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(3.14, -0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_approximating_two_nullable_doubles_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            double? value = 3.1415927;
+            double? expected = 3.14;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(expected, -0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_nullable_double_is_indeed_approximating_a_value_it_should_not_throw()
         {
             // Arrange
@@ -323,6 +352,35 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_approximating_a_nullable_float_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            float? value = 3.1415927F;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(3.14F, -0.1F);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_approximating_two_nullable_floats_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            float? value = 3.1415927F;
+            float? expected = 3.14F;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(expected, -0.1F);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_nullable_float_is_indeed_approximating_a_value_it_should_not_throw()
         {
             // Arrange
@@ -421,6 +479,35 @@ namespace FluentAssertions.Specs
                 .Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected value to approximate *1* +/- *0.1* but 3.14* differed by*");
+        }
+
+        [Fact]
+        public void When_approximating_a_nullable_decimal_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            decimal? value = 3.1415927m;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(3.14m, -0.1m);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_approximating_two_nullable_decimals_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            decimal? value = 3.1415927m;
+            decimal? expected = 3.14m;
+
+            // Act
+            Action act = () => value.Should().BeApproximately(expected, -0.1m);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
         }
 
         [Fact]
@@ -541,6 +628,35 @@ namespace FluentAssertions.Specs
         #region Not Be Approximately
 
         [Fact]
+        public void When_not_approximating_a_nullable_double_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            double? value = 3.1415927;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(3.14, -0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_not_approximating_two_nullable_doubles_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            double? value = 3.1415927;
+            double? expected = 3.14;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(expected, -0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_asserting_not_approximately_and_nullable_double_is_not_approximating_a_value_it_should_not_throw()
         {
             // Arrange
@@ -653,6 +769,35 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_not_approximating_a_nullable_float_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            float? value = 3.1415927F;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(3.14F, -0.1F);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_not_approximating_two_nullable_floats_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            float? value = 3.1415927F;
+            float? expected = 3.14F;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(expected, -0.1F);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_asserting_not_approximately_and_nullable_float_is_not_approximating_a_value_it_should_not_throw()
         {
             // Arrange
@@ -761,6 +906,35 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_not_approximating_a_nullable_decimal_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            decimal? value = 3.1415927m;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(3.14m, -0.1m);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_not_approximating_two_nullable_decimals_with_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            decimal? value = 3.1415927m;
+            decimal? expected = 3.14m;
+
+            // Act
+            Action act = () => value.Should().NotBeApproximately(expected, -0.1m);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
         }
 
         [Fact]

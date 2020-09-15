@@ -191,6 +191,11 @@ namespace FluentAssertions.Specialized
         /// </param>
         public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
         {
+            if (precision < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+            }
+
             TimeSpan minimumValue = expectedDuration - precision;
             TimeSpan maximumValue = expectedDuration + precision;
 

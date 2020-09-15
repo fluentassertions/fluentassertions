@@ -307,6 +307,21 @@ namespace FluentAssertions.Specs
         #region (Not) Be Close To
 
         [Fact]
+        public void When_asserting_that_time_is_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var dateTime = DateTime.UtcNow;
+            var actual = new DateTime(dateTime.Ticks - 1);
+
+            // Act
+            Action act = () => actual.Should().BeCloseTo(dateTime, -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
         public void When_a_datetime_is_close_to_a_later_datetime_by_one_tick_it_should_succeed()
         {
             // Arrange
@@ -360,6 +375,21 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_that_time_is_not_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var dateTime = DateTime.UtcNow;
+            var actual = new DateTime(dateTime.Ticks - 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
         }
 
         [Fact]

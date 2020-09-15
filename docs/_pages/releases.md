@@ -52,6 +52,7 @@ sidebar:
 * Fixed an `InvalidCastException` that `BeEquivalentTo` could throw while debugging - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Ensured that `Given` will no longer evaluate its predicate if the preceding `FailWith` raised an assertion failure - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Improved the message that `RaisePropertyChangeFor` throws when the wrong property was detected - [#1333](https://github.com/fluentassertions/fluentassertions/pull/1333)
+* Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
 
 **Breaking Changes**
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
