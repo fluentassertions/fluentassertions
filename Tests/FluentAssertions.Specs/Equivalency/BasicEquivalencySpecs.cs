@@ -377,6 +377,103 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_treating_a_null_type_as_value_type_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+            var expected = new object();
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByValue(null));
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("type");
+        }
+
+        [Fact]
+        public void When_treating_a_null_type_as_reference_type_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+            var expected = new object();
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers(null));
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("type");
+        }
+
+        [Fact]
+        public void When_comparing_an_open_type_by_members_it_should_succeed()
+        {
+            // Arrange
+            var subject = new Option<int[]>(new[] { 1, 3, 2 });
+            var expected = new Option<int[]>(new[] { 1, 2, 3 });
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers(typeof(Option<>)));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_threating_open_type_as_reference_type_and_a_closed_type_as_value_type_it_should_compare_by_value()
+        {
+            // Arrange
+            var subject = new Option<int[]>(new[] { 1, 3, 2 });
+            var expected = new Option<int[]>(new[] { 1, 2, 3 });
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers(typeof(Option<>))
+                .ComparingByValue<Option<int[]>>());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_threating_open_type_as_value_type_and_a_closed_type_as_reference_type_it_should_compare_by_members()
+        {
+            // Arrange
+            var subject = new Option<int[]>(new[] { 1, 3, 2 });
+            var expected = new Option<int[]>(new[] { 1, 2, 3 });
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByValue(typeof(Option<>))
+                .ComparingByMembers<Option<int[]>>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        private struct Option<T> : IEquatable<Option<T>>
+        {
+            public T Value { get; }
+
+            public Option(T value)
+            {
+                Value = value;
+            }
+
+            public bool Equals(Option<T> other) =>
+                EqualityComparer<T>.Default.Equals(Value, other.Value);
+
+            public override bool Equals(object obj) =>
+                obj is Option<T> other && Equals(other);
+
+            public override int GetHashCode() => Value?.GetHashCode() ?? 0;
+        }
+
+        [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
             // Arrange
