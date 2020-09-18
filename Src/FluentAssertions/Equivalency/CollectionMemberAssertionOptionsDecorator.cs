@@ -26,7 +26,7 @@ namespace FluentAssertions.Equivalency
 
         public IEnumerable<IMemberMatchingRule> MatchingRules
         {
-            get { return inner.MatchingRules.Select(rule => new CollectionMemberMatchingRuleDecorator(rule)).ToArray(); }
+            get { return inner.MatchingRules; }
         }
 
         public OrderingRuleCollection OrderingRules
