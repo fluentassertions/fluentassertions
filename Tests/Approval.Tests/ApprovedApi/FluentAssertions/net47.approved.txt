@@ -807,7 +807,9 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.ITraceWriter TraceWriter { get; }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
+        public TSelf ComparingByMembers(System.Type type) { }
         public TSelf ComparingByMembers<T>() { }
+        public TSelf ComparingByValue(System.Type type) { }
         public TSelf ComparingByValue<T>() { }
         public TSelf ComparingEnumsByName() { }
         public TSelf ComparingEnumsByValue() { }

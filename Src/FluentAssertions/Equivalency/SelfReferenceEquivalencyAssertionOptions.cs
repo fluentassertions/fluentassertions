@@ -172,6 +172,14 @@ namespace FluentAssertions.Equivalency
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
+            else if (referenceTypes.Any(type.IsAssignableToOpenGeneric))
+            {
+                strategy = EqualityStrategy.ForceMembers;
+            }
+            else if (valueTypes.Any(type.IsAssignableToOpenGeneric))
+            {
+                strategy = EqualityStrategy.ForceEquals;
+            }
             else
             {
                 if (getDefaultEqualityStrategy != null)
@@ -526,15 +534,23 @@ namespace FluentAssertions.Equivalency
         /// Marks the <typeparamref name="T" /> as a type that should be compared by its members even though it may override
         /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
-        public TSelf ComparingByMembers<T>()
+        public TSelf ComparingByMembers<T>() => ComparingByMembers(typeof(T));
+
+        /// <summary>
+        /// Marks <paramref name="type" /> as a type that should be compared by its members even though it may override
+        /// the <see cref="object.Equals(object)" /> method.
+        /// </summary>
+        public TSelf ComparingByMembers(Type type)
         {
-            if (valueTypes.Any(typeof(T).IsSameOrInherits))
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            if (valueTypes.Any(type.IsSameOrInherits))
             {
                 throw new InvalidOperationException(
-                    $"Can't compare {typeof(T).Name} by its members if it already setup to be compared by value");
+                    $"Can't compare {type.Name} by its members if it already setup to be compared by value");
             }
 
-            referenceTypes.Add(typeof(T));
+            referenceTypes.Add(type);
             return (TSelf)this;
         }
 
@@ -542,15 +558,23 @@ namespace FluentAssertions.Equivalency
         /// Marks the <typeparamref name="T" /> as a value type which must be compared using its
         /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
         /// </summary>
-        public TSelf ComparingByValue<T>()
+        public TSelf ComparingByValue<T>() => ComparingByValue(typeof(T));
+
+        /// <summary>
+        /// Marks <paramref name="type" /> as a value type which must be compared using its
+        /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
+        /// </summary>
+        public TSelf ComparingByValue(Type type)
         {
-            if (referenceTypes.Any(typeof(T).IsSameOrInherits))
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            if (referenceTypes.Any(type.IsSameOrInherits))
             {
                 throw new InvalidOperationException(
-                    $"Can't compare {typeof(T).Name} by value if it already setup to be compared by its members");
+                    $"Can't compare {type.Name} by value if it already setup to be compared by its members");
             }
 
-            valueTypes.Add(typeof(T));
+            valueTypes.Add(type);
             return (TSelf)this;
         }
 
