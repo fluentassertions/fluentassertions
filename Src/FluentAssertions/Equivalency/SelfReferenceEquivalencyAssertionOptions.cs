@@ -164,7 +164,7 @@ namespace FluentAssertions.Equivalency
         {
             EqualityStrategy strategy;
 
-            if (referenceTypes.Any(type.IsSameOrInherits))
+            if (!type.IsPrimitive && referenceTypes.Any(type.IsSameOrInherits))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
@@ -172,7 +172,7 @@ namespace FluentAssertions.Equivalency
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if (referenceTypes.Any(type.IsAssignableToOpenGeneric))
+            else if (!type.IsPrimitive && referenceTypes.Any(type.IsAssignableToOpenGeneric))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
@@ -543,6 +543,11 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingByMembers(Type type)
         {
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            if (type.IsPrimitive)
+            {
+                throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
+            }
 
             if (valueTypes.Any(type.IsSameOrInherits))
             {

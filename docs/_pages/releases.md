@@ -9,9 +9,20 @@ sidebar:
 
 ## 6.0.0
 
+**What's New**
+* Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
+* Added `[Not]BeUpperCased` and `[Not]BeLowerCased` to `StringAssertions` to be able to assert that a string is in upper or lower casing or not - [#1357](https://github.com/fluentassertions/fluentassertions/pull/1357).
+* Added `ObjectAssertions<TSubject, TAssertions>` to ease creation of custom assertion classes - [#1371](https://github.com/fluentassertions/fluentassertions/pull/1371).
+* Added `ComparingBy{Members,Value}(Type)` to allow specifying open generic types - [#1389](https://github.com/fluentassertions/fluentassertions/pull/1389).
+
+**Fixes**
+* Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
+* Guard against implicitly or explicitly trying to compare primitive types by members - [#1394](https://github.com/fluentassertions/fluentassertions/pull/1394).
+
 **Breaking Changes**
 * Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)
 * Moved `[Not]HaveFlag` from `ObjectAssertions` to `EnumAssertions` - [#1375](https://github.com/fluentassertions/fluentassertions/pull/1375).
+* Requesting an unsupported test framework via `Services.Configuration.TestFrameworkName` or `"FluentAssertions.TestFramework"` now throws an exception instead of using the fallback - [#1366](https://github.com/fluentassertions/fluentassertions/pull/1366).
 
 ## 6.0.0 Alpha 1
 
@@ -40,10 +51,6 @@ sidebar:
 * Added `AllBe` to `StringCollectionAssertions` to be able to assert that all strings in collection are equal to the specified string - [#1332](https://github.com/fluentassertions/fluentassertions/pull/1332).
 * Added `ForConstraint` method to `AssertionScope` to open up `OccurenceConstraint` for usage in custom assertion extensions - [#1341](https://github.com/fluentassertions/fluentassertions/pull/1341).
 * Added `NotContainInOrder` to `CollectionAssertions` and `StringCollectionAssertions` to be able to assert that the collection does not contain the specified elements in the exact same order, not necessarily consecutive - [#1339](https://github.com/fluentassertions/fluentassertions/pull/1339).
-* Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
-* Added `[Not]BeUpperCased` and `[Not]BeLowerCased` to `StringAssertions` to be able to assert that a string is in upper or lower casing or not - [#1357](https://github.com/fluentassertions/fluentassertions/pull/1357).
-* Added `ObjectAssertions<TSubject, TAssertions>` to ease creation of custom assertion classes - [#1371](https://github.com/fluentassertions/fluentassertions/pull/1371).
-* Added `ComparingBy{Members,Value}(Type)` to allow specifying open generic types - [#1389](https://github.com/fluentassertions/fluentassertions/pull/1389).
 
 **Fixes**
 * Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
@@ -53,7 +60,6 @@ sidebar:
 * Fixed an `InvalidCastException` that `BeEquivalentTo` could throw while debugging - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Ensured that `Given` will no longer evaluate its predicate if the preceding `FailWith` raised an assertion failure - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Improved the message that `RaisePropertyChangeFor` throws when the wrong property was detected - [#1333](https://github.com/fluentassertions/fluentassertions/pull/1333)
-* Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
 
 **Breaking Changes**
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
@@ -86,7 +92,6 @@ sidebar:
 * Removed `Succeeded` and `SourceSucceeded` from `Continuation` and `IAssertionScope` - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 * Removed synchronous assertions on asynchronous operations (`Throw`, `NotThrow`, `CompleteWithin`, ...) [#1324](https://github.com/fluentassertions/fluentassertions/pull/1324)
 * Do not modify `SynchronizationContext.Current` while asserting asynchronous operations. In case hitting deadlocks in your tests please check whether you mix synchronous and asynchronous operations. [#1324](https://github.com/fluentassertions/fluentassertions/pull/1324)
-* Requesting an unsupported test framework via `Services.Configuration.TestFrameworkName` or `"FluentAssertions.TestFramework"` now throws an exception instead of using the fallback - [#1366](https://github.com/fluentassertions/fluentassertions/pull/1366).
 
 ## 5.10.3
 **Fixes**

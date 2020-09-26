@@ -474,6 +474,54 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_threating_any_type_as_reference_type_it_should_exclude_primitive_types()
+        {
+            // Arrange
+            var subject = new { Value = 1 };
+            var expected = new { Value = 2 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers<object>());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*be 2*found 1*");
+        }
+
+        [Fact]
+        public void When_threating_an_open_type_as_reference_type_it_should_exclude_primitive_types()
+        {
+            // Arrange
+            var subject = new { Value = 1 };
+            var expected = new { Value = 2 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers(typeof(IEquatable<>)));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*be 2*found 1*");
+        }
+
+        [Fact]
+        public void When_threating_a_primitive_type_as_a_reference_type_it_should_throw()
+        {
+            // Arrange
+            var subject = new { Value = 1 };
+            var expected = new { Value = 2 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers<int>());
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>()
+                .WithMessage("*Cannot compare a primitive type*Int32*");
+        }
+
+        [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
             // Arrange
