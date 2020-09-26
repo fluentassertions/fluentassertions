@@ -164,7 +164,7 @@ namespace FluentAssertions.Equivalency
         {
             EqualityStrategy strategy;
 
-            if (referenceTypes.Any(type.IsSameOrInherits))
+            if (!type.IsPrimitive && referenceTypes.Any(type.IsSameOrInherits))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
@@ -172,7 +172,7 @@ namespace FluentAssertions.Equivalency
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if (referenceTypes.Any(type.IsAssignableToOpenGeneric))
+            else if (!type.IsPrimitive && referenceTypes.Any(type.IsAssignableToOpenGeneric))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
