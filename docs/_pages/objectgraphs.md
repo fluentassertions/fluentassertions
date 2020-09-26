@@ -53,6 +53,8 @@ AssertionOptions.AssertEquivalencyUsing(options => options
     .ComparingByValue<DirectoryInfo>());
 ```
 
+Note that primitive types are never compared by their members and trying to call e.g. `ComparingByMembers<int>` will throw an `InvalidOperationException`.
+
 ### Auto-Conversion ###
 In the past, Fluent Assertions would attempt to convert the value of a property of the subject-under-test to the type of the corresponding property on the expectation. But a lot of people complained about this behavior where a string property representing a date and time would magically match a `DateTime` property. As of 5.0, this conversion will no longer happen. However, you can still adjust the assertion by using the `WithAutoConversion` or `WithAutoConversionFor` options:
 

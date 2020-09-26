@@ -179,6 +179,8 @@ AssertionOptions.AssertEquivalencyUsing(options => options
 ```
 
 Similarly, you can force comparing objects that do override `Equals` by their properties using `ComparingByMembers<T>`.
+This also works for open types, so if all concrete types of your `Option<T>` should be compared be their members you just call `ComparingByMembers(typeof(Option<>))`.
+Primitive types are never compared by their members and trying to call e.g. `ComparingByMembers<int>` will throw an `InvalidOperationException`.
 
 ## Equivalency assertion step by step ##
 
