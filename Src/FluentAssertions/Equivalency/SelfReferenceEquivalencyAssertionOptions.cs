@@ -544,6 +544,11 @@ namespace FluentAssertions.Equivalency
         {
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
+            if (type.IsPrimitive)
+            {
+                throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
+            }
+
             if (valueTypes.Any(type.IsSameOrInherits))
             {
                 throw new InvalidOperationException(
