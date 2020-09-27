@@ -118,20 +118,6 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo, bool inherit = false)
-            where TAttribute : Attribute
-        {
-            return (IEnumerable<TAttribute>)typeInfo.GetCustomAttributes(typeof(TAttribute), inherit);
-        }
-
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo,
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
-            where TAttribute : Attribute
-        {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            return GetCustomAttributes<TAttribute>(typeInfo, inherit).Where(isMatchingAttribute);
-        }
-
         /// <summary>
         /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
         /// member.
