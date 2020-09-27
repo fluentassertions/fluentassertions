@@ -38,15 +38,15 @@ namespace FluentAssertions.Xml
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeEquivalentTo(XmlNode expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeEquivalentTo(XmlNode expected, string because = "", params object[] becauseArgs)
         {
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
             using (XmlNodeReader expectedReader = new XmlNodeReader(expected))
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, reasonArgs);
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
                 xmlReaderValidator.Validate(shouldBeEquivalent: true);
             }
 
@@ -62,15 +62,15 @@ namespace FluentAssertions.Xml
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] becauseArgs)
         {
             using (XmlNodeReader subjectReader = new XmlNodeReader(Subject))
             using (XmlNodeReader unexpectedReader = new XmlNodeReader(unexpected))
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, reasonArgs);
+                var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, becauseArgs);
                 xmlReaderValidator.Validate(shouldBeEquivalent: false);
             }
 

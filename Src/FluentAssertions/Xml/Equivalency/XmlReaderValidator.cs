@@ -13,9 +13,9 @@ namespace FluentAssertions.Xml.Equivalency
         private readonly XmlIterator expectationIterator;
         private Node currentNode = Node.CreateRoot();
 
-        public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] reasonArgs)
+        public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
         {
-            assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
+            assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
 
             subjectIterator = new XmlIterator(subjectReader);
             expectationIterator = new XmlIterator(expectationReader);

@@ -67,9 +67,13 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected method is async.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
         public AndConstraint<MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs)
         {
             string failureMessage = "Expected method " +
@@ -87,9 +91,13 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected method is not async.
         /// </summary>
-        /// <param name="because">A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
         public AndConstraint<MethodInfoAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
             string failureMessage = "Expected method " + SubjectDescription + " not to be async{reason}, but it is.";

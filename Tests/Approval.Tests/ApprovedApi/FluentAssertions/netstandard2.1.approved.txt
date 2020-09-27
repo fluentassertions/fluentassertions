@@ -350,18 +350,18 @@ namespace FluentAssertions.Collections
         public GenericCollectionAssertions(TCollection actualValue) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] args) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] args) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey :  class { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs) { }
@@ -2180,8 +2180,8 @@ namespace FluentAssertions.Xml
     {
         public XmlNodeAssertions(TSubject xmlNode) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Xml.XmlNode expected, string because = "", params object[] reasonArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Xml.XmlNode unexpected, string because = "", params object[] reasonArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Xml.XmlNode expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Xml.XmlNode unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class XmlNodeFormatter : FluentAssertions.Formatting.IValueFormatter
     {
