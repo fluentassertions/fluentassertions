@@ -411,7 +411,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs)
         {
@@ -457,7 +457,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
@@ -489,7 +489,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> OnlyContain(
             Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
@@ -525,7 +525,7 @@ namespace FluentAssertions.Collections
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
         {
@@ -565,11 +565,11 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
@@ -706,11 +706,11 @@ namespace FluentAssertions.Collections
         /// total number of element inspectors must exactly match the number of elements in the collection.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
         {

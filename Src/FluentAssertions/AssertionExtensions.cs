@@ -758,7 +758,7 @@ namespace FluentAssertions
         /// An optional delegate that returns the current date and time in UTC format.
         /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
         /// </param>
-        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
         {
             return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
@@ -789,7 +789,7 @@ namespace FluentAssertions
         /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -813,11 +813,11 @@ namespace FluentAssertions
         /// The condition that the exception must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> Where<TException>(
             this Task<ExceptionAssertions<TException>> task,
@@ -834,8 +834,13 @@ namespace FluentAssertions
         /// <typeparam name="TException">The expected type of the exception.</typeparam>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
-        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
             this Task<ExceptionAssertions<TException>> task,
             string because = "",

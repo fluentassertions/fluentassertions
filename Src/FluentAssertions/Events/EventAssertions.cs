@@ -31,11 +31,11 @@ namespace FluentAssertions.Events
         /// The name of the event that should have been raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
         {
@@ -57,11 +57,11 @@ namespace FluentAssertions.Events
         /// The name of the event that should not be raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
         {
@@ -82,11 +82,11 @@ namespace FluentAssertions.Events
         /// <c>null</c> to refer to all properties.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
             string because = "", params object[] becauseArgs)
@@ -125,11 +125,11 @@ namespace FluentAssertions.Events
         /// A lambda expression referring to the property for which the property changed event should have been raised.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
             string because = "", params object[] becauseArgs)

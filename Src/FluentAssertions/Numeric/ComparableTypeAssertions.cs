@@ -66,11 +66,11 @@ namespace FluentAssertions.Numeric
         /// </remarks>
         /// <param name="expectation">The expected element.</param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
@@ -93,11 +93,11 @@ namespace FluentAssertions.Numeric
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
@@ -130,11 +130,11 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
@@ -154,11 +154,11 @@ namespace FluentAssertions.Numeric
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
         {

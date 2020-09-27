@@ -71,11 +71,11 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected object</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs)
         {
@@ -94,11 +94,11 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The unexpected object</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
@@ -228,8 +228,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
-        /// <param name="because">The reason why the object should be assignable to the type.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
         public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
@@ -252,8 +257,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the object is assignable to a variable of given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type to which the object should be assignable.</param>
-        /// <param name="because">The parameters used when formatting the <paramref name="because"/>.</param>
-        /// <param name="becauseArgs"></param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
         /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
@@ -290,8 +300,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the object is not assignable to a variable of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type to which the object should not be assignable.</typeparam>
-        /// <param name="because">The reason why the object should not be assignable to the type.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
@@ -302,8 +317,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the object is not assignable to a variable of given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type to which the object should not be assignable.</param>
-        /// <param name="because">The parameters used when formatting the <paramref name="because"/>.</param>
-        /// <param name="becauseArgs"></param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
         /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
@@ -340,8 +360,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
         /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>
-        /// <param name="because">The reason why the predicate should be satisfied.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> Match(Expression<Func<TSubject, bool>> predicate,
             string because = "",
@@ -354,8 +379,13 @@ namespace FluentAssertions.Primitives
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
         /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>
-        /// <param name="because">The reason why the predicate should be satisfied.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
             string because = "",

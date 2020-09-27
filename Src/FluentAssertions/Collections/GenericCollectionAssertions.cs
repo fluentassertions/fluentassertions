@@ -147,16 +147,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
-            return BeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
+            return BeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -170,16 +170,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
-            return NotBeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
+            return NotBeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -193,16 +193,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInAscendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
-            return BeInAscendingOrder(item => item, comparer, because, args);
+            return BeInAscendingOrder(item => item, comparer, because, becauseArgs);
         }
 
         /// <summary>
@@ -216,16 +216,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInAscendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
-            return NotBeInAscendingOrder(item => item, comparer, because, args);
+            return NotBeInAscendingOrder(item => item, comparer, because, becauseArgs);
         }
 
         /// <summary>
@@ -242,16 +242,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
-            return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, args);
+            return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
         }
 
         /// <summary>
@@ -268,16 +268,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
-            return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, args);
+            return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
         }
 
         /// <summary>
@@ -291,16 +291,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
-            return BeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
+            return BeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -314,16 +314,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
-            return NotBeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, args);
+            return NotBeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
         }
 
         /// <summary>
@@ -337,16 +337,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInDescendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
-            return BeInDescendingOrder(item => item, comparer, because, args);
+            return BeInDescendingOrder(item => item, comparer, because, becauseArgs);
         }
 
         /// <summary>
@@ -360,16 +360,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInDescendingOrder(
-            IComparer<T> comparer, string because = "", params object[] args)
+            IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
-            return NotBeInDescendingOrder(item => item, comparer, because, args);
+            return NotBeInDescendingOrder(item => item, comparer, because, becauseArgs);
         }
 
         /// <summary>
@@ -386,16 +386,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
-            return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, args);
+            return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
         }
 
         /// <summary>
@@ -412,16 +412,16 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="args">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
-            return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, args);
+            return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
         }
 
         private AndConstraint<TAssertions> BeOrderedBy<TSelector>(
@@ -429,11 +429,11 @@ namespace FluentAssertions.Collections
             IComparer<TSelector> comparer,
             SortOrder direction,
             string because,
-            object[] args)
+            object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
 
-            if (IsValidProperty(propertyExpression, because, args))
+            if (IsValidProperty(propertyExpression, because, becauseArgs))
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
@@ -447,7 +447,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
-                    .BecauseOf(because, args)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
                         Subject, orderString, expectation);
             }
@@ -460,11 +460,11 @@ namespace FluentAssertions.Collections
             IComparer<TSelector> comparer,
             SortOrder direction,
             string because,
-            object[] args)
+            object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
 
-            if (IsValidProperty(propertyExpression, because, args))
+            if (IsValidProperty(propertyExpression, because, becauseArgs))
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
@@ -478,7 +478,7 @@ namespace FluentAssertions.Collections
 
                 Execute.Assertion
                     .ForCondition(!unordered.SequenceEqual(expectation))
-                    .BecauseOf(because, args)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to not be ordered {1}{reason} and not result in {2}.",
                         Subject, orderString, expectation);
             }
@@ -486,14 +486,14 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because, object[] args)
+        private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because, object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
                 "Cannot assert collection ordering without specifying a property.");
 
             return Execute.Assertion
                 .ForCondition(!(Subject is null))
-                .BecauseOf(because, args)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
         }
@@ -534,11 +534,11 @@ namespace FluentAssertions.Collections
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             string because = "", params object[] becauseArgs)
@@ -564,11 +564,11 @@ namespace FluentAssertions.Collections
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,

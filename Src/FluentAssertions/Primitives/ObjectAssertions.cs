@@ -56,11 +56,11 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
@@ -84,11 +84,11 @@ namespace FluentAssertions.Primitives
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
@@ -112,11 +112,11 @@ namespace FluentAssertions.Primitives
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
@@ -153,11 +153,11 @@ namespace FluentAssertions.Primitives
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
@@ -183,11 +183,11 @@ namespace FluentAssertions.Primitives
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,

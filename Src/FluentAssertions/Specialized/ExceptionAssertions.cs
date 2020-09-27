@@ -13,7 +13,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Specialized
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref = "Exception" /> is in the correct state.
+    /// Contains a number of methods to assert that an <see cref="Exception" /> is in the correct state.
     /// </summary>
     [DebuggerNonUserCode]
     public class ExceptionAssertions<TException> :
@@ -53,7 +53,7 @@ namespace FluentAssertions.Specialized
         /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -77,8 +77,13 @@ namespace FluentAssertions.Specialized
         /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -111,8 +116,13 @@ namespace FluentAssertions.Specialized
         /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name="TInnerException" /> (and not a derived exception type).
         /// </summary>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name="because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because" />.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -139,11 +149,11 @@ namespace FluentAssertions.Specialized
         /// The condition that the exception must match.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string because = "", params object[] becauseArgs)
