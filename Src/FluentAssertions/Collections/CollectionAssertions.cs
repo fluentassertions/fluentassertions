@@ -1110,8 +1110,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.",
-                        Subject);
+                    .FailWith("Expected {context:collection} to contain items in " + sortOrder + " order{reason}, but found <null>.");
             }
 
             IList<object> actualItems = Subject.ConvertOrCastToList<object>();
@@ -1228,8 +1227,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.",
-                        Subject);
+                        "Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found <null>.");
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
