@@ -23,6 +23,7 @@ sidebar:
 * Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)
 * Moved `[Not]HaveFlag` from `ObjectAssertions` to `EnumAssertions` - [#1375](https://github.com/fluentassertions/fluentassertions/pull/1375).
 * Requesting an unsupported test framework via `Services.Configuration.TestFrameworkName` or `"FluentAssertions.TestFramework"` now throws an exception instead of using the fallback - [#1366](https://github.com/fluentassertions/fluentassertions/pull/1366).
+* Guard `[Not]Match`, `[Not]MatchEquivalentOf`, `[Not]MatchRegex` and `[Not]ContainMatch` against `null` or empty patterns - [#1401](https://github.com/fluentassertions/fluentassertions/pull/1401).
 
 ## 6.0.0 Alpha 1
 

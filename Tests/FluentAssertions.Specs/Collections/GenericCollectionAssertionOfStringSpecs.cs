@@ -1783,8 +1783,24 @@ namespace FluentAssertions.Specs
             Action action = () => collection.Should().ContainMatch(null);
 
             // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection {\"build succeded\", \"test failed\"} to contain a match of <null>.");
+            action.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_have_empty_string_match_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+
+            // Act
+            Action action = () => collection.Should().ContainMatch(string.Empty);
+
+            // Assert
+            action.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
         }
 
         #endregion
@@ -1859,7 +1875,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_null_collection_for_not_match_it_should_throw()
+        public void When_asserting_collection_to_not_have_null_match_it_should_throw()
         {
             // Arrange
             IEnumerable<string> collection = null;
@@ -1868,8 +1884,24 @@ namespace FluentAssertions.Specs
             Action action = () => collection.Should().NotContainMatch(null);
 
             // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain a match of <null>, but found <null>.");
+            action.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_have_empty_string_match_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+
+            // Act
+            Action action = () => collection.Should().NotContainMatch(string.Empty);
+
+            // Assert
+            action.Should().Throw<ArgumentException>()
+                .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
         }
 
         #endregion
