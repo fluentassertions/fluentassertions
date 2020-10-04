@@ -2589,6 +2589,20 @@ namespace FluentAssertions.Specs
         #region (Not) be in order
 
         [Fact]
+        public void When_asserting_a_null_collection_to_be_in_ascending_order_it_should_throw()
+        {
+            // Arrange
+            List<int> result = null;
+
+            // Act
+            Action act = () => result.Should().BeInAscendingOrder();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*but found <null>*");
+        }
+
+        [Fact]
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_it_should_succeed()
         {
             // Arrange
@@ -2636,6 +2650,20 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
                     " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_collection_to_not_be_in_ascending_order_it_should_throw()
+        {
+            // Arrange
+            List<int> result = null;
+
+            // Act
+            Action act = () => result.Should().NotBeInAscendingOrder();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*but found <null>*");
         }
 
         [Fact]
