@@ -186,6 +186,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
+            }
+
             var stringWildcardMatchingValidator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs);
             stringWildcardMatchingValidator.Validate();
 
@@ -207,6 +214,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
+            }
+
             new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 Negate = true
@@ -231,6 +245,13 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
+            }
+
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 IgnoreCase = true,
@@ -258,6 +279,13 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
+            }
+
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 IgnoreCase = true,
@@ -285,7 +313,12 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+
+            if (regularExpression.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.", nameof(regularExpression));
+            }
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))
@@ -325,7 +358,12 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
+
+            if (regularExpression.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.", nameof(regularExpression));
+            }
 
             Execute.Assertion
                 .ForCondition(!(Subject is null))

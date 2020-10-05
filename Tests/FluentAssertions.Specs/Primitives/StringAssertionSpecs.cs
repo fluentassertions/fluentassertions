@@ -377,6 +377,36 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected subject to match*\"*World*\", but*\"hello world\" does not.");
         }
 
+        [Fact]
+        public void When_a_string_is_matched_against_null_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().Match(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_an_empty_string_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().Match(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
         #endregion
 
         #region Not Match
@@ -407,6 +437,36 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>().WithMessage(
                     "Did not expect subject to match*\"*world*\" because that's illegal, but*\"hello world\" matches.");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_null_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatch(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_an_empty_string_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatch(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
         }
 
         #endregion
@@ -454,6 +514,36 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_string_is_matched_against_the_equivalent_of_null_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchEquivalentOf(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_the_equivalent_of_an_empty_string_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchEquivalentOf(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
         #endregion
 
         #region Not Match Equivalent Of
@@ -498,6 +588,36 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_the_equivalent_of_null_pattern_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatchEquivalentOf(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_the_equivalent_of_an_empty_string_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatchEquivalentOf(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
+                .And.ParamName.Should().Be("wildcardPattern");
         }
 
         #endregion
@@ -558,7 +678,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-               .WithMessage("Cannot match string against <null>.*")
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
                .And.ParamName.Should().Be("regularExpression");
         }
 
@@ -595,6 +715,21 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .Which.Message.Should().Contain("is not a valid regular expression")
                     .And.NotContain("does not match");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
+                .And.ParamName.Should().Be("regularExpression");
         }
 
         #endregion
@@ -653,7 +788,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-               .WithMessage("Cannot match string against <null>.*")
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
                .And.ParamName.Should().Be("regularExpression");
         }
 
@@ -690,6 +825,21 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .Which.Message.Should().Contain("is not a valid regular expression")
                     .And.NotContain("matches");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
+                .And.ParamName.Should().Be("regularExpression");
         }
 
         #endregion
