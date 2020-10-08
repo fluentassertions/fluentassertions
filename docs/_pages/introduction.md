@@ -27,7 +27,7 @@ string actual = "ABCDEFGHI";
 actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLength(9);
 ```
 
-To verify that a collection contains a specified number of elements and that all elements match a predicate.
+To verify that all elements of a collection match a predicate and that it contains a specified number of elements.
 
 ```c#
 IEnumerable numbers = new[] { 1, 2, 3 };
