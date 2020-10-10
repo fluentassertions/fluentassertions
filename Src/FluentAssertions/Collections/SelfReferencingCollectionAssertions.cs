@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -647,7 +646,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            var body = Regex.Replace(predicate.Body.ToString(), @"{(\d+)}", @"{{$1}}");
+            var body = predicate.Body.ToString().EscapePlaceholders();
             string expectationPrefix =
                 $"Expected {{context:collection}} to contain a single item matching {body}{{reason}}, ";
 
