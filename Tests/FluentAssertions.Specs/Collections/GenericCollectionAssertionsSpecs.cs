@@ -362,6 +362,34 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");
         }
 
+        [Fact]
+        public void When_single_item_contains_brackets_it_should_escape_them()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "" };
+
+            // Act
+            Action act = () => collection.Should().ContainSingle(item => item == "{123}");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to contain a single item matching (item == \"{123}\"), but no such item was found.");
+        }
+
+        [Fact]
+        public void When_single_item_contains_string_interpolation_it_should_escape_brackets()
+        {
+            // Arrange
+            IEnumerable<string> collection = new[] { "" };
+
+            // Act
+            Action act = () => collection.Should().ContainSingle(item => item == $"{123}");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to contain a single item matching (item == Format(\"{0}\", Convert(123))), but no such item was found.");
+        }
+
         #endregion
 
         #region Contain Single
