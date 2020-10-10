@@ -18,7 +18,7 @@ sidebar:
 **Fixes**
 * Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
 * Guard against implicitly or explicitly trying to compare primitive types by members - [#1394](https://github.com/fluentassertions/fluentassertions/pull/1394).
-* Escaped brackets in expressions passed to ContainSingle(...) - [#1405](https://github.com/fluentassertions/fluentassertions/pull/1405). 
+* Escaped brackets in expressions passed to ContainSingle(...) - [#1406](https://github.com/fluentassertions/fluentassertions/pull/1406). 
 
 **Breaking Changes**
 * Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)
