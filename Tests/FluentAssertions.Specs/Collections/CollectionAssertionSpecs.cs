@@ -1679,6 +1679,24 @@ namespace FluentAssertions.Specs
                 "*not to be equivalent*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
+        [Fact]
+        public void When_a_collections_is_equivalent_to_an_approximate_copy_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { 1.0, 2.0, 3.0 };
+            var collection1 = new[] { 1.5, 2.5, 3.5 };
+
+            // Act
+            Action act = () => collection.Should().NotBeEquivalentTo(collection1, opt => opt
+                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
+                .WhenTypeIs<double>(),
+                "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*not to be equivalent*because we want to test the failure message*");
+        }
+
         #endregion
 
         #region Contain Equivalent Of
