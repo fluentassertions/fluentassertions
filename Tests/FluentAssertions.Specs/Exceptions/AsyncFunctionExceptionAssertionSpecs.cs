@@ -1192,15 +1192,7 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
         public async Task When_async_method_throws_the_exact_expected_inner_exception_it_should_succeed()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new AggregateException(new InvalidOperationException());
-            };
-
-            var s = await task.Should().ThrowAsync<AggregateException>();
-
-            s.WithInnerExceptionExactly<InvalidOperationException>();
+            Func<Task> task = () => FromException(new AggregateException(new InvalidOperationException()));
 
             // Act
             Func<Task> action = () => task
@@ -1215,11 +1207,7 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
         public async Task When_async_method_does_not_throw_the_expected_exact_inner_exception_it_should_fail()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new AggregateException(new ArgumentException());
-            };
+            Func<Task> task = () => FromException(new AggregateException(new ArgumentException()));
 
             // Act
             Func<Task> action = () => task
@@ -1227,7 +1215,7 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
                 .WithInnerExceptionExactly<AggregateException, InvalidOperationException>();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
+            await action.Should().ThrowAsync<XunitException>();
         }
         #endregion
     }
