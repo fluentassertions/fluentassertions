@@ -91,7 +91,7 @@ However, if you really want to be explicit about the exact type of exception, yo
 Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
 
 ```csharp
-Func<Task> act = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+Func<Task> act = () => asyncObject.ThrowAsync<ArgumentException>();
 await act.Should().ThrowAsync<InvalidOperationException>();
 await act.Should().NotThrowAsync();
 ```
@@ -99,7 +99,7 @@ await act.Should().NotThrowAsync();
 Alternatively, you can use the `Awaiting` method like this:
 
 ```csharp
-Func<Task> act = () => asyncObject.Awaiting(async x => await x.ThrowAsync<ArgumentException>());
+Func<Task> act = () => asyncObject.Awaiting(x => x.ThrowAsync<ArgumentException>());
 await act.Should().ThrowAsync<ArgumentException>();
 ```
 
