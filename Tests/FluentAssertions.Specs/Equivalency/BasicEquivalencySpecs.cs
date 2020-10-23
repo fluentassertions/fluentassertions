@@ -2523,6 +2523,63 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
         }
 
+        [Fact]
+        public void Exclude()
+        {
+            var actual = new IInterfaceX[]
+            {
+                new DerivedX() { Value1 = 1, Value2 = 2 }
+            };
+            var expected = new IInterfaceX[]
+            {
+                new DerivedX() { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Excluding(a => a.Value1)
+                    .RespectingRuntimeTypes());
+        }
+
+        [Fact]
+        public void Include()
+        {
+            var actual = new IInterfaceX[]
+            {
+                new DerivedX() { Value1 = 1, Value2 = 2 }
+            };
+
+            var expected = new IInterfaceX[]
+            {
+                new DerivedX() { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Including(a => a.Value2)
+                    .RespectingRuntimeTypes());
+        }
+
+        public interface IInterfaceX
+        {
+            int Value1 { get; set; }
+
+            int Value2 { get; set; }
+        }
+
+        public class BaseX
+        {
+            public int Value1 { get; set; }
+
+            public int Value2 { get; set; }
+        }
+
+        public class DerivedX : BaseX, IInterfaceX
+        {
+        }
+
         private interface IInterface
         {
         }
