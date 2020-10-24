@@ -1278,16 +1278,16 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs) { }
     }
-    public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
+    public abstract class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        public NullableNumericAssertions(T? value) { }
+        protected NullableNumericAssertions(T? value) { }
     }
-    public class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
+    public abstract class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NullableNumericAssertions<T, TAssertions>
     {
-        public NullableNumericAssertions(T? value) { }
+        protected NullableNumericAssertions(T? value) { }
         public T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1295,16 +1295,16 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
-    public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
+    public abstract class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        public NumericAssertions(T value) { }
+        protected NumericAssertions(T value) { }
     }
-    public class NumericAssertions<T, TAssertions>
+    public abstract class NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
     {
-        public NumericAssertions(T value) { }
+        protected NumericAssertions(T value) { }
         public T Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }
@@ -1340,6 +1340,10 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
+    }
+    public class ByteAssertions : FluentAssertions.Numeric.NumericAssertions<byte>
+    {
+        public ByteAssertions(byte value) { }
     }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>
     {
@@ -1448,6 +1452,14 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTime target, string because = "", params object[] becauseArgs) { }
     }
+    public class DecimalAssertions : FluentAssertions.Numeric.NumericAssertions<decimal>
+    {
+        public DecimalAssertions(decimal value) { }
+    }
+    public class DoubleAssertions : FluentAssertions.Numeric.NumericAssertions<double>
+    {
+        public DoubleAssertions(double value) { }
+    }
     public class EnumAssertions : FluentAssertions.Primitives.EnumAssertions<System.Enum, FluentAssertions.Primitives.EnumAssertions>
     {
         public EnumAssertions(System.Enum subject) { }
@@ -1462,6 +1474,10 @@ namespace FluentAssertions.Primitives
             where T :  struct, TEnum { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag<T>(T unexpectedFlag, string because = "", params object[] becauseArgs)
             where T :  struct, TEnum { }
+    }
+    public class FloatAssertions : FluentAssertions.Numeric.NumericAssertions<float>
+    {
+        public FloatAssertions(float value) { }
     }
     public class GuidAssertions : FluentAssertions.Primitives.GuidAssertions<FluentAssertions.Primitives.GuidAssertions>
     {
@@ -1478,6 +1494,14 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.Guid unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
     }
+    public class IntAssertions : FluentAssertions.Numeric.NumericAssertions<int>
+    {
+        public IntAssertions(int value) { }
+    }
+    public class LongAssertions : FluentAssertions.Numeric.NumericAssertions<long>
+    {
+        public LongAssertions(long value) { }
+    }
     public class NullableBooleanAssertions : FluentAssertions.Primitives.NullableBooleanAssertions<FluentAssertions.Primitives.NullableBooleanAssertions>
     {
         public NullableBooleanAssertions(bool? value) { }
@@ -1493,6 +1517,10 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
+    }
+    public class NullableByteAssertions : FluentAssertions.Numeric.NullableNumericAssertions<byte>
+    {
+        public NullableByteAssertions(byte? value) { }
     }
     public class NullableDateTimeAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<FluentAssertions.Primitives.NullableDateTimeAssertions>
     {
@@ -1522,6 +1550,18 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
+    public class NullableDecimalAssertions : FluentAssertions.Numeric.NullableNumericAssertions<decimal>
+    {
+        public NullableDecimalAssertions(decimal? value) { }
+    }
+    public class NullableDoubleAssertions : FluentAssertions.Numeric.NullableNumericAssertions<double>
+    {
+        public NullableDoubleAssertions(double? value) { }
+    }
+    public class NullableFloatAssertions : FluentAssertions.Numeric.NullableNumericAssertions<float>
+    {
+        public NullableFloatAssertions(float? value) { }
+    }
     public class NullableGuidAssertions : FluentAssertions.Primitives.NullableGuidAssertions<FluentAssertions.Primitives.NullableGuidAssertions>
     {
         public NullableGuidAssertions(System.Guid? value) { }
@@ -1536,6 +1576,22 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
+    public class NullableIntAssertions : FluentAssertions.Numeric.NullableNumericAssertions<int>
+    {
+        public NullableIntAssertions(int? value) { }
+    }
+    public class NullableLongAssertions : FluentAssertions.Numeric.NullableNumericAssertions<long>
+    {
+        public NullableLongAssertions(long? value) { }
+    }
+    public class NullableSByteAssertions : FluentAssertions.Numeric.NullableNumericAssertions<sbyte>
+    {
+        public NullableSByteAssertions(sbyte? value) { }
+    }
+    public class NullableShortAssertions : FluentAssertions.Numeric.NullableNumericAssertions<short>
+    {
+        public NullableShortAssertions(short? value) { }
+    }
     public class NullableSimpleTimeSpanAssertions : FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions<FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions>
     {
         public NullableSimpleTimeSpanAssertions(System.TimeSpan? value) { }
@@ -1549,6 +1605,18 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
+    }
+    public class NullableUIntAssertions : FluentAssertions.Numeric.NullableNumericAssertions<uint>
+    {
+        public NullableUIntAssertions(uint? value) { }
+    }
+    public class NullableULongAssertions : FluentAssertions.Numeric.NullableNumericAssertions<ulong>
+    {
+        public NullableULongAssertions(ulong? value) { }
+    }
+    public class NullableUShortAssertions : FluentAssertions.Numeric.NullableNumericAssertions<ushort>
+    {
+        public NullableUShortAssertions(ushort? value) { }
     }
     public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
@@ -1587,6 +1655,14 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType(System.Type unexpectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+    }
+    public class SByteAssertions : FluentAssertions.Numeric.NumericAssertions<sbyte>
+    {
+        public SByteAssertions(sbyte value) { }
+    }
+    public class ShortAssertions : FluentAssertions.Numeric.NumericAssertions<short>
+    {
+        public ShortAssertions(short value) { }
     }
     public class SimpleTimeSpanAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<FluentAssertions.Primitives.SimpleTimeSpanAssertions>
     {
@@ -1670,6 +1746,18 @@ namespace FluentAssertions.Primitives
         Exactly = 2,
         Within = 3,
         LessThan = 4,
+    }
+    public class UIntAssertions : FluentAssertions.Numeric.NumericAssertions<uint>
+    {
+        public UIntAssertions(uint value) { }
+    }
+    public class ULongAssertions : FluentAssertions.Numeric.NumericAssertions<ulong>
+    {
+        public ULongAssertions(ulong value) { }
+    }
+    public class UShortAssertions : FluentAssertions.Numeric.NumericAssertions<ushort>
+    {
+        public UShortAssertions(ushort value) { }
     }
 }
 namespace FluentAssertions.Reflection

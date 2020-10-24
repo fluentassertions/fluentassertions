@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 2 because we want to test the failure message, but found 1.");
+                .WithMessage("Expected value to be 2 because we want to test the failure message, but found 1. Difference -1.");
         }
 
         [Fact]
@@ -222,7 +222,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected*<null>, but found 2.");
+                .WithMessage("Expected*<null>, but found 2. Difference <null>.");
         }
 
         [Fact]
@@ -237,7 +237,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected*2, but found <null>.");
+                .WithMessage("Expected*2, but found <null>. Difference <null>.");
         }
 
         [Fact]
@@ -443,7 +443,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2. Difference -1.");
         }
 
         [Fact]
@@ -502,7 +502,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater or equal to 3 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be greater or equal to 3 because we want to test the failure message, but found 2. Difference -1.");
         }
 
         [Fact]
@@ -594,7 +594,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less than 1 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be less than 1 because we want to test the failure message, but found 2. Difference 1.");
         }
 
         [Fact]
@@ -652,7 +652,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less or equal to 1 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be less or equal to 1 because we want to test the failure message, but found 2. Difference 1.");
         }
 
         [Fact]
@@ -1082,7 +1082,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be *3.5* but found <null>.");
+                .WithMessage("Expected value to be *3.5* but found <null>. Difference <null>.");
         }
 
         [Fact]
@@ -1408,7 +1408,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected value to be 3.4 because we want to test the error message, but found 3.5.");
+                    "Expected value to be 3.4 because we want to test the error message, but found 3.5. Difference 0.10000000000000009.");
         }
 
         [Fact]
@@ -1437,7 +1437,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 3.5, but found <null>.");
+                .WithMessage("Expected value to be 3.5, but found <null>. Difference <null>.");
         }
 
         [Fact]
@@ -1763,7 +1763,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be*3.5*, but found <null>.");
+                .WithMessage("Expected value to be*3.5*, but found <null>. Difference <null>.");
         }
 
         [Fact]

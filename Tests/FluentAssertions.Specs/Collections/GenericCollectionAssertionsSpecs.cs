@@ -447,7 +447,7 @@ namespace FluentAssertions.Specs
             Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);
 
             // Assert
-            const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
+            const string expectedMessage = "Expected collection to be greater than 4, but found 3. Difference -1.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -1597,14 +1597,14 @@ namespace FluentAssertions.Specs
 *Expected customer.Age to be less than 21, but found 21
 *Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
 *At index 0:
-*Expected item to be 2, but found 1
+*Expected item to be 2, but found 1. Difference -1
 *At index 1:
-*Expected item to be 1, but found 2
+*Expected item to be 1, but found 2. Difference 1
 *At index 1:
 *Expected customer.Age to be less than 22, but found 22
 *Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
 *At index 0:
-*Expected item to be 2, but found 3"
+*Expected item to be 2, but found 3. Difference 1"
 );
         }
 
