@@ -404,11 +404,6 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
-            }
-
             var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
             stringStartValidator.Validate();
 
@@ -430,11 +425,6 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
-
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
-            }
 
             var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.Ordinal, because, becauseArgs);
             negatedStringStartValidator.Validate();
@@ -459,11 +449,6 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
-            }
-
             var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             stringStartValidator.Validate();
 
@@ -486,11 +471,6 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
-            }
-
             var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             negatedStringStartValidator.Validate();
 
@@ -512,12 +492,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
-
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
-            }
-
+            
             if (Subject is null)
             {
                 Execute.Assertion
@@ -556,11 +531,6 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
-            }
-
             if (Subject is null)
             {
                 Execute.Assertion
@@ -591,11 +561,6 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
-
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
-            }
 
             if (Subject is null)
             {
@@ -634,11 +599,6 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
-
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
-            }
 
             if (Subject is null)
             {
