@@ -363,7 +363,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_single_item_contains_brackets_it_should_escape_them()
+        public void When_single_item_contains_brackets_it_should_not_fail()
         {
             // Arrange
             IEnumerable<string> collection = new[] { "" };
@@ -377,7 +377,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_single_item_contains_string_interpolation_it_should_escape_brackets()
+        public void When_single_item_contains_string_interpolation_it_should_not_fail()
         {
             // Arrange
             IEnumerable<string> collection = new[] { "" };
@@ -387,7 +387,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain a single item matching (item == Format(\"{0}\", Convert(123))), but no such item was found.");
+                "Expected collection to contain a single item matching (item == Format(\"{0}\", Convert(123*))), but no such item was found.");
         }
 
         #endregion
