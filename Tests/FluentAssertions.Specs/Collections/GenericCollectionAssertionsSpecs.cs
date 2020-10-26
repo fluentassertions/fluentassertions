@@ -363,7 +363,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_single_item_contains_brackets_it_should_not_fail()
+        public void When_single_item_contains_brackets_it_should_format_them_properly()
         {
             // Arrange
             IEnumerable<string> collection = new[] { "" };
