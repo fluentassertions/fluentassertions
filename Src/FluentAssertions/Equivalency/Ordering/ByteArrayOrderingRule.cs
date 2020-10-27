@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency.Ordering
     /// </summary>
     internal class ByteArrayOrderingRule : IOrderingRule
     {
-        public OrderStrictness Evaluate(IMemberInfo memberInfo)
+        public OrderStrictness Evaluate(IObjectInfo memberInfo)
         {
             return memberInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>)) ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
         }

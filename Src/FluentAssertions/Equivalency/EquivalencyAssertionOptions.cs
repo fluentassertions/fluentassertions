@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Creates a new set of options based on the current instance which acts on a <see cref="IEnumerable{TSubject}"/>
+        /// Creates a new set of options based on the current instance which acts on a a collection of the <typeparamref name="TExpectation"/>.
         /// </summary>
         public EquivalencyAssertionOptions<IEnumerable<TExpectation>> AsCollection()
         {

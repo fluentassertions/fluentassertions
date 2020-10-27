@@ -413,15 +413,13 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable> options = config(AssertionOptions.CloneDefaults<IEnumerable>());
 
-            var context = new EquivalencyValidationContext
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,
-                RootIsCollection = true,
                 CompileTimeType = typeof(IEnumerable),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter,
             };
 
             var equivalencyValidator = new EquivalencyValidator(options);
@@ -462,15 +460,13 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
-            var context = new EquivalencyValidationContext
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<TExpectation>>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,
-                RootIsCollection = true,
                 CompileTimeType = typeof(IEnumerable<TExpectation>),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
             };
 
             var equivalencyValidator = new EquivalencyValidator(options);
@@ -631,14 +627,13 @@ namespace FluentAssertions.Collections
 
                 foreach (object actualItem in actualItems)
                 {
-                    var context = new EquivalencyValidationContext
+                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()))
                     {
                         Subject = actualItem,
                         Expectation = expectation,
                         CompileTimeType = typeof(TExpectation),
-                        Because = because,
-                        BecauseArgs = becauseArgs,
-                        Tracer = options.TraceWriter,
+                        Reason = new Reason(because, becauseArgs),
+                        TraceWriter = options.TraceWriter
                     };
 
                     var equivalencyValidator = new EquivalencyValidator(options);
@@ -722,14 +717,13 @@ namespace FluentAssertions.Collections
                 int index = 0;
                 foreach (object actualItem in Subject)
                 {
-                    var context = new EquivalencyValidationContext
+                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(CallerIdentifier.DetermineCallerIdentity))
                     {
                         Subject = actualItem,
                         Expectation = unexpected,
                         CompileTimeType = typeof(TExpectation),
-                        Because = because,
-                        BecauseArgs = becauseArgs,
-                        Tracer = options.TraceWriter,
+                        Reason = new Reason(because, becauseArgs),
+                        TraceWriter = options.TraceWriter
                     };
 
                     var equivalencyValidator = new EquivalencyValidator(options);

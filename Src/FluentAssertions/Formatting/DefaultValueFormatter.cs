@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -34,7 +35,7 @@ namespace FluentAssertions.Formatting
         {
             if (value.GetType() == typeof(object))
             {
-                return string.Format("System.Object (HashCode={0})", value.GetHashCode());
+                return $"System.Object (HashCode={value.GetHashCode()})";
             }
 
             string prefix = context.UseLineBreaks ? Environment.NewLine : string.Empty;
@@ -53,7 +54,10 @@ namespace FluentAssertions.Formatting
         /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
         /// <returns>The members of <paramref name="type"/> that will be included when formatting this object.</returns>
         /// <remarks>The default is all non-private members.</remarks>
-        protected virtual IEnumerable<SelectedMemberInfo> GetMembers(Type type) => type.GetNonPrivateMembers();
+        protected virtual MemberInfo[] GetMembers(Type type)
+        {
+            return type.GetNonPrivateMembers().ToArray();
+        }
 
         /// <summary>
         /// Selects the name to display for <paramref name="type"/>.
@@ -84,8 +88,8 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(TypeDisplayName(type));
             builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
 
-            IEnumerable<SelectedMemberInfo> members = GetMembers(type);
-            foreach (SelectedMemberInfo memberInfo in members.OrderBy(mi => mi.Name))
+            MemberInfo[] members = GetMembers(type);
+            foreach (var memberInfo in members.OrderBy(mi => mi.Name))
             {
                 string memberValueText = GetMemberValueTextFor(obj, memberInfo, context, formatChild);
                 builder.AppendLine(memberValueText);
@@ -96,23 +100,26 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private string GetMemberValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, FormattingContext context, FormatChild formatChild)
+        private string GetMemberValueTextFor(object value, MemberInfo member, FormattingContext context, FormatChild formatChild)
         {
             object memberValue;
 
             try
             {
-                memberValue = selectedMemberInfo.GetValue(value, null);
+                memberValue = member switch
+                {
+                    FieldInfo fi => fi.GetValue(value),
+                    PropertyInfo pi => pi.GetValue(value),
+                    _ => throw new InvalidOperationException()
+                };
             }
             catch (Exception ex)
             {
-                memberValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
+                memberValue = $"[Member '{member.Name}' threw an exception: '{ex.Message}']";
             }
 
-            return string.Format("{0}{1} = {2}",
-                CreateWhitespaceForLevel(context.Depth + 1),
-                selectedMemberInfo.Name,
-                formatChild(selectedMemberInfo.Name, memberValue));
+            return
+                $"{CreateWhitespaceForLevel(context.Depth + 1)}{member.Name} = {formatChild(member.Name, memberValue)}";
         }
 
         private string CreateWhitespaceForLevel(int level)

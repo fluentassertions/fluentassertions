@@ -868,7 +868,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*subject.Name*to be*");
         }
 
         [Fact]
@@ -999,7 +999,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
 
         internal class NonPublicClass
@@ -1087,7 +1087,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*property subject.Name*to be*");
         }
 
         [Fact]

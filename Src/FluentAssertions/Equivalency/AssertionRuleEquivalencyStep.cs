@@ -8,13 +8,13 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     {
-        private readonly Func<IMemberInfo, bool> predicate;
+        private readonly Func<IObjectInfo, bool> predicate;
         private readonly string description;
         private readonly Action<IAssertionContext<TSubject>> assertion;
         private readonly AutoConversionStep converter = new AutoConversionStep();
 
         public AssertionRuleEquivalencyStep(
-            Expression<Func<IMemberInfo, bool>> predicate,
+            Expression<Func<IObjectInfo, bool>> predicate,
             Action<IAssertionContext<TSubject>> assertion)
         {
             this.predicate = predicate.Compile();
@@ -61,7 +61,7 @@ namespace FluentAssertions.Equivalency
             return success;
         }
 
-        private bool AppliesTo(IEquivalencyValidationContext context) => predicate(context);
+        private bool AppliesTo(IEquivalencyValidationContext context) => predicate(new ObjectInfo(context));
 
         private bool ExecuteAssertion(IEquivalencyValidationContext context)
         {
@@ -70,7 +70,7 @@ namespace FluentAssertions.Equivalency
             bool subjectIsValidType =
                 AssertionScope.Current
                     .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.SelectedMemberDescription + " from subject to be a {0}{reason}, but found a {1}.",
+                    .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
                         typeof(TSubject), context.Subject?.GetType());
 
             bool expectationIsNull = context.Expectation is null;
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency
             bool expectationIsValidType =
                 AssertionScope.Current
                     .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.SelectedMemberDescription + " from expectation to be a {0}{reason}, but found a {1}.",
+                    .FailWith("Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
                         typeof(TSubject), context.Expectation?.GetType());
 
             if (subjectIsValidType && expectationIsValidType)

@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
                     object subject = ((Array)context.Subject).GetValue(indices);
                     string listOfIndices = string.Join(",", indices);
                     object expectation = expectationAsArray.GetValue(indices);
-                    IEquivalencyValidationContext itemContext = context.CreateForCollectionItem(
+                    IEquivalencyValidationContext itemContext = context.AsCollectionItem(
                         listOfIndices,
                         subject,
                         expectation);

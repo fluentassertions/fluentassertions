@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
@@ -9,12 +10,12 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyAssertionOptions
     {
         /// <summary>
-        /// Gets an ordered collection of selection rules that define what properties are included.
+        /// Gets an ordered collection of selection rules that define what members (e.g. properties or fields) are included.
         /// </summary>
         IEnumerable<IMemberSelectionRule> SelectionRules { get; }
 
         /// <summary>
-        /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
+        /// Gets an ordered collection of matching rules that determine which subject members are matched with which
         /// expectation properties.
         /// </summary>
         IEnumerable<IMemberMatchingRule> MatchingRules { get; }

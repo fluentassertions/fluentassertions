@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
+using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
+    /// <summary>
+    /// Ensures that all the rules remove the collection index from the path before processing it further.
+    /// </summary>
     internal class CollectionMemberAssertionOptionsDecorator : IEquivalencyAssertionOptions
     {
         private readonly IEquivalencyAssertionOptions inner;
@@ -26,7 +29,7 @@ namespace FluentAssertions.Equivalency
 
         public IEnumerable<IMemberMatchingRule> MatchingRules
         {
-            get { return inner.MatchingRules; }
+            get { return inner.MatchingRules.ToArray(); }
         }
 
         public OrderingRuleCollection OrderingRules

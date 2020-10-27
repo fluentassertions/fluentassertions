@@ -11,13 +11,14 @@ namespace FluentAssertions.Equivalency.Selection
     {
         public bool IncludesMembers => false;
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+            MemberSelectionContext context)
         {
-            IEnumerable<SelectedMemberInfo> selectedNonPrivateFields = config.GetExpectationType(context)
+            IEnumerable<IMember> selectedNonPrivateFields = context.Options.GetExpectationType(context.RuntimeType, context.CompileTimeType)
                 .GetNonPrivateFields()
-                .Select(SelectedMemberInfo.Create);
+                .Select(info => new Field(info, currentNode));
 
-            return selectedMembers.Union(selectedNonPrivateFields);
+            return selectedMembers.Union(selectedNonPrivateFields).ToList();
         }
 
         /// <summary>

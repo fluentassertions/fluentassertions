@@ -15,13 +15,13 @@ namespace FluentAssertions.Equivalency
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return config.GetExpectationType(context) == typeof(T);
+            return config.GetExpectationType(context.RuntimeType, context.CompileTimeType) == typeof(T);
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             Execute.Assertion
-                .BecauseOf(context.Because, context.BecauseArgs)
+                .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
                 .ForCondition(context.Subject is T)
                 .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), context.Subject)
                 .Then
