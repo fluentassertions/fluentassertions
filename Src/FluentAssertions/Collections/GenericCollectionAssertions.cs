@@ -153,7 +153,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
             return BeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
@@ -199,7 +199,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInAscendingOrder(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
             return BeInAscendingOrder(item => item, comparer, because, becauseArgs);
@@ -248,7 +248,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInAscendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
             return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
@@ -297,7 +297,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
             return BeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
@@ -343,7 +343,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInDescendingOrder(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
             return BeInDescendingOrder(item => item, comparer, because, becauseArgs);
@@ -392,7 +392,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<TAssertions> BeInDescendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
             return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
@@ -424,7 +424,7 @@ namespace FluentAssertions.Collections
             return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
         }
 
-        private AndConstraint<TAssertions> BeOrderedBy<TSelector>(
+        internal AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression,
             IComparer<TSelector> comparer,
             SortOrder direction,
@@ -437,7 +437,7 @@ namespace FluentAssertions.Collections
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
-                IOrderedEnumerable<T> expectation = ConvertToOrderedEnumerable(
+                IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
                     propertyExpression,
                     comparer,
                     direction,
@@ -450,9 +450,13 @@ namespace FluentAssertions.Collections
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
                         Subject, orderString, expectation);
+
+                return new AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>>(
+                    new SubsequentOrderingGenericCollectionAssertions<T>(Subject, expectation));
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>>(
+                new SubsequentOrderingGenericCollectionAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x)));
         }
 
         private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
@@ -468,7 +472,7 @@ namespace FluentAssertions.Collections
             {
                 ICollection<T> unordered = Subject.ConvertOrCastToCollection();
 
-                IOrderedEnumerable<T> expectation = ConvertToOrderedEnumerable(
+                IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
                     propertyExpression,
                     comparer,
                     direction,
@@ -498,7 +502,7 @@ namespace FluentAssertions.Collections
                     propertyExpression.GetMemberPath());
         }
 
-        private static IOrderedEnumerable<T> ConvertToOrderedEnumerable<TSelector>(
+        internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression,
             IComparer<TSelector> comparer,
             SortOrder direction,
