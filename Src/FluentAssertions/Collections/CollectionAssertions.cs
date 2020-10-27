@@ -512,25 +512,45 @@ namespace FluentAssertions.Collections
                         unexpected);
             }
 
-            IEnumerable<object> actualItems = Subject.Cast<object>();
-            IEnumerable<object> unexpectedItems = unexpected.Cast<object>();
+            return NotBeEquivalentTo(unexpected.ConvertOrCastToList<object>(), config => config, because, becauseArgs);
+        }
 
-            if (actualItems.Count() == unexpectedItems.Count())
+        /// <summary>
+        /// Expects the current collection not to contain all elements of the collection identified by <paramref name="unexpected" />,
+        /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
+        /// </summary>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
+        /// /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected,
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+            string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
+
+            if (ReferenceEquals(Subject, null))
             {
-                List<object> missingItems = GetMissingItems(unexpectedItems, actualItems);
-
                 Execute.Assertion
-                    .ForCondition(missingItems.Count > 0)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
-                        unexpected);
+                    .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
             }
 
             string[] failures;
 
             using (var scope = new AssertionScope())
             {
-                Subject.Should().BeEquivalentTo(unexpected);
+                Subject.Should().BeEquivalentTo(unexpected, config);
 
                 failures = scope.Discard();
             }
@@ -787,26 +807,6 @@ namespace FluentAssertions.Collections
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        private static List<T> GetMissingItems<T>(IEnumerable<T> expectedItems, IEnumerable<T> actualItems)
-        {
-            List<T> missingItems = new List<T>();
-            List<T> subject = actualItems.ToList();
-
-            foreach (T expectation in expectedItems)
-            {
-                if (subject.Contains(expectation))
-                {
-                    subject.Remove(expectation);
-                }
-                else
-                {
-                    missingItems.Add(expectation);
-                }
-            }
-
-            return missingItems;
         }
 
         /// <summary>

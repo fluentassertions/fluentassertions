@@ -898,14 +898,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_start_is_compared_with_empty_string_it_should_throw()
+        public void When_string_start_is_compared_with_empty_string_it_should_not_throw()
         {
             // Act
             Action act = () => "ABC".Should().StartWith("");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.*");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -991,8 +990,8 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWith("");
 
             // Assert
-            action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.*");
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected value that does not start with \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -1056,14 +1055,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_string_ending_is_compared_with_empty_string_it_should_throw()
+        public void When_string_ending_is_compared_with_empty_string_it_should_not_throw()
         {
             // Act
             Action act = () => "ABC".Should().EndWith("");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string end with empty string.*");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1150,8 +1148,8 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWith("");
 
             // Assert
-            action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare end of string with empty string.*");
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected value \"ABC\" not to end with \"\".");
         }
 
         [Fact]
@@ -1218,14 +1216,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_start_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
+        public void When_start_of_string_is_compared_with_equivalent_of_empty_string_it_should_not_throw()
         {
             // Act
             Action act = () => "ABC".Should().StartWithEquivalentOf("");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string start equivalence with empty string.*");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1313,8 +1310,8 @@ namespace FluentAssertions.Specs
                 value.Should().NotStartWithEquivalentOf("");
 
             // Assert
-            action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare start of string with empty string.*");
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected value that does not start with equivalent of \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -1380,14 +1377,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_end_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
+        public void When_end_of_string_is_compared_with_equivalent_of_empty_string_it_should_not_throw()
         {
             // Act
             Action act = () => "ABC".Should().EndWithEquivalentOf("");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare string end equivalence with empty string.*");
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -1474,8 +1470,8 @@ namespace FluentAssertions.Specs
                 value.Should().NotEndWithEquivalentOf("");
 
             // Assert
-            action.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot compare end of string with empty string.*");
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected value that does not end with equivalent of \"\", but found \"ABC\".");
         }
 
         [Fact]
