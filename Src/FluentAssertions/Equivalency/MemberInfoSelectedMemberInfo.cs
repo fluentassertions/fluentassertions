@@ -19,6 +19,8 @@ namespace FluentAssertions.Equivalency
 
         public override Type DeclaringType => memberInfo.DeclaringType;
 
+        public override Type ReflectedType => memberInfo.ReflectedType;
+
         protected bool Equals(MemberInfoSelectedMemberInfo other)
         {
             return memberInfo.Equals(other.memberInfo);

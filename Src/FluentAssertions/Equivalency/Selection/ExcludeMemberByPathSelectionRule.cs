@@ -20,9 +20,22 @@ namespace FluentAssertions.Equivalency.Selection
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
             string currentPath, IMemberInfo context)
         {
+            var preferredMembers = GetPreferredMembers(selectedMembers, context);
+
             return selectedMembers
-                .Where(memberInfo => !memberToExclude.IsSameAs(new MemberPath(memberInfo.DeclaringType, currentPath.Combine(memberInfo.Name))))
+                .Where(memberInfo => ShouldBeIncluded(memberInfo, currentPath, preferredMembers))
                 .ToArray();
+        }
+
+        private bool ShouldBeIncluded(SelectedMemberInfo memberInfo, string currentPath,
+            IReadOnlyDictionary<string, SelectedMemberInfo> preferredMembers)
+        {
+            if (preferredMembers.TryGetValue(memberInfo.Name, out var preferredMember) && memberInfo != preferredMember)
+            {
+                return true;
+            }
+
+            return !memberToExclude.IsSameAs(new MemberPath(memberInfo.ReflectedType, currentPath.Combine(memberInfo.Name)));
         }
 
         public override string ToString()

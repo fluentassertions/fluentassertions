@@ -1183,6 +1183,63 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_including_an_interface_property_that_is_implemented_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            var actual = new IValuesInterface[]
+            {
+                new ValuesInterfaceImplementationClass { Value1 = 1, Value2 = 2 }
+            };
+
+            var expected = new IValuesInterface[]
+            {
+                new ValuesInterfaceImplementationClass { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Including(a => a.Value2)
+                    .RespectingRuntimeTypes());
+        }
+
+        [Fact]
+        public void When_excluding_an_interface_property_that_is_implemented_in_a_derived_class_it_should_select_the_correct_one()
+        {
+            var actual = new IValuesInterface[]
+            {
+                new ValuesInterfaceImplementationClass { Value1 = 1, Value2 = 2 }
+            };
+            var expected = new IValuesInterface[]
+            {
+                new ValuesInterfaceImplementationClass { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Excluding(a => a.Value1)
+                    .RespectingRuntimeTypes());
+        }
+
+        private interface IValuesInterface
+        {
+            int Value1 { get; set; }
+
+            int Value2 { get; set; }
+        }
+
+        private class ValuesClass
+        {
+            public int Value1 { get; set; }
+
+            public int Value2 { get; set; }
+        }
+
+        private class ValuesInterfaceImplementationClass : ValuesClass, IValuesInterface
+        {
+        }
+
+        [Fact]
         public void When_a_property_is_an_indexer_it_should_be_ignored()
         {
             // Arrange
@@ -2521,63 +2578,6 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
-        }
-
-        [Fact]
-        public void Exclude()
-        {
-            var actual = new IInterfaceX[]
-            {
-                new DerivedX() { Value1 = 1, Value2 = 2 }
-            };
-            var expected = new IInterfaceX[]
-            {
-                new DerivedX() { Value1 = 999, Value2 = 2 }
-            };
-
-            actual.Should().BeEquivalentTo(
-                expected,
-                options => options
-                    .Excluding(a => a.Value1)
-                    .RespectingRuntimeTypes());
-        }
-
-        [Fact]
-        public void Include()
-        {
-            var actual = new IInterfaceX[]
-            {
-                new DerivedX() { Value1 = 1, Value2 = 2 }
-            };
-
-            var expected = new IInterfaceX[]
-            {
-                new DerivedX() { Value1 = 999, Value2 = 2 }
-            };
-
-            actual.Should().BeEquivalentTo(
-                expected,
-                options => options
-                    .Including(a => a.Value2)
-                    .RespectingRuntimeTypes());
-        }
-
-        public interface IInterfaceX
-        {
-            int Value1 { get; set; }
-
-            int Value2 { get; set; }
-        }
-
-        public class BaseX
-        {
-            public int Value1 { get; set; }
-
-            public int Value2 { get; set; }
-        }
-
-        public class DerivedX : BaseX, IInterfaceX
-        {
         }
 
         private interface IInterface

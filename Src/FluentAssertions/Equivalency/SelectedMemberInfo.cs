@@ -45,6 +45,11 @@ namespace FluentAssertions.Equivalency
         public abstract Type DeclaringType { get; }
 
         /// <summary>
+        /// Gets the base class of the class that declares this member.
+        /// </summary>
+        public abstract Type ReflectedType { get; }
+
+        /// <summary>
         /// Gets the access modifier for the getter of this member.
         /// </summary>
         public abstract CSharpAccessModifier GetGetAccessModifier();

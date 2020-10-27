@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Equivalency.Selection
@@ -28,6 +29,16 @@ namespace FluentAssertions.Equivalency.Selection
         }
 
         protected abstract IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, string currentPath, IMemberInfo context);
+
+        protected static IReadOnlyDictionary<string, SelectedMemberInfo> GetPreferredMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context)
+        {
+            var preferredMembers = selectedMembers
+                .GroupBy(m => m.Name)
+                .Where(g => g.Count() > 1)
+                .SelectMany(g => g.Where(m => m.DeclaringType == context.CompileTimeType))
+                .ToDictionary(m => m.Name, m => m);
+            return preferredMembers;
+        }
 
         private static bool ContainsIndexingQualifiers(string path)
         {
