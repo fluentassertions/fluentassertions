@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 namespace FluentAssertions.Collections
 {
     [DebuggerNonUserCode]
-    public class SubsequentOrderingGenericCollectionAssertions<T> :
-        SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingGenericCollectionAssertions<T>>
+    public class SubsequentOrderingAssertions<T> :
+        SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
     {
-        public SubsequentOrderingGenericCollectionAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
+        public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
             : base(actualValue, previousOrderedEnumerable)
         {
         }
@@ -59,7 +59,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> ThenBeInAscendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
             return ThenBeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
@@ -85,7 +85,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> ThenBeInAscendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
             return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
@@ -108,7 +108,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> ThenBeInDescendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
         {
             return ThenBeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
@@ -134,13 +134,13 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
-        public AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> ThenBeInDescendingOrder<TSelector>(
+        public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
             return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
         }
 
-        private AndConstraint<SubsequentOrderingGenericCollectionAssertions<T>> ThenBeOrderedBy<TSelector>(
+        private AndConstraint<SubsequentOrderingAssertions<T>> ThenBeOrderedBy<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression,
             IComparer<TSelector> comparer,
             SortOrder direction,
