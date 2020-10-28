@@ -43,7 +43,7 @@ namespace FluentAssertions.Common
         /// </summary>
         public static bool HasValueSemantics(this Type type)
         {
-            return type.OverridesEquals() &&
+            return type.IsSimpleType() &&
                    !type.IsAnonymousType() && !type.IsTuple() && !IsKeyValuePair(type);
         }
 

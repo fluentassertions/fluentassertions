@@ -67,6 +67,6 @@ namespace FluentAssertions.Equivalency
             return $"{{\"{path}\", {@object}}}";
         }
 
-        public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().OverridesEquals());
+        public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().IsSimpleType());
     }
 }

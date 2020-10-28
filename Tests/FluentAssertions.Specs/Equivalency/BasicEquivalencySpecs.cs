@@ -3473,6 +3473,36 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_validating_nested_properties_of_type_overriding_equals_and_ignoring_cyclic_references_it_should_succeed()
+        {
+            // Arrange
+            var cyclicRoot = new CyclicValueObjectRoot()
+            {
+                Text = "Root"
+            };
+            cyclicRoot.Level = new CyclicValueObjectLevel1()
+            {
+                Text = "Level1",
+                Root = cyclicRoot
+            };
+            var cyclicRootDto = new CyclicValueObjectRootDto()
+            {
+                Text = "Root"
+            };
+            cyclicRootDto.Level = new CyclicValueObjectLevel1Dto()
+            {
+                Text = "Level1",
+                Root = cyclicRootDto
+            };
+
+            // Act
+            Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto, opt => opt.IgnoringCyclicReferences());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         #endregion
 
         #region Tuples
@@ -4418,6 +4448,17 @@ namespace FluentAssertions.Specs
         public CyclicLevel1 Level { get; set; }
     }
 
+    public class CyclicValueObjectRoot
+    {
+        public string Text { get; set; }
+
+        public CyclicValueObjectLevel1 Level { get; set; }
+
+        public override bool Equals(object obj) => obj is CyclicValueObjectRoot c && c.Text.Equals(Text, StringComparison.Ordinal);
+
+        public override int GetHashCode() => Text.GetHashCode();
+    }
+
     public class CyclicRootWithValueObject
     {
         public ValueObject Object { get; set; }
@@ -4452,6 +4493,17 @@ namespace FluentAssertions.Specs
         public CyclicRoot Root { get; set; }
     }
 
+    public class CyclicValueObjectLevel1
+    {
+        public string Text { get; set; }
+
+        public CyclicValueObjectRoot Root { get; set; }
+
+        public override bool Equals(object obj) => obj is CyclicValueObjectLevel1 c && c.Text.Equals(Text, StringComparison.Ordinal);
+
+        public override int GetHashCode() => Text.GetHashCode();
+    }
+
     public class CyclicLevelWithValueObject
     {
         public ValueObject Object { get; set; }
@@ -4466,11 +4518,33 @@ namespace FluentAssertions.Specs
         public CyclicLevel1Dto Level { get; set; }
     }
 
+    public class CyclicValueObjectRootDto
+    {
+        public string Text { get; set; }
+
+        public CyclicValueObjectLevel1Dto Level { get; set; }
+
+        public override bool Equals(object obj) => obj is CyclicValueObjectRootDto c && c.Text.Equals(Text, StringComparison.Ordinal);
+
+        public override int GetHashCode() => Text.GetHashCode();
+    }
+
     public class CyclicLevel1Dto
     {
         public string Text { get; set; }
 
         public CyclicRootDto Root { get; set; }
+    }
+
+    public class CyclicValueObjectLevel1Dto
+    {
+        public string Text { get; set; }
+
+        public CyclicValueObjectRootDto Root { get; set; }
+
+        public override bool Equals(object obj) => obj is CyclicValueObjectLevel1Dto c && c.Text.Equals(Text, StringComparison.Ordinal);
+
+        public override int GetHashCode() => Text.GetHashCode();
     }
 
     #endregion

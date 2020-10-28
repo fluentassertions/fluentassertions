@@ -104,7 +104,7 @@ namespace FluentAssertions.Equivalency
 
             if (!isComplexTypeMap.TryGetValue(type, out bool isComplexType))
             {
-                isComplexType = !type.OverridesEquals();
+                isComplexType = !type.IsSimpleType();
                 isComplexTypeMap[type] = isComplexType;
             }
 

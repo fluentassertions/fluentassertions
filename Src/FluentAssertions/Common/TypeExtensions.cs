@@ -143,15 +143,6 @@ namespace FluentAssertions.Common
                     .ToArray();
         }
 
-        public static bool OverridesEquals(this Type type)
-        {
-            MethodInfo method = type
-                .GetMethod("Equals", new[] { typeof(object) });
-
-            return method != null
-                && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
-        }
-
         /// <summary>
         /// Finds a member by its case-sensitive name.
         /// </summary>
@@ -466,6 +457,31 @@ namespace FluentAssertions.Common
             bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
             bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
             bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
+        }
+
+        /// <summary>
+        /// Returns true if the type is a primitive type, date, decimal, string, or GUID
+        /// </summary>
+        /// <param name="type">Type to be checked</param>
+        /// <returns></returns>
+        public static bool IsSimpleType(this Type type)
+        {
+            if (type == null)
+            {
+                return false;
+            }
+
+            if (type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                type = Nullable.GetUnderlyingType(type);
+            }
+
+            return type.GetTypeInfo().IsPrimitive
+                   || type == typeof(DateTime)
+                   || type == typeof(string)
+                   || type == typeof(Guid)
+                   || type == typeof(decimal)
+                   || type.GetTypeInfo().IsEnum;
         }
     }
 }
