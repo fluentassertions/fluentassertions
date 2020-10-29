@@ -647,20 +647,20 @@ namespace FluentAssertions.Collections
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
             string expectationPrefix =
-                string.Format("Expected {{context:collection}} to contain a single item matching {0}{{reason}}, ", predicate.Body);
+                "Expected {context:collection} to contain a single item matching {0}{reason}, ";
 
             if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but found {0}.", Subject);
+                    .FailWith(expectationPrefix + "but found {1}.", predicate.Body, Subject);
             }
 
             ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
             Execute.Assertion
                 .ForCondition(actualItems.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(expectationPrefix + "but the collection is empty.");
+                .FailWith(expectationPrefix + "but the collection is empty.", predicate.Body);
 
             T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
             int count = matchingElements.Length;
@@ -668,13 +668,13 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but no such item was found.");
+                    .FailWith(expectationPrefix + "but no such item was found.", predicate.Body);
             }
             else if (count > 1)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but " + count.ToString() + " such items were found.");
+                    .FailWith(expectationPrefix + "but " + count.ToString() + " such items were found.", predicate.Body);
             }
             else
             {
