@@ -46,9 +46,34 @@ namespace FluentAssertions.Formatting
         private MethodInfo GetFormatter(object value)
         {
             Type valueType = value.GetType();
-            MethodInfo formatter = Formatters.FirstOrDefault(m => m.GetParameters().Single().ParameterType == valueType);
+            var possibleFormatters = Formatters
+                .Select(m => new
+                {
+                    Type = m.GetParameters().Single().ParameterType,
+                    Method = m
+                })
+                .Where(f => valueType.IsSameOrInherits(f.Type))
+                .ToDictionary(f => f.Type, f => f.Method);
 
-            return formatter;
+            if (possibleFormatters.Count == 1)
+            {
+                return possibleFormatters.Single().Value;
+            }
+            else if (possibleFormatters.Count > 1)
+            {
+                do
+                {
+                    if (possibleFormatters.TryGetValue(valueType, out var formatter))
+                    {
+                        return formatter;
+                    }
+
+                    valueType = valueType.BaseType;
+                }
+                while (valueType != null);
+            }
+
+            return null;
         }
 
         public MethodInfo[] Formatters

@@ -587,6 +587,60 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_base_class_has_a_custom_formatter_it_should_override_the_default_formatters()
+        {
+            // Arrange
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+
+            var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1()
+            {
+                Property = "SomeValue"
+            };
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Be("Property = SomeValue", "it should use my custom formatter");
+        }
+
+        [Fact]
+        public void When_there_are_multiple_custom_formatters_it_should_select_a_more_specific_one()
+        {
+            // Arrange
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+
+            var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2()
+            {
+                Property = "SomeValue"
+            };
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Be("Property is SomeValue", "it should use my custom formatter");
+        }
+
+        [Fact]
+        public void When_a_base_class_has_multiple_custom_formatters_it_should_work_the_same_as_for_the_base_class()
+        {
+            // Arrange
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+
+            var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3()
+            {
+                Property = "SomeValue"
+            };
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Be("Property is SomeValue", "it should use my custom formatter");
+        }
+
+        [Fact]
         public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
         {
             // Arrange
@@ -661,6 +715,18 @@ namespace FluentAssertions.Specs
             }
         }
 
+        public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter
+        {
+        }
+
+        public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1
+        {
+        }
+
+        public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2
+        {
+        }
+
         public static class CustomFormatter
         {
             [ValueFormatter]
@@ -673,6 +739,12 @@ namespace FluentAssertions.Specs
             public static string Foo(SomeOtherClassWithCustomFormatter _)
             {
                 throw new XunitException("Should never be called");
+            }
+
+            [ValueFormatter]
+            public static string Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            {
+                return "Property is " + value.Property;
             }
         }
 
