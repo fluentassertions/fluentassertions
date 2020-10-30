@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Data;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
@@ -341,6 +343,16 @@ namespace FluentAssertions
             where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="DataColumnAssertions"/> object that can be used to assert the
+        /// current <see cref="DataColumn"/>.
+        /// </summary>
+        [Pure]
+        public static DataColumnAssertions Should(this DataColumn actualValue)
+        {
+            return new DataColumnAssertions(actualValue);
         }
 
         /// <summary>

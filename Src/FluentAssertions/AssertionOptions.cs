@@ -21,6 +21,14 @@ namespace FluentAssertions
             return new EquivalencyAssertionOptions<T>(defaults);
         }
 
+        public static TOptions CloneDefaults<T, TOptions>()
+            where TOptions : EquivalencyAssertionOptions<T>
+        {
+            return (TOptions)Activator.CreateInstance(
+                typeof(TOptions),
+                defaults);
+        }
+
         /// <summary>
         /// Allows configuring the defaults used during a structural equivalency assertion.
         /// </summary>
