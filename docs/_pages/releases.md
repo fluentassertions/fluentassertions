@@ -17,11 +17,13 @@ sidebar:
 * Added overload of `CollectionAssertions.NotBeEquivalentTo` that takes a `config` parameter` - [#1408](https://github.com/fluentassertions/fluentassertions/pull/1408).
 * Changed `StringAssertions.StartWith`, `StringAssertions.EndWith` and their `EquivalentOf` versions to allow empty strings - [#1413](https://github.com/fluentassertions/fluentassertions/pull/1413).
 * Added `ThenBeInAscendingOrder` and `ThenBeInDescendingOrder` to allow asserting that a subsequence is ordered in ascending or descending order - [#1416](https://github.com/fluentassertions/fluentassertions/pull/1416).
+* Changed `AttributeBasedFormatter` to allow custom formatter selection based on the parent type - [#1418](https://github.com/fluentassertions/fluentassertions/pull/1418).
 
 **Fixes**
 * Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
 * Guard against implicitly or explicitly trying to compare primitive types by members - [#1394](https://github.com/fluentassertions/fluentassertions/pull/1394).
-* Fixed formatting of brackets in expressions passed to ContainSingle(...) - [#1406](https://github.com/fluentassertions/fluentassertions/pull/1406). 
+* Fixed formatting of brackets in expressions passed to ContainSingle(...) - [#1406](https://github.com/fluentassertions/fluentassertions/pull/1406).
+* Fixed `Contain`, `NotContain` and `OnlyContain` to avoid multiple enumerations when the condition is false - [#1421](https://github.com/fluentassertions/fluentassertions/pull/1421).
 
 **Breaking Changes**
 * Made the extension methods under the `FluentAssertions.Common` namespace `internal` -  [#1376](https://github.com/fluentassertions/fluentassertions/pull/1376)

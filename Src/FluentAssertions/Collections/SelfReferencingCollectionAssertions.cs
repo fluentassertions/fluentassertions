@@ -422,15 +422,16 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", expected, Subject);
             }
 
-            if (!Subject.Contains(expected))
+            var collection = Subject.ConvertOrCastToCollection();
+            if (!collection.Contains(expected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
+                    .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", collection, expected);
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
-                Subject.Where(
+                collection.Where(
                     item => EqualityComparer<T>.Default.Equals(item, expected)));
         }
 
@@ -498,13 +499,14 @@ namespace FluentAssertions.Collections
 
             Func<T, bool> compiledPredicate = predicate.Compile();
 
+            var collection = Subject.ConvertOrCastToCollection();
             Execute.Assertion
-                .ForCondition(Subject.Any())
+                .ForCondition(collection.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
                     predicate.Body);
 
-            IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
+            IEnumerable<T> mismatchingItems = collection.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
             {
                 Execute.Assertion
@@ -536,15 +538,16 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
             }
 
-            if (Subject.Contains(unexpected))
+            var collection = Subject.ConvertOrCastToCollection();
+            if (collection.Contains(unexpected))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", collection, unexpected);
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
-                Subject.Where(
+                collection.Where(
                     item => !EqualityComparer<T>.Default.Equals(item, unexpected)));
         }
 
