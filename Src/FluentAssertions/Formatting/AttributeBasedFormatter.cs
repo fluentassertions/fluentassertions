@@ -52,6 +52,8 @@ namespace FluentAssertions.Formatting
                     Type = m.GetParameters().Single().ParameterType,
                     Method = m
                 })
+                .GroupBy(f => f.Type)
+                .Select(g => g.First())
                 .Where(f => valueType.IsSameOrInherits(f.Type))
                 .ToDictionary(f => f.Type, f => f.Method);
 

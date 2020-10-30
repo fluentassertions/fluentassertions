@@ -746,6 +746,12 @@ namespace FluentAssertions.Specs
             {
                 return "Property is " + value.Property;
             }
+
+            [ValueFormatter]
+            public static string Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            {
+                return "Property is " + value.Property;
+            }
         }
 
         [Fact]
