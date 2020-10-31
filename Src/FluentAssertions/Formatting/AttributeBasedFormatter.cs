@@ -13,6 +13,7 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class AttributeBasedFormatter : IValueFormatter
     {
+        private readonly Dictionary<Type, MethodInfo> determinedFormatters = new Dictionary<Type, MethodInfo>();
         private MethodInfo[] formatters;
         private ValueFormatterDetectionMode detectionMode = ValueFormatterDetectionMode.Disabled;
 
@@ -46,17 +47,24 @@ namespace FluentAssertions.Formatting
         private MethodInfo GetFormatter(object value)
         {
             Type valueType = value.GetType();
-            var possibleFormatters = Formatters
-                .Select(m => new
-                {
-                    Type = m.GetParameters().Single().ParameterType,
-                    Method = m
-                })
-                .GroupBy(f => f.Type)
-                .Select(g => g.First())
-                .Where(f => valueType.IsSameOrInherits(f.Type))
-                .ToDictionary(f => f.Type, f => f.Method);
+            if (!determinedFormatters.TryGetValue(valueType, out var formatter))
+            {
+                var possibleFormatters = Formatters
+                    .Select(m => new { Type = m.GetParameters().Single().ParameterType, Method = m })
+                    .GroupBy(f => f.Type)
+                    .Select(g => g.First())
+                    .Where(f => valueType.IsSameOrInherits(f.Type))
+                    .ToDictionary(f => f.Type, f => f.Method);
 
+                formatter = GetFormatter(possibleFormatters, valueType);
+                determinedFormatters.Add(valueType, formatter);
+            }
+
+            return formatter;
+        }
+
+        private static MethodInfo GetFormatter(Dictionary<Type, MethodInfo> possibleFormatters, Type valueType)
+        {
             if (possibleFormatters.Count == 1)
             {
                 return possibleFormatters.Single().Value;
