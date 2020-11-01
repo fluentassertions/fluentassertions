@@ -57,7 +57,7 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
@@ -68,7 +68,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.GetProject("Approval.Tests"))));
         });
@@ -85,7 +85,7 @@ class Build : NukeBuild
 
             DotNetTest(s => s
                 .SetProjectFile(Solution.GetProject("FluentAssertions.Specs"))
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .CombineWith(
                     cc => cc.SetFramework("netcoreapp2.0"),
                     cc => cc.SetFramework("netcoreapp2.1"),
@@ -97,7 +97,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.GetProject("MSpec.Specs")),
                     cc => cc.SetProjectFile(Solution.GetProject("MSTestV2.Specs")),
@@ -116,7 +116,7 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetProject(Solution.GetProject("FluentAssertions"))
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration("Release")
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
 }
