@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return (expectationType != null) && (expectationType == typeof(string));
         }
@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
                 string expectation = (string)context.Expectation;
 
                 subject.Should()
-                    .Be(expectation, context.Because, context.BecauseArgs);
+                    .Be(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
             }
 
             return true;
@@ -56,10 +56,8 @@ namespace FluentAssertions.Equivalency
 
             if (onlyOneNull)
             {
-                string subjectDescription = GetSubjectDescription(context);
-
                 AssertionScope.Current.FailWith(
-                    $"Expected {subjectDescription} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                    $"Expected {context.CurrentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
 
                 return false;
             }
@@ -79,13 +77,8 @@ namespace FluentAssertions.Equivalency
             return
                 AssertionScope.Current
                     .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof(T)))
-                    .FailWith($"Expected {GetSubjectDescription(context)} to be {{0}}, but found {{1}}.",
+                    .FailWith($"Expected {context.CurrentNode.Description} to be {{0}}, but found {{1}}.",
                         context.RuntimeType, context.Subject.GetType());
-        }
-
-        private static string GetSubjectDescription(IEquivalencyValidationContext context)
-        {
-            return (context.SelectedMemberDescription.Length == 0) ? "subject" : context.SelectedMemberDescription;
         }
     }
 }

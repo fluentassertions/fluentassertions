@@ -1503,7 +1503,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected item[3] to be 3, but found 1*");
+                "Expected collection1[3]*to be 3, but found 1*");
         }
 
         [Fact]
@@ -1518,7 +1518,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be a collection with 0 item(s), but*contains 3 item(s)*");
+                "Expected subject (of type IEnumerable) to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
         [Fact]
@@ -1563,7 +1563,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected a collection, but collection is <null>*");
+                "Expected a collection, but collection (of type IEnumerable) is <null>*");
         }
 
         [Fact]
@@ -2018,7 +2018,7 @@ namespace FluentAssertions.Specs
             Action act = () => collection.Should().NotContainEquivalentOf(item, options => options.Excluding(x => x.Age));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Exclude member root.Age*");
+            act.Should().Throw<XunitException>().WithMessage("*Exclude*Age*");
         }
 
         [Fact]

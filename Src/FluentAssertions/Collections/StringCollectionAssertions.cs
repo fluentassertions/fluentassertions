@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
@@ -127,15 +128,13 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-            var context = new EquivalencyValidationContext
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(CallerIdentifier.DetermineCallerIdentity))
             {
                 Subject = Subject,
                 Expectation = expectation,
-                RootIsCollection = true,
                 CompileTimeType = typeof(IEnumerable<string>),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
             };
 
             var equivalencyValidator = new EquivalencyValidator(options);
@@ -194,7 +193,7 @@ namespace FluentAssertions.Collections
             // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
             // execution times.
             Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig =
-                x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.SelectedMemberPath));
+                x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
             return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }

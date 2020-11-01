@@ -45,19 +45,22 @@ namespace FluentAssertions.Common
             return Attribute.IsDefined(type, typeof(TAttribute), inherit: true);
         }
 
-        public static bool IsDecoratedWith<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool IsDecoratedWith<TAttribute>(this Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
         }
 
-        public static bool IsDecoratedWith<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool IsDecoratedWith<TAttribute>(this MemberInfo type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
         }
 
-        public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
@@ -69,7 +72,8 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type);
         }
 
-        public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate);
@@ -81,7 +85,8 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type, inherit: true);
         }
 
-        public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true);
@@ -119,10 +124,10 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo" /> objects refer to the same
+        /// Determines whether two <see cref="IMember" /> objects refer to the same
         /// member.
         /// </summary>
-        public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
+        public static bool IsEquivalentTo(this IMember property, IMember otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                     otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
@@ -149,19 +154,7 @@ namespace FluentAssertions.Common
                 .GetMethod("Equals", new[] { typeof(object) });
 
             return method != null
-                && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
-        }
-
-        /// <summary>
-        /// Finds a member by its case-sensitive name.
-        /// </summary>
-        /// <returns>
-        /// Returns <c>null</c> if no such member exists.
-        /// </returns>
-        public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
-        {
-            return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType)) ??
-                   SelectedMemberInfo.Create(FindField(type, memberName, preferredType));
+                   && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
         }
 
         /// <summary>
@@ -200,12 +193,11 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
-        public static IEnumerable<SelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
+        public static IEnumerable<MemberInfo> GetNonPrivateMembers(this Type typeToReflect)
         {
             return
                 GetNonPrivateProperties(typeToReflect)
-                    .Select(SelectedMemberInfo.Create)
-                    .Concat(GetNonPrivateFields(typeToReflect).Select(SelectedMemberInfo.Create))
+                    .Concat<MemberInfo>(GetNonPrivateFields(typeToReflect))
                     .ToArray();
         }
 
@@ -363,9 +355,9 @@ namespace FluentAssertions.Common
         {
             bool hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
             bool hasSetter = type.GetMethods(AllMembersFlag)
-                                 .SingleOrDefault(m =>
-                                     m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
-                                     m.GetParameters().Length == 1) != null;
+                .SingleOrDefault(m =>
+                    m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
+                    m.GetParameters().Length == 1) != null;
 
             return hasGetter || hasSetter;
         }
@@ -444,8 +436,9 @@ namespace FluentAssertions.Common
             }
 
             // check subject and its base types against definition
-            for (Type baseType = type; baseType != null;
-                    baseType = baseType.BaseType)
+            for (Type baseType = type;
+                baseType != null;
+                baseType = baseType.BaseType)
             {
                 if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == definition)
                 {
@@ -459,13 +452,64 @@ namespace FluentAssertions.Common
         public static bool IsUnderNamespace(this Type type, string @namespace)
         {
             return IsGlobalNamespace()
-                || IsExactNamespace()
-                || IsParentNamespace();
+                   || IsExactNamespace()
+                   || IsParentNamespace();
 
             bool IsGlobalNamespace() => @namespace is null;
             bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
             bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
             bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
+        }
+
+        private static readonly Dictionary<Type, string> DefaultDictionary = new Dictionary<Type, string>
+        {
+            { typeof(int), "int" },
+            { typeof(uint), "uint" },
+            { typeof(long), "long" },
+            { typeof(ulong), "ulong" },
+            { typeof(short), "short" },
+            { typeof(ushort), "ushort" },
+            { typeof(byte), "byte" },
+            { typeof(sbyte), "sbyte" },
+            { typeof(bool), "bool" },
+            { typeof(float), "float" },
+            { typeof(double), "double" },
+            { typeof(decimal), "decimal" },
+            { typeof(char), "char" },
+            { typeof(string), "string" },
+            { typeof(object), "object" },
+            { typeof(void), "void" }
+        };
+
+        public static string ToFriendlyName(this Type type)
+        {
+            if (DefaultDictionary.TryGetValue(type, out string result))
+            {
+                return result;
+            }
+
+            if (type.IsArray)
+            {
+                var rank = type.GetArrayRank();
+                var commas = rank > 1
+                    ? new string(',', rank - 1)
+                    : string.Empty;
+
+                return ToFriendlyName(type.GetElementType()) + $"[{commas}]";
+            }
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                return type.GetGenericArguments()[0].ToFriendlyName() + "?";
+            }
+
+            if (type.IsGenericType)
+            {
+                return type.Name.Split('`')[0] + "<" +
+                       string.Join(", ", type.GetGenericArguments().Select(x => ToFriendlyName(x)).ToArray()) + ">";
+            }
+
+            return type.Name;
         }
     }
 }

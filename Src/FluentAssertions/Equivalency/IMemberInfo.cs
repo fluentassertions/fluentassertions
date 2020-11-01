@@ -1,37 +1,41 @@
 using System;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Provides details about the expectation's root or nested member.
+    /// Represents a field or property in an object graph.
     /// </summary>
     public interface IMemberInfo
     {
         /// <summary>
-        /// Gets the <see cref="Equivalency.SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
-        /// object represents the root object.
+        /// Gets the name of the current member.
         /// </summary>
-        SelectedMemberInfo SelectedMemberInfo { get; }
+        string Name { get; }
 
         /// <summary>
-        /// Gets the full path from the root object until the current object separated by dots.
+        /// Gets the type of this member.
         /// </summary>
-        string SelectedMemberPath { get; }
+        Type Type { get; }
 
         /// <summary>
-        /// Gets a display-friendly representation of the <see cref="SelectedMemberPath"/>.
+        /// Gets the type that declares the current member.
         /// </summary>
-        string SelectedMemberDescription { get; }
+        Type DeclaringType { get; }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
-        /// then it returns the same <see cref="System.Type"/> as the <see cref="IMemberInfo.RuntimeType"/> property does.
+        /// Gets the full path from the root object until the current node separated by dots.
         /// </summary>
-        Type CompileTimeType { get; }
+        string Path { get; set; }
 
         /// <summary>
-        /// Gets the run-time type of the current object.
+        /// Gets the access modifier for the getter of this member.
         /// </summary>
-        Type RuntimeType { get; }
+        CSharpAccessModifier GetterAccessibility { get; }
+
+        /// <summary>
+        /// Gets the access modifier for the setter of this member.
+        /// </summary>
+        CSharpAccessModifier SetterAccessibility { get; }
     }
 }

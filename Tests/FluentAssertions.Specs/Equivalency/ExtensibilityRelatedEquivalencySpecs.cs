@@ -72,7 +72,8 @@ namespace FluentAssertions.Specs
                 get { return false; }
             }
 
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+                MemberSelectionContext context)
             {
                 return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
             }
@@ -140,7 +141,7 @@ namespace FluentAssertions.Specs
 
         internal class ForeignKeyMatchingRule : IMemberMatchingRule
         {
-            public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config)
+            public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
             {
                 string name = expectedMember.Name;
                 if (name.EndsWith("Id"))
@@ -148,7 +149,8 @@ namespace FluentAssertions.Specs
                     name = name.Replace("Id", "");
                 }
 
-                return SelectedMemberInfo.Create(subject.GetType().GetRuntimeProperty(name));
+                PropertyInfo runtimeProperty = subject.GetType().GetRuntimeProperty(name);
+                return (runtimeProperty != null) ? (IMember)new Property(runtimeProperty, parent) : null;
             }
         }
 
@@ -190,7 +192,7 @@ namespace FluentAssertions.Specs
 
         internal class StrictOrderingRule : IOrderingRule
         {
-            public OrderStrictness Evaluate(IMemberInfo memberInfo)
+            public OrderStrictness Evaluate(IObjectInfo memberInfo)
             {
                 return OrderStrictness.Strict;
             }
@@ -218,11 +220,11 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*member Id from expectation*System.String*System.Double*");
+                .WithMessage("*Id*from expectation*System.String*System.Double*");
         }
 
         [Fact]
@@ -243,11 +245,11 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*member Id from subject*System.String*System.Double*");
+                .WithMessage("*Id*from subject*System.String*System.Double*");
         }
 
         [Fact]
@@ -268,11 +270,11 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*member Id from subject*System.String*System.Double*member Id from expectation*System.String*System.Double*");
+                .WithMessage("*Id*from subject*System.String*System.Double*Id*from expectation*System.String*System.Double*");
         }
 
         [Fact]
@@ -293,12 +295,12 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
 
             // Assert
             act.Should().Throw<XunitException>()
                 .Which.Message.Should()
-                .Contain("Expected member Id to be <null>, but found \"foo\"")
+                .Contain("Expected property subject.Id (of type double?) to be <null>, but found \"foo\"")
                     .And.NotContain("from expectation");
         }
 
@@ -320,12 +322,12 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
 
             // Assert
             act.Should().Throw<XunitException>()
                 .Which.Message.Should()
-                .Contain("Expected member Id to be \"bar\", but found <null>")
+                .Contain("Expected property subject.Id (of type string) to be \"bar\", but found <null>")
                     .And.NotContain("from subject");
         }
 
@@ -347,7 +349,7 @@ namespace FluentAssertions.Specs
             subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<string>(c => c.Subject.Should().Be(c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Id"));
+                    .When(si => si.Path == "Id"));
         }
 
         [Fact]
@@ -368,7 +370,7 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
-                    .When(si => si.SelectedMemberPath == "Type"));
+                    .When(si => si.Path == "Type"));
 
             // Assert
             act.Should().NotThrow();
@@ -391,7 +393,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
-                .When(info => info.SelectedMemberPath.EndsWith("Date")));
+                .When(info => info.Path.EndsWith("Date")));
 
             // Assert
             act.Should().NotThrow();
@@ -734,7 +736,7 @@ namespace FluentAssertions.Specs
         {
             public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {
-                context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+                context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
                 return true;
             }

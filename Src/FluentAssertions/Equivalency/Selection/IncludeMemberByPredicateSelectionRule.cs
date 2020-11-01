@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Selection
@@ -22,17 +23,19 @@ namespace FluentAssertions.Equivalency.Selection
 
         public bool IncludesMembers => true;
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+            MemberSelectionContext context)
         {
-            var members = new List<SelectedMemberInfo>(selectedMembers);
+            var members = new List<IMember>(selectedMembers);
 
-            foreach (SelectedMemberInfo selectedMemberInfo in context.RuntimeType.GetNonPrivateMembers())
+            foreach (MemberInfo memberInfo in currentNode.Type.GetNonPrivateMembers())
             {
-                if (predicate(new NestedSelectionContext(context, selectedMemberInfo)))
+                IMember member = MemberFactory.Create(memberInfo, currentNode);
+                if (predicate(new MemberToMemberInfoAdapter(member)))
                 {
-                    if (!members.Any(p => p.IsEquivalentTo(selectedMemberInfo)))
+                    if (!members.Any(p => p.IsEquivalentTo(member)))
                     {
-                        members.Add(selectedMemberInfo);
+                        members.Add(member);
                     }
                 }
             }

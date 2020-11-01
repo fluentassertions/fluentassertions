@@ -13,10 +13,10 @@ namespace FluentAssertions.Equivalency.Selection
 
         public bool IncludesMembers => selectionRule.IncludesMembers;
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-            IMemberInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+            MemberSelectionContext context)
         {
-            return selectionRule.SelectMembers(selectedMembers, new CollectionMemberMemberInfo(context), config);
+            return selectionRule.SelectMembers(currentNode, selectedMembers, context);
         }
 
         public override string ToString()

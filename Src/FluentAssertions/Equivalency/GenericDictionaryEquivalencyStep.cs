@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
 
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return context.Expectation != null && GetIDictionaryInterfaces(expectationType).Any();
         }
@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return AssertImplementsOnlyOneDictionaryInterface(context.Expectation)
                    && AssertSubjectIsNotNull(context.Subject)
@@ -233,7 +233,7 @@ namespace FluentAssertions.Equivalency
         private static void AssertDictionaryEquivalence(IEquivalencyValidationContext context,
             IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
             Type subjectType = context.Subject.GetType();
             Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
             Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
@@ -256,11 +256,11 @@ namespace FluentAssertions.Equivalency
                 {
                     if (config.IsRecursive)
                     {
-                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subjectValue, expectation[key]));
+                        parent.AssertEqualityUsing(context.AsDictionaryItem(key, subjectValue, expectation[key]));
                     }
                     else
                     {
-                        subjectValue.Should().Be(expectation[key], context.Because, context.BecauseArgs);
+                        subjectValue.Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                     }
                 }
                 else

@@ -12,21 +12,21 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return context.IsRoot || config.IsRecursive;
+            return context.CurrentNode.IsRoot || config.IsRecursive;
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Expectation is null))
-                .BecauseOf(context.Because, context.BecauseArgs)
+                .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:subject} to be <null>{reason}, but found {0}.",
                     context.Subject);
 
             bool subjectIsNotNull = AssertionScope.Current
                 .ForCondition(!(context.Subject is null))
-                .BecauseOf(context.Because, context.BecauseArgs)
+                .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:object} to be {0}{reason}, but found {1}.",
                     context.Expectation,
@@ -34,30 +34,30 @@ namespace FluentAssertions.Equivalency
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                SelectedMemberInfo[] selectedMembers = GetMembersFromExpectation(context, config).ToArray();
-                if (context.IsRoot && !selectedMembers.Any())
+                IMember[] selectedMembers = GetMembersFromExpectation(context, config).ToArray();
+                if (context.CurrentNode.IsRoot && !selectedMembers.Any())
                 {
                     throw new InvalidOperationException(
                         "No members were found for comparison. " +
                         "Please specify some members to include in the comparison or choose a more meaningful assertion.");
                 }
 
-                foreach (SelectedMemberInfo selectedMemberInfo in selectedMembers)
+                foreach (IMember selectedMember in selectedMembers)
                 {
-                    AssertMemberEquality(context, parent, selectedMemberInfo, config);
+                    AssertMemberEquality(context, parent, selectedMember, config);
                 }
             }
 
             return true;
         }
 
-        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, SelectedMemberInfo selectedMemberInfo, IEquivalencyAssertionOptions config)
+        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions config)
         {
-            SelectedMemberInfo matchingMember = FindMatchFor(selectedMemberInfo, context, config);
+            IMember matchingMember = FindMatchFor(selectedMember, context, config);
             if (matchingMember != null)
             {
                 IEquivalencyValidationContext nestedContext =
-                    context.CreateForNestedMember(selectedMemberInfo, matchingMember);
+                    context.AsNestedMember(selectedMember, matchingMember);
 
                 if (nestedContext != null)
                 {
@@ -66,25 +66,30 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static SelectedMemberInfo FindMatchFor(SelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static IMember FindMatchFor(IMember selectedMember, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            IEnumerable<SelectedMemberInfo> query =
+            IEnumerable<IMember> query =
                 from rule in config.MatchingRules
-                let match = rule.Match(selectedMemberInfo, context.Subject, context.SelectedMemberDescription, config)
+                let match = rule.Match(selectedMember, context.Subject, context.CurrentNode, config)
                 where match != null
                 select match;
 
             return query.FirstOrDefault();
         }
 
-        private static IEnumerable<SelectedMemberInfo> GetMembersFromExpectation(IEquivalencyValidationContext context,
+        private static IEnumerable<IMember> GetMembersFromExpectation(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
-            IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
+            IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
             foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
-                members = rule.SelectMembers(members, context, config);
+                members = rule.SelectMembers(context.CurrentNode, members, new MemberSelectionContext
+                {
+                    CompileTimeType = context.CompileTimeType,
+                    RuntimeType = context.RuntimeType,
+                    Options = config
+                });
             }
 
             return members;

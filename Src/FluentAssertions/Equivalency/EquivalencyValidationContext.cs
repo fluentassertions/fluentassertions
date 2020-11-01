@@ -1,4 +1,6 @@
 using System;
+using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
@@ -8,18 +10,14 @@ namespace FluentAssertions.Equivalency
     public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
         private Type compileTimeType;
+        private Tracer tracer;
 
-        public EquivalencyValidationContext()
+        public EquivalencyValidationContext(INode root)
         {
-            SelectedMemberDescription = string.Empty;
-            SelectedMemberPath = string.Empty;
+            CurrentNode = root;
         }
 
-        public SelectedMemberInfo SelectedMemberInfo { get; set; }
-
-        public string SelectedMemberPath { get; set; }
-
-        public string SelectedMemberDescription { get; set; }
+        public INode CurrentNode { get; }
 
         /// <summary>
         /// Gets the value of the subject object graph.
@@ -31,36 +29,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public object Expectation { get; set; }
 
-        /// <summary>
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </summary>
-        public string Because { get; set; }
+        public Reason Reason { get; set; }
 
-        /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="IEquivalencyValidationContext.Because" />.
-        /// </summary>
-        public object[] BecauseArgs { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the current context represents the root of the object graph.
-        /// </summary>
-        public bool IsRoot
-        {
-            get
-            {
-                // SMELL: That prefix should be obtained from some kind of constant
-                return (SelectedMemberDescription.Length == 0) ||
-                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[", StringComparison.Ordinal) &&
-                        !SelectedMemberDescription.Contains(".", StringComparison.Ordinal));
-            }
-        }
-
-        /// <summary>
-        /// Gets the compile-time type of the current expectation object. If the current object is not the root object
-        /// and the type is not <see cref="object"/>,  then it returns the same <see cref="System.Type"/>
-        /// as the <see cref="IMemberInfo.RuntimeType"/> property does.
-        /// </summary>
         public Type CompileTimeType
         {
             get
@@ -82,48 +52,73 @@ namespace FluentAssertions.Equivalency
                     return Expectation.GetType();
                 }
 
-                if (SelectedMemberInfo != null)
+                if (CurrentNode != null)
                 {
-                    return SelectedMemberInfo.MemberType;
+                    return CurrentNode.Type;
                 }
 
                 return CompileTimeType;
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
-        /// the collection type and not on the root itself.
-        /// </summary>
-        public bool RootIsCollection { get; set; }
+        public Tracer Tracer => tracer ??= new Tracer(CurrentNode, TraceWriter);
 
-        public ITraceWriter Tracer { get; set; }
-
-        public void TraceSingle(GetTraceMessage getTraceMessage)
+        public IEquivalencyValidationContext AsNestedMember(IMember expectationMember, IMember matchingSubjectMember)
         {
-            if (Tracer != null)
+            return new EquivalencyValidationContext(expectationMember)
             {
-                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
-                Tracer.AddSingle(getTraceMessage(path));
-            }
+                Subject = matchingSubjectMember.GetValue(Subject),
+                Expectation = expectationMember.GetValue(Expectation),
+                Reason = Reason,
+                CompileTimeType = expectationMember.Type,
+                TraceWriter = TraceWriter
+            };
         }
 
-        public IDisposable TraceBlock(GetTraceMessage getTraceMessage)
+        public IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation)
         {
-            if (Tracer != null)
+            return new EquivalencyValidationContext(Node.FromCollectionItem<T>(index, CurrentNode))
             {
-                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
-                return Tracer.AddBlock(getTraceMessage(path));
-            }
-            else
-            {
-                return new Disposable(() => { });
-            }
+                Subject = subject,
+                Expectation = expectation,
+                Reason = Reason,
+                CompileTimeType = typeof(T),
+                TraceWriter = TraceWriter
+            };
         }
+
+        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(
+            TKey key,
+            object subject,
+            TExpectation expectation)
+        {
+            return new EquivalencyValidationContext(Node.FromDictionaryItem<TExpectation>(key, CurrentNode))
+            {
+                Subject = subject,
+                Expectation = expectation,
+                Reason = Reason,
+                CompileTimeType = typeof(TExpectation),
+                TraceWriter = TraceWriter
+            };
+        }
+
+        public IEquivalencyValidationContext Clone()
+        {
+            return new EquivalencyValidationContext(CurrentNode)
+            {
+                CompileTimeType = CompileTimeType,
+                Expectation = Expectation,
+                Reason = Reason,
+                Subject = Subject,
+                TraceWriter = TraceWriter
+            };
+        }
+
+        public ITraceWriter TraceWriter { get; set; }
 
         public override string ToString()
         {
-            return $"{{Path=\"{SelectedMemberDescription}\", Subject={Subject}, Expectation={Expectation}}}";
+            return $"{{Path=\"{CurrentNode.Description}\", Subject={Subject}, Expectation={Expectation}}}";
         }
     }
 }

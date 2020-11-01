@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type expectationType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return (context.Expectation != null) && IsGenericCollection(expectationType);
         }
@@ -38,7 +38,7 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Type expectedType = config.GetExpectationType(context);
+            Type expectedType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
@@ -52,7 +52,7 @@ namespace FluentAssertions.Equivalency
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    Recursive = context.IsRoot || config.IsRecursive,
+                    Recursive = context.CurrentNode.IsRoot || config.IsRecursive,
                     OrderingRules = config.OrderingRules
                 };
 

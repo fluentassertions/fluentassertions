@@ -6,9 +6,9 @@ namespace FluentAssertions.Equivalency.Ordering
     internal class MatchAllOrderingRule : IOrderingRule
     {
         /// <summary>
-        /// Determines if ordering of the member referred to by the current <paramref name="memberInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="objectInfo"/> is relevant.
         /// </summary>
-        public OrderStrictness Evaluate(IMemberInfo memberInfo)
+        public OrderStrictness Evaluate(IObjectInfo objectInfo)
         {
             return OrderStrictness.Strict;
         }

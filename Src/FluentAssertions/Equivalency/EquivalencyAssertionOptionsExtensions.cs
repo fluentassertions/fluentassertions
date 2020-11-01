@@ -11,9 +11,9 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// If the expectation is a nullable type, it should return the type of the wrapped object.
         /// </remarks>
-        public static Type GetExpectationType(this IEquivalencyAssertionOptions config, IMemberInfo context)
+        public static Type GetExpectationType(this IEquivalencyAssertionOptions config, Type runTimeType, Type compileTimeType)
         {
-            Type type = config.UseRuntimeTyping ? context.RuntimeType : context.CompileTimeType;
+            Type type = config.UseRuntimeTyping ? runTimeType : compileTimeType;
 
             return NullableOrActualType(type);
         }

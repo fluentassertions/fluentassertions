@@ -184,7 +184,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expectation has member SomeOtherProperty that the other object does not have*");
+                    "Expectation has property subject.SomeOtherProperty*that the other object does not have*");
         }
         #endregion
 

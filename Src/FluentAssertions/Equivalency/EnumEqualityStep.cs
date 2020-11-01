@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetExpectationType(context);
+            Type subjectType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return (subjectType?.IsEnum == true) ||
                    (context.Expectation?.GetType().IsEnum == true);

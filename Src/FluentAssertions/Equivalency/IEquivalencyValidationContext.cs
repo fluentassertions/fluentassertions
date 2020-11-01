@@ -1,32 +1,35 @@
 using System;
+using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Provides information on a particular property during an assertion for structural equality of two object graphs.
+    /// Provides information on a particular property or field during an assertion for structural equality of two object graphs.
     /// </summary>
-    public interface IEquivalencyValidationContext : IMemberInfo
+    public interface IEquivalencyValidationContext
     {
+        /// <summary>
+        /// Gets the <see cref="INode"/> of the member that returned the current object, or <c>null</c> if the current
+        /// object represents the root object.
+        /// </summary>
+        INode CurrentNode { get; }
+
+        /// <summary>
+        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
+        /// then it returns the same <see cref="System.Type"/> as the <see cref="RuntimeType"/> property does.
+        /// </summary>
+        Type CompileTimeType { get; }
+
+        /// <summary>
+        /// Gets the run-time type of the current object.
+        /// </summary>
+        Type RuntimeType { get; }
+
         /// <summary>
         /// Gets the value of the expected object graph.
         /// </summary>
         object Expectation { get; }
-
-        /// <summary>
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </summary>
-        string Because { get; }
-
-        /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="Because" />.
-        /// </summary>
-        object[] BecauseArgs { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the current context represents the root of the object graph.
-        /// </summary>
-        bool IsRoot { get; }
 
         /// <summary>
         /// Gets the value of the subject object graph.
@@ -34,36 +37,34 @@ namespace FluentAssertions.Equivalency
         object Subject { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
-        /// the collection type and not on the root itself.
+        /// A formatted phrase and the placeholder values explaining why the assertion is needed.
         /// </summary>
-        bool RootIsCollection { get; set; }
+        public Reason Reason { get; }
 
         /// <summary>
-        /// Gets or sets the current trace writer or <c>null</c> if no tracing has been enabled.
+        /// Gets an object that can be used by the equivalency algorithm to provide a trace when the
+        /// <see cref="SelfReferenceEquivalencyAssertionOptions{TSelf}.WithTracing"/> option is used.
         /// </summary>
-        ITraceWriter Tracer { get; set; }
+        Tracer Tracer { get; }
 
         /// <summary>
-        /// Starts a block that scopes an operation that will be written to the currently configured <see cref="Tracer"/>
-        /// after the returned disposable is disposed..
+        /// Creates a context from the current object intended to assert the equivalency of a nested member.
         /// </summary>
-        /// <remarks>
-        /// If no tracer has been configured, the call will be ignored.
-        /// </remarks>
-        IDisposable TraceBlock(GetTraceMessage getMessage);
+        IEquivalencyValidationContext AsNestedMember(IMember expectationMember, IMember matchingSubjectMember);
 
         /// <summary>
-        /// Writes a single line to the currently configured <see cref="Tracer"/>.
+        /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="index"/>.
         /// </summary>
-        /// <remarks>
-        /// If no tracer has been configured, the call will be ignored.
-        /// </remarks>
-        void TraceSingle(GetTraceMessage getMessage);
+        IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation);
+
+        /// <summary>
+        /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="key"/>.
+        /// </summary>
+        IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key, object subject, TExpectation expectation);
+
+        /// <summary>
+        /// Creates a deep clone of the current context.
+        /// </summary>
+        IEquivalencyValidationContext Clone();
     }
-
-    /// <summary>
-    /// Defines a function that takes the current path and returns the trace message to log.
-    /// </summary>
-    public delegate string GetTraceMessage(string path);
 }
