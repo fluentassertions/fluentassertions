@@ -1,5 +1,4 @@
 using System;
-using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {

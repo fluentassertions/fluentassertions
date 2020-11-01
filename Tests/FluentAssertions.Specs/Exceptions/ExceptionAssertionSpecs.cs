@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+#if NET47
 using FluentAssertions.Specs.Common;
+#endif
 using Xunit;
 using Xunit.Sdk;
 

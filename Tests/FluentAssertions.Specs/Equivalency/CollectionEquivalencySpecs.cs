@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using Xunit;

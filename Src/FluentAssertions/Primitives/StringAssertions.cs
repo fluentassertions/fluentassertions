@@ -492,7 +492,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
-            
+
             if (Subject is null)
             {
                 Execute.Assertion

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Tracing;
 using Newtonsoft.Json;
 using Xunit;

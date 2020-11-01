@@ -101,7 +101,7 @@ namespace FluentAssertions.Equivalency
         {
             unchecked
             {
-                #pragma warning disable CA1307
+#pragma warning disable CA1307
                 return (Type.GetHashCode() * 397) ^ PathAndName.GetHashCode();
             }
         }
