@@ -41,8 +41,6 @@ namespace FluentAssertions.Common
             var declaringTypes = new List<Type>();
             Expression node = expression;
 
-            var unsupportedExpressionMessage = $"Expression <{expression.Body}> cannot be used to select a member.";
-
             while (node != null)
             {
 #pragma warning disable IDE0010 // System.Linq.Expressions.ExpressionType has many members we do not care about
@@ -83,7 +81,7 @@ namespace FluentAssertions.Common
                         var methodCallExpression = (MethodCallExpression)node;
                         if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || !(methodCallExpression.Arguments[0] is ConstantExpression))
                         {
-                            throw new ArgumentException(unsupportedExpressionMessage, nameof(expression));
+                            throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                         }
 
                         constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
@@ -92,7 +90,7 @@ namespace FluentAssertions.Common
                         break;
 
                     default:
-                        throw new ArgumentException(unsupportedExpressionMessage, nameof(expression));
+                        throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                 }
             }
 
@@ -104,5 +102,8 @@ namespace FluentAssertions.Common
 
             return new MemberPath(declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
         }
+
+        private static string GetUnsupportedExpressionMessage(Expression expression) =>
+            $"Expression <{expression}> cannot be used to select a member.";
     }
 }
