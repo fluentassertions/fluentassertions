@@ -616,7 +616,7 @@ namespace FluentAssertions.Specs
 
         public int CompareTo(ComparableOfString other)
         {
-            return Value.CompareTo(other.Value);
+            return string.CompareOrdinal(Value, other.Value);
         }
 
         public override string ToString()

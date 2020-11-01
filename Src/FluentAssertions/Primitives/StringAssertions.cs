@@ -964,7 +964,7 @@ namespace FluentAssertions.Primitives
 
         private static bool Contains(string actual, string expected, StringComparison comparison)
         {
-            return (actual ?? string.Empty).IndexOf(expected ?? string.Empty, comparison) >= 0;
+            return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
         }
 
         /// <summary>

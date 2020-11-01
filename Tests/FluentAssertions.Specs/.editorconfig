@@ -5,6 +5,18 @@ dotnet_diagnostic.IDE0051.severity = none
 # IDE0070: GetHashCode implementation can be simplified
 dotnet_diagnostic.IDE0070.severity = none
 
+# CA1002 Change 'List<T>' to use 'Collection<T>', 'ReadOnlyCollection<T>' or 'KeyedCollection<K,V>'
+dotnet_diagnostic.CA1002.severity = none
+# CA1003 Change the event to replace the type with a generic EventHandler
+dotnet_diagnostic.CA1003.severity = none
+# CA1008: Add a member to Color that has a value of zero with a suggested name of 'None'
+dotnet_diagnostic.CA1008.severity = none
+# CA1014 Mark assemblies with CLSCompliant
+dotnet_diagnostic.CA1014.severity = none
+# CA1017 Mark assembly with ComVisisble(false)
+dotnet_diagnostic.CA1017.severity = none
+# CA1024 Use properties where appropriate
+dotnet_diagnostic.CA1024.severity = none
 # CA1028: Enum Storage should be Int32
 dotnet_diagnostic.CA1028.severity = none
 # CA1032: Implement standard exception constructors
@@ -23,12 +35,18 @@ dotnet_diagnostic.CA1062.severity = none
 dotnet_diagnostic.CA1064.severity = none
 # CA1307: Specify StringComparison
 dotnet_diagnostic.CA1307.severity = none
+# CA1506 Rewrite or refactor the code to decrease its class coupling
+dotnet_diagnostic.CA1506.severity = none
 # CA1707: Remove the underscores from member name
 dotnet_diagnostic.CA1707.severity = none
+# CA1711: Rename type name so that it does not end in 'Enum'
+dotnet_diagnostic.CA1711.severity = none
 # CA1714: Flags enums should have plural names
 dotnet_diagnostic.CA1714.severity = none
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
+# CA1813 Avoid unsealed attributes
+dotnet_diagnostic.CA1813.severity = none
 # CA1814: Prefer jagged arrays over multidimensional
 dotnet_diagnostic.CA1814.severity = none
 # CA1818: Type is an internal class that is apparently never instantiated.
@@ -37,10 +55,14 @@ dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1822.severity = none
 # CA2000: Dispose objects before losing scope
 dotnet_diagnostic.CA2000.severity = none
+# CA2201: Exception type System.Exception is not sufficiently specific
+dotnet_diagnostic.CA2201.severity = none
 # CA2208: Call the ArgumentNullException constructor that contains a message and/or paramName parameter
 dotnet_diagnostic.CA2208.severity = none
 # CA2227: Collection properties should be read only
 dotnet_diagnostic.CA2227.severity = none
+# CA5394 Random is an insecure random number generator
+dotnet_diagnostic.CA5394.severity = none
 
 # AV1000: Type contains the word 'and', which suggests it has multiple purposes
 dotnet_diagnostic.AV1000.severity = none

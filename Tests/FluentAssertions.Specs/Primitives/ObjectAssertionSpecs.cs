@@ -168,7 +168,8 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .Where(e => e.Message.StartsWith(
-                    "Expected someObject to be <null> because we want to test the failure message, but found System.Object"));
+                    "Expected someObject to be <null> because we want to test the failure message, but found System.Object",
+                    StringComparison.Ordinal));
         }
 
         [Fact]

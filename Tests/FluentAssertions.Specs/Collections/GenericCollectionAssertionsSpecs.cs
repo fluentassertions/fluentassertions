@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs
         private class OneTimeEnumerable<T> : IEnumerable<T>
         {
             private readonly IEnumerable<T> items;
-            private int enumerations = 0;
+            private int enumerations;
 
             public OneTimeEnumerable(params T[] items) => this.items = items;
 

@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
 
         private readonly List<Type> valueTypes = new List<Type>();
 
-        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
+        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();

@@ -6,7 +6,7 @@ namespace FluentAssertions.Execution
 {
     internal abstract class LateBoundTestFramework : ITestFramework
     {
-        private Assembly assembly = null;
+        private Assembly assembly;
 
         public void Throw(string message)
         {
