@@ -12,7 +12,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="ApprovalTests" Version="5.4.3" />
-    <PackageReference Include="PublicApiGenerator" Version="10.1.0" />
+    <PackageReference Include="PublicApiGenerator" Version="10.2.0" />
   </ItemGroup>
 
 </Project>

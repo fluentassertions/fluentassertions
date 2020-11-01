@@ -1026,6 +1026,7 @@ namespace FluentAssertions.Events
 }
 namespace FluentAssertions.Execution
 {
+    [System.Serializable]
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
