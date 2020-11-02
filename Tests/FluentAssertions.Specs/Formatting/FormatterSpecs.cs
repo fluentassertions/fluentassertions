@@ -666,6 +666,12 @@ namespace FluentAssertions.Specs
         public static class CustomFormatter
         {
             [ValueFormatter]
+            public static int Bar(SomeClassWithCustomFormatter _)
+            {
+                return -1;
+            }
+
+            [ValueFormatter]
             public static string Foo(SomeClassWithCustomFormatter value)
             {
                 return "Property = " + value.Property;
