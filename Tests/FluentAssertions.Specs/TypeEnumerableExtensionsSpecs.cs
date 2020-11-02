@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
 using TypeEnumerableExtensionsSpecs.BaseNamespace;
 using TypeEnumerableExtensionsSpecs.BaseNamespace.Nested;
 using TypeEnumerableExtensionsSpecs.Internal;

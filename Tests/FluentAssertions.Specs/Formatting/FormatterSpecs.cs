@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using FluentAssertions.Specs.Common;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -616,17 +615,17 @@ namespace FluentAssertions.Specs
     {
         public Task PublicDoNothing()
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         internal Task InternalDoNothing()
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         protected Task ProtectedDoNothing()
         {
-            return null;
+            return Task.CompletedTask;
         }
     }
 

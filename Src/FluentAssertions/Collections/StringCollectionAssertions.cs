@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections

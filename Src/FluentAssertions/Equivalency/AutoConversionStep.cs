@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
