@@ -75,7 +75,7 @@ namespace FluentAssertions.Specs
             public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
                 MemberSelectionContext context)
             {
-                return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
+                return selectedMembers.Where(pi => !pi.Name.EndsWith("Id", StringComparison.Ordinal)).ToArray();
             }
 
             bool IMemberSelectionRule.IncludesMembers
@@ -144,7 +144,7 @@ namespace FluentAssertions.Specs
             public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
             {
                 string name = expectedMember.Name;
-                if (name.EndsWith("Id"))
+                if (name.EndsWith("Id", StringComparison.Ordinal))
                 {
                     name = name.Replace("Id", "");
                 }
@@ -393,7 +393,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
-                .When(info => info.Path.EndsWith("Date")));
+                .When(info => info.Path.EndsWith("Date", StringComparison.Ordinal)));
 
             // Assert
             act.Should().NotThrow();

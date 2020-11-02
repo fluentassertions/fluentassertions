@@ -13,5 +13,8 @@
         // https://docs.microsoft.com/en-us/dotnet/api/system.string.indexof?view=netframework-4.8#System_String_IndexOf_System_String_System_StringComparison_
         public static bool Contains(this string str, string value, StringComparison comparison) =>
             str.IndexOf(value, comparison) != -1;
+
+        public static bool Contains(this string str, char value, StringComparison comparison) =>
+            str.IndexOf(value, comparison) != -1;
     }
 }

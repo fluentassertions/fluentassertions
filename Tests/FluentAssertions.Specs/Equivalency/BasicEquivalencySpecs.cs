@@ -456,6 +456,7 @@ namespace FluentAssertions.Specs
         }
 
         private struct Option<T> : IEquatable<Option<T>>
+            where T : class
         {
             public T Value { get; }
 
@@ -792,8 +793,8 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
-                .Including(info => info.Path.EndsWith("Age"))
-                .Including(info => info.Path.EndsWith("Birthdate")));
+                .Including(info => info.Path.EndsWith("Age", StringComparison.Ordinal))
+                .Including(info => info.Path.EndsWith("Birthdate", StringComparison.Ordinal)));
 
             // Assert
             act.Should().NotThrow();
