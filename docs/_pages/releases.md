@@ -17,6 +17,7 @@ sidebar:
 * Added overload of `CollectionAssertions.NotBeEquivalentTo` that takes a `config` parameter` - [#1408](https://github.com/fluentassertions/fluentassertions/pull/1408).
 * Changed `StringAssertions.StartWith`, `StringAssertions.EndWith` and their `EquivalentOf` versions to allow empty strings - [#1413](https://github.com/fluentassertions/fluentassertions/pull/1413).
 * The equivalency assertions will now include the type of the member and whether it involves a field or property - [#1379](https://github.com/fluentassertions/fluentassertions/pull/1379)
+* Changed AttributeBasedFormatter to allow custom formatter selection based on the parent type - [#1418](https://github.com/fluentassertions/fluentassertions/pull/1418).
 
 **Fixes**
 * Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)

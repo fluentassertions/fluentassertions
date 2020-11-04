@@ -1163,7 +1163,6 @@ namespace FluentAssertions.Formatting
     public class AttributeBasedFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public AttributeBasedFormatter() { }
-        public System.Reflection.MethodInfo[] Formatters { get; }
         public bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }

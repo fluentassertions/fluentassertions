@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class AttributeBasedFormatter : IValueFormatter
     {
-        private MethodInfo[] formatters;
+        private Dictionary<Type, MethodInfo> formatters;
         private ValueFormatterDetectionMode detectionMode = ValueFormatterDetectionMode.Disabled;
 
         /// <summary>
@@ -46,12 +46,21 @@ namespace FluentAssertions.Formatting
         private MethodInfo GetFormatter(object value)
         {
             Type valueType = value.GetType();
-            MethodInfo formatter = Formatters.FirstOrDefault(m => m.GetParameters().Single().ParameterType == valueType);
+            do
+            {
+                if (Formatters.TryGetValue(valueType, out var formatter))
+                {
+                    return formatter;
+                }
 
-            return formatter;
+                valueType = valueType.BaseType;
+            }
+            while (valueType != null);
+
+            return null;
         }
 
-        public MethodInfo[] Formatters
+        private Dictionary<Type, MethodInfo> Formatters
         {
             get
             {
@@ -70,9 +79,9 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static MethodInfo[] FindCustomFormatters()
+        private static Dictionary<Type, MethodInfo> FindCustomFormatters()
         {
-            IEnumerable<MethodInfo> query =
+            var query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -80,9 +89,11 @@ namespace FluentAssertions.Formatting
                 where method.ReturnType == typeof(string)
                 where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
                 where method.GetParameters().Length == 1
-                select method;
+                select new { Type = method.GetParameters().Single().ParameterType, Method = method } into formatter
+                group formatter by formatter.Type into formatterGroup
+                select formatterGroup.First();
 
-            return query.ToArray();
+            return query.ToDictionary(f => f.Type, f => f.Method);
         }
 
         private static bool Applicable(Assembly assembly)
