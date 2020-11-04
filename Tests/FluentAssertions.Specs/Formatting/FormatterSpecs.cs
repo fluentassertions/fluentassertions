@@ -644,7 +644,6 @@ namespace FluentAssertions.Specs
         public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
         {
             // Arrange
-            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
             Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
 
             var subject = new SomeClassWithCustomFormatter
@@ -652,13 +651,11 @@ namespace FluentAssertions.Specs
                 Property = "SomeValue"
             };
 
-            var formatter = new AttributeBasedFormatter();
-
             // Act
-            var result = formatter.CanHandle(subject);
+            string result = Formatter.ToString(subject);
 
             // Assert
-            result.Should().BeFalse();
+            result.Should().Be(subject.ToString());
         }
 
         [Fact]
