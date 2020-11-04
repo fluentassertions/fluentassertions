@@ -209,15 +209,13 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            var context = new EquivalencyValidationContext
+            var context = new EquivalencyValidationContext(Node.From<TExpectation>(CallerIdentifier.DetermineCallerIdentity))
             {
                 Subject = Subject,
                 Expectation = expectation,
-                RootIsCollection = true,
                 CompileTimeType = typeof(TExpectation),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
             };
 
             var equivalencyValidator = new EquivalencyValidator(options);

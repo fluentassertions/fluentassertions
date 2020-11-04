@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Tracing;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Sdk;
@@ -357,7 +357,7 @@ namespace FluentAssertions.Specs
             });
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected pair[Key2][0]*Value3*Value2*");
+            act.Should().Throw<XunitException>().WithMessage("Expected dictionary[Key2][0]*Value3*Value2*");
         }
 
         [Fact]
@@ -505,7 +505,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             string trace = traceWriter.ToString();
-            trace.Should().Contain("Recursing into dictionary item greeting at root");
+            trace.Should().Contain("Recursing into dictionary item greeting at object1");
         }
 
         [Fact]
@@ -616,7 +616,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual to contain key \"greeting\"*");
+                .WithMessage("Expected actual*to contain key \"greeting\"*");
         }
 
         [Fact]
@@ -821,7 +821,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*member*Dictionary to be <null>, but found *{*}*");
+                .WithMessage("*property*Dictionary*to be <null>, but found *{*}*");
         }
 
         [Fact]
@@ -843,7 +843,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary1 to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
+                .WithMessage("Expected dictionary1*to be a dictionary with 2 item(s), but it misses key(s) {\"farewell\"}*");
         }
 
         [Fact]
@@ -888,7 +888,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary2 to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
+                .WithMessage("Expected dictionary2*to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
         }
 
         [Fact]

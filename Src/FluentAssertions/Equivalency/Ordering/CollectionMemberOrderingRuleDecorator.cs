@@ -9,9 +9,9 @@ namespace FluentAssertions.Equivalency.Ordering
             this.orderingRule = orderingRule;
         }
 
-        public OrderStrictness Evaluate(IMemberInfo memberInfo)
+        public OrderStrictness Evaluate(IObjectInfo objectInfo)
         {
-            return orderingRule.Evaluate(new CollectionMemberMemberInfo(memberInfo));
+            return orderingRule.Evaluate(new CollectionMemberObjectInfo(objectInfo));
         }
 
         public override string ToString()

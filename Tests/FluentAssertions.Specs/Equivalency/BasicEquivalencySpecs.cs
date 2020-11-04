@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be <null>, but found { }*");
+                "Expected subject (of type object) to be <null>, but found { }*");
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*item[0].Items*null*, but found*\"a\"*");
+                "Expected*subject[0].Items*null*, but found*\"a\"*");
         }
 
         public class MyClass
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be*, but found <null>*");
+                "Expected subject*to be*, but found <null>*");
         }
 
         [Fact]
@@ -456,6 +456,7 @@ namespace FluentAssertions.Specs
         }
 
         private struct Option<T> : IEquatable<Option<T>>
+            where T : class
         {
             public T Value { get; }
 
@@ -540,7 +541,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
+                .WithMessage("Expected*UriBuilder* to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
 
         [Fact]
@@ -650,7 +651,7 @@ namespace FluentAssertions.Specs
             Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected member Value to be 101, but found 1.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected property onlyAField.Value*to be 101, but found 1.*");
         }
 
         [Fact]
@@ -665,7 +666,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has member Value that the other object does not have.*");
+                .WithMessage("Expectation has field onlyAProperty.Value (of type int) that the other object does not have.*");
         }
 
         [Fact]
@@ -680,7 +681,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has member Value that the other object does not have.*");
+                .WithMessage("Expectation has property onlyAField.Value (of type int) that the other object does not have*");
         }
 
         [Fact]
@@ -705,7 +706,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected member Member1 to be*""different"" with a length of 9, but*"""" has a length of 0*");
+                @"Expected property record.Member1* to be*""different"" with a length of 9, but*"""" has a length of 0*");
         }
 
         [Fact]
@@ -738,7 +739,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected item[0].Id to be *-*, but found *-*");
+            act.Should().Throw<XunitException>().WithMessage("Expected property actual[0].Id*to be *-*, but found *-*");
         }
 
         #endregion
@@ -792,8 +793,8 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(customer, options => options
-                .Including(info => info.SelectedMemberPath.EndsWith("Age"))
-                .Including(info => info.SelectedMemberPath.EndsWith("Birthdate")));
+                .Including(info => info.Path.EndsWith("Age", StringComparison.Ordinal))
+                .Including(info => info.Path.EndsWith("Birthdate", StringComparison.Ordinal)));
 
             // Assert
             act.Should().NotThrow();
@@ -939,7 +940,7 @@ namespace FluentAssertions.Specs
                         opts => opts.Including(_ => _.Field1).Including(_ => _.Field2).Including(_ => _.Field3));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected member Field3*");
+            act.Should().Throw<XunitException>().WithMessage("Expected field class1.Field3*");
         }
 
         [Fact]
@@ -1011,7 +1012,7 @@ namespace FluentAssertions.Specs
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected member Field3*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*Field3*");
         }
 
         [Fact]
@@ -1169,7 +1170,7 @@ namespace FluentAssertions.Specs
             Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected member Property*-*-*-*-*but*");
+            act.Should().Throw<XunitException>().WithMessage("Expected property b1.Property*-*-*-*-*but*");
         }
 
         private class ClassWithGuidProperty
@@ -1263,7 +1264,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected member VehicleId*99999*but*1*");
+                .WithMessage("Expected*VehicleId*99999*but*1*");
         }
 
         [Fact]
@@ -1556,7 +1557,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
-                config.Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
+                config.Excluding(ctx => ctx.Path == "Level.Level.Text"));
 
             // Assert
             act.Should().NotThrow();
@@ -1642,7 +1643,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expectation has member City that the other object does not have*");
+                "Expectation has property subject.City (of type string) that the other object does not have*");
         }
 
         [Fact]
@@ -1665,7 +1666,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected member Type to be*36*, but found*\"A\"*");
+                .WithMessage("Expected property subject.Type (of type int) to be 36, but found*\"A\"*");
         }
 
         [Fact]
@@ -1700,9 +1701,9 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("*member Property1 to be \"1\", but \"A\" differs near \"A\"*")
-                .WithMessage("*member Property2 to be \"2\", but \"B\" differs near \"B\"*")
-                .WithMessage("*member SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
+                .WithMessage("*property subject.Property1*to be \"1\", but \"A\" differs near \"A\"*")
+                .WithMessage("*property subject.Property2*to be \"2\", but \"B\" differs near \"B\"*")
+                .WithMessage("*property subject.SubType1.SubProperty1*to be \"3\", but \"C\" differs near \"C\"*");
         }
 
         [Fact]
@@ -2064,7 +2065,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
+                "Expected*Time (of type DateTime?) to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [Fact]
@@ -2089,7 +2090,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
+                "Expected*Time*to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         [Fact]
@@ -2136,7 +2137,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
+                "Expected*Time*to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [Fact]
@@ -2184,7 +2185,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
+                "Expected*Time*to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         #endregion
@@ -2254,7 +2255,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Age to be 37 because they are the same, but found 36*");
+                "Expected*Age*to be 37 because they are the same, but found 36*");
         }
 
         [Fact]
@@ -2276,7 +2277,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Name to be <null>*we want to test the failure message*, but found \"Dennis\"*");
+                "Expected property subject.Name (of type string) to be <null>*we want to test the failure message*, but found \"Dennis\"*");
         }
 
         [Fact]
@@ -2304,7 +2305,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Values[1] to be 4, but found 2*");
+                "Expected*Values[1]*to be 4, but found 2*");
         }
 
         [Fact]
@@ -2327,7 +2328,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected member Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
+                "Expected*Name (of type string) to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
 
         [Fact]
@@ -2647,7 +2648,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation,
-                options => options.WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
+                options => options.WithAutoConversionFor(x => x.Path.Contains("Birthdate")));
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Age*String*Int32*");
@@ -2671,7 +2672,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
-                .WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
+                .WithAutoConversionFor(x => x.Path.Contains("Birthdate")));
 
             // Assert
             act.Should().NotThrow();
@@ -2713,7 +2714,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithAutoConversion()
-                .WithoutAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
+                .WithoutAutoConversionFor(x => x.Path.Contains("Birthdate")));
 
             // Assert
             act.Should().Throw<XunitException>().Which.Message
@@ -2806,7 +2807,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*Without automatic conversion*");
+                .WithMessage("*Expected*Level.Level*to be <null>, but found*Level2*Without automatic conversion*");
         }
 
         [Fact]
@@ -2894,7 +2895,7 @@ namespace FluentAssertions.Specs
                 // but in that case it was done on purpose, so that we have at least single
                 // test confirming that whole mechanism of gathering description from
                 // equivalency steps works.
-                .Should().MatchRegex(@"^Expected member Level\.Text to be ""Level2"", but ""Level1"" differs near ""1"" \(index 5\)\.[\r\n]+With configuration:[\r\n]+\- Use declared types and members[\r\n]+\- Compare enums by value[\r\n]+\- Match member by name \(or throw\)[\r\n]+\- Be strict about the order of items in byte arrays[\r\n]+\- Without automatic conversion\.[\r\n]+$");
+                .Should().MatchRegex(@"^Expected property subject.Level\.Text \(of type string\) to be ""Level2"", but ""Level1"" differs near ""1"" \(index 5\)\.[\r\n]+With configuration:[\r\n]+\- Use declared types and members[\r\n]+\- Compare enums by value[\r\n]+\- Match member by name \(or throw\)[\r\n]+\- Be strict about the order of items in byte arrays[\r\n]+\- Without automatic conversion\.[\r\n]+$");
         }
 
         [Fact]
@@ -2922,7 +2923,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
+                .WithMessage("Expected*Level*to be <null>*, but found*Level1*Level2*");
         }
 
         public class StringSubContainer
@@ -3014,7 +3015,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected member Level to be*Level1Dto*Level2*, but found <null>*");
+                .WithMessage("Expected property subject.Level*to be*Level1Dto*Level2*, but found <null>*");
         }
 
         [Fact]
@@ -3044,7 +3045,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expectation has member Level.OtherProperty that the other object does not have*");
+                .WithMessage("Expectation has property subject.Level.OtherProperty (of type string) that the other object does not have*");
         }
 
         [Fact]
@@ -3113,7 +3114,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected member Level.Level.Text to be *A wrong text value*but*\"Level2\"*length*");
+                    "Expected*Level.Level.Text*to be *A wrong text value*but*\"Level2\"*length*");
         }
 
         [Fact]
@@ -3143,7 +3144,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected member RefOne.ValTwo to be 2, but found 3*");
+                .WithMessage("Expected property c1.RefOne.ValTwo (of type int) to be 2, but found 3*");
         }
 
         #endregion
@@ -3182,7 +3183,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected member Level.Root to be*but it contains a cyclic reference*");
+                .WithMessage("Expected property cyclicRoot.Level.Root (of type CyclicRootDto) to be*but it contains a cyclic reference*");
         }
 
         [Fact]
@@ -3842,7 +3843,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has member Age that the other object does not have*");
+                .WithMessage("Expectation has property subject.Age (of type int) that the other object does not have*");
         }
 
         [Fact]

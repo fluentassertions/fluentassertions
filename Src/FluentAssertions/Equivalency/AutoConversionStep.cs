@@ -47,13 +47,13 @@ namespace FluentAssertions.Equivalency
 
             if (TryChangeType(context.Subject, expectationType, out object convertedSubject))
             {
-                context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
+                context.Tracer.WriteLine(member => $"Converted subject {context.Subject} at {member.Description} to {expectationType}");
 
                 context.Subject = convertedSubject;
             }
             else
             {
-                context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
+                context.Tracer.WriteLine(member => $"Subject {context.Subject} at {member.Description} could not be converted to {expectationType}");
             }
 
             return false;

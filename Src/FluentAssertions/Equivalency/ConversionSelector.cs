@@ -14,11 +14,11 @@ namespace FluentAssertions.Equivalency
     {
         private class ConversionSelectorRule
         {
-            public Func<IMemberInfo, bool> Predicate { get; }
+            public Func<IObjectInfo, bool> Predicate { get; }
 
             public string Description { get; }
 
-            public ConversionSelectorRule(Func<IMemberInfo, bool> predicate, string description)
+            public ConversionSelectorRule(Func<IObjectInfo, bool> predicate, string description)
             {
                 Predicate = predicate;
                 Description = description;
@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
             inclusions.Add(new ConversionSelectorRule(_ => true, "Try conversion of all members. "));
         }
 
-        public void Include(Expression<Func<IMemberInfo, bool>> predicate)
+        public void Include(Expression<Func<IObjectInfo, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
                 $"Try conversion of member {predicate.Body}. "));
         }
 
-        public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
+        public void Exclude(Expression<Func<IObjectInfo, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
@@ -51,9 +51,11 @@ namespace FluentAssertions.Equivalency
                 $"Do not convert member {predicate.Body}."));
         }
 
-        public bool RequiresConversion(IMemberInfo info)
+        public bool RequiresConversion(IEquivalencyValidationContext context)
         {
-            return inclusions.Any(p => p.Predicate(info)) && !exclusions.Any(p => p.Predicate(info));
+            var objectInfo = new ObjectInfo(context);
+
+            return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
         }
 
         public override string ToString()

@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
         /// The behavior of a cyclic reference is determined by the <see cref="CyclicReferenceHandling"/> constructor
         /// parameter.
         /// </remarks>
-        public bool IsCyclicReference(ObjectReference reference, string because = "", params object[] becauseArgs)
+        public bool IsCyclicReference(ObjectReference reference, Reason reason = null)
         {
             bool isCyclic = false;
 
@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
                     if (handling == CyclicReferenceHandling.ThrowException)
                     {
                         AssertionScope.Current
-                            .BecauseOf(because, becauseArgs)
+                            .BecauseOf(reason)
                             .FailWith(
                             "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
                     }

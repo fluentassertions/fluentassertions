@@ -5,7 +5,7 @@ namespace FluentAssertions.Execution
 {
     internal class NSpecFramework : ITestFramework
     {
-        private Assembly assembly = null;
+        private Assembly assembly;
 
         public bool IsAvailable
         {

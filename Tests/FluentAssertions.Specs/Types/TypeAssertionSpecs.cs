@@ -4228,9 +4228,9 @@ namespace FluentAssertions.Specs
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DummyClassAttribute : Attribute
     {
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; }
 
         public DummyClassAttribute(string name, bool isEnabled)
         {

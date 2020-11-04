@@ -12,18 +12,18 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type type = config.GetExpectationType(context);
+            Type type = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
             EqualityStrategy strategy = config.GetEqualityStrategy(type);
 
             bool canHandle = (strategy == EqualityStrategy.Equals) || (strategy == EqualityStrategy.ForceEquals);
             if (canHandle)
             {
-                context.TraceSingle(path =>
+                context.Tracer.WriteLine(member =>
                 {
                     string strategyName = (strategy == EqualityStrategy.Equals)
                         ? "Equals must be used" : "object overrides Equals";
 
-                    return $"Treating {path} as a value type because {strategyName}.";
+                    return $"Treating {member.Description} as a value type because {strategyName}.";
                 });
             }
 
@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
-            context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+            context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
             return true;
         }

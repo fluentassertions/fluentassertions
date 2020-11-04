@@ -86,6 +86,7 @@ namespace FluentAssertions.Formatting
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
+                where method.ReturnType == typeof(string)
                 where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
                 where method.GetParameters().Length == 1
                 select new { Type = method.GetParameters().Single().ParameterType, Method = method } into formatter

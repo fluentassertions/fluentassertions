@@ -738,9 +738,9 @@ namespace FluentAssertions.Specs
     }
 }
 
-#pragma warning disable RCS1110 // Declare type inside namespace.
+#pragma warning disable RCS1110, CA1050 // Declare type inside namespace.
 public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110 // Declare type inside namespace.
+#pragma warning restore RCS1110, CA1050 // Declare type inside namespace.
 {
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()

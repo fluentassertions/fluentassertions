@@ -9,6 +9,7 @@ using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
+using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
@@ -26,7 +27,7 @@ namespace FluentAssertions.Equivalency
 
         private readonly List<Type> valueTypes = new List<Type>();
 
-        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
+        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
@@ -476,7 +477,7 @@ namespace FluentAssertions.Equivalency
         /// Causes the collection identified by the provided <paramref name="predicate" /> to be compared in the order
         /// in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate));
             return (TSelf)this;
@@ -496,7 +497,7 @@ namespace FluentAssertions.Equivalency
         /// Causes the collection identified by the provided <paramref name="predicate" /> to be compared ignoring the order
         /// in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithoutStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithoutStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate)
             {
@@ -604,9 +605,9 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Instructs the equivalency comparison to try to convert the value of
-        /// a specific property on the expectation object before running any of the other steps.
+        /// a specific member on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithAutoConversionFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             ConversionSelector.Include(predicate);
             return (TSelf)this;
@@ -614,9 +615,9 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Instructs the equivalency comparison to prevent trying to convert the value of
-        /// a specific property on the expectation object before running any of the other steps.
+        /// a specific member on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithoutAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithoutAutoConversionFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             ConversionSelector.Exclude(predicate);
             return (TSelf)this;
@@ -710,7 +711,7 @@ namespace FluentAssertions.Equivalency
             /// the
             /// override applies.
             /// </param>
-            public TSelf When(Expression<Func<IMemberInfo, bool>> predicate)
+            public TSelf When(Expression<Func<IObjectInfo, bool>> predicate)
             {
                 options.userEquivalencySteps.Insert(0,
                     new AssertionRuleEquivalencyStep<TMember>(predicate, action));

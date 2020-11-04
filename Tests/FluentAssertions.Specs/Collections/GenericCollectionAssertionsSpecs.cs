@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -184,6 +185,68 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected strings {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_the_expected_item_it_should_not_be_enumerated_twice()
+        {
+            // Arrange
+            var collection = new OneTimeEnumerable<int>(1, 2, 3);
+
+            // Act
+            Action act = () => collection.Should().Contain(4);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection*to contain 4.");
+        }
+
+        [Fact]
+        public void When_a_collection_contains_the_unexpected_item_it_should_not_be_enumerated_twice()
+        {
+            // Arrange
+            var collection = new OneTimeEnumerable<int>(1, 2, 3);
+
+            // Act
+            Action act = () => collection.Should().NotContain(2);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection*to not contain 2.");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_the_unexpected_items_it_should_not_be_enumerated_twice()
+        {
+            // Arrange
+            var collection = new OneTimeEnumerable<int>(1, 2, 3);
+
+            // Act
+            Action act = () => collection.Should().OnlyContain(i => i > 3);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to contain only items matching*");
+        }
+
+        private class OneTimeEnumerable<T> : IEnumerable<T>
+        {
+            private readonly IEnumerable<T> items;
+            private int enumerations;
+
+            public OneTimeEnumerable(params T[] items) => this.items = items;
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                if (enumerations++ > 0)
+                {
+                    throw new InvalidOperationException("OneTimeEnumerable can be enumerated one time only");
+                }
+
+                return items.GetEnumerator();
+            }
         }
 
         #endregion

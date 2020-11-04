@@ -1,3 +1,4 @@
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -8,39 +9,37 @@ namespace FluentAssertions.Equivalency.Matching
     /// </summary>
     internal class MustMatchByNameRule : IMemberMatchingRule
     {
-        public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
         {
-            SelectedMemberInfo compareeSelectedMemberInfoInfo = null;
+            IMember subjectMember = null;
 
             if (config.IncludeProperties)
             {
-                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(subject.GetType()
-                    .FindProperty(expectedMember.Name, expectedMember.MemberType));
+                PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
+                subjectMember = (propertyInfo != null) && !propertyInfo.IsIndexer() ? (IMember)new Property(propertyInfo, parent) : null;
             }
 
-            if ((compareeSelectedMemberInfoInfo is null) && config.IncludeFields)
+            if ((subjectMember is null) && config.IncludeFields)
             {
-                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(subject.GetType()
-                    .FindField(expectedMember.Name, expectedMember.MemberType));
+                FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
+                subjectMember = (fieldInfo != null) ? (IMember)new Field(fieldInfo, parent) : null;
             }
 
-            if ((compareeSelectedMemberInfoInfo is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
+            if ((subjectMember is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
             {
-                compareeSelectedMemberInfoInfo = expectedMember;
+                subjectMember = expectedMember;
             }
 
-            if (compareeSelectedMemberInfoInfo is null)
+            if (subjectMember is null)
             {
-                string path = (memberPath.Length > 0) ? memberPath + "." : "member ";
-
                 Execute.Assertion.FailWith(
-                    "Expectation has " + path + expectedMember.Name + " that the other object does not have.");
+                    $"Expectation has {expectedMember.Description} that the other object does not have.");
             }
 
-            return compareeSelectedMemberInfoInfo;
+            return subjectMember;
         }
 
-        private static bool ExpectationImplementsMemberExplicitly(object expectation, SelectedMemberInfo subjectMember)
+        private static bool ExpectationImplementsMemberExplicitly(object expectation, IMember subjectMember)
         {
             return subjectMember.DeclaringType.IsInstanceOfType(expectation);
         }

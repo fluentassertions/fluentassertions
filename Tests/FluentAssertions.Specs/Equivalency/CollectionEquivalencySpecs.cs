@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -157,10 +156,10 @@ namespace FluentAssertions.Specs
         {
             public bool OverridesStandardIncludeRules => throw new NotImplementedException();
 
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-                IMemberInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+                MemberSelectionContext context)
             {
-                return context.CompileTimeType.GetProperties().Select(SelectedMemberInfo.Create);
+                return context.CompileTimeType.GetProperties().Select(pi => new Property(pi, currentNode));
             }
 
             bool IMemberSelectionRule.IncludesMembers => OverridesStandardIncludeRules;
@@ -170,10 +169,10 @@ namespace FluentAssertions.Specs
         {
             public bool OverridesStandardIncludeRules => true;
 
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-                IMemberInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+                MemberSelectionContext context)
             {
-                return Enumerable.Empty<SelectedMemberInfo>();
+                return Enumerable.Empty<IMember>();
             }
 
             bool IMemberSelectionRule.IncludesMembers => OverridesStandardIncludeRules;
@@ -271,7 +270,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[0]*6*1*");
+                .WithMessage("Expected*subject[0]*6*1*");
         }
 
         [Fact]
@@ -287,7 +286,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[0]*6*1*");
+                .WithMessage("Expected*subject[0]*6*1*");
         }
 
         [Fact]
@@ -309,7 +308,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected *member bytes[0]*6*1*");
+                .WithMessage("Expected *bytes[0]*6*1*");
         }
 
         [Fact]
@@ -362,7 +361,7 @@ namespace FluentAssertions.Specs
             });
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected member Values[2] to be 4, but found 3*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*Values[2]*to be 4, but found 3*");
         }
 
         [Fact]
@@ -446,7 +445,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*member Customers to be a collection with 2 item(s), but*contains 1 item(s) less than*");
+                    "*Customers*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
         }
 
         [Fact]
@@ -491,7 +490,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*member Customers to be a collection with 1 item(s), but*contains 1 item(s) more than*");
+                    "*Customers*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
         }
 
         [Fact]
@@ -864,8 +863,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected item[1] to be \"one\", but \"two\" differs near \"two\" (index 0).*" +
-                "Expected item[2] to be \"one\", but \"six\" differs near \"six\" (index 0).*");
+                "Expected subject[1]*to be \"one\", but \"two\" differs near \"two\" (index 0).*" +
+                "Expected subject[2]*to be \"one\", but \"six\" differs near \"six\" (index 0).*");
         }
 
         [Fact]
@@ -879,8 +878,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected item[1] to be \"one\", but \"One\" differs near \"One\" (index 0).*" +
-                "Expected item[2] to be \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
+                "Expected subject[1]*to be \"one\", but \"One\" differs near \"One\" (index 0).*" +
+                "Expected subject[2]*to be \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
         }
 
         [Fact]
@@ -894,8 +893,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().Which
-                .Message.Should().Contain("item[9] to be \"one\", but \"two\" differs near \"two\" (index 0)")
-                .And.NotContain("item[10]");
+                .Message.Should().Contain("subject[9] (of type string) to be \"one\", but \"two\" differs near \"two\" (index 0)")
+                .And.NotContain("subject[10]");
         }
 
         [Fact]
@@ -984,7 +983,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected item[1] to be 1, but found 2.*Expected item[2] to be 1, but found 3*");
+                "Expected subject[1]*to be 1, but found 2.*Expected subject[2]*to be 1, but found 3*");
         }
 
         [Fact]
@@ -998,7 +997,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>().Which
-                .Message.Should().Contain("item[9] to be 1, but found 2")
+                .Message.Should().Contain("subject[9] (of type int) to be 1, but found 2")
                 .And.NotContain("item[10]");
         }
 
@@ -1078,11 +1077,11 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () => subject.Should().BeEquivalentTo(expectation, options =>
-                options.WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
+                options.WithStrictOrderingFor(s => s.Path.Contains("UnorderedCollection")));
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*empty collection*");
+                .WithMessage("*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
         }
 
         [Fact]
@@ -1120,7 +1119,7 @@ namespace FluentAssertions.Specs
             // Act
             Action action = () => subject.Should().BeEquivalentTo(expectation, options =>
                 options
-                    .WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection"))
+                    .WithStrictOrderingFor(s => s.Path.Contains("UnorderedCollection"))
                     .WithoutStrictOrdering());
 
             // Assert
@@ -1170,7 +1169,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*Expected item[0].UnorderedCollection*5 item(s)*empty collection*");
+                    "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
         }
 
         [Fact]
@@ -1252,7 +1251,7 @@ namespace FluentAssertions.Specs
             // Act
             Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithStrictOrdering()
-                .WithoutStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
+                .WithoutStrictOrderingFor(s => s.Path.Contains("UnorderedCollection")));
 
             // Assert
             action.Should().NotThrow();
@@ -1293,13 +1292,13 @@ namespace FluentAssertions.Specs
             // Act
             Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithStrictOrdering()
-                .WithoutStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection"))
+                .WithoutStrictOrderingFor(s => s.Path.Contains("UnorderedCollection"))
                 .WithStrictOrdering());
 
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*Expected item[0].UnorderedCollection[0] to be 2, but found 1.*Expected item[0].UnorderedCollection[1] to be 1, but found 2*");
+                    "*Expected*subject[0].UnorderedCollection[0]*to be 2, but found 1.*Expected subject[0].UnorderedCollection[1]*to be 1, but found 2*");
         }
 
         [Fact]
@@ -1388,7 +1387,7 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expectation, o => o.WithStrictOrdering());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*item[0]*String*Int32*item[1]*Int32*String*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*actual[0]*String*Int32*actual[1]*Int32*String*");
         }
 
         [Fact]
@@ -1458,7 +1457,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be <null>, but found*");
+                "Expected subject*to be <null>, but found*");
         }
 
         [Fact]
@@ -1537,7 +1536,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[1].Age*28*27*");
+                .WithMessage("Expected*[1].Age*28*27*");
         }
 
         [Fact]
@@ -1787,7 +1786,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject not to be <null>*");
+                "Expected subject*not to be <null>*");
         }
 
         [Fact]
@@ -1805,7 +1804,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual to be <null>*{1, 2, 3, 4, 5, 6}*");
+                .WithMessage("Expected actual*to be <null>*{1, 2, 3, 4, 5, 6}*");
         }
 
         [Fact]
@@ -1970,7 +1969,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*member*Customers*String*found*Dictionary*");
+                .WithMessage("*property*Customers*String*found*Dictionary*");
         }
 
         [Fact]
@@ -2033,7 +2032,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "*subject to be a collection with 2 item(s), but*contains 1 item(s) less than*");
+                    "*subject*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
         }
 
         [Fact]
@@ -2073,7 +2072,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected subject to be a collection with 1 item(s), but*contains 1 item(s) more than*");
+                    "Expected subject*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
         }
 
         [Fact]
@@ -2175,7 +2174,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected item[1].Name to be \"John\", but \"Jane\" differs near*");
+                    "Expected property subject[1].Name*to be \"John\", but \"Jane\" differs near*");
         }
 
         [Fact]
@@ -2221,7 +2220,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected item[1].Name to be \"Jane\", but \"John\" differs near*");
+                    "Expected property subject[1].Name*to be \"Jane\", but \"John\" differs near*");
         }
 
         [Fact]
@@ -2272,7 +2271,7 @@ namespace FluentAssertions.Specs
                 .ComparingByMembers<KeyValuePair<int, int>>());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected item[0].Value to be 321, but found 123.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected property list1[0].Value*to be 321, but found 123.*");
         }
 
         [Fact]
@@ -2364,7 +2363,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected*item[1].Age*30*24*");
+                .WithMessage("Expected*subject[1].Age*30*24*");
         }
 
         [Fact]
@@ -2457,7 +2456,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*item[0,2]*4*3*item[1,1]*-5*5*");
+                .WithMessage("*actual[0,2]*4*3*actual[1,1]*-5*5*");
         }
 
         [Fact]
@@ -2651,7 +2650,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
+                    "Expected property subject[0].Name*Jane*John*subject[1].Name*John*Jane*");
         }
 
         [Fact]
@@ -2701,7 +2700,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
+                    "Expected property subject[0].Name*Jane*John*subject[1].Name*John*Jane*");
         }
 
         [Fact]

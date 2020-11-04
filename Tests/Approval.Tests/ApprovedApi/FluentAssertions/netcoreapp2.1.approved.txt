@@ -591,7 +591,7 @@ namespace FluentAssertions.Equivalency
 {
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
-        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
+        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public override string ToString() { }
@@ -607,10 +607,10 @@ namespace FluentAssertions.Equivalency
     {
         public ConversionSelector() { }
         public FluentAssertions.Equivalency.ConversionSelector Clone() { }
-        public void Exclude(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
-        public void Include(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+        public void Exclude(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public void Include(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public void IncludeAll() { }
-        public bool RequiresConversion(FluentAssertions.Equivalency.IMemberInfo info) { }
+        public bool RequiresConversion(FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
         public override string ToString() { }
     }
     public enum CyclicReferenceHandling
@@ -669,30 +669,37 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
     }
-    public class EquivalencyValidationContext : FluentAssertions.Equivalency.IEquivalencyValidationContext, FluentAssertions.Equivalency.IMemberInfo
+    public class EquivalencyValidationContext : FluentAssertions.Equivalency.IEquivalencyValidationContext
     {
-        public EquivalencyValidationContext() { }
-        public string Because { get; set; }
-        public object[] BecauseArgs { get; set; }
+        public EquivalencyValidationContext(FluentAssertions.Equivalency.INode root) { }
         public System.Type CompileTimeType { get; set; }
+        public FluentAssertions.Equivalency.INode CurrentNode { get; }
         public object Expectation { get; set; }
-        public bool IsRoot { get; }
-        public bool RootIsCollection { get; set; }
+        public FluentAssertions.Execution.Reason Reason { get; set; }
         public System.Type RuntimeType { get; }
-        public string SelectedMemberDescription { get; set; }
-        public FluentAssertions.Equivalency.SelectedMemberInfo SelectedMemberInfo { get; set; }
-        public string SelectedMemberPath { get; set; }
         public object Subject { get; set; }
-        public FluentAssertions.Equivalency.ITraceWriter Tracer { get; set; }
+        public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; set; }
+        public FluentAssertions.Equivalency.Tracing.Tracer Tracer { get; }
+        public FluentAssertions.Equivalency.IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation) { }
+        public FluentAssertions.Equivalency.IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key, object subject, TExpectation expectation) { }
+        public FluentAssertions.Equivalency.IEquivalencyValidationContext AsNestedMember(FluentAssertions.Equivalency.IMember expectationMember, FluentAssertions.Equivalency.IMember matchingSubjectMember) { }
+        public FluentAssertions.Equivalency.IEquivalencyValidationContext Clone() { }
         public override string ToString() { }
-        public System.IDisposable TraceBlock(FluentAssertions.Equivalency.GetTraceMessage getTraceMessage) { }
-        public void TraceSingle(FluentAssertions.Equivalency.GetTraceMessage getTraceMessage) { }
     }
     public class EquivalencyValidator : FluentAssertions.Equivalency.IEquivalencyValidator
     {
         public EquivalencyValidator(FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public void AssertEquality(FluentAssertions.Equivalency.EquivalencyValidationContext context) { }
         public void AssertEqualityUsing(FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
+    }
+    public class Field : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
+    {
+        public Field(System.Reflection.FieldInfo fieldInfo, FluentAssertions.Equivalency.INode parent) { }
+        public System.Type DeclaringType { get; set; }
+        public override string Description { get; }
+        public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
+        public object GetValue(object obj) { }
     }
     public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
@@ -706,14 +713,14 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
     }
-    public delegate string GetTraceMessage(string path);
+    public delegate string GetSubjectId();
     public interface IAssertionContext<TSubject>
     {
         string Because { get; set; }
         object[] BecauseArgs { get; set; }
         TSubject Expectation { get; }
+        FluentAssertions.Equivalency.INode SelectedNode { get; }
         TSubject Subject { get; }
-        FluentAssertions.Equivalency.SelectedMemberInfo SubjectProperty { get; }
     }
     public interface IEquivalencyAssertionOptions
     {
@@ -727,7 +734,7 @@ namespace FluentAssertions.Equivalency
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberMatchingRule> MatchingRules { get; }
         FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberSelectionRule> SelectionRules { get; }
-        FluentAssertions.Equivalency.ITraceWriter TraceWriter { get; }
+        FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
         bool UseRuntimeTyping { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep> UserEquivalencySteps { get; }
         FluentAssertions.Equivalency.EqualityStrategy GetEqualityStrategy(System.Type type);
@@ -737,48 +744,99 @@ namespace FluentAssertions.Equivalency
         bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config);
         bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config);
     }
-    public interface IEquivalencyValidationContext : FluentAssertions.Equivalency.IMemberInfo
+    public interface IEquivalencyValidationContext
     {
-        string Because { get; }
-        object[] BecauseArgs { get; }
+        System.Type CompileTimeType { get; }
+        FluentAssertions.Equivalency.INode CurrentNode { get; }
         object Expectation { get; }
-        bool IsRoot { get; }
-        bool RootIsCollection { get; set; }
+        FluentAssertions.Execution.Reason Reason { get; }
+        System.Type RuntimeType { get; }
         object Subject { get; set; }
-        FluentAssertions.Equivalency.ITraceWriter Tracer { get; set; }
-        System.IDisposable TraceBlock(FluentAssertions.Equivalency.GetTraceMessage getMessage);
-        void TraceSingle(FluentAssertions.Equivalency.GetTraceMessage getMessage);
+        FluentAssertions.Equivalency.Tracing.Tracer Tracer { get; }
+        FluentAssertions.Equivalency.IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation);
+        FluentAssertions.Equivalency.IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key, object subject, TExpectation expectation);
+        FluentAssertions.Equivalency.IEquivalencyValidationContext AsNestedMember(FluentAssertions.Equivalency.IMember expectationMember, FluentAssertions.Equivalency.IMember matchingSubjectMember);
+        FluentAssertions.Equivalency.IEquivalencyValidationContext Clone();
     }
     public interface IEquivalencyValidator
     {
         void AssertEqualityUsing(FluentAssertions.Equivalency.IEquivalencyValidationContext context);
     }
+    public interface IMember : FluentAssertions.Equivalency.INode
+    {
+        System.Type DeclaringType { get; }
+        FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
+        object GetValue(object obj);
+    }
     public interface IMemberInfo
     {
-        System.Type CompileTimeType { get; }
-        System.Type RuntimeType { get; }
-        string SelectedMemberDescription { get; }
-        FluentAssertions.Equivalency.SelectedMemberInfo SelectedMemberInfo { get; }
-        string SelectedMemberPath { get; }
+        System.Type DeclaringType { get; }
+        FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        string Name { get; }
+        string Path { get; set; }
+        FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
+        System.Type Type { get; }
     }
     public interface IMemberMatchingRule
     {
-        FluentAssertions.Equivalency.SelectedMemberInfo Match(FluentAssertions.Equivalency.SelectedMemberInfo expectedMember, object subject, string memberPath, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config);
+        FluentAssertions.Equivalency.IMember Match(FluentAssertions.Equivalency.IMember expectedMember, object subject, FluentAssertions.Equivalency.INode parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions options);
     }
     public interface IMemberSelectionRule
     {
         bool IncludesMembers { get; }
-        System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.SelectedMemberInfo> SelectMembers(System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.SelectedMemberInfo> selectedMembers, FluentAssertions.Equivalency.IMemberInfo context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config);
+        System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMember> SelectMembers(FluentAssertions.Equivalency.INode currentNode, System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMember> selectedMembers, FluentAssertions.Equivalency.MemberSelectionContext context);
+    }
+    public interface INode
+    {
+        string Description { get; }
+        FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
+        bool IsRoot { get; }
+        string Name { get; }
+        string Path { get; }
+        string PathAndName { get; }
+        bool RootIsCollection { get; }
+        System.Type Type { get; }
+    }
+    public interface IObjectInfo
+    {
+        System.Type CompileTimeType { get; }
+        string Path { get; set; }
+        System.Type RuntimeType { get; }
+        System.Type Type { get; }
     }
     public interface IOrderingRule
     {
-        FluentAssertions.Equivalency.OrderStrictness Evaluate(FluentAssertions.Equivalency.IMemberInfo memberInfo);
+        FluentAssertions.Equivalency.OrderStrictness Evaluate(FluentAssertions.Equivalency.IObjectInfo objectInfo);
     }
-    public interface ITraceWriter
+    public static class MemberFactory
     {
-        System.IDisposable AddBlock(string trace);
-        void AddSingle(string trace);
-        string ToString();
+        public static FluentAssertions.Equivalency.IMember Create(System.Reflection.MemberInfo memberInfo, FluentAssertions.Equivalency.INode parent) { }
+    }
+    public class MemberSelectionContext
+    {
+        public MemberSelectionContext() { }
+        public System.Type CompileTimeType { get; set; }
+        public FluentAssertions.Equivalency.IEquivalencyAssertionOptions Options { get; set; }
+        public System.Type RuntimeType { get; set; }
+    }
+    public class Node : FluentAssertions.Equivalency.INode
+    {
+        public Node() { }
+        public virtual string Description { get; }
+        public FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; set; }
+        public bool IsRoot { get; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public string PathAndName { get; }
+        public bool RootIsCollection { get; set; }
+        public System.Type Type { get; set; }
+        public override bool Equals(object obj) { }
+        public override int GetHashCode() { }
+        public override string ToString() { }
+        public static FluentAssertions.Equivalency.INode From<T>(FluentAssertions.Equivalency.GetSubjectId getSubjectId) { }
+        public static FluentAssertions.Equivalency.INode FromCollectionItem<T>(string index, FluentAssertions.Equivalency.INode parent) { }
+        public static FluentAssertions.Equivalency.INode FromDictionaryItem<T>(object key, FluentAssertions.Equivalency.INode parent) { }
     }
     public enum OrderStrictness
     {
@@ -792,7 +850,16 @@ namespace FluentAssertions.Equivalency
         public OrderingRuleCollection(System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IOrderingRule> orderingRules) { }
         public void Add(FluentAssertions.Equivalency.IOrderingRule rule) { }
         public System.Collections.Generic.IEnumerator<FluentAssertions.Equivalency.IOrderingRule> GetEnumerator() { }
-        public bool IsOrderingStrictFor(FluentAssertions.Equivalency.IMemberInfo memberInfo) { }
+        public bool IsOrderingStrictFor(FluentAssertions.Equivalency.IObjectInfo objectInfo) { }
+    }
+    public class Property : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
+    {
+        public Property(System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Equivalency.INode parent) { }
+        public System.Type DeclaringType { get; }
+        public override string Description { get; }
+        public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
+        public object GetValue(object obj) { }
     }
     public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
@@ -806,18 +873,6 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator parent, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
     }
-    public abstract class SelectedMemberInfo
-    {
-        protected SelectedMemberInfo() { }
-        public abstract System.Type DeclaringType { get; }
-        public abstract System.Type MemberType { get; }
-        public abstract string Name { get; }
-        public abstract FluentAssertions.Common.CSharpAccessModifier GetGetAccessModifier();
-        public abstract FluentAssertions.Common.CSharpAccessModifier GetSetAccessModifier();
-        public abstract object GetValue(object obj, object[] index);
-        public static FluentAssertions.Equivalency.SelectedMemberInfo Create(System.Reflection.FieldInfo fieldInfo) { }
-        public static FluentAssertions.Equivalency.SelectedMemberInfo Create(System.Reflection.PropertyInfo propertyInfo) { }
-    }
     public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyAssertionOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>
     {
@@ -825,7 +880,7 @@ namespace FluentAssertions.Equivalency
         protected readonly FluentAssertions.Equivalency.OrderingRuleCollection orderingRules;
         protected SelfReferenceEquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
-        public FluentAssertions.Equivalency.ITraceWriter TraceWriter { get; }
+        public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
         public TSelf ComparingByMembers(System.Type type) { }
@@ -858,19 +913,19 @@ namespace FluentAssertions.Equivalency
         public TSelf Using<T, TEqualityComparer>()
             where TEqualityComparer : System.Collections.Generic.IEqualityComparer<T>, new () { }
         public TSelf WithAutoConversion() { }
-        public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+        public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithStrictOrdering() { }
-        public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
-        public TSelf WithTracing(FluentAssertions.Equivalency.ITraceWriter writer = null) { }
-        public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+        public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithTracing(FluentAssertions.Equivalency.Tracing.ITraceWriter writer = null) { }
+        public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public void WithoutMatchingRules() { }
         public void WithoutSelectionRules() { }
         public TSelf WithoutStrictOrdering() { }
-        public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+        public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public class Restriction<TMember>
         {
             public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
-            public TSelf When(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+            public TSelf When(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
             public TSelf WhenTypeIs<TMemberType>() { }
         }
     }
@@ -879,13 +934,6 @@ namespace FluentAssertions.Equivalency
         public SimpleEqualityEquivalencyStep() { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator structuralEqualityValidator, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
-    }
-    public class StringBuilderTraceWriter : FluentAssertions.Equivalency.ITraceWriter
-    {
-        public StringBuilderTraceWriter() { }
-        public System.IDisposable AddBlock(string trace) { }
-        public void AddSingle(string trace) { }
-        public override string ToString() { }
     }
     public class StringEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
@@ -911,6 +959,29 @@ namespace FluentAssertions.Equivalency
         public ValueTypeEquivalencyStep() { }
         public bool CanHandle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
         public bool Handle(FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator structuralEqualityValidator, FluentAssertions.Equivalency.IEquivalencyAssertionOptions config) { }
+    }
+}
+namespace FluentAssertions.Equivalency.Tracing
+{
+    public delegate string GetTraceMessage(FluentAssertions.Equivalency.INode node);
+    public interface ITraceWriter
+    {
+        System.IDisposable AddBlock(string trace);
+        void AddSingle(string trace);
+        string ToString();
+    }
+    public class StringBuilderTraceWriter : FluentAssertions.Equivalency.Tracing.ITraceWriter
+    {
+        public StringBuilderTraceWriter() { }
+        public System.IDisposable AddBlock(string trace) { }
+        public void AddSingle(string trace) { }
+        public override string ToString() { }
+    }
+    public class Tracer
+    {
+        public override string ToString() { }
+        public System.IDisposable WriteBlock(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
+        public void WriteLine(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
     }
 }
 namespace FluentAssertions.Events
@@ -955,6 +1026,7 @@ namespace FluentAssertions.Events
 }
 namespace FluentAssertions.Execution
 {
+    [System.Serializable]
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
@@ -972,6 +1044,7 @@ namespace FluentAssertions.Execution
         public void AddNonReportable(string key, object value) { }
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AddReportable(string key, string value) { }
+        public FluentAssertions.Execution.AssertionScope BecauseOf(FluentAssertions.Execution.Reason reason) { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(string because, params object[] becauseArgs) { }
         public FluentAssertions.Execution.Continuation ClearExpectation() { }
         public string[] Discard() { }
@@ -1054,6 +1127,12 @@ namespace FluentAssertions.Execution
     public interface ICloneable2
     {
         object Clone();
+    }
+    public class Reason
+    {
+        public Reason(string formattedMessage, object[] arguments) { }
+        public object[] Arguments { get; set; }
+        public string FormattedMessage { get; set; }
     }
 }
 namespace FluentAssertions.Extensions
@@ -1158,7 +1237,7 @@ namespace FluentAssertions.Formatting
         protected virtual int SpacesPerIndentionLevel { get; }
         public virtual bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
-        protected virtual System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.SelectedMemberInfo> GetMembers(System.Type type) { }
+        protected virtual System.Reflection.MemberInfo[] GetMembers(System.Type type) { }
         protected virtual string TypeDisplayName(System.Type type) { }
     }
     public class DoubleValueFormatter : FluentAssertions.Formatting.IValueFormatter

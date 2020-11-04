@@ -15,20 +15,17 @@ namespace FluentAssertions.Equivalency
         /// simply return <c>null</c>.
         /// </remarks>
         /// <param name="expectedMember">
-        /// The <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the subject's member for which a match must be found. Can never
+        /// The <see cref="IMember"/> of the subject's member for which a match must be found. Can never
         /// be <c>null</c>.
         /// </param>
         /// <param name="subject">
         /// The subject object for which a matching member must be returned. Can never be <c>null</c>.
         /// </param>
-        /// <param name="memberPath">
-        /// The dotted path from the root object to the current member. Will never  be <c>null</c>.
-        /// </param>
-        /// <param name="config"></param>
+        /// <param name="options"></param>
         /// <returns>
-        /// Returns the <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the property with which to compare the subject with, or <c>null</c>
+        /// Returns the <see cref="IMember"/> of the property with which to compare the subject with, or <c>null</c>
         /// if no match was found.
         /// </returns>
-        SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config);
+        IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options);
     }
 }

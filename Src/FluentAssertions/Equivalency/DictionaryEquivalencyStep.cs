@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -11,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return typeof(IDictionary).IsAssignableFrom(config.GetExpectationType(context));
+            return typeof(IDictionary).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
         /// <summary>
@@ -38,13 +39,13 @@ namespace FluentAssertions.Equivalency
                     {
                         if (config.IsRecursive)
                         {
-                            context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
-                            parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                            context.Tracer.WriteLine(member => $"Recursing into dictionary item {key} at {member.Description}");
+                            parent.AssertEqualityUsing(context.AsDictionaryItem(key, subject[key], expectation[key]));
                         }
                         else
                         {
-                            context.TraceSingle(path => $"Comparing dictionary item {key} at {path} between subject and expectation");
-                            subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
+                            context.Tracer.WriteLine(member => $"Comparing dictionary item {key} at {member.Description} between subject and expectation");
+                            subject[key].Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                         }
                     }
                 }

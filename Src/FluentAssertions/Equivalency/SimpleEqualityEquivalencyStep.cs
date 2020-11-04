@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return !config.IsRecursive && !context.IsRoot;
+            return !config.IsRecursive && !context.CurrentNode.IsRoot;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
-            context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+            context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
             return true;
         }

@@ -71,6 +71,11 @@ namespace FluentAssertions.Common
                 return @this;
             }
 
+            if (other.StartsWith("[", StringComparison.Ordinal))
+            {
+                separator = string.Empty;
+            }
+
             return @this + separator + other;
         }
 

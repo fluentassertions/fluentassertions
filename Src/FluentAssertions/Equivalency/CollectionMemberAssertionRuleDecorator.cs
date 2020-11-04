@@ -26,15 +26,11 @@ namespace FluentAssertions.Equivalency
 
         private static EquivalencyValidationContext CreateAdjustedCopy(IEquivalencyValidationContext context)
         {
-            return new EquivalencyValidationContext
+            return new EquivalencyValidationContext(context.CurrentNode)
             {
                 CompileTimeType = context.CompileTimeType,
                 Expectation = context.Expectation,
-                SelectedMemberDescription = context.SelectedMemberDescription,
-                SelectedMemberInfo = context.SelectedMemberInfo,
-                SelectedMemberPath = CollectionMemberMemberInfo.GetAdjustedPropertyPath(context.SelectedMemberPath),
-                Because = context.Because,
-                BecauseArgs = context.BecauseArgs,
+                Reason = context.Reason,
                 Subject = context.Subject
             };
         }

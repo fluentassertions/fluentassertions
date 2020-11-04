@@ -168,7 +168,8 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<XunitException>()
                 .Where(e => e.Message.StartsWith(
-                    "Expected someObject to be <null> because we want to test the failure message, but found System.Object"));
+                    "Expected someObject to be <null> because we want to test the failure message, but found System.Object",
+                    StringComparison.Ordinal));
         }
 
         [Fact]
@@ -868,7 +869,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*subject.Name*to be*");
         }
 
         [Fact]
@@ -999,7 +1000,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
 
         internal class NonPublicClass
@@ -1087,7 +1088,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*member Name to be*");
+                .WithMessage("*to be serializable, but serialization failed with:*property subject.Name*to be*");
         }
 
         [Fact]

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
+using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -730,6 +731,12 @@ namespace FluentAssertions.Specs
         public static class CustomFormatter
         {
             [ValueFormatter]
+            public static int Bar(SomeClassWithCustomFormatter _)
+            {
+                return -1;
+            }
+
+            [ValueFormatter]
             public static string Foo(SomeClassWithCustomFormatter value)
             {
                 return "Property = " + value.Property;
@@ -786,8 +793,13 @@ namespace FluentAssertions.Specs
 
             public override bool CanHandle(object value) => value is CustomClass;
 
-            protected override IEnumerable<SelectedMemberInfo> GetMembers(Type type) =>
-                base.GetMembers(type).Where(e => e.MemberType != typeof(string));
+            protected override MemberInfo[] GetMembers(Type type)
+            {
+                return base
+                    .GetMembers(type)
+                    .Where(e => e.GetUnderlyingType() != typeof(string))
+                    .ToArray();
+            }
 
             protected override string TypeDisplayName(Type type) => type.Name;
         }

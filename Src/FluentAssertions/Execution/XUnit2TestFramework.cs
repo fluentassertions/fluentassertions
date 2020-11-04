@@ -5,7 +5,7 @@ namespace FluentAssertions.Execution
 {
     internal class XUnit2TestFramework : ITestFramework
     {
-        private Assembly assembly = null;
+        private Assembly assembly;
 
         public bool IsAvailable
         {

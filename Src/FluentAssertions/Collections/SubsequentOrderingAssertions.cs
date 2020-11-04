@@ -34,7 +34,7 @@ namespace FluentAssertions.Collections
         where TAssertions : SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
     {
         private readonly IOrderedEnumerable<T> previousOrderedEnumerable;
-        private bool subsequentOrdering = false;
+        private bool subsequentOrdering;
 
         public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
             : base(actualValue)

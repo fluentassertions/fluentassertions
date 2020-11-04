@@ -2,17 +2,17 @@ namespace FluentAssertions.Equivalency
 {
     internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
     {
-        public AssertionContext(SelectedMemberInfo subjectProperty, TSubject subject, TSubject expectation, string because,
+        private AssertionContext(INode currentNode, TSubject subject, TSubject expectation, string because,
                                 object[] becauseArgs)
         {
-            SubjectProperty = subjectProperty;
+            SelectedNode = currentNode;
             Subject = subject;
             Expectation = expectation;
             Because = because;
             BecauseArgs = becauseArgs;
         }
 
-        public SelectedMemberInfo SubjectProperty { get; }
+        public INode SelectedNode { get; }
 
         public TSubject Subject { get; }
 
@@ -26,13 +26,12 @@ namespace FluentAssertions.Equivalency
         {
             TSubject expectation = (context.Expectation != null) ? (TSubject)context.Expectation : default;
 
-            var assertionContext = new AssertionContext<TSubject>(
-                context.SelectedMemberInfo,
+            return new AssertionContext<TSubject>(
+                context.CurrentNode,
                 (TSubject)context.Subject,
                 expectation,
-                context.Because,
-                context.BecauseArgs);
-            return assertionContext;
+                context.Reason.FormattedMessage,
+                context.Reason.Arguments);
         }
     }
 }

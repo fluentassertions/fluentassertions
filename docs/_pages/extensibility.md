@@ -143,8 +143,8 @@ class CustomClassFormatter : DefaultValueFormatter
 
     public override bool CanHandle(object value) => value is CustomClass;
 
-    protected override IEnumerable<SelectedMemberInfo> GetMembers(Type type) =>
-        base.GetMembers(type).Where(e => e.MemberType != typeof(string));
+    protected override MemberInfo[] GetMembers(Type type) =>
+        base.GetMembers(type).Where(e => e.GetUnderlyingType() != typeof(string));
 
     protected override string TypeDisplayName(Type type) => type.Name;
 }
@@ -218,19 +218,22 @@ Since `Should().Be()` internally uses the `{context}` placeholder I discussed at
 
 Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
 
-The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `SelectedMemberInfo` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
+The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
 
 ```csharp
 internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
 {
     public bool IncludesMembers => false;
 
-    public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> 
-        selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+    public IEnumerable<IMember> SelectMembers(INode currentNode 
+        IEnumerable<IMember> selectedMembers, MemberSelectionContext context)
     {
-        return selectedMembers.Union(
-                config.GetExpectationType(context).GetNonPrivateProperties()
-                .Select(SelectedMemberInfo.Create));
+        IEnumerable<IMember> selectedNonPrivateProperties = context.Options
+            .GetExpectationType(context.RuntimeType, context.CompileTimeType)
+            .GetNonPrivateProperties()
+            .Select(info => new Property(info, currentNode));
+
+        return selectedMembers.Union(selectedNonPrivateProperties).ToList();
     }
 
     public override string ToString()
@@ -242,6 +245,6 @@ internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
 
 Notice the override of `ToString`. The output of that is included in the message in case the assertion fails. It'll help the developer understand the 'rules' that were applied to the assertion.
 
-Another interface, `IMemberMatchingRule`, is used to map a member of the subject to the member of the expectation object with which it should be compared with. It's not something you likely need to implement, but if you do, checkout the built-in implementations `MustMatchByNameRule` and `TryMatchByNameRule`. It receives a `SelectedMemberInfo` of the subject's property, the expectation to which you need to map a property, the dotted path to it and the configuration object uses everywhere.
+Another interface, `IMemberMatchingRule`, is used to map a member of the subject to the member of the expectation object with which it should be compared with. It's not something you likely need to implement, but if you do, checkout the built-in implementations `MustMatchByNameRule` and `TryMatchByNameRule`. It receives a `IMember` of the subject's property, the expectation to which you need to map a property, the dotted path to it and the configuration object uses everywhere.
 
 The final interface, the `IOrderingRule`, is used to determine whether FA should be strict about the order of items in collections. The `ByteArrayOrderingRule` is the one used by default, will ensure that FA isn't strict about the order, unless it involves a `byte[]`. The reason behind that is when ordering is treated as irrelevant, FA needs to compare every item in the one collection with every item in the other collection. Each of these comparisons might involve a recursive and nested comparison on the object graph represented by the item. This proved to cause a performance issue with large byte arrays. So I figured that byte arrays are generally used for raw data where ordering is important.

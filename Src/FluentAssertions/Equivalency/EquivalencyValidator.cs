@@ -31,19 +31,19 @@ namespace FluentAssertions.Equivalency
             using var scope = new AssertionScope();
             scope.AddReportable("configuration", config.ToString());
 
-            scope.BecauseOf(context.Because, context.BecauseArgs);
+            scope.BecauseOf(context.Reason);
 
             AssertEqualityUsing(context);
 
-            if (context.Tracer != null)
+            if (context.TraceWriter != null)
             {
-                scope.AddReportable("trace", context.Tracer.ToString());
+                scope.AddReportable("trace", context.TraceWriter.ToString());
             }
         }
 
         public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
-            if (ShouldCompareMembersThisDeep(context.SelectedMemberPath))
+            if (ShouldCompareMembersThisDeep(context.CurrentNode.PathAndName))
             {
                 UpdateScopeWithReportableContext(context);
 
@@ -70,9 +70,9 @@ namespace FluentAssertions.Equivalency
 
         private static void UpdateScopeWithReportableContext(IEquivalencyValidationContext context)
         {
-            if (context.SelectedMemberDescription.Length > 0)
+            if (context.CurrentNode.Description.Length > 0)
             {
-                AssertionScope.Current.Context = context.SelectedMemberDescription;
+                AssertionScope.Current.Context = context.CurrentNode.Description;
             }
 
             AssertionScope.Current.TrackComparands(context.Subject, context.Expectation);
@@ -89,8 +89,8 @@ namespace FluentAssertions.Equivalency
 
             bool isComplexType = IsComplexType(context.Expectation);
 
-            var reference = new ObjectReference(context.Expectation, context.SelectedMemberPath, isComplexType);
-            return objectTracker.IsCyclicReference(reference, context.Because, context.BecauseArgs);
+            var reference = new ObjectReference(context.Expectation, context.CurrentNode.PathAndName, isComplexType);
+            return objectTracker.IsCyclicReference(reference, context.Reason);
         }
 
         private bool IsComplexType(object expectation)

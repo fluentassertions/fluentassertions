@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetExpectationType(context);
+            Type subjectType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
             return IsCollection(subjectType);
         }
@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    Recursive = context.IsRoot || config.IsRecursive,
+                    Recursive = context.CurrentNode.IsRoot || config.IsRecursive,
                     OrderingRules = config.OrderingRules
                 };
 
