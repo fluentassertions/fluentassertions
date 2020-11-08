@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 
@@ -75,35 +76,22 @@ namespace FluentAssertions
         private static string ExtractVariableNameFrom(StackFrame frame)
         {
             string caller = null;
+            string statement = GetSourceCodeStatementFrom(frame);
 
-            int column = frame.GetFileColumnNumber();
-            string line = GetSourceCodeLineFrom(frame);
-
-            if ((line != null) && (column != 0) && (line.Length > 0))
+            if (statement != null)
             {
-                string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
-
                 logger(statement);
-
-                int indexOfShould = statement.IndexOf(".Should", StringComparison.Ordinal);
-                if (indexOfShould != -1)
+                if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
+                    !UsesNewKeyword(statement))
                 {
-                    string candidate = statement.Substring(0, indexOfShould);
-
-                    logger(candidate);
-
-                    if (!IsBooleanLiteral(candidate) && !IsNumeric(candidate) && !IsStringLiteral(candidate) &&
-                        !UsesNewKeyword(candidate))
-                    {
-                        caller = candidate;
-                    }
+                    caller = statement;
                 }
             }
 
             return caller;
         }
 
-        private static string GetSourceCodeLineFrom(StackFrame frame)
+        private static string GetSourceCodeStatementFrom(StackFrame frame)
         {
             string fileName = frame.GetFileName();
             int expectedLineNumber = frame.GetFileLineNumber();
@@ -124,13 +112,37 @@ namespace FluentAssertions
                     currentLine++;
                 }
 
-                return (currentLine == expectedLineNumber) ? line : null;
+                if (currentLine == expectedLineNumber && line != null)
+                {
+                    return GetSourceCodeStatementFrom(frame, reader, line);
+                }
+
+                return null;
             }
             catch
             {
                 // We don't care. Just assume the symbol file is not available or unreadable
                 return null;
             }
+        }
+
+        private static string GetSourceCodeStatementFrom(StackFrame frame, StreamReader reader, string line)
+        {
+            int column = frame.GetFileColumnNumber();
+            if (column > 0)
+            {
+                line = line.Substring(Math.Min(column - 1, line.Length - 1));
+            }
+
+            var sb = new StatementBuilder();
+            StatementBuilder.Result state;
+            do
+            {
+                state = sb.Append(line);
+            }
+            while (state == StatementBuilder.Result.InProgress && (line = reader.ReadLine()) != null);
+
+            return state == StatementBuilder.Result.Retrieved ? sb.ToString() : null;
         }
 
         private static bool UsesNewKeyword(string candidate)
@@ -152,6 +164,105 @@ namespace FluentAssertions
         private static bool IsBooleanLiteral(string candidate)
         {
             return candidate == "true" || candidate == "false";
+        }
+
+        private class StatementBuilder
+        {
+            private const int ShouldCallLength = 7;
+            private readonly StringBuilder stringBuilder = new StringBuilder();
+            private char? previousChar;
+            private char isQuoteEscapeSymbol = '\\';
+            private bool isQuoteContext;
+
+            public Result Append(string symbols)
+            {
+                foreach (char currentChar in symbols)
+                {
+                    if (!char.IsWhiteSpace(currentChar) || isQuoteContext)
+                    {
+                        stringBuilder.Append(currentChar);
+                    }
+
+                    if (currentChar == '"')
+                    {
+                        if (isQuoteContext)
+                        {
+                            if (previousChar != isQuoteEscapeSymbol)
+                            {
+                                isQuoteContext = false;
+                                isQuoteEscapeSymbol = '\\';
+                            }
+                        }
+                        else
+                        {
+                            isQuoteContext = true;
+                            if (IsAtEscaped())
+                            {
+                                isQuoteEscapeSymbol = '"';
+                            }
+                        }
+                    }
+
+                    previousChar = currentChar;
+                    if (!isQuoteContext)
+                    {
+                        if (currentChar == ';')
+                        {
+                            return Result.NoStatement;
+                        }
+                        else if (IsShouldCall())
+                        {
+                            stringBuilder.Remove(stringBuilder.Length - ShouldCallLength, ShouldCallLength);
+                            return Result.Retrieved;
+                        }
+                    }
+                }
+
+                return Result.InProgress;
+            }
+
+            private bool IsAtEscaped()
+            {
+                if (previousChar == '@')
+                {
+                    return true;
+                }
+
+                if (stringBuilder.Length > 1)
+                {
+                    var idx = stringBuilder.Length - 1;
+                    return stringBuilder[idx--] == '$'
+                        && stringBuilder[idx] == '@';
+                }
+
+                return false;
+            }
+
+            private bool IsShouldCall()
+            {
+                if (stringBuilder.Length >= ShouldCallLength)
+                {
+                    var idx = stringBuilder.Length - 1;
+                    return stringBuilder[idx--] == 'd'
+                        && stringBuilder[idx--] == 'l'
+                        && stringBuilder[idx--] == 'u'
+                        && stringBuilder[idx--] == 'o'
+                        && stringBuilder[idx--] == 'h'
+                        && stringBuilder[idx--] == 'S'
+                        && stringBuilder[idx] == '.';
+                }
+
+                return false;
+            }
+
+            public override string ToString() => stringBuilder.ToString();
+
+            public enum Result
+            {
+                InProgress,
+                Retrieved,
+                NoStatement
+            }
         }
     }
 }

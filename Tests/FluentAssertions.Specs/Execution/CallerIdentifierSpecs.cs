@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
 using Xunit.Sdk;
@@ -50,6 +51,220 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("*Expected fooShould to be <null>*");
         }
+
+        [Fact]
+        public void When_variable_is_captured_it_should_use_the_variable_name()
+        {
+            // Arrange
+            string foo = "bar";
+
+            // Act
+            Action act = () => foo.Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
+        }
+
+        [Fact]
+        public void When_variable_is_on_different_line_it_should_use_the_variable_name()
+        {
+            // Arrange
+            string foo = "bar";
+
+            // Act
+            Action act = () =>
+            {
+                foo
+
+                              .Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
+        }
+
+        [Fact]
+        public void When_variable_is_not_captured_it_should_use_the_variable_name()
+        {
+            // Arrange & Act
+            Action act = () =>
+            {
+                string foo = "bar";
+                foo.Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
+        }
+
+        [Fact]
+        public void When_field_is_the_caller_it_should_use_the_field_name()
+        {
+            // Arrange & Act
+            Action act = () =>
+            {
+                var foo = new Foo();
+                foo.Field.Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.Field to be <null>*");
+        }
+
+        [Fact]
+        public void When_property_is_the_caller_it_should_use_the_property_name()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.Bar.Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.Bar to be <null>*");
+        }
+
+        [Fact]
+        public void When_method_name_contains_get_it_should_not_remove_the_prefix()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod().Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod() to be <null>*");
+        }
+
+        [Fact]
+        public void When_method_contains_parameters_it_should_add_them_to_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod("test").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(\"test\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_the_caller_contains_multiple_members_it_should_include_them_all()
+        {
+            // Arrange
+            string test1 = "test1";
+            var foo = new Foo
+            {
+                Field = "test3"
+            };
+
+            // Act
+            Action act = () => foo.GetFoo(test1).GetFooStatic("test" + 2).GetFoo(foo.Field).Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_Should_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod(".Should()").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(\".Should()\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_semicolon_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod("test;").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(\"test;\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_escaped_quote_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod("test\";").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(\"test\\\";\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_at_escaped_quote_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod(@"test"";").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(@\"test\"\";\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_at_and_dollar_escaped_quote_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod(@$"test"";").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(@$\"test\"\";\") to be <null>*");
+        }
+    }
+
+    [SuppressMessage("The name of a C# element does not begin with an upper-case letter", "SA1300")]
+    [SuppressMessage("Parameter is never used", "CA1801")]
+    public class Foo
+    {
+        public string Field = "bar";
+
+        public string Bar { get; } = "bar";
+
+        public string get_BarMethod() => Bar;
+
+        public string get_BarMethod(string prm) => Bar;
+
+        public Foo GetFoo(string prm) => this;
+    }
+
+    [SuppressMessage("Parameter is never used", "CA1801")]
+    public static class Extensions
+    {
+        public static Foo GetFooStatic(this Foo foo, string prm) => foo;
     }
 }
 
