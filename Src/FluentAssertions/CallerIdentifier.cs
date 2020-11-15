@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 
@@ -78,7 +77,7 @@ namespace FluentAssertions
             string caller = null;
             string statement = GetSourceCodeStatementFrom(frame);
 
-            if (statement != null)
+            if (!string.IsNullOrEmpty(statement))
             {
                 logger(statement);
                 if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
@@ -134,15 +133,15 @@ namespace FluentAssertions
                 line = line.Substring(Math.Min(column - 1, line.Length - 1));
             }
 
-            var sb = new StatementBuilder();
-            StatementBuilder.Result state;
+            var sb = new CallerStatementBuilder();
+            CallerStatementBuilder.Result state;
             do
             {
                 state = sb.Append(line);
             }
-            while (state == StatementBuilder.Result.InProgress && (line = reader.ReadLine()) != null);
+            while (state != CallerStatementBuilder.Result.Done && (line = reader.ReadLine()) != null);
 
-            return state == StatementBuilder.Result.Retrieved ? sb.ToString() : null;
+            return sb.ToString();
         }
 
         private static bool UsesNewKeyword(string candidate)
@@ -164,105 +163,6 @@ namespace FluentAssertions
         private static bool IsBooleanLiteral(string candidate)
         {
             return candidate == "true" || candidate == "false";
-        }
-
-        private class StatementBuilder
-        {
-            private const int ShouldCallLength = 7;
-            private readonly StringBuilder stringBuilder = new StringBuilder();
-            private char? previousChar;
-            private char isQuoteEscapeSymbol = '\\';
-            private bool isQuoteContext;
-
-            public Result Append(string symbols)
-            {
-                foreach (char currentChar in symbols)
-                {
-                    if (!char.IsWhiteSpace(currentChar) || isQuoteContext)
-                    {
-                        stringBuilder.Append(currentChar);
-                    }
-
-                    if (currentChar == '"')
-                    {
-                        if (isQuoteContext)
-                        {
-                            if (previousChar != isQuoteEscapeSymbol)
-                            {
-                                isQuoteContext = false;
-                                isQuoteEscapeSymbol = '\\';
-                            }
-                        }
-                        else
-                        {
-                            isQuoteContext = true;
-                            if (IsAtEscaped())
-                            {
-                                isQuoteEscapeSymbol = '"';
-                            }
-                        }
-                    }
-
-                    previousChar = currentChar;
-                    if (!isQuoteContext)
-                    {
-                        if (currentChar == ';')
-                        {
-                            return Result.NoStatement;
-                        }
-                        else if (IsShouldCall())
-                        {
-                            stringBuilder.Remove(stringBuilder.Length - ShouldCallLength, ShouldCallLength);
-                            return Result.Retrieved;
-                        }
-                    }
-                }
-
-                return Result.InProgress;
-            }
-
-            private bool IsAtEscaped()
-            {
-                if (previousChar == '@')
-                {
-                    return true;
-                }
-
-                if (stringBuilder.Length > 1)
-                {
-                    var idx = stringBuilder.Length - 1;
-                    return stringBuilder[idx--] == '$'
-                        && stringBuilder[idx] == '@';
-                }
-
-                return false;
-            }
-
-            private bool IsShouldCall()
-            {
-                if (stringBuilder.Length >= ShouldCallLength)
-                {
-                    var idx = stringBuilder.Length - 1;
-                    return stringBuilder[idx--] == 'd'
-                        && stringBuilder[idx--] == 'l'
-                        && stringBuilder[idx--] == 'u'
-                        && stringBuilder[idx--] == 'o'
-                        && stringBuilder[idx--] == 'h'
-                        && stringBuilder[idx--] == 'S'
-                        && stringBuilder[idx] == '.';
-                }
-
-                return false;
-            }
-
-            public override string ToString() => stringBuilder.ToString();
-
-            public enum Result
-            {
-                InProgress,
-                Retrieved,
-                NoStatement
-            }
         }
     }
 }
