@@ -107,27 +107,5 @@ namespace FluentAssertions.Primitives
         {
             return NotHaveValue(because, becauseArgs);
         }
-
-        /// <summary>
-        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
-        /// </summary>
-        /// <param name="expected">The expected value</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> Be(DateTimeOffset? expected, string because = "",
-            params object[] becauseArgs)
-        {
-            Execute.Assertion
-                .ForCondition(Subject == expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.", expected, Subject);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
     }
 }
