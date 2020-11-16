@@ -1495,6 +1495,7 @@ namespace FluentAssertions.Primitives
         public DateTimeAssertions(System.DateTime? value) { }
         public System.DateTime? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> BeAtLeast(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.DateTime expected, string because = "", params object[] becauseArgs) { }
@@ -1518,6 +1519,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> HaveSecond(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateTime? unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeCloseTo(System.DateTime distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
@@ -1541,6 +1543,7 @@ namespace FluentAssertions.Primitives
         public DateTimeOffsetAssertions(System.DateTimeOffset? value) { }
         public System.DateTimeOffset? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> BeAtLeast(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
@@ -1564,6 +1567,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> HaveSecond(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateTimeOffset? unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeCloseTo(System.DateTimeOffset distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
@@ -1646,7 +1650,6 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<TAssertions>
     {
         public NullableDateTimeAssertions(System.DateTime? expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1660,7 +1663,6 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeOffsetAssertions<TAssertions>
     {
         public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
