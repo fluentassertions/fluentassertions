@@ -56,10 +56,10 @@ namespace FluentAssertions.Specs
         public void Enumerating_works_with_enumerable_func()
         {
             // Arrange
-            var testee = new Example();
+            var actual = new Example();
 
             // Act / Assert
-            testee.Enumerating(x => x.DoSomething()).Should().Throw<InvalidOperationException>();
+            actual.Enumerating(x => x.DoSomething()).Should().Throw<InvalidOperationException>();
         }
 
         private class Example

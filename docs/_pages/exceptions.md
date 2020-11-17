@@ -83,6 +83,12 @@ func.Enumerating().Should().Throw<ArgumentException>();
 
 You do have to use the `Func<T>` type instead of `Action<T>` then.
 
+Or you can do it like this:
+
+```csharp
+obj.Enumerating(x => x.SomeMethodThatUsesYield("blah")).Should().Throw<ArgumentException>();
+```
+
 The exception throwing API follows the same rules as the `try`...`catch`...construction does.
 In other words, if you're expecting a certain exception to be (not) thrown, and a more specific exception is thrown instead, it would still satisfy the assertion.
 So throwing an `ApplicationException` when an `Exception` was expected will not fail the assertion.
