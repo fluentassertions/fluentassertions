@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using static FluentAssertions.FluentActions;
@@ -49,6 +50,36 @@ namespace FluentAssertions.Specs
         {
             // Arrange / Act / Assert
             Enumerating(() => ThrowsAfterFirst(0)).Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Enumerating_works_with_enumerable_func()
+        {
+            // Arrange
+            var actual = new Example();
+
+            // Act / Assert
+            actual.Enumerating(x => x.DoSomething()).Should().Throw<InvalidOperationException>();
+        }
+
+        private class Example
+        {
+            public IEnumerable<int> DoSomething()
+            {
+                var range = Enumerable.Range(0, 10);
+
+                return range.Select(Twice);
+            }
+
+            private int Twice(int arg)
+            {
+                if (arg == 5)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return 2 * arg;
+            }
         }
 
         private static void Throws()

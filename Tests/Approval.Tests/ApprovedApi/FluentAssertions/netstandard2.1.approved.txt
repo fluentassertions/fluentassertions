@@ -28,6 +28,7 @@ namespace FluentAssertions
         public static System.Func<System.Threading.Tasks.Task<TResult>> Awaiting<T, TResult>(this T subject, System.Func<T, System.Threading.Tasks.ValueTask<TResult>> action) { }
         public static System.Action Enumerating(this System.Func<System.Collections.IEnumerable> enumerable) { }
         public static System.Action Enumerating<T>(this System.Func<System.Collections.Generic.IEnumerable<T>> enumerable) { }
+        public static System.Action Enumerating<T, TResult>(this T subject, System.Func<T, System.Collections.Generic.IEnumerable<TResult>> enumerable) { }
         public static FluentAssertions.Specialized.ExecutionTime ExecutionTime(this System.Action action) { }
         public static FluentAssertions.Specialized.ExecutionTime ExecutionTime(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action) { }
