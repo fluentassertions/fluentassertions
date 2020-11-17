@@ -209,6 +209,8 @@ namespace FluentAssertions
         /// Forces enumerating a collection of the provided <paramref name="subject"/>.
         /// Should be used to assert that a method that uses the <c>yield</c> keyword throws a particular exception.
         /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="enumerable">A reference to the method or property to force enumeration of.</param>
         public static Action Enumerating<T, TResult>(this T subject, Func<T, IEnumerable<TResult>> enumerable)
         {
             return () => ForceEnumeration(subject, enumerable);
