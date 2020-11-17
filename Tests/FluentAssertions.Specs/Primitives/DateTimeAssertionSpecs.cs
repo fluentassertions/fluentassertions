@@ -140,11 +140,11 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_datetime_value_is_equal_to_the_same_nullable_value()
+        public void When_datetime_value_is_equal_to_the_same_nullable_value_be_should_succeed()
         {
             // Arrange
-            DateTime dateTime = new DateTime(2016, 06, 04);
-            DateTime? sameDateTime = new DateTime(2016, 06, 04);
+            DateTime dateTime = 4.June(2016);
+            DateTime? sameDateTime = 4.June(2016);
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -197,11 +197,11 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_fail_when_asserting_datetime_value_is_equal_to_the_different_nullable_value()
+        public void When_datetime_value_is_equal_to_the_different_nullable_value_be_should_failed()
         {
             // Arrange
-            DateTime dateTime = new DateTime(2012, 03, 10);
-            DateTime? otherDateTime = new DateTime(2012, 03, 11);
+            DateTime dateTime = 10.March(2012);
+            DateTime? otherDateTime = 11.March(2012);
 
             // Act
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
@@ -226,11 +226,11 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_datetime_value_is_not_equal_to_a_different_nullable_value()
+        public void When_datetime_value_is_not_equal_to_a_different_nullable_value_notbe_should_succeed()
         {
             // Arrange
-            DateTime dateTime = new DateTime(2016, 06, 04);
-            DateTime? otherDateTime = new DateTime(2016, 06, 05);
+            DateTime dateTime = 4.June(2016);
+            DateTime? otherDateTime = 5.June(2016);
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -256,7 +256,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_fail_when_asserting_datetime_value_is_not_equal_to_the_same_nullable_value()
+        public void When_datetime_value_is_not_equal_to_the_same_nullable_value_notbe_should_failed()
         {
             // Arrange
             DateTime dateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Local);

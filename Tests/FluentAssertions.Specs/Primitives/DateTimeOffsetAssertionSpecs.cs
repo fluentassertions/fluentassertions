@@ -141,11 +141,11 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_datetimeoffset_value_is_equal_to_the_same_nullable_value()
+        public void When_datetimeoffset_value_is_equal_to_the_same_nullable_value_be_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset? sameDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset dateTime = 4.June(2016);
+            DateTimeOffset? sameDateTime = 4.June(2016);
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -198,7 +198,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_fail_when_asserting_datetimeoffset_value_is_equal_to_the_different_nullable_value()
+        public void When_datetimeoffset_value_is_equal_to_the_different_nullable_value_be_should_failed()
         {
             // Arrange
             DateTimeOffset dateTime = 10.March(2012).WithOffset(1.Hours());
@@ -227,11 +227,11 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_datetimeoffset_value_is_not_equal_to_a_nullable_different_value()
+        public void When_datetimeoffset_value_is_not_equal_to_a_nullable_different_value_notbe_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset? otherDateTime = new DateTime(2016, 06, 05);
+            DateTimeOffset dateTime = 4.June(2016);
+            DateTimeOffset? otherDateTime = 5.June(2016);
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -257,7 +257,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void Should_fail_when_asserting_datetimeoffset_value_is_not_equal_to_the_same_nullable_value()
+        public void When_datetimeoffset_value_is_not_equal_to_the_same_nullable_value_notbe_should_failed()
         {
             // Arrange
             DateTimeOffset dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
