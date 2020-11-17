@@ -79,9 +79,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> Be(DateTime? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(
-                    (!Subject.HasValue && !expected.HasValue) ||
-                    (Subject.HasValue && expected.HasValue && (Subject.Value == expected)))
+                .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
                     expected, Subject ?? default(DateTime?));

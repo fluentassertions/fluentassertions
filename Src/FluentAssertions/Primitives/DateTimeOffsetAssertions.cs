@@ -82,9 +82,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(
-                    (!Subject.HasValue && !expected.HasValue) ||
-                    (Subject.HasValue && expected.HasValue && (Subject.Value == expected)))
+                .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
                     expected, Subject ?? default(DateTimeOffset?));
