@@ -141,6 +141,20 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetimeoffset_value_is_equal_to_the_same_nullable_value_be_should_succeed()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 4.June(2016);
+            DateTimeOffset? sameDateTime = 4.June(2016);
+
+            // Act
+            Action act = () => dateTime.Should().Be(sameDateTime);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_both_values_are_at_their_minimum_then_it_should_succeed()
         {
             // Arrange
@@ -184,6 +198,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetimeoffset_value_is_equal_to_the_different_nullable_value_be_should_failed()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 10.March(2012).WithOffset(1.Hours());
+            DateTimeOffset? otherDateTime = 11.March(2012).WithOffset(1.Hours());
+
+            // Act
+            Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dateTime to be <2012-03-11 +1h>*failure message, but it was <2012-03-10 +1h>.");
+        }
+
+        [Fact]
         public void Should_succeed_when_asserting_datetimeoffset_value_is_not_equal_to_a_different_value()
         {
             // Arrange
@@ -198,11 +227,41 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetimeoffset_value_is_not_equal_to_a_nullable_different_value_notbe_should_succeed()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 4.June(2016);
+            DateTimeOffset? otherDateTime = 5.June(2016);
+
+            // Act
+            Action act = () => dateTime.Should().NotBe(otherDateTime);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void Should_fail_when_asserting_datetimeoffset_value_is_not_equal_to_the_same_value()
         {
             // Arrange
             var dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
             var sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+
+            // Act
+            Action act =
+                () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect dateTime to be <2012-03-10 +1h> because we want to test the failure message, but it was.");
+        }
+
+        [Fact]
+        public void When_datetimeoffset_value_is_not_equal_to_the_same_nullable_value_notbe_should_failed()
+        {
+            // Arrange
+            DateTimeOffset dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            DateTimeOffset? sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
 
             // Act
             Action act =
