@@ -67,25 +67,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_variable_is_on_different_line_it_should_use_the_variable_name()
-        {
-            // Arrange
-            string foo = "bar";
-
-            // Act
-            Action act = () =>
-            {
-                foo
-
-                              .Should().BeNull();
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
-        }
-
-        [Fact]
         public void When_variable_is_not_captured_it_should_use_the_variable_name()
         {
             // Arrange & Act
@@ -204,6 +185,25 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        [SuppressMessage("Code should not contain multiple statements on one line", "SA1107")]
+        [SuppressMessage("Code should not contain multiple statements on one line", "IDE0055")]
+        public void When_there_are_several_statements_on_the_line_it_should_use_the_correct_statement()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () =>
+            {
+                var foo2 = foo; foo2.Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo2 to be <null>*");
+        }
+
+        [Fact]
         public void When_parameters_contain_escaped_quote_it_should_include_that_to_the_caller()
         {
             // Arrange
@@ -243,6 +243,82 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("*Expected foo.get_BarMethod(@$\"test\"\";\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_parameters_contain_comments_it_should_include_them_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.get_BarMethod("test//test2/*test3*/").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo.get_BarMethod(\"test//test2/*test3*/\") to be <null>*");
+        }
+
+        [Fact]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        public void When_the_caller_contains_single_line_comment_it_should_ignore_that()
+        {
+            // Arrange
+            string foo = "bar";
+
+            // Act
+            Action act = () =>
+            {
+                foo
+                    // some important comment
+                    .Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
+        }
+
+        [Fact]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        public void When_the_caller_contains_multi_line_comment_it_should_ignore_that()
+        {
+            // Arrange
+            string foo = "bar";
+
+            // Act
+            Action act = () =>
+            {
+                foo
+                    /*
+                     * some important comment
+                     */
+                    .Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
+        }
+
+        [Fact]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        public void When_the_caller_contains_several_comments_it_should_ignore_them()
+        {
+            // Arrange
+            string foo = "bar";
+
+            // Act
+            Action act = () =>
+            {
+                foo
+                    // some important comment
+                    /* another one */.Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected foo to be <null>*");
         }
     }
 

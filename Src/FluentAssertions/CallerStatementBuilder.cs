@@ -14,6 +14,8 @@ namespace FluentAssertions
             handlers = new IHandler[]
             {
                 new QuotesHandler(statement),
+                new SingleLineCommentHandler(),
+                new MultiLineCommentHandler(statement),
                 new SemicolonHandler(statement),
                 new ShouldCallHandler(statement),
                 new AddNonEmptySymbolHandler(statement)
@@ -106,6 +108,62 @@ namespace FluentAssertions
                 }
 
                 return false;
+            }
+        }
+
+        private class SingleLineCommentHandler : IHandler
+        {
+            private char? previousChar;
+            private bool isCommentContext;
+
+            public Result Handle(char symbol)
+            {
+                if (!isCommentContext)
+                {
+                    if (symbol == '/' && previousChar == '/')
+                    {
+                        isCommentContext = true;
+                    }
+                }
+                else if (symbol == '\n')
+                {
+                    isCommentContext = false;
+                }
+
+                previousChar = symbol;
+                return isCommentContext ? Result.Handled : Result.InProgress;
+            }
+        }
+
+        private class MultiLineCommentHandler : IHandler
+        {
+            private readonly StringBuilder statement;
+            private char? previousChar;
+            private bool isCommentContext;
+
+            public MultiLineCommentHandler(StringBuilder statement) => this.statement = statement;
+
+            public Result Handle(char symbol)
+            {
+                var result = Result.InProgress;
+
+                if (isCommentContext)
+                {
+                    result = Result.Handled;
+                    if (symbol == '/' && previousChar == '*')
+                    {
+                        isCommentContext = false;
+                    }
+                }
+                else if (symbol == '*' && previousChar == '/')
+                {
+                    result = Result.Handled;
+                    statement.Remove(statement.Length - 1, 1);
+                    isCommentContext = true;
+                }
+
+                previousChar = symbol;
+                return result;
             }
         }
 
