@@ -68,6 +68,29 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTimeOffset"/> is exactly equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> Be(DateTimeOffset? expected, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject == expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
+                    expected, Subject ?? default(DateTimeOffset?));
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTimeOffset"/> is not equal to the <paramref name="unexpected"/> value.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
@@ -83,6 +106,29 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTimeOffset"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBe(DateTimeOffset? unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition((!Subject.HasValue == unexpected.HasValue) ||
+                (Subject.HasValue && unexpected.HasValue && Subject.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
 

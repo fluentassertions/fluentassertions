@@ -140,6 +140,20 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetime_value_is_equal_to_the_same_nullable_value_be_should_succeed()
+        {
+            // Arrange
+            DateTime dateTime = 4.June(2016);
+            DateTime? sameDateTime = 4.June(2016);
+
+            // Act
+            Action act = () => dateTime.Should().Be(sameDateTime);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_both_values_are_at_their_minimum_then_it_should_succeed()
         {
             // Arrange
@@ -183,6 +197,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetime_value_is_equal_to_the_different_nullable_value_be_should_failed()
+        {
+            // Arrange
+            DateTime dateTime = 10.March(2012);
+            DateTime? otherDateTime = 11.March(2012);
+
+            // Act
+            Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dateTime to be <2012-03-11>*failure message, but found <2012-03-10>.");
+        }
+
+        [Fact]
         public void Should_succeed_when_asserting_datetime_value_is_not_equal_to_a_different_value()
         {
             // Arrange
@@ -197,11 +226,41 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_datetime_value_is_not_equal_to_a_different_nullable_value_notbe_should_succeed()
+        {
+            // Arrange
+            DateTime dateTime = 4.June(2016);
+            DateTime? otherDateTime = 5.June(2016);
+
+            // Act
+            Action act = () => dateTime.Should().NotBe(otherDateTime);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void Should_fail_when_asserting_datetime_value_is_not_equal_to_the_same_value()
         {
             // Arrange
             var dateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Local);
             var sameDateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Utc);
+
+            // Act
+            Action act =
+                () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dateTime not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
+        }
+
+        [Fact]
+        public void When_datetime_value_is_not_equal_to_the_same_nullable_value_notbe_should_failed()
+        {
+            // Arrange
+            DateTime dateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Local);
+            DateTime? sameDateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Utc);
 
             // Act
             Action act =
@@ -299,7 +358,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected <2016-06-04> because we want to test the failure message, but found <null>.");
+                .WithMessage("Expected nullableDateTime to be <2016-06-04> because we want to test the failure message, but found <null>.");
         }
 
         #endregion
