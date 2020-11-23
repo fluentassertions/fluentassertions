@@ -315,32 +315,19 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
-            if (regularExpression.Length == 0)
-            {
-                throw new ArgumentException("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.", nameof(regularExpression));
-            }
-
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                .ForCondition(Regex.IsMatch(Subject, regularExpression))
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
-                Execute.Assertion
-                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
+                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                    regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return MatchRegex(regex, because, becauseArgs);
         }
 
         /// <summary>
@@ -372,19 +359,11 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
 
-            try
-            {
-                Execute.Assertion
+            Execute.Assertion
                 .ForCondition(regularExpression.IsMatch(Subject))
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
-            }
-            catch (ArgumentException)
-            {
-                Execute.Assertion
-                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regexStr);
-            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -406,32 +385,19 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
 
-            if (regularExpression.Length == 0)
-            {
-                throw new ArgumentException("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.", nameof(regularExpression));
-            }
-
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                    .ForCondition(!Regex.IsMatch(Subject, regularExpression))
-                    .BecauseOf(because, becauseArgs)
-                    .UsingLineBreaks
-                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return NotMatchRegex(regex, because, becauseArgs);
         }
 
         /// <summary>
@@ -463,19 +429,11 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
 
-            try
-            {
-                Execute.Assertion
-                    .ForCondition(!regularExpression.IsMatch(Subject))
-                    .BecauseOf(because, becauseArgs)
-                    .UsingLineBreaks
-                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
-            }
-            catch (ArgumentException)
-            {
-                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
-                    regexStr);
-            }
+            Execute.Assertion
+                .ForCondition(!regularExpression.IsMatch(Subject))
+                .BecauseOf(because, becauseArgs)
+                .UsingLineBreaks
+                .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
