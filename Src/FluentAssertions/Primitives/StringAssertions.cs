@@ -344,6 +344,52 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string matches a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.", nameof(regularExpression));
+            }
+
+            Execute.Assertion
+                .ForCondition(!(Subject is null))
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
+
+            try
+            {
+                Execute.Assertion
+                .ForCondition(regularExpression.IsMatch(Subject))
+                .BecauseOf(because, becauseArgs)
+                .UsingLineBreaks
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
+            }
+            catch (ArgumentException)
+            {
+                Execute.Assertion
+                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regexStr);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that a string does not match a regular expression.
         /// </summary>
         /// <param name="regularExpression">
@@ -383,6 +429,52 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotMatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.", nameof(regularExpression));
+            }
+
+            Execute.Assertion
+                .ForCondition(!(Subject is null))
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
+
+            try
+            {
+                Execute.Assertion
+                    .ForCondition(!regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
+            }
+            catch (ArgumentException)
+            {
+                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                    regexStr);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
