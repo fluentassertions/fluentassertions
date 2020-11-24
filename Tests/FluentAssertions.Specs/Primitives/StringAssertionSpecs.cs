@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -625,7 +626,7 @@ namespace FluentAssertions.Specs
         #region Match Regex
 
         [Fact]
-        public void When_a_string_matches_a_regular_expression_it_should_not_throw()
+        public void When_a_string_matches_a_regular_expression_string_it_should_not_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -640,7 +641,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
+        public void When_a_string_does_not_match_a_regular_expression_string_it_should_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -654,7 +655,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_null_string_is_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_null_string_is_matched_against_a_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = null;
@@ -668,13 +669,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_a_null_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
 
             // Act
-            Action act = () => subject.Should().MatchRegex(null);
+            Action act = () => subject.Should().MatchRegex((string)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -683,7 +684,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_an_invalid_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
@@ -698,7 +699,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_invalid_regex_it_should_only_have_one_failure_message()
+        public void When_a_string_is_matched_against_an_invalid_regex_string_it_should_only_have_one_failure_message()
         {
             // Arrange
             string subject = "hello world!";
@@ -718,7 +719,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_an_empty_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
@@ -732,12 +733,85 @@ namespace FluentAssertions.Specs
                 .And.ParamName.Should().Be("regularExpression");
         }
 
+        [Fact]
+        public void When_a_string_matches_a_regular_expression_it_should_not_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            // ReSharper disable once StringLiteralTypo
+            Action act = () => subject.Should().MatchRegex(new Regex("h.*\\sworld.$"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex("h.*\\sworld?$"), "that's the universal greeting");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+              .WithMessage("Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
+        }
+
+        [Fact]
+        public void When_a_null_string_is_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = null;
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex(".*"), "because it should be a string");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+             .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex((Regex)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
+               .And.ParamName.Should().Be("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex(string.Empty));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
+                .And.ParamName.Should().Be("regularExpression");
+        }
+
         #endregion
 
         #region Not Match Regex
 
         [Fact]
-        public void When_a_string_does_not_match_a_regular_expression_and_it_shouldnt_it_should_not_throw()
+        public void When_a_string_does_not_match_a_regular_expression_string_and_it_shouldnt_it_should_not_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -750,7 +824,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_matches_a_regular_expression_but_it_shouldnt_it_should_throw()
+        public void When_a_string_matches_a_regular_expression_string_but_it_shouldnt_it_should_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -764,7 +838,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_null_string_is_negatively_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_null_string_is_negatively_matched_against_a_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = null;
@@ -778,13 +852,13 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_a_null_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
 
             // Act
-            Action act = () => subject.Should().NotMatchRegex(null);
+            Action act = () => subject.Should().NotMatchRegex((string)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -793,7 +867,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_an_invalid_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
@@ -808,7 +882,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_only_contain_one_failure_message()
+        public void When_a_string_is_negatively_matched_against_an_invalid_regex_string_it_only_contain_one_failure_message()
         {
             // Arrange
             string subject = "hello world!";
@@ -828,13 +902,84 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_an_empty_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
 
             // Act
             Action act = () => subject.Should().NotMatchRegex(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
+                .And.ParamName.Should().Be("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_does_not_match_a_regular_expression_and_it_shouldnt_it_should_not_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(".*earth.*"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_string_matches_a_regular_expression_but_it_shouldnt_it_should_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(".*world.*"), "because that's illegal");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+              .WithMessage("Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
+        }
+
+        [Fact]
+        public void When_a_null_string_is_negatively_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(".*"), "because it should not be a string");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+             .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex((Regex)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
+               .And.ParamName.Should().Be("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(string.Empty));
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()

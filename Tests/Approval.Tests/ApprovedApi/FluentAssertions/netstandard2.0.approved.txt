@@ -1740,6 +1740,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
@@ -1758,6 +1759,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs) { }
