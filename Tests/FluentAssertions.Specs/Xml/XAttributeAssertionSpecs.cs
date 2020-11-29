@@ -28,19 +28,16 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var attribute = new XAttribute("name", "value");
-            var otherXAttribute = new XAttribute("name2", "value");
+            var theAttribute = new XAttribute("name", "value");
+            var otherAttribute = new XAttribute("name2", "value");
 
             // Act
             Action act = () =>
-                attribute.Should().Be(otherXAttribute, "because we want to test the failure {0}", "message");
+                theAttribute.Should().Be(otherAttribute, "because we want to test the failure {0}", "message");
 
             // Assert
-            string expectedMessage = string.Format("Expected XML attribute to be {0}" +
-                " because we want to test the failure message," +
-                    " but found {1}.", otherXAttribute, attribute);
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                $"Expected theAttribute to be {otherAttribute} because we want to test the failure message, but found {theAttribute}.");
         }
 
         [Fact]
@@ -62,33 +59,32 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw()
         {
             // Arrange
-            var attribute = new XAttribute("name", "value");
-            var sameXAttribute = attribute;
+            var theAttribute = new XAttribute("name", "value");
+            var sameXAttribute = theAttribute;
 
             // Act
             Action act = () =>
-                attribute.Should().NotBe(sameXAttribute);
+                theAttribute.Should().NotBe(sameXAttribute);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theAttribute to be name=\"value\".");
         }
 
         [Fact]
         public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var attribute = new XAttribute("name", "value");
-            var sameXAttribute = attribute;
+            var theAttribute = new XAttribute("name", "value");
+            var sameAttribute = theAttribute;
 
             // Act
             Action act = () =>
-                attribute.Should().NotBe(sameXAttribute, "because we want to test the failure {0}", "message");
+                theAttribute.Should().NotBe(sameAttribute, "because we want to test the failure {0}", "message");
 
             // Assert
-            string expectedMessage = string.Format("Did not expect XML attribute to be {0}" +
-                " because we want to test the failure message.", sameXAttribute);
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                $"Did not expect theAttribute to be {sameAttribute} because we want to test the failure message.");
         }
 
         #endregion
@@ -113,29 +109,30 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_non_null_xml_attribute_is_null_it_should_fail()
         {
             // Arrange
-            var attribute = new XAttribute("name", "value");
+            var theAttribute = new XAttribute("name", "value");
 
             // Act
             Action act = () =>
-                attribute.Should().BeNull();
+                theAttribute.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theAttribute to be <null>, but found name=\"value\".");
         }
 
         [Fact]
         public void When_asserting_a_non_null_xml_attribute_is_null_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var attribute = new XAttribute("name", "value");
+            var theAttribute = new XAttribute("name", "value");
 
             // Act
             Action act = () =>
-                attribute.Should().BeNull("because we want to test the failure {0}", "message");
+                theAttribute.Should().BeNull("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                $"Expected attribute to be <null> because we want to test the failure message, but found {attribute}.");
+                $"Expected theAttribute to be <null> because we want to test the failure message, but found {theAttribute}.");
         }
 
         [Fact]
@@ -156,29 +153,30 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_null_xml_attribute_is_not_null_it_should_fail()
         {
             // Arrange
-            XAttribute attribute = null;
+            XAttribute theAttribute = null;
 
             // Act
             Action act = () =>
-                attribute.Should().NotBeNull();
+                theAttribute.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theAttribute not to be <null>.");
         }
 
         [Fact]
         public void When_asserting_a_null_xml_attribute_is_not_null_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            XAttribute attribute = null;
+            XAttribute theAttribute = null;
 
             // Act
             Action act = () =>
-                attribute.Should().NotBeNull("because we want to test the failure {0}", "message");
+                theAttribute.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected attribute not to be <null> because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theAttribute not to be <null> because we want to test the failure message.");
         }
 
         #endregion
@@ -203,31 +201,30 @@ namespace FluentAssertions.Specs
         public void When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw()
         {
             // Arrange
-            var attribute = new XAttribute("age", "36");
+            var theAttribute = new XAttribute("age", "36");
 
             // Act
             Action act = () =>
-                attribute.Should().HaveValue("16");
+                theAttribute.Should().HaveValue("16");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theAttribute \"age\" to have value \"16\", but found \"36\".");
         }
 
         [Fact]
         public void When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var attribute = new XAttribute("age", "36");
+            var theAttribute = new XAttribute("age", "36");
 
             // Act
             Action act = () =>
-                attribute.Should().HaveValue("16", "because we want to test the failure {0}", "message");
+                theAttribute.Should().HaveValue("16", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML attribute 'age' to have value \"16\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"36\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theAttribute \"age\" to have value \"16\" because we want to test the failure message, but found \"36\".");
         }
 
         #endregion

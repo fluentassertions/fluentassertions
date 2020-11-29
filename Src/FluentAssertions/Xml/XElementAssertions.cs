@@ -40,7 +40,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(XNode.DeepEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -63,7 +63,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((Subject is null && !(unexpected is null)) || !XNode.DeepEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
+                .FailWith("Expected {context:subject} not to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -81,7 +81,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because = "",
+            params object[] becauseArgs)
         {
             using (XmlReader subjectReader = Subject.CreateReader())
             using (XmlReader expectedReader = expected.CreateReader())
@@ -106,7 +107,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because = "",
+            params object[] becauseArgs)
         {
             using (XmlReader subjectReader = Subject.CreateReader())
             using (XmlReader otherReader = unexpected.CreateReader())
@@ -134,7 +136,8 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element '{0}' to have value {1}{reason}, but found {2}.",
+                .FailWith(
+                    "Expected {context:subject} '{0}' to have value {1}{reason}, but found {2}.",
                     Subject.Name, expected, Subject.Value);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -176,20 +179,22 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             XAttribute attribute = Subject.Attribute(expectedName);
-            string expectedText = expectedName.ToString().EscapePlaceholders();
+            string expectedText = expectedName.ToString();
 
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected XML element to have attribute \"" + expectedText + "\" with value {0}{reason}, but found no such attribute in {1}",
-                    expectedValue, Subject);
+                    "Expected {context:subject} to have attribute {0} with value {1}{reason},"
+                    + " but found no such attribute in {2}",
+                    expectedText, expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected XML attribute \"" + expectedText + "\" to have value {0}{reason}, but found {1}.", expectedValue, attribute.Value);
+                    "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
+                    expectedText, expectedValue, attribute.Value);
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -206,7 +211,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "",
+            params object[] becauseArgs)
         {
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
         }
@@ -223,14 +229,16 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "",
+            params object[] becauseArgs)
         {
             XElement xElement = Subject.Element(expected);
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().EscapePlaceholders() + "\"{reason}" +
-                        ", but no such child element was found.", Subject);
+                .FailWith(
+                    "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
+                    expected.ToString().EscapePlaceholders());
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
         }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Xml.Linq;
-
-using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
@@ -15,12 +13,12 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_element_is_equal_to_the_same_xml_element_it_should_succeed()
         {
             // Arrange
-            var element = new XElement("element");
+            var theElement = new XElement("element");
             var sameElement = new XElement("element");
 
             // Act
             Action act = () =>
-                element.Should().Be(sameElement);
+                theElement.Should().Be(sameElement);
 
             // Assert
             act.Should().NotThrow();
@@ -30,51 +28,52 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_element_is_equal_to_a_different_xml_element_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = new XElement("element");
+            var theElement = new XElement("element");
             var otherElement = new XElement("other");
 
             // Act
             Action act = () =>
-                element.Should().Be(otherElement, "because we want to test the failure {0}", "message");
+                theElement.Should().Be(otherElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to be*other*because we want to test the failure message, but found *element*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to be*other*because we want to test the failure message, but found *element*");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_equal_to_an_xml_element_with_a_deep_difference_it_should_fail()
         {
             // Arrange
+            var theElement =
+                new XElement("parent",
+                    new XElement("child",
+                        new XElement("grandChild2")));
             var expected =
                 new XElement("parent",
                     new XElement("child",
                         new XElement("grandChild")));
-            var actual =
-                new XElement("parent",
-                    new XElement("child",
-                        new XElement("grandChild2")));
 
             // Act
-            Action act = () => actual.Should().Be(expected);
+            Action act = () => theElement.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to be <parent>…</parent>, but found <parent>…</parent>.");
         }
 
         [Fact]
         public void When_asserting_the_equality_of_an_xml_element_but_is_null_it_should_throw_appropriately()
         {
             // Arrange
-            XElement actual = null;
+            XElement theElement = null;
             var expected = new XElement("other");
 
             // Act
-            Action act = () => actual.Should().Be(expected);
+            Action act = () => theElement.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to be*other*, but found <null>.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to be*other*, but found <null>.");
         }
 
         [Fact]
@@ -116,32 +115,32 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_fail()
         {
             // Arrange
-            var element = new XElement("element");
-            var sameElement = element;
+            var theElement = new XElement("element");
+            var sameElement = theElement;
 
             // Act
             Action act = () =>
-                element.Should().NotBe(sameElement);
+                theElement.Should().NotBe(sameElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement not to be <element />.");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = new XElement("element");
-            var sameElement = element;
+            var theElement = new XElement("element");
+            var sameElement = theElement;
 
             // Act
             Action act = () =>
-                element.Should().NotBe(sameElement, "because we want to test the failure {0}", "message");
+                theElement.Should().NotBe(sameElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element not to be <element />" +
-                    " because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement not to be <element /> because we want to test the failure message.");
         }
 
         [Fact]
@@ -180,30 +179,30 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_element_is_null_but_it_is_not_it_should_fail()
         {
             // Arrange
-            var element = new XElement("element");
+            var theElement = new XElement("element");
 
             // Act
             Action act = () =>
-                element.Should().BeNull();
+                theElement.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to be <null>, but found <element />.");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_null_but_it_is_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = new XElement("element");
+            var theElement = new XElement("element");
 
             // Act
             Action act = () =>
-                element.Should().BeNull("because we want to test the failure {0}", "message");
+                theElement.Should().BeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected element to be <null> because we want to test the failure message, but found <element />.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to be <null> because we want to test the failure message, but found <element />.");
         }
 
         [Fact]
@@ -224,29 +223,29 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_null_xml_element_is_not_null_it_should_fail()
         {
             // Arrange
-            XElement element = null;
+            XElement theElement = null;
 
             // Act
             Action act = () =>
-                element.Should().NotBeNull();
+                theElement.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage("Expected theElement not to be <null>.");
         }
 
         [Fact]
         public void When_asserting_a_null_xml_element_is_not_null_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            XElement element = null;
+            XElement theElement = null;
 
             // Act
             Action act = () =>
-                element.Should().NotBeNull("because we want to test the failure {0}", "message");
+                theElement.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected element not to be <null> because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement not to be <null> because we want to test the failure message.");
         }
 
         #endregion
@@ -286,42 +285,30 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_an_empty_xml_element_is_equivalent_to_a_different_selfclosing_xml_element_it_should_succeed()
         {
-            //-------------------------------------------------------------------------------------------------------------------
             // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
             var element = XElement.Parse("<parent><child></child></parent>");
             var otherElement = XElement.Parse("<parent><child /></parent>");
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Act
-            //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 element.Should().BeEquivalentTo(otherElement);
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Assert
-            //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
         [Fact]
         public void When_asserting_a_selfclosing_xml_element_is_equivalent_to_a_different_empty_xml_element_it_should_succeed()
         {
-            //-------------------------------------------------------------------------------------------------------------------
             // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
             var element = XElement.Parse("<parent><child /></parent>");
             var otherElement = XElement.Parse("<parent><child></child></parent>");
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Act
-            //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 element.Should().BeEquivalentTo(otherElement);
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Assert
-            //-------------------------------------------------------------------------------------------------------------------
             act.Should().NotThrow();
         }
 
@@ -329,83 +316,80 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_xml_element_is_equivalent_to_a_xml_element_with_elements_missing_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /><child2 /></parent>");
+            var theElement = XElement.Parse("<parent><child /><child2 /></parent>");
             var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().BeEquivalentTo(otherXElement);
+                theElement.Should().BeEquivalentTo(otherXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected EndElement \"parent\" in theElement at \"/parent\", but found Element \"child2\".");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_with_extra_elements_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /></parent>");
+            var theElement = XElement.Parse("<parent><child /></parent>");
             var otherXElement = XElement.Parse("<parent><child /><child2 /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().BeEquivalentTo(otherXElement);
+                theElement.Should().BeEquivalentTo(otherXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected Element \"child2\" in theElement at \"/parent\", but found EndElement \"parent\".");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_elements_missing_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /><child2 /></parent>");
+            var theElement = XElement.Parse("<parent><child /><child2 /></parent>");
             var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected node of type EndElement at \"/parent\" because we want to test the failure message, but found Element.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected EndElement \"parent\" in theElement at \"/parent\" because we want to test the failure message, but found Element \"child2\".");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_with_extra_elements_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /></parent>");
+            var theElement = XElement.Parse("<parent><child /></parent>");
             var otherXElement = XElement.Parse("<parent><child /><child2 /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected node of type Element at \"/parent\" because we want to test the failure message, but found EndElement.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected Element \"child2\" in theElement at \"/parent\" because we want to test the failure message, but found EndElement \"parent\".");
         }
 
         [Fact]
         public void When_asserting_an_empty_xml_element_is_equivalent_to_a_different_xml_element_with_text_content_it_should_fail()
         {
-            //-------------------------------------------------------------------------------------------------------------------
             // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            var element = XElement.Parse("<parent><child /></parent>");
+            var theElement = XElement.Parse("<parent><child /></parent>");
             var otherXElement = XElement.Parse("<parent><child>text</child></parent>");
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Act
-            //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
 
-            //-------------------------------------------------------------------------------------------------------------------
             // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected content \"text\" in theElement at \"/parent\" because we want to test the failure message, but found EndElement \"parent\".");
         }
 
         [Fact]
@@ -442,96 +426,101 @@ namespace FluentAssertions.Specs
         public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_structure_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /></parent>");
+            var theElement = XElement.Parse("<parent><child /></parent>");
             var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(otherXElement);
+                theElement.Should().NotBeEquivalentTo(otherXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent, but it is.");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_different_ns_prefixes_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<parent xmlns:ns1=""a""><ns1:child /></parent>");
+            var theElement = XElement.Parse(@"<parent xmlns:ns1=""a""><ns1:child /></parent>");
             var otherXElement = XElement.Parse(@"<parent xmlns:ns2=""a""><ns2:child /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(otherXElement);
+                theElement.Should().NotBeEquivalentTo(otherXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent, but it is.");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_extra_unused_xmlns_declaration_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<xml xmlns:ns1=""a"" />");
+            var theElement = XElement.Parse(@"<xml xmlns:ns1=""a"" />");
             var otherXElement = XElement.Parse("<xml />");
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(otherXElement);
+                theElement.Should().NotBeEquivalentTo(otherXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent, but it is.");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_not_equivalent_to_the_same_xml_element_it_should_fail()
         {
             // Arrange
-            var element = new XElement("element");
-            var sameXElement = element;
+            var theElement = new XElement("element");
+            var sameXElement = theElement;
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(sameXElement);
+                theElement.Should().NotBeEquivalentTo(sameXElement);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent, but it is.");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_structure_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /></parent>");
+            var theElement = XElement.Parse("<parent><child /></parent>");
             var otherXElement = XElement.Parse("<parent><child /></parent>");
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
+                theElement.Should().NotBeEquivalentTo(otherXElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent because we want to test the failure message, but it is.");
         }
 
         [Fact]
         public void When_asserting_a_xml_element_is_not_equivalent_to_the_same_xml_element_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse("<parent><child /></parent>");
-            var sameXElement = element;
+            var theElement = XElement.Parse("<parent><child /></parent>");
+            var sameXElement = theElement;
 
             // Act
             Action act = () =>
-                element.Should().NotBeEquivalentTo(sameXElement, "because we want to test the failure {0}", "message");
+                theElement.Should().NotBeEquivalentTo(sameXElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to be equivalent because we want to test the failure message, but it is.");
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_with_different_namespace_prefix_it_should_succeed()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_with_different_namespace_prefix_it_should_succeed()
         {
             // Arrange
             var subject = XElement.Parse("<xml xmlns=\"urn:a\"/>");
@@ -564,80 +553,81 @@ namespace FluentAssertions.Specs
         public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_lacks_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var subject = XElement.Parse("<xml><element b=\"1\"/></xml>");
+            var theElement = XElement.Parse("<xml><element b=\"1\"/></xml>");
             var expected = XElement.Parse("<xml><element a=\"b\" b=\"1\"/></xml>");
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().
-                WithMessage("Expected attribute \"a\" at \"/xml/element\" because we want to test the failure message, but found none.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"a\" in theElement at \"/xml/element\" because we want to test the failure message, but found none.");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_extra_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var subject = XElement.Parse("<xml><element a=\"b\"/></xml>");
+            var theElement = XElement.Parse("<xml><element a=\"b\"/></xml>");
             var expected = XElement.Parse("<xml><element/></xml>");
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().
-                WithMessage("Did not expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect to find attribute \"a\" in theElement at \"/xml/element\" because we want to test the failure message.");
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var subject = XElement.Parse("<xml><element a=\"b\"/></xml>");
+            var theElement = XElement.Parse("<xml><element a=\"b\"/></xml>");
             var expected = XElement.Parse("<xml><element a=\"c\"/></xml>");
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().
-                WithMessage("Expected attribute \"a\" at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"a\" in theElement at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var subject = XElement.Parse("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
+            var theElement = XElement.Parse("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
             var expected = XElement.Parse("<xml><element a=\"b\"/></xml>");
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().
-                WithMessage("Did not expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect to find attribute \"ns:a\" in theElement at \"/xml/element\" because we want to test the failure message.");
         }
 
         [Fact]
         public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_text_contents_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var subject = XElement.Parse("<xml>a</xml>");
+            var theElement = XElement.Parse("<xml>a</xml>");
             var expected = XElement.Parse("<xml>b</xml>");
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theElement.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().
-                WithMessage("Expected content to be \"b\" at \"/xml\" because we want to test the failure message, but found \"a\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected content to be \"b\" in theElement at \"/xml\" because we want to test the failure message, but found \"a\".");
         }
 
         [Fact]
@@ -676,31 +666,30 @@ namespace FluentAssertions.Specs
         public void When_asserting_element_has_a_specific_value_but_it_has_a_different_value_it_should_throw()
         {
             // Arrange
-            var element = XElement.Parse("<user>grega</user>");
+            var theElement = XElement.Parse("<user>grega</user>");
 
             // Act
             Action act = () =>
-                element.Should().HaveValue("stamac");
+                theElement.Should().HaveValue("stamac");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement 'user' to have value \"stamac\", but found \"grega\".");
         }
 
         [Fact]
         public void When_asserting_element_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse("<user>grega</user>");
+            var theElement = XElement.Parse("<user>grega</user>");
 
             // Act
             Action act = () =>
-                element.Should().HaveValue("stamac", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveValue("stamac", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element 'user' to have value \"stamac\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"grega\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement 'user' to have value \"stamac\" because we want to test the failure message, but found \"grega\".");
         }
 
         #endregion
@@ -739,124 +728,128 @@ namespace FluentAssertions.Specs
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("age", "36");
+                theElement.Should().HaveAttribute("age", "36");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have attribute \"age\" with value \"36\", but found no such attribute in <user name=\"martin\" />");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36");
+                theElement.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\","
+                + " but found no such attribute in <user xmlns:a=\"http://www.example.com/2012/test\" a:name=\"martin\" />");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
-                    " because we want to test the failure message" +
-                        ", but found no such attribute in <user name=\"martin\" />");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have attribute \"age\" with value \"36\" because we want to test the failure message,"
+                + " but found no such attribute in <user name=\"martin\" />");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36",
+                    "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
-                    " because we want to test the failure message" +
-                        ", but found no such attribute in <user xmlns:a=\"http://www.example.com/2012/test\" a:name=\"martin\" />");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\""
+                + " because we want to test the failure message,"
+                + " but found no such attribute in <user xmlns:a=\"http://www.example.com/2012/test\" a:name=\"martin\" />");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("name", "dennis");
+                theElement.Should().HaveAttribute("name", "dennis");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"name\" in theElement to have value \"dennis\", but found \"martin\".");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis");
+                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"{http://www.example.com/2012/test}name\" in theElement to have value \"dennis\", but found \"martin\".");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML attribute \"name\" to have value \"dennis\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"martin\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"name\" in theElement to have value \"dennis\""
+                + " because we want to test the failure message, but found \"martin\".");
         }
 
         [Fact]
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
+                    "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML attribute \"{http://www.example.com/2012/test}name\" to have value \"dennis\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"martin\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected attribute \"{http://www.example.com/2012/test}name\" in theElement to have value \"dennis\""
+                + " because we want to test the failure message, but found \"martin\".");
         }
 
         #endregion
@@ -901,76 +894,75 @@ namespace FluentAssertions.Specs
         public void When_asserting_element_has_child_element_but_it_does_not_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(
+            var theElement = XElement.Parse(
                 @"<parent>
                     <child />
                   </parent>");
 
             // Act
             Action act = () =>
-                element.Should().HaveElement("unknown");
+                theElement.Should().HaveElement("unknown");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"unknown\", but no such child element was found.");
         }
 
         [Fact]
         public void When_asserting_element_has_child_element_with_ns_but_it_does_not_it_should_fail()
         {
             // Arrange
-            var element = XElement.Parse(
+            var theElement = XElement.Parse(
                 @"<parent>
                     <child />
                   </parent>");
 
             // Act
             Action act = () =>
-                element.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"));
+                theElement.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"));
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"{{http://www.example.com/2012/test}}unknown\", but no such child element was found.");
         }
 
         [Fact]
         public void When_asserting_element_has_child_element_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(
+            var theElement = XElement.Parse(
                 @"<parent>
                     <child />
                   </parent>");
 
             // Act
             Action act = () =>
-                element.Should().HaveElement("unknown", "because we want to test the failure message");
+                theElement.Should().HaveElement("unknown", "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format("Expected XML element {0} to have child element \"unknown\"" +
-                " because we want to test the failure message" +
-                    ", but no such child element was found.", Formatter.ToString(element));
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"unknown\" because we want to test the failure message,"
+                + " but no such child element was found.");
         }
 
         [Fact]
         public void When_asserting_element_has_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var element = XElement.Parse(
+            var theElement = XElement.Parse(
                 @"<parent>
                     <child />
                   </parent>");
 
             // Act
             Action act = () =>
-                element.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"), "because we want to test the failure message");
+                theElement.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"),
+                    "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format("Expected XML element {0} to have child element \"{{http://www.example.com/2012/test}}unknown\"" +
-                " because we want to test the failure message" +
-                    ", but no such child element was found.", Formatter.ToString(element));
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"{{http://www.example.com/2012/test}}unknown\""
+                + " because we want to test the failure message, but no such child element was found.");
         }
 
         [Fact]
