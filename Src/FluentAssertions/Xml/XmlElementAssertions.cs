@@ -13,8 +13,7 @@ namespace FluentAssertions.Xml
     public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAssertions>
     {
         /// <summary>
-        /// Initialized a new instance of the <see cref="XmlElementAssertions"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="XmlElementAssertions"/> class.
         /// </summary>
         /// <param name="xmlElement"></param>
         public XmlElementAssertions(XmlElement xmlElement)
@@ -34,13 +33,15 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XmlElementAssertions> HaveInnerText(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<XmlElementAssertions> HaveInnerText(string expected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.InnerText == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have value {1}{reason}, but found {2}.",
-                    Subject.Name, expected, Subject.InnerText);
+                .FailWith(
+                    "Expected {context:subject} to have value {0}{reason}, but found {1}.",
+                    expected, Subject.InnerText);
 
             return new AndConstraint<XmlElementAssertions>(this);
         }
@@ -59,7 +60,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs)
+        public AndConstraint<XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
+            params object[] becauseArgs)
         {
             return HaveAttributeWithNamespace(expectedName, string.Empty, expectedValue, because, becauseArgs);
         }
@@ -87,14 +89,14 @@ namespace FluentAssertions.Xml
             XmlAttribute attribute = Subject.Attributes[expectedName, expectedNamespace];
 
             string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : "{" + expectedNamespace + "}")
+                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
                 + expectedName;
 
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected XML element to have attribute {0}"
+                    "Expected {context:subject} to have attribute {0}"
                     + " with value {1}{reason}, but found no such attribute in {2}",
                     expectedFormattedName, expectedValue, Subject);
 
@@ -102,7 +104,7 @@ namespace FluentAssertions.Xml
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected XML attribute {0} to have value {1}{reason}, but found {2}.",
+                    "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
                     expectedFormattedName, expectedValue, attribute.Value);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -150,15 +152,15 @@ namespace FluentAssertions.Xml
             XmlElement element = Subject[expectedName, expectedNamespace];
 
             string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : "{" + expectedNamespace + "}")
+                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
                 + expectedName;
 
             Execute.Assertion
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" +
-                    expectedFormattedName.EscapePlaceholders() + "\"{reason}" +
-                        ", but no such child element was found.", Subject);
+                .FailWith(
+                    "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
+                    expectedFormattedName.EscapePlaceholders());
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
         }
