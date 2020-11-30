@@ -264,7 +264,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected Element \"child\" in theDocument at \"/parent\", but found EndElement \"parent\".");
+                "Expected Element \"child\" in theDocument at \"/parent/child\", but found EndElement \"parent\".");
         }
 
         [Fact]

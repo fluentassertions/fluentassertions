@@ -389,7 +389,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected content \"text\" in theElement at \"/parent\" because we want to test the failure message, but found EndElement \"parent\".");
+                "Expected content \"text\" in theElement at \"/parent/child\" because we want to test the failure message, but found EndElement \"parent\".");
         }
 
         [Fact]

@@ -56,7 +56,7 @@ namespace FluentAssertions.Xml.Equivalency
                 Failure failure = null;
 
 #pragma warning disable IDE0010 // The default case handles the many missing cases
-                switch (subjectIterator.NodeType)
+                switch (expectationIterator.NodeType)
 #pragma warning restore IDE0010
                 {
                     case XmlNodeType.Element:
@@ -68,11 +68,11 @@ namespace FluentAssertions.Xml.Equivalency
 
                         // starting new element, add local name to location stack
                         // to build XPath info
-                        currentNode = currentNode.Push(subjectIterator.LocalName);
+                        currentNode = currentNode.Push(expectationIterator.LocalName);
 
                         failure = ValidateAttributes();
 
-                        if (subjectIterator.IsEmptyElement)
+                        if (expectationIterator.IsEmptyElement)
                         {
                             // The element is already complete. (We will NOT get an EndElement node.)
                             // Update node information.
@@ -95,7 +95,6 @@ namespace FluentAssertions.Xml.Equivalency
                         // No need to verify end element, if it doesn't match
                         // the start element it isn't valid XML, so the parser
                         // would handle that.
-                        // TODO Doing so, that error message may be misleading.
                         currentNode.Pop();
                         currentNode = currentNode.Parent;
                         break;
@@ -106,7 +105,7 @@ namespace FluentAssertions.Xml.Equivalency
 
                     default:
                         throw new NotSupportedException(
-                            $"{subjectIterator.NodeType} found at {currentNode.GetXPath()} is not supported for equivalency comparison.");
+                            $"{expectationIterator.NodeType} found at {currentNode.GetXPath()} is not supported for equivalency comparison.");
                 }
 
                 if (failure != null)
