@@ -206,7 +206,20 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                InvokeSubject();
+                // For the duration of this nested invocation, configure CallerIdentifier
+                // to match the contents of the subject rather than our own call site.
+                //
+                //   Action action = () => subject.Should().BeSomething();
+                //   action.Should().Throw<Exception>();
+                //
+                // If an assertion failure occurs, we want the message to talk about "subject"
+                // not "action".
+                using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
+                    ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                    : default)
+                {
+                    InvokeSubject();
+                }
             }
             catch (Exception exc)
             {

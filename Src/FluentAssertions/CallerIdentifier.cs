@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions
@@ -24,14 +27,37 @@ namespace FluentAssertions
             {
                 StackTrace stack = new StackTrace(fNeedFileInfo: true);
 
-                foreach (StackFrame frame in stack.GetFrames())
+                var allStackFrames = stack.GetFrames()
+                    .Where(frame => !IsCompilerServices(frame))
+                    .ToArray();
+
+                int searchStart = allStackFrames.Length - 1;
+
+                if (StartStackSearchAfterStackFrame.Value != null)
                 {
+                    searchStart = Array.FindLastIndex(
+                        allStackFrames,
+                        allStackFrames.Length - StartStackSearchAfterStackFrame.Value.SkipStackFrameCount,
+                        frame => !IsCurrentAssembly(frame));
+                }
+
+                int firstFluentAssertionsCodeIndex = Array.FindLastIndex(
+                    allStackFrames,
+                    searchStart,
+                    frame => IsCurrentAssembly(frame));
+
+                int lastUserStackFrameBeforeFluentAssertionsCodeIndex =
+                    firstFluentAssertionsCodeIndex + 1;
+
+                for (int i = lastUserStackFrameBeforeFluentAssertionsCodeIndex; i < allStackFrames.Length; i++)
+                {
+                    var frame = allStackFrames[i];
+
                     logger(frame.ToString());
 
                     if (frame.GetMethod() is object
                         && !IsDynamic(frame)
                         && !IsDotNet(frame)
-                        && !IsCurrentAssembly(frame)
                         && !IsCustomAssertion(frame))
                     {
                         caller = ExtractVariableNameFrom(frame) ?? caller;
@@ -46,6 +72,70 @@ namespace FluentAssertions
             }
 
             return caller;
+        }
+
+        private class StackFrameReference : IDisposable
+        {
+            public int SkipStackFrameCount { get; set; }
+
+            private readonly StackFrameReference previousReference;
+
+            public StackFrameReference()
+            {
+                var stack = new StackTrace();
+
+                var allStackFrames = stack.GetFrames()
+                    .Where(frame => !IsCompilerServices(frame))
+                    .ToArray();
+
+                int firstUserCodeFrameIndex = 0;
+
+                while ((firstUserCodeFrameIndex < allStackFrames.Length)
+                    && IsCurrentAssembly(allStackFrames[firstUserCodeFrameIndex]))
+                {
+                    firstUserCodeFrameIndex++;
+                }
+
+                SkipStackFrameCount = allStackFrames.Length - firstUserCodeFrameIndex + 1;
+
+                previousReference = StartStackSearchAfterStackFrame.Value;
+                StartStackSearchAfterStackFrame.Value = this;
+            }
+
+            public void Dispose()
+            {
+                StartStackSearchAfterStackFrame.Value = previousReference;
+            }
+        }
+
+        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new AsyncLocal<StackFrameReference>();
+
+        internal static IDisposable OverrideStackSearchUsingCurrentScope()
+        {
+            return new StackFrameReference();
+        }
+
+        internal static bool OnlyOneFluentAssertionScopeOnCallStack()
+        {
+            var allStackFrames = new StackTrace().GetFrames()
+                .Where(frame => !IsCompilerServices(frame))
+                .ToArray();
+
+            int firstNonFluentAssertionsStackFrameIndex = Array.FindIndex(
+                allStackFrames,
+                frame => !IsCurrentAssembly(frame));
+
+            if (firstNonFluentAssertionsStackFrameIndex < 0)
+            {
+                return true;
+            }
+
+            int startOfSecondFluentAssertionsScopeStackFrameIndex = Array.FindIndex(
+                allStackFrames,
+                startIndex: firstNonFluentAssertionsStackFrameIndex + 1,
+                frame => IsCurrentAssembly(frame));
+
+            return startOfSecondFluentAssertionsScopeStackFrameIndex < 0;
         }
 
         private static bool IsCustomAssertion(StackFrame frame)
@@ -70,6 +160,11 @@ namespace FluentAssertions
 
             return frameNamespace?.StartsWith("system.", comparisonType) == true ||
                 frameNamespace?.Equals("system", comparisonType) == true;
+        }
+
+        private static bool IsCompilerServices(StackFrame frame)
+        {
+            return frame.GetMethod().DeclaringType.Namespace == "System.Runtime.CompilerServices";
         }
 
         private static string ExtractVariableNameFrom(StackFrame frame)
