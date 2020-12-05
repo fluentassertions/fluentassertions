@@ -36,18 +36,22 @@ namespace FluentAssertions.Equivalency
                 return false;
             }
 
-            return ReferenceEquals(@object, other.@object) && IsParentOf(other);
+            return ReferenceEquals(@object, other.@object) && IsParentOrChildOf(other);
         }
 
         private string[] GetPathElements() => pathElements
             ??= path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
                     .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 
-        private bool IsParentOf(ObjectReference other)
+        private bool IsParentOrChildOf(ObjectReference other)
         {
             string[] path = GetPathElements();
             string[] otherPath = other.GetPathElements();
-            return (otherPath.Length > path.Length) && otherPath.Take(path.Length).SequenceEqual(path);
+
+            int commonElements = Math.Min(path.Length, otherPath.Length);
+            int longerPathAdditionalElements = Math.Max(path.Length, otherPath.Length) - commonElements;
+
+            return (longerPathAdditionalElements > 0) && otherPath.Take(commonElements).SequenceEqual(path.Take(commonElements));
         }
 
         /// <summary>
