@@ -213,7 +213,7 @@ namespace FluentAssertions.Specialized
                 {
                     using (var scope = new AssertionScope())
                     {
-                        scope.Context = Context;
+                        scope.Context = new Lazy<string>(() => Context);
 
                         message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 

@@ -70,10 +70,20 @@ namespace FluentAssertions.Equivalency
 
         private static void UpdateScopeWithReportableContext(IEquivalencyValidationContext context)
         {
-            if (context.CurrentNode.Description.Length > 0)
-            {
-                AssertionScope.Current.Context = context.CurrentNode.Description;
-            }
+            var currentNode = context.CurrentNode;
+
+            AssertionScope.Current.Context = new Lazy<string>(
+                () =>
+                {
+                    var description = currentNode.Description;
+
+                    if (description.Length == 0)
+                    {
+                        description = null;
+                    }
+
+                    return description;
+                });
 
             AssertionScope.Current.TrackComparands(context.Subject, context.Expectation);
         }
