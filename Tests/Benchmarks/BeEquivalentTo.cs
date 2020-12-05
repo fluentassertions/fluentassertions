@@ -19,8 +19,13 @@ namespace Benchmarks
         [GlobalSetup]
         public void GlobalSetup()
         {
-            list = Enumerable.Range(0, N).Select(_ => Nested.Create(1)).ToList();
-            list2 = Enumerable.Range(0, N).Select(_ => Nested.Create(1)).ToList();
+            int objectCount = 0;
+
+            list = Enumerable.Range(0, N).Select(_ => Nested.Create(1, ref objectCount)).ToList();
+
+            objectCount = 0;
+
+            list2 = Enumerable.Range(0, N).Select(_ => Nested.Create(1, ref objectCount)).ToList();
         }
 
         [Benchmark]
