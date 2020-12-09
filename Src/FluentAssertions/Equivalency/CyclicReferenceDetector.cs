@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly CyclicReferenceHandling handling;
-        private List<ObjectReference> orderedReferences = new List<ObjectReference>();
+        private HashSet<ObjectReference> observedReferences = new HashSet<ObjectReference>();
 
         #endregion
 
@@ -36,20 +36,14 @@ namespace FluentAssertions.Equivalency
 
             if (reference.IsComplexType)
             {
-                if (orderedReferences.Contains(reference))
+                isCyclic = !observedReferences.Add(reference);
+
+                if (isCyclic && (handling == CyclicReferenceHandling.ThrowException))
                 {
-                    isCyclic = true;
-                    if (handling == CyclicReferenceHandling.ThrowException)
-                    {
-                        AssertionScope.Current
-                            .BecauseOf(reason)
-                            .FailWith(
-                            "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
-                    }
-                }
-                else
-                {
-                    orderedReferences.Add(reference);
+                    AssertionScope.Current
+                        .BecauseOf(reason)
+                        .FailWith(
+                        "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
                 }
             }
 
@@ -66,7 +60,7 @@ namespace FluentAssertions.Equivalency
         {
             return new CyclicReferenceDetector(handling)
             {
-                orderedReferences = new List<ObjectReference>(orderedReferences)
+                observedReferences = new HashSet<ObjectReference>(observedReferences)
             };
         }
     }

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FluentAssertions.Specs.Common;
+using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 

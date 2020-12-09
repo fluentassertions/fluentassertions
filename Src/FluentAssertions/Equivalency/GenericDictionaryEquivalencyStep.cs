@@ -37,9 +37,18 @@ namespace FluentAssertions.Equivalency
 
         private static Type[] GetIDictionaryInterfaces(Type type)
         {
-            return Common.TypeExtensions.GetClosedGenericInterfaces(
-                type,
-                typeof(IDictionary<,>));
+            if (Type.GetTypeCode(type) != TypeCode.Object)
+            {
+                // Avoid expensive calculation when type cannot possibly implement the interface we
+                // care about. The only TypeCode that can implement IDictionary<,> is Object.
+                return Array.Empty<Type>();
+            }
+            else
+            {
+                return Common.TypeExtensions.GetClosedGenericInterfaces(
+                    type,
+                    typeof(IDictionary<,>));
+            }
         }
 
         private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)

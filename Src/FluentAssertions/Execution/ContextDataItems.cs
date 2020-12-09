@@ -42,13 +42,16 @@ namespace FluentAssertions.Execution
 
         public void Add(DataItem item)
         {
-            DataItem existingItem = items.SingleOrDefault(i => i.Key == item.Key);
-            if (existingItem != null)
-            {
-                items.Remove(existingItem);
-            }
+            int existingItemIndex = items.FindIndex(i => i.Key == item.Key);
 
-            items.Add(item);
+            if (existingItemIndex >= 0)
+            {
+                items[existingItemIndex] = item;
+            }
+            else
+            {
+                items.Add(item);
+            }
         }
 
         public T Get<T>(string key)

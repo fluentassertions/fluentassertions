@@ -260,7 +260,21 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                await action();
+                // For the duration of this nested invocation, configure CallerIdentifier
+                // to match the contents of the subject rather than our own call site.
+                //
+                //   Func<Task> action = async () => await subject.Should().BeSomething();
+                //   await action.Should().ThrowAsync<Exception>();
+                //
+                // If an assertion failure occurs, we want the message to talk about "subject"
+                // not "await action".
+                using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
+                        ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                        : default)
+                {
+                    await action();
+                }
+
                 return null;
             }
             catch (Exception exception)

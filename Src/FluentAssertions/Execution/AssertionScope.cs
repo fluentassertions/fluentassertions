@@ -75,14 +75,27 @@ namespace FluentAssertions.Execution
         public AssertionScope(string context)
             : this()
         {
+            if (!string.IsNullOrEmpty(context))
+            {
+                Context = new Lazy<string>(() => context);
+            }
+        }
+
+        /// <summary>
+        /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
+        /// </summary>
+        public AssertionScope(Lazy<string> context)
+            : this()
+        {
             Context = context;
         }
 
         /// <summary>
         /// Gets or sets the context of the current assertion scope, e.g. the path of the object graph
-        /// that is being asserted on.
+        /// that is being asserted on. The context is provided by a <see cref="Lazy{String}"/> which
+        /// only gets evaluated when its value is actually needed (in most cases during a failure).
         /// </summary>
-        public string Context { get; set; }
+        public Lazy<string> Context { get; set; }
 
         /// <summary>
         /// Gets the current thread-specific assertion scope.
@@ -279,12 +292,14 @@ namespace FluentAssertions.Execution
 
         private string GetIdentifier()
         {
-            if (!string.IsNullOrEmpty(Context))
+            var identifier = Context?.Value;
+
+            if (string.IsNullOrEmpty(identifier))
             {
-                return Context;
+                identifier = CallerIdentifier.DetermineCallerIdentity();
             }
 
-            return CallerIdentifier.DetermineCallerIdentity();
+            return identifier;
         }
 
         /// <summary>

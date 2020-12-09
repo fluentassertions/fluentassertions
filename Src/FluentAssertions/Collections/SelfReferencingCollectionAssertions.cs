@@ -744,7 +744,12 @@ namespace FluentAssertions.Collections
                 .FailWith("Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
                     inspectorsCount, elementsCount);
 
-            string[] failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+            string[] failuresFromInspectors;
+
+            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            {
+                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+            }
 
             if (failuresFromInspectors.Any())
             {
