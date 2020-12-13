@@ -12,10 +12,10 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
+    public abstract class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
         where T : struct, IComparable<T>
     {
-        public NumericAssertions(T value)
+        protected NumericAssertions(T value)
             : base(value)
         {
         }
@@ -25,11 +25,11 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T, TAssertions>
+    public abstract class NumericAssertions<T, TAssertions>
         where T : struct, IComparable<T>
         where TAssertions : NumericAssertions<T, TAssertions>
     {
-        public NumericAssertions(T value)
+        protected NumericAssertions(T value)
             : this((T?)value)
         {
         }
@@ -42,6 +42,10 @@ namespace FluentAssertions.Numeric
         public T Subject => SubjectInternal.Value;
 
         private protected T? SubjectInternal { get; }
+
+        private protected virtual T? CalculateDifference(T? actual, T expected) => throw new NotImplementedException();
+
+        private protected virtual T? CalculateDifference(T? actual, T? expected) => throw new NotImplementedException();
 
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.
@@ -59,7 +63,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -82,7 +86,7 @@ namespace FluentAssertions.Numeric
                     (!SubjectInternal.HasValue && !expected.HasValue)
                     || (SubjectInternal.HasValue && expected.HasValue && SubjectInternal.Value.CompareTo(expected.Value) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -187,7 +191,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -209,7 +213,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -231,7 +235,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -253,7 +257,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}.", expected, SubjectInternal);
+                .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}. Difference {2}.", expected, SubjectInternal, CalculateDifference(SubjectInternal, expected));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

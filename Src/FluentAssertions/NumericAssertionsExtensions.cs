@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions
 {
@@ -679,7 +680,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
+            var nonNullableAssertions = new FloatAssertions((float)parent.Subject);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -806,7 +807,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
+            var nonNullableAssertions = new DoubleAssertions((double)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
@@ -933,7 +934,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
+            var nonNullableAssertions = new DecimalAssertions((decimal)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
@@ -1063,7 +1064,7 @@ namespace FluentAssertions
 
             if (parent.Subject != null)
             {
-                var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
+                var nonNullableAssertions = new FloatAssertions((float)parent.Subject);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
             }
 
@@ -1188,7 +1189,7 @@ namespace FluentAssertions
 
             if (parent.Subject != null)
             {
-                var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
+                var nonNullableAssertions = new DoubleAssertions((double)parent.Subject);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
             }
 
@@ -1313,7 +1314,7 @@ namespace FluentAssertions
 
             if (parent.Subject != null)
             {
-                var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
+                var nonNullableAssertions = new DecimalAssertions((decimal)parent.Subject);
                 NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
             }
 
