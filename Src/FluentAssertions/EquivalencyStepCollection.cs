@@ -110,12 +110,20 @@ namespace FluentAssertions
 
         private static List<IEquivalencyStep> GetDefaultSteps()
         {
-            return new List<IEquivalencyStep>(12)
+            return new List<IEquivalencyStep>(18)
             {
                 new RunAllUserStepsEquivalencyStep(),
                 new AutoConversionStep(),
                 new ReferenceEqualityEquivalencyStep(),
                 new GenericDictionaryEquivalencyStep(),
+                new DataSetEquivalencyStep(),
+                new DataTableEquivalencyStep(),
+                new DataColumnEquivalencyStep(),
+                new DataRelationEquivalencyStep(),
+                new DataRowCollectionEquivalencyStep(),
+                new DataRowEquivalencyStep(),
+                new ConstraintCollectionEquivalencyStep(),
+                new ConstraintEquivalencyStep(),
                 new DictionaryEquivalencyStep(),
                 new MultiDimensionalArrayEquivalencyStep(),
                 new GenericEnumerableEquivalencyStep(),
@@ -124,7 +132,7 @@ namespace FluentAssertions
                 new EnumEqualityStep(),
                 new ValueTypeEquivalencyStep(),
                 new StructuralEqualityEquivalencyStep(),
-                new SimpleEqualityEquivalencyStep()
+                new SimpleEqualityEquivalencyStep(),
             };
         }
     }

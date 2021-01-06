@@ -49,7 +49,7 @@ namespace FluentAssertions.Formatting
             }
             else
             {
-                return sign + JoinUsingWritingStyle(fragments);
+                return sign + fragments.JoinUsingWritingStyle();
             }
         }
 
@@ -115,16 +115,6 @@ namespace FluentAssertions.Formatting
             {
                 fragments.Add(timeSpan.Days.ToString(CultureInfo.InvariantCulture) + "d");
             }
-        }
-
-        private static string JoinUsingWritingStyle(IEnumerable<string> fragments)
-        {
-            return string.Join(", ", AllButLastFragment(fragments)) + " and " + fragments.Last();
-        }
-
-        private static string[] AllButLastFragment(IEnumerable<string> fragments)
-        {
-            return fragments.Take(fragments.Count() - 1).ToArray();
         }
     }
 }

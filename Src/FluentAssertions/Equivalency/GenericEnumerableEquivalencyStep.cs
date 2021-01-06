@@ -106,20 +106,15 @@ namespace FluentAssertions.Equivalency
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
+            // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
             if (Type.GetTypeCode(type) != TypeCode.Object)
             {
-                // Avoid expensive calculation when type cannot possibly implement the interface we
-                // care about. The only TypeCode other than Object that can implement IEnumerable<>
-                // is TypeCode.String, and we don't consider strings to be enumerables for
-                // equivalency.
                 return Array.Empty<Type>();
             }
-            else
-            {
-                Type soughtType = typeof(IEnumerable<>);
 
-                return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
-            }
+            Type soughtType = typeof(IEnumerable<>);
+
+            return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
         }
 
         private static Type GetTypeOfEnumeration(Type enumerableType)
