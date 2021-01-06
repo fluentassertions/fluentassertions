@@ -262,7 +262,11 @@ namespace FluentAssertions.Equivalency
                 {
                     if (config.IsRecursive)
                     {
-                        parent.AssertEqualityUsing(context.AsDictionaryItem(key, subjectValue, expectation[key]));
+                        // Run the child assertion without affecting the current context
+                        using (new AssertionScope())
+                        {
+                            parent.AssertEqualityUsing(context.AsDictionaryItem(key, subjectValue, expectation[key]));
+                        }
                     }
                     else
                     {
