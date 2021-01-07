@@ -10,6 +10,16 @@ sidebar:
 ## 6.0.0
 
 **What's New**
+
+**Fixes**
+
+**Breaking Changes**
+
+**Breaking Changes (Extensibility)**
+
+## 6.0.0 Alpha 2
+
+**What's New**
 * Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
 * Added `[Not]BeUpperCased` and `[Not]BeLowerCased` to `StringAssertions` to be able to assert that a string is in upper or lower casing or not - [#1357](https://github.com/fluentassertions/fluentassertions/pull/1357).
 * Added `ObjectAssertions<TSubject, TAssertions>` to ease creation of custom assertion classes - [#1371](https://github.com/fluentassertions/fluentassertions/pull/1371).
