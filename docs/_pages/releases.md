@@ -12,7 +12,8 @@ sidebar:
 **What's New**
 
 **Fixes**
-* Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
+* Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
+* Some dictionary failures did not honor the user-provided reason - [#1456](https://github.com/fluentassertions/fluentassertions/pull/1456)
 
 **Breaking Changes**
 

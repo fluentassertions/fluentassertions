@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(((expectation is null) && (subject is null)) || (expectation != null))
-                .FailWith("Expected {context:subject} to be {0}, but found {1}.", null, subject);
+                .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", null, subject);
         }
 
         private static bool AssertIsDictionary(IDictionary subject)
