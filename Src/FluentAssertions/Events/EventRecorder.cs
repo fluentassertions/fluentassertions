@@ -51,7 +51,7 @@ namespace FluentAssertions.Events
 
             cleanup = () =>
             {
-                if (!(subject.Target is null))
+                if (subject.Target is not null)
                 {
                     eventInfo.RemoveEventHandler(subject.Target, handler);
                 }

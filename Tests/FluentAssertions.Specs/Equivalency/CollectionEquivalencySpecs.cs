@@ -36,12 +36,8 @@ namespace FluentAssertions.Specs
 
             public override bool Equals(object obj)
             {
-                if (!(obj is SubDummy))
-                {
-                    return false;
-                }
-
-                return Id == ((SubDummy)obj).Id;
+                return obj is SubDummy subDummy
+                    && Id == subDummy.Id;
             }
 
             public override int GetHashCode()

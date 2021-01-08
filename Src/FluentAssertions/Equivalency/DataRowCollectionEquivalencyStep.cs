@@ -14,10 +14,9 @@ namespace FluentAssertions.Equivalency
             return typeof(DataRowCollection).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0038:Use pattern matching", Justification = "Would decrease code clarity")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (!(context.Subject is DataRowCollection))
+            if (context.Subject is not DataRowCollection)
             {
                 AssertionScope.Current
                     .FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}", context.Subject.GetType());

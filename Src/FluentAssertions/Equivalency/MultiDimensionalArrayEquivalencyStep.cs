@@ -69,7 +69,7 @@ namespace FluentAssertions.Equivalency
         private static bool IsArray(object type)
         {
             return AssertionScope.Current
-                .ForCondition(!(type is null))
+                .ForCondition(type is not null)
                 .FailWith("Cannot compare a multi-dimensional array to <null>.")
                 .Then
                 .ForCondition(type is Array)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Execution;
@@ -14,10 +13,9 @@ namespace FluentAssertions.Equivalency
             return typeof(ConstraintCollection).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [SuppressMessage("Style", "IDE0038:Use pattern matching", Justification = "Would decrease code clarity")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (!(context.Subject is ConstraintCollection))
+            if (context.Subject is not ConstraintCollection)
             {
                 AssertionScope.Current
                     .FailWith("Expected a value of type ConstraintCollection at {context:Constraints}, but found {0}", context.Subject.GetType());

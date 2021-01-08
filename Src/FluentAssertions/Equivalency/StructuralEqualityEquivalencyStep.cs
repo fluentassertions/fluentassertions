@@ -18,14 +18,14 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             bool expectationIsNotNull = AssertionScope.Current
-                .ForCondition(!(context.Expectation is null))
+                .ForCondition(context.Expectation is not null)
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:subject} to be <null>{reason}, but found {0}.",
                     context.Subject);
 
             bool subjectIsNotNull = AssertionScope.Current
-                .ForCondition(!(context.Subject is null))
+                .ForCondition(context.Subject is not null)
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:object} to be {0}{reason}, but found {1}.",

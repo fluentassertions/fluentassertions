@@ -790,7 +790,7 @@ namespace FluentAssertions.Collections
             int index = 0;
             foreach (object item in Subject)
             {
-                if (!(item is T))
+                if (item is not T)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)

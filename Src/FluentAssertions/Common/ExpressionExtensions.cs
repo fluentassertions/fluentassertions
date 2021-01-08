@@ -14,7 +14,7 @@ namespace FluentAssertions.Common
 
             MemberInfo memberInfo = AttemptToGetMemberInfoFromExpression(expression);
 
-            if (!(memberInfo is PropertyInfo propertyInfo))
+            if (memberInfo is not PropertyInfo propertyInfo)
             {
                 throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
                     nameof(expression));
@@ -79,7 +79,7 @@ namespace FluentAssertions.Common
 
                     case ExpressionType.Call:
                         var methodCallExpression = (MethodCallExpression)node;
-                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || !(methodCallExpression.Arguments[0] is ConstantExpression))
+                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
                         {
                             throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                         }

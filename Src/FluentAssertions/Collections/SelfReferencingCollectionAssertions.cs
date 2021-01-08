@@ -728,7 +728,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject is not null)
                 .FailWith("but collection is <null>.")
                 .Then
                 .ForCondition(Subject.Any())

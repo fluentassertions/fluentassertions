@@ -496,7 +496,7 @@ namespace FluentAssertions.Collections
                 "Cannot assert collection ordering without specifying a property.");
 
             return Execute.Assertion
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());

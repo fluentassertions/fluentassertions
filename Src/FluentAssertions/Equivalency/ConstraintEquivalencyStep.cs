@@ -15,10 +15,9 @@ namespace FluentAssertions.Equivalency
             return typeof(Constraint).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0038:Use pattern matching", Justification = "Would decrease code clarity")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (!(context.Subject is Constraint))
+            if (context.Subject is not Constraint)
             {
                 AssertionScope.Current
                     .FailWith("Expected {context:constraint} to be a value of type Constraint, but found {0}", context.Subject.GetType());
