@@ -208,6 +208,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods have specified <paramref name="accessModifier"/>.
         /// </summary>
+        /// <param name="accessModifier">The expected access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -231,6 +232,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods don't have specified <paramref name="accessModifier"/>
         /// </summary>
+        /// <param name="accessModifier">The expected access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
