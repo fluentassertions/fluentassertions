@@ -7,7 +7,7 @@ namespace FluentAssertions.Common
     {
         #region Private Definitions
 
-        private readonly object propertiesAccessLock = new object();
+        private readonly object propertiesAccessLock = new();
         private readonly IConfigurationStore store;
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;

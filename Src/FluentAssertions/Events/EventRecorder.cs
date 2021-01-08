@@ -15,8 +15,8 @@ namespace FluentAssertions.Events
     internal sealed class EventRecorder : IEventRecording, IDisposable
     {
         private readonly Func<DateTime> utcNow;
-        private readonly BlockingCollection<RecordedEvent> raisedEvents = new BlockingCollection<RecordedEvent>();
-        private readonly object lockable = new object();
+        private readonly BlockingCollection<RecordedEvent> raisedEvents = new();
+        private readonly object lockable = new();
         private Action cleanup;
 
         /// <summary>

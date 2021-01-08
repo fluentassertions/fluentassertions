@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
     /// </remarks>
     internal class FakeClock : IClock
     {
-        private readonly TaskCompletionSource<bool> delayTask = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> delayTask = new();
 
         private TimeSpan elapsedTime = TimeSpan.Zero;
 

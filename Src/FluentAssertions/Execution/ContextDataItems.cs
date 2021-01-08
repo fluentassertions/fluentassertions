@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     /// </summary>
     internal class ContextDataItems
     {
-        private readonly List<DataItem> items = new List<DataItem>();
+        private readonly List<DataItem> items = new();
 
         public IDictionary<string, object> GetReportable()
         {

@@ -22,7 +22,7 @@ namespace FluentAssertions.Specialized
     {
         #region Private Definitions
 
-        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new ExceptionMessageAssertion();
+        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new();
 
         #endregion
 

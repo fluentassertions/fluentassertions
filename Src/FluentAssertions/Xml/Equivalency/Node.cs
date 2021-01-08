@@ -6,7 +6,7 @@ namespace FluentAssertions.Xml.Equivalency
 {
     internal sealed class Node
     {
-        private readonly List<Node> children = new List<Node>();
+        private readonly List<Node> children = new();
         private readonly string name;
         private int count;
 
@@ -71,7 +71,7 @@ namespace FluentAssertions.Xml.Equivalency
 
         private Node AddChildNode(string name)
         {
-            Node node = new Node(this, name);
+            var node = new Node(this, name);
             children.Add(node);
             return node;
         }

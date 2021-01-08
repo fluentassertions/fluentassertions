@@ -28,7 +28,7 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new();
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it

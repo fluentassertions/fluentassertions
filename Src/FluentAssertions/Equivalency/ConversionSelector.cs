@@ -25,8 +25,8 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private List<ConversionSelectorRule> inclusions = new List<ConversionSelectorRule>();
-        private List<ConversionSelectorRule> exclusions = new List<ConversionSelectorRule>();
+        private List<ConversionSelectorRule> inclusions = new();
+        private List<ConversionSelectorRule> exclusions = new();
 
         public void IncludeAll()
         {
@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
                 return "Without automatic conversion.";
             }
 
-            StringBuilder descriptionBuilder = new StringBuilder();
+            var descriptionBuilder = new StringBuilder();
 
             foreach (ConversionSelectorRule inclusion in inclusions)
             {

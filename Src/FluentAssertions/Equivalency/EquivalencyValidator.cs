@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency
 
         private readonly IEquivalencyAssertionOptions config;
 
-        private readonly Dictionary<Type, bool> isComplexTypeMap = new Dictionary<Type, bool>();
+        private readonly Dictionary<Type, bool> isComplexTypeMap = new();
 
         #endregion
 

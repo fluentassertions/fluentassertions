@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly CyclicReferenceHandling handling;
-        private HashSet<ObjectReference> observedReferences = new HashSet<ObjectReference>();
+        private HashSet<ObjectReference> observedReferences = new();
 
         #endregion
 

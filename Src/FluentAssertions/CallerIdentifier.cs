@@ -25,7 +25,7 @@ namespace FluentAssertions
 
             try
             {
-                StackTrace stack = new StackTrace(fNeedFileInfo: true);
+                var stack = new StackTrace(fNeedFileInfo: true);
 
                 var allStackFrames = stack.GetFrames()
                     .Where(frame => !IsCompilerServices(frame))
@@ -108,7 +108,7 @@ namespace FluentAssertions
             }
         }
 
-        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new AsyncLocal<StackFrameReference>();
+        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new();
 
         internal static IDisposable OverrideStackSearchUsingCurrentScope()
         {
@@ -210,7 +210,7 @@ namespace FluentAssertions
 
             try
             {
-                using StreamReader reader = new StreamReader(File.OpenRead(fileName));
+                using var reader = new StreamReader(File.OpenRead(fileName));
                 string line;
                 int currentLine = 1;
 

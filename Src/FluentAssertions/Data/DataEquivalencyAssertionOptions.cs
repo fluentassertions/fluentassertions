@@ -13,9 +13,9 @@ namespace FluentAssertions.Data
     internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<T>, IDataEquivalencyAssertionOptions<T>
 #pragma warning restore CA1812
     {
-        private readonly HashSet<string> excludeTableNames = new HashSet<string>();
-        private readonly HashSet<string> excludeColumnNames = new HashSet<string>();
-        private readonly Dictionary<string, HashSet<string>> excludeColumnNamesByTableName = new Dictionary<string, HashSet<string>>();
+        private readonly HashSet<string> excludeTableNames = new();
+        private readonly HashSet<string> excludeColumnNames = new();
+        private readonly Dictionary<string, HashSet<string>> excludeColumnNamesByTableName = new();
 
         private bool allowMismatchedTypes;
         private bool ignoreUnmatchedColumns;

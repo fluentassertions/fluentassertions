@@ -21,29 +21,29 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
-        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
+        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new();
 
-        private readonly List<Type> referenceTypes = new List<Type>();
+        private readonly List<Type> referenceTypes = new();
 
-        private readonly List<Type> valueTypes = new List<Type>();
+        private readonly List<Type> valueTypes = new();
 
         private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
+        private readonly List<IMemberSelectionRule> selectionRules = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IMemberMatchingRule> matchingRules = new List<IMemberMatchingRule>();
+        private readonly List<IMemberMatchingRule> matchingRules = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
+        private readonly List<IEquivalencyStep> userEquivalencySteps = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #pragma warning disable CA1051, SA1401 // TODO: fix in 6.0
-        protected readonly OrderingRuleCollection orderingRules = new OrderingRuleCollection();
+        protected readonly OrderingRuleCollection orderingRules = new();
 #pragma warning restore SA1401, CA1051
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -132,7 +132,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps => userEquivalencySteps;
 
-        public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
+        public ConversionSelector ConversionSelector { get; } = new();
 
         /// <summary>
         /// Gets an ordered collection of rules that determine whether or not the order of collections is important. By
@@ -632,7 +632,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.Append("- Use ")
                 .Append(useRuntimeTyping ? "runtime" : "declared")

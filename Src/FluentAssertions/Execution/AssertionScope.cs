@@ -17,12 +17,12 @@ namespace FluentAssertions.Execution
         #region Private Definitions
 
         private readonly IAssertionStrategy assertionStrategy;
-        private readonly ContextDataItems contextData = new ContextDataItems();
+        private readonly ContextDataItems contextData = new();
 
         private Func<string> reason;
         private bool useLineBreaks;
 
-        private static readonly AsyncLocal<AssertionScope> CurrentScope = new AsyncLocal<AssertionScope>();
+        private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";

@@ -8,7 +8,7 @@ namespace FluentAssertions.Common
     /// </summary>
     public static class Services
     {
-        private static readonly object Lockable = new object();
+        private static readonly object Lockable = new();
         private static Configuration configuration;
 
         static Services()

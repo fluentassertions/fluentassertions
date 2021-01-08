@@ -461,7 +461,7 @@ namespace FluentAssertions.Common
             bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
         }
 
-        private static readonly Dictionary<Type, string> DefaultDictionary = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> DefaultDictionary = new()
         {
             { typeof(int), "int" },
             { typeof(uint), "uint" },

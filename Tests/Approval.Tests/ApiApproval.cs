@@ -24,7 +24,7 @@ namespace Approval.Tests
         public void ApproveApi(string projectName, string frameworkVersion)
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(new Uri(codeBase));
+            var uri = new UriBuilder(new Uri(codeBase));
             string assemblyPath = Uri.UnescapeDataString(uri.Path);
             var containingDirectory = Path.GetDirectoryName(assemblyPath);
             var configurationName = new DirectoryInfo(containingDirectory).Parent.Name;
