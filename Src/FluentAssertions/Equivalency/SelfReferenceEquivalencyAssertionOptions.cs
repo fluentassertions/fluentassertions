@@ -42,9 +42,7 @@ namespace FluentAssertions.Equivalency
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#pragma warning disable CA1051, SA1401 // TODO: fix in 6.0
-        protected readonly OrderingRuleCollection orderingRules = new();
-#pragma warning restore SA1401, CA1051
+        protected OrderingRuleCollection OrderingRules { get; } = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool isRecursive;
@@ -65,7 +63,7 @@ namespace FluentAssertions.Equivalency
         {
             AddMatchingRule(new MustMatchByNameRule());
 
-            orderingRules.Add(new ByteArrayOrderingRule());
+            OrderingRules.Add(new ByteArrayOrderingRule());
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace FluentAssertions.Equivalency
             selectionRules.AddRange(defaults.SelectionRules);
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
-            orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
+            OrderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
             getDefaultEqualityStrategy = defaults.GetEqualityStrategy;
             TraceWriter = defaults.TraceWriter;
@@ -139,7 +137,7 @@ namespace FluentAssertions.Equivalency
         /// default,
         /// ordering is irrelevant.
         /// </summary>
-        OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => orderingRules;
+        OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => OrderingRules;
 
         /// <summary>
         /// Gets value indicating whether the equality check will include nested collections and complex types.
@@ -468,8 +466,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithStrictOrdering()
         {
-            orderingRules.Clear();
-            orderingRules.Add(new MatchAllOrderingRule());
+            OrderingRules.Clear();
+            OrderingRules.Add(new MatchAllOrderingRule());
             return (TSelf)this;
         }
 
@@ -479,7 +477,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
-            orderingRules.Add(new PredicateBasedOrderingRule(predicate));
+            OrderingRules.Add(new PredicateBasedOrderingRule(predicate));
             return (TSelf)this;
         }
 
@@ -488,8 +486,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithoutStrictOrdering()
         {
-            orderingRules.Clear();
-            orderingRules.Add(new ByteArrayOrderingRule());
+            OrderingRules.Clear();
+            OrderingRules.Add(new ByteArrayOrderingRule());
             return (TSelf)this;
         }
 
@@ -499,7 +497,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithoutStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
-            orderingRules.Add(new PredicateBasedOrderingRule(predicate)
+            OrderingRules.Add(new PredicateBasedOrderingRule(predicate)
             {
                 Invert = true
             });
@@ -669,7 +667,7 @@ namespace FluentAssertions.Equivalency
                 builder.Append("- ").AppendLine(step.ToString());
             }
 
-            foreach (IOrderingRule rule in orderingRules)
+            foreach (IOrderingRule rule in OrderingRules)
             {
                 builder.Append("- ").AppendLine(rule.ToString());
             }
@@ -747,7 +745,7 @@ namespace FluentAssertions.Equivalency
 
         private TSelf AddOrderingRule(IOrderingRule orderingRule)
         {
-            orderingRules.Add(orderingRule);
+            OrderingRules.Add(orderingRule);
             return (TSelf)this;
         }
 
