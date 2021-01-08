@@ -1060,6 +1060,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_dictionary_is_missing_a_key_it_should_report_the_specific_key()
+        {
+            // Arrange
+            var actual = new Dictionary<string,string>
+            {
+                { "a", "x" },
+                { "b", "x" },
+            };
+
+            var expected = new Dictionary<string,string>
+            {
+                { "a", "x" },
+                { "c", "x" }, // key mismatch
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected actual*Dictionary*key*c*");
+        }
+
+        [Fact]
         public void When_a_nested_dictionary_value_doesnt_match_it_should_throw()
         {
             // Arrange
