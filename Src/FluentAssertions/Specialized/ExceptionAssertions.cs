@@ -91,10 +91,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected inner {0}{reason}, but ", typeof(TInnerException))
-                .ForCondition(Subject != null)
+                .ForCondition(Subject is not null)
                 .FailWith("no exception was thrown.")
                 .Then
-                .ForCondition(Subject.Any(e => e.InnerException != null))
+                .ForCondition(Subject.Any(e => e.InnerException is not null))
                 .FailWith("the thrown exception has no inner exception.")
                 .Then
                 .ClearExpectation();

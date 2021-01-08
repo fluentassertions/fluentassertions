@@ -42,14 +42,14 @@ namespace FluentAssertions.Equivalency
                         .ForCondition(expectationConstraints.TryGetValue(constraintName, out Constraint expectationConstraint))
                         .FailWith("Found unexpected constraint named {0} in {context:Constraints collection}", constraintName);
 
-                    if ((subjectConstraint != null) && (expectationConstraint != null))
+                    if ((subjectConstraint is not null) && (expectationConstraint is not null))
                     {
                         IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                             constraintName,
                             subjectConstraint,
                             expectationConstraint);
 
-                        if (nestedContext != null)
+                        if (nestedContext is not null)
                         {
                             parent.AssertEqualityUsing(nestedContext);
                         }

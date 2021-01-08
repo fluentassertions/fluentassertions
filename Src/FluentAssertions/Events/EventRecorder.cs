@@ -60,7 +60,7 @@ namespace FluentAssertions.Events
 
         public void Dispose()
         {
-            if (cleanup != null)
+            if (cleanup is not null)
             {
                 cleanup?.Invoke();
                 cleanup = null;

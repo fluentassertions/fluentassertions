@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency
 
             AssertEqualityUsing(context);
 
-            if (context.TraceWriter != null)
+            if (context.TraceWriter is not null)
             {
                 scope.AddReportable("trace", context.TraceWriter.ToString());
             }

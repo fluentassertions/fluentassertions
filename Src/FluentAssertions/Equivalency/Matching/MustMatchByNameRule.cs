@@ -16,13 +16,13 @@ namespace FluentAssertions.Equivalency.Matching
             if (config.IncludeProperties)
             {
                 PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
-                subjectMember = (propertyInfo != null) && !propertyInfo.IsIndexer() ? (IMember)new Property(propertyInfo, parent) : null;
+                subjectMember = (propertyInfo is not null) && !propertyInfo.IsIndexer() ? (IMember)new Property(propertyInfo, parent) : null;
             }
 
             if ((subjectMember is null) && config.IncludeFields)
             {
                 FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
-                subjectMember = (fieldInfo != null) ? (IMember)new Field(fieldInfo, parent) : null;
+                subjectMember = (fieldInfo is not null) ? (IMember)new Field(fieldInfo, parent) : null;
             }
 
             if ((subjectMember is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))

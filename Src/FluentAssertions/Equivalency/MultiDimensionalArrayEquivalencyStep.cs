@@ -122,7 +122,7 @@ namespace FluentAssertions.Equivalency
             var indices = new List<int>();
 
             Digit digit = this;
-            while (digit != null)
+            while (digit is not null)
             {
                 indices.Add(digit.index);
                 digit = digit.nextDigit;

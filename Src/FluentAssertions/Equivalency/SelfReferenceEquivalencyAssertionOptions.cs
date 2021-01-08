@@ -183,7 +183,7 @@ namespace FluentAssertions.Equivalency
             }
             else
             {
-                if (getDefaultEqualityStrategy != null)
+                if (getDefaultEqualityStrategy is not null)
                 {
                     strategy = getDefaultEqualityStrategy(type);
                 }

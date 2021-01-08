@@ -93,7 +93,7 @@ namespace FluentAssertions.Xml
                 + expectedName;
 
             Execute.Assertion
-                .ForCondition(attribute != null)
+                .ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have attribute {0}"
@@ -156,7 +156,7 @@ namespace FluentAssertions.Xml
                 + expectedName;
 
             Execute.Assertion
-                .ForCondition(element != null)
+                .ForCondition(element is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",

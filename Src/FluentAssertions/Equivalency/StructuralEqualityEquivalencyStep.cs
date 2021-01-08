@@ -54,12 +54,12 @@ namespace FluentAssertions.Equivalency
         private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions config)
         {
             IMember matchingMember = FindMatchFor(selectedMember, context, config);
-            if (matchingMember != null)
+            if (matchingMember is not null)
             {
                 IEquivalencyValidationContext nestedContext =
                     context.AsNestedMember(selectedMember, matchingMember);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -71,7 +71,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMember, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

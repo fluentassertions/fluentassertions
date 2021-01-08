@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency.Tracing
         /// </remarks>
         public IDisposable WriteBlock(GetTraceMessage getTraceMessage)
         {
-            if (traceWriter != null)
+            if (traceWriter is not null)
             {
                 return traceWriter.AddBlock(getTraceMessage(currentNode));
             }
@@ -47,6 +47,6 @@ namespace FluentAssertions.Equivalency.Tracing
             }
         }
 
-        public override string ToString() => (traceWriter != null) ? traceWriter.ToString() : string.Empty;
+        public override string ToString() => (traceWriter is not null) ? traceWriter.ToString() : string.Empty;
     }
 }

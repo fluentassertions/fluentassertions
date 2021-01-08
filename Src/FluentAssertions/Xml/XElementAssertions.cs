@@ -182,7 +182,7 @@ namespace FluentAssertions.Xml
             string expectedText = expectedName.ToString();
 
             Execute.Assertion
-                .ForCondition(attribute != null)
+                .ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have attribute {0} with value {1}{reason},"
@@ -234,7 +234,7 @@ namespace FluentAssertions.Xml
         {
             XElement xElement = Subject.Element(expected);
             Execute.Assertion
-                .ForCondition(xElement != null)
+                .ForCondition(xElement is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",

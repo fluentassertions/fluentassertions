@@ -22,18 +22,18 @@ namespace FluentAssertions.Equivalency
             var subject = context.Subject as DataRow;
             var expectation = context.Expectation as DataRow;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataRow} value to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
                     }
@@ -48,9 +48,9 @@ namespace FluentAssertions.Equivalency
                     var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
                     var dataRowConfig = config as DataEquivalencyAssertionOptions<DataRow>;
 
-                    if (((dataSetConfig == null) || !dataSetConfig.AllowMismatchedTypes)
-                     && ((dataTableConfig == null) || !dataTableConfig.AllowMismatchedTypes)
-                     && ((dataRowConfig == null) || !dataRowConfig.AllowMismatchedTypes))
+                    if (((dataSetConfig is null) || !dataSetConfig.AllowMismatchedTypes)
+                     && ((dataTableConfig is null) || !dataTableConfig.AllowMismatchedTypes)
+                     && ((dataRowConfig is null) || !dataRowConfig.AllowMismatchedTypes))
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
@@ -96,9 +96,9 @@ namespace FluentAssertions.Equivalency
                 .Select(col => col.ColumnName);
 
             bool ignoreUnmatchedColumns =
-                ((dataSetConfig != null) && dataSetConfig.IgnoreUnmatchedColumns) ||
-                ((dataTableConfig != null) && dataTableConfig.IgnoreUnmatchedColumns) ||
-                ((dataRowConfig != null) && dataRowConfig.IgnoreUnmatchedColumns);
+                ((dataSetConfig is not null) && dataSetConfig.IgnoreUnmatchedColumns) ||
+                ((dataTableConfig is not null) && dataTableConfig.IgnoreUnmatchedColumns) ||
+                ((dataRowConfig is not null) && dataRowConfig.IgnoreUnmatchedColumns);
 
             DataRowVersion subjectVersion =
                 (subject.RowState == DataRowState.Deleted)
@@ -112,9 +112,9 @@ namespace FluentAssertions.Equivalency
 
             bool compareOriginalVersions = (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
 
-            if (((dataSetConfig != null) && dataSetConfig.ExcludeOriginalData)
-             || ((dataTableConfig != null) && dataTableConfig.ExcludeOriginalData)
-             || ((dataRowConfig != null) && dataRowConfig.ExcludeOriginalData))
+            if (((dataSetConfig is not null) && dataSetConfig.ExcludeOriginalData)
+             || ((dataTableConfig is not null) && dataTableConfig.ExcludeOriginalData)
+             || ((dataRowConfig is not null) && dataRowConfig.ExcludeOriginalData))
             {
                 compareOriginalVersions = false;
             }
@@ -124,9 +124,9 @@ namespace FluentAssertions.Equivalency
                 DataColumn expectationColumn = expectation.Table.Columns[columnName];
                 DataColumn subjectColumn = subject.Table.Columns[columnName];
 
-                if (((dataSetConfig != null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
-                 || ((dataTableConfig != null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
-                 || ((dataRowConfig != null) && dataRowConfig.ShouldExcludeColumn(subjectColumn)))
+                if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
+                 || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
+                 || ((dataRowConfig is not null) && dataRowConfig.ShouldExcludeColumn(subjectColumn)))
                 {
                     continue;
                 }
@@ -134,15 +134,15 @@ namespace FluentAssertions.Equivalency
                 if (!ignoreUnmatchedColumns)
                 {
                     AssertionScope.Current
-                        .ForCondition(subjectColumn != null)
+                        .ForCondition(subjectColumn is not null)
                         .FailWith("Expected {context:DataRow} to have column '{0}'{reason}, but found none", columnName);
 
                     AssertionScope.Current
-                        .ForCondition(expectationColumn != null)
+                        .ForCondition(expectationColumn is not null)
                         .FailWith("Found unexpected column '{0}' in {context:DataRow}", columnName);
                 }
 
-                if ((subjectColumn != null) && (expectationColumn != null))
+                if ((subjectColumn is not null) && (expectationColumn is not null))
                 {
                     CompareFieldValue(context, parent, subject, expectation, subjectColumn, subjectVersion, expectationColumn, expectationVersion);
 
@@ -163,7 +163,7 @@ namespace FluentAssertions.Equivalency
                 subject[subjectColumn, subjectVersion],
                 expectation[expectationColumn, expectationVersion]);
 
-            if (nestedContext != null)
+            if (nestedContext is not null)
             {
                 parent.AssertEqualityUsing(nestedContext);
             }

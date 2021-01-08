@@ -1072,7 +1072,7 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found <null>", expected)
                 .Then
                 .ForCondition(Subject.Length == expected)

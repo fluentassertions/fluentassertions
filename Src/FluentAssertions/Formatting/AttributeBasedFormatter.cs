@@ -25,7 +25,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return IsScanningEnabled && (value != null) && (GetFormatter(value) != null);
+            return IsScanningEnabled && (value is not null) && (GetFormatter(value) is not null);
         }
 
         private static bool IsScanningEnabled
@@ -55,7 +55,7 @@ namespace FluentAssertions.Formatting
 
                 valueType = valueType.BaseType;
             }
-            while (valueType != null);
+            while (valueType is not null);
 
             return null;
         }
@@ -83,7 +83,7 @@ namespace FluentAssertions.Formatting
         {
             var query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
-                where type != null
+                where type is not null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
                 where method.ReturnType == typeof(string)

@@ -52,7 +52,7 @@ namespace FluentAssertions
             int insertIndex = Math.Max(steps.Count - 1, 0);
 
             IEquivalencyStep predecessor = steps.LastOrDefault(s => s is TPredecessor);
-            if (predecessor != null)
+            if (predecessor is not null)
             {
                 insertIndex = Math.Min(insertIndex, steps.LastIndexOf(predecessor) + 1);
             }
@@ -78,7 +78,7 @@ namespace FluentAssertions
             int insertIndex = Math.Max(steps.Count - 1, 0);
 
             IEquivalencyStep equalityStep = steps.LastOrDefault(s => s is TSuccessor);
-            if (equalityStep != null)
+            if (equalityStep is not null)
             {
                 insertIndex = steps.LastIndexOf(equalityStep);
             }

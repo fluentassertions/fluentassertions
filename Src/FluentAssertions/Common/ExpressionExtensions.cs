@@ -41,7 +41,7 @@ namespace FluentAssertions.Common
             var declaringTypes = new List<Type>();
             Expression node = expression;
 
-            while (node != null)
+            while (node is not null)
             {
 #pragma warning disable IDE0010 // System.Linq.Expressions.ExpressionType has many members we do not care about
                 switch (node.NodeType)

@@ -45,7 +45,7 @@ namespace FluentAssertions.Xml.Equivalency
         private IEnumerable<Node> GetPath()
         {
             Node current = this;
-            while (current.Parent != null)
+            while (current.Parent is not null)
             {
                 yield return current;
                 current = current.Parent;

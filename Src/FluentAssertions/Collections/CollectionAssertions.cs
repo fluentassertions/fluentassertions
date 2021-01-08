@@ -36,7 +36,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to be empty{reason}, ")
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .FailWith("but found {0}.", Subject)
                 .Then
                 .Given(() => Subject.Cast<object>())
@@ -60,7 +60,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -89,7 +89,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
         {
-            var nullOrEmpty = ReferenceEquals(Subject, null) || !Subject.Cast<object>().Any();
+            var nullOrEmpty = Subject is null || !Subject.Cast<object>().Any();
 
             Execute.Assertion.ForCondition(nullOrEmpty)
                 .BecauseOf(because, becauseArgs)
@@ -128,7 +128,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -173,7 +173,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -240,7 +240,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
 
-            bool subjectIsNull = ReferenceEquals(Subject, null);
+            bool subjectIsNull = Subject is null;
             bool expectationIsNull = expectation is null;
             if (subjectIsNull && expectationIsNull)
             {
@@ -281,7 +281,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotEqual(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -492,7 +492,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -535,7 +535,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -611,7 +611,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -706,7 +706,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject != null)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} not to contain equivalent of {0}{reason}, but collection is <null>.", unexpected);
 
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
@@ -777,7 +777,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -826,7 +826,7 @@ namespace FluentAssertions.Collections
                     nameof(expected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -896,7 +896,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1100,7 +1100,7 @@ namespace FluentAssertions.Collections
         {
             string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1216,7 +1216,7 @@ namespace FluentAssertions.Collections
         {
             string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1261,7 +1261,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1301,7 +1301,7 @@ namespace FluentAssertions.Collections
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Cannot assert a <null> collection against a subset.");
 
@@ -1343,7 +1343,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1381,7 +1381,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1428,7 +1428,7 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<TAssertions, object> HaveElementAt(int index, object element, string because = "",
             params object[] becauseArgs)
         {
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1480,7 +1480,7 @@ namespace FluentAssertions.Collections
                     nameof(unexpected));
             }
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1537,7 +1537,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1576,7 +1576,7 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
-            if (ReferenceEquals(Subject, null))
+            if (Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -1833,7 +1833,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", typeof(T).FullName)
                 .Given(() => Subject.Cast<object>())
-                .ForCondition(subject => subject.All(x => x != null))
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => typeof(T).IsAssignableFrom(GetType(x))))
@@ -1863,7 +1863,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
-                .ForCondition(subject => subject.All(x => x != null))
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
@@ -1891,7 +1891,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", typeof(T).FullName)
                 .Given(() => Subject.Cast<object>())
-                .ForCondition(subject => subject.All(x => x != null))
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => typeof(T) == GetType(x)))
@@ -1921,7 +1921,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
                 .Given(() => Subject.Cast<object>())
-                .ForCondition(subject => subject.All(x => x != null))
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(subject => subject.All(x => expectedType == GetType(x)))

@@ -52,7 +52,7 @@ namespace FluentAssertions.Specialized
             object[] failArgs)
         {
             Execute.Assertion
-                .ForCondition(subject is object)
+                .ForCondition(subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failMessage1, failArgs);
 

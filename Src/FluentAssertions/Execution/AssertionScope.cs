@@ -53,7 +53,7 @@ namespace FluentAssertions.Execution
         {
             SetCurrentAssertionScope(this);
 
-            if (parent != null)
+            if (parent is not null)
             {
                 contextData.Add(parent.contextData);
                 Context = parent.Context;
@@ -247,7 +247,7 @@ namespace FluentAssertions.Execution
                 {
                     string result = failReasonFunc();
 
-                    if (expectation != null)
+                    if (expectation is not null)
                     {
                         result = expectation() + result;
                     }
@@ -352,7 +352,7 @@ namespace FluentAssertions.Execution
         {
             SetCurrentAssertionScope(parent);
 
-            if (parent != null)
+            if (parent is not null)
             {
                 foreach (string failureMessage in assertionStrategy.FailureMessages)
                 {

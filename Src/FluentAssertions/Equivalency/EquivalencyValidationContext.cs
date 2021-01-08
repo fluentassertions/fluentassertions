@@ -47,12 +47,12 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                if (Expectation != null)
+                if (Expectation is not null)
                 {
                     return Expectation.GetType();
                 }
 
-                if (CurrentNode != null)
+                if (CurrentNode is not null)
                 {
                     return CurrentNode.Type;
                 }

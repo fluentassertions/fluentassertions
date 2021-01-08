@@ -25,7 +25,7 @@ namespace FluentAssertions.Xml.Equivalency
         {
             Failure failure = Validate();
 
-            if (shouldBeEquivalent && failure != null)
+            if (shouldBeEquivalent && failure is not null)
             {
                 assertion.FailWith(failure.FormatString, failure.FormatParams);
             }
@@ -61,7 +61,7 @@ namespace FluentAssertions.Xml.Equivalency
                 {
                     case XmlNodeType.Element:
                         failure = ValidateStartElement();
-                        if (failure != null)
+                        if (failure is not null)
                         {
                             return failure;
                         }
@@ -108,7 +108,7 @@ namespace FluentAssertions.Xml.Equivalency
                             $"{expectationIterator.NodeType} found at {currentNode.GetXPath()} is not supported for equivalency comparison.");
                 }
 
-                if (failure != null)
+                if (failure is not null)
                 {
                     return failure;
                 }

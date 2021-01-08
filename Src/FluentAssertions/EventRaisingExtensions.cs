@@ -143,7 +143,7 @@ namespace FluentAssertions
                 Execute
                     .Assertion
                     .FailWith("Expected at least one event with arguments matching {0}, but found none.",
-                    string.Join(" | ", predicates.Where(p => p != null).Select(p => p.Body.ToString())));
+                    string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
             }
 
             return new FilteredEventRecording(eventRecording, eventsMatchingPredicate);

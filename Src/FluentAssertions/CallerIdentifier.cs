@@ -33,7 +33,7 @@ namespace FluentAssertions
 
                 int searchStart = allStackFrames.Length - 1;
 
-                if (StartStackSearchAfterStackFrame.Value != null)
+                if (StartStackSearchAfterStackFrame.Value is not null)
                 {
                     searchStart = Array.FindLastIndex(
                         allStackFrames,
@@ -55,7 +55,7 @@ namespace FluentAssertions
 
                     logger(frame.ToString());
 
-                    if (frame.GetMethod() is object
+                    if (frame.GetMethod() is not null
                         && !IsDynamic(frame)
                         && !IsDotNet(frame)
                         && !IsCustomAssertion(frame))
@@ -174,7 +174,7 @@ namespace FluentAssertions
             int column = frame.GetFileColumnNumber();
             string line = GetSourceCodeLineFrom(frame);
 
-            if ((line != null) && (column != 0) && (line.Length > 0))
+            if ((line is not null) && (column != 0) && (line.Length > 0))
             {
                 string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
 
@@ -214,7 +214,7 @@ namespace FluentAssertions
                 string line;
                 int currentLine = 1;
 
-                while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)
+                while ((line = reader.ReadLine()) is not null && currentLine < expectedLineNumber)
                 {
                     currentLine++;
                 }

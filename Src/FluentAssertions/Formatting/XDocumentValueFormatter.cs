@@ -14,7 +14,7 @@ namespace FluentAssertions.Formatting
         {
             var document = (XDocument)value;
 
-            return (document.Root != null)
+            return (document.Root is not null)
                 ? formatChild("root", document.Root)
                 : FormatDocumentWithoutRoot();
         }

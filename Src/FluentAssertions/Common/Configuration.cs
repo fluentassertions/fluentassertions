@@ -52,7 +52,7 @@ namespace FluentAssertions.Common
 
         private ValueFormatterDetectionMode DetermineFormatterDetectionMode()
         {
-            if (ValueFormatterAssembly != null)
+            if (ValueFormatterAssembly is not null)
             {
                 return ValueFormatterDetectionMode.Specific;
             }

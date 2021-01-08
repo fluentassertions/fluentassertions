@@ -20,18 +20,18 @@ namespace FluentAssertions.Equivalency
             var subject = context.Subject as DataRelation;
             var expectation = context.Expectation as DataRelation;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataRelation} to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
                     }
@@ -89,12 +89,12 @@ namespace FluentAssertions.Equivalency
             {
                 IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-                if (matchingMember != null)
+                if (matchingMember is not null)
                 {
                     IEquivalencyValidationContext nestedContext =
                             context.AsNestedMember(expectationMember, matchingMember);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -197,7 +197,7 @@ namespace FluentAssertions.Equivalency
 
                 IEquivalencyValidationContext nestedContext = context.AsNestedMember(expectationMember, subjectMember);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -209,7 +209,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

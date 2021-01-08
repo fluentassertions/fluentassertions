@@ -70,7 +70,7 @@ namespace FluentAssertions.Equivalency
                     subject[i],
                     expectation[i]);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -104,7 +104,7 @@ namespace FluentAssertions.Equivalency
         {
             Type[] primaryKeyTypes = null;
 
-            if ((table.PrimaryKey == null) || (table.PrimaryKey.Length == 0))
+            if ((table.PrimaryKey is null) || (table.PrimaryKey.Length == 0))
             {
                 AssertionScope.Current
                     .FailWith("Table '{0}' containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.", table.TableName, comparisonTerm);
@@ -126,7 +126,7 @@ namespace FluentAssertions.Equivalency
         {
             bool matchingTypes = false;
 
-            if ((subjectPrimaryKeyTypes != null) && (expectationPrimaryKeyTypes != null))
+            if ((subjectPrimaryKeyTypes is not null) && (expectationPrimaryKeyTypes is not null))
             {
                 matchingTypes = subjectPrimaryKeyTypes.Length == expectationPrimaryKeyTypes.Length;
 
@@ -171,7 +171,7 @@ namespace FluentAssertions.Equivalency
                         subjectRow,
                         expectationRow);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -204,7 +204,7 @@ namespace FluentAssertions.Equivalency
 
             public bool Equals(CompoundKey other)
             {
-                if (other == null)
+                if (other is null)
                 {
                     return false;
                 }

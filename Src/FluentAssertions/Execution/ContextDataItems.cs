@@ -19,7 +19,7 @@ namespace FluentAssertions.Execution
         public string AsStringOrDefault(string key)
         {
             DataItem item = items.SingleOrDefault(i => i.Key == key);
-            if (item != null)
+            if (item is not null)
             {
                 if (item.RequiresFormatting)
                 {

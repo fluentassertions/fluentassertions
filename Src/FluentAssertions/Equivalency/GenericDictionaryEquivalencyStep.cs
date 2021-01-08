@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
-            return context.Expectation != null && GetIDictionaryInterfaces(expectationType).Any();
+            return context.Expectation is not null && GetIDictionaryInterfaces(expectationType).Any();
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,

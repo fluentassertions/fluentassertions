@@ -219,7 +219,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> NotBe(Type unexpected, string because = "", params object[] becauseArgs)
         {
-            string nameOfUnexpectedType = (unexpected != null) ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
+            string nameOfUnexpectedType = (unexpected is not null) ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
 
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
@@ -784,14 +784,14 @@ namespace FluentAssertions.Types
 
             string propertyInfoDescription = string.Empty;
 
-            if (propertyInfo != null)
+            if (propertyInfo is not null)
             {
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyInfo != null)
+                .ForCondition(propertyInfo is not null)
                 .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
                 .Then
                 .ForCondition(propertyInfo.PropertyType == propertyType)
@@ -835,7 +835,7 @@ namespace FluentAssertions.Types
 
             string propertyInfoDescription = string.Empty;
 
-            if (propertyInfo != null)
+            if (propertyInfo is not null)
             {
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
@@ -1054,12 +1054,12 @@ namespace FluentAssertions.Types
 
             string propertyInfoDescription = string.Empty;
 
-            if (propertyInfo != null)
+            if (propertyInfo is not null)
             {
                 propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
-            Execute.Assertion.ForCondition(propertyInfo != null)
+            Execute.Assertion.ForCondition(propertyInfo is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected {0} {1}[{2}] to exist{{reason}}, but it does not.",
                     indexerType.Name, Subject.FullName,
@@ -1113,7 +1113,7 @@ namespace FluentAssertions.Types
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
-            Execute.Assertion.ForCondition(methodInfo != null)
+            Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected method {0}.{1}({2}) to exist{{reason}}, but it does not.",
                     Subject.FullName, name,
@@ -1141,7 +1141,7 @@ namespace FluentAssertions.Types
 
             string methodInfoDescription = string.Empty;
 
-            if (methodInfo != null)
+            if (methodInfo is not null)
             {
                 methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
             }
@@ -1169,7 +1169,7 @@ namespace FluentAssertions.Types
         {
             ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
 
-            Execute.Assertion.ForCondition(constructorInfo != null)
+            Execute.Assertion.ForCondition(constructorInfo is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected constructor {0}({1}) to exist{{reason}}, but it does not.",
                     Subject.FullName,
@@ -1317,7 +1317,7 @@ namespace FluentAssertions.Types
         {
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
-            Execute.Assertion.ForCondition(methodInfo != null)
+            Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected public static implicit {0}({1}) to exist{{reason}}, but it does not.",
                     targetType.FullName, sourceType.FullName));
@@ -1399,7 +1399,7 @@ namespace FluentAssertions.Types
         {
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
-            Execute.Assertion.ForCondition(methodInfo != null)
+            Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(string.Format("Expected public static explicit {0}({1}) to exist{{reason}}, but it does not.",
                     targetType.FullName, sourceType.FullName));

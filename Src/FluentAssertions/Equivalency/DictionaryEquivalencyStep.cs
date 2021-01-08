@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
 
             if (PreconditionsAreMet(expectation, subject))
             {
-                if (expectation != null)
+                if (expectation is not null)
                 {
                     foreach (object key in expectation.Keys)
                     {
@@ -64,14 +64,14 @@ namespace FluentAssertions.Equivalency
         private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition(((expectation is null) && (subject is null)) || (expectation != null))
+                .ForCondition(((expectation is null) && (subject is null)) || (expectation is not null))
                 .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", null, subject);
         }
 
         private static bool AssertIsDictionary(IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition(subject != null)
+                .ForCondition(subject is not null)
                 .FailWith("Expected {context:subject} to be a dictionary, but it is not.");
         }
 
