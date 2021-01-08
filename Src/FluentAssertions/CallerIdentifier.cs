@@ -15,9 +15,7 @@ namespace FluentAssertions
     /// </summary>
     public static class CallerIdentifier
     {
-#pragma warning disable CA2211, SA1401, SA1307 // TODO: fix in 6.0
-        public static Action<string> logger = _ => { };
-#pragma warning restore SA1307, SA1401, CA2211
+        public static Action<string> Logger { get; set; } = _ => { };
 
         public static string DetermineCallerIdentity()
         {
@@ -53,7 +51,7 @@ namespace FluentAssertions
                 {
                     var frame = allStackFrames[i];
 
-                    logger(frame.ToString());
+                    Logger(frame.ToString());
 
                     if (frame.GetMethod() is not null
                         && !IsDynamic(frame)
@@ -68,7 +66,7 @@ namespace FluentAssertions
             catch (Exception e)
             {
                 // Ignore exceptions, as determination of caller identity is only a nice-to-have
-                logger(e.ToString());
+                Logger(e.ToString());
             }
 
             return caller;
@@ -178,14 +176,14 @@ namespace FluentAssertions
             {
                 string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
 
-                logger(statement);
+                Logger(statement);
 
                 int indexOfShould = statement.IndexOf(".Should", StringComparison.Ordinal);
                 if (indexOfShould != -1)
                 {
                     string candidate = statement.Substring(0, indexOfShould);
 
-                    logger(candidate);
+                    Logger(candidate);
 
                     if (!IsBooleanLiteral(candidate) && !IsNumeric(candidate) && !IsStringLiteral(candidate) &&
                         !UsesNewKeyword(candidate))

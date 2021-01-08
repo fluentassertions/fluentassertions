@@ -129,7 +129,7 @@ namespace FluentAssertions
     }
     public static class CallerIdentifier
     {
-        public static System.Action<string> logger;
+        public static System.Action<string> Logger { get; set; }
         public static string DetermineCallerIdentity() { }
     }
     [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=false)]

@@ -18,6 +18,7 @@ sidebar:
 **Breaking Changes**
 
 **Breaking Changes (Extensibility)**
+* Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
 
 ## 6.0.0 Alpha 2
 
