@@ -134,7 +134,7 @@ namespace FluentAssertions.Data
         /// </summary>
         /// <remarks>
         /// Data tables are equivalent when the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>TableName</description></item>
         ///   <item><description>CaseSensitive</description></item>
@@ -145,9 +145,9 @@ namespace FluentAssertions.Data
         ///   <item><description>Prefix</description></item>
         ///   <item><description>RemotingFormat</description></item>
         /// </list>
-        /// 
+        ///
         /// In addition, the following collections must contain equivalent data:
-        /// 
+        ///
         /// <list type="type=bullet">
         ///   <item><description>ChildRelations</description></item>
         ///   <item><description>Columns</description></item>
@@ -157,7 +157,7 @@ namespace FluentAssertions.Data
         ///   <item><description>PrimaryKey</description></item>
         ///   <item><description>Rows</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataTable"/> objects must be of the same type; if two <see cref="DataTable"/> objects
         /// are equivalent in all ways, except that one is a typed <see cref="DataTable"/> that is a subclass
         /// of <see cref="DataTable"/>, then by default, they will not be considered equivalent. This can be overridden
@@ -186,7 +186,7 @@ namespace FluentAssertions.Data
         /// </summary>
         /// <remarks>
         /// Data tables are equivalent when the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>TableName</description></item>
         ///   <item><description>CaseSensitive</description></item>
@@ -197,9 +197,9 @@ namespace FluentAssertions.Data
         ///   <item><description>Prefix</description></item>
         ///   <item><description>RemotingFormat</description></item>
         /// </list>
-        /// 
+        ///
         /// In addition, the following collections must contain equivalent data:
-        /// 
+        ///
         /// <list type="type=bullet">
         ///   <item><description>ChildRelations</description></item>
         ///   <item><description>Columns</description></item>
@@ -209,11 +209,11 @@ namespace FluentAssertions.Data
         ///   <item><description>PrimaryKey</description></item>
         ///   <item><description>Rows</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataTable"/> objects must be of the same type; if two <see cref="DataTable"/> objects
         /// are equivalent in all ways, except that one is a typed <see cref="DataTable"/> that is a subclass
         /// of <see cref="DataTable"/>, then by default, they will not be considered equivalent.
-        /// 
+        ///
         /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
         /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataTable"/>
         /// objects of differing types can be considered equivalent. Exclude specific properties using
@@ -221,7 +221,7 @@ namespace FluentAssertions.Data
         /// Exclude columns of the data table using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/>
         /// or a related function -- this excludes both the <see cref="DataColumn"/> objects in <see cref="DataTable.Columns"/>
         /// and associated field data in <see cref="DataRow"/> objects within the <see cref="DataTable"/>.
-        /// 
+        ///
         /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
         /// and related functions to exclude properties on other related System.Data types.
         /// </remarks>
