@@ -31,7 +31,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<AssemblyAssertions> NotReference(Assembly assembly, string because = "", params string[] becauseArgs)
+        public AndConstraint<AssemblyAssertions> NotReference(Assembly assembly, string because = "", params object[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -57,7 +57,7 @@ namespace FluentAssertions.Reflection
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<AssemblyAssertions> Reference(Assembly assembly, string because = "", params string[] becauseArgs)
+        public AndConstraint<AssemblyAssertions> Reference(Assembly assembly, string because = "", params object[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
