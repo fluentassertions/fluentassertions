@@ -135,14 +135,14 @@ namespace FluentAssertions.Equivalency
         {
             // Note: The collections here are listed in the XML documentation for the DataSet.BeEquivalentTo extension
             // method in DataSetAssertions.cs. If this ever needs to change, keep them in sync.
-            CompareExtendedProperties(context, parent, config, expectation, selectedMembers);
+            CompareExtendedProperties(context, parent, config, selectedMembers);
 
             CompareTables(context, parent, subject, expectation, dataConfig, selectedMembers);
         }
 
-        private static void CompareExtendedProperties(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataSet expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareExtendedProperties(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
-            foreach (var collectionName in new[] { nameof(expectation.ExtendedProperties), nameof(expectation.Relations) })
+            foreach (var collectionName in new[] { nameof(DataSet.ExtendedProperties), nameof(DataSet.Relations) })
             {
                 if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {

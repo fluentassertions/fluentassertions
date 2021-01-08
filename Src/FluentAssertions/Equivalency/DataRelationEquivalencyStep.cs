@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, parent, config, expectation, selectedMembers);
+                    CompareCollections(context, parent, config, selectedMembers);
 
                     CompareRelationConstraints(context, parent, config, subject, expectation, selectedMembers);
                 }
@@ -83,9 +83,9 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataRelation expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
-            if (selectedMembers.TryGetValue(nameof(expectation.ExtendedProperties), out IMember expectationMember))
+            if (selectedMembers.TryGetValue(nameof(DataRelation.ExtendedProperties), out IMember expectationMember))
             {
                 IMember matchingMember = FindMatchFor(expectationMember, context, config);
 

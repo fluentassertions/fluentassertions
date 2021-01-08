@@ -58,7 +58,7 @@ namespace FluentAssertions.Equivalency
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, parent, config, expectation, selectedMembers);
+                    CompareCollections(context, parent, config, selectedMembers);
                 }
             }
 
@@ -126,19 +126,19 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataTable expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
             // Note: The collections here are listed in the XML documentation for the DataTable.BeEquivalentTo extension
             // method in DataTableAssertions.cs. If this ever needs to change, keep them in sync.
             var collectionNames = new[]
             {
-                nameof(expectation.ChildRelations),
-                nameof(expectation.Columns),
-                nameof(expectation.Constraints),
-                nameof(expectation.ExtendedProperties),
-                nameof(expectation.ParentRelations),
-                nameof(expectation.PrimaryKey),
-                nameof(expectation.Rows),
+                nameof(DataTable.ChildRelations),
+                nameof(DataTable.Columns),
+                nameof(DataTable.Constraints),
+                nameof(DataTable.ExtendedProperties),
+                nameof(DataTable.ParentRelations),
+                nameof(DataTable.PrimaryKey),
+                nameof(DataTable.Rows),
             };
 
             foreach (var collectionName in collectionNames)
