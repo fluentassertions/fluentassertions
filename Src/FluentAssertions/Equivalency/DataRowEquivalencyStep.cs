@@ -199,10 +199,11 @@ namespace FluentAssertions.Equivalency
                     });
                 }
 
-                selectedMembers = new SelectedDataRowMembers();
-
-                selectedMembers.HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors));
-                selectedMembers.RowState = members.Any(m => m.Name == nameof(DataRow.RowState));
+                selectedMembers = new SelectedDataRowMembers
+                {
+                    HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors)),
+                    RowState = members.Any(m => m.Name == nameof(DataRow.RowState))
+                };
 
                 SelectedMembersCache.TryAdd(cacheKey, selectedMembers);
             }
