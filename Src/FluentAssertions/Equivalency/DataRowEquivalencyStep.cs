@@ -48,9 +48,9 @@ namespace FluentAssertions.Equivalency
                     var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
                     var dataRowConfig = config as DataEquivalencyAssertionOptions<DataRow>;
 
-                    if (((dataSetConfig is null) || !dataSetConfig.AllowMismatchedTypes)
-                     && ((dataTableConfig is null) || !dataTableConfig.AllowMismatchedTypes)
-                     && ((dataRowConfig is null) || !dataRowConfig.AllowMismatchedTypes))
+                    if (dataSetConfig?.AllowMismatchedTypes != true
+                     && dataTableConfig?.AllowMismatchedTypes != true
+                     && dataRowConfig?.AllowMismatchedTypes != true)
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
