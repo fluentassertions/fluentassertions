@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             for (int i = 0; i < expectation.Count; i++)
             {
-                var nestedContext = context.AsCollectionItem(
+                IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                     i.ToString(),
                     subject[i],
                     expectation[i]);
@@ -153,11 +153,11 @@ namespace FluentAssertions.Equivalency
             var expectationRowByKey = expectation.Cast<DataRow>()
                 .ToDictionary(row => ExtractPrimaryKey(row));
 
-            foreach (var subjectRow in subject.Cast<DataRow>())
+            foreach (DataRow subjectRow in subject.Cast<DataRow>())
             {
-                var key = ExtractPrimaryKey(subjectRow);
+                CompoundKey key = ExtractPrimaryKey(subjectRow);
 
-                if (!expectationRowByKey.TryGetValue(key, out var expectationRow))
+                if (!expectationRowByKey.TryGetValue(key, out DataRow expectationRow))
                 {
                     AssertionScope.Current
                         .FailWith("Found unexpected row in {context:DataRowCollection} with key {0}", key);
@@ -166,7 +166,7 @@ namespace FluentAssertions.Equivalency
                 {
                     expectationRowByKey.Remove(key);
 
-                    var nestedContext = context.AsCollectionItem(
+                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                         key.ToString(),
                         subjectRow,
                         expectationRow);
@@ -247,7 +247,7 @@ namespace FluentAssertions.Equivalency
 
         private static CompoundKey ExtractPrimaryKey(DataRow row)
         {
-            var primaryKey = row.Table.PrimaryKey;
+            DataColumn[] primaryKey = row.Table.PrimaryKey;
 
             var values = new object[primaryKey.Length];
 

@@ -66,7 +66,7 @@ namespace FluentAssertions.Equivalency
 
             if (compareColumn)
             {
-                foreach (var expectationMember in GetMembersFromExpectation(context, config))
+                foreach (IMember expectationMember in GetMembersFromExpectation(context, config))
                 {
                     if (expectationMember.Name != nameof(subject.Table))
                     {
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareMember(IMember expectationMember, IEquivalencyValidator parent, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var matchingMember = FindMatchFor(expectationMember, context, config);
+            IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
             if (matchingMember != null)
             {

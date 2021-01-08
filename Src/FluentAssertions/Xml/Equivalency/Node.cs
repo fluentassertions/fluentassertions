@@ -22,7 +22,7 @@ namespace FluentAssertions.Xml.Equivalency
         {
             var resultBuilder = new StringBuilder();
 
-            foreach (var location in GetPath().Reverse())
+            foreach (Node location in GetPath().Reverse())
             {
                 if (location.count > 1)
                 {

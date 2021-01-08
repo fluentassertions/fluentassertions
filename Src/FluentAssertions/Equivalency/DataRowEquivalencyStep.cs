@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -56,7 +57,7 @@ namespace FluentAssertions.Equivalency
                             .FailWith("Expected {context:DataRow} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
                     }
 
-                    var selectedMembers = GetMembersFromExpectation(context, config);
+                    SelectedDataRowMembers selectedMembers = GetMembersFromExpectation(context, config);
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
@@ -88,10 +89,10 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareFieldValues(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRow subject, DataRow expectation, DataEquivalencyAssertionOptions<DataSet> dataSetConfig, DataEquivalencyAssertionOptions<DataTable> dataTableConfig, DataEquivalencyAssertionOptions<DataRow> dataRowConfig)
         {
-            var expectationColumnNames = expectation.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> expectationColumnNames = expectation.Table.Columns.OfType<DataColumn>()
                 .Select(col => col.ColumnName);
 
-            var subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
                 .Select(col => col.ColumnName);
 
             bool ignoreUnmatchedColumns =
@@ -99,12 +100,12 @@ namespace FluentAssertions.Equivalency
                 ((dataTableConfig != null) && dataTableConfig.IgnoreUnmatchedColumns) ||
                 ((dataRowConfig != null) && dataRowConfig.IgnoreUnmatchedColumns);
 
-            var subjectVersion =
+            DataRowVersion subjectVersion =
                 (subject.RowState == DataRowState.Deleted)
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
-            var expectationVersion =
+            DataRowVersion expectationVersion =
                 (expectation.RowState == DataRowState.Deleted)
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
@@ -120,8 +121,8 @@ namespace FluentAssertions.Equivalency
 
             foreach (var columnName in expectationColumnNames.Union(subjectColumnNames))
             {
-                var expectationColumn = expectation.Table.Columns[columnName];
-                var subjectColumn = subject.Table.Columns[columnName];
+                DataColumn expectationColumn = expectation.Table.Columns[columnName];
+                DataColumn subjectColumn = subject.Table.Columns[columnName];
 
                 if (((dataSetConfig != null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
                  || ((dataTableConfig != null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
@@ -155,7 +156,7 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareFieldValue(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRow subject, DataRow expectation, DataColumn subjectColumn, DataRowVersion subjectVersion, DataColumn expectationColumn, DataRowVersion expectationVersion)
         {
-            var nestedContext = context.AsCollectionItem(
+            IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                 subjectVersion == DataRowVersion.Current
                 ? subjectColumn.ColumnName
                 : $"{subjectColumn.ColumnName}, DataRowVersion.Original",
@@ -183,7 +184,7 @@ namespace FluentAssertions.Equivalency
         {
             var cacheKey = (context.CompileTimeType, context.RuntimeType, config);
 
-            if (!SelectedMembersCache.TryGetValue(cacheKey, out var selectedMembers))
+            if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedMembers))
             {
                 var members = Enumerable.Empty<IMember>();
 

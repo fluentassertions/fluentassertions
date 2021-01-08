@@ -78,9 +78,9 @@ namespace FluentAssertions.Equivalency
                     .FailWith("Expected {context:constraint} to be associated with a Table with TableName of {0}{reason}, but found {1}", expectation.Table.TableName, subject.Table.TableName);
             }
 
-            if (selectedMembers.TryGetValue("ExtendedProperties", out var expectationMember))
+            if (selectedMembers.TryGetValue("ExtendedProperties", out IMember expectationMember))
             {
-                var matchingMember = FindMatchFor(expectationMember, context, config);
+                IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
                 if (matchingMember != null)
                 {

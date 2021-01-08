@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -29,21 +30,21 @@ namespace FluentAssertions.Equivalency
                 var subjectConstraints = subject.Cast<Constraint>().ToDictionary(constraint => constraint.ConstraintName);
                 var expectationConstraints = expectation.Cast<Constraint>().ToDictionary(constraint => constraint.ConstraintName);
 
-                var constraintNames = subjectConstraints.Keys.Union(expectationConstraints.Keys);
+                IEnumerable<string> constraintNames = subjectConstraints.Keys.Union(expectationConstraints.Keys);
 
                 foreach (var constraintName in constraintNames)
                 {
                     AssertionScope.Current
-                        .ForCondition(subjectConstraints.TryGetValue(constraintName, out var subjectConstraint))
+                        .ForCondition(subjectConstraints.TryGetValue(constraintName, out Constraint subjectConstraint))
                         .FailWith("Expected constraint named {0} in {context:Constraints collection}{reason}, but did not find one", constraintName);
 
                     AssertionScope.Current
-                        .ForCondition(expectationConstraints.TryGetValue(constraintName, out var expectationConstraint))
+                        .ForCondition(expectationConstraints.TryGetValue(constraintName, out Constraint expectationConstraint))
                         .FailWith("Found unexpected constraint named {0} in {context:Constraints collection}", constraintName);
 
                     if ((subjectConstraint != null) && (expectationConstraint != null))
                     {
-                        var nestedContext = context.AsCollectionItem(
+                        IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                             constraintName,
                             subjectConstraint,
                             expectationConstraint);

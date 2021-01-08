@@ -143,9 +143,9 @@ namespace FluentAssertions.Equivalency
 
             foreach (var collectionName in collectionNames)
             {
-                if (selectedMembers.TryGetValue(collectionName, out var expectationMember))
+                if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
-                    var matchingMember = FindMatchFor(expectationMember, context, config);
+                    IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
                     if (matchingMember != null)
                     {

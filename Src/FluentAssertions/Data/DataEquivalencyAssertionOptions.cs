@@ -57,7 +57,7 @@ namespace FluentAssertions.Data
 
             public bool TryGetValue(string key, out ISet<string> value)
             {
-                bool result = owner.excludeColumnNamesByTableName.TryGetValue(key, out var concreteValue);
+                bool result = owner.excludeColumnNamesByTableName.TryGetValue(key, out HashSet<string> concreteValue);
 
                 value = concreteValue;
 
@@ -66,7 +66,7 @@ namespace FluentAssertions.Data
 
             public IEnumerator<KeyValuePair<string, ISet<string>>> GetEnumerator()
             {
-                foreach (var entry in owner.excludeColumnNamesByTableName)
+                foreach (KeyValuePair<string, HashSet<string>> entry in owner.excludeColumnNamesByTableName)
                 {
                     yield return new KeyValuePair<string, ISet<string>>(entry.Key, entry.Value);
                 }
@@ -156,7 +156,7 @@ namespace FluentAssertions.Data
 
         private void ExcludeMemberOfRelatedTypeByGeneratedPredicate<TDeclaringType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
-            var predicate = BuildMemberSelectionPredicate(
+            Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
                 typeof(TDeclaringType),
                 GetMemberAccessTargetMember(expression.Body));
 
@@ -166,7 +166,7 @@ namespace FluentAssertions.Data
         private void ExcludeMemberOfSubtypeOfRelatedTypeByGeneratedPredicate<TDeclaringType, TInheritingType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
             where TInheritingType : TDeclaringType
         {
-            var predicate = BuildMemberSelectionPredicate(
+            Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
                 typeof(TInheritingType),
                 GetMemberAccessTargetMember(expression.Body));
 
@@ -193,21 +193,21 @@ namespace FluentAssertions.Data
 
         private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType, MemberInfo referencedMember)
         {
-            var predicateMemberInfoArgument = Expression.Parameter(typeof(IMemberInfo));
+            ParameterExpression predicateMemberInfoArgument = Expression.Parameter(typeof(IMemberInfo));
 
-            var typeComparison = Expression.Equal(
+            BinaryExpression typeComparison = Expression.Equal(
                 Expression.MakeMemberAccess(
                     predicateMemberInfoArgument,
                     typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.DeclaringType))),
                 Expression.Constant(relatedSubjectType));
 
-            var memberNameComparison = Expression.Equal(
+            BinaryExpression memberNameComparison = Expression.Equal(
                 Expression.MakeMemberAccess(
                     predicateMemberInfoArgument,
                     typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.Name))),
                 Expression.Constant(referencedMember.Name));
 
-            var predicateBody = Expression.AndAlso(
+            BinaryExpression predicateBody = Expression.AndAlso(
                 typeComparison,
                 memberNameComparison);
 
@@ -266,7 +266,7 @@ namespace FluentAssertions.Data
 
         public IDataEquivalencyAssertionOptions<T> ExcludingColumns(IEnumerable<DataColumn> columns)
         {
-            foreach (var column in columns)
+            foreach (DataColumn column in columns)
             {
                 ExcludingColumn(column);
             }
@@ -286,7 +286,7 @@ namespace FluentAssertions.Data
 
         public IDataEquivalencyAssertionOptions<T> ExcludingColumns(string tableName, IEnumerable<string> columnNames)
         {
-            if (!excludeColumnNamesByTableName.TryGetValue(tableName, out var excludeColumnNames))
+            if (!excludeColumnNamesByTableName.TryGetValue(tableName, out HashSet<string> excludeColumnNames))
             {
                 excludeColumnNames = new HashSet<string>();
                 excludeColumnNamesByTableName[tableName] = excludeColumnNames;
@@ -304,7 +304,7 @@ namespace FluentAssertions.Data
                 return true;
             }
 
-            if (excludeColumnNamesByTableName.TryGetValue(column.Table.TableName, out var excludeColumnsForTable)
+            if (excludeColumnNamesByTableName.TryGetValue(column.Table.TableName, out HashSet<string> excludeColumnsForTable)
              && excludeColumnsForTable.Contains(column.ColumnName))
             {
                 return true;

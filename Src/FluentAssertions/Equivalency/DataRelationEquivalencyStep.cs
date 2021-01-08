@@ -85,9 +85,9 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataRelation expectation, Dictionary<string, IMember> selectedMembers)
         {
-            if (selectedMembers.TryGetValue(nameof(expectation.ExtendedProperties), out var expectationMember))
+            if (selectedMembers.TryGetValue(nameof(expectation.ExtendedProperties), out IMember expectationMember))
             {
-                var matchingMember = FindMatchFor(expectationMember, context, config);
+                IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
                 if (matchingMember != null)
                 {
@@ -148,8 +148,8 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationColumns(DataRelation subject, DataRelation expectation, Func<DataRelation, DataColumn[]> getColumns)
         {
-            var subjectColumns = getColumns(subject);
-            var expectationColumns = getColumns(expectation);
+            DataColumn[] subjectColumns = getColumns(subject);
+            DataColumn[] expectationColumns = getColumns(expectation);
 
             // These column references are in different tables in different data sets that _should_ be equivalent
             // to one another.
@@ -161,8 +161,8 @@ namespace FluentAssertions.Equivalency
             {
                 for (int i = 0; i < expectationColumns.Length; i++)
                 {
-                    var subjectColumn = subjectColumns[i];
-                    var expectationColumn = expectationColumns[i];
+                    DataColumn subjectColumn = subjectColumns[i];
+                    DataColumn expectationColumn = expectationColumns[i];
 
                     bool columnsAreEquivalent =
                         (subjectColumn.Table.TableName == expectationColumn.Table.TableName) &&
@@ -181,8 +181,8 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationTable(DataRelation subject, DataRelation expectation, Func<DataRelation, DataTable> getOtherTable)
         {
-            var subjectTable = getOtherTable(subject);
-            var expectationTable = getOtherTable(expectation);
+            DataTable subjectTable = getOtherTable(subject);
+            DataTable expectationTable = getOtherTable(expectation);
 
             AssertionScope.Current
                 .ForCondition(subjectTable.TableName == expectationTable.TableName)
@@ -191,11 +191,11 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationKeyConstraint(IEquivalencyValidator parent, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers, string relationDirection)
         {
-            if (selectedMembers.TryGetValue(relationDirection + "KeyConstraint", out var expectationMember))
+            if (selectedMembers.TryGetValue(relationDirection + "KeyConstraint", out IMember expectationMember))
             {
-                var subjectMember = FindMatchFor(expectationMember, context, config);
+                IMember subjectMember = FindMatchFor(expectationMember, context, config);
 
-                var nestedContext = context.AsNestedMember(expectationMember, subjectMember);
+                IEquivalencyValidationContext nestedContext = context.AsNestedMember(expectationMember, subjectMember);
 
                 if (nestedContext != null)
                 {

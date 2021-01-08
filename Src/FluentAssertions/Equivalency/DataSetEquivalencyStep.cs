@@ -144,9 +144,9 @@ namespace FluentAssertions.Equivalency
         {
             foreach (var collectionName in new[] { nameof(expectation.ExtendedProperties), nameof(expectation.Relations) })
             {
-                if (selectedMembers.TryGetValue(collectionName, out var expectationMember))
+                if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
-                    var matchingMember = FindMatchFor(expectationMember, context, config);
+                    IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
                     if (matchingMember != null)
                     {
@@ -186,9 +186,9 @@ namespace FluentAssertions.Equivalency
                     }
                 }
 
-                var expectationTableNames = expectation.Tables.OfType<DataTable>()
+                IEnumerable<string> expectationTableNames = expectation.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
-                var subjectTableNames = subject.Tables.OfType<DataTable>()
+                IEnumerable<string> subjectTableNames = subject.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
 
                 foreach (string tableName in expectationTableNames.Union(subjectTableNames))
@@ -198,8 +198,8 @@ namespace FluentAssertions.Equivalency
                         continue;
                     }
 
-                    var expectationTable = expectation.Tables[tableName];
-                    var subjectTable = subject.Tables[tableName];
+                    DataTable expectationTable = expectation.Tables[tableName];
+                    DataTable subjectTable = subject.Tables[tableName];
 
                     AssertionScope.Current
                         .ForCondition(subjectTable != null)
@@ -209,7 +209,7 @@ namespace FluentAssertions.Equivalency
                         .ForCondition(expectationTable != null)
                         .FailWith("Found unexpected table '{0}' in DataSet", tableName);
 
-                    var nestedContext = context.AsCollectionItem(
+                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                         tableName,
                         subjectTable,
                         expectationTable);
