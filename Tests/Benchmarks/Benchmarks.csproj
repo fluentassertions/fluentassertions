@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net47</TargetFramework>
     <LangVersion>9.0</LangVersion>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
