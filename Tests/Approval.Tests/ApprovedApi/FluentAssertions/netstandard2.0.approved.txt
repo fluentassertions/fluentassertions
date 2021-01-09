@@ -128,7 +128,7 @@ namespace FluentAssertions
     }
     public static class CallerIdentifier
     {
-        public static System.Action<string> logger;
+        public static System.Action<string> Logger { get; set; }
         public static string DetermineCallerIdentity() { }
     }
     [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=false)]
@@ -1015,10 +1015,10 @@ namespace FluentAssertions.Equivalency
     public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyAssertionOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>
     {
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        protected readonly FluentAssertions.Equivalency.OrderingRuleCollection orderingRules;
         protected SelfReferenceEquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }

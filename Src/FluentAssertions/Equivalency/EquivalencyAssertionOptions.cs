@@ -69,7 +69,7 @@ namespace FluentAssertions.Equivalency
             Expression<Func<TExpectation, object>> expression)
         {
             string expressionMemberPath = expression.GetMemberPath().ToString();
-            orderingRules.Add(new PathBasedOrderingRule(expressionMemberPath));
+            OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath));
             return this;
         }
 
