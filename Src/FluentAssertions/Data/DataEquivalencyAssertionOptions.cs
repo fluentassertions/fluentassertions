@@ -9,9 +9,7 @@ using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Data
 {
-#pragma warning disable CA1812 // Internal class that is apparently never instantiated; this class is instantiated dynamically by AssertionOptions.CloneDefaults
     internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<T>, IDataEquivalencyAssertionOptions<T>
-#pragma warning restore CA1812
     {
         private readonly HashSet<string> excludeTableNames = new();
         private readonly HashSet<string> excludeColumnNames = new();
