@@ -43,7 +43,7 @@ namespace FluentAssertions.Specialized
                 elapsed = execution.ElapsedTime;
             }
 
-            if (execution.Exception != null)
+            if (execution.Exception is not null)
             {
                 // rethrow captured exception
                 throw execution.Exception;

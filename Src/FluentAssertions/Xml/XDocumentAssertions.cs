@@ -162,7 +162,7 @@ namespace FluentAssertions.Xml
             XElement root = Subject.Root;
 
             Execute.Assertion
-                .ForCondition((root != null) && (root.Name == expected))
+                .ForCondition((root is not null) && (root.Name == expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element {0}{reason}, but found {1}.",
@@ -220,7 +220,7 @@ namespace FluentAssertions.Xml
                     "Cannot assert the document has an element if the element name is <null>*");
 
             Execute.Assertion
-                .ForCondition(Subject.Root != null)
+                .ForCondition(Subject.Root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
@@ -228,7 +228,7 @@ namespace FluentAssertions.Xml
 
             XElement xElement = Subject.Root.Element(expected);
             Execute.Assertion
-                .ForCondition(xElement != null)
+                .ForCondition(xElement is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but no such child element was found.",

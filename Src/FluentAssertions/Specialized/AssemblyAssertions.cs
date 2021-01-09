@@ -89,7 +89,7 @@ namespace FluentAssertions.Reflection
             Type foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
 
             Execute.Assertion
-                .ForCondition(foundType != null)
+                .ForCondition(foundType is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected assembly {0} to define type {1}.{2}{reason}, but it does not.",
                     Subject.FullName, @namespace, name);

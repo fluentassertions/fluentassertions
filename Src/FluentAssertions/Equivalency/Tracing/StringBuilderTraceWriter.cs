@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency.Tracing
 {
     public class StringBuilderTraceWriter : ITraceWriter
     {
-        private readonly StringBuilder builder = new StringBuilder();
+        private readonly StringBuilder builder = new();
         private int depth = 1;
 
         public void AddSingle(string trace)

@@ -63,23 +63,22 @@ namespace FluentAssertions.Common
 
         private static bool IsNumericType(this object obj)
         {
-            switch (obj)
+            return obj switch
             {
-                case int _:
-                case long _:
-                case float _:
-                case double _:
-                case decimal _:
-                case sbyte _:
-                case byte _:
-                case short _:
-                case ushort _:
-                case uint _:
-                case ulong _:
-                    return true;
-                default:
-                    return false;
-            }
+                int or
+                long or
+                float or
+                double or
+                decimal or
+                sbyte or
+                byte or
+                short or
+                ushort or
+                uint or
+                ulong
+                  => true,
+                _ => false,
+            };
         }
     }
 }

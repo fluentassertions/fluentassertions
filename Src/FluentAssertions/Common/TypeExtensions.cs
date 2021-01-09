@@ -153,7 +153,7 @@ namespace FluentAssertions.Common
             MethodInfo method = type
                 .GetMethod("Equals", new[] { typeof(object) });
 
-            return method != null
+            return method is not null
                    && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
         }
 
@@ -294,7 +294,7 @@ namespace FluentAssertions.Common
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
             MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
-            return getMethod != null && !getMethod.IsPrivate && !getMethod.IsFamily;
+            return getMethod is not null && !getMethod.IsPrivate && !getMethod.IsFamily;
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace FluentAssertions.Common
 
         public static bool HasMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
         {
-            return type.GetMethod(methodName, parameterTypes) != null;
+            return type.GetMethod(methodName, parameterTypes) is not null;
         }
 
         public static MethodInfo GetParameterlessMethod(this Type type, string methodName)
@@ -343,7 +343,7 @@ namespace FluentAssertions.Common
 
         public static bool HasParameterlessMethod(this Type type, string methodName)
         {
-            return type.GetParameterlessMethod(methodName) != null;
+            return type.GetParameterlessMethod(methodName) is not null;
         }
 
         public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
@@ -357,7 +357,7 @@ namespace FluentAssertions.Common
             bool hasSetter = type.GetMethods(AllMembersFlag)
                 .SingleOrDefault(m =>
                     m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
-                    m.GetParameters().Length == 1) != null;
+                    m.GetParameters().Length == 1) is not null;
 
             return hasGetter || hasSetter;
         }
@@ -437,7 +437,7 @@ namespace FluentAssertions.Common
 
             // check subject and its base types against definition
             for (Type baseType = type;
-                baseType != null;
+                baseType is not null;
                 baseType = baseType.BaseType)
             {
                 if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == definition)
@@ -461,7 +461,7 @@ namespace FluentAssertions.Common
             bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
         }
 
-        private static readonly Dictionary<Type, string> DefaultDictionary = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> DefaultDictionary = new()
         {
             { typeof(int), "int" },
             { typeof(uint), "uint" },

@@ -33,7 +33,7 @@ namespace FluentAssertions.Specialized
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
@@ -70,7 +70,7 @@ namespace FluentAssertions.Specialized
         public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -123,7 +123,7 @@ namespace FluentAssertions.Specialized
             }
 
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 

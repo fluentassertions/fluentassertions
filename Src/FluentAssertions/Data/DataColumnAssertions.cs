@@ -26,7 +26,7 @@ namespace FluentAssertions.Data
         /// </summary>
         /// <remarks>
         /// Data columns are equivalent when the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>AllowDBNull</description></item>
         ///   <item><description>AutoIncrement</description></item>
@@ -68,7 +68,7 @@ namespace FluentAssertions.Data
         /// </summary>
         /// <remarks>
         /// Data columns are equivalent when the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>AllowDBNull</description></item>
         ///   <item><description>AutoIncrement</description></item>
@@ -87,10 +87,10 @@ namespace FluentAssertions.Data
         ///   <item><description>ReadOnly</description></item>
         ///   <item><description>Unique</description></item>
         /// </list>
-        /// 
+        ///
         /// Testing of any property can be overridden using the <paramref name="config"/> callback. Exclude specific properties using
         /// <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
-        /// 
+        ///
         /// If <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function is
         /// used and the exclusion matches the subject <see cref="DataColumn"/>, then the equivalency test will never
         /// fail.
@@ -113,7 +113,7 @@ namespace FluentAssertions.Data
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            var options = config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>());
+            IDataEquivalencyAssertionOptions<DataColumn> options = config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>());
 
             var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
 

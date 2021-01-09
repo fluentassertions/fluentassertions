@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
-            return (expectationType != null) && (expectationType == typeof(string));
+            return (expectationType is not null) && (expectationType == typeof(string));
         }
 
         /// <summary>

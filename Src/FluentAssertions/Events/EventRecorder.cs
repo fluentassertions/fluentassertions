@@ -15,8 +15,8 @@ namespace FluentAssertions.Events
     internal sealed class EventRecorder : IEventRecording, IDisposable
     {
         private readonly Func<DateTime> utcNow;
-        private readonly BlockingCollection<RecordedEvent> raisedEvents = new BlockingCollection<RecordedEvent>();
-        private readonly object lockable = new object();
+        private readonly BlockingCollection<RecordedEvent> raisedEvents = new();
+        private readonly object lockable = new();
         private Action cleanup;
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace FluentAssertions.Events
 
             cleanup = () =>
             {
-                if (!(subject.Target is null))
+                if (subject.Target is not null)
                 {
                     eventInfo.RemoveEventHandler(subject.Target, handler);
                 }
@@ -60,7 +60,7 @@ namespace FluentAssertions.Events
 
         public void Dispose()
         {
-            if (cleanup != null)
+            if (cleanup is not null)
             {
                 cleanup?.Invoke();
                 cleanup = null;

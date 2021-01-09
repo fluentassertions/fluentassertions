@@ -105,12 +105,12 @@ namespace FluentAssertions.Data
         /// <remarks>
         /// Data rows are equivalent when they contain identical field data for the row they represent, and
         /// the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>HasErrors</description></item>
         ///   <item><description>RowState</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataRow"/> objects must be of the same type; if two <see cref="DataRow"/> objects
         /// are equivalent in all ways, except that one is part of a typed <see cref="DataTable"/> and is of a subclass
         /// of <see cref="DataRow"/>, then by default, they will not be considered equivalent. This can be overridden
@@ -140,16 +140,16 @@ namespace FluentAssertions.Data
         /// <remarks>
         /// Data rows are equivalent when they contain identical field data for the row they represent, and
         /// the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>HasErrors</description></item>
         ///   <item><description>RowState</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataRow"/> objects must be of the same type; if two <see cref="DataRow"/> objects
         /// are equivalent in all ways, except that one is part of a typed <see cref="DataTable"/> and is of a subclass
         /// of <see cref="DataRow"/>, then by default, they will not be considered equivalent.
-        /// 
+        ///
         /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
         /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataRow"/>
         /// objects of differing types can be considered equivalent. Exclude specific properties using
@@ -157,7 +157,7 @@ namespace FluentAssertions.Data
         /// Exclude columns of the data table (which also excludes the related field data in <see cref="DataRow"/>
         /// objects) using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function.
         /// </remarks>
-        /// 
+        ///
         /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
         /// and related functions to exclude properties on other related System.Data types.
         /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
@@ -178,7 +178,7 @@ namespace FluentAssertions.Data
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            var options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>());
+            IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>());
 
             var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
 

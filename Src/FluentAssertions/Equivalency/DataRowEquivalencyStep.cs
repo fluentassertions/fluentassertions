@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Data;
@@ -15,24 +17,24 @@ namespace FluentAssertions.Equivalency
             return typeof(DataRow).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
+        [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = context.Subject as DataRow;
             var expectation = context.Expectation as DataRow;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataRow} value to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
                     }
@@ -47,16 +49,16 @@ namespace FluentAssertions.Equivalency
                     var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
                     var dataRowConfig = config as DataEquivalencyAssertionOptions<DataRow>;
 
-                    if (((dataSetConfig == null) || !dataSetConfig.AllowMismatchedTypes)
-                     && ((dataTableConfig == null) || !dataTableConfig.AllowMismatchedTypes)
-                     && ((dataRowConfig == null) || !dataRowConfig.AllowMismatchedTypes))
+                    if (dataSetConfig?.AllowMismatchedTypes != true
+                     && dataTableConfig?.AllowMismatchedTypes != true
+                     && dataRowConfig?.AllowMismatchedTypes != true)
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
                             .FailWith("Expected {context:DataRow} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
                     }
 
-                    var selectedMembers = GetMembersFromExpectation(context, config);
+                    SelectedDataRowMembers selectedMembers = GetMembersFromExpectation(context, config);
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
@@ -88,44 +90,44 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareFieldValues(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRow subject, DataRow expectation, DataEquivalencyAssertionOptions<DataSet> dataSetConfig, DataEquivalencyAssertionOptions<DataTable> dataTableConfig, DataEquivalencyAssertionOptions<DataRow> dataRowConfig)
         {
-            var expectationColumnNames = expectation.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> expectationColumnNames = expectation.Table.Columns.OfType<DataColumn>()
                 .Select(col => col.ColumnName);
 
-            var subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
                 .Select(col => col.ColumnName);
 
             bool ignoreUnmatchedColumns =
-                ((dataSetConfig != null) && dataSetConfig.IgnoreUnmatchedColumns) ||
-                ((dataTableConfig != null) && dataTableConfig.IgnoreUnmatchedColumns) ||
-                ((dataRowConfig != null) && dataRowConfig.IgnoreUnmatchedColumns);
+                ((dataSetConfig is not null) && dataSetConfig.IgnoreUnmatchedColumns) ||
+                ((dataTableConfig is not null) && dataTableConfig.IgnoreUnmatchedColumns) ||
+                ((dataRowConfig is not null) && dataRowConfig.IgnoreUnmatchedColumns);
 
-            var subjectVersion =
+            DataRowVersion subjectVersion =
                 (subject.RowState == DataRowState.Deleted)
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
-            var expectationVersion =
+            DataRowVersion expectationVersion =
                 (expectation.RowState == DataRowState.Deleted)
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
             bool compareOriginalVersions = (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
 
-            if (((dataSetConfig != null) && dataSetConfig.ExcludeOriginalData)
-             || ((dataTableConfig != null) && dataTableConfig.ExcludeOriginalData)
-             || ((dataRowConfig != null) && dataRowConfig.ExcludeOriginalData))
+            if (((dataSetConfig is not null) && dataSetConfig.ExcludeOriginalData)
+             || ((dataTableConfig is not null) && dataTableConfig.ExcludeOriginalData)
+             || ((dataRowConfig is not null) && dataRowConfig.ExcludeOriginalData))
             {
                 compareOriginalVersions = false;
             }
 
             foreach (var columnName in expectationColumnNames.Union(subjectColumnNames))
             {
-                var expectationColumn = expectation.Table.Columns[columnName];
-                var subjectColumn = subject.Table.Columns[columnName];
+                DataColumn expectationColumn = expectation.Table.Columns[columnName];
+                DataColumn subjectColumn = subject.Table.Columns[columnName];
 
-                if (((dataSetConfig != null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
-                 || ((dataTableConfig != null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
-                 || ((dataRowConfig != null) && dataRowConfig.ShouldExcludeColumn(subjectColumn)))
+                if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
+                 || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
+                 || ((dataRowConfig is not null) && dataRowConfig.ShouldExcludeColumn(subjectColumn)))
                 {
                     continue;
                 }
@@ -133,15 +135,15 @@ namespace FluentAssertions.Equivalency
                 if (!ignoreUnmatchedColumns)
                 {
                     AssertionScope.Current
-                        .ForCondition(subjectColumn != null)
+                        .ForCondition(subjectColumn is not null)
                         .FailWith("Expected {context:DataRow} to have column '{0}'{reason}, but found none", columnName);
 
                     AssertionScope.Current
-                        .ForCondition(expectationColumn != null)
+                        .ForCondition(expectationColumn is not null)
                         .FailWith("Found unexpected column '{0}' in {context:DataRow}", columnName);
                 }
 
-                if ((subjectColumn != null) && (expectationColumn != null))
+                if ((subjectColumn is not null) && (expectationColumn is not null))
                 {
                     CompareFieldValue(context, parent, subject, expectation, subjectColumn, subjectVersion, expectationColumn, expectationVersion);
 
@@ -155,14 +157,14 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareFieldValue(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRow subject, DataRow expectation, DataColumn subjectColumn, DataRowVersion subjectVersion, DataColumn expectationColumn, DataRowVersion expectationVersion)
         {
-            var nestedContext = context.AsCollectionItem(
+            IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                 subjectVersion == DataRowVersion.Current
                 ? subjectColumn.ColumnName
                 : $"{subjectColumn.ColumnName}, DataRowVersion.Original",
                 subject[subjectColumn, subjectVersion],
                 expectation[expectationColumn, expectationVersion]);
 
-            if (nestedContext != null)
+            if (nestedContext is not null)
             {
                 parent.AssertEqualityUsing(nestedContext);
             }
@@ -183,7 +185,7 @@ namespace FluentAssertions.Equivalency
         {
             var cacheKey = (context.CompileTimeType, context.RuntimeType, config);
 
-            if (!SelectedMembersCache.TryGetValue(cacheKey, out var selectedMembers))
+            if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedMembers))
             {
                 var members = Enumerable.Empty<IMember>();
 
@@ -197,10 +199,11 @@ namespace FluentAssertions.Equivalency
                     });
                 }
 
-                selectedMembers = new SelectedDataRowMembers();
-
-                selectedMembers.HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors));
-                selectedMembers.RowState = members.Any(m => m.Name == nameof(DataRow.RowState));
+                selectedMembers = new SelectedDataRowMembers
+                {
+                    HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors)),
+                    RowState = members.Any(m => m.Name == nameof(DataRow.RowState))
+                };
 
                 SelectedMembersCache.TryAdd(cacheKey, selectedMembers);
             }

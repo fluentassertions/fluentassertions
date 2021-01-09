@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency
 
         private readonly IEquivalencyAssertionOptions config;
 
-        private readonly Dictionary<Type, bool> isComplexTypeMap = new Dictionary<Type, bool>();
+        private readonly Dictionary<Type, bool> isComplexTypeMap = new();
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency
 
             AssertEqualityUsing(context);
 
-            if (context.TraceWriter != null)
+            if (context.TraceWriter is not null)
             {
                 scope.AddReportable("trace", context.TraceWriter.ToString());
             }

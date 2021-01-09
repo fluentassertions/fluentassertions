@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
-            return (context.Expectation != null) && IsGenericCollection(expectationType);
+            return (context.Expectation is not null) && IsGenericCollection(expectationType);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSubjectIsCollection(object subject)
         {
             bool conditionMet = AssertionScope.Current
-                .ForCondition(!(subject is null))
+                .ForCondition(subject is not null)
                 .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
 
             if (conditionMet)

@@ -150,7 +150,7 @@ namespace FluentAssertions.Specs
                 }
 
                 PropertyInfo runtimeProperty = subject.GetType().GetRuntimeProperty(name);
-                return (runtimeProperty != null) ? (IMember)new Property(runtimeProperty, parent) : null;
+                return (runtimeProperty is not null) ? (IMember)new Property(runtimeProperty, parent) : null;
             }
         }
 

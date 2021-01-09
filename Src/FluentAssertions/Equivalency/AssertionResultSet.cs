@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class AssertionResultSet
     {
-        private readonly Dictionary<object, string[]> set = new Dictionary<object, string[]>();
+        private readonly Dictionary<object, string[]> set = new();
 
         /// <summary>
         /// Adds the failures (if any) resulting from executing an assertion within a

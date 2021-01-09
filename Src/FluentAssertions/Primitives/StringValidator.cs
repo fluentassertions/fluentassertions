@@ -30,7 +30,7 @@ namespace FluentAssertions.Primitives
 
         public void Validate()
         {
-            if ((Expected != null) || (Subject != null))
+            if ((Expected is not null) || (Subject is not null))
             {
                 if (ValidateAgainstNulls())
                 {

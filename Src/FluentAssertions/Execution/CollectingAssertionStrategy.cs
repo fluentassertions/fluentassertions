@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
 {
     internal class CollectingAssertionStrategy : IAssertionStrategy
     {
-        private readonly List<string> failureMessages = new List<string>();
+        private readonly List<string> failureMessages = new();
 
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.

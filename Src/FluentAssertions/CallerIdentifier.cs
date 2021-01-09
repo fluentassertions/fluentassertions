@@ -25,7 +25,7 @@ namespace FluentAssertions
 
             try
             {
-                StackTrace stack = new StackTrace(fNeedFileInfo: true);
+                var stack = new StackTrace(fNeedFileInfo: true);
 
                 var allStackFrames = stack.GetFrames()
                     .Where(frame => !IsCompilerServices(frame))
@@ -33,7 +33,7 @@ namespace FluentAssertions
 
                 int searchStart = allStackFrames.Length - 1;
 
-                if (StartStackSearchAfterStackFrame.Value != null)
+                if (StartStackSearchAfterStackFrame.Value is not null)
                 {
                     searchStart = Array.FindLastIndex(
                         allStackFrames,
@@ -55,7 +55,7 @@ namespace FluentAssertions
 
                     logger(frame.ToString());
 
-                    if (frame.GetMethod() is object
+                    if (frame.GetMethod() is not null
                         && !IsDynamic(frame)
                         && !IsDotNet(frame)
                         && !IsCustomAssertion(frame))
@@ -108,7 +108,7 @@ namespace FluentAssertions
             }
         }
 
-        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new AsyncLocal<StackFrameReference>();
+        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new();
 
         internal static IDisposable OverrideStackSearchUsingCurrentScope()
         {
@@ -174,7 +174,7 @@ namespace FluentAssertions
             int column = frame.GetFileColumnNumber();
             string line = GetSourceCodeLineFrom(frame);
 
-            if ((line != null) && (column != 0) && (line.Length > 0))
+            if ((line is not null) && (column != 0) && (line.Length > 0))
             {
                 string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
 
@@ -210,11 +210,11 @@ namespace FluentAssertions
 
             try
             {
-                using StreamReader reader = new StreamReader(File.OpenRead(fileName));
+                using var reader = new StreamReader(File.OpenRead(fileName));
                 string line;
                 int currentLine = 1;
 
-                while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)
+                while ((line = reader.ReadLine()) is not null && currentLine < expectedLineNumber)
                 {
                     currentLine++;
                 }

@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> Frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, ITestFramework> Frameworks = new(StringComparer.OrdinalIgnoreCase)
         {
             ["mspec"] = new MSpecFramework(),
             ["nspec3"] = new NSpecFramework(),

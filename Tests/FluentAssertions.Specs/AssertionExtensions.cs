@@ -7,7 +7,7 @@ namespace FluentAssertions.Specs
 {
     internal static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new();
 
         public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action, IClock clock)
         {

@@ -334,7 +334,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
                 .Then
                 .ForCondition(ContainsMatch(wildcardPattern))
@@ -388,7 +388,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
                 .Then
                 .ForCondition(NotContainsMatch(wildcardPattern))

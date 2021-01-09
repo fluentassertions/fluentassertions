@@ -69,7 +69,7 @@ namespace FluentAssertions.Equivalency
         private static bool IsArray(object type)
         {
             return AssertionScope.Current
-                .ForCondition(!(type is null))
+                .ForCondition(type is not null)
                 .FailWith("Cannot compare a multi-dimensional array to <null>.")
                 .Then
                 .ForCondition(type is Array)
@@ -122,7 +122,7 @@ namespace FluentAssertions.Equivalency
             var indices = new List<int>();
 
             Digit digit = this;
-            while (digit != null)
+            while (digit is not null)
             {
                 indices.Add(digit.index);
                 digit = digit.nextDigit;

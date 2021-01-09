@@ -354,7 +354,7 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject is not null)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
@@ -424,7 +424,7 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject is not null)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
@@ -1072,7 +1072,7 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found <null>", expected)
                 .Then
                 .ForCondition(Subject.Length == expected)

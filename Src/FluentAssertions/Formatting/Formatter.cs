@@ -14,9 +14,9 @@ namespace FluentAssertions.Formatting
     {
         #region Private Definitions
 
-        private static readonly List<IValueFormatter> CustomFormatters = new List<IValueFormatter>();
+        private static readonly List<IValueFormatter> CustomFormatters = new();
 
-        private static readonly List<IValueFormatter> DefaultFormatters = new List<IValueFormatter>
+        private static readonly List<IValueFormatter> DefaultFormatters = new()
         {
             new XmlNodeFormatter(),
             new AttributeBasedFormatter(),

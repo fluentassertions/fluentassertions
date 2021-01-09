@@ -25,7 +25,7 @@ namespace FluentAssertions.Formatting
             var builder = new StringBuilder();
             builder.AppendFormat("{0} with message \"{1}\"\n", exception.GetType().FullName, exception.Message);
 
-            if (exception.StackTrace != null)
+            if (exception.StackTrace is not null)
             {
                 foreach (string line in exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
                 {

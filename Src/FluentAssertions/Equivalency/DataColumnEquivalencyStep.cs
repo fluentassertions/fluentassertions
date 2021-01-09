@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Data;
@@ -14,24 +15,24 @@ namespace FluentAssertions.Equivalency
             return typeof(DataColumn).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
+        [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = context.Subject as DataColumn;
             var expectation = context.Expectation as DataColumn;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataColumn} value to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataColumn} to be non-null, but found null");
                     }
@@ -57,16 +58,16 @@ namespace FluentAssertions.Equivalency
             var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
             var dataColumnConfig = config as DataEquivalencyAssertionOptions<DataColumn>;
 
-            if (((dataSetConfig != null) && dataSetConfig.ShouldExcludeColumn(subject))
-             || ((dataTableConfig != null) && dataTableConfig.ShouldExcludeColumn(subject))
-             || ((dataColumnConfig != null) && dataColumnConfig.ShouldExcludeColumn(subject)))
+            if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subject))
+             || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subject))
+             || ((dataColumnConfig is not null) && dataColumnConfig.ShouldExcludeColumn(subject)))
             {
                 compareColumn = false;
             }
 
             if (compareColumn)
             {
-                foreach (var expectationMember in GetMembersFromExpectation(context, config))
+                foreach (IMember expectationMember in GetMembersFromExpectation(context, config))
                 {
                     if (expectationMember.Name != nameof(subject.Table))
                     {
@@ -78,14 +79,14 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareMember(IMember expectationMember, IEquivalencyValidator parent, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var matchingMember = FindMatchFor(expectationMember, context, config);
+            IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-            if (matchingMember != null)
+            if (matchingMember is not null)
             {
                 IEquivalencyValidationContext nestedContext =
                             context.AsNestedMember(expectationMember, matchingMember);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -97,7 +98,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

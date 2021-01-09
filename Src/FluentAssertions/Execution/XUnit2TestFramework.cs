@@ -15,7 +15,7 @@ namespace FluentAssertions.Execution
                 {
                     assembly = Assembly.Load(new AssemblyName("xunit.assert"));
 
-                    return assembly != null;
+                    return assembly is not null;
                 }
                 catch
                 {

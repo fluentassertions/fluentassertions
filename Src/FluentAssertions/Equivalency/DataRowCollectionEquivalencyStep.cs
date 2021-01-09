@@ -14,10 +14,9 @@ namespace FluentAssertions.Equivalency
             return typeof(DataRowCollection).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0038:Use pattern matching", Justification = "Would decrease code clarity")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (!(context.Subject is DataRowCollection))
+            if (context.Subject is not DataRowCollection)
             {
                 AssertionScope.Current
                     .FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}", context.Subject.GetType());
@@ -65,12 +64,12 @@ namespace FluentAssertions.Equivalency
         {
             for (int i = 0; i < expectation.Count; i++)
             {
-                var nestedContext = context.AsCollectionItem(
+                IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                     i.ToString(),
                     subject[i],
                     expectation[i]);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -104,7 +103,7 @@ namespace FluentAssertions.Equivalency
         {
             Type[] primaryKeyTypes = null;
 
-            if ((table.PrimaryKey == null) || (table.PrimaryKey.Length == 0))
+            if ((table.PrimaryKey is null) || (table.PrimaryKey.Length == 0))
             {
                 AssertionScope.Current
                     .FailWith("Table '{0}' containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.", table.TableName, comparisonTerm);
@@ -126,7 +125,7 @@ namespace FluentAssertions.Equivalency
         {
             bool matchingTypes = false;
 
-            if ((subjectPrimaryKeyTypes != null) && (expectationPrimaryKeyTypes != null))
+            if ((subjectPrimaryKeyTypes is not null) && (expectationPrimaryKeyTypes is not null))
             {
                 matchingTypes = subjectPrimaryKeyTypes.Length == expectationPrimaryKeyTypes.Length;
 
@@ -153,11 +152,11 @@ namespace FluentAssertions.Equivalency
             var expectationRowByKey = expectation.Cast<DataRow>()
                 .ToDictionary(row => ExtractPrimaryKey(row));
 
-            foreach (var subjectRow in subject.Cast<DataRow>())
+            foreach (DataRow subjectRow in subject.Cast<DataRow>())
             {
-                var key = ExtractPrimaryKey(subjectRow);
+                CompoundKey key = ExtractPrimaryKey(subjectRow);
 
-                if (!expectationRowByKey.TryGetValue(key, out var expectationRow))
+                if (!expectationRowByKey.TryGetValue(key, out DataRow expectationRow))
                 {
                     AssertionScope.Current
                         .FailWith("Found unexpected row in {context:DataRowCollection} with key {0}", key);
@@ -166,12 +165,12 @@ namespace FluentAssertions.Equivalency
                 {
                     expectationRowByKey.Remove(key);
 
-                    var nestedContext = context.AsCollectionItem(
+                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                         key.ToString(),
                         subjectRow,
                         expectationRow);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -204,7 +203,7 @@ namespace FluentAssertions.Equivalency
 
             public bool Equals(CompoundKey other)
             {
-                if (other == null)
+                if (other is null)
                 {
                     return false;
                 }
@@ -247,7 +246,7 @@ namespace FluentAssertions.Equivalency
 
         private static CompoundKey ExtractPrimaryKey(DataRow row)
         {
-            var primaryKey = row.Table.PrimaryKey;
+            DataColumn[] primaryKey = row.Table.PrimaryKey;
 
             var values = new object[primaryKey.Length];
 

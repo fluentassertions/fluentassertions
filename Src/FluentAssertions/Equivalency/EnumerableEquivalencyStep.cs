@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
         private static bool AssertSubjectIsCollection(object subject)
         {
             bool conditionMet = AssertionScope.Current
-                .ForCondition(!(subject is null))
+                .ForCondition(subject is not null)
                 .FailWith("Expected a collection, but {context:Subject} is <null>.");
 
             if (conditionMet)
@@ -67,7 +67,7 @@ namespace FluentAssertions.Equivalency
 
         internal static object[] ToArray(object value)
         {
-            return !(value is null) ? ((IEnumerable)value).Cast<object>().ToArray() : null;
+            return value is not null ? ((IEnumerable)value).Cast<object>().ToArray() : null;
         }
     }
 }

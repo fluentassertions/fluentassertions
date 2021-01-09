@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Data;
@@ -14,24 +15,24 @@ namespace FluentAssertions.Equivalency
             return typeof(DataTable).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
+        [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = context.Subject as DataTable;
             var expectation = context.Expectation as DataTable;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataTable} value to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataTable} to be non-null, but found null");
                     }
@@ -45,8 +46,8 @@ namespace FluentAssertions.Equivalency
                     var dataSetConfig = config as DataEquivalencyAssertionOptions<DataSet>;
                     var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
 
-                    if (((dataSetConfig == null) || !dataSetConfig.AllowMismatchedTypes)
-                     && ((dataTableConfig == null) || !dataTableConfig.AllowMismatchedTypes))
+                    if (dataSetConfig?.AllowMismatchedTypes != true
+                     && dataTableConfig?.AllowMismatchedTypes != true)
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
@@ -58,7 +59,7 @@ namespace FluentAssertions.Equivalency
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, parent, config, expectation, selectedMembers);
+                    CompareCollections(context, parent, config, selectedMembers);
                 }
             }
 
@@ -126,33 +127,33 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataTable expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
             // Note: The collections here are listed in the XML documentation for the DataTable.BeEquivalentTo extension
             // method in DataTableAssertions.cs. If this ever needs to change, keep them in sync.
             var collectionNames = new[]
             {
-                nameof(expectation.ChildRelations),
-                nameof(expectation.Columns),
-                nameof(expectation.Constraints),
-                nameof(expectation.ExtendedProperties),
-                nameof(expectation.ParentRelations),
-                nameof(expectation.PrimaryKey),
-                nameof(expectation.Rows),
+                nameof(DataTable.ChildRelations),
+                nameof(DataTable.Columns),
+                nameof(DataTable.Constraints),
+                nameof(DataTable.ExtendedProperties),
+                nameof(DataTable.ParentRelations),
+                nameof(DataTable.PrimaryKey),
+                nameof(DataTable.Rows),
             };
 
             foreach (var collectionName in collectionNames)
             {
-                if (selectedMembers.TryGetValue(collectionName, out var expectationMember))
+                if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
-                    var matchingMember = FindMatchFor(expectationMember, context, config);
+                    IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-                    if (matchingMember != null)
+                    if (matchingMember is not null)
                     {
                         IEquivalencyValidationContext nestedContext =
                                 context.AsNestedMember(expectationMember, matchingMember);
 
-                        if (nestedContext != null)
+                        if (nestedContext is not null)
                         {
                             parent.AssertEqualityUsing(nestedContext);
                         }
@@ -166,7 +167,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

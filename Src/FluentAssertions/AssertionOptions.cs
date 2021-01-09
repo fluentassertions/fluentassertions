@@ -9,7 +9,7 @@ namespace FluentAssertions
     /// </summary>
     public static class AssertionOptions
     {
-        private static EquivalencyAssertionOptions defaults = new EquivalencyAssertionOptions();
+        private static EquivalencyAssertionOptions defaults = new();
 
         static AssertionOptions()
         {

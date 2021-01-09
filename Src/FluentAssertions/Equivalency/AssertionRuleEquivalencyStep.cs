@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency
         private readonly Func<IObjectInfo, bool> predicate;
         private readonly string description;
         private readonly Action<IAssertionContext<TSubject>> assertion;
-        private readonly AutoConversionStep converter = new AutoConversionStep();
+        private readonly AutoConversionStep converter = new();
 
         public AssertionRuleEquivalencyStep(
             Expression<Func<IObjectInfo, bool>> predicate,

@@ -68,10 +68,11 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XmlElement"/> has an attribute
-        /// with the specified <paramref name="expectedName"/>, <param name="expectedNamespace"/>
+        /// with the specified <paramref name="expectedName"/>, <paramref name="expectedNamespace"/>
         /// and <paramref name="expectedValue"/>.
         /// </summary>
         /// <param name="expectedName">The name of the expected attribute</param>
+        /// <param name="expectedNamespace">The namespace of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -93,7 +94,7 @@ namespace FluentAssertions.Xml
                 + expectedName;
 
             Execute.Assertion
-                .ForCondition(attribute != null)
+                .ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have attribute {0}"
@@ -156,7 +157,7 @@ namespace FluentAssertions.Xml
                 + expectedName;
 
             Execute.Assertion
-                .ForCondition(element != null)
+                .ForCondition(element is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",

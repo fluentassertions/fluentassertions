@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Execution;
@@ -14,24 +15,24 @@ namespace FluentAssertions.Equivalency
             return typeof(DataRelation).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
+        [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = context.Subject as DataRelation;
             var expectation = context.Expectation as DataRelation;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataRelation} to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
                     }
@@ -47,7 +48,7 @@ namespace FluentAssertions.Equivalency
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, parent, config, expectation, selectedMembers);
+                    CompareCollections(context, parent, config, selectedMembers);
 
                     CompareRelationConstraints(context, parent, config, subject, expectation, selectedMembers);
                 }
@@ -83,18 +84,18 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataRelation expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
-            if (selectedMembers.TryGetValue(nameof(expectation.ExtendedProperties), out var expectationMember))
+            if (selectedMembers.TryGetValue(nameof(DataRelation.ExtendedProperties), out IMember expectationMember))
             {
-                var matchingMember = FindMatchFor(expectationMember, context, config);
+                IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-                if (matchingMember != null)
+                if (matchingMember is not null)
                 {
                     IEquivalencyValidationContext nestedContext =
                             context.AsNestedMember(expectationMember, matchingMember);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -148,8 +149,8 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationColumns(DataRelation subject, DataRelation expectation, Func<DataRelation, DataColumn[]> getColumns)
         {
-            var subjectColumns = getColumns(subject);
-            var expectationColumns = getColumns(expectation);
+            DataColumn[] subjectColumns = getColumns(subject);
+            DataColumn[] expectationColumns = getColumns(expectation);
 
             // These column references are in different tables in different data sets that _should_ be equivalent
             // to one another.
@@ -161,8 +162,8 @@ namespace FluentAssertions.Equivalency
             {
                 for (int i = 0; i < expectationColumns.Length; i++)
                 {
-                    var subjectColumn = subjectColumns[i];
-                    var expectationColumn = expectationColumns[i];
+                    DataColumn subjectColumn = subjectColumns[i];
+                    DataColumn expectationColumn = expectationColumns[i];
 
                     bool columnsAreEquivalent =
                         (subjectColumn.Table.TableName == expectationColumn.Table.TableName) &&
@@ -181,8 +182,8 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationTable(DataRelation subject, DataRelation expectation, Func<DataRelation, DataTable> getOtherTable)
         {
-            var subjectTable = getOtherTable(subject);
-            var expectationTable = getOtherTable(expectation);
+            DataTable subjectTable = getOtherTable(subject);
+            DataTable expectationTable = getOtherTable(expectation);
 
             AssertionScope.Current
                 .ForCondition(subjectTable.TableName == expectationTable.TableName)
@@ -191,13 +192,13 @@ namespace FluentAssertions.Equivalency
 
         private static void CompareDataRelationKeyConstraint(IEquivalencyValidator parent, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers, string relationDirection)
         {
-            if (selectedMembers.TryGetValue(relationDirection + "KeyConstraint", out var expectationMember))
+            if (selectedMembers.TryGetValue(relationDirection + "KeyConstraint", out IMember expectationMember))
             {
-                var subjectMember = FindMatchFor(expectationMember, context, config);
+                IMember subjectMember = FindMatchFor(expectationMember, context, config);
 
-                var nestedContext = context.AsNestedMember(expectationMember, subjectMember);
+                IEquivalencyValidationContext nestedContext = context.AsNestedMember(expectationMember, subjectMember);
 
-                if (nestedContext != null)
+                if (nestedContext is not null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
                 }
@@ -209,7 +210,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

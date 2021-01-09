@@ -31,12 +31,8 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (!(obj is ObjectReference other))
-            {
-                return false;
-            }
-
-            return ReferenceEquals(@object, other.@object) && IsParentOrChildOf(other);
+            return obj is ObjectReference other
+                && ReferenceEquals(@object, other.@object) && IsParentOrChildOf(other);
         }
 
         private string[] GetPathElements() => pathElements
@@ -71,6 +67,6 @@ namespace FluentAssertions.Equivalency
             return $"{{\"{path}\", {@object}}}";
         }
 
-        public bool IsComplexType => isComplexType ?? (!(@object is null) && !@object.GetType().OverridesEquals());
+        public bool IsComplexType => isComplexType ?? (@object is not null && !@object.GetType().OverridesEquals());
     }
 }

@@ -15,10 +15,9 @@ namespace FluentAssertions.Equivalency
             return typeof(Constraint).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0038:Use pattern matching", Justification = "Would decrease code clarity")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (!(context.Subject is Constraint))
+            if (context.Subject is not Constraint)
             {
                 AssertionScope.Current
                     .FailWith("Expected {context:constraint} to be a value of type Constraint, but found {0}", context.Subject.GetType());
@@ -78,16 +77,16 @@ namespace FluentAssertions.Equivalency
                     .FailWith("Expected {context:constraint} to be associated with a Table with TableName of {0}{reason}, but found {1}", expectation.Table.TableName, subject.Table.TableName);
             }
 
-            if (selectedMembers.TryGetValue("ExtendedProperties", out var expectationMember))
+            if (selectedMembers.TryGetValue("ExtendedProperties", out IMember expectationMember))
             {
-                var matchingMember = FindMatchFor(expectationMember, context, config);
+                IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-                if (matchingMember != null)
+                if (matchingMember is not null)
                 {
                     IEquivalencyValidationContext nestedContext =
                         context.AsNestedMember(expectationMember, matchingMember);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -233,7 +232,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

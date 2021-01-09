@@ -114,11 +114,12 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Counts the number of times a substring appears within a string by using the specified <see cref="StringComparison"/>.
         /// </summary>
+        /// <param name="str">The string to search in.</param>
         /// <param name="substring">The substring to search for.</param>
         /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
-        public static int CountSubstring(this string @this, string substring, StringComparison comparisonType)
+        public static int CountSubstring(this string str, string substring, StringComparison comparisonType)
         {
-            string actual = @this ?? string.Empty;
+            string actual = str ?? string.Empty;
             string search = substring ?? string.Empty;
 
             int count = 0;

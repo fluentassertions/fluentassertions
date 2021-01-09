@@ -135,7 +135,7 @@ namespace FluentAssertions.Data
         /// <remarks>
         /// Data sets are equivalent when their <see cref="DataSet.Tables"/> and <see cref="DataSet.ExtendedProperties"/>
         /// collections are equivalent and the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>DataSetName</description></item>
         ///   <item><description>CaseSensitive</description></item>
@@ -147,7 +147,7 @@ namespace FluentAssertions.Data
         ///   <item><description>RemotingFormat</description></item>
         ///   <item><description>SchemaSerializationMode</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataSet"/> objects must be of the same type; if two <see cref="DataSet"/> objects
         /// are equivalent in all ways, except that one is a custom subclass of <see cref="DataSet"/> (e.g. to provide
         /// typed accessors for <see cref="DataTable"/> values contained by the <see cref="DataSet"/>), then by default,
@@ -178,7 +178,7 @@ namespace FluentAssertions.Data
         /// <remarks>
         /// Data sets are equivalent when their <see cref="DataSet.Tables"/> and <see cref="DataSet.ExtendedProperties"/>
         /// collections are equivalent and the following members have the same values:
-        /// 
+        ///
         /// <list type="bullet">
         ///   <item><description>DataSetName</description></item>
         ///   <item><description>CaseSensitive</description></item>
@@ -190,12 +190,12 @@ namespace FluentAssertions.Data
         ///   <item><description>RemotingFormat</description></item>
         ///   <item><description>SchemaSerializationMode</description></item>
         /// </list>
-        /// 
+        ///
         /// The <see cref="DataSet"/> objects must be of the same type; if two <see cref="DataSet"/> objects
         /// are equivalent in all ways, except that one is a custom subclass of <see cref="DataSet"/> (e.g. to provide
         /// typed accessors for <see cref="DataTable"/> values contained by the <see cref="DataSet"/>), then by default,
         /// they will not be considered equivalent.
-        /// 
+        ///
         /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
         /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataSet"/>
         /// objects of differing types can be considered equivalent. This setting applies to all types recursively tested
@@ -208,7 +208,7 @@ namespace FluentAssertions.Data
         /// or a related function. The <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumnInAllTables(string)"/> method
         /// can be used to exclude columns across all <see cref="DataTable"/> objects in the <see cref="DataSet"/> that share
         /// the same name.
-        /// 
+        ///
         /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
         /// and related functions to exclude properties on other related System.Data types.
         /// </remarks>
@@ -230,7 +230,7 @@ namespace FluentAssertions.Data
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            var options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>());
+            IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>());
 
             var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
 

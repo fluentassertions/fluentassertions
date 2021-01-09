@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Data;
@@ -14,24 +15,24 @@ namespace FluentAssertions.Equivalency
             return typeof(DataSet).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
+        [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = context.Subject as DataSet;
             var expectation = context.Expectation as DataSet;
 
-            if (expectation == null)
+            if (expectation is null)
             {
-                if (subject != null)
+                if (subject is not null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataSet} value to be null, but found {0}", subject);
                 }
             }
             else
             {
-                if (subject == null)
+                if (subject is null)
                 {
-                    if (context.Subject == null)
+                    if (context.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataSet} to be non-null, but found null");
                     }
@@ -44,7 +45,7 @@ namespace FluentAssertions.Equivalency
                 {
                     var dataConfig = config as DataEquivalencyAssertionOptions<DataSet>;
 
-                    if ((dataConfig == null) || !dataConfig.AllowMismatchedTypes)
+                    if (dataConfig?.AllowMismatchedTypes != true)
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
@@ -135,25 +136,25 @@ namespace FluentAssertions.Equivalency
         {
             // Note: The collections here are listed in the XML documentation for the DataSet.BeEquivalentTo extension
             // method in DataSetAssertions.cs. If this ever needs to change, keep them in sync.
-            CompareExtendedProperties(context, parent, config, expectation, selectedMembers);
+            CompareExtendedProperties(context, parent, config, selectedMembers);
 
             CompareTables(context, parent, subject, expectation, dataConfig, selectedMembers);
         }
 
-        private static void CompareExtendedProperties(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataSet expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareExtendedProperties(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
-            foreach (var collectionName in new[] { nameof(expectation.ExtendedProperties), nameof(expectation.Relations) })
+            foreach (var collectionName in new[] { nameof(DataSet.ExtendedProperties), nameof(DataSet.Relations) })
             {
-                if (selectedMembers.TryGetValue(collectionName, out var expectationMember))
+                if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
-                    var matchingMember = FindMatchFor(expectationMember, context, config);
+                    IMember matchingMember = FindMatchFor(expectationMember, context, config);
 
-                    if (matchingMember != null)
+                    if (matchingMember is not null)
                     {
                         IEquivalencyValidationContext nestedContext =
                                 context.AsNestedMember(expectationMember, matchingMember);
 
-                        if (nestedContext != null)
+                        if (nestedContext is not null)
                         {
                             parent.AssertEqualityUsing(nestedContext);
                         }
@@ -170,7 +171,7 @@ namespace FluentAssertions.Equivalency
                     .ForCondition(subject.Tables.Count == expectation.Tables.Count)
                     .FailWith("Expected {context:DataSet} to contain {0}, but found {1} table(s)", expectation.Tables.Count, subject.Tables.Count);
 
-                if (dataConfig != null)
+                if (dataConfig is not null)
                 {
                     bool excludeCaseSensitive = !selectedMembers.ContainsKey(nameof(DataSet.CaseSensitive));
                     bool excludeLocale = !selectedMembers.ContainsKey(nameof(DataSet.Locale));
@@ -186,35 +187,35 @@ namespace FluentAssertions.Equivalency
                     }
                 }
 
-                var expectationTableNames = expectation.Tables.OfType<DataTable>()
+                IEnumerable<string> expectationTableNames = expectation.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
-                var subjectTableNames = subject.Tables.OfType<DataTable>()
+                IEnumerable<string> subjectTableNames = subject.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
 
                 foreach (string tableName in expectationTableNames.Union(subjectTableNames))
                 {
-                    if ((dataConfig != null) && dataConfig.ExcludeTableNames.Contains(tableName))
+                    if ((dataConfig is not null) && dataConfig.ExcludeTableNames.Contains(tableName))
                     {
                         continue;
                     }
 
-                    var expectationTable = expectation.Tables[tableName];
-                    var subjectTable = subject.Tables[tableName];
+                    DataTable expectationTable = expectation.Tables[tableName];
+                    DataTable subjectTable = subject.Tables[tableName];
 
                     AssertionScope.Current
-                        .ForCondition(subjectTable != null)
+                        .ForCondition(subjectTable is not null)
                         .FailWith("Expected {context:DataSet} to contain table '{0}'{reason}, but did not find it", tableName);
 
                     AssertionScope.Current
-                        .ForCondition(expectationTable != null)
+                        .ForCondition(expectationTable is not null)
                         .FailWith("Found unexpected table '{0}' in DataSet", tableName);
 
-                    var nestedContext = context.AsCollectionItem(
+                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
                         tableName,
                         subjectTable,
                         expectationTable);
 
-                    if (nestedContext != null)
+                    if (nestedContext is not null)
                     {
                         parent.AssertEqualityUsing(nestedContext);
                     }
@@ -227,7 +228,7 @@ namespace FluentAssertions.Equivalency
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
                 let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
-                where match != null
+                where match is not null
                 select match;
 
             return query.FirstOrDefault();

@@ -496,7 +496,7 @@ namespace FluentAssertions.Collections
                 "Cannot assert collection ordering without specifying a property.");
 
             return Execute.Assertion
-                .ForCondition(!(Subject is null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
@@ -537,6 +537,7 @@ namespace FluentAssertions.Collections
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -561,6 +562,7 @@ namespace FluentAssertions.Collections
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
