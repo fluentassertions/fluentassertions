@@ -63,14 +63,14 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!(subject is null))
-                .FailWith("Expected {context:Subject} not to be {0}.", new object[] { null });
+                .FailWith("Expected {context:Subject} not to be {0}{reason}.", new object[] { null });
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
         {
             return AssertionScope.Current
                 .ForCondition(!(expectation is null))
-                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
+                .FailWith("Expected {context:Subject} to be {0}{reason}, but found {1}.", null, subject);
         }
 
         private static bool AssertImplementsOnlyOneDictionaryInterface(object expectation)
@@ -103,7 +103,7 @@ namespace FluentAssertions.Equivalency
             if (!subjectDictionaryInterfaces.Any())
             {
                 AssertionScope.Current.FailWith(
-                    "Expected {context:subject} to be a {0}, but found a {1}.", expectedDictionaryType, subjectType);
+                    "Expected {context:subject} to be a {0}{reason}, but found a {1}.", expectedDictionaryType, subjectType);
 
                 return false;
             }
@@ -191,7 +191,7 @@ namespace FluentAssertions.Equivalency
             bool hasAdditionalKeys = keyDifference.AdditionalKeys.Any();
 
             return Execute.Assertion
-                .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s), ", expectation.Count)
+                .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s){reason}, ", expectation.Count)
                 .ForCondition(!hasMissingKeys || hasAdditionalKeys)
                 .FailWith("but it misses key(s) {0}", keyDifference.MissingKeys)
                 .Then
@@ -275,7 +275,9 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    AssertionScope.Current.FailWith("Expected {context:subject} to contain key {0}.", key);
+                    AssertionScope.Current
+                        .BecauseOf(context.Reason)
+                        .FailWith("Expected {context:subject} to contain key {0}{reason}.", key);
                 }
             }
         }
