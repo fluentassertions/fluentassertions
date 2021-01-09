@@ -245,9 +245,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataTable> options = config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>());
 
-            var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
-
-            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => callerIdentity.Value))
+            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,

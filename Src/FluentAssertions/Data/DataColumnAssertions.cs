@@ -115,9 +115,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataColumn> options = config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>());
 
-            var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
-
-            var context = new EquivalencyValidationContext(Node.From<DataColumn>(() => callerIdentity.Value))
+            var context = new EquivalencyValidationContext(Node.From<DataColumn>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,

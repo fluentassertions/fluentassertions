@@ -17,11 +17,10 @@ namespace Benchmarks
         private DataTable dataTable1;
         private DataTable dataTable2;
 
-        [Params(10, 100, 1_000, 10_000, 100_000, 1_000_000)]
+        [Params(10, 100, 1_000, 10_000, 100_000)]
         public int RowCount { get; set; }
 
         [GlobalSetup]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0055:Fix formatting", Justification = "Big long list of one-liners")]
         public void GlobalSetup()
         {
             dataTable1 = CreateDataTable();
@@ -29,53 +28,56 @@ namespace Benchmarks
 
             object[] rowData = new object[dataTable1.Columns.Count];
 
-            var faker = new Faker();
-
-            faker.Random = new Randomizer(localSeed: 1);
+            var faker = new Faker
+            {
+                Random = new Randomizer(localSeed: 1)
+            };
 
             for (int i = 0; i < RowCount; i++)
             {
                 for (int j = 0; j < dataTable1.Columns.Count; j++)
                 {
-                    var column = dataTable1.Columns[j];
-
-                    switch (Type.GetTypeCode(column.DataType))
-                    {
-                        case TypeCode.Empty:
-                        case TypeCode.DBNull: rowData[j] = null; break;
-                        case TypeCode.Boolean: rowData[j] = faker.Random.Bool(); break;
-                        case TypeCode.Char: rowData[j] = faker.Lorem.Letter().Single(); break;
-                        case TypeCode.SByte: rowData[j] = faker.Random.SByte(); break;
-                        case TypeCode.Byte: rowData[j] = faker.Random.Byte(); break;
-                        case TypeCode.Int16: rowData[j] = faker.Random.Short(); break;
-                        case TypeCode.UInt16: rowData[j] = faker.Random.UShort(); break;
-                        case TypeCode.Int32: rowData[j] = faker.Random.Int(); break;
-                        case TypeCode.UInt32: rowData[j] = faker.Random.UInt(); break;
-                        case TypeCode.Int64: rowData[j] = faker.Random.Long(); break;
-                        case TypeCode.UInt64: rowData[j] = faker.Random.ULong(); break;
-                        case TypeCode.Single: rowData[j] = faker.Random.Float(); break;
-                        case TypeCode.Double: rowData[j] = faker.Random.Double(); break;
-                        case TypeCode.Decimal: rowData[j] = faker.Random.Decimal(); break;
-                        case TypeCode.DateTime: rowData[j] = faker.Date.Between(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(+30)); break;
-                        case TypeCode.String: rowData[j] = faker.Lorem.Lines(1); break;
-
-                        default:
-                        {
-                            if (column.DataType == typeof(TimeSpan))
-                                rowData[j] = faker.Date.Future() - faker.Date.Future();
-                            else if (column.DataType == typeof(Guid))
-                                rowData[j] = faker.Random.Guid();
-                            else
-                                throw new Exception("Unable to populate column of type " + column.DataType);
-
-                            break;
-                        }
-                    }
+                    Type columnType = dataTable1.Columns[j].DataType;
+                    rowData[j] = GetData(faker, columnType);
                 }
 
                 dataTable1.Rows.Add(rowData);
                 dataTable2.Rows.Add(rowData);
             }
+        }
+
+        private static object GetData(Faker faker, Type columnType)
+        {
+            return (Type.GetTypeCode(columnType)) switch
+            {
+                TypeCode.Empty or TypeCode.DBNull => null,
+                TypeCode.Boolean => faker.Random.Bool(),
+                TypeCode.Char => faker.Lorem.Letter().Single(),
+                TypeCode.SByte => faker.Random.SByte(),
+                TypeCode.Byte => faker.Random.Byte(),
+                TypeCode.Int16 => faker.Random.Short(),
+                TypeCode.UInt16 => faker.Random.UShort(),
+                TypeCode.Int32 => faker.Random.Int(),
+                TypeCode.UInt32 => faker.Random.UInt(),
+                TypeCode.Int64 => faker.Random.Long(),
+                TypeCode.UInt64 => faker.Random.ULong(),
+                TypeCode.Single => faker.Random.Float(),
+                TypeCode.Double => faker.Random.Double(),
+                TypeCode.Decimal => faker.Random.Decimal(),
+                TypeCode.DateTime => faker.Date.Between(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(+30)),
+                TypeCode.String => faker.Lorem.Lines(1),
+                _ => GetDefault(faker, columnType),
+            };
+        }
+
+        private static object GetDefault(Faker faker, Type columnType)
+        {
+            if (columnType == typeof(TimeSpan))
+                return faker.Date.Future() - faker.Date.Future();
+            else if (columnType == typeof(Guid))
+                return faker.Random.Guid();
+
+            throw new Exception("Unable to populate column of type " + columnType);
         }
 
         private static DataTable CreateDataTable()

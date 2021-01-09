@@ -232,9 +232,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>());
 
-            var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
-
-            var context = new EquivalencyValidationContext(Node.From<DataSet>(() => callerIdentity.Value))
+            var context = new EquivalencyValidationContext(Node.From<DataSet>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,

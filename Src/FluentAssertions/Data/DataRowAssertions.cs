@@ -180,9 +180,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>());
 
-            var callerIdentity = new Lazy<string>(CallerIdentifier.DetermineCallerIdentity);
-
-            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => callerIdentity.Value))
+            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
                 Subject = Subject,
                 Expectation = expectation,
