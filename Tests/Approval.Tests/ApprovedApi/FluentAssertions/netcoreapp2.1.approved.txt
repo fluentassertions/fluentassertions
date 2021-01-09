@@ -111,8 +111,6 @@ namespace FluentAssertions
         public static FluentAssertions.EquivalencyStepCollection EquivalencySteps { get; }
         public static void AssertEquivalencyUsing(System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions, FluentAssertions.Equivalency.EquivalencyAssertionOptions> defaultsConfigurer) { }
         public static FluentAssertions.Equivalency.EquivalencyAssertionOptions<T> CloneDefaults<T>() { }
-        public static TOptions CloneDefaults<T, TOptions>()
-            where TOptions : FluentAssertions.Equivalency.EquivalencyAssertionOptions<T> { }
     }
     public static class AtLeast
     {

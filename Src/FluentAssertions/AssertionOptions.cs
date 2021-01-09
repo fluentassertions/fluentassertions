@@ -21,12 +21,12 @@ namespace FluentAssertions
             return new EquivalencyAssertionOptions<T>(defaults);
         }
 
-        public static TOptions CloneDefaults<T, TOptions>()
+        internal static TOptions CloneDefaults<T, TOptions>(Func<EquivalencyAssertionOptions, TOptions> predicate)
             where TOptions : EquivalencyAssertionOptions<T>
         {
-            return (TOptions)Activator.CreateInstance(
-                typeof(TOptions),
-                defaults);
+            Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+
+            return predicate(defaults);
         }
 
         /// <summary>

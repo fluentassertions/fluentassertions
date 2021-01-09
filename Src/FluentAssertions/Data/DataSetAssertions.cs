@@ -230,7 +230,7 @@ namespace FluentAssertions.Data
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>());
+            IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e => new(e)));
 
             var context = new EquivalencyValidationContext(Node.From<DataSet>(() => CallerIdentifier.DetermineCallerIdentity()))
             {
