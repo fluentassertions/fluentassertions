@@ -1,4 +1,5 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7", FrameworkDisplayName=".NET Framework 4.7")]
 namespace FluentAssertions
 {
@@ -580,17 +581,6 @@ namespace FluentAssertions.Common
     public interface ITimer
     {
         System.TimeSpan Elapsed { get; }
-    }
-    public static class InternalObjectExtensions
-    {
-        public static bool IsSameOrEqualTo(this object actual, object expected) { }
-    }
-    public static class InternalTypeExtensions
-    {
-        public static System.Reflection.MethodInfo GetExplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
-        public static System.Reflection.MethodInfo GetImplicitConversionOperator(this System.Type type, System.Type sourceType, System.Type targetType) { }
-        public static bool HasValueSemantics(this System.Type type) { }
-        public static bool IsSameOrInherits(this System.Type actualType, System.Type expectedType) { }
     }
     public static class Services
     {
