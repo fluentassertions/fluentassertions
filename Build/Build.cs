@@ -28,7 +28,8 @@ class Build : NukeBuild
         x => x.Pack);
 
     [Solution] readonly Solution Solution;
-    [GitVersion] readonly GitVersion GitVersion;
+    [GitVersion(Framework = "net5.0", NoFetch = true)]
+    readonly GitVersion GitVersion;
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
