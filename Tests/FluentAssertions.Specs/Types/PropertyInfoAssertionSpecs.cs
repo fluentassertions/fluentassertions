@@ -4,7 +4,7 @@ using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoAssertionSpecs
     {
@@ -37,7 +37,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                .WithMessage(
-                   "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
+                   "Expected property String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                        " to be virtual because we want to test the error message," +
                        " but it is not.");
         }
@@ -137,8 +137,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                .WithMessage("Expected property String " +
-                   "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                   "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+                   "FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                   "FluentAssertions*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
         }
 
         [Fact]
@@ -154,8 +154,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                        "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                    "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                        "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
                         " but that attribute was not found.");
         }
 

@@ -3,7 +3,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Primitives
 {
     public class ReferenceTypeAssertionsSpecs
     {
@@ -342,8 +342,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be*FluentAssertions.Specs.SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
-                    "   Name = \"Teddie\"*}, but found*FluentAssertions.Specs.SomeDto*{*Age = 37*" +
+                "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
+                    "   Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
                         "   Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
         }
 

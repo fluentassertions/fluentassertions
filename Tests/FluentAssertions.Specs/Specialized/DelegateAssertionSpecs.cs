@@ -2,7 +2,7 @@
 using FluentAssertions.Specialized;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Specialized
 {
     public class DelegateAssertionSpecs
     {

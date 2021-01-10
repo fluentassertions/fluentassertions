@@ -3,7 +3,7 @@ using System.Globalization;
 using FluentAssertions.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Formatting
 {
     public class TimeSpanFormatterSpecs
     {

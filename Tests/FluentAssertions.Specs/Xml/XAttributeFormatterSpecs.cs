@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using FluentAssertions.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Xml
 {
     public class XAttributeFormatterSpecs
     {

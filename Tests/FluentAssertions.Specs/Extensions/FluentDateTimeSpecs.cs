@@ -3,7 +3,7 @@ using FluentAssertions.Common;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Extensions
 {
     public class FluentDateTimeSpecs
     {

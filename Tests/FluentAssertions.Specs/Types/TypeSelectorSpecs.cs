@@ -14,7 +14,7 @@ using Internal.UnwrapSelectorTestTypes.Test;
 using Xunit;
 using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class TypeSelectorSpecs
     {

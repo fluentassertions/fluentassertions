@@ -6,10 +6,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specs.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     public class CollectionEquivalencySpecs
     {

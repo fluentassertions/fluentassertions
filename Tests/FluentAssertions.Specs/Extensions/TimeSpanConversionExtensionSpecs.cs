@@ -3,7 +3,7 @@ using System.Globalization;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Extensions
 {
     public class TimeSpanConversionExtensionSpecs
     {

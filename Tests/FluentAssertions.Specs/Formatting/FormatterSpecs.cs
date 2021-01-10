@@ -10,7 +10,7 @@ using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Formatting
 {
     [Collection("FormatterSpecs")]
     public class FormatterSpecs
@@ -822,7 +822,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             str.Should().Match(
-"{FluentAssertions.Specs.FormatterSpecs+CustomClass" + Environment.NewLine +
+"{FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
 "   {" + Environment.NewLine +
 "      IntProperty = 1" + Environment.NewLine +
 "      StringProperty = <null>" + Environment.NewLine +
