@@ -750,6 +750,37 @@ namespace FluentAssertions.Specs
                         typeof(ExceptionWithEmptyToString)));
         }
 
+        [Fact]
+        public void When_a_method_throws_with_a_matching_parameter_name_it_should_succeed()
+        {
+            // Arrange
+            Action throwException = () => throw new ArgumentNullException("someParameter");
+
+            // Act
+            Action act = () =>
+                throwException.Should().Throw<ArgumentException>()
+                    .WithParameterName("someParameter");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_method_throws_with_a_non_matching_parameter_name_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            Action throwException = () => throw new ArgumentNullException("someOtherParameter");
+
+            // Act
+            Action act = () =>
+                throwException.Should().Throw<ArgumentException>()
+                    .WithParameterName("someParameter", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*someParameter*we want to test the failure message*someOtherParameter*");
+        }
+
         #endregion
 
         #region Not Throw

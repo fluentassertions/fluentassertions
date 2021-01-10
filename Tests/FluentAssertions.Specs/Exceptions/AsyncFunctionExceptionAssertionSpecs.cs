@@ -966,6 +966,37 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
             action.Should().Throw<InvalidOperationException>("*async*void*");
         }
 
+        [Fact]
+        public async Task When_a_method_throws_with_a_matching_parameter_name_it_should_succeed()
+        {
+            // Arrange
+            Func<Task> task = () => new AsyncClass().ThrowAsync(new ArgumentNullException("someParameter"));
+
+            // Act
+            Func<Task> act = () =>
+                task.Should().ThrowAsync<ArgumentException>()
+                    .WithParameterName("someParameter");
+
+            // Assert
+            await act.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task When_a_method_throws_with_a_non_matching_parameter_name_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            Func<Task> task = () => new AsyncClass().ThrowAsync(new ArgumentNullException("someOtherParameter"));
+
+            // Act
+            Func<Task> act = () =>
+                task.Should().ThrowAsync<ArgumentException>()
+                    .WithParameterName("someParameter", "we want to test the failure {0}", "message");
+
+            // Assert
+            await act.Should().ThrowAsync<XunitException>()
+                .WithMessage("*someParameter*we want to test the failure message*someOtherParameter*");
+        }
+
         #region NotThrowAfterAsync
         [Fact]
         public async Task When_wait_time_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
@@ -1199,6 +1230,12 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
         {
             await Task.Yield();
             throw new TException();
+        }
+
+        public async Task ThrowAsync(Exception exception)
+        {
+            await Task.Yield();
+            throw exception;
         }
 
         public async ValueTask ThrowAsyncValueTask<TException>()
