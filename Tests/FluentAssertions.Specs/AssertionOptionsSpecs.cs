@@ -22,7 +22,7 @@ namespace FluentAssertions.Specs
 
                 // Assert
                 act.Should().ThrowExactly<ArgumentNullException>()
-                    .Which.ParamName.Should().Be("defaultsConfigurer");
+                    .WithParameterName("defaultsConfigurer");
             }
         }
 

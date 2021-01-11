@@ -390,7 +390,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -405,7 +405,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -452,7 +452,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -467,7 +467,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -527,7 +527,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -542,7 +542,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -603,7 +603,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -618,7 +618,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -680,7 +680,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -730,7 +730,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -788,7 +788,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -803,7 +803,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
         }
 
         #endregion
@@ -863,7 +863,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -913,7 +913,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -969,7 +969,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
@@ -984,7 +984,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
         }
 
         #endregion
@@ -1669,7 +1669,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -1682,7 +1682,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -2239,7 +2239,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2251,7 +2251,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2363,7 +2363,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2375,7 +2375,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2506,7 +2506,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -2518,7 +2518,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         #endregion
@@ -2534,7 +2534,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2546,7 +2546,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2652,7 +2652,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2664,7 +2664,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2848,7 +2848,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -2861,7 +2861,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         #region Exactly

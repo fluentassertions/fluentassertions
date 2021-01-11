@@ -1090,7 +1090,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -1234,7 +1234,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -2196,7 +2196,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -2255,7 +2255,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
-                .And.ParamName.Should().Be("items");
+                .WithParameterName("items");
         }
 
         [Fact]

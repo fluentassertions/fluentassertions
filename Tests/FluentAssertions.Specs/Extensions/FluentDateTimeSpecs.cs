@@ -158,11 +158,12 @@ namespace FluentAssertions.Specs
         public void When_fluently_specifying_a_datetime_with_out_of_range_microseconds_it_should_throw(int microseconds)
         {
             // Act
+            string expectedParameterName = "microseconds";
             Action act = () => 10.December(2011).At(0, 0, 0, 0, microseconds, 0);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Which.ParamName.Should().Be("microseconds");
+                .WithParameterName(expectedParameterName);
         }
 
         [InlineData(0)]
@@ -183,11 +184,12 @@ namespace FluentAssertions.Specs
         public void When_fluently_specifying_a_datetime_with_out_of_range_nanoseconds_it_should_throw(int nanoseconds)
         {
             // Act
+            var expectedParameterName = "nanoseconds";
             Action act = () => 10.December(2011).At(0, 0, 0, 0, 0, nanoseconds);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Which.ParamName.Should().Be("nanoseconds");
+                .WithParameterName(expectedParameterName);
         }
 
         [InlineData(0)]
@@ -208,11 +210,12 @@ namespace FluentAssertions.Specs
         public void When_fluently_specifying_a_datetimeoffset_with_out_of_range_microseconds_it_should_throw(int microseconds)
         {
             // Act
+            var expectedParameterName = "microseconds";
             Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, microseconds, 0);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Which.ParamName.Should().Be("microseconds");
+                .WithParameterName(expectedParameterName);
         }
 
         [InlineData(0)]
@@ -233,11 +236,12 @@ namespace FluentAssertions.Specs
         public void When_fluently_specifying_a_datetimeoffset_with_out_of_range_nanoseconds_it_should_throw(int nanoseconds)
         {
             // Act
+            var expectedParameterName = "nanoseconds";
             Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, 0, nanoseconds);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Which.ParamName.Should().Be("nanoseconds");
+                .WithParameterName(expectedParameterName);
         }
 
         [InlineData(0)]

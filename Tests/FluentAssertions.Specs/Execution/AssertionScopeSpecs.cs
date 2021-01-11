@@ -219,7 +219,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("assertionStrategy");
+                .WithParameterName("assertionStrategy");
         }
 
         [Fact]

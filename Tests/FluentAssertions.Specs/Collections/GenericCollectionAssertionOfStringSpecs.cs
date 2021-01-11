@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("equalityComparison");
+                .WithParameterName("equalityComparison");
         }
 
         [Fact]
@@ -597,7 +597,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -646,7 +646,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("expectation");
+                .WithParameterName("expectation");
         }
 
         [Fact]
@@ -1785,7 +1785,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -1800,7 +1800,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -1886,7 +1886,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -1901,7 +1901,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
