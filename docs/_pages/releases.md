@@ -10,6 +10,7 @@ sidebar:
 ## 6.0.0
 
 **What's New**
+* Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
