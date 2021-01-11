@@ -224,7 +224,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
@@ -238,7 +238,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("unexpectedType");
+                .WithParameterName("unexpectedType");
         }
 
         [Fact]
@@ -278,7 +278,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
@@ -306,7 +306,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("unexpectedType");
+                .WithParameterName("unexpectedType");
         }
 
         [Fact]
@@ -456,7 +456,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -605,7 +605,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -816,7 +816,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("options");
+                .WithParameterName("options");
         }
 
         [Fact]
@@ -1121,7 +1121,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("options");
+                .WithParameterName("options");
         }
 
         public enum Color

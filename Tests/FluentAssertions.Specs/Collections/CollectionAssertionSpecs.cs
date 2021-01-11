@@ -1186,7 +1186,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("expectation");
+                .WithParameterName("expectation");
         }
 
         [Fact]
@@ -1423,7 +1423,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -1660,7 +1660,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot verify inequivalence against a <null> collection.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -1896,7 +1896,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -1970,7 +1970,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -2307,7 +2307,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -3988,7 +3988,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
@@ -4109,7 +4109,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]

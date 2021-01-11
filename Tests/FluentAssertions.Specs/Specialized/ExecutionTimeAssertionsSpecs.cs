@@ -477,7 +477,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("executionTime");
+                .WithParameterName("executionTime");
         }
         #endregion
 

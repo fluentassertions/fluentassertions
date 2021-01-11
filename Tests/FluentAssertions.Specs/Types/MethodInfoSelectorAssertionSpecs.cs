@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]

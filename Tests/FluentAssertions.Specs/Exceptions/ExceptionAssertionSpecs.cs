@@ -597,7 +597,7 @@ namespace FluentAssertions.Specs
 
             // Act
             act2.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("exceptionExpression");
+                .WithParameterName("exceptionExpression");
         }
 
         #endregion

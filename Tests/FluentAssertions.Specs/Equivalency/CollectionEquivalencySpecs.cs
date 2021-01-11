@@ -762,7 +762,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -1326,7 +1326,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -1619,7 +1619,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -1659,7 +1659,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -1727,7 +1727,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]

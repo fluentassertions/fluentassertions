@@ -159,7 +159,7 @@ namespace FluentAssertions.Specs.Events
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -604,7 +604,7 @@ namespace FluentAssertions.Specs.Events
 
             // Assert
             act.Should().Throw<ArgumentException>()
-                .Which.ParamName.Should().Be("expression");
+                .WithParameterName("expression");
         }
 
         #endregion

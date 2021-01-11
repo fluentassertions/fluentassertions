@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must not be an interface Type.*")
-                .And.ParamName.Should().Be("baseType");
+                .WithParameterName("baseType");
         }
 
         [Fact]
@@ -697,7 +697,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must not be an interface Type.*")
-                .And.ParamName.Should().Be("baseType");
+                .WithParameterName("baseType");
         }
 
         [Fact]
@@ -840,7 +840,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -944,7 +944,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1050,7 +1050,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1154,7 +1154,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1245,7 +1245,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1331,7 +1331,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1418,7 +1418,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         [Fact]
@@ -1538,7 +1538,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("isMatchingAttributePredicate");
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         #endregion
@@ -2366,7 +2366,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must be an interface Type.*")
-                .And.ParamName.Should().Be("interfaceType");
+                .WithParameterName("interfaceType");
         }
 
         #endregion
@@ -2434,7 +2434,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must be an interface Type.*")
-                .And.ParamName.Should().Be("interfaceType");
+                .WithParameterName("interfaceType");
         }
 
         #endregion

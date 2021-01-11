@@ -389,7 +389,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -405,7 +405,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -812,7 +812,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Expression <d.GetType()> cannot be used to select a member.*")
-                .And.ParamName.Should().Be("expression");
+                .WithParameterName("expression");
         }
 
         [Fact]
@@ -2627,7 +2627,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -2692,7 +2692,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -3367,7 +3367,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -3398,7 +3398,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
