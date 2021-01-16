@@ -29,6 +29,14 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net47'">
+    <!--
+      (SRCU = System.Runtime.CompilerServices.Unsafe)
+      FluentAssertions.csproj depends on SRCU 4.5.0 (AssemblyVersion 4.0.4.0)
+      System.Collections.Immutable 1.6.0+ depends on SRCU 4.5.2+ (AssemblyVersion 4.0.4.1)
+      FluentAssertions.Specs.csproj for net47 does not generate a binding redirect from 4.0.4.0 to 4.0.4.1
+      Upgrading to 1.6.0 gives "Could not load file or assembly 'System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0"
+    -->
+    <PackageReference Include="System.Collections.Immutable" Version="[1.5.0]" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -53,7 +61,6 @@
   <ItemGroup>
     <PackageReference Include="Chill" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Xunit.StaFact" Version="1.0.37" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
