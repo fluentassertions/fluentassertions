@@ -130,7 +130,7 @@ namespace FluentAssertions.Execution
             }
         }
 
-        public bool Succeeded
+        internal bool Succeeded
         {
             get => succeeded == true;
         }
